@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class MortgageService {
+  final DioClient _dioClient;
+  MortgageService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<Mortgage> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/mortgage/$id');
+      return Mortgage.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<Mortgage>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/mortgage', queryParameters: q);
+      return (r.data['data'] as List).map((j) => Mortgage.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<Mortgage>> getWithFilters({
+    String? lender,
+    double? principal,
+    double? interestRate,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (lender != null) filters['lender'] = lender;
+    if (principal != null) filters['principal'] = principal.toString();
+    if (interestRate != null) filters['interestRate'] = interestRate.toString();
+    if (startDate != null) filters['startDate'] = startDate.toIso8601String();
+    if (endDate != null) filters['endDate'] = endDate.toIso8601String();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<Mortgage> create(Mortgage mortgage) async {
+
+    try {
+      final r = await _dioClient.post('/mortgage', data: mortgage.toJson());
+      return Mortgage.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<Mortgage> update(String id, Mortgage mortgage) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/mortgage/$id', data: mortgage.toJson());
+      return Mortgage.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/mortgage/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

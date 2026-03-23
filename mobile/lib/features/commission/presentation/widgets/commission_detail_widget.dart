@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+import '../../../../gen_models/models_library.dart';
+
+// ── Commission Detail Widget  |  15 fields
+
+class CommissionDetailWidget extends StatelessWidget {
+  final Commission item;
+  const CommissionDetailWidget({super.key, required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _row('Id', item.id?.toString() ?? 'N/A', Icons.tag),
+        _row('Org Id', item.orgId?.toString() ?? 'N/A', Icons.link),
+        _row('Listing Id', item.listingId?.toString() ?? 'N/A', Icons.link),
+        _row('Lease Id', item.leaseId?.toString() ?? 'N/A', Icons.link),
+        _row('Booking Id', item.bookingId?.toString() ?? 'N/A', Icons.link),
+        _row('Transaction Id', item.transactionId?.toString() ?? 'N/A', Icons.link),
+        _row('Beneficiary User Id', item.beneficiaryUserId?.toString() ?? 'N/A', Icons.link),
+        _row('Beneficiary Org Id', item.beneficiaryOrgId?.toString() ?? 'N/A', Icons.link),
+        _row('Rule Data', item.ruleData?.toString() ?? 'N/A', Icons.text_fields),
+        _row('Amount Base', item.amountBase?.toString() ?? 'N/A', Icons.attach_money),
+        _row('Commission Amount', item.commissionAmount?.toString() ?? 'N/A', Icons.attach_money),
+        _row('Currency', item.currency?.toString() ?? 'N/A', Icons.text_fields),
+        _row('Records', item.records?.toString() ?? 'N/A', Icons.text_fields),
+        _row('Created At', _fmt(item.createdAt), Icons.calendar_today),
+        _row('Updated At', _fmt(item.updatedAt), Icons.calendar_today),
+      ],
+    );
+  }
+}
+
+Widget _row(String label, String value, IconData icon) => Padding(
+  padding: const EdgeInsets.symmetric(vertical: 5),
+  child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Icon(icon, size: 18, color: Colors.blueGrey[400]),
+    const SizedBox(width: 10),
+    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(label, style: const TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.w500)),
+      const SizedBox(height: 2),
+      SelectableText(value, style: const TextStyle(fontSize: 14)),
+    ])),
+  ]),
+);
+
+String _fmt(DateTime? d) {
+  if (d == null) return 'N/A';
+  final mo = d.month.toString().padLeft(2,'0');
+  final day = d.day.toString().padLeft(2,'0');
+  final h = d.hour.toString().padLeft(2,'0');
+  final mi = d.minute.toString().padLeft(2,'0');
+  return '${d.year}-$mo-$day $h:$mi';
+}

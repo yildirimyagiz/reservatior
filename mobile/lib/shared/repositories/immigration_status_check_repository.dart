@@ -1,0 +1,106 @@
+import 'package:dio/dio.dart';
+import '../../core/network/dio_client.dart';
+import '../../gen_models/models_library.dart';
+import '../../core/error/repository_exception.dart';
+
+/// Repository for ImmigrationStatusCheck operations
+/// Provides CRUD operations with proper error handling and type safety
+class ImmigrationStatusCheckRepository {
+  final DioClient _dioClient;
+
+  ImmigrationStatusCheckRepository(this._dioClient);
+
+  /// Get ImmigrationStatusCheck by ID
+  /// Returns [ImmigrationStatusCheck] if found, throws [RepositoryException] otherwise
+  Future<ImmigrationStatusCheck> getImmigrationStatusCheckById(String id) async {
+    try {
+      final response = await _dioClient.get('/api/v1/immigration_status_check/$id');
+      if (response.statusCode == 200) {
+        return ImmigrationStatusCheck.fromJson(response.data['data']);
+      } else {
+        throw RepositoryException(
+          message: 'Failed to fetch immigration_status_check',
+          code: response.statusCode.toString(),
+          type: RepositoryExceptionType.notFound,
+        );
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  /// Get all immigration_status_checks with pagination and filtering
+  /// Returns list of [ImmigrationStatusCheck] objects
+  Future<List<ImmigrationStatusCheck>> getimmigration_status_checks({
+    int page = 1,
+    int limit = 20,
+    Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
+  }) async {
+    try {
+      final queryParams = <String, dynamic>{
+        'page': page,
+        'limit': limit,
+        if (sortBy != null) 'sort_by': sortBy,
+        if (sortOrder != null) 'sort_order': sortOrder,
+        ...?filters,
+      };
+      
+      final response = await _dioClient.get('/api/v1/immigration_status_check', queryParameters: queryParams);
+      if (response.statusCode == 200) {
+        final data = response.data['data'] as List;
+        return data.map((item) => ImmigrationStatusCheck.fromJson(item)).toList();
+      } else {
+        throw RepositoryException(
+          message: 'Failed to fetch immigration_status_checks',
+          code: response.statusCode.toString(),
+          type: RepositoryExceptionType.fetchError,
+        );
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  /// Create new ImmigrationStatusCheck
+  /// Returns created [ImmigrationStatusCheck] object
+  Future<ImmigrationStatusCheck> createImmigrationStatusCheck(ImmigrationStatusCheck immigrationStatusCheck) async {
+    try {
+      final response = await _dioClient.post(
+        '/api/v1/immigration_status_check',
+        data: immigrationStatusCheck.toJson(),
+      );
+      return ImmigrationStatusCheck.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // Update ImmigrationStatusCheck
+  Future<ImmigrationStatusCheck> updateImmigrationStatusCheck(String id, ImmigrationStatusCheck immigrationStatusCheck) async {
+    try {
+      final response = await _dioClient.put(
+        '/api/v1/immigration_status_check/$id',
+        data: immigrationStatusCheck.toJson(),
+      );
+      return ImmigrationStatusCheck.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // Delete ImmigrationStatusCheck
+  Future<void> deleteImmigrationStatusCheck(String id) async {
+    try {
+      await _dioClient.delete('/api/v1/immigration_status_check/$id');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  Exception _handleError(DioException e) {
+    // Implement error handling logic here
+    return Exception('API Error: ${e.message}');
+  }
+}

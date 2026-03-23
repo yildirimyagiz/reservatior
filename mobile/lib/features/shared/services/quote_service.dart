@@ -1,0 +1,89 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class QuoteService {
+  final DioClient _dioClient;
+  QuoteService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<Quote> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/quote/$id');
+      return Quote.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<Quote>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/quote', queryParameters: q);
+      return (r.data['data'] as List).map((j) => Quote.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<Quote>> getWithFilters({
+    String? quoteNumber,
+    String? title,
+    String? description,
+    dynamic? items,
+    double? subtotal,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (quoteNumber != null) filters['quoteNumber'] = quoteNumber;
+    if (title != null) filters['title'] = title;
+    if (description != null) filters['description'] = description;
+    if (items != null) filters['items'] = items.toString();
+    if (subtotal != null) filters['subtotal'] = subtotal.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<Quote> create(Quote quote) async {
+    if (quote.title == null || quote.title!.isEmpty) {
+      throw ArgumentError('title is required');
+    }
+    try {
+      final r = await _dioClient.post('/quote', data: quote.toJson());
+      return Quote.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<Quote> update(String id, Quote quote) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/quote/$id', data: quote.toJson());
+      return Quote.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/quote/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

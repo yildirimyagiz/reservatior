@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class AIMarketAnalysisService {
+  final DioClient _dioClient;
+  AIMarketAnalysisService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<AIMarketAnalysis> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/aIMarketAnalysis/$id');
+      return AIMarketAnalysis.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<AIMarketAnalysis>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/aIMarketAnalysis', queryParameters: q);
+      return (r.data['data'] as List).map((j) => AIMarketAnalysis.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<AIMarketAnalysis>> getWithFilters({
+    String? analysisType,
+    String? location,
+    String? analysisPeriod,
+    dynamic? dataPoints,
+    dynamic? predictions,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (analysisType != null) filters['analysisType'] = analysisType;
+    if (location != null) filters['location'] = location;
+    if (analysisPeriod != null) filters['analysisPeriod'] = analysisPeriod;
+    if (dataPoints != null) filters['dataPoints'] = dataPoints.toString();
+    if (predictions != null) filters['predictions'] = predictions.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<AIMarketAnalysis> create(AIMarketAnalysis aiMarketAnalysis) async {
+
+    try {
+      final r = await _dioClient.post('/aIMarketAnalysis', data: aiMarketAnalysis.toJson());
+      return AIMarketAnalysis.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<AIMarketAnalysis> update(String id, AIMarketAnalysis aiMarketAnalysis) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/aIMarketAnalysis/$id', data: aiMarketAnalysis.toJson());
+      return AIMarketAnalysis.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/aIMarketAnalysis/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

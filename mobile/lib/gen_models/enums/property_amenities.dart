@@ -1,0 +1,41 @@
+
+//***  AUTO-GENERATED FILE - DO NOT MODIFY ***// 
+enum PropertyAmenities {
+    POOL,
+	GYM,
+	GARDEN,
+	PARKING,
+	SECURITY,
+	ELEVATOR,
+	STORAGE,
+	BALCONY,
+	TERRACE,
+	AIR_CONDITIONING,
+	HEATING,
+	WIFI,
+	SAUNA,
+	JACUZZI,
+	FIREPLACE,
+	BBQ,
+	PET_FRIENDLY,
+	WHEELCHAIR_ACCESS,
+	LAUNDRY,
+	DISHWASHER,
+	SMART_HOME,
+	SOLAR_PANELS,
+	CONCIERGE,
+	PLAYGROUND,
+	TENNIS_COURT,
+	BASKETBALL_COURT,
+	CINEMA_ROOM,
+	GAME_ROOM,
+	ROOFTOP,
+	SEA_VIEW,
+	MOUNTAIN_VIEW,
+	CITY_VIEW;
+   
+    String toJson() => toString().split('.').last;
+
+    factory PropertyAmenities.fromJson(String name) => values.byName(name);
+  
+}

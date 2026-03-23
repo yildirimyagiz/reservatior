@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../gen_models/models_library.dart';
+
+class SystemMetricsService {
+  final DioClient _dioClient;
+  SystemMetricsService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<SystemMetrics> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/systemMetrics/$id');
+      return SystemMetrics.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<SystemMetrics>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/systemMetrics', queryParameters: q);
+      return (r.data['data'] as List).map((j) => SystemMetrics.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<SystemMetrics>> getWithFilters({
+    String? metricType,
+    String? metricName,
+    double? value,
+    String? unit,
+    DateTime? timestamp,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (metricType != null) filters['metricType'] = metricType;
+    if (metricName != null) filters['metricName'] = metricName;
+    if (value != null) filters['value'] = value.toString();
+    if (unit != null) filters['unit'] = unit;
+    if (timestamp != null) filters['timestamp'] = timestamp.toIso8601String();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<SystemMetrics> create(SystemMetrics systemMetrics) async {
+
+    try {
+      final r = await _dioClient.post('/systemMetrics', data: systemMetrics.toJson());
+      return SystemMetrics.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<SystemMetrics> update(String id, SystemMetrics systemMetrics) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/systemMetrics/$id', data: systemMetrics.toJson());
+      return SystemMetrics.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/systemMetrics/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

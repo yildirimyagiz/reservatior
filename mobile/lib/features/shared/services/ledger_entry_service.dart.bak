@@ -1,0 +1,89 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../gen_models/models_library.dart';
+
+class LedgerEntryService {
+  final DioClient _dioClient;
+  LedgerEntryService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<LedgerEntry> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/ledgerEntry/$id');
+      return LedgerEntry.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<LedgerEntry>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/ledgerEntry', queryParameters: q);
+      return (r.data['data'] as List).map((j) => LedgerEntry.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<LedgerEntry>> getWithFilters({
+    LedgerEventType? type,
+    double? amount,
+    String? currency,
+    DateTime? occurredAt,
+    String? note,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (type != null) filters['type'] = type.toString();
+    if (amount != null) filters['amount'] = amount.toString();
+    if (currency != null) filters['currency'] = currency;
+    if (occurredAt != null) filters['occurredAt'] = occurredAt.toIso8601String();
+    if (note != null) filters['note'] = note;
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<LedgerEntry> create(LedgerEntry ledgerEntry) async {
+    if (ledgerEntry.type == null || ledgerEntry.type!.isEmpty) {
+      throw ArgumentError('type is required');
+    }
+    try {
+      final r = await _dioClient.post('/ledgerEntry', data: ledgerEntry.toJson());
+      return LedgerEntry.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<LedgerEntry> update(String id, LedgerEntry ledgerEntry) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/ledgerEntry/$id', data: ledgerEntry.toJson());
+      return LedgerEntry.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/ledgerEntry/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

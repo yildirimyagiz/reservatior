@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../gen_models/models_library.dart';
+
+class AchievementService {
+  final DioClient _dioClient;
+  AchievementService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<Achievement> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/achievement/$id');
+      return Achievement.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<Achievement>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/achievement', queryParameters: q);
+      return (r.data['data'] as List).map((j) => Achievement.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<Achievement>> getWithFilters({
+    GoalType? goalType,
+    int? goalValue,
+    int? currentValue,
+    bool? isCompleted,
+    DateTime? completedAt,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (goalType != null) filters['goalType'] = goalType.toString();
+    if (goalValue != null) filters['goalValue'] = goalValue.toString();
+    if (currentValue != null) filters['currentValue'] = currentValue.toString();
+    if (isCompleted != null) filters['isCompleted'] = isCompleted.toString();
+    if (completedAt != null) filters['completedAt'] = completedAt.toIso8601String();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<Achievement> create(Achievement achievement) async {
+
+    try {
+      final r = await _dioClient.post('/achievement', data: achievement.toJson());
+      return Achievement.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<Achievement> update(String id, Achievement achievement) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/achievement/$id', data: achievement.toJson());
+      return Achievement.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/achievement/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

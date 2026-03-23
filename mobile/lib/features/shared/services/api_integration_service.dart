@@ -1,0 +1,89 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class ApiIntegrationService {
+  final DioClient _dioClient;
+  ApiIntegrationService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<ApiIntegration> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/apiIntegration/$id');
+      return ApiIntegration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<ApiIntegration>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/apiIntegration', queryParameters: q);
+      return (r.data['data'] as List).map((j) => ApiIntegration.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<ApiIntegration>> getWithFilters({
+    RentalPlatform? platform,
+    String? name,
+    bool? isEnabled,
+    String? apiKey,
+    String? apiSecret,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (platform != null) filters['platform'] = platform.toString();
+    if (name != null) filters['name'] = name;
+    if (isEnabled != null) filters['isEnabled'] = isEnabled.toString();
+    if (apiKey != null) filters['apiKey'] = apiKey;
+    if (apiSecret != null) filters['apiSecret'] = apiSecret;
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<ApiIntegration> create(ApiIntegration apiIntegration) async {
+    if (apiIntegration.name == null || apiIntegration.name!.isEmpty) {
+      throw ArgumentError('name is required');
+    }
+    try {
+      final r = await _dioClient.post('/apiIntegration', data: apiIntegration.toJson());
+      return ApiIntegration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<ApiIntegration> update(String id, ApiIntegration apiIntegration) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/apiIntegration/$id', data: apiIntegration.toJson());
+      return ApiIntegration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/apiIntegration/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

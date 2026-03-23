@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class TaxRecordService {
+  final DioClient _dioClient;
+  TaxRecordService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<TaxRecord> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/taxRecord/$id');
+      return TaxRecord.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<TaxRecord>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/taxRecord', queryParameters: q);
+      return (r.data['data'] as List).map((j) => TaxRecord.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<TaxRecord>> getWithFilters({
+    String? recordType,
+    dynamic? profileData,
+    dynamic? categoryData,
+    dynamic? lineItemData,
+    dynamic? auditData,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (recordType != null) filters['recordType'] = recordType;
+    if (profileData != null) filters['profileData'] = profileData.toString();
+    if (categoryData != null) filters['categoryData'] = categoryData.toString();
+    if (lineItemData != null) filters['lineItemData'] = lineItemData.toString();
+    if (auditData != null) filters['auditData'] = auditData.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<TaxRecord> create(TaxRecord taxRecord) async {
+
+    try {
+      final r = await _dioClient.post('/taxRecord', data: taxRecord.toJson());
+      return TaxRecord.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<TaxRecord> update(String id, TaxRecord taxRecord) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/taxRecord/$id', data: taxRecord.toJson());
+      return TaxRecord.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/taxRecord/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

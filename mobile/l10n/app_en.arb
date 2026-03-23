@@ -1,0 +1,113 @@
+{
+  "@@locale": "en",
+  "appName": "EstateAI",
+  "tagline": "Your Global Real Estate Platform",
+
+  "login": "Login",
+  "register": "Create Account",
+  "email": "Email Address",
+  "password": "Password",
+  "forgotPassword": "Forgot password?",
+  "continueWithGoogle": "Continue with Google",
+  "continueWithApple": "Continue with Apple",
+  "orDivider": "or continue with email",
+  "noAccount": "Don't have an account?",
+  "hasAccount": "Already have an account?",
+
+  "dashboard": "Dashboard",
+  "myListings": "My Listings",
+  "videoEditor": "Video Editor",
+  "analytics": "Analytics",
+  "settings": "Settings",
+
+  "createListing": "Create Listing",
+  "editListing": "Edit Listing",
+  "listingTitle": "Listing Title",
+  "description": "Description",
+  "price": "Price",
+  "location": "Location",
+  "amenities": "Amenities",
+  "uploadPhotos": "Upload Photos",
+  "uploadVideos": "Upload Videos",
+  "addFloorPlan": "Add Floor Plan",
+
+  "generateVideo": "Generate AI Video",
+  "videoStyle": "Video Style",
+  "luxury": "Luxury",
+  "minimal": "Minimal",
+  "socialMedia": "Social Media",
+  "generating": "Generating your video...",
+  "videoReady": "Your video is ready!",
+  "processingSteps": "Processing Steps",
+
+  "aiTranslate": "AI Translate",
+  "translateTo": "Translate to",
+  "translating": "Translating...",
+  "translationComplete": "Translation complete",
+  "targetLanguage": "Target Language",
+  "selectLanguages": "Select Languages",
+  "translateAll": "Translate All Content",
+
+  "subtitles": "Subtitles",
+  "voiceover": "Voiceover",
+  "generateSubtitles": "Generate Subtitles",
+  "voiceoverTone": "Voiceover Tone",
+  "male": "Male",
+  "female": "Female",
+  "formal": "Formal",
+  "casual": "Casual",
+  "luxuryTone": "Luxury",
+
+  "virtualStaging": "Virtual Staging",
+  "beforeAfter": "Before & After",
+  "modern": "Modern",
+  "scandinavian": "Scandinavian",
+  "staging": "Staging...",
+
+  "plan": "Your Plan",
+  "upgradePlan": "Upgrade Plan",
+  "videosUsed": "{used} / {total} videos",
+  "@videosUsed": {
+    "placeholders": {
+      "used": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+
+  "totalViews": "Total Views",
+  "watchTime": "Watch Time",
+  "engagement": "Engagement",
+  "conversions": "Conversions",
+
+  "aiCopilot": "AI Copilot",
+  "askAI": "Ask AI anything...",
+
+  "language": "Language",
+  "darkMode": "Dark Mode",
+  "currency": "Currency",
+  "notifications": "Notifications",
+  "logout": "Logout",
+
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "share": "Share",
+  "download": "Download",
+  "export": "Export",
+  "preview": "Preview",
+  "publish": "Publish",
+  "duplicate": "Duplicate",
+
+  "bedroomCount": "{count} Bedrooms",
+  "@bedroomCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "bathroomCount": "{count} Bathrooms",
+  "@bathroomCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "sqm": "{area} m²",
+  "@sqm": {
+    "placeholders": {"area": {"type": "String"}}
+  }
+}

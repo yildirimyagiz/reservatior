@@ -1,0 +1,106 @@
+import '../../features/shared/services/ai_image_analysis_service.dart';
+import '../../gen_models/models_library.dart';
+
+// Use Cases for AIImageAnalysis
+
+class GetAIImageAnalysisByIdUseCase {
+  final AIImageAnalysisService _service;
+  
+  GetAIImageAnalysisByIdUseCase(this._service);
+  
+  Future<AIImageAnalysis> execute(String id) async {
+    if (id.isEmpty) {
+      throw ArgumentError('ID cannot be empty');
+    }
+    return await _service.getById(id);
+  }
+}
+
+class GetAIImageAnalysissUseCase {
+  final AIImageAnalysisService _service;
+  
+  GetAIImageAnalysissUseCase(this._service);
+  
+  Future<List<AIImageAnalysis>> execute({
+    int page = 1,
+    int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    if (page <= 0) {
+      throw ArgumentError('Page must be greater than 0');
+    }
+    if (limit <= 0 || limit > 100) {
+      throw ArgumentError('Limit must be between 1 and 100');
+    }
+    return await _service.getAll(
+      page: page,
+      limit: limit,
+      filters: filters,
+    );
+  }
+}
+
+class CreateAIImageAnalysisUseCase {
+  final AIImageAnalysisService _service;
+  
+  CreateAIImageAnalysisUseCase(this._service);
+  
+  Future<AIImageAnalysis> execute(AIImageAnalysis aIImageAnalysis) async {
+    // Add validation logic here
+    return await _service.create(aIImageAnalysis);
+  }
+}
+
+class UpdateAIImageAnalysisUseCase {
+  final AIImageAnalysisService _service;
+  
+  UpdateAIImageAnalysisUseCase(this._service);
+  
+  Future<AIImageAnalysis> execute(String id, AIImageAnalysis aIImageAnalysis) async {
+    if (id.isEmpty) {
+      throw ArgumentError('ID cannot be empty');
+    }
+    // Add validation logic here
+    return await _service.update(id, aIImageAnalysis);
+  }
+}
+
+class DeleteAIImageAnalysisUseCase {
+  final AIImageAnalysisService _service;
+  
+  DeleteAIImageAnalysisUseCase(this._service);
+  
+  Future<void> execute(String id) async {
+    if (id.isEmpty) {
+      throw ArgumentError('ID cannot be empty');
+    }
+    return await _service.delete(id);
+  }
+}
+
+// AIImageAnalysis Use Case Container
+class AIImageAnalysisUseCases {
+  final GetAIImageAnalysisByIdUseCase getById;
+  final GetAIImageAnalysissUseCase getAll;
+  final CreateAIImageAnalysisUseCase create;
+  final UpdateAIImageAnalysisUseCase update;
+  final DeleteAIImageAnalysisUseCase delete;
+  
+  AIImageAnalysisUseCases({
+    required this.getById,
+    required this.getAll,
+    required this.create,
+    required this.update,
+    required this.delete,
+  });
+  
+  factory AIImageAnalysisUseCases.create(AIImageAnalysisService service) {
+    return AIImageAnalysisUseCases(
+      getById: GetAIImageAnalysisByIdUseCase(service),
+      getAll: GetAIImageAnalysissUseCase(service),
+      create: CreateAIImageAnalysisUseCase(service),
+      update: UpdateAIImageAnalysisUseCase(service),
+      delete: DeleteAIImageAnalysisUseCase(service),
+    );
+  }
+}

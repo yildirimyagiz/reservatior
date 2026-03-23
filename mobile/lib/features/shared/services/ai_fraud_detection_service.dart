@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class AIFraudDetectionService {
+  final DioClient _dioClient;
+  AIFraudDetectionService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<AIFraudDetection> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/aIFraudDetection/$id');
+      return AIFraudDetection.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<AIFraudDetection>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/aIFraudDetection', queryParameters: q);
+      return (r.data['data'] as List).map((j) => AIFraudDetection.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<AIFraudDetection>> getWithFilters({
+    String? entityType,
+    double? riskScore,
+    dynamic? riskFactors,
+    String? riskCategory,
+    dynamic? recommendedActions,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (entityType != null) filters['entityType'] = entityType;
+    if (riskScore != null) filters['riskScore'] = riskScore.toString();
+    if (riskFactors != null) filters['riskFactors'] = riskFactors.toString();
+    if (riskCategory != null) filters['riskCategory'] = riskCategory;
+    if (recommendedActions != null) filters['recommendedActions'] = recommendedActions.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<AIFraudDetection> create(AIFraudDetection aiFraudDetection) async {
+
+    try {
+      final r = await _dioClient.post('/aIFraudDetection', data: aiFraudDetection.toJson());
+      return AIFraudDetection.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<AIFraudDetection> update(String id, AIFraudDetection aiFraudDetection) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/aIFraudDetection/$id', data: aiFraudDetection.toJson());
+      return AIFraudDetection.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/aIFraudDetection/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

@@ -1,0 +1,27 @@
+
+//***  AUTO-GENERATED FILE - DO NOT MODIFY ***// 
+enum DocumentTypeUSA {
+    PURCHASE_AGREEMENT,
+	LISTING_AGREEMENT,
+	LEASE_AGREEMENT,
+	DISCLOSURE_FORM,
+	INSPECTION_REPORT,
+	APPRAISAL_REPORT,
+	TITLE_REPORT,
+	CLOSING_STATEMENT,
+	TAX_DOCUMENT,
+	INSURANCE_POLICY,
+	HOA_DOCUMENTS,
+	PERMIT,
+	LICENSE,
+	CERTIFICATE,
+	FINANCIAL_STATEMENT,
+	VOIDED_CHECK,
+	W9_FORM,
+	FORM_1099;
+   
+    String toJson() => toString().split('.').last;
+
+    factory DocumentTypeUSA.fromJson(String name) => values.byName(name);
+  
+}

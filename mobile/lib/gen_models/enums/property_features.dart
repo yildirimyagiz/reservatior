@@ -1,0 +1,29 @@
+
+//***  AUTO-GENERATED FILE - DO NOT MODIFY ***// 
+enum PropertyFeatures {
+    FURNISHED,
+	PARTIALLY_FURNISHED,
+	UNFURNISHED,
+	OPEN_FLOOR_PLAN,
+	HIGH_CEILING,
+	BALCONY,
+	TERRACE,
+	GARDEN,
+	SEA_VIEW,
+	MOUNTAIN_VIEW,
+	CITY_VIEW,
+	SMART_HOME,
+	ENERGY_EFFICIENT,
+	SOLAR_PANELS,
+	EARTHQUAKE_RESISTANT,
+	SOUNDPROOF,
+	WHEELCHAIR_ACCESSIBLE,
+	PET_FRIENDLY,
+	HOME_OFFICE,
+	WALK_IN_CLOSET;
+   
+    String toJson() => toString().split('.').last;
+
+    factory PropertyFeatures.fromJson(String name) => values.byName(name);
+  
+}

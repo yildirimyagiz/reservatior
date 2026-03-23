@@ -1,0 +1,92 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class EarningService {
+  final DioClient _dioClient;
+  EarningService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<Earning> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/earning/$id');
+      return Earning.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<Earning>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/earning', queryParameters: q);
+      return (r.data['data'] as List).map((j) => Earning.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<Earning>> getWithFilters({
+    String? name,
+    EarningType? type,
+    double? percentage,
+    double? fixedAmount,
+    dynamic? conditions,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (name != null) filters['name'] = name;
+    if (type != null) filters['type'] = type.toString();
+    if (percentage != null) filters['percentage'] = percentage.toString();
+    if (fixedAmount != null) filters['fixedAmount'] = fixedAmount.toString();
+    if (conditions != null) filters['conditions'] = conditions.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<Earning> create(Earning earning) async {
+    if (earning.name == null || earning.name!.isEmpty) {
+      throw ArgumentError('name is required');
+    }
+    if (earning.type == null || earning.type!.isEmpty) {
+      throw ArgumentError('type is required');
+    }
+    try {
+      final r = await _dioClient.post('/earning', data: earning.toJson());
+      return Earning.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<Earning> update(String id, Earning earning) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/earning/$id', data: earning.toJson());
+      return Earning.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/earning/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

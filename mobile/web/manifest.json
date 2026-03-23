@@ -1,0 +1,127 @@
+{
+    "name": "EstateAI - AI-Powered Real Estate Platform",
+    "short_name": "EstateAI",
+    "description": "Revolutionary AI-powered real estate platform for property management, listings, bookings, and intelligent property analysis",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "scope": "/",
+    "lang": "en-US",
+    "dir": "ltr",
+    "categories": ["real_estate", "business", "productivity", "finance"],
+    "screenshots": [
+        {
+            "src": "screenshots/desktop-1.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "EstateAI Dashboard - Property Management Overview"
+        },
+        {
+            "src": "screenshots/mobile-1.png", 
+            "sizes": "375x667",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "EstateAI Mobile - Property Listings"
+        }
+    ],
+    "icons": [
+        {
+            "src": "icons/Icon-72.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-152.png",
+            "sizes": "152x152",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Property Listings",
+            "short_name": "Listings",
+            "description": "Browse and manage property listings",
+            "url": "/listings",
+            "icons": [
+                {
+                    "src": "icons/shortcut-listings.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Property Management",
+            "short_name": "Management",
+            "description": "Manage properties and bookings",
+            "url": "/management",
+            "icons": [
+                {
+                    "src": "icons/shortcut-management.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "AI Analysis",
+            "short_name": "AI Analysis",
+            "description": "AI-powered property analysis",
+            "url": "/ai-analysis",
+            "icons": [
+                {
+                    "src": "icons/shortcut-ai.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "related_applications": [],
+    "edge_side_panel": {
+        "preferred_width": 400
+    }
+}

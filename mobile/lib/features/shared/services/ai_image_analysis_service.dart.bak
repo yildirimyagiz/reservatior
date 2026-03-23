@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../gen_models/models_library.dart';
+
+class AIImageAnalysisService {
+  final DioClient _dioClient;
+  AIImageAnalysisService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<AIImageAnalysis> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/aIImageAnalysis/$id');
+      return AIImageAnalysis.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<AIImageAnalysis>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/aIImageAnalysis', queryParameters: q);
+      return (r.data['data'] as List).map((j) => AIImageAnalysis.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<AIImageAnalysis>> getWithFilters({
+    String? analysisType,
+    dynamic? detectedRooms,
+    double? qualityScore,
+    dynamic? styleTags,
+    dynamic? colorPalette,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (analysisType != null) filters['analysisType'] = analysisType;
+    if (detectedRooms != null) filters['detectedRooms'] = detectedRooms.toString();
+    if (qualityScore != null) filters['qualityScore'] = qualityScore.toString();
+    if (styleTags != null) filters['styleTags'] = styleTags.toString();
+    if (colorPalette != null) filters['colorPalette'] = colorPalette.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<AIImageAnalysis> create(AIImageAnalysis aiImageAnalysis) async {
+
+    try {
+      final r = await _dioClient.post('/aIImageAnalysis', data: aiImageAnalysis.toJson());
+      return AIImageAnalysis.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<AIImageAnalysis> update(String id, AIImageAnalysis aiImageAnalysis) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/aIImageAnalysis/$id', data: aiImageAnalysis.toJson());
+      return AIImageAnalysis.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/aIImageAnalysis/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

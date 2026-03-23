@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class AutomationRuleService {
+  final DioClient _dioClient;
+  AutomationRuleService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<AutomationRule> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/automationRule/$id');
+      return AutomationRule.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<AutomationRule>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/automationRule', queryParameters: q);
+      return (r.data['data'] as List).map((j) => AutomationRule.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<AutomationRule>> getWithFilters({
+    String? ruleName,
+    String? ruleType,
+    String? triggerType,
+    dynamic? triggerConfig,
+    dynamic? conditions,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (ruleName != null) filters['ruleName'] = ruleName;
+    if (ruleType != null) filters['ruleType'] = ruleType;
+    if (triggerType != null) filters['triggerType'] = triggerType;
+    if (triggerConfig != null) filters['triggerConfig'] = triggerConfig.toString();
+    if (conditions != null) filters['conditions'] = conditions.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<AutomationRule> create(AutomationRule automationRule) async {
+
+    try {
+      final r = await _dioClient.post('/automationRule', data: automationRule.toJson());
+      return AutomationRule.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<AutomationRule> update(String id, AutomationRule automationRule) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/automationRule/$id', data: automationRule.toJson());
+      return AutomationRule.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/automationRule/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

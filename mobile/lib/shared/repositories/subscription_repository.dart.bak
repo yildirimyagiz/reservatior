@@ -1,0 +1,106 @@
+import 'package:dio/dio.dart';
+import '../../core/network/dio_client.dart';
+import '../gen_models/models_library.dart';
+import '../../core/error/repository_exception.dart';
+
+/// Repository for Subscription operations
+/// Provides CRUD operations with proper error handling and type safety
+class SubscriptionRepository {
+  final DioClient _dioClient;
+
+  SubscriptionRepository(this._dioClient);
+
+  /// Get Subscription by ID
+  /// Returns [Subscription] if found, throws [RepositoryException] otherwise
+  Future<Subscription> getSubscriptionById(String id) async {
+    try {
+      final response = await _dioClient.get('/api/v1/subscription/$id');
+      if (response.statusCode == 200) {
+        return Subscription.fromJson(response.data['data']);
+      } else {
+        throw RepositoryException(
+          message: 'Failed to fetch subscription',
+          code: response.statusCode.toString(),
+          type: RepositoryExceptionType.notFound,
+        );
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  /// Get all subscriptions with pagination and filtering
+  /// Returns list of [Subscription] objects
+  Future<List<Subscription>> getsubscriptions({
+    int page = 1,
+    int limit = 20,
+    Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
+  }) async {
+    try {
+      final queryParams = <String, dynamic>{
+        'page': page,
+        'limit': limit,
+        if (sortBy != null) 'sort_by': sortBy,
+        if (sortOrder != null) 'sort_order': sortOrder,
+        ...?filters,
+      };
+      
+      final response = await _dioClient.get('/api/v1/subscription', queryParameters: queryParams);
+      if (response.statusCode == 200) {
+        final data = response.data['data'] as List;
+        return data.map((item) => Subscription.fromJson(item)).toList();
+      } else {
+        throw RepositoryException(
+          message: 'Failed to fetch subscriptions',
+          code: response.statusCode.toString(),
+          type: RepositoryExceptionType.fetchError,
+        );
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  /// Create new Subscription
+  /// Returns created [Subscription] object
+  Future<Subscription> createSubscription(Subscription subscription) async {
+    try {
+      final response = await _dioClient.post(
+        '/api/v1/subscription',
+        data: subscription.toJson(),
+      );
+      return Subscription.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // Update Subscription
+  Future<Subscription> updateSubscription(String id, Subscription subscription) async {
+    try {
+      final response = await _dioClient.put(
+        '/api/v1/subscription/$id',
+        data: subscription.toJson(),
+      );
+      return Subscription.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // Delete Subscription
+  Future<void> deleteSubscription(String id) async {
+    try {
+      await _dioClient.delete('/api/v1/subscription/$id');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  Exception _handleError(DioException e) {
+    // Implement error handling logic here
+    return Exception('API Error: ${e.message}');
+  }
+}

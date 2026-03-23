@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class ApiKeyService {
+  final DioClient _dioClient;
+  ApiKeyService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<ApiKey> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/apiKey/$id');
+      return ApiKey.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<ApiKey>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/apiKey', queryParameters: q);
+      return (r.data['data'] as List).map((j) => ApiKey.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<ApiKey>> getWithFilters({
+    String? name,
+    String? keyHash,
+    DateTime? lastUsedAt,
+    DateTime? expiresAt,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (name != null) filters['name'] = name;
+    if (keyHash != null) filters['keyHash'] = keyHash;
+    if (lastUsedAt != null) filters['lastUsedAt'] = lastUsedAt.toIso8601String();
+    if (expiresAt != null) filters['expiresAt'] = expiresAt.toIso8601String();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<ApiKey> create(ApiKey apiKey) async {
+    if (apiKey.name == null || apiKey.name!.isEmpty) {
+      throw ArgumentError('name is required');
+    }
+    try {
+      final r = await _dioClient.post('/apiKey', data: apiKey.toJson());
+      return ApiKey.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<ApiKey> update(String id, ApiKey apiKey) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/apiKey/$id', data: apiKey.toJson());
+      return ApiKey.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/apiKey/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

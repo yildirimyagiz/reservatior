@@ -1,0 +1,89 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../gen_models/models_library.dart';
+
+class FloorPlanService {
+  final DioClient _dioClient;
+  FloorPlanService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<FloorPlan> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/floorPlan/$id');
+      return FloorPlan.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<FloorPlan>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/floorPlan', queryParameters: q);
+      return (r.data['data'] as List).map((j) => FloorPlan.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<FloorPlan>> getWithFilters({
+    String? name,
+    String? description,
+    int? floorLevel,
+    String? imageUrl,
+    int? imageWidth,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (name != null) filters['name'] = name;
+    if (description != null) filters['description'] = description;
+    if (floorLevel != null) filters['floorLevel'] = floorLevel.toString();
+    if (imageUrl != null) filters['imageUrl'] = imageUrl;
+    if (imageWidth != null) filters['imageWidth'] = imageWidth.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<FloorPlan> create(FloorPlan floorPlan) async {
+    if (floorPlan.name == null || floorPlan.name!.isEmpty) {
+      throw ArgumentError('name is required');
+    }
+    try {
+      final r = await _dioClient.post('/floorPlan', data: floorPlan.toJson());
+      return FloorPlan.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<FloorPlan> update(String id, FloorPlan floorPlan) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/floorPlan/$id', data: floorPlan.toJson());
+      return FloorPlan.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/floorPlan/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

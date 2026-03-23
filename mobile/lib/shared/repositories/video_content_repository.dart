@@ -1,0 +1,106 @@
+import 'package:dio/dio.dart';
+import '../../core/network/dio_client.dart';
+import '../../gen_models/models_library.dart';
+import '../../core/error/repository_exception.dart';
+
+/// Repository for VideoContent operations
+/// Provides CRUD operations with proper error handling and type safety
+class VideoContentRepository {
+  final DioClient _dioClient;
+
+  VideoContentRepository(this._dioClient);
+
+  /// Get VideoContent by ID
+  /// Returns [VideoContent] if found, throws [RepositoryException] otherwise
+  Future<VideoContent> getVideoContentById(String id) async {
+    try {
+      final response = await _dioClient.get('/api/v1/video_content/$id');
+      if (response.statusCode == 200) {
+        return VideoContent.fromJson(response.data['data']);
+      } else {
+        throw RepositoryException(
+          message: 'Failed to fetch video_content',
+          code: response.statusCode.toString(),
+          type: RepositoryExceptionType.notFound,
+        );
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  /// Get all video_contents with pagination and filtering
+  /// Returns list of [VideoContent] objects
+  Future<List<VideoContent>> getvideo_contents({
+    int page = 1,
+    int limit = 20,
+    Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
+  }) async {
+    try {
+      final queryParams = <String, dynamic>{
+        'page': page,
+        'limit': limit,
+        if (sortBy != null) 'sort_by': sortBy,
+        if (sortOrder != null) 'sort_order': sortOrder,
+        ...?filters,
+      };
+      
+      final response = await _dioClient.get('/api/v1/video_content', queryParameters: queryParams);
+      if (response.statusCode == 200) {
+        final data = response.data['data'] as List;
+        return data.map((item) => VideoContent.fromJson(item)).toList();
+      } else {
+        throw RepositoryException(
+          message: 'Failed to fetch video_contents',
+          code: response.statusCode.toString(),
+          type: RepositoryExceptionType.fetchError,
+        );
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  /// Create new VideoContent
+  /// Returns created [VideoContent] object
+  Future<VideoContent> createVideoContent(VideoContent videoContent) async {
+    try {
+      final response = await _dioClient.post(
+        '/api/v1/video_content',
+        data: videoContent.toJson(),
+      );
+      return VideoContent.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // Update VideoContent
+  Future<VideoContent> updateVideoContent(String id, VideoContent videoContent) async {
+    try {
+      final response = await _dioClient.put(
+        '/api/v1/video_content/$id',
+        data: videoContent.toJson(),
+      );
+      return VideoContent.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  // Delete VideoContent
+  Future<void> deleteVideoContent(String id) async {
+    try {
+      await _dioClient.delete('/api/v1/video_content/$id');
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  Exception _handleError(DioException e) {
+    // Implement error handling logic here
+    return Exception('API Error: ${e.message}');
+  }
+}

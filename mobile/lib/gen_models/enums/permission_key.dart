@@ -1,0 +1,26 @@
+
+//***  AUTO-GENERATED FILE - DO NOT MODIFY ***// 
+enum PermissionKey {
+    ORG_MANAGE,
+	USERS_MANAGE,
+	PROPERTIES_MANAGE,
+	LISTINGS_MANAGE,
+	BOOKINGS_MANAGE,
+	LEASES_MANAGE,
+	CONTRACTS_MANAGE,
+	FINANCE_MANAGE,
+	TAX_MANAGE,
+	REPORTS_VIEW,
+	EXPORTS_MANAGE,
+	TASKS_MANAGE,
+	MESSAGES_USE,
+	NOTIFICATIONS_MANAGE,
+	MLS_MANAGE,
+	GOV_INTEGRATIONS_MANAGE,
+	SETTINGS_MANAGE;
+   
+    String toJson() => toString().split('.').last;
+
+    factory PermissionKey.fromJson(String name) => values.byName(name);
+  
+}

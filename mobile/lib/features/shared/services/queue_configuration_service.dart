@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class QueueConfigurationService {
+  final DioClient _dioClient;
+  QueueConfigurationService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<QueueConfiguration> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/queueConfiguration/$id');
+      return QueueConfiguration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<QueueConfiguration>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/queueConfiguration', queryParameters: q);
+      return (r.data['data'] as List).map((j) => QueueConfiguration.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<QueueConfiguration>> getWithFilters({
+    String? queueName,
+    String? exchangeName,
+    String? routingKey,
+    String? messageType,
+    String? handlerClass,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (queueName != null) filters['queueName'] = queueName;
+    if (exchangeName != null) filters['exchangeName'] = exchangeName;
+    if (routingKey != null) filters['routingKey'] = routingKey;
+    if (messageType != null) filters['messageType'] = messageType;
+    if (handlerClass != null) filters['handlerClass'] = handlerClass;
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<QueueConfiguration> create(QueueConfiguration queueConfiguration) async {
+
+    try {
+      final r = await _dioClient.post('/queueConfiguration', data: queueConfiguration.toJson());
+      return QueueConfiguration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<QueueConfiguration> update(String id, QueueConfiguration queueConfiguration) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/queueConfiguration/$id', data: queueConfiguration.toJson());
+      return QueueConfiguration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/queueConfiguration/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class DashboardConfigurationService {
+  final DioClient _dioClient;
+  DashboardConfigurationService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<DashboardConfiguration> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/dashboardConfiguration/$id');
+      return DashboardConfiguration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<DashboardConfiguration>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/dashboardConfiguration', queryParameters: q);
+      return (r.data['data'] as List).map((j) => DashboardConfiguration.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<DashboardConfiguration>> getWithFilters({
+    String? dashboardName,
+    bool? isDefault,
+    dynamic? layout,
+    dynamic? widgets,
+    dynamic? filters,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (dashboardName != null) filters['dashboardName'] = dashboardName;
+    if (isDefault != null) filters['isDefault'] = isDefault.toString();
+    if (layout != null) filters['layout'] = layout.toString();
+    if (widgets != null) filters['widgets'] = widgets.toString();
+    if (filters != null) filters['filters'] = filters.toString();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<DashboardConfiguration> create(DashboardConfiguration dashboardConfiguration) async {
+
+    try {
+      final r = await _dioClient.post('/dashboardConfiguration', data: dashboardConfiguration.toJson());
+      return DashboardConfiguration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<DashboardConfiguration> update(String id, DashboardConfiguration dashboardConfiguration) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/dashboardConfiguration/$id', data: dashboardConfiguration.toJson());
+      return DashboardConfiguration.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/dashboardConfiguration/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

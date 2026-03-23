@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../gen_models/models_library.dart';
+
+class Tax1099FormService {
+  final DioClient _dioClient;
+  Tax1099FormService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<Tax1099Form> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/tax1099Form/$id');
+      return Tax1099Form.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<Tax1099Form>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/tax1099Form', queryParameters: q);
+      return (r.data['data'] as List).map((j) => Tax1099Form.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<Tax1099Form>> getWithFilters({
+    int? taxYear,
+    USTaxForm? formType,
+    double? amount,
+    String? description,
+    DateTime? issuedAt,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (taxYear != null) filters['taxYear'] = taxYear.toString();
+    if (formType != null) filters['formType'] = formType.toString();
+    if (amount != null) filters['amount'] = amount.toString();
+    if (description != null) filters['description'] = description;
+    if (issuedAt != null) filters['issuedAt'] = issuedAt.toIso8601String();
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<Tax1099Form> create(Tax1099Form tax1099Form) async {
+
+    try {
+      final r = await _dioClient.post('/tax1099Form', data: tax1099Form.toJson());
+      return Tax1099Form.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<Tax1099Form> update(String id, Tax1099Form tax1099Form) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/tax1099Form/$id', data: tax1099Form.toJson());
+      return Tax1099Form.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/tax1099Form/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}

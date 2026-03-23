@@ -1,0 +1,87 @@
+import 'package:dio/dio.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../gen_models/models_library.dart';
+
+class AutomationTaskService {
+  final DioClient _dioClient;
+  AutomationTaskService(this._dioClient);
+
+  // ── Get by ID ──
+  Future<AutomationTask> getById(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.get('/automationTask/$id');
+      return AutomationTask.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get all ──
+  Future<List<AutomationTask>> getAll({
+    int page = 1, int limit = 20,
+    Map<String, dynamic>? filters,
+  }) async {
+    try {
+      final q = <String, dynamic>{'page': page.toString(), 'limit': limit.toString()};
+      if (filters != null) q.addAll(filters);
+      final r = await _dioClient.get('/automationTask', queryParameters: q);
+      return (r.data['data'] as List).map((j) => AutomationTask.fromJson(j)).toList();
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Get with filters ──
+  Future<List<AutomationTask>> getWithFilters({
+    String? taskType,
+    String? persona,
+    String? command,
+    String? status,
+    String? schedule,
+  }) async {
+    final filters = <String, dynamic>{};
+    if (taskType != null) filters['taskType'] = taskType;
+    if (persona != null) filters['persona'] = persona;
+    if (command != null) filters['command'] = command;
+    if (status != null) filters['status'] = status;
+    if (schedule != null) filters['schedule'] = schedule;
+    return getAll(filters: filters);
+  }
+
+  // ── Create ──
+  Future<AutomationTask> create(AutomationTask automationTask) async {
+
+    try {
+      final r = await _dioClient.post('/automationTask', data: automationTask.toJson());
+      return AutomationTask.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Update ──
+  Future<AutomationTask> update(String id, AutomationTask automationTask) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      final r = await _dioClient.put('/automationTask/$id', data: automationTask.toJson());
+      return AutomationTask.fromJson(r.data['data']);
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  // ── Delete ──
+  Future<void> delete(String id) async {
+    if (id.isEmpty) throw ArgumentError('ID cannot be empty');
+    try {
+      await _dioClient.delete('/automationTask/$id');
+    } on DioException catch (e) { throw _err(e); }
+  }
+
+  Exception _err(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return Exception('Connection timeout. Check your internet connection.');
+      case DioExceptionType.badResponse:
+        final msg = e.response?.data?['message'] ?? 'Server error';
+        return Exception('Server error: $msg');
+      case DioExceptionType.connectionError:
+        return Exception('Network error. Check your internet connection.');
+      default:
+        return Exception('Request failed: ${e.message}');
+    }
+  }
+}
