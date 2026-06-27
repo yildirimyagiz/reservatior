@@ -1,106 +1,44 @@
-import '../../features/shared/services/project_report_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for ProjectReport
+import 'package:reservatior/shared/repositories/project_report_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetProjectReportByIdUseCase {
-  final ProjectReportService _service;
-  
-  GetProjectReportByIdUseCase(this._service);
-  
-  Future<ProjectReport> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ProjectReportRepository _repository;
+  GetProjectReportByIdUseCase(this._repository);
+  Future<ProjectReport> execute(String id) => _repository.getById(id);
 }
 
 class GetProjectReportsUseCase {
-  final ProjectReportService _service;
-  
-  GetProjectReportsUseCase(this._service);
-  
+  final ProjectReportRepository _repository;
+  GetProjectReportsUseCase(this._repository);
   Future<List<ProjectReport>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateProjectReportUseCase {
-  final ProjectReportService _service;
-  
-  CreateProjectReportUseCase(this._service);
-  
-  Future<ProjectReport> execute(ProjectReport projectReport) async {
-    // Add validation logic here
-    return await _service.create(projectReport);
-  }
+  final ProjectReportRepository _repository;
+  CreateProjectReportUseCase(this._repository);
+  Future<ProjectReport> execute(ProjectReport item) => _repository.create(item);
 }
 
 class UpdateProjectReportUseCase {
-  final ProjectReportService _service;
-  
-  UpdateProjectReportUseCase(this._service);
-  
-  Future<ProjectReport> execute(String id, ProjectReport projectReport) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, projectReport);
-  }
+  final ProjectReportRepository _repository;
+  UpdateProjectReportUseCase(this._repository);
+  Future<ProjectReport> execute(String id, ProjectReport item) => _repository.update(id, item);
 }
 
 class DeleteProjectReportUseCase {
-  final ProjectReportService _service;
-  
-  DeleteProjectReportUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ProjectReport Use Case Container
-class ProjectReportUseCases {
-  final GetProjectReportByIdUseCase getById;
-  final GetProjectReportsUseCase getAll;
-  final CreateProjectReportUseCase create;
-  final UpdateProjectReportUseCase update;
-  final DeleteProjectReportUseCase delete;
-  
-  ProjectReportUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ProjectReportUseCases.create(ProjectReportService service) {
-    return ProjectReportUseCases(
-      getById: GetProjectReportByIdUseCase(service),
-      getAll: GetProjectReportsUseCase(service),
-      create: CreateProjectReportUseCase(service),
-      update: UpdateProjectReportUseCase(service),
-      delete: DeleteProjectReportUseCase(service),
-    );
-  }
+  final ProjectReportRepository _repository;
+  DeleteProjectReportUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

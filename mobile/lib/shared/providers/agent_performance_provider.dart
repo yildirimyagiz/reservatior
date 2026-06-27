@@ -1,66 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../features/shared/services/agent_performance_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/agent_performance_service.dart';
+import 'package:reservatior/shared/repositories/agent_performance_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// agentPerformance Providers
-
-final agentPerformanceServiceProvider = Provider<agentPerformanceService>((ref) {
+final agentPerformanceServiceProvider = Provider<AgentPerformanceService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
-  return agentPerformanceService(dioClient);
+  return AgentPerformanceService(dioClient);
 });
 
-// List Provider
-final agentPerformanceListProvider = FutureProvider.autoDispose<List<agentPerformance>>((ref) async {
+final agentPerformanceRepositoryProvider = Provider<AgentPerformanceRepository>((ref) {
   final service = ref.watch(agentPerformanceServiceProvider);
-  return service.getAll();
+  return AgentPerformanceRepositoryImpl(service);
 });
 
-// Create Provider
-final agentPerformanceCreateProvider = FutureProvider.autoDispose<agentPerformance>((ref) async {
-  final service = ref.watch(agentPerformanceServiceProvider);
-  final state = ref.watch(agentPerformanceCreateStateProvider);
-  if (state != null) {
-    return service.create(state);
-  }
-  throw Exception('No create data provided');
+final agentPerformanceListProvider = FutureProvider.autoDispose<List<AgentPerformance>>((ref) async {
+  final repository = ref.watch(agentPerformanceRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final agentPerformanceUpdateProvider = FutureProvider.autoDispose<agentPerformance>((ref) async {
-  final service = ref.watch(agentPerformanceServiceProvider);
-  final state = ref.watch(agentPerformanceUpdateStateProvider);
-  if (state['id'] != null && state['data'] != null) {
-    return service.update(state['id'], state['data']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final agentPerformanceDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(agentPerformanceServiceProvider);
-  final state = ref.watch(agentPerformanceDeleteStateProvider);
-  if (state != null) {
-    return service.delete(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final agentPerformanceCreateStateProvider = StateProvider<agentPerformance?>((ref) => null);
-final agentPerformanceUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final agentPerformanceDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final agentPerformanceLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(agentPerformanceListProvider);
-  final createAsync = ref.watch(agentPerformanceCreateProvider);
-  final updateAsync = ref.watch(agentPerformanceUpdateProvider);
-  final deleteAsync = ref.watch(agentPerformanceDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final agentPerformanceCreateProvider = StateProvider<AgentPerformance?>((ref) => null);
+final agentPerformanceUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final agentPerformanceDeleteProvider = StateProvider<String?>((ref) => null);
+final agentPerformanceLoadingProvider = StateProvider<bool>((ref) => false);

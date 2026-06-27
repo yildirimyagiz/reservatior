@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/commission_rule_service.dart';
 
-/// Repository for CommissionRule operations
-/// Provides CRUD operations with proper error handling and type safety
-class CommissionRuleRepository {
-  final DioClient _dioClient;
+abstract class CommissionRuleRepository {
+  Future<CommissionRule> getById(String id);
+  Future<List<CommissionRule>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<CommissionRule> create(CommissionRule item);
+  Future<CommissionRule> update(String id, CommissionRule item);
+  Future<void> delete(String id);
+}
 
-  CommissionRuleRepository(this._dioClient);
+class CommissionRuleRepositoryImpl implements CommissionRuleRepository {
+  final CommissionRuleService _service;
+  CommissionRuleRepositoryImpl(this._service);
 
-  /// Get CommissionRule by ID
-  /// Returns [CommissionRule] if found, throws [RepositoryException] otherwise
-  Future<CommissionRule> getCommissionRuleById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/commission_rule/$id');
-      if (response.statusCode == 200) {
-        return CommissionRule.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch commission_rule',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<CommissionRule> getById(String id) => _service.getCommissionRuleById(id);
 
-  /// Get all commission_rules with pagination and filtering
-  /// Returns list of [CommissionRule] objects
-  Future<List<CommissionRule>> getcommission_rules({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<CommissionRule>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/commission_rule', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => CommissionRule.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch commission_rules',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getCommissionRules(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new CommissionRule
-  /// Returns created [CommissionRule] object
-  Future<CommissionRule> createCommissionRule(CommissionRule commissionRule) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/commission_rule',
-        data: commissionRule.toJson(),
-      );
-      return CommissionRule.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<CommissionRule> create(CommissionRule item) => _service.createCommissionRule(item);
 
-  // Update CommissionRule
-  Future<CommissionRule> updateCommissionRule(String id, CommissionRule commissionRule) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/commission_rule/$id',
-        data: commissionRule.toJson(),
-      );
-      return CommissionRule.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<CommissionRule> update(String id, CommissionRule item) => _service.updateCommissionRule(id, item);
 
-  // Delete CommissionRule
-  Future<void> deleteCommissionRule(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/commission_rule/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteCommissionRule(id);
 }

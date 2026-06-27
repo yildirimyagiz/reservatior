@@ -1,82 +1,70 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/models/category.dart';
+import 'package:reservatior/shared/models/ai_service_task.dart';
 
 class ListingService {
   final DioClient _dioClient;
-
   ListingService(this._dioClient);
 
-  // Get Listing by ID
   Future<Listing> getListingById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/listing/$id');
-      return Listing.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.listings}/$id');
+    return Listing.fromJson(response.data['data']);
   }
 
-  // Get all listings
   Future<List<Listing>> getListings({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/listing', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Listing.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.listings, queryParameters: queryParams);
+    
+    print('🏠 Listing Response: ${response.data}');
+    
+    final data = response.data['data'] as List;
+    print('🏠 Listing Parsed ${data.length} items');
+    return data.map((json) => Listing.fromJson(json)).toList();
   }
 
-  // Create Listing
-  Future<Listing> createListing(Listing listing) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/listing',
-        data: listing.toJson(),
-      );
-      return Listing.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Listing> createListing(Listing item) async {
+    final response = await _dioClient.post(ApiEndpoints.listings, data: item.toJson());
+    return Listing.fromJson(response.data['data']);
   }
 
-  // Update Listing
-  Future<Listing> updateListing(String id, Listing listing) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/listing/$id',
-        data: listing.toJson(),
-      );
-      return Listing.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Listing> updateListing(String id, Listing item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.listings}/$id', data: item.toJson());
+    return Listing.fromJson(response.data['data']);
   }
 
-  // Delete Listing
   Future<void> deleteListing(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/listing/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    await _dioClient.delete('${ApiEndpoints.listings}/$id');
   }
 
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<List<Category>> fetchCategories({String lang = 'en'}) async {
+    final response = await _dioClient.get(ApiEndpoints.categories, queryParameters: {'lang': lang});
+    final data = response.data['data'] as List;
+    return data.map((json) => Category.fromJson(json)).toList();
+  }
+
+  Future<AiServiceTask> triggerAiTask(String orgId, String propertyId, String taskType, Map<String, dynamic> input) async {
+    final response = await _dioClient.post(ApiEndpoints.triggerAiService, data: {
+      'orgId': orgId,
+      'propertyId': propertyId,
+      'taskType': taskType,
+      'input': input,
+    });
+    return AiServiceTask.fromJson(response.data['task']);
   }
 }

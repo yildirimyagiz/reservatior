@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class MlsDataMappingService {
   final DioClient _dioClient;
-
   MlsDataMappingService(this._dioClient);
 
-  // Get MlsDataMapping by ID
   Future<MlsDataMapping> getMlsDataMappingById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/mls_data_mapping/$id');
-      return MlsDataMapping.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.mlsDataMappings}/$id');
+    return MlsDataMapping.fromJson(response.data['data']);
   }
 
-  // Get all mls_data_mappings
   Future<List<MlsDataMapping>> getMlsDataMappings({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/mls_data_mapping', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => MlsDataMapping.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.mlsDataMappings, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => MlsDataMapping.fromJson(json)).toList();
   }
 
-  // Create MlsDataMapping
-  Future<MlsDataMapping> createMlsDataMapping(MlsDataMapping mlsDataMapping) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/mls_data_mapping',
-        data: mlsDataMapping.toJson(),
-      );
-      return MlsDataMapping.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<MlsDataMapping> createMlsDataMapping(MlsDataMapping item) async {
+    final response = await _dioClient.post(ApiEndpoints.mlsDataMappings, data: item.toJson());
+    return MlsDataMapping.fromJson(response.data['data']);
   }
 
-  // Update MlsDataMapping
-  Future<MlsDataMapping> updateMlsDataMapping(String id, MlsDataMapping mlsDataMapping) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/mls_data_mapping/$id',
-        data: mlsDataMapping.toJson(),
-      );
-      return MlsDataMapping.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<MlsDataMapping> updateMlsDataMapping(String id, MlsDataMapping item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.mlsDataMappings}/$id', data: item.toJson());
+    return MlsDataMapping.fromJson(response.data['data']);
   }
 
-  // Delete MlsDataMapping
   Future<void> deleteMlsDataMapping(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/mls_data_mapping/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.mlsDataMappings}/$id');
   }
 }

@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/offline_sync_queue_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/offline_sync_queue_service.dart';
+import 'package:reservatior/shared/repositories/offline_sync_queue_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// OfflineSyncQueue Providers
-
-final OfflineSyncQueueServiceProvider = Provider<OfflineSyncQueueService>((ref) {
+final offlineSyncQueueServiceProvider = Provider<OfflineSyncQueueService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return OfflineSyncQueueService(dioClient);
 });
 
-// List Provider
-final offlineSyncQueueProvider = FutureProvider.autoDispose<List<OfflineSyncQueue>>((ref) async {
-  final service = ref.watch(OfflineSyncQueueServiceProvider);
-  return service.getOfflineSyncQueues();
+final offlineSyncQueueRepositoryProvider = Provider<OfflineSyncQueueRepository>((ref) {
+  final service = ref.watch(offlineSyncQueueServiceProvider);
+  return OfflineSyncQueueRepositoryImpl(service);
 });
 
-// Create Provider
-final OfflineSyncQueueCreateProvider = FutureProvider.autoDispose<OfflineSyncQueue>((ref) async {
-  final service = ref.watch(OfflineSyncQueueServiceProvider);
-  return service.createOfflineSyncQueue(OfflineSyncQueue());
+final offlineSyncQueueListProvider = FutureProvider.autoDispose<List<OfflineSyncQueue>>((ref) async {
+  final repository = ref.watch(offlineSyncQueueRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final OfflineSyncQueueUpdateProvider = FutureProvider.autoDispose<OfflineSyncQueue>((ref) async {
-  final service = ref.watch(OfflineSyncQueueServiceProvider);
-  final state = ref.watch(OfflineSyncQueueUpdateStateProvider);
-  if (state['id'] != null && state['offline_sync_queue'] != null) {
-    return service.updateOfflineSyncQueue(state['id'], state['offline_sync_queue']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final OfflineSyncQueueDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(OfflineSyncQueueServiceProvider);
-  final state = ref.watch(OfflineSyncQueueDeleteStateProvider);
-  if (state != null) {
-    return service.deleteOfflineSyncQueue(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final OfflineSyncQueueUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final OfflineSyncQueueDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final OfflineSyncQueueLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(offlineSyncQueueProvider);
-  final createAsync = ref.watch(OfflineSyncQueueCreateProvider);
-  final updateAsync = ref.watch(OfflineSyncQueueUpdateProvider);
-  final deleteAsync = ref.watch(OfflineSyncQueueDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final offlineSyncQueueCreateProvider = StateProvider<OfflineSyncQueue?>((ref) => null);
+final offlineSyncQueueUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final offlineSyncQueueDeleteProvider = StateProvider<String?>((ref) => null);
+final offlineSyncQueueLoadingProvider = StateProvider<bool>((ref) => false);

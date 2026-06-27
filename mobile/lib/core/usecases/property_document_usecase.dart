@@ -1,106 +1,44 @@
-import '../../features/shared/services/property_document_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for PropertyDocument
+import 'package:reservatior/shared/repositories/property_document_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetPropertyDocumentByIdUseCase {
-  final PropertyDocumentService _service;
-  
-  GetPropertyDocumentByIdUseCase(this._service);
-  
-  Future<PropertyDocument> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final PropertyDocumentRepository _repository;
+  GetPropertyDocumentByIdUseCase(this._repository);
+  Future<PropertyDocument> execute(String id) => _repository.getById(id);
 }
 
 class GetPropertyDocumentsUseCase {
-  final PropertyDocumentService _service;
-  
-  GetPropertyDocumentsUseCase(this._service);
-  
+  final PropertyDocumentRepository _repository;
+  GetPropertyDocumentsUseCase(this._repository);
   Future<List<PropertyDocument>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreatePropertyDocumentUseCase {
-  final PropertyDocumentService _service;
-  
-  CreatePropertyDocumentUseCase(this._service);
-  
-  Future<PropertyDocument> execute(PropertyDocument propertyDocument) async {
-    // Add validation logic here
-    return await _service.create(propertyDocument);
-  }
+  final PropertyDocumentRepository _repository;
+  CreatePropertyDocumentUseCase(this._repository);
+  Future<PropertyDocument> execute(PropertyDocument item) => _repository.create(item);
 }
 
 class UpdatePropertyDocumentUseCase {
-  final PropertyDocumentService _service;
-  
-  UpdatePropertyDocumentUseCase(this._service);
-  
-  Future<PropertyDocument> execute(String id, PropertyDocument propertyDocument) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, propertyDocument);
-  }
+  final PropertyDocumentRepository _repository;
+  UpdatePropertyDocumentUseCase(this._repository);
+  Future<PropertyDocument> execute(String id, PropertyDocument item) => _repository.update(id, item);
 }
 
 class DeletePropertyDocumentUseCase {
-  final PropertyDocumentService _service;
-  
-  DeletePropertyDocumentUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// PropertyDocument Use Case Container
-class PropertyDocumentUseCases {
-  final GetPropertyDocumentByIdUseCase getById;
-  final GetPropertyDocumentsUseCase getAll;
-  final CreatePropertyDocumentUseCase create;
-  final UpdatePropertyDocumentUseCase update;
-  final DeletePropertyDocumentUseCase delete;
-  
-  PropertyDocumentUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory PropertyDocumentUseCases.create(PropertyDocumentService service) {
-    return PropertyDocumentUseCases(
-      getById: GetPropertyDocumentByIdUseCase(service),
-      getAll: GetPropertyDocumentsUseCase(service),
-      create: CreatePropertyDocumentUseCase(service),
-      update: UpdatePropertyDocumentUseCase(service),
-      delete: DeletePropertyDocumentUseCase(service),
-    );
-  }
+  final PropertyDocumentRepository _repository;
+  DeletePropertyDocumentUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

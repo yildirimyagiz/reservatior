@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class AmenityService {
   final DioClient _dioClient;
-
   AmenityService(this._dioClient);
 
-  // Get Amenity by ID
   Future<Amenity> getAmenityById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/amenity/$id');
-      return Amenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.amenities}/$id');
+    return Amenity.fromJson(response.data['data']);
   }
 
-  // Get all amenitys
-  Future<List<Amenity>> getAmenitys({
-    int page = 1,
-    int limit = 20,
+  Future<List<Amenity>> getAmenities({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/amenity', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Amenity.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.amenities, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Amenity.fromJson(json)).toList();
   }
 
-  // Create Amenity
-  Future<Amenity> createAmenity(Amenity amenity) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/amenity',
-        data: amenity.toJson(),
-      );
-      return Amenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Amenity> createAmenity(Amenity item) async {
+    final response = await _dioClient.post(ApiEndpoints.amenities, data: item.toJson());
+    return Amenity.fromJson(response.data['data']);
   }
 
-  // Update Amenity
-  Future<Amenity> updateAmenity(String id, Amenity amenity) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/amenity/$id',
-        data: amenity.toJson(),
-      );
-      return Amenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Amenity> updateAmenity(String id, Amenity item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.amenities}/$id', data: item.toJson());
+    return Amenity.fromJson(response.data['data']);
   }
 
-  // Delete Amenity
   Future<void> deleteAmenity(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/amenity/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.amenities}/$id');
   }
 }

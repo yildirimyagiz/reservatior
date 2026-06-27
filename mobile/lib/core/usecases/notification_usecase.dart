@@ -1,106 +1,44 @@
-import '../../features/shared/services/notification_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Notification
+import 'package:reservatior/shared/repositories/notification_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetNotificationByIdUseCase {
-  final NotificationService _service;
-  
-  GetNotificationByIdUseCase(this._service);
-  
-  Future<Notification> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final NotificationRepository _repository;
+  GetNotificationByIdUseCase(this._repository);
+  Future<Notification> execute(String id) => _repository.getById(id);
 }
 
 class GetNotificationsUseCase {
-  final NotificationService _service;
-  
-  GetNotificationsUseCase(this._service);
-  
+  final NotificationRepository _repository;
+  GetNotificationsUseCase(this._repository);
   Future<List<Notification>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateNotificationUseCase {
-  final NotificationService _service;
-  
-  CreateNotificationUseCase(this._service);
-  
-  Future<Notification> execute(Notification notification) async {
-    // Add validation logic here
-    return await _service.create(notification);
-  }
+  final NotificationRepository _repository;
+  CreateNotificationUseCase(this._repository);
+  Future<Notification> execute(Notification item) => _repository.create(item);
 }
 
 class UpdateNotificationUseCase {
-  final NotificationService _service;
-  
-  UpdateNotificationUseCase(this._service);
-  
-  Future<Notification> execute(String id, Notification notification) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, notification);
-  }
+  final NotificationRepository _repository;
+  UpdateNotificationUseCase(this._repository);
+  Future<Notification> execute(String id, Notification item) => _repository.update(id, item);
 }
 
 class DeleteNotificationUseCase {
-  final NotificationService _service;
-  
-  DeleteNotificationUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Notification Use Case Container
-class NotificationUseCases {
-  final GetNotificationByIdUseCase getById;
-  final GetNotificationsUseCase getAll;
-  final CreateNotificationUseCase create;
-  final UpdateNotificationUseCase update;
-  final DeleteNotificationUseCase delete;
-  
-  NotificationUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory NotificationUseCases.create(NotificationService service) {
-    return NotificationUseCases(
-      getById: GetNotificationByIdUseCase(service),
-      getAll: GetNotificationsUseCase(service),
-      create: CreateNotificationUseCase(service),
-      update: UpdateNotificationUseCase(service),
-      delete: DeleteNotificationUseCase(service),
-    );
-  }
+  final NotificationRepository _repository;
+  DeleteNotificationUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

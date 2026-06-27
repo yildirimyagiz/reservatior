@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class LeaseService {
   final DioClient _dioClient;
-
   LeaseService(this._dioClient);
 
-  // Get Lease by ID
   Future<Lease> getLeaseById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/lease/$id');
-      return Lease.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.leases}/$id');
+    return Lease.fromJson(response.data['data']);
   }
 
-  // Get all leases
   Future<List<Lease>> getLeases({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/lease', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Lease.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.leases, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Lease.fromJson(json)).toList();
   }
 
-  // Create Lease
-  Future<Lease> createLease(Lease lease) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/lease',
-        data: lease.toJson(),
-      );
-      return Lease.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Lease> createLease(Lease item) async {
+    final response = await _dioClient.post(ApiEndpoints.leases, data: item.toJson());
+    return Lease.fromJson(response.data['data']);
   }
 
-  // Update Lease
-  Future<Lease> updateLease(String id, Lease lease) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/lease/$id',
-        data: lease.toJson(),
-      );
-      return Lease.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Lease> updateLease(String id, Lease item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.leases}/$id', data: item.toJson());
+    return Lease.fromJson(response.data['data']);
   }
 
-  // Delete Lease
   Future<void> deleteLease(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/lease/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.leases}/$id');
   }
 }

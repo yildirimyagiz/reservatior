@@ -1,61 +1,46 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/route_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/route_service.dart';
+import 'package:reservatior/shared/repositories/route_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
+import 'role_management_provider.dart';
 
-// Route Providers
-
-final RouteServiceProvider = Provider<RouteService>((ref) {
+final routeServiceProvider = Provider<RouteService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return RouteService(dioClient);
 });
 
-// List Provider
-final routeProvider = FutureProvider.autoDispose<List<Route>>((ref) async {
-  final service = ref.watch(RouteServiceProvider);
-  return service.getRoutes();
+final routeRepositoryProvider = Provider<RouteRepository>((ref) {
+  final service = ref.watch(routeServiceProvider);
+  return RouteRepositoryImpl(service);
 });
 
-// Create Provider
-final RouteCreateProvider = FutureProvider.autoDispose<Route>((ref) async {
-  final service = ref.watch(RouteServiceProvider);
-  return service.createRoute(Route());
+final routeListProvider = FutureProvider.autoDispose<List<Route>>((ref) async {
+  final repository = ref.watch(routeRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final RouteUpdateProvider = FutureProvider.autoDispose<Route>((ref) async {
-  final service = ref.watch(RouteServiceProvider);
-  final state = ref.watch(RouteUpdateStateProvider);
-  if (state['id'] != null && state['route'] != null) {
-    return service.updateRoute(state['id'], state['route']);
-  }
-  throw Exception('No update data provided');
+final routeCreateProvider = StateProvider<Route?>((ref) => null);
+final routeUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final routeDeleteProvider = StateProvider<String?>((ref) => null);
+final routeLoadingProvider = StateProvider<bool>((ref) => false);
+
+// Role-based route provider
+final roleBasedRouteListProvider = Provider<List<NavigationItem>>((ref) {
+  final roleManager = ref.watch(roleManagementProvider.notifier);
+  return roleManager.getAvailableNavigation();
 });
 
-// Delete Provider
-final RouteDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(RouteServiceProvider);
-  final state = ref.watch(RouteDeleteStateProvider);
-  if (state != null) {
-    return service.deleteRoute(state);
-  }
-  throw Exception('No delete ID provided');
+// Route access checker
+final routeAccessProvider = Provider.family<bool, String>((ref, route) {
+  final routeGuard = ref.watch(routeGuardProvider);
+  return routeGuard.canAccessRoute(route);
 });
 
-// State Providers
-final RouteUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final RouteDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final RouteLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(routeProvider);
-  final createAsync = ref.watch(RouteCreateProvider);
-  final updateAsync = ref.watch(RouteUpdateProvider);
-  final deleteAsync = ref.watch(RouteDeleteProvider);
+// Protected route provider - returns only routes user can access
+final protectedRouteListProvider = Provider<List<NavigationItem>>((ref) {
+  final allRoutes = ref.watch(roleBasedRouteListProvider);
+  final routeGuard = ref.watch(routeGuardProvider);
   
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
+  return allRoutes.where((route) => routeGuard.canAccessRoute(route.route)).toList();
 });

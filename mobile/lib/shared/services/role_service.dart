@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class RoleService {
   final DioClient _dioClient;
-
   RoleService(this._dioClient);
 
-  // Get Role by ID
   Future<Role> getRoleById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/role/$id');
-      return Role.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.roles}/$id');
+    return Role.fromJson(response.data['data']);
   }
 
-  // Get all roles
   Future<List<Role>> getRoles({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/role', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Role.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.roles, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Role.fromJson(json)).toList();
   }
 
-  // Create Role
-  Future<Role> createRole(Role role) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/role',
-        data: role.toJson(),
-      );
-      return Role.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Role> createRole(Role item) async {
+    final response = await _dioClient.post(ApiEndpoints.roles, data: item.toJson());
+    return Role.fromJson(response.data['data']);
   }
 
-  // Update Role
-  Future<Role> updateRole(String id, Role role) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/role/$id',
-        data: role.toJson(),
-      );
-      return Role.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Role> updateRole(String id, Role item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.roles}/$id', data: item.toJson());
+    return Role.fromJson(response.data['data']);
   }
 
-  // Delete Role
   Future<void> deleteRole(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/role/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.roles}/$id');
   }
 }

@@ -1,63 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/aiPredictionService.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/ai_prediction_service.dart';
+import 'package:reservatior/shared/repositories/ai_prediction_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// aiPrediction Providers
-
-final aiPredictionServiceProvider = Provider<aiPredictionService>((ref) {
+final aiPredictionServiceProvider = Provider<AiPredictionService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
-  return aiPredictionService(dioClient);
+  return AiPredictionService(dioClient);
 });
 
-// List Provider
-final aiPredictionListProvider = FutureProvider.autoDispose<List<AIPrediction>>((ref) async {
+final aiPredictionRepositoryProvider = Provider<AiPredictionRepository>((ref) {
   final service = ref.watch(aiPredictionServiceProvider);
-  return service.getAIPredictions();
+  return AiPredictionRepositoryImpl(service);
 });
 
-// Create Provider
-final aiPredictionCreateProvider = FutureProvider.autoDispose<AIPrediction>((ref) async {
-  final service = ref.watch(aiPredictionServiceProvider);
-  return service.createAIPrediction(AIPrediction());
+final aiPredictionListProvider = FutureProvider.autoDispose<List<AiPrediction>>((ref) async {
+  final repository = ref.watch(aiPredictionRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final aiPredictionUpdateProvider = FutureProvider.autoDispose<AIPrediction>((ref) async {
-  final service = ref.watch(aiPredictionServiceProvider);
-  final state = ref.watch(aiPredictionUpdateStateProvider);
-  if (state['id'] != null && state['ai_prediction'] != null) {
-    return service.updateAIPrediction(state['id'], state['ai_prediction']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final aiPredictionDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(aiPredictionServiceProvider);
-  final state = ref.watch(aiPredictionDeleteStateProvider);
-  if (state != null) {
-    return service.deleteAIPrediction(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final aiPredictionCreateStateProvider = StateProvider<AIPrediction?>((ref) => null);
-
-final aiPredictionUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final aiPredictionDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final aiPredictionLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(aiPredictionListProvider);
-  final createAsync = ref.watch(aiPredictionCreateProvider);
-  final updateAsync = ref.watch(aiPredictionUpdateProvider);
-  final deleteAsync = ref.watch(aiPredictionDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final aiPredictionCreateProvider = StateProvider<AiPrediction?>((ref) => null);
+final aiPredictionUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final aiPredictionDeleteProvider = StateProvider<String?>((ref) => null);
+final aiPredictionLoadingProvider = StateProvider<bool>((ref) => false);

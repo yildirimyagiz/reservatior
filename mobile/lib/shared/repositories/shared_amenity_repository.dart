@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/shared_amenity_service.dart';
 
-/// Repository for SharedAmenity operations
-/// Provides CRUD operations with proper error handling and type safety
-class SharedAmenityRepository {
-  final DioClient _dioClient;
+abstract class SharedAmenityRepository {
+  Future<SharedAmenity> getById(String id);
+  Future<List<SharedAmenity>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<SharedAmenity> create(SharedAmenity item);
+  Future<SharedAmenity> update(String id, SharedAmenity item);
+  Future<void> delete(String id);
+}
 
-  SharedAmenityRepository(this._dioClient);
+class SharedAmenityRepositoryImpl implements SharedAmenityRepository {
+  final SharedAmenityService _service;
+  SharedAmenityRepositoryImpl(this._service);
 
-  /// Get SharedAmenity by ID
-  /// Returns [SharedAmenity] if found, throws [RepositoryException] otherwise
-  Future<SharedAmenity> getSharedAmenityById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/shared_amenity/$id');
-      if (response.statusCode == 200) {
-        return SharedAmenity.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch shared_amenity',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SharedAmenity> getById(String id) => _service.getSharedAmenityById(id);
 
-  /// Get all shared_amenities with pagination and filtering
-  /// Returns list of [SharedAmenity] objects
-  Future<List<SharedAmenity>> getshared_amenities({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<SharedAmenity>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/shared_amenity', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => SharedAmenity.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch shared_amenities',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getSharedAmenities(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new SharedAmenity
-  /// Returns created [SharedAmenity] object
-  Future<SharedAmenity> createSharedAmenity(SharedAmenity sharedAmenity) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/shared_amenity',
-        data: sharedAmenity.toJson(),
-      );
-      return SharedAmenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SharedAmenity> create(SharedAmenity item) => _service.createSharedAmenity(item);
 
-  // Update SharedAmenity
-  Future<SharedAmenity> updateSharedAmenity(String id, SharedAmenity sharedAmenity) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/shared_amenity/$id',
-        data: sharedAmenity.toJson(),
-      );
-      return SharedAmenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SharedAmenity> update(String id, SharedAmenity item) => _service.updateSharedAmenity(id, item);
 
-  // Delete SharedAmenity
-  Future<void> deleteSharedAmenity(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/shared_amenity/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteSharedAmenity(id);
 }

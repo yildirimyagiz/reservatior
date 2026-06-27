@@ -1,106 +1,44 @@
-import '../../features/shared/services/deposit_protection_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for DepositProtection
+import 'package:reservatior/shared/repositories/deposit_protection_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetDepositProtectionByIdUseCase {
-  final DepositProtectionService _service;
-  
-  GetDepositProtectionByIdUseCase(this._service);
-  
-  Future<DepositProtection> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final DepositProtectionRepository _repository;
+  GetDepositProtectionByIdUseCase(this._repository);
+  Future<DepositProtection> execute(String id) => _repository.getById(id);
 }
 
 class GetDepositProtectionsUseCase {
-  final DepositProtectionService _service;
-  
-  GetDepositProtectionsUseCase(this._service);
-  
+  final DepositProtectionRepository _repository;
+  GetDepositProtectionsUseCase(this._repository);
   Future<List<DepositProtection>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateDepositProtectionUseCase {
-  final DepositProtectionService _service;
-  
-  CreateDepositProtectionUseCase(this._service);
-  
-  Future<DepositProtection> execute(DepositProtection depositProtection) async {
-    // Add validation logic here
-    return await _service.create(depositProtection);
-  }
+  final DepositProtectionRepository _repository;
+  CreateDepositProtectionUseCase(this._repository);
+  Future<DepositProtection> execute(DepositProtection item) => _repository.create(item);
 }
 
 class UpdateDepositProtectionUseCase {
-  final DepositProtectionService _service;
-  
-  UpdateDepositProtectionUseCase(this._service);
-  
-  Future<DepositProtection> execute(String id, DepositProtection depositProtection) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, depositProtection);
-  }
+  final DepositProtectionRepository _repository;
+  UpdateDepositProtectionUseCase(this._repository);
+  Future<DepositProtection> execute(String id, DepositProtection item) => _repository.update(id, item);
 }
 
 class DeleteDepositProtectionUseCase {
-  final DepositProtectionService _service;
-  
-  DeleteDepositProtectionUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// DepositProtection Use Case Container
-class DepositProtectionUseCases {
-  final GetDepositProtectionByIdUseCase getById;
-  final GetDepositProtectionsUseCase getAll;
-  final CreateDepositProtectionUseCase create;
-  final UpdateDepositProtectionUseCase update;
-  final DeleteDepositProtectionUseCase delete;
-  
-  DepositProtectionUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory DepositProtectionUseCases.create(DepositProtectionService service) {
-    return DepositProtectionUseCases(
-      getById: GetDepositProtectionByIdUseCase(service),
-      getAll: GetDepositProtectionsUseCase(service),
-      create: CreateDepositProtectionUseCase(service),
-      update: UpdateDepositProtectionUseCase(service),
-      delete: DeleteDepositProtectionUseCase(service),
-    );
-  }
+  final DepositProtectionRepository _repository;
+  DeleteDepositProtectionUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

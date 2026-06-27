@@ -1,106 +1,50 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/agent_team_service.dart';
 
-/// Repository for AgentTeam operations
-/// Provides CRUD operations with proper error handling and type safety
-class AgentTeamRepository {
-  final DioClient _dioClient;
+abstract class AgentTeamRepository {
+  Future<AgentTeam> getById(String id);
+  Future<List<AgentTeam>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AgentTeam> create(AgentTeam item);
+  Future<AgentTeam> update(String id, AgentTeam item);
+  Future<void> delete(String id);
+  Future<List<Map<String, dynamic>>> getMembers(String id);
+}
 
-  AgentTeamRepository(this._dioClient);
+class AgentTeamRepositoryImpl implements AgentTeamRepository {
+  final AgentTeamService _service;
+  AgentTeamRepositoryImpl(this._service);
 
-  /// Get AgentTeam by ID
-  /// Returns [AgentTeam] if found, throws [RepositoryException] otherwise
-  Future<AgentTeam> getAgentTeamById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/agent_team/$id');
-      if (response.statusCode == 200) {
-        return AgentTeam.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch agent_team',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AgentTeam> getById(String id) => _service.getAgentTeamById(id);
 
-  /// Get all agent_teams with pagination and filtering
-  /// Returns list of [AgentTeam] objects
-  Future<List<AgentTeam>> getagent_teams({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AgentTeam>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/agent_team', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AgentTeam.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch agent_teams',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAgentTeams(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AgentTeam
-  /// Returns created [AgentTeam] object
-  Future<AgentTeam> createAgentTeam(AgentTeam agentTeam) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/agent_team',
-        data: agentTeam.toJson(),
-      );
-      return AgentTeam.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AgentTeam> create(AgentTeam item) => _service.createAgentTeam(item);
 
-  // Update AgentTeam
-  Future<AgentTeam> updateAgentTeam(String id, AgentTeam agentTeam) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/agent_team/$id',
-        data: agentTeam.toJson(),
-      );
-      return AgentTeam.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AgentTeam> update(String id, AgentTeam item) => _service.updateAgentTeam(id, item);
 
-  // Delete AgentTeam
-  Future<void> deleteAgentTeam(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/agent_team/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAgentTeam(id);
 
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<List<Map<String, dynamic>>> getMembers(String id) => _service.getMembers(id);
 }

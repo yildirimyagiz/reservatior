@@ -1,106 +1,44 @@
-import '../../features/shared/services/dashboard_configuration_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for DashboardConfiguration
+import 'package:reservatior/shared/repositories/dashboard_configuration_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetDashboardConfigurationByIdUseCase {
-  final DashboardConfigurationService _service;
-  
-  GetDashboardConfigurationByIdUseCase(this._service);
-  
-  Future<DashboardConfiguration> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final DashboardConfigurationRepository _repository;
+  GetDashboardConfigurationByIdUseCase(this._repository);
+  Future<DashboardConfiguration> execute(String id) => _repository.getById(id);
 }
 
 class GetDashboardConfigurationsUseCase {
-  final DashboardConfigurationService _service;
-  
-  GetDashboardConfigurationsUseCase(this._service);
-  
+  final DashboardConfigurationRepository _repository;
+  GetDashboardConfigurationsUseCase(this._repository);
   Future<List<DashboardConfiguration>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateDashboardConfigurationUseCase {
-  final DashboardConfigurationService _service;
-  
-  CreateDashboardConfigurationUseCase(this._service);
-  
-  Future<DashboardConfiguration> execute(DashboardConfiguration dashboardConfiguration) async {
-    // Add validation logic here
-    return await _service.create(dashboardConfiguration);
-  }
+  final DashboardConfigurationRepository _repository;
+  CreateDashboardConfigurationUseCase(this._repository);
+  Future<DashboardConfiguration> execute(DashboardConfiguration item) => _repository.create(item);
 }
 
 class UpdateDashboardConfigurationUseCase {
-  final DashboardConfigurationService _service;
-  
-  UpdateDashboardConfigurationUseCase(this._service);
-  
-  Future<DashboardConfiguration> execute(String id, DashboardConfiguration dashboardConfiguration) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, dashboardConfiguration);
-  }
+  final DashboardConfigurationRepository _repository;
+  UpdateDashboardConfigurationUseCase(this._repository);
+  Future<DashboardConfiguration> execute(String id, DashboardConfiguration item) => _repository.update(id, item);
 }
 
 class DeleteDashboardConfigurationUseCase {
-  final DashboardConfigurationService _service;
-  
-  DeleteDashboardConfigurationUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// DashboardConfiguration Use Case Container
-class DashboardConfigurationUseCases {
-  final GetDashboardConfigurationByIdUseCase getById;
-  final GetDashboardConfigurationsUseCase getAll;
-  final CreateDashboardConfigurationUseCase create;
-  final UpdateDashboardConfigurationUseCase update;
-  final DeleteDashboardConfigurationUseCase delete;
-  
-  DashboardConfigurationUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory DashboardConfigurationUseCases.create(DashboardConfigurationService service) {
-    return DashboardConfigurationUseCases(
-      getById: GetDashboardConfigurationByIdUseCase(service),
-      getAll: GetDashboardConfigurationsUseCase(service),
-      create: CreateDashboardConfigurationUseCase(service),
-      update: UpdateDashboardConfigurationUseCase(service),
-      delete: DeleteDashboardConfigurationUseCase(service),
-    );
-  }
+  final DashboardConfigurationRepository _repository;
+  DeleteDashboardConfigurationUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

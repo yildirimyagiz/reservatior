@@ -1,106 +1,44 @@
-import '../../features/shared/services/rental_sync_job_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for RentalSyncJob
+import 'package:reservatior/shared/repositories/rental_sync_job_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetRentalSyncJobByIdUseCase {
-  final RentalSyncJobService _service;
-  
-  GetRentalSyncJobByIdUseCase(this._service);
-  
-  Future<RentalSyncJob> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final RentalSyncJobRepository _repository;
+  GetRentalSyncJobByIdUseCase(this._repository);
+  Future<RentalSyncJob> execute(String id) => _repository.getById(id);
 }
 
 class GetRentalSyncJobsUseCase {
-  final RentalSyncJobService _service;
-  
-  GetRentalSyncJobsUseCase(this._service);
-  
+  final RentalSyncJobRepository _repository;
+  GetRentalSyncJobsUseCase(this._repository);
   Future<List<RentalSyncJob>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateRentalSyncJobUseCase {
-  final RentalSyncJobService _service;
-  
-  CreateRentalSyncJobUseCase(this._service);
-  
-  Future<RentalSyncJob> execute(RentalSyncJob rentalSyncJob) async {
-    // Add validation logic here
-    return await _service.create(rentalSyncJob);
-  }
+  final RentalSyncJobRepository _repository;
+  CreateRentalSyncJobUseCase(this._repository);
+  Future<RentalSyncJob> execute(RentalSyncJob item) => _repository.create(item);
 }
 
 class UpdateRentalSyncJobUseCase {
-  final RentalSyncJobService _service;
-  
-  UpdateRentalSyncJobUseCase(this._service);
-  
-  Future<RentalSyncJob> execute(String id, RentalSyncJob rentalSyncJob) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, rentalSyncJob);
-  }
+  final RentalSyncJobRepository _repository;
+  UpdateRentalSyncJobUseCase(this._repository);
+  Future<RentalSyncJob> execute(String id, RentalSyncJob item) => _repository.update(id, item);
 }
 
 class DeleteRentalSyncJobUseCase {
-  final RentalSyncJobService _service;
-  
-  DeleteRentalSyncJobUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// RentalSyncJob Use Case Container
-class RentalSyncJobUseCases {
-  final GetRentalSyncJobByIdUseCase getById;
-  final GetRentalSyncJobsUseCase getAll;
-  final CreateRentalSyncJobUseCase create;
-  final UpdateRentalSyncJobUseCase update;
-  final DeleteRentalSyncJobUseCase delete;
-  
-  RentalSyncJobUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory RentalSyncJobUseCases.create(RentalSyncJobService service) {
-    return RentalSyncJobUseCases(
-      getById: GetRentalSyncJobByIdUseCase(service),
-      getAll: GetRentalSyncJobsUseCase(service),
-      create: CreateRentalSyncJobUseCase(service),
-      update: UpdateRentalSyncJobUseCase(service),
-      delete: DeleteRentalSyncJobUseCase(service),
-    );
-  }
+  final RentalSyncJobRepository _repository;
+  DeleteRentalSyncJobUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

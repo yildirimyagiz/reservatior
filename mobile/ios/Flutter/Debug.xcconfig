@@ -1,0 +1,5 @@
+#include "Generated.xcconfig"
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
+
+// Bundle ID Configuration
+PRODUCT_BUNDLE_IDENTIFIER = com.reservatior.app

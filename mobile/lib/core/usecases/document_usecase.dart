@@ -1,106 +1,44 @@
-import '../../features/shared/services/document_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Document
+import 'package:reservatior/shared/repositories/document_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetDocumentByIdUseCase {
-  final DocumentService _service;
-  
-  GetDocumentByIdUseCase(this._service);
-  
-  Future<Document> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final DocumentRepository _repository;
+  GetDocumentByIdUseCase(this._repository);
+  Future<Document> execute(String id) => _repository.getById(id);
 }
 
 class GetDocumentsUseCase {
-  final DocumentService _service;
-  
-  GetDocumentsUseCase(this._service);
-  
+  final DocumentRepository _repository;
+  GetDocumentsUseCase(this._repository);
   Future<List<Document>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateDocumentUseCase {
-  final DocumentService _service;
-  
-  CreateDocumentUseCase(this._service);
-  
-  Future<Document> execute(Document document) async {
-    // Add validation logic here
-    return await _service.create(document);
-  }
+  final DocumentRepository _repository;
+  CreateDocumentUseCase(this._repository);
+  Future<Document> execute(Document item) => _repository.create(item);
 }
 
 class UpdateDocumentUseCase {
-  final DocumentService _service;
-  
-  UpdateDocumentUseCase(this._service);
-  
-  Future<Document> execute(String id, Document document) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, document);
-  }
+  final DocumentRepository _repository;
+  UpdateDocumentUseCase(this._repository);
+  Future<Document> execute(String id, Document item) => _repository.update(id, item);
 }
 
 class DeleteDocumentUseCase {
-  final DocumentService _service;
-  
-  DeleteDocumentUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Document Use Case Container
-class DocumentUseCases {
-  final GetDocumentByIdUseCase getById;
-  final GetDocumentsUseCase getAll;
-  final CreateDocumentUseCase create;
-  final UpdateDocumentUseCase update;
-  final DeleteDocumentUseCase delete;
-  
-  DocumentUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory DocumentUseCases.create(DocumentService service) {
-    return DocumentUseCases(
-      getById: GetDocumentByIdUseCase(service),
-      getAll: GetDocumentsUseCase(service),
-      create: CreateDocumentUseCase(service),
-      update: UpdateDocumentUseCase(service),
-      delete: DeleteDocumentUseCase(service),
-    );
-  }
+  final DocumentRepository _repository;
+  DeleteDocumentUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

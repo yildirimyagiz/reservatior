@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/ai_tenant_screening_service.dart';
 
-/// Repository for AiTenantScreening operations
-/// Provides CRUD operations with proper error handling and type safety
-class AiTenantScreeningRepository {
-  final DioClient _dioClient;
+abstract class AiTenantScreeningRepository {
+  Future<AiTenantScreening> getById(String id);
+  Future<List<AiTenantScreening>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AiTenantScreening> create(AiTenantScreening item);
+  Future<AiTenantScreening> update(String id, AiTenantScreening item);
+  Future<void> delete(String id);
+}
 
-  AiTenantScreeningRepository(this._dioClient);
+class AiTenantScreeningRepositoryImpl implements AiTenantScreeningRepository {
+  final AiTenantScreeningService _service;
+  AiTenantScreeningRepositoryImpl(this._service);
 
-  /// Get AiTenantScreening by ID
-  /// Returns [AiTenantScreening] if found, throws [RepositoryException] otherwise
-  Future<AiTenantScreening> getAiTenantScreeningById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_tenant_screening/$id');
-      if (response.statusCode == 200) {
-        return AiTenantScreening.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_tenant_screening',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiTenantScreening> getById(String id) => _service.getAiTenantScreeningById(id);
 
-  /// Get all ai_tenant_screenings with pagination and filtering
-  /// Returns list of [AiTenantScreening] objects
-  Future<List<AiTenantScreening>> getai_tenant_screenings({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AiTenantScreening>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/ai_tenant_screening', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AiTenantScreening.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_tenant_screenings',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAiTenantScreenings(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AiTenantScreening
-  /// Returns created [AiTenantScreening] object
-  Future<AiTenantScreening> createAiTenantScreening(AiTenantScreening aiTenantScreening) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_tenant_screening',
-        data: aiTenantScreening.toJson(),
-      );
-      return AiTenantScreening.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiTenantScreening> create(AiTenantScreening item) => _service.createAiTenantScreening(item);
 
-  // Update AiTenantScreening
-  Future<AiTenantScreening> updateAiTenantScreening(String id, AiTenantScreening aiTenantScreening) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_tenant_screening/$id',
-        data: aiTenantScreening.toJson(),
-      );
-      return AiTenantScreening.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiTenantScreening> update(String id, AiTenantScreening item) => _service.updateAiTenantScreening(id, item);
 
-  // Delete AiTenantScreening
-  Future<void> deleteAiTenantScreening(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_tenant_screening/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAiTenantScreening(id);
 }

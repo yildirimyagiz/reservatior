@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/queue_message_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/queue_message_service.dart';
+import 'package:reservatior/shared/repositories/queue_message_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// QueueMessage Providers
-
-final QueueMessageServiceProvider = Provider<QueueMessageService>((ref) {
+final queueMessageServiceProvider = Provider<QueueMessageService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return QueueMessageService(dioClient);
 });
 
-// List Provider
-final queueMessageProvider = FutureProvider.autoDispose<List<QueueMessage>>((ref) async {
-  final service = ref.watch(QueueMessageServiceProvider);
-  return service.getQueueMessages();
+final queueMessageRepositoryProvider = Provider<QueueMessageRepository>((ref) {
+  final service = ref.watch(queueMessageServiceProvider);
+  return QueueMessageRepositoryImpl(service);
 });
 
-// Create Provider
-final QueueMessageCreateProvider = FutureProvider.autoDispose<QueueMessage>((ref) async {
-  final service = ref.watch(QueueMessageServiceProvider);
-  return service.createQueueMessage(QueueMessage());
+final queueMessageListProvider = FutureProvider.autoDispose<List<QueueMessage>>((ref) async {
+  final repository = ref.watch(queueMessageRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final QueueMessageUpdateProvider = FutureProvider.autoDispose<QueueMessage>((ref) async {
-  final service = ref.watch(QueueMessageServiceProvider);
-  final state = ref.watch(QueueMessageUpdateStateProvider);
-  if (state['id'] != null && state['queue_message'] != null) {
-    return service.updateQueueMessage(state['id'], state['queue_message']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final QueueMessageDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(QueueMessageServiceProvider);
-  final state = ref.watch(QueueMessageDeleteStateProvider);
-  if (state != null) {
-    return service.deleteQueueMessage(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final QueueMessageUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final QueueMessageDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final QueueMessageLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(queueMessageProvider);
-  final createAsync = ref.watch(QueueMessageCreateProvider);
-  final updateAsync = ref.watch(QueueMessageUpdateProvider);
-  final deleteAsync = ref.watch(QueueMessageDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final queueMessageCreateProvider = StateProvider<QueueMessage?>((ref) => null);
+final queueMessageUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final queueMessageDeleteProvider = StateProvider<String?>((ref) => null);
+final queueMessageLoadingProvider = StateProvider<bool>((ref) => false);

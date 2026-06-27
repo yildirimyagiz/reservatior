@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class HashtagService {
   final DioClient _dioClient;
-
   HashtagService(this._dioClient);
 
-  // Get Hashtag by ID
   Future<Hashtag> getHashtagById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/hashtag/$id');
-      return Hashtag.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.hashtags}/$id');
+    return Hashtag.fromJson(response.data['data']);
   }
 
-  // Get all hashtags
   Future<List<Hashtag>> getHashtags({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/hashtag', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Hashtag.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.hashtags, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Hashtag.fromJson(json)).toList();
   }
 
-  // Create Hashtag
-  Future<Hashtag> createHashtag(Hashtag hashtag) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/hashtag',
-        data: hashtag.toJson(),
-      );
-      return Hashtag.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Hashtag> createHashtag(Hashtag item) async {
+    final response = await _dioClient.post(ApiEndpoints.hashtags, data: item.toJson());
+    return Hashtag.fromJson(response.data['data']);
   }
 
-  // Update Hashtag
-  Future<Hashtag> updateHashtag(String id, Hashtag hashtag) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/hashtag/$id',
-        data: hashtag.toJson(),
-      );
-      return Hashtag.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Hashtag> updateHashtag(String id, Hashtag item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.hashtags}/$id', data: item.toJson());
+    return Hashtag.fromJson(response.data['data']);
   }
 
-  // Delete Hashtag
   Future<void> deleteHashtag(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/hashtag/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.hashtags}/$id');
   }
 }

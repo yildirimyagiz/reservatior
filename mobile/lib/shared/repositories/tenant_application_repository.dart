@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/tenant_application_service.dart';
 
-/// Repository for TenantApplication operations
-/// Provides CRUD operations with proper error handling and type safety
-class TenantApplicationRepository {
-  final DioClient _dioClient;
+abstract class TenantApplicationRepository {
+  Future<TenantApplication> getById(String id);
+  Future<List<TenantApplication>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<TenantApplication> create(TenantApplication item);
+  Future<TenantApplication> update(String id, TenantApplication item);
+  Future<void> delete(String id);
+}
 
-  TenantApplicationRepository(this._dioClient);
+class TenantApplicationRepositoryImpl implements TenantApplicationRepository {
+  final TenantApplicationService _service;
+  TenantApplicationRepositoryImpl(this._service);
 
-  /// Get TenantApplication by ID
-  /// Returns [TenantApplication] if found, throws [RepositoryException] otherwise
-  Future<TenantApplication> getTenantApplicationById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/tenant_application/$id');
-      if (response.statusCode == 200) {
-        return TenantApplication.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch tenant_application',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<TenantApplication> getById(String id) => _service.getTenantApplicationById(id);
 
-  /// Get all tenant_applications with pagination and filtering
-  /// Returns list of [TenantApplication] objects
-  Future<List<TenantApplication>> gettenant_applications({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<TenantApplication>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/tenant_application', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => TenantApplication.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch tenant_applications',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getTenantApplications(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new TenantApplication
-  /// Returns created [TenantApplication] object
-  Future<TenantApplication> createTenantApplication(TenantApplication tenantApplication) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/tenant_application',
-        data: tenantApplication.toJson(),
-      );
-      return TenantApplication.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<TenantApplication> create(TenantApplication item) => _service.createTenantApplication(item);
 
-  // Update TenantApplication
-  Future<TenantApplication> updateTenantApplication(String id, TenantApplication tenantApplication) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/tenant_application/$id',
-        data: tenantApplication.toJson(),
-      );
-      return TenantApplication.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<TenantApplication> update(String id, TenantApplication item) => _service.updateTenantApplication(id, item);
 
-  // Delete TenantApplication
-  Future<void> deleteTenantApplication(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/tenant_application/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteTenantApplication(id);
 }

@@ -1,106 +1,44 @@
-import '../../features/shared/services/api_integration_service.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/repositories/api_integration_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-// Use Cases for ApiIntegration
-
-class GetApiIntegrationByIdUseCase {
-  final ApiIntegrationService _service;
-  
-  GetApiIntegrationByIdUseCase(this._service);
-  
-  Future<ApiIntegration> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+class GetAPIIntegrationByIdUseCase {
+  final APIIntegrationRepository _repository;
+  GetAPIIntegrationByIdUseCase(this._repository);
+  Future<APIIntegration> execute(String id) => _repository.getById(id);
 }
 
-class GetApiIntegrationsUseCase {
-  final ApiIntegrationService _service;
-  
-  GetApiIntegrationsUseCase(this._service);
-  
-  Future<List<ApiIntegration>> execute({
-    int page = 1,
-    int limit = 20,
+class GetAPIIntegrationsUseCase {
+  final APIIntegrationRepository _repository;
+  GetAPIIntegrationsUseCase(this._repository);
+  Future<List<APIIntegration>> execute({
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
-class CreateApiIntegrationUseCase {
-  final ApiIntegrationService _service;
-  
-  CreateApiIntegrationUseCase(this._service);
-  
-  Future<ApiIntegration> execute(ApiIntegration apiIntegration) async {
-    // Add validation logic here
-    return await _service.create(apiIntegration);
-  }
+class CreateAPIIntegrationUseCase {
+  final APIIntegrationRepository _repository;
+  CreateAPIIntegrationUseCase(this._repository);
+  Future<APIIntegration> execute(APIIntegration item) => _repository.create(item);
 }
 
-class UpdateApiIntegrationUseCase {
-  final ApiIntegrationService _service;
-  
-  UpdateApiIntegrationUseCase(this._service);
-  
-  Future<ApiIntegration> execute(String id, ApiIntegration apiIntegration) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, apiIntegration);
-  }
+class UpdateAPIIntegrationUseCase {
+  final APIIntegrationRepository _repository;
+  UpdateAPIIntegrationUseCase(this._repository);
+  Future<APIIntegration> execute(String id, APIIntegration item) => _repository.update(id, item);
 }
 
-class DeleteApiIntegrationUseCase {
-  final ApiIntegrationService _service;
-  
-  DeleteApiIntegrationUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ApiIntegration Use Case Container
-class ApiIntegrationUseCases {
-  final GetApiIntegrationByIdUseCase getById;
-  final GetApiIntegrationsUseCase getAll;
-  final CreateApiIntegrationUseCase create;
-  final UpdateApiIntegrationUseCase update;
-  final DeleteApiIntegrationUseCase delete;
-  
-  ApiIntegrationUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ApiIntegrationUseCases.create(ApiIntegrationService service) {
-    return ApiIntegrationUseCases(
-      getById: GetApiIntegrationByIdUseCase(service),
-      getAll: GetApiIntegrationsUseCase(service),
-      create: CreateApiIntegrationUseCase(service),
-      update: UpdateApiIntegrationUseCase(service),
-      delete: DeleteApiIntegrationUseCase(service),
-    );
-  }
+class DeleteAPIIntegrationUseCase {
+  final APIIntegrationRepository _repository;
+  DeleteAPIIntegrationUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

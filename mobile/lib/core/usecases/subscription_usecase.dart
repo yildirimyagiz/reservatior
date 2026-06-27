@@ -1,106 +1,44 @@
-import '../../features/shared/services/subscription_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Subscription
+import 'package:reservatior/shared/repositories/subscription_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetSubscriptionByIdUseCase {
-  final SubscriptionService _service;
-  
-  GetSubscriptionByIdUseCase(this._service);
-  
-  Future<Subscription> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final SubscriptionRepository _repository;
+  GetSubscriptionByIdUseCase(this._repository);
+  Future<Subscription> execute(String id) => _repository.getById(id);
 }
 
 class GetSubscriptionsUseCase {
-  final SubscriptionService _service;
-  
-  GetSubscriptionsUseCase(this._service);
-  
+  final SubscriptionRepository _repository;
+  GetSubscriptionsUseCase(this._repository);
   Future<List<Subscription>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateSubscriptionUseCase {
-  final SubscriptionService _service;
-  
-  CreateSubscriptionUseCase(this._service);
-  
-  Future<Subscription> execute(Subscription subscription) async {
-    // Add validation logic here
-    return await _service.create(subscription);
-  }
+  final SubscriptionRepository _repository;
+  CreateSubscriptionUseCase(this._repository);
+  Future<Subscription> execute(Subscription item) => _repository.create(item);
 }
 
 class UpdateSubscriptionUseCase {
-  final SubscriptionService _service;
-  
-  UpdateSubscriptionUseCase(this._service);
-  
-  Future<Subscription> execute(String id, Subscription subscription) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, subscription);
-  }
+  final SubscriptionRepository _repository;
+  UpdateSubscriptionUseCase(this._repository);
+  Future<Subscription> execute(String id, Subscription item) => _repository.update(id, item);
 }
 
 class DeleteSubscriptionUseCase {
-  final SubscriptionService _service;
-  
-  DeleteSubscriptionUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Subscription Use Case Container
-class SubscriptionUseCases {
-  final GetSubscriptionByIdUseCase getById;
-  final GetSubscriptionsUseCase getAll;
-  final CreateSubscriptionUseCase create;
-  final UpdateSubscriptionUseCase update;
-  final DeleteSubscriptionUseCase delete;
-  
-  SubscriptionUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory SubscriptionUseCases.create(SubscriptionService service) {
-    return SubscriptionUseCases(
-      getById: GetSubscriptionByIdUseCase(service),
-      getAll: GetSubscriptionsUseCase(service),
-      create: CreateSubscriptionUseCase(service),
-      update: UpdateSubscriptionUseCase(service),
-      delete: DeleteSubscriptionUseCase(service),
-    );
-  }
+  final SubscriptionRepository _repository;
+  DeleteSubscriptionUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AILeadScoreService {
+class AiLeadScoreService {
   final DioClient _dioClient;
+  AiLeadScoreService(this._dioClient);
 
-  AILeadScoreService(this._dioClient);
-
-  // Get AILeadScore by ID
-  Future<AILeadScore> getAILeadScoreById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_lead_score/$id');
-      return AILeadScore.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiLeadScore> getAiLeadScoreById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiLeadScores}/$id');
+    return AiLeadScore.fromJson(response.data['data']);
   }
 
-  // Get all ai_lead_scores
-  Future<List<AILeadScore>> getAILeadScores({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiLeadScore>> getAiLeadScores({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_lead_score', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AILeadScore.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiLeadScores, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiLeadScore.fromJson(json)).toList();
   }
 
-  // Create AILeadScore
-  Future<AILeadScore> createAILeadScore(AILeadScore aILeadScore) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_lead_score',
-        data: aILeadScore.toJson(),
-      );
-      return AILeadScore.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiLeadScore> createAiLeadScore(AiLeadScore item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiLeadScores, data: item.toJson());
+    return AiLeadScore.fromJson(response.data['data']);
   }
 
-  // Update AILeadScore
-  Future<AILeadScore> updateAILeadScore(String id, AILeadScore aILeadScore) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_lead_score/$id',
-        data: aILeadScore.toJson(),
-      );
-      return AILeadScore.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiLeadScore> updateAiLeadScore(String id, AiLeadScore item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiLeadScores}/$id', data: item.toJson());
+    return AiLeadScore.fromJson(response.data['data']);
   }
 
-  // Delete AILeadScore
-  Future<void> deleteAILeadScore(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_lead_score/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiLeadScore(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiLeadScores}/$id');
   }
 }

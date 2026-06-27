@@ -1,60 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../features/shared/services/document_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/document_service.dart';
+import 'package:reservatior/shared/repositories/document_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
-
-// Document Providers
 
 final documentServiceProvider = Provider<DocumentService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return DocumentService(dioClient);
 });
 
+final documentRepositoryProvider = Provider<DocumentRepository>((ref) {
+  final service = ref.watch(documentServiceProvider);
+  return DocumentRepositoryImpl(service);
+});
+
 final documentListProvider = FutureProvider.autoDispose<List<Document>>((ref) async {
-  final service = ref.watch(documentServiceProvider);
-  return service.getAll();
+  final repository = ref.watch(documentRepositoryProvider);
+  return repository.getAll();
 });
 
-final documentCreateProvider = FutureProvider.autoDispose<Document>((ref) async {
-  final service = ref.watch(documentServiceProvider);
-  final state = ref.watch(documentCreateStateProvider);
-  if (state != null) {
-    return service.create(state);
-  }
-  throw Exception('No create data provided');
-});
-
-final documentUpdateProvider = FutureProvider.autoDispose<Document>((ref) async {
-  final service = ref.watch(documentServiceProvider);
-  final state = ref.watch(documentUpdateStateProvider);
-  if (state['id'] != null && state['data'] != null) {
-    return service.update(state['id'], state['data']);
-  }
-  throw Exception('No update data provided');
-});
-
-final documentDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(documentServiceProvider);
-  final state = ref.watch(documentDeleteStateProvider);
-  if (state != null) {
-    return service.delete(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-final documentCreateStateProvider = StateProvider<Document?>((ref) => null);
-final documentUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final documentDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-final documentLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(documentListProvider);
-  final createAsync = ref.watch(documentCreateProvider);
-  final updateAsync = ref.watch(documentUpdateProvider);
-  final deleteAsync = ref.watch(documentDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final documentCreateProvider = StateProvider<Document?>((ref) => null);
+final documentUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final documentDeleteProvider = StateProvider<String?>((ref) => null);
+final documentLoadingProvider = StateProvider<bool>((ref) => false);

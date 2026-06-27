@@ -1,82 +1,53 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class BookingService {
   final DioClient _dioClient;
-
   BookingService(this._dioClient);
 
-  // Get Booking by ID
   Future<Booking> getBookingById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/booking/$id');
-      return Booking.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.bookings}/$id');
+    return Booking.fromJson(response.data['data']);
   }
 
-  // Get all bookings
   Future<List<Booking>> getBookings({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/booking', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Booking.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.bookings, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Booking.fromJson(json)).toList();
   }
 
-  // Create Booking
-  Future<Booking> createBooking(Booking booking) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/booking',
-        data: booking.toJson(),
-      );
-      return Booking.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Booking> createBooking(Booking item) async {
+    final response = await _dioClient.post(ApiEndpoints.bookings, data: item.toJson());
+    return Booking.fromJson(response.data['data']);
   }
 
-  // Update Booking
-  Future<Booking> updateBooking(String id, Booking booking) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/booking/$id',
-        data: booking.toJson(),
-      );
-      return Booking.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Booking> updateBooking(String id, Booking item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.bookings}/$id', data: item.toJson());
+    return Booking.fromJson(response.data['data']);
   }
 
-  // Delete Booking
   Future<void> deleteBooking(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/booking/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    await _dioClient.delete('${ApiEndpoints.bookings}/$id');
   }
 
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<Map<String, dynamic>> createGuestReview(String id, Map<String, dynamic> item) async {
+    final response = await _dioClient.post('${ApiEndpoints.bookings}/$id/guest-review', data: item);
+    return response.data['data'];
   }
 }

@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/lead_source_service.dart';
 
-/// Repository for LeadSource operations
-/// Provides CRUD operations with proper error handling and type safety
-class LeadSourceRepository {
-  final DioClient _dioClient;
+abstract class LeadSourceRepository {
+  Future<LeadSource> getById(String id);
+  Future<List<LeadSource>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<LeadSource> create(LeadSource item);
+  Future<LeadSource> update(String id, LeadSource item);
+  Future<void> delete(String id);
+}
 
-  LeadSourceRepository(this._dioClient);
+class LeadSourceRepositoryImpl implements LeadSourceRepository {
+  final LeadSourceService _service;
+  LeadSourceRepositoryImpl(this._service);
 
-  /// Get LeadSource by ID
-  /// Returns [LeadSource] if found, throws [RepositoryException] otherwise
-  Future<LeadSource> getLeadSourceById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/lead_source/$id');
-      if (response.statusCode == 200) {
-        return LeadSource.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch lead_source',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<LeadSource> getById(String id) => _service.getLeadSourceById(id);
 
-  /// Get all lead_sources with pagination and filtering
-  /// Returns list of [LeadSource] objects
-  Future<List<LeadSource>> getlead_sources({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<LeadSource>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/lead_source', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => LeadSource.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch lead_sources',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getLeadSources(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new LeadSource
-  /// Returns created [LeadSource] object
-  Future<LeadSource> createLeadSource(LeadSource leadSource) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/lead_source',
-        data: leadSource.toJson(),
-      );
-      return LeadSource.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<LeadSource> create(LeadSource item) => _service.createLeadSource(item);
 
-  // Update LeadSource
-  Future<LeadSource> updateLeadSource(String id, LeadSource leadSource) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/lead_source/$id',
-        data: leadSource.toJson(),
-      );
-      return LeadSource.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<LeadSource> update(String id, LeadSource item) => _service.updateLeadSource(id, item);
 
-  // Delete LeadSource
-  Future<void> deleteLeadSource(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/lead_source/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteLeadSource(id);
 }

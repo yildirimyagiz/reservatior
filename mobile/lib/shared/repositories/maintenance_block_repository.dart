@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/maintenance_block_service.dart';
 
-/// Repository for MaintenanceBlock operations
-/// Provides CRUD operations with proper error handling and type safety
-class MaintenanceBlockRepository {
-  final DioClient _dioClient;
+abstract class MaintenanceBlockRepository {
+  Future<MaintenanceBlock> getById(String id);
+  Future<List<MaintenanceBlock>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<MaintenanceBlock> create(MaintenanceBlock item);
+  Future<MaintenanceBlock> update(String id, MaintenanceBlock item);
+  Future<void> delete(String id);
+}
 
-  MaintenanceBlockRepository(this._dioClient);
+class MaintenanceBlockRepositoryImpl implements MaintenanceBlockRepository {
+  final MaintenanceBlockService _service;
+  MaintenanceBlockRepositoryImpl(this._service);
 
-  /// Get MaintenanceBlock by ID
-  /// Returns [MaintenanceBlock] if found, throws [RepositoryException] otherwise
-  Future<MaintenanceBlock> getMaintenanceBlockById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/maintenance_block/$id');
-      if (response.statusCode == 200) {
-        return MaintenanceBlock.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch maintenance_block',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MaintenanceBlock> getById(String id) => _service.getMaintenanceBlockById(id);
 
-  /// Get all maintenance_blocks with pagination and filtering
-  /// Returns list of [MaintenanceBlock] objects
-  Future<List<MaintenanceBlock>> getmaintenance_blocks({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<MaintenanceBlock>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/maintenance_block', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => MaintenanceBlock.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch maintenance_blocks',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getMaintenanceBlocks(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new MaintenanceBlock
-  /// Returns created [MaintenanceBlock] object
-  Future<MaintenanceBlock> createMaintenanceBlock(MaintenanceBlock maintenanceBlock) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/maintenance_block',
-        data: maintenanceBlock.toJson(),
-      );
-      return MaintenanceBlock.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MaintenanceBlock> create(MaintenanceBlock item) => _service.createMaintenanceBlock(item);
 
-  // Update MaintenanceBlock
-  Future<MaintenanceBlock> updateMaintenanceBlock(String id, MaintenanceBlock maintenanceBlock) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/maintenance_block/$id',
-        data: maintenanceBlock.toJson(),
-      );
-      return MaintenanceBlock.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MaintenanceBlock> update(String id, MaintenanceBlock item) => _service.updateMaintenanceBlock(id, item);
 
-  // Delete MaintenanceBlock
-  Future<void> deleteMaintenanceBlock(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/maintenance_block/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteMaintenanceBlock(id);
 }

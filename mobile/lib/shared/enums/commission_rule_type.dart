@@ -1,0 +1,16 @@
+// ignore_for_file: constant_identifier_names
+enum CommissionRuleType {
+  SEASONAL,
+  VOLUME,
+  PROPERTY_TYPE,
+  LOCATION_BASED,
+  BOOKING_VALUE,
+  LOYALTY,
+  SPECIAL_PROMOTION,
+  PACKAGE_DEAL,
+  PRICE_COMPARISON,
+  COMMISSION_SUMMARY,
+  BOOKING_VOLUME,
+  REVENUE,
+  PERFORMANCE
+}

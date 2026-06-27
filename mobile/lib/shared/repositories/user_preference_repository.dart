@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/user_preference_service.dart';
 
-/// Repository for UserPreference operations
-/// Provides CRUD operations with proper error handling and type safety
-class UserPreferenceRepository {
-  final DioClient _dioClient;
+abstract class UserPreferenceRepository {
+  Future<UserPreference> getById(String id);
+  Future<List<UserPreference>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<UserPreference> create(UserPreference item);
+  Future<UserPreference> update(String id, UserPreference item);
+  Future<void> delete(String id);
+}
 
-  UserPreferenceRepository(this._dioClient);
+class UserPreferenceRepositoryImpl implements UserPreferenceRepository {
+  final UserPreferenceService _service;
+  UserPreferenceRepositoryImpl(this._service);
 
-  /// Get UserPreference by ID
-  /// Returns [UserPreference] if found, throws [RepositoryException] otherwise
-  Future<UserPreference> getUserPreferenceById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/user_preference/$id');
-      if (response.statusCode == 200) {
-        return UserPreference.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch user_preference',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserPreference> getById(String id) => _service.getUserPreferenceById(id);
 
-  /// Get all user_preferences with pagination and filtering
-  /// Returns list of [UserPreference] objects
-  Future<List<UserPreference>> getuser_preferences({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<UserPreference>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/user_preference', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => UserPreference.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch user_preferences',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getUserPreferences(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new UserPreference
-  /// Returns created [UserPreference] object
-  Future<UserPreference> createUserPreference(UserPreference userPreference) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/user_preference',
-        data: userPreference.toJson(),
-      );
-      return UserPreference.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserPreference> create(UserPreference item) => _service.createUserPreference(item);
 
-  // Update UserPreference
-  Future<UserPreference> updateUserPreference(String id, UserPreference userPreference) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/user_preference/$id',
-        data: userPreference.toJson(),
-      );
-      return UserPreference.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserPreference> update(String id, UserPreference item) => _service.updateUserPreference(id, item);
 
-  // Delete UserPreference
-  Future<void> deleteUserPreference(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/user_preference/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteUserPreference(id);
 }

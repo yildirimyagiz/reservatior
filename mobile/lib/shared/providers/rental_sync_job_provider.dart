@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/rental_sync_job_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/rental_sync_job_service.dart';
+import 'package:reservatior/shared/repositories/rental_sync_job_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// RentalSyncJob Providers
-
-final RentalSyncJobServiceProvider = Provider<RentalSyncJobService>((ref) {
+final rentalSyncJobServiceProvider = Provider<RentalSyncJobService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return RentalSyncJobService(dioClient);
 });
 
-// List Provider
-final rentalSyncJobProvider = FutureProvider.autoDispose<List<RentalSyncJob>>((ref) async {
-  final service = ref.watch(RentalSyncJobServiceProvider);
-  return service.getRentalSyncJobs();
+final rentalSyncJobRepositoryProvider = Provider<RentalSyncJobRepository>((ref) {
+  final service = ref.watch(rentalSyncJobServiceProvider);
+  return RentalSyncJobRepositoryImpl(service);
 });
 
-// Create Provider
-final RentalSyncJobCreateProvider = FutureProvider.autoDispose<RentalSyncJob>((ref) async {
-  final service = ref.watch(RentalSyncJobServiceProvider);
-  return service.createRentalSyncJob(RentalSyncJob());
+final rentalSyncJobListProvider = FutureProvider.autoDispose<List<RentalSyncJob>>((ref) async {
+  final repository = ref.watch(rentalSyncJobRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final RentalSyncJobUpdateProvider = FutureProvider.autoDispose<RentalSyncJob>((ref) async {
-  final service = ref.watch(RentalSyncJobServiceProvider);
-  final state = ref.watch(RentalSyncJobUpdateStateProvider);
-  if (state['id'] != null && state['rental_sync_job'] != null) {
-    return service.updateRentalSyncJob(state['id'], state['rental_sync_job']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final RentalSyncJobDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(RentalSyncJobServiceProvider);
-  final state = ref.watch(RentalSyncJobDeleteStateProvider);
-  if (state != null) {
-    return service.deleteRentalSyncJob(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final RentalSyncJobUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final RentalSyncJobDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final RentalSyncJobLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(rentalSyncJobProvider);
-  final createAsync = ref.watch(RentalSyncJobCreateProvider);
-  final updateAsync = ref.watch(RentalSyncJobUpdateProvider);
-  final deleteAsync = ref.watch(RentalSyncJobDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final rentalSyncJobCreateProvider = StateProvider<RentalSyncJob?>((ref) => null);
+final rentalSyncJobUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final rentalSyncJobDeleteProvider = StateProvider<String?>((ref) => null);
+final rentalSyncJobLoadingProvider = StateProvider<bool>((ref) => false);

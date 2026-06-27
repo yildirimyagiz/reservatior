@@ -1,106 +1,44 @@
-import '../../features/shared/services/route_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Route
+import 'package:reservatior/shared/repositories/route_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetRouteByIdUseCase {
-  final RouteService _service;
-  
-  GetRouteByIdUseCase(this._service);
-  
-  Future<Route> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final RouteRepository _repository;
+  GetRouteByIdUseCase(this._repository);
+  Future<Route> execute(String id) => _repository.getById(id);
 }
 
 class GetRoutesUseCase {
-  final RouteService _service;
-  
-  GetRoutesUseCase(this._service);
-  
+  final RouteRepository _repository;
+  GetRoutesUseCase(this._repository);
   Future<List<Route>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateRouteUseCase {
-  final RouteService _service;
-  
-  CreateRouteUseCase(this._service);
-  
-  Future<Route> execute(Route route) async {
-    // Add validation logic here
-    return await _service.create(route);
-  }
+  final RouteRepository _repository;
+  CreateRouteUseCase(this._repository);
+  Future<Route> execute(Route item) => _repository.create(item);
 }
 
 class UpdateRouteUseCase {
-  final RouteService _service;
-  
-  UpdateRouteUseCase(this._service);
-  
-  Future<Route> execute(String id, Route route) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, route);
-  }
+  final RouteRepository _repository;
+  UpdateRouteUseCase(this._repository);
+  Future<Route> execute(String id, Route item) => _repository.update(id, item);
 }
 
 class DeleteRouteUseCase {
-  final RouteService _service;
-  
-  DeleteRouteUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Route Use Case Container
-class RouteUseCases {
-  final GetRouteByIdUseCase getById;
-  final GetRoutesUseCase getAll;
-  final CreateRouteUseCase create;
-  final UpdateRouteUseCase update;
-  final DeleteRouteUseCase delete;
-  
-  RouteUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory RouteUseCases.create(RouteService service) {
-    return RouteUseCases(
-      getById: GetRouteByIdUseCase(service),
-      getAll: GetRoutesUseCase(service),
-      create: CreateRouteUseCase(service),
-      update: UpdateRouteUseCase(service),
-      delete: DeleteRouteUseCase(service),
-    );
-  }
+  final RouteRepository _repository;
+  DeleteRouteUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

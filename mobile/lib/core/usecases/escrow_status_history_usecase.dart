@@ -1,106 +1,44 @@
-import '../../features/shared/services/escrow_status_history_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for EscrowStatusHistory
+import 'package:reservatior/shared/repositories/escrow_status_history_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetEscrowStatusHistoryByIdUseCase {
-  final EscrowStatusHistoryService _service;
-  
-  GetEscrowStatusHistoryByIdUseCase(this._service);
-  
-  Future<EscrowStatusHistory> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final EscrowStatusHistoryRepository _repository;
+  GetEscrowStatusHistoryByIdUseCase(this._repository);
+  Future<EscrowStatusHistory> execute(String id) => _repository.getById(id);
 }
 
 class GetEscrowStatusHistorysUseCase {
-  final EscrowStatusHistoryService _service;
-  
-  GetEscrowStatusHistorysUseCase(this._service);
-  
+  final EscrowStatusHistoryRepository _repository;
+  GetEscrowStatusHistorysUseCase(this._repository);
   Future<List<EscrowStatusHistory>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateEscrowStatusHistoryUseCase {
-  final EscrowStatusHistoryService _service;
-  
-  CreateEscrowStatusHistoryUseCase(this._service);
-  
-  Future<EscrowStatusHistory> execute(EscrowStatusHistory escrowStatusHistory) async {
-    // Add validation logic here
-    return await _service.create(escrowStatusHistory);
-  }
+  final EscrowStatusHistoryRepository _repository;
+  CreateEscrowStatusHistoryUseCase(this._repository);
+  Future<EscrowStatusHistory> execute(EscrowStatusHistory item) => _repository.create(item);
 }
 
 class UpdateEscrowStatusHistoryUseCase {
-  final EscrowStatusHistoryService _service;
-  
-  UpdateEscrowStatusHistoryUseCase(this._service);
-  
-  Future<EscrowStatusHistory> execute(String id, EscrowStatusHistory escrowStatusHistory) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, escrowStatusHistory);
-  }
+  final EscrowStatusHistoryRepository _repository;
+  UpdateEscrowStatusHistoryUseCase(this._repository);
+  Future<EscrowStatusHistory> execute(String id, EscrowStatusHistory item) => _repository.update(id, item);
 }
 
 class DeleteEscrowStatusHistoryUseCase {
-  final EscrowStatusHistoryService _service;
-  
-  DeleteEscrowStatusHistoryUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// EscrowStatusHistory Use Case Container
-class EscrowStatusHistoryUseCases {
-  final GetEscrowStatusHistoryByIdUseCase getById;
-  final GetEscrowStatusHistorysUseCase getAll;
-  final CreateEscrowStatusHistoryUseCase create;
-  final UpdateEscrowStatusHistoryUseCase update;
-  final DeleteEscrowStatusHistoryUseCase delete;
-  
-  EscrowStatusHistoryUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory EscrowStatusHistoryUseCases.create(EscrowStatusHistoryService service) {
-    return EscrowStatusHistoryUseCases(
-      getById: GetEscrowStatusHistoryByIdUseCase(service),
-      getAll: GetEscrowStatusHistorysUseCase(service),
-      create: CreateEscrowStatusHistoryUseCase(service),
-      update: UpdateEscrowStatusHistoryUseCase(service),
-      delete: DeleteEscrowStatusHistoryUseCase(service),
-    );
-  }
+  final EscrowStatusHistoryRepository _repository;
+  DeleteEscrowStatusHistoryUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

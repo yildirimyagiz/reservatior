@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class HomeInformationPackService {
   final DioClient _dioClient;
-
   HomeInformationPackService(this._dioClient);
 
-  // Get HomeInformationPack by ID
   Future<HomeInformationPack> getHomeInformationPackById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/home_information_pack/$id');
-      return HomeInformationPack.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.homeInformationPacks}/$id');
+    return HomeInformationPack.fromJson(response.data['data']);
   }
 
-  // Get all home_information_packs
   Future<List<HomeInformationPack>> getHomeInformationPacks({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/home_information_pack', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => HomeInformationPack.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.homeInformationPacks, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => HomeInformationPack.fromJson(json)).toList();
   }
 
-  // Create HomeInformationPack
-  Future<HomeInformationPack> createHomeInformationPack(HomeInformationPack homeInformationPack) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/home_information_pack',
-        data: homeInformationPack.toJson(),
-      );
-      return HomeInformationPack.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<HomeInformationPack> createHomeInformationPack(HomeInformationPack item) async {
+    final response = await _dioClient.post(ApiEndpoints.homeInformationPacks, data: item.toJson());
+    return HomeInformationPack.fromJson(response.data['data']);
   }
 
-  // Update HomeInformationPack
-  Future<HomeInformationPack> updateHomeInformationPack(String id, HomeInformationPack homeInformationPack) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/home_information_pack/$id',
-        data: homeInformationPack.toJson(),
-      );
-      return HomeInformationPack.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<HomeInformationPack> updateHomeInformationPack(String id, HomeInformationPack item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.homeInformationPacks}/$id', data: item.toJson());
+    return HomeInformationPack.fromJson(response.data['data']);
   }
 
-  // Delete HomeInformationPack
   Future<void> deleteHomeInformationPack(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/home_information_pack/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.homeInformationPacks}/$id');
   }
 }

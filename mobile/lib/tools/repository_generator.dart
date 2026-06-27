@@ -1,5 +1,3 @@
-#!/usr/bin/env dart
-
 import 'dart:io';
 
 /// Auto Repository Generator
@@ -95,7 +93,7 @@ class RepositoryGenerator {
       r'_role$',      // member_role.dart
       r'_state$',     // connection_state.dart
       r'_u_s$',      // US-specific enums
-      r'^u_s_',      // US-specific enums starting with u_s_
+      r'^us_',      // US-specific enums starting with us_
       r'^mls_',      // MLS-specific enums
     ];
     
@@ -278,8 +276,8 @@ class RepositoryGenerator {
 void main() async {
   const template = '''
 import 'package:dio/dio.dart';
-import '../core/network/dio_client.dart';
-import '../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 /// Repository for {{CLASS_NAME}} operations
 /// Provides CRUD operations with proper error handling and type safety
@@ -379,7 +377,7 @@ class {{REPOSITORY_NAME}} {
 
   Exception _handleError(DioException e) {
     // Implement error handling logic here
-    return Exception('API Error: \${e.message}');
+    return Exception('API error: \${e.message}');
   }
 }
 ''';

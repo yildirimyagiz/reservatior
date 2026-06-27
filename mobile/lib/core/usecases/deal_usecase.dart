@@ -1,106 +1,44 @@
-import '../../features/shared/services/deal_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Deal
+import 'package:reservatior/shared/repositories/deal_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetDealByIdUseCase {
-  final DealService _service;
-  
-  GetDealByIdUseCase(this._service);
-  
-  Future<Deal> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final DealRepository _repository;
+  GetDealByIdUseCase(this._repository);
+  Future<Deal> execute(String id) => _repository.getById(id);
 }
 
 class GetDealsUseCase {
-  final DealService _service;
-  
-  GetDealsUseCase(this._service);
-  
+  final DealRepository _repository;
+  GetDealsUseCase(this._repository);
   Future<List<Deal>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateDealUseCase {
-  final DealService _service;
-  
-  CreateDealUseCase(this._service);
-  
-  Future<Deal> execute(Deal deal) async {
-    // Add validation logic here
-    return await _service.create(deal);
-  }
+  final DealRepository _repository;
+  CreateDealUseCase(this._repository);
+  Future<Deal> execute(Deal item) => _repository.create(item);
 }
 
 class UpdateDealUseCase {
-  final DealService _service;
-  
-  UpdateDealUseCase(this._service);
-  
-  Future<Deal> execute(String id, Deal deal) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, deal);
-  }
+  final DealRepository _repository;
+  UpdateDealUseCase(this._repository);
+  Future<Deal> execute(String id, Deal item) => _repository.update(id, item);
 }
 
 class DeleteDealUseCase {
-  final DealService _service;
-  
-  DeleteDealUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Deal Use Case Container
-class DealUseCases {
-  final GetDealByIdUseCase getById;
-  final GetDealsUseCase getAll;
-  final CreateDealUseCase create;
-  final UpdateDealUseCase update;
-  final DeleteDealUseCase delete;
-  
-  DealUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory DealUseCases.create(DealService service) {
-    return DealUseCases(
-      getById: GetDealByIdUseCase(service),
-      getAll: GetDealsUseCase(service),
-      create: CreateDealUseCase(service),
-      update: UpdateDealUseCase(service),
-      delete: DeleteDealUseCase(service),
-    );
-  }
+  final DealRepository _repository;
+  DeleteDealUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

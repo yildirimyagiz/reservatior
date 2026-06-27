@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/vendor_profile_service.dart';
 
-/// Repository for VendorProfile operations
-/// Provides CRUD operations with proper error handling and type safety
-class VendorProfileRepository {
-  final DioClient _dioClient;
+abstract class VendorProfileRepository {
+  Future<VendorProfile> getById(String id);
+  Future<List<VendorProfile>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<VendorProfile> create(VendorProfile item);
+  Future<VendorProfile> update(String id, VendorProfile item);
+  Future<void> delete(String id);
+}
 
-  VendorProfileRepository(this._dioClient);
+class VendorProfileRepositoryImpl implements VendorProfileRepository {
+  final VendorProfileService _service;
+  VendorProfileRepositoryImpl(this._service);
 
-  /// Get VendorProfile by ID
-  /// Returns [VendorProfile] if found, throws [RepositoryException] otherwise
-  Future<VendorProfile> getVendorProfileById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/vendor_profile/$id');
-      if (response.statusCode == 200) {
-        return VendorProfile.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch vendor_profile',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<VendorProfile> getById(String id) => _service.getVendorProfileById(id);
 
-  /// Get all vendor_profiles with pagination and filtering
-  /// Returns list of [VendorProfile] objects
-  Future<List<VendorProfile>> getvendor_profiles({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<VendorProfile>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/vendor_profile', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => VendorProfile.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch vendor_profiles',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getVendorProfiles(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new VendorProfile
-  /// Returns created [VendorProfile] object
-  Future<VendorProfile> createVendorProfile(VendorProfile vendorProfile) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/vendor_profile',
-        data: vendorProfile.toJson(),
-      );
-      return VendorProfile.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<VendorProfile> create(VendorProfile item) => _service.createVendorProfile(item);
 
-  // Update VendorProfile
-  Future<VendorProfile> updateVendorProfile(String id, VendorProfile vendorProfile) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/vendor_profile/$id',
-        data: vendorProfile.toJson(),
-      );
-      return VendorProfile.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<VendorProfile> update(String id, VendorProfile item) => _service.updateVendorProfile(id, item);
 
-  // Delete VendorProfile
-  Future<void> deleteVendorProfile(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/vendor_profile/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteVendorProfile(id);
 }

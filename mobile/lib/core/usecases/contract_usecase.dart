@@ -1,106 +1,44 @@
-import '../../features/shared/services/contract_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Contract
+import 'package:reservatior/shared/repositories/contract_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetContractByIdUseCase {
-  final ContractService _service;
-  
-  GetContractByIdUseCase(this._service);
-  
-  Future<Contract> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ContractRepository _repository;
+  GetContractByIdUseCase(this._repository);
+  Future<Contract> execute(String id) => _repository.getById(id);
 }
 
 class GetContractsUseCase {
-  final ContractService _service;
-  
-  GetContractsUseCase(this._service);
-  
+  final ContractRepository _repository;
+  GetContractsUseCase(this._repository);
   Future<List<Contract>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateContractUseCase {
-  final ContractService _service;
-  
-  CreateContractUseCase(this._service);
-  
-  Future<Contract> execute(Contract contract) async {
-    // Add validation logic here
-    return await _service.create(contract);
-  }
+  final ContractRepository _repository;
+  CreateContractUseCase(this._repository);
+  Future<Contract> execute(Contract item) => _repository.create(item);
 }
 
 class UpdateContractUseCase {
-  final ContractService _service;
-  
-  UpdateContractUseCase(this._service);
-  
-  Future<Contract> execute(String id, Contract contract) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, contract);
-  }
+  final ContractRepository _repository;
+  UpdateContractUseCase(this._repository);
+  Future<Contract> execute(String id, Contract item) => _repository.update(id, item);
 }
 
 class DeleteContractUseCase {
-  final ContractService _service;
-  
-  DeleteContractUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Contract Use Case Container
-class ContractUseCases {
-  final GetContractByIdUseCase getById;
-  final GetContractsUseCase getAll;
-  final CreateContractUseCase create;
-  final UpdateContractUseCase update;
-  final DeleteContractUseCase delete;
-  
-  ContractUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ContractUseCases.create(ContractService service) {
-    return ContractUseCases(
-      getById: GetContractByIdUseCase(service),
-      getAll: GetContractsUseCase(service),
-      create: CreateContractUseCase(service),
-      update: UpdateContractUseCase(service),
-      delete: DeleteContractUseCase(service),
-    );
-  }
+  final ContractRepository _repository;
+  DeleteContractUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

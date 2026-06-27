@@ -1,106 +1,44 @@
-import '../../features/shared/services/ledger_entry_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for LedgerEntry
+import 'package:reservatior/shared/repositories/ledger_entry_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetLedgerEntryByIdUseCase {
-  final LedgerEntryService _service;
-  
-  GetLedgerEntryByIdUseCase(this._service);
-  
-  Future<LedgerEntry> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final LedgerEntryRepository _repository;
+  GetLedgerEntryByIdUseCase(this._repository);
+  Future<LedgerEntry> execute(String id) => _repository.getById(id);
 }
 
 class GetLedgerEntrysUseCase {
-  final LedgerEntryService _service;
-  
-  GetLedgerEntrysUseCase(this._service);
-  
+  final LedgerEntryRepository _repository;
+  GetLedgerEntrysUseCase(this._repository);
   Future<List<LedgerEntry>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateLedgerEntryUseCase {
-  final LedgerEntryService _service;
-  
-  CreateLedgerEntryUseCase(this._service);
-  
-  Future<LedgerEntry> execute(LedgerEntry ledgerEntry) async {
-    // Add validation logic here
-    return await _service.create(ledgerEntry);
-  }
+  final LedgerEntryRepository _repository;
+  CreateLedgerEntryUseCase(this._repository);
+  Future<LedgerEntry> execute(LedgerEntry item) => _repository.create(item);
 }
 
 class UpdateLedgerEntryUseCase {
-  final LedgerEntryService _service;
-  
-  UpdateLedgerEntryUseCase(this._service);
-  
-  Future<LedgerEntry> execute(String id, LedgerEntry ledgerEntry) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, ledgerEntry);
-  }
+  final LedgerEntryRepository _repository;
+  UpdateLedgerEntryUseCase(this._repository);
+  Future<LedgerEntry> execute(String id, LedgerEntry item) => _repository.update(id, item);
 }
 
 class DeleteLedgerEntryUseCase {
-  final LedgerEntryService _service;
-  
-  DeleteLedgerEntryUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// LedgerEntry Use Case Container
-class LedgerEntryUseCases {
-  final GetLedgerEntryByIdUseCase getById;
-  final GetLedgerEntrysUseCase getAll;
-  final CreateLedgerEntryUseCase create;
-  final UpdateLedgerEntryUseCase update;
-  final DeleteLedgerEntryUseCase delete;
-  
-  LedgerEntryUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory LedgerEntryUseCases.create(LedgerEntryService service) {
-    return LedgerEntryUseCases(
-      getById: GetLedgerEntryByIdUseCase(service),
-      getAll: GetLedgerEntrysUseCase(service),
-      create: CreateLedgerEntryUseCase(service),
-      update: UpdateLedgerEntryUseCase(service),
-      delete: DeleteLedgerEntryUseCase(service),
-    );
-  }
+  final LedgerEntryRepository _repository;
+  DeleteLedgerEntryUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

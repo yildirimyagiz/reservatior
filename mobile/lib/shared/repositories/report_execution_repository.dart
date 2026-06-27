@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/report_execution_service.dart';
 
-/// Repository for ReportExecution operations
-/// Provides CRUD operations with proper error handling and type safety
-class ReportExecutionRepository {
-  final DioClient _dioClient;
+abstract class ReportExecutionRepository {
+  Future<ReportExecution> getById(String id);
+  Future<List<ReportExecution>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<ReportExecution> create(ReportExecution item);
+  Future<ReportExecution> update(String id, ReportExecution item);
+  Future<void> delete(String id);
+}
 
-  ReportExecutionRepository(this._dioClient);
+class ReportExecutionRepositoryImpl implements ReportExecutionRepository {
+  final ReportExecutionService _service;
+  ReportExecutionRepositoryImpl(this._service);
 
-  /// Get ReportExecution by ID
-  /// Returns [ReportExecution] if found, throws [RepositoryException] otherwise
-  Future<ReportExecution> getReportExecutionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/report_execution/$id');
-      if (response.statusCode == 200) {
-        return ReportExecution.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch report_execution',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ReportExecution> getById(String id) => _service.getReportExecutionById(id);
 
-  /// Get all report_executions with pagination and filtering
-  /// Returns list of [ReportExecution] objects
-  Future<List<ReportExecution>> getreport_executions({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<ReportExecution>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/report_execution', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => ReportExecution.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch report_executions',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getReportExecutions(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new ReportExecution
-  /// Returns created [ReportExecution] object
-  Future<ReportExecution> createReportExecution(ReportExecution reportExecution) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/report_execution',
-        data: reportExecution.toJson(),
-      );
-      return ReportExecution.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ReportExecution> create(ReportExecution item) => _service.createReportExecution(item);
 
-  // Update ReportExecution
-  Future<ReportExecution> updateReportExecution(String id, ReportExecution reportExecution) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/report_execution/$id',
-        data: reportExecution.toJson(),
-      );
-      return ReportExecution.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ReportExecution> update(String id, ReportExecution item) => _service.updateReportExecution(id, item);
 
-  // Delete ReportExecution
-  Future<void> deleteReportExecution(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/report_execution/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteReportExecution(id);
 }

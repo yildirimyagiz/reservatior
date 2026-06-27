@@ -1,106 +1,44 @@
-import '../../features/shared/services/api_key_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for ApiKey
+import 'package:reservatior/shared/repositories/api_key_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetApiKeyByIdUseCase {
-  final ApiKeyService _service;
-  
-  GetApiKeyByIdUseCase(this._service);
-  
-  Future<ApiKey> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ApiKeyRepository _repository;
+  GetApiKeyByIdUseCase(this._repository);
+  Future<ApiKey> execute(String id) => _repository.getById(id);
 }
 
 class GetApiKeysUseCase {
-  final ApiKeyService _service;
-  
-  GetApiKeysUseCase(this._service);
-  
+  final ApiKeyRepository _repository;
+  GetApiKeysUseCase(this._repository);
   Future<List<ApiKey>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateApiKeyUseCase {
-  final ApiKeyService _service;
-  
-  CreateApiKeyUseCase(this._service);
-  
-  Future<ApiKey> execute(ApiKey apiKey) async {
-    // Add validation logic here
-    return await _service.create(apiKey);
-  }
+  final ApiKeyRepository _repository;
+  CreateApiKeyUseCase(this._repository);
+  Future<ApiKey> execute(ApiKey item) => _repository.create(item);
 }
 
 class UpdateApiKeyUseCase {
-  final ApiKeyService _service;
-  
-  UpdateApiKeyUseCase(this._service);
-  
-  Future<ApiKey> execute(String id, ApiKey apiKey) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, apiKey);
-  }
+  final ApiKeyRepository _repository;
+  UpdateApiKeyUseCase(this._repository);
+  Future<ApiKey> execute(String id, ApiKey item) => _repository.update(id, item);
 }
 
 class DeleteApiKeyUseCase {
-  final ApiKeyService _service;
-  
-  DeleteApiKeyUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ApiKey Use Case Container
-class ApiKeyUseCases {
-  final GetApiKeyByIdUseCase getById;
-  final GetApiKeysUseCase getAll;
-  final CreateApiKeyUseCase create;
-  final UpdateApiKeyUseCase update;
-  final DeleteApiKeyUseCase delete;
-  
-  ApiKeyUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ApiKeyUseCases.create(ApiKeyService service) {
-    return ApiKeyUseCases(
-      getById: GetApiKeyByIdUseCase(service),
-      getAll: GetApiKeysUseCase(service),
-      create: CreateApiKeyUseCase(service),
-      update: UpdateApiKeyUseCase(service),
-      delete: DeleteApiKeyUseCase(service),
-    );
-  }
+  final ApiKeyRepository _repository;
+  DeleteApiKeyUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

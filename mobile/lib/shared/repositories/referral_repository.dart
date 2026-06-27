@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/referral_service.dart';
 
-/// Repository for Referral operations
-/// Provides CRUD operations with proper error handling and type safety
-class ReferralRepository {
-  final DioClient _dioClient;
+abstract class ReferralRepository {
+  Future<Referral> getById(String id);
+  Future<List<Referral>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<Referral> create(Referral item);
+  Future<Referral> update(String id, Referral item);
+  Future<void> delete(String id);
+}
 
-  ReferralRepository(this._dioClient);
+class ReferralRepositoryImpl implements ReferralRepository {
+  final ReferralService _service;
+  ReferralRepositoryImpl(this._service);
 
-  /// Get Referral by ID
-  /// Returns [Referral] if found, throws [RepositoryException] otherwise
-  Future<Referral> getReferralById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/referral/$id');
-      if (response.statusCode == 200) {
-        return Referral.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch referral',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Referral> getById(String id) => _service.getReferralById(id);
 
-  /// Get all referrals with pagination and filtering
-  /// Returns list of [Referral] objects
-  Future<List<Referral>> getreferrals({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<Referral>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/referral', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => Referral.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch referrals',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getReferrals(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new Referral
-  /// Returns created [Referral] object
-  Future<Referral> createReferral(Referral referral) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/referral',
-        data: referral.toJson(),
-      );
-      return Referral.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Referral> create(Referral item) => _service.createReferral(item);
 
-  // Update Referral
-  Future<Referral> updateReferral(String id, Referral referral) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/referral/$id',
-        data: referral.toJson(),
-      );
-      return Referral.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Referral> update(String id, Referral item) => _service.updateReferral(id, item);
 
-  // Delete Referral
-  Future<void> deleteReferral(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/referral/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteReferral(id);
 }

@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/amenity_service.dart';
 
-/// Repository for Amenity operations
-/// Provides CRUD operations with proper error handling and type safety
-class AmenityRepository {
-  final DioClient _dioClient;
+abstract class AmenityRepository {
+  Future<Amenity> getById(String id);
+  Future<List<Amenity>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<Amenity> create(Amenity item);
+  Future<Amenity> update(String id, Amenity item);
+  Future<void> delete(String id);
+}
 
-  AmenityRepository(this._dioClient);
+class AmenityRepositoryImpl implements AmenityRepository {
+  final AmenityService _service;
+  AmenityRepositoryImpl(this._service);
 
-  /// Get Amenity by ID
-  /// Returns [Amenity] if found, throws [RepositoryException] otherwise
-  Future<Amenity> getAmenityById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/amenity/$id');
-      if (response.statusCode == 200) {
-        return Amenity.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch amenity',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Amenity> getById(String id) => _service.getAmenityById(id);
 
-  /// Get all amenities with pagination and filtering
-  /// Returns list of [Amenity] objects
-  Future<List<Amenity>> getamenities({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<Amenity>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/amenity', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => Amenity.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch amenities',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAmenities(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new Amenity
-  /// Returns created [Amenity] object
-  Future<Amenity> createAmenity(Amenity amenity) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/amenity',
-        data: amenity.toJson(),
-      );
-      return Amenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Amenity> create(Amenity item) => _service.createAmenity(item);
 
-  // Update Amenity
-  Future<Amenity> updateAmenity(String id, Amenity amenity) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/amenity/$id',
-        data: amenity.toJson(),
-      );
-      return Amenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Amenity> update(String id, Amenity item) => _service.updateAmenity(id, item);
 
-  // Delete Amenity
-  Future<void> deleteAmenity(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/amenity/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAmenity(id);
 }

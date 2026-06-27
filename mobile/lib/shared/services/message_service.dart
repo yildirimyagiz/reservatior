@@ -1,82 +1,73 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class MessageService {
   final DioClient _dioClient;
-
   MessageService(this._dioClient);
 
-  // Get Message by ID
   Future<Message> getMessageById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/message/$id');
-      return Message.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.messages}/$id');
+    return Message.fromJson(response.data['data']);
   }
 
-  // Get all messages
   Future<List<Message>> getMessages({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/message', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Message.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.messages, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Message.fromJson(json)).toList();
   }
 
-  // Create Message
-  Future<Message> createMessage(Message message) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/message',
-        data: message.toJson(),
-      );
-      return Message.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Message> createMessage(Message item) async {
+    final response = await _dioClient.post(ApiEndpoints.messages, data: item.toJson());
+    return Message.fromJson(response.data['data']);
   }
 
-  // Update Message
-  Future<Message> updateMessage(String id, Message message) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/message/$id',
-        data: message.toJson(),
-      );
-      return Message.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Message> updateMessage(String id, Message item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.messages}/$id', data: item.toJson());
+    return Message.fromJson(response.data['data']);
   }
 
-  // Delete Message
   Future<void> deleteMessage(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/message/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    await _dioClient.delete('${ApiEndpoints.messages}/$id');
+  }
+  Future<List<Message>> getThreads({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
+  }) async {
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+    };
+    final response = await _dioClient.get(ApiEndpoints.threads, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Message.fromJson(json)).toList();
   }
 
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<List<Message>> getThreadMessages(String threadId) async {
+    final response = await _dioClient.get('${ApiEndpoints.threads}/$threadId');
+    final data = response.data['data'] as List;
+    return data.map((json) => Message.fromJson(json)).toList();
+  }
+
+  Future<Message> replyToThread(String threadId, Message item) async {
+    final response = await _dioClient.post('${ApiEndpoints.threads}/$threadId', data: item.toJson());
+    return Message.fromJson(response.data['data']);
   }
 }

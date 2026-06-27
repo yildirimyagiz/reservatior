@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class TenantService {
   final DioClient _dioClient;
-
   TenantService(this._dioClient);
 
-  // Get Tenant by ID
   Future<Tenant> getTenantById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/tenant/$id');
-      return Tenant.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.tenants}/$id');
+    return Tenant.fromJson(response.data['data']);
   }
 
-  // Get all tenants
   Future<List<Tenant>> getTenants({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/tenant', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Tenant.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.tenants, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Tenant.fromJson(json)).toList();
   }
 
-  // Create Tenant
-  Future<Tenant> createTenant(Tenant tenant) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/tenant',
-        data: tenant.toJson(),
-      );
-      return Tenant.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Tenant> createTenant(Tenant item) async {
+    final response = await _dioClient.post(ApiEndpoints.tenants, data: item.toJson());
+    return Tenant.fromJson(response.data['data']);
   }
 
-  // Update Tenant
-  Future<Tenant> updateTenant(String id, Tenant tenant) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/tenant/$id',
-        data: tenant.toJson(),
-      );
-      return Tenant.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Tenant> updateTenant(String id, Tenant item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.tenants}/$id', data: item.toJson());
+    return Tenant.fromJson(response.data['data']);
   }
 
-  // Delete Tenant
   Future<void> deleteTenant(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/tenant/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.tenants}/$id');
   }
 }

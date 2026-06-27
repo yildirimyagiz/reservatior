@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/user_financial_profile_service.dart';
 
-/// Repository for UserFinancialProfile operations
-/// Provides CRUD operations with proper error handling and type safety
-class UserFinancialProfileRepository {
-  final DioClient _dioClient;
+abstract class UserFinancialProfileRepository {
+  Future<UserFinancialProfile> getById(String id);
+  Future<List<UserFinancialProfile>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<UserFinancialProfile> create(UserFinancialProfile item);
+  Future<UserFinancialProfile> update(String id, UserFinancialProfile item);
+  Future<void> delete(String id);
+}
 
-  UserFinancialProfileRepository(this._dioClient);
+class UserFinancialProfileRepositoryImpl implements UserFinancialProfileRepository {
+  final UserFinancialProfileService _service;
+  UserFinancialProfileRepositoryImpl(this._service);
 
-  /// Get UserFinancialProfile by ID
-  /// Returns [UserFinancialProfile] if found, throws [RepositoryException] otherwise
-  Future<UserFinancialProfile> getUserFinancialProfileById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/user_financial_profile/$id');
-      if (response.statusCode == 200) {
-        return UserFinancialProfile.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch user_financial_profile',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserFinancialProfile> getById(String id) => _service.getUserFinancialProfileById(id);
 
-  /// Get all user_financial_profiles with pagination and filtering
-  /// Returns list of [UserFinancialProfile] objects
-  Future<List<UserFinancialProfile>> getuser_financial_profiles({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<UserFinancialProfile>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/user_financial_profile', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => UserFinancialProfile.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch user_financial_profiles',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getUserFinancialProfiles(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new UserFinancialProfile
-  /// Returns created [UserFinancialProfile] object
-  Future<UserFinancialProfile> createUserFinancialProfile(UserFinancialProfile userFinancialProfile) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/user_financial_profile',
-        data: userFinancialProfile.toJson(),
-      );
-      return UserFinancialProfile.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserFinancialProfile> create(UserFinancialProfile item) => _service.createUserFinancialProfile(item);
 
-  // Update UserFinancialProfile
-  Future<UserFinancialProfile> updateUserFinancialProfile(String id, UserFinancialProfile userFinancialProfile) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/user_financial_profile/$id',
-        data: userFinancialProfile.toJson(),
-      );
-      return UserFinancialProfile.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserFinancialProfile> update(String id, UserFinancialProfile item) => _service.updateUserFinancialProfile(id, item);
 
-  // Delete UserFinancialProfile
-  Future<void> deleteUserFinancialProfile(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/user_financial_profile/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteUserFinancialProfile(id);
 }

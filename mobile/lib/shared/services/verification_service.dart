@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class VerificationService {
   final DioClient _dioClient;
-
   VerificationService(this._dioClient);
 
-  // Get Verification by ID
   Future<Verification> getVerificationById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/verification/$id');
-      return Verification.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.verifications}/$id');
+    return Verification.fromJson(response.data['data']);
   }
 
-  // Get all verifications
   Future<List<Verification>> getVerifications({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/verification', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Verification.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.verifications, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Verification.fromJson(json)).toList();
   }
 
-  // Create Verification
-  Future<Verification> createVerification(Verification verification) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/verification',
-        data: verification.toJson(),
-      );
-      return Verification.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Verification> createVerification(Verification item) async {
+    final response = await _dioClient.post(ApiEndpoints.verifications, data: item.toJson());
+    return Verification.fromJson(response.data['data']);
   }
 
-  // Update Verification
-  Future<Verification> updateVerification(String id, Verification verification) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/verification/$id',
-        data: verification.toJson(),
-      );
-      return Verification.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Verification> updateVerification(String id, Verification item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.verifications}/$id', data: item.toJson());
+    return Verification.fromJson(response.data['data']);
   }
 
-  // Delete Verification
   Future<void> deleteVerification(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/verification/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.verifications}/$id');
   }
 }

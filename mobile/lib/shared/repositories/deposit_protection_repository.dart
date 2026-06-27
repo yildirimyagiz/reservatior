@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/deposit_protection_service.dart';
 
-/// Repository for DepositProtection operations
-/// Provides CRUD operations with proper error handling and type safety
-class DepositProtectionRepository {
-  final DioClient _dioClient;
+abstract class DepositProtectionRepository {
+  Future<DepositProtection> getById(String id);
+  Future<List<DepositProtection>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<DepositProtection> create(DepositProtection item);
+  Future<DepositProtection> update(String id, DepositProtection item);
+  Future<void> delete(String id);
+}
 
-  DepositProtectionRepository(this._dioClient);
+class DepositProtectionRepositoryImpl implements DepositProtectionRepository {
+  final DepositProtectionService _service;
+  DepositProtectionRepositoryImpl(this._service);
 
-  /// Get DepositProtection by ID
-  /// Returns [DepositProtection] if found, throws [RepositoryException] otherwise
-  Future<DepositProtection> getDepositProtectionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/deposit_protection/$id');
-      if (response.statusCode == 200) {
-        return DepositProtection.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch deposit_protection',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<DepositProtection> getById(String id) => _service.getDepositProtectionById(id);
 
-  /// Get all deposit_protections with pagination and filtering
-  /// Returns list of [DepositProtection] objects
-  Future<List<DepositProtection>> getdeposit_protections({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<DepositProtection>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/deposit_protection', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => DepositProtection.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch deposit_protections',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getDepositProtections(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new DepositProtection
-  /// Returns created [DepositProtection] object
-  Future<DepositProtection> createDepositProtection(DepositProtection depositProtection) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/deposit_protection',
-        data: depositProtection.toJson(),
-      );
-      return DepositProtection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<DepositProtection> create(DepositProtection item) => _service.createDepositProtection(item);
 
-  // Update DepositProtection
-  Future<DepositProtection> updateDepositProtection(String id, DepositProtection depositProtection) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/deposit_protection/$id',
-        data: depositProtection.toJson(),
-      );
-      return DepositProtection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<DepositProtection> update(String id, DepositProtection item) => _service.updateDepositProtection(id, item);
 
-  // Delete DepositProtection
-  Future<void> deleteDepositProtection(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/deposit_protection/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteDepositProtection(id);
 }

@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/escrow_account_service.dart';
 
-/// Repository for EscrowAccount operations
-/// Provides CRUD operations with proper error handling and type safety
-class EscrowAccountRepository {
-  final DioClient _dioClient;
+abstract class EscrowAccountRepository {
+  Future<EscrowAccount> getById(String id);
+  Future<List<EscrowAccount>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<EscrowAccount> create(EscrowAccount item);
+  Future<EscrowAccount> update(String id, EscrowAccount item);
+  Future<void> delete(String id);
+}
 
-  EscrowAccountRepository(this._dioClient);
+class EscrowAccountRepositoryImpl implements EscrowAccountRepository {
+  final EscrowAccountService _service;
+  EscrowAccountRepositoryImpl(this._service);
 
-  /// Get EscrowAccount by ID
-  /// Returns [EscrowAccount] if found, throws [RepositoryException] otherwise
-  Future<EscrowAccount> getEscrowAccountById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/escrow_account/$id');
-      if (response.statusCode == 200) {
-        return EscrowAccount.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch escrow_account',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<EscrowAccount> getById(String id) => _service.getEscrowAccountById(id);
 
-  /// Get all escrow_accounts with pagination and filtering
-  /// Returns list of [EscrowAccount] objects
-  Future<List<EscrowAccount>> getescrow_accounts({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<EscrowAccount>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/escrow_account', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => EscrowAccount.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch escrow_accounts',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getEscrowAccounts(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new EscrowAccount
-  /// Returns created [EscrowAccount] object
-  Future<EscrowAccount> createEscrowAccount(EscrowAccount escrowAccount) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/escrow_account',
-        data: escrowAccount.toJson(),
-      );
-      return EscrowAccount.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<EscrowAccount> create(EscrowAccount item) => _service.createEscrowAccount(item);
 
-  // Update EscrowAccount
-  Future<EscrowAccount> updateEscrowAccount(String id, EscrowAccount escrowAccount) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/escrow_account/$id',
-        data: escrowAccount.toJson(),
-      );
-      return EscrowAccount.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<EscrowAccount> update(String id, EscrowAccount item) => _service.updateEscrowAccount(id, item);
 
-  // Delete EscrowAccount
-  Future<void> deleteEscrowAccount(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/escrow_account/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteEscrowAccount(id);
 }

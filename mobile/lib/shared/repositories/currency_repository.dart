@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/currency_service.dart';
 
-/// Repository for Currency operations
-/// Provides CRUD operations with proper error handling and type safety
-class CurrencyRepository {
-  final DioClient _dioClient;
+abstract class CurrencyRepository {
+  Future<Currency> getById(String id);
+  Future<List<Currency>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<Currency> create(Currency item);
+  Future<Currency> update(String id, Currency item);
+  Future<void> delete(String id);
+}
 
-  CurrencyRepository(this._dioClient);
+class CurrencyRepositoryImpl implements CurrencyRepository {
+  final CurrencyService _service;
+  CurrencyRepositoryImpl(this._service);
 
-  /// Get Currency by ID
-  /// Returns [Currency] if found, throws [RepositoryException] otherwise
-  Future<Currency> getCurrencyById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/currency/$id');
-      if (response.statusCode == 200) {
-        return Currency.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch currency',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Currency> getById(String id) => _service.getCurrencyById(id);
 
-  /// Get all currencies with pagination and filtering
-  /// Returns list of [Currency] objects
-  Future<List<Currency>> getcurrencies({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<Currency>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/currency', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => Currency.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch currencies',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getCurrencies(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new Currency
-  /// Returns created [Currency] object
-  Future<Currency> createCurrency(Currency currency) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/currency',
-        data: currency.toJson(),
-      );
-      return Currency.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Currency> create(Currency item) => _service.createCurrency(item);
 
-  // Update Currency
-  Future<Currency> updateCurrency(String id, Currency currency) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/currency/$id',
-        data: currency.toJson(),
-      );
-      return Currency.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Currency> update(String id, Currency item) => _service.updateCurrency(id, item);
 
-  // Delete Currency
-  Future<void> deleteCurrency(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/currency/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteCurrency(id);
 }

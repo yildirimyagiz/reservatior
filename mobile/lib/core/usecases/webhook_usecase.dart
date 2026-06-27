@@ -1,106 +1,44 @@
-import '../../features/shared/services/webhook_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Webhook
+import 'package:reservatior/shared/repositories/webhook_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetWebhookByIdUseCase {
-  final WebhookService _service;
-  
-  GetWebhookByIdUseCase(this._service);
-  
-  Future<Webhook> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final WebhookRepository _repository;
+  GetWebhookByIdUseCase(this._repository);
+  Future<Webhook> execute(String id) => _repository.getById(id);
 }
 
 class GetWebhooksUseCase {
-  final WebhookService _service;
-  
-  GetWebhooksUseCase(this._service);
-  
+  final WebhookRepository _repository;
+  GetWebhooksUseCase(this._repository);
   Future<List<Webhook>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateWebhookUseCase {
-  final WebhookService _service;
-  
-  CreateWebhookUseCase(this._service);
-  
-  Future<Webhook> execute(Webhook webhook) async {
-    // Add validation logic here
-    return await _service.create(webhook);
-  }
+  final WebhookRepository _repository;
+  CreateWebhookUseCase(this._repository);
+  Future<Webhook> execute(Webhook item) => _repository.create(item);
 }
 
 class UpdateWebhookUseCase {
-  final WebhookService _service;
-  
-  UpdateWebhookUseCase(this._service);
-  
-  Future<Webhook> execute(String id, Webhook webhook) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, webhook);
-  }
+  final WebhookRepository _repository;
+  UpdateWebhookUseCase(this._repository);
+  Future<Webhook> execute(String id, Webhook item) => _repository.update(id, item);
 }
 
 class DeleteWebhookUseCase {
-  final WebhookService _service;
-  
-  DeleteWebhookUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Webhook Use Case Container
-class WebhookUseCases {
-  final GetWebhookByIdUseCase getById;
-  final GetWebhooksUseCase getAll;
-  final CreateWebhookUseCase create;
-  final UpdateWebhookUseCase update;
-  final DeleteWebhookUseCase delete;
-  
-  WebhookUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory WebhookUseCases.create(WebhookService service) {
-    return WebhookUseCases(
-      getById: GetWebhookByIdUseCase(service),
-      getAll: GetWebhooksUseCase(service),
-      create: CreateWebhookUseCase(service),
-      update: UpdateWebhookUseCase(service),
-      delete: DeleteWebhookUseCase(service),
-    );
-  }
+  final WebhookRepository _repository;
+  DeleteWebhookUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

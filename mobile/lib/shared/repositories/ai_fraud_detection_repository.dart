@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/ai_fraud_detection_service.dart';
 
-/// Repository for AiFraudDetection operations
-/// Provides CRUD operations with proper error handling and type safety
-class AiFraudDetectionRepository {
-  final DioClient _dioClient;
+abstract class AiFraudDetectionRepository {
+  Future<AiFraudDetection> getById(String id);
+  Future<List<AiFraudDetection>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AiFraudDetection> create(AiFraudDetection item);
+  Future<AiFraudDetection> update(String id, AiFraudDetection item);
+  Future<void> delete(String id);
+}
 
-  AiFraudDetectionRepository(this._dioClient);
+class AiFraudDetectionRepositoryImpl implements AiFraudDetectionRepository {
+  final AiFraudDetectionService _service;
+  AiFraudDetectionRepositoryImpl(this._service);
 
-  /// Get AiFraudDetection by ID
-  /// Returns [AiFraudDetection] if found, throws [RepositoryException] otherwise
-  Future<AiFraudDetection> getAiFraudDetectionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_fraud_detection/$id');
-      if (response.statusCode == 200) {
-        return AiFraudDetection.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_fraud_detection',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiFraudDetection> getById(String id) => _service.getAiFraudDetectionById(id);
 
-  /// Get all ai_fraud_detections with pagination and filtering
-  /// Returns list of [AiFraudDetection] objects
-  Future<List<AiFraudDetection>> getai_fraud_detections({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AiFraudDetection>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/ai_fraud_detection', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AiFraudDetection.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_fraud_detections',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAiFraudDetections(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AiFraudDetection
-  /// Returns created [AiFraudDetection] object
-  Future<AiFraudDetection> createAiFraudDetection(AiFraudDetection aiFraudDetection) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_fraud_detection',
-        data: aiFraudDetection.toJson(),
-      );
-      return AiFraudDetection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiFraudDetection> create(AiFraudDetection item) => _service.createAiFraudDetection(item);
 
-  // Update AiFraudDetection
-  Future<AiFraudDetection> updateAiFraudDetection(String id, AiFraudDetection aiFraudDetection) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_fraud_detection/$id',
-        data: aiFraudDetection.toJson(),
-      );
-      return AiFraudDetection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiFraudDetection> update(String id, AiFraudDetection item) => _service.updateAiFraudDetection(id, item);
 
-  // Delete AiFraudDetection
-  Future<void> deleteAiFraudDetection(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_fraud_detection/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAiFraudDetection(id);
 }

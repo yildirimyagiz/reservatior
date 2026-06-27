@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/vacation_rental_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/vacation_rental_service.dart';
+import 'package:reservatior/shared/repositories/vacation_rental_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// VacationRental Providers
-
-final VacationRentalServiceProvider = Provider<VacationRentalService>((ref) {
+final vacationRentalServiceProvider = Provider<VacationRentalService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return VacationRentalService(dioClient);
 });
 
-// List Provider
-final vacationRentalProvider = FutureProvider.autoDispose<List<VacationRental>>((ref) async {
-  final service = ref.watch(VacationRentalServiceProvider);
-  return service.getVacationRentals();
+final vacationRentalRepositoryProvider = Provider<VacationRentalRepository>((ref) {
+  final service = ref.watch(vacationRentalServiceProvider);
+  return VacationRentalRepositoryImpl(service);
 });
 
-// Create Provider
-final VacationRentalCreateProvider = FutureProvider.autoDispose<VacationRental>((ref) async {
-  final service = ref.watch(VacationRentalServiceProvider);
-  return service.createVacationRental(VacationRental());
+final vacationRentalListProvider = FutureProvider.autoDispose<List<VacationRental>>((ref) async {
+  final repository = ref.watch(vacationRentalRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final VacationRentalUpdateProvider = FutureProvider.autoDispose<VacationRental>((ref) async {
-  final service = ref.watch(VacationRentalServiceProvider);
-  final state = ref.watch(VacationRentalUpdateStateProvider);
-  if (state['id'] != null && state['vacation_rental'] != null) {
-    return service.updateVacationRental(state['id'], state['vacation_rental']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final VacationRentalDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(VacationRentalServiceProvider);
-  final state = ref.watch(VacationRentalDeleteStateProvider);
-  if (state != null) {
-    return service.deleteVacationRental(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final VacationRentalUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final VacationRentalDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final VacationRentalLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(vacationRentalProvider);
-  final createAsync = ref.watch(VacationRentalCreateProvider);
-  final updateAsync = ref.watch(VacationRentalUpdateProvider);
-  final deleteAsync = ref.watch(VacationRentalDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final vacationRentalCreateProvider = StateProvider<VacationRental?>((ref) => null);
+final vacationRentalUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final vacationRentalDeleteProvider = StateProvider<String?>((ref) => null);
+final vacationRentalLoadingProvider = StateProvider<bool>((ref) => false);

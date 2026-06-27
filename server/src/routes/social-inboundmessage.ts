@@ -1,0 +1,70 @@
+import { Elysia, t } from "elysia";
+import { authMiddleware } from "../middleware/auth";
+import { socialInboundMessageService } from "../services/socialinboundmessage";
+import { 
+  SocialInboundMessagePlainInputCreate, 
+  SocialInboundMessagePlainInputUpdate 
+} from "../../generated/prismabox/SocialInboundMessage";
+
+export const socialInboundMessageRoutes = new Elysia({ prefix: "/social-inboundmessage" })
+  .use(authMiddleware)
+
+  .get("/", async ({ query }) => {
+    const { page = "1", limit = "20", ...where } = query as any;
+    return socialInboundMessageService.getAll({
+      where,
+      skip: (parseInt(page) - 1) * parseInt(limit),
+      take: parseInt(limit),
+      orderBy: { createdAt: "desc" }
+    });
+  }, {
+    query: t.Partial(t.Object({
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+      orgId: t.Optional(t.String()),
+    }))
+  })
+
+  .post("/", async ({ body, set }) => {
+    const data = await socialInboundMessageService.create(body);
+    set.status = 201;
+    return { data };
+  }, {
+    body: SocialInboundMessagePlainInputCreate
+  })
+
+  .get("/:id", async ({ params, set }) => {
+    const data = await socialInboundMessageService.getById(params.id);
+    if (!data) {
+      set.status = 404;
+      return { error: "SocialInboundMessage not found" };
+    }
+    return { data };
+  }, {
+    params: t.Object({ id: t.String() })
+  })
+
+  .patch("/:id", async ({ params, body, set }) => {
+    try {
+      const data = await socialInboundMessageService.update(params.id, body);
+      return { data };
+    } catch (e) {
+      set.status = 404;
+      return { error: "SocialInboundMessage not found or update failed" };
+    }
+  }, {
+    params: t.Object({ id: t.String() }),
+    body: SocialInboundMessagePlainInputUpdate
+  })
+
+  .delete("/:id", async ({ params, set }) => {
+    try {
+      await socialInboundMessageService.delete(params.id);
+      return { success: true, message: "SocialInboundMessage deleted successfully" };
+    } catch (e) {
+      set.status = 404;
+      return { error: "SocialInboundMessage not found or already deleted" };
+    }
+  }, {
+    params: t.Object({ id: t.String() })
+  });

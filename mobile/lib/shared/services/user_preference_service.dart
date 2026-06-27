@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class UserPreferenceService {
   final DioClient _dioClient;
-
   UserPreferenceService(this._dioClient);
 
-  // Get UserPreference by ID
   Future<UserPreference> getUserPreferenceById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/user_preference/$id');
-      return UserPreference.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.userPreferences}/$id');
+    return UserPreference.fromJson(response.data['data']);
   }
 
-  // Get all user_preferences
   Future<List<UserPreference>> getUserPreferences({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/user_preference', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => UserPreference.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.userPreferences, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => UserPreference.fromJson(json)).toList();
   }
 
-  // Create UserPreference
-  Future<UserPreference> createUserPreference(UserPreference userPreference) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/user_preference',
-        data: userPreference.toJson(),
-      );
-      return UserPreference.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<UserPreference> createUserPreference(UserPreference item) async {
+    final response = await _dioClient.post(ApiEndpoints.userPreferences, data: item.toJson());
+    return UserPreference.fromJson(response.data['data']);
   }
 
-  // Update UserPreference
-  Future<UserPreference> updateUserPreference(String id, UserPreference userPreference) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/user_preference/$id',
-        data: userPreference.toJson(),
-      );
-      return UserPreference.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<UserPreference> updateUserPreference(String id, UserPreference item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.userPreferences}/$id', data: item.toJson());
+    return UserPreference.fromJson(response.data['data']);
   }
 
-  // Delete UserPreference
   Future<void> deleteUserPreference(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/user_preference/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.userPreferences}/$id');
   }
 }

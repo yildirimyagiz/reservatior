@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class EventService {
   final DioClient _dioClient;
-
   EventService(this._dioClient);
 
-  // Get Event by ID
   Future<Event> getEventById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/event/$id');
-      return Event.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.events}/$id');
+    return Event.fromJson(response.data['data']);
   }
 
-  // Get all events
   Future<List<Event>> getEvents({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/event', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Event.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.events, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Event.fromJson(json)).toList();
   }
 
-  // Create Event
-  Future<Event> createEvent(Event event) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/event',
-        data: event.toJson(),
-      );
-      return Event.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Event> createEvent(Event item) async {
+    final response = await _dioClient.post(ApiEndpoints.events, data: item.toJson());
+    return Event.fromJson(response.data['data']);
   }
 
-  // Update Event
-  Future<Event> updateEvent(String id, Event event) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/event/$id',
-        data: event.toJson(),
-      );
-      return Event.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Event> updateEvent(String id, Event item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.events}/$id', data: item.toJson());
+    return Event.fromJson(response.data['data']);
   }
 
-  // Delete Event
   Future<void> deleteEvent(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/event/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.events}/$id');
   }
 }

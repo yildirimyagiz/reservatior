@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class ReviewService {
   final DioClient _dioClient;
-
   ReviewService(this._dioClient);
 
-  // Get Review by ID
   Future<Review> getReviewById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/review/$id');
-      return Review.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.reviews}/$id');
+    return Review.fromJson(response.data['data']);
   }
 
-  // Get all reviews
   Future<List<Review>> getReviews({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/review', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Review.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.reviews, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Review.fromJson(json)).toList();
   }
 
-  // Create Review
-  Future<Review> createReview(Review review) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/review',
-        data: review.toJson(),
-      );
-      return Review.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Review> createReview(Review item) async {
+    final response = await _dioClient.post(ApiEndpoints.reviews, data: item.toJson());
+    return Review.fromJson(response.data['data']);
   }
 
-  // Update Review
-  Future<Review> updateReview(String id, Review review) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/review/$id',
-        data: review.toJson(),
-      );
-      return Review.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Review> updateReview(String id, Review item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.reviews}/$id', data: item.toJson());
+    return Review.fromJson(response.data['data']);
   }
 
-  // Delete Review
   Future<void> deleteReview(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/review/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.reviews}/$id');
   }
 }

@@ -1,0 +1,17 @@
+{
+  "python.defaultInterpreterPath": "backend/venv/bin/python",
+  "python.analysis.extraPaths": [
+    "backend",
+    "backend/app"
+  ],
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.typeCheckingMode": "basic",
+  "pyre.server.python_version": "3.9",
+  "pyre2.searchRoots": [
+    "backend"
+  ],
+  "pyre2.sitePackagePath": [
+    "backend/venv/lib/python3.9/site-packages"
+  ]
+}

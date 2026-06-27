@@ -1,63 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/aiPropertyDescriptionService.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/ai_property_description_service.dart';
+import 'package:reservatior/shared/repositories/ai_property_description_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// aiPropertyDescription Providers
-
-final aiPropertyDescriptionServiceProvider = Provider<aiPropertyDescriptionService>((ref) {
+final aiPropertyDescriptionServiceProvider = Provider<AiPropertyDescriptionService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
-  return aiPropertyDescriptionService(dioClient);
+  return AiPropertyDescriptionService(dioClient);
 });
 
-// List Provider
-final aiPropertyDescriptionListProvider = FutureProvider.autoDispose<List<AIPropertyDescription>>((ref) async {
+final aiPropertyDescriptionRepositoryProvider = Provider<AiPropertyDescriptionRepository>((ref) {
   final service = ref.watch(aiPropertyDescriptionServiceProvider);
-  return service.getAIPropertyDescriptions();
+  return AiPropertyDescriptionRepositoryImpl(service);
 });
 
-// Create Provider
-final aiPropertyDescriptionCreateProvider = FutureProvider.autoDispose<AIPropertyDescription>((ref) async {
-  final service = ref.watch(aiPropertyDescriptionServiceProvider);
-  return service.createAIPropertyDescription(AIPropertyDescription());
+final aiPropertyDescriptionListProvider = FutureProvider.autoDispose<List<AiPropertyDescription>>((ref) async {
+  final repository = ref.watch(aiPropertyDescriptionRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final aiPropertyDescriptionUpdateProvider = FutureProvider.autoDispose<AIPropertyDescription>((ref) async {
-  final service = ref.watch(aiPropertyDescriptionServiceProvider);
-  final state = ref.watch(aiPropertyDescriptionUpdateStateProvider);
-  if (state['id'] != null && state['ai_property_description'] != null) {
-    return service.updateAIPropertyDescription(state['id'], state['ai_property_description']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final aiPropertyDescriptionDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(aiPropertyDescriptionServiceProvider);
-  final state = ref.watch(aiPropertyDescriptionDeleteStateProvider);
-  if (state != null) {
-    return service.deleteAIPropertyDescription(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final aiPropertyDescriptionCreateStateProvider = StateProvider<AIPropertyDescription?>((ref) => null);
-
-final aiPropertyDescriptionUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final aiPropertyDescriptionDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final aiPropertyDescriptionLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(aiPropertyDescriptionListProvider);
-  final createAsync = ref.watch(aiPropertyDescriptionCreateProvider);
-  final updateAsync = ref.watch(aiPropertyDescriptionUpdateProvider);
-  final deleteAsync = ref.watch(aiPropertyDescriptionDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final aiPropertyDescriptionCreateProvider = StateProvider<AiPropertyDescription?>((ref) => null);
+final aiPropertyDescriptionUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final aiPropertyDescriptionDeleteProvider = StateProvider<String?>((ref) => null);
+final aiPropertyDescriptionLoadingProvider = StateProvider<bool>((ref) => false);

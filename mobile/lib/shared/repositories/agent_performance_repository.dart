@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/agent_performance_service.dart';
 
-/// Repository for AgentPerformance operations
-/// Provides CRUD operations with proper error handling and type safety
-class AgentPerformanceRepository {
-  final DioClient _dioClient;
+abstract class AgentPerformanceRepository {
+  Future<AgentPerformance> getById(String id);
+  Future<List<AgentPerformance>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AgentPerformance> create(AgentPerformance item);
+  Future<AgentPerformance> update(String id, AgentPerformance item);
+  Future<void> delete(String id);
+}
 
-  AgentPerformanceRepository(this._dioClient);
+class AgentPerformanceRepositoryImpl implements AgentPerformanceRepository {
+  final AgentPerformanceService _service;
+  AgentPerformanceRepositoryImpl(this._service);
 
-  /// Get AgentPerformance by ID
-  /// Returns [AgentPerformance] if found, throws [RepositoryException] otherwise
-  Future<AgentPerformance> getAgentPerformanceById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/agent_performance/$id');
-      if (response.statusCode == 200) {
-        return AgentPerformance.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch agent_performance',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AgentPerformance> getById(String id) => _service.getAgentPerformanceById(id);
 
-  /// Get all agent_performances with pagination and filtering
-  /// Returns list of [AgentPerformance] objects
-  Future<List<AgentPerformance>> getagent_performances({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AgentPerformance>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/agent_performance', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AgentPerformance.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch agent_performances',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAgentPerformances(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AgentPerformance
-  /// Returns created [AgentPerformance] object
-  Future<AgentPerformance> createAgentPerformance(AgentPerformance agentPerformance) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/agent_performance',
-        data: agentPerformance.toJson(),
-      );
-      return AgentPerformance.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AgentPerformance> create(AgentPerformance item) => _service.createAgentPerformance(item);
 
-  // Update AgentPerformance
-  Future<AgentPerformance> updateAgentPerformance(String id, AgentPerformance agentPerformance) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/agent_performance/$id',
-        data: agentPerformance.toJson(),
-      );
-      return AgentPerformance.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AgentPerformance> update(String id, AgentPerformance item) => _service.updateAgentPerformance(id, item);
 
-  // Delete AgentPerformance
-  Future<void> deleteAgentPerformance(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/agent_performance/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAgentPerformance(id);
 }

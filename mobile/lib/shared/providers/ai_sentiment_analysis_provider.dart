@@ -1,58 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/ai_sentiment_analysis_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/ai_sentiment_analysis_service.dart';
+import 'package:reservatior/shared/repositories/ai_sentiment_analysis_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// AISentimentAnalysis Providers
-
-final aiSentimentAnalysisServiceProvider = Provider<AISentimentAnalysisService>((ref) {
+final aiSentimentAnalysisServiceProvider = Provider<AiSentimentAnalysisService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
-  return AISentimentAnalysisService(dioClient);
+  return AiSentimentAnalysisService(dioClient);
 });
 
-// List Provider
-final aiSentimentAnalysisListProvider = FutureProvider.autoDispose<List<AISentimentAnalysis>>((ref) async {
+final aiSentimentAnalysisRepositoryProvider = Provider<AiSentimentAnalysisRepository>((ref) {
   final service = ref.watch(aiSentimentAnalysisServiceProvider);
-  return service.getAISentimentAnalysiss();
+  return AiSentimentAnalysisRepositoryImpl(service);
 });
 
-// State Providers for create/update/delete
-final aiSentimentAnalysisCreateStateProvider = StateProvider<AISentimentAnalysis?>((ref) => null);
-final aiSentimentAnalysisUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final aiSentimentAnalysisDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Create Provider
-final aiSentimentAnalysisCreateProvider = FutureProvider.autoDispose<AISentimentAnalysis?>((ref) async {
-  final service = ref.watch(aiSentimentAnalysisServiceProvider);
-  final state = ref.watch(aiSentimentAnalysisCreateStateProvider);
-  if (state != null) {
-    return service.createAISentimentAnalysis(state);
-  }
-  return null;
+final aiSentimentAnalysisListProvider = FutureProvider.autoDispose<List<AiSentimentAnalysis>>((ref) async {
+  final repository = ref.watch(aiSentimentAnalysisRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final aiSentimentAnalysisUpdateProvider = FutureProvider.autoDispose<AISentimentAnalysis?>((ref) async {
-  final service = ref.watch(aiSentimentAnalysisServiceProvider);
-  final state = ref.watch(aiSentimentAnalysisUpdateStateProvider);
-  if (state['id'] != null && state['ai_sentiment_analysis'] != null) {
-    return service.updateAISentimentAnalysis(state['id'], state['ai_sentiment_analysis']);
-  }
-  return null;
-});
-
-// Delete Provider
-final aiSentimentAnalysisDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(aiSentimentAnalysisServiceProvider);
-  final state = ref.watch(aiSentimentAnalysisDeleteStateProvider);
-  if (state != null) {
-    return service.deleteAISentimentAnalysis(state);
-  }
-});
-
-// Loading Provider
-final aiSentimentAnalysisLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(aiSentimentAnalysisListProvider);
-  return listAsync.isLoading;
-});
+final aiSentimentAnalysisCreateProvider = StateProvider<AiSentimentAnalysis?>((ref) => null);
+final aiSentimentAnalysisUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final aiSentimentAnalysisDeleteProvider = StateProvider<String?>((ref) => null);
+final aiSentimentAnalysisLoadingProvider = StateProvider<bool>((ref) => false);

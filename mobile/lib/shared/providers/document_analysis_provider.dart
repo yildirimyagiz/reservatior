@@ -1,61 +1,35 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/document_analysis_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/document_analysis_service.dart';
+import 'package:reservatior/shared/repositories/document_analysis_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// DocumentAnalysis Providers
-
-final DocumentAnalysisServiceProvider = Provider<DocumentAnalysisService>((ref) {
+final documentAnalysisServiceProvider = Provider<DocumentAnalysisService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return DocumentAnalysisService(dioClient);
 });
 
-// List Provider
-final documentAnalysisProvider = FutureProvider.autoDispose<List<DocumentAnalysis>>((ref) async {
-  final service = ref.watch(DocumentAnalysisServiceProvider);
-  return service.getDocumentAnalysiss();
+final documentAnalysisRepositoryProvider = Provider<DocumentAnalysisRepository>((ref) {
+  final service = ref.watch(documentAnalysisServiceProvider);
+  return DocumentAnalysisRepositoryImpl(service);
 });
 
-// Create Provider
-final DocumentAnalysisCreateProvider = FutureProvider.autoDispose<DocumentAnalysis>((ref) async {
-  final service = ref.watch(DocumentAnalysisServiceProvider);
-  return service.createDocumentAnalysis(DocumentAnalysis());
+final documentAnalysisListProvider = FutureProvider.family.autoDispose<List<DocumentAnalysis>, String>((ref, orgId) async {
+  final repository = ref.watch(documentAnalysisRepositoryProvider);
+  return repository.getAll(filters: {'orgId': orgId});
 });
 
-// Update Provider  
-final DocumentAnalysisUpdateProvider = FutureProvider.autoDispose<DocumentAnalysis>((ref) async {
-  final service = ref.watch(DocumentAnalysisServiceProvider);
-  final state = ref.watch(DocumentAnalysisUpdateStateProvider);
-  if (state['id'] != null && state['document_analysis'] != null) {
-    return service.updateDocumentAnalysis(state['id'], state['document_analysis']);
-  }
-  throw Exception('No update data provided');
+final documentAnalysisCreateProvider = StateProvider<DocumentAnalysis?>((ref) => null);
+final documentAnalysisUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final documentAnalysisDeleteProvider = StateProvider<String?>((ref) => null);
+final documentAnalysisLoadingProvider = StateProvider<bool>((ref) => false);
+
+final documentAnalysisJobStatusProvider = FutureProvider.family.autoDispose<Map<String, dynamic>, String>((ref, jobId) async {
+  final repository = ref.watch(documentAnalysisRepositoryProvider);
+  return repository.getJobStatus(jobId);
 });
 
-// Delete Provider
-final DocumentAnalysisDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(DocumentAnalysisServiceProvider);
-  final state = ref.watch(DocumentAnalysisDeleteStateProvider);
-  if (state != null) {
-    return service.deleteDocumentAnalysis(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final DocumentAnalysisUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final DocumentAnalysisDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final DocumentAnalysisLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(documentAnalysisProvider);
-  final createAsync = ref.watch(DocumentAnalysisCreateProvider);
-  final updateAsync = ref.watch(DocumentAnalysisUpdateProvider);
-  final deleteAsync = ref.watch(DocumentAnalysisDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
+final documentContentSearchProvider = FutureProvider.family.autoDispose<List<Map<String, dynamic>>, ({String orgId, String query})>((ref, arg) async {
+  final repository = ref.watch(documentAnalysisRepositoryProvider);
+  return repository.searchContent(arg.orgId, arg.query);
 });

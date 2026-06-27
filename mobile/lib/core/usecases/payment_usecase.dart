@@ -1,106 +1,44 @@
-import '../../features/shared/services/payment_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Payment
+import 'package:reservatior/shared/repositories/payment_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetPaymentByIdUseCase {
-  final PaymentService _service;
-  
-  GetPaymentByIdUseCase(this._service);
-  
-  Future<Payment> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final PaymentRepository _repository;
+  GetPaymentByIdUseCase(this._repository);
+  Future<Payment> execute(String id) => _repository.getById(id);
 }
 
 class GetPaymentsUseCase {
-  final PaymentService _service;
-  
-  GetPaymentsUseCase(this._service);
-  
+  final PaymentRepository _repository;
+  GetPaymentsUseCase(this._repository);
   Future<List<Payment>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreatePaymentUseCase {
-  final PaymentService _service;
-  
-  CreatePaymentUseCase(this._service);
-  
-  Future<Payment> execute(Payment payment) async {
-    // Add validation logic here
-    return await _service.create(payment);
-  }
+  final PaymentRepository _repository;
+  CreatePaymentUseCase(this._repository);
+  Future<Payment> execute(Payment item) => _repository.create(item);
 }
 
 class UpdatePaymentUseCase {
-  final PaymentService _service;
-  
-  UpdatePaymentUseCase(this._service);
-  
-  Future<Payment> execute(String id, Payment payment) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, payment);
-  }
+  final PaymentRepository _repository;
+  UpdatePaymentUseCase(this._repository);
+  Future<Payment> execute(String id, Payment item) => _repository.update(id, item);
 }
 
 class DeletePaymentUseCase {
-  final PaymentService _service;
-  
-  DeletePaymentUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Payment Use Case Container
-class PaymentUseCases {
-  final GetPaymentByIdUseCase getById;
-  final GetPaymentsUseCase getAll;
-  final CreatePaymentUseCase create;
-  final UpdatePaymentUseCase update;
-  final DeletePaymentUseCase delete;
-  
-  PaymentUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory PaymentUseCases.create(PaymentService service) {
-    return PaymentUseCases(
-      getById: GetPaymentByIdUseCase(service),
-      getAll: GetPaymentsUseCase(service),
-      create: CreatePaymentUseCase(service),
-      update: UpdatePaymentUseCase(service),
-      delete: DeletePaymentUseCase(service),
-    );
-  }
+  final PaymentRepository _repository;
+  DeletePaymentUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

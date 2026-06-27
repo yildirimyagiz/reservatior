@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class FloorPlanService {
   final DioClient _dioClient;
-
   FloorPlanService(this._dioClient);
 
-  // Get FloorPlan by ID
   Future<FloorPlan> getFloorPlanById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/floor_plan/$id');
-      return FloorPlan.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.floorPlans}/$id');
+    return FloorPlan.fromJson(response.data['data']);
   }
 
-  // Get all floor_plans
   Future<List<FloorPlan>> getFloorPlans({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/floor_plan', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => FloorPlan.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.floorPlans, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => FloorPlan.fromJson(json)).toList();
   }
 
-  // Create FloorPlan
-  Future<FloorPlan> createFloorPlan(FloorPlan floorPlan) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/floor_plan',
-        data: floorPlan.toJson(),
-      );
-      return FloorPlan.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<FloorPlan> createFloorPlan(FloorPlan item) async {
+    final response = await _dioClient.post(ApiEndpoints.floorPlans, data: item.toJson());
+    return FloorPlan.fromJson(response.data['data']);
   }
 
-  // Update FloorPlan
-  Future<FloorPlan> updateFloorPlan(String id, FloorPlan floorPlan) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/floor_plan/$id',
-        data: floorPlan.toJson(),
-      );
-      return FloorPlan.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<FloorPlan> updateFloorPlan(String id, FloorPlan item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.floorPlans}/$id', data: item.toJson());
+    return FloorPlan.fromJson(response.data['data']);
   }
 
-  // Delete FloorPlan
   Future<void> deleteFloorPlan(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/floor_plan/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.floorPlans}/$id');
   }
 }

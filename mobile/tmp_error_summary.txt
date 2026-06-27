@@ -1,5 +1,0 @@
-account: 67 errors, 2 warnings
-achievement: 53 errors, 9 warnings
-agency: 153 errors, 7 warnings
-agent_performance: 87 errors, 2 warnings
-agent_team: 4500 errors, 4 warnings

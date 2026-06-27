@@ -1,106 +1,44 @@
-import '../../features/shared/services/mls_data_mapping_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for MlsDataMapping
+import 'package:reservatior/shared/repositories/mls_data_mapping_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetMlsDataMappingByIdUseCase {
-  final MlsDataMappingService _service;
-  
-  GetMlsDataMappingByIdUseCase(this._service);
-  
-  Future<MlsDataMapping> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final MlsDataMappingRepository _repository;
+  GetMlsDataMappingByIdUseCase(this._repository);
+  Future<MlsDataMapping> execute(String id) => _repository.getById(id);
 }
 
 class GetMlsDataMappingsUseCase {
-  final MlsDataMappingService _service;
-  
-  GetMlsDataMappingsUseCase(this._service);
-  
+  final MlsDataMappingRepository _repository;
+  GetMlsDataMappingsUseCase(this._repository);
   Future<List<MlsDataMapping>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateMlsDataMappingUseCase {
-  final MlsDataMappingService _service;
-  
-  CreateMlsDataMappingUseCase(this._service);
-  
-  Future<MlsDataMapping> execute(MlsDataMapping mlsDataMapping) async {
-    // Add validation logic here
-    return await _service.create(mlsDataMapping);
-  }
+  final MlsDataMappingRepository _repository;
+  CreateMlsDataMappingUseCase(this._repository);
+  Future<MlsDataMapping> execute(MlsDataMapping item) => _repository.create(item);
 }
 
 class UpdateMlsDataMappingUseCase {
-  final MlsDataMappingService _service;
-  
-  UpdateMlsDataMappingUseCase(this._service);
-  
-  Future<MlsDataMapping> execute(String id, MlsDataMapping mlsDataMapping) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, mlsDataMapping);
-  }
+  final MlsDataMappingRepository _repository;
+  UpdateMlsDataMappingUseCase(this._repository);
+  Future<MlsDataMapping> execute(String id, MlsDataMapping item) => _repository.update(id, item);
 }
 
 class DeleteMlsDataMappingUseCase {
-  final MlsDataMappingService _service;
-  
-  DeleteMlsDataMappingUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// MlsDataMapping Use Case Container
-class MlsDataMappingUseCases {
-  final GetMlsDataMappingByIdUseCase getById;
-  final GetMlsDataMappingsUseCase getAll;
-  final CreateMlsDataMappingUseCase create;
-  final UpdateMlsDataMappingUseCase update;
-  final DeleteMlsDataMappingUseCase delete;
-  
-  MlsDataMappingUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory MlsDataMappingUseCases.create(MlsDataMappingService service) {
-    return MlsDataMappingUseCases(
-      getById: GetMlsDataMappingByIdUseCase(service),
-      getAll: GetMlsDataMappingsUseCase(service),
-      create: CreateMlsDataMappingUseCase(service),
-      update: UpdateMlsDataMappingUseCase(service),
-      delete: DeleteMlsDataMappingUseCase(service),
-    );
-  }
+  final MlsDataMappingRepository _repository;
+  DeleteMlsDataMappingUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

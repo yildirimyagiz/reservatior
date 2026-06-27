@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class DepositProtectionService {
   final DioClient _dioClient;
-
   DepositProtectionService(this._dioClient);
 
-  // Get DepositProtection by ID
   Future<DepositProtection> getDepositProtectionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/deposit_protection/$id');
-      return DepositProtection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.depositProtections}/$id');
+    return DepositProtection.fromJson(response.data['data']);
   }
 
-  // Get all deposit_protections
   Future<List<DepositProtection>> getDepositProtections({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/deposit_protection', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => DepositProtection.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.depositProtections, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => DepositProtection.fromJson(json)).toList();
   }
 
-  // Create DepositProtection
-  Future<DepositProtection> createDepositProtection(DepositProtection depositProtection) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/deposit_protection',
-        data: depositProtection.toJson(),
-      );
-      return DepositProtection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<DepositProtection> createDepositProtection(DepositProtection item) async {
+    final response = await _dioClient.post(ApiEndpoints.depositProtections, data: item.toJson());
+    return DepositProtection.fromJson(response.data['data']);
   }
 
-  // Update DepositProtection
-  Future<DepositProtection> updateDepositProtection(String id, DepositProtection depositProtection) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/deposit_protection/$id',
-        data: depositProtection.toJson(),
-      );
-      return DepositProtection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<DepositProtection> updateDepositProtection(String id, DepositProtection item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.depositProtections}/$id', data: item.toJson());
+    return DepositProtection.fromJson(response.data['data']);
   }
 
-  // Delete DepositProtection
   Future<void> deleteDepositProtection(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/deposit_protection/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.depositProtections}/$id');
   }
 }

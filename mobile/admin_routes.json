@@ -1,0 +1,687 @@
+[
+  {
+    "name": "adminAI",
+    "route": "/admin/ai",
+    "title": "A I"
+  },
+  {
+    "name": "adminAccount",
+    "route": "/admin/account",
+    "title": "Account"
+  },
+  {
+    "name": "adminAchievement",
+    "route": "/admin/achievement",
+    "title": "Achievement"
+  },
+  {
+    "name": "adminAmbassadorContract",
+    "route": "/admin/ambassador-contract",
+    "title": "Ambassador Contract"
+  },
+  {
+    "name": "adminAmenity",
+    "route": "/admin/amenity",
+    "title": "Amenity"
+  },
+  {
+    "name": "adminAnalysisJob",
+    "route": "/admin/analysis-job",
+    "title": "Analysis Job"
+  },
+  {
+    "name": "adminAnalytics",
+    "route": "/admin/analytics",
+    "title": "Analytics"
+  },
+  {
+    "name": "adminApiIntegration",
+    "route": "/admin/api-integration",
+    "title": "Api Integration"
+  },
+  {
+    "name": "adminApiKey",
+    "route": "/admin/api-key",
+    "title": "Api Key"
+  },
+  {
+    "name": "adminAppointment",
+    "route": "/admin/appointment",
+    "title": "Appointment"
+  },
+  {
+    "name": "adminAttachment",
+    "route": "/admin/attachment",
+    "title": "Attachment"
+  },
+  {
+    "name": "adminAttorneyManagement",
+    "route": "/admin/attorney-management",
+    "title": "Attorney Management"
+  },
+  {
+    "name": "adminAutomationExecution",
+    "route": "/admin/automation-execution",
+    "title": "Automation Execution"
+  },
+  {
+    "name": "adminAutomationRule",
+    "route": "/admin/automation-rule",
+    "title": "Automation Rule"
+  },
+  {
+    "name": "adminBooking",
+    "route": "/admin/booking",
+    "title": "Booking"
+  },
+  {
+    "name": "adminBrandAmbassador",
+    "route": "/admin/brand-ambassador",
+    "title": "Brand Ambassador"
+  },
+  {
+    "name": "adminCalendarEvent",
+    "route": "/admin/calendar-event",
+    "title": "Calendar Event"
+  },
+  {
+    "name": "adminChannel",
+    "route": "/admin/channel",
+    "title": "Channel"
+  },
+  {
+    "name": "adminClientRelationship",
+    "route": "/admin/client-relationship",
+    "title": "Client Relationship"
+  },
+  {
+    "name": "adminContract",
+    "route": "/admin/contract",
+    "title": "Contract"
+  },
+  {
+    "name": "adminContractVersion",
+    "route": "/admin/contract-version",
+    "title": "Contract Version"
+  },
+  {
+    "name": "adminCoupons",
+    "route": "/admin/coupons",
+    "title": "Coupons"
+  },
+  {
+    "name": "adminCurrency",
+    "route": "/admin/currency",
+    "title": "Currency"
+  },
+  {
+    "name": "adminDashboard",
+    "route": "/admin/dashboard",
+    "title": "Dashboard"
+  },
+  {
+    "name": "adminDashboardConfiguration",
+    "route": "/admin/dashboard-configuration",
+    "title": "Dashboard Configuration"
+  },
+  {
+    "name": "adminDashboardWidget",
+    "route": "/admin/dashboard-widget",
+    "title": "Dashboard Widget"
+  },
+  {
+    "name": "adminDeal",
+    "route": "/admin/deal",
+    "title": "Deal"
+  },
+  {
+    "name": "adminDepositProtection",
+    "route": "/admin/deposit-protection",
+    "title": "Deposit Protection"
+  },
+  {
+    "name": "adminDiscount",
+    "route": "/admin/discount",
+    "title": "Discount"
+  },
+  {
+    "name": "adminEarning",
+    "route": "/admin/earning",
+    "title": "Earning"
+  },
+  {
+    "name": "adminEvent",
+    "route": "/admin/event",
+    "title": "Event"
+  },
+  {
+    "name": "adminEventAttendee",
+    "route": "/admin/event-attendee",
+    "title": "Event Attendee"
+  },
+  {
+    "name": "adminExchangeRate",
+    "route": "/admin/exchange-rate",
+    "title": "Exchange Rate"
+  },
+  {
+    "name": "adminExportFile",
+    "route": "/admin/export-file",
+    "title": "Export File"
+  },
+  {
+    "name": "adminExportJob",
+    "route": "/admin/export-job",
+    "title": "Export Job"
+  },
+  {
+    "name": "adminExternalRentalListing",
+    "route": "/admin/external-rental-listing",
+    "title": "External Rental Listing"
+  },
+  {
+    "name": "adminExtraCharge",
+    "route": "/admin/extra-charge",
+    "title": "Extra Charge"
+  },
+  {
+    "name": "adminFavorite",
+    "route": "/admin/favorite",
+    "title": "Favorite"
+  },
+  {
+    "name": "adminFilters",
+    "route": "/admin/filters",
+    "title": "Filters"
+  },
+  {
+    "name": "adminFinancial",
+    "route": "/admin/financial",
+    "title": "Financial"
+  },
+  {
+    "name": "adminFloorPlan",
+    "route": "/admin/floor-plan",
+    "title": "Floor Plan"
+  },
+  {
+    "name": "adminGiftCard",
+    "route": "/admin/gift-card",
+    "title": "Gift Card"
+  },
+  {
+    "name": "adminGovernmentIntegration",
+    "route": "/admin/government-integration",
+    "title": "Government Integration"
+  },
+  {
+    "name": "adminGuest",
+    "route": "/admin/guest",
+    "title": "Guest"
+  },
+  {
+    "name": "adminGuestProfile",
+    "route": "/admin/guest-profile",
+    "title": "Guest Profile"
+  },
+  {
+    "name": "adminGuestReview",
+    "route": "/admin/guest-review",
+    "title": "Guest Review"
+  },
+  {
+    "name": "adminHashtag",
+    "route": "/admin/hashtag",
+    "title": "Hashtag"
+  },
+  {
+    "name": "adminHealthCheck",
+    "route": "/admin/health-check",
+    "title": "Health Check"
+  },
+  {
+    "name": "adminHome",
+    "route": "/admin/home",
+    "title": "Home"
+  },
+  {
+    "name": "adminHomeInformationPack",
+    "route": "/admin/home-information-pack",
+    "title": "Home Information Pack"
+  },
+  {
+    "name": "adminImmigrationStatusCheck",
+    "route": "/admin/immigration-status-check",
+    "title": "Immigration Status Check"
+  },
+  {
+    "name": "adminIncludedService",
+    "route": "/admin/included-service",
+    "title": "Included Service"
+  },
+  {
+    "name": "adminIncrease",
+    "route": "/admin/increase",
+    "title": "Increase"
+  },
+  {
+    "name": "adminIntegrationLog",
+    "route": "/admin/integration-log",
+    "title": "Integration Log"
+  },
+  {
+    "name": "adminInvestorPortfolio",
+    "route": "/admin/investor-portfolio",
+    "title": "Investor Portfolio"
+  },
+  {
+    "name": "adminJob",
+    "route": "/admin/job",
+    "title": "Job"
+  },
+  {
+    "name": "adminKeyManagement",
+    "route": "/admin/key-management",
+    "title": "Key Management"
+  },
+  {
+    "name": "adminLead",
+    "route": "/admin/lead",
+    "title": "Lead"
+  },
+  {
+    "name": "adminLeadSource",
+    "route": "/admin/lead-source",
+    "title": "Lead Source"
+  },
+  {
+    "name": "adminLedgerEntry",
+    "route": "/admin/ledger-entry",
+    "title": "Ledger Entry"
+  },
+  {
+    "name": "adminListing",
+    "route": "/admin/listing",
+    "title": "Listing"
+  },
+  {
+    "name": "adminListingChannel",
+    "route": "/admin/listing-channel",
+    "title": "Listing Channel"
+  },
+  {
+    "name": "adminListingStatusHistory",
+    "route": "/admin/listing-status-history",
+    "title": "Listing Status History"
+  },
+  {
+    "name": "adminListingTag",
+    "route": "/admin/listing-tag",
+    "title": "Listing Tag"
+  },
+  {
+    "name": "adminLocation",
+    "route": "/admin/location",
+    "title": "Location"
+  },
+  {
+    "name": "adminLoyaltyAccount",
+    "route": "/admin/loyalty-account",
+    "title": "Loyalty Account"
+  },
+  {
+    "name": "adminMapData",
+    "route": "/admin/map-data",
+    "title": "Map Data"
+  },
+  {
+    "name": "adminMapLayer",
+    "route": "/admin/map-layer",
+    "title": "Map Layer"
+  },
+  {
+    "name": "adminMarketplace",
+    "route": "/admin/marketplace",
+    "title": "Marketplace"
+  },
+  {
+    "name": "adminMention",
+    "route": "/admin/mention",
+    "title": "Mention"
+  },
+  {
+    "name": "adminMessage",
+    "route": "/admin/message",
+    "title": "Message"
+  },
+  {
+    "name": "adminMlConfiguration",
+    "route": "/admin/ml-configuration",
+    "title": "Ml Configuration"
+  },
+  {
+    "name": "adminMlModel",
+    "route": "/admin/ml-model",
+    "title": "Ml Model"
+  },
+  {
+    "name": "adminMlsConnection",
+    "route": "/admin/mls-connection",
+    "title": "Mls Connection"
+  },
+  {
+    "name": "adminMlsDataMapping",
+    "route": "/admin/mls-data-mapping",
+    "title": "Mls Data Mapping"
+  },
+  {
+    "name": "adminMlsExternalListing",
+    "route": "/admin/mls-external-listing",
+    "title": "Mls External Listing"
+  },
+  {
+    "name": "adminMlsListingEnhancement",
+    "route": "/admin/mls-listing-enhancement",
+    "title": "Mls Listing Enhancement"
+  },
+  {
+    "name": "adminMlsSyncJob",
+    "route": "/admin/mls-sync-job",
+    "title": "Mls Sync Job"
+  },
+  {
+    "name": "adminMobileDevice",
+    "route": "/admin/mobile-device",
+    "title": "Mobile Device"
+  },
+  {
+    "name": "adminMore",
+    "route": "/admin/more",
+    "title": "More"
+  },
+  {
+    "name": "adminNegotiationOffer",
+    "route": "/admin/negotiation-offer",
+    "title": "Negotiation Offer"
+  },
+  {
+    "name": "adminNeighborhood",
+    "route": "/admin/neighborhood",
+    "title": "Neighborhood"
+  },
+  {
+    "name": "adminNotification",
+    "route": "/admin/notification",
+    "title": "Notification"
+  },
+  {
+    "name": "adminOffer",
+    "route": "/admin/offer",
+    "title": "Offer"
+  },
+  {
+    "name": "adminOfflineSyncQueue",
+    "route": "/admin/offline-sync-queue",
+    "title": "Offline Sync Queue"
+  },
+  {
+    "name": "adminOrgSubscription",
+    "route": "/admin/org-subscription",
+    "title": "Org Subscription"
+  },
+  {
+    "name": "adminOrganizations",
+    "route": "/admin/organizations",
+    "title": "Organizations"
+  },
+  {
+    "name": "adminPerformanceAlert",
+    "route": "/admin/performance-alert",
+    "title": "Performance Alert"
+  },
+  {
+    "name": "adminPermission",
+    "route": "/admin/permission",
+    "title": "Permission"
+  },
+  {
+    "name": "adminPhoto",
+    "route": "/admin/photo",
+    "title": "Photo"
+  },
+  {
+    "name": "adminPlan",
+    "route": "/admin/plan",
+    "title": "Plan"
+  },
+  {
+    "name": "adminPost",
+    "route": "/admin/post",
+    "title": "Post"
+  },
+  {
+    "name": "adminPredictiveModel",
+    "route": "/admin/predictive-model",
+    "title": "Predictive Model"
+  },
+  {
+    "name": "adminPricingRule",
+    "route": "/admin/pricing-rule",
+    "title": "Pricing Rule"
+  },
+  {
+    "name": "adminProject",
+    "route": "/admin/project",
+    "title": "Project"
+  },
+  {
+    "name": "adminProjectAlert",
+    "route": "/admin/project-alert",
+    "title": "Project Alert"
+  },
+  {
+    "name": "adminProjectAnalytics",
+    "route": "/admin/project-analytics",
+    "title": "Project Analytics"
+  },
+  {
+    "name": "adminProjectReport",
+    "route": "/admin/project-report",
+    "title": "Project Report"
+  },
+  {
+    "name": "adminQueueConfiguration",
+    "route": "/admin/queue-configuration",
+    "title": "Queue Configuration"
+  },
+  {
+    "name": "adminQueueMessage",
+    "route": "/admin/queue-message",
+    "title": "Queue Message"
+  },
+  {
+    "name": "adminQuote",
+    "route": "/admin/quote",
+    "title": "Quote"
+  },
+  {
+    "name": "adminRecommendationResult",
+    "route": "/admin/recommendation-result",
+    "title": "Recommendation Result"
+  },
+  {
+    "name": "adminReferenceSource",
+    "route": "/admin/reference-source",
+    "title": "Reference Source"
+  },
+  {
+    "name": "adminReferral",
+    "route": "/admin/referral",
+    "title": "Referral"
+  },
+  {
+    "name": "adminRentArrears",
+    "route": "/admin/rent-arrears",
+    "title": "Rent Arrears"
+  },
+  {
+    "name": "adminRentSchedule",
+    "route": "/admin/rent-schedule",
+    "title": "Rent Schedule"
+  },
+  {
+    "name": "adminRentalSyncJob",
+    "route": "/admin/rental-sync-job",
+    "title": "Rental Sync Job"
+  },
+  {
+    "name": "adminReport",
+    "route": "/admin/report",
+    "title": "Report"
+  },
+  {
+    "name": "adminReportExecution",
+    "route": "/admin/report-execution",
+    "title": "Report Execution"
+  },
+  {
+    "name": "adminReports",
+    "route": "/admin/reports",
+    "title": "Reports"
+  },
+  {
+    "name": "adminReview",
+    "route": "/admin/review",
+    "title": "Review"
+  },
+  {
+    "name": "adminRightToRentCheck",
+    "route": "/admin/right-to-rent-check",
+    "title": "Right To Rent Check"
+  },
+  {
+    "name": "adminRoute",
+    "route": "/admin/route",
+    "title": "Route"
+  },
+  {
+    "name": "adminScrapingJob",
+    "route": "/admin/scraping-job",
+    "title": "Scraping Job"
+  },
+  {
+    "name": "adminSession",
+    "route": "/admin/session",
+    "title": "Session"
+  },
+  {
+    "name": "adminSharedAmenity",
+    "route": "/admin/shared-amenity",
+    "title": "Shared Amenity"
+  },
+  {
+    "name": "adminSignatureRequest",
+    "route": "/admin/signature-request",
+    "title": "Signature Request"
+  },
+  {
+    "name": "adminSignatureSigner",
+    "route": "/admin/signature-signer",
+    "title": "Signature Signer"
+  },
+  {
+    "name": "adminSocialImpactCounter",
+    "route": "/admin/social-impact-counter",
+    "title": "Social Impact Counter"
+  },
+  {
+    "name": "adminSocialImpactRecord",
+    "route": "/admin/social-impact-record",
+    "title": "Social Impact Record"
+  },
+  {
+    "name": "adminSolicitorManagement",
+    "route": "/admin/solicitor-management",
+    "title": "Solicitor Management"
+  },
+  {
+    "name": "adminSubscription",
+    "route": "/admin/subscription",
+    "title": "Subscription"
+  },
+  {
+    "name": "adminSystem",
+    "route": "/admin/system",
+    "title": "System"
+  },
+  {
+    "name": "adminTag",
+    "route": "/admin/tag",
+    "title": "Tag"
+  },
+  {
+    "name": "adminTicket",
+    "route": "/admin/ticket",
+    "title": "Ticket"
+  },
+  {
+    "name": "adminUser",
+    "route": "/admin/user",
+    "title": "User"
+  },
+  {
+    "name": "adminUserActivityLog",
+    "route": "/admin/user-activity-log",
+    "title": "User Activity Log"
+  },
+  {
+    "name": "adminUserPreference",
+    "route": "/admin/user-preference",
+    "title": "User Preference"
+  },
+  {
+    "name": "adminUsers",
+    "route": "/admin/users",
+    "title": "Users"
+  },
+  {
+    "name": "adminVacationRental",
+    "route": "/admin/vacation-rental",
+    "title": "Vacation Rental"
+  },
+  {
+    "name": "adminVacationRentalPlatform",
+    "route": "/admin/vacation-rental-platform",
+    "title": "Vacation Rental Platform"
+  },
+  {
+    "name": "adminVerification",
+    "route": "/admin/verification",
+    "title": "Verification"
+  },
+  {
+    "name": "adminVideoContent",
+    "route": "/admin/video-content",
+    "title": "Video Content"
+  },
+  {
+    "name": "adminVirtualTour",
+    "route": "/admin/virtual-tour",
+    "title": "Virtual Tour"
+  },
+  {
+    "name": "adminWebhook",
+    "route": "/admin/webhook",
+    "title": "Webhook"
+  },
+  {
+    "name": "adminWebhookDelivery",
+    "route": "/admin/webhook-delivery",
+    "title": "Webhook Delivery"
+  },
+  {
+    "name": "adminWelcome",
+    "route": "/admin/welcome",
+    "title": "Welcome"
+  }
+]

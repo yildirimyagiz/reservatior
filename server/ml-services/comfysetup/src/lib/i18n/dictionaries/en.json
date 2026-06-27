@@ -1,0 +1,465 @@
+{
+  "common": {
+    "appName": "FurnitureStaging.AI",
+    "tagline": "AI-Powered Furniture Visualization",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "generate": "Generate",
+    "upload": "Upload",
+    "download": "Download",
+    "settings": "Settings",
+    "language": "Language",
+    "before": "Original",
+    "after": "Virtual Staging"
+  },
+  "landing": {
+    "hero": {
+      "title": "AI-Powered Space Stylist for Real Estate",
+      "subtitle": "Transform empty rooms into stunning visuals instantly. Stage, redesign, and visualize furniture in any space with professional AI assistance.",
+      "cta": "Start Styling",
+      "secondaryCta": "See How It Works",
+      "tagline": "Sell properties faster with AI-visualization",
+      "description": "Professional AI staging that sells properties faster. Stage, edit, and enhance your real estate photos in seconds.",
+      "pills": {
+        "why": "Why AtlasVS",
+        "agents": "For Realtors",
+        "results": "Results",
+        "pricing": "Simple Pricing"
+      },
+      "footerCallout": "Subscriptions optional. Pay only for what you need."
+    },
+    "featureShowcase": {
+      "dragText": "Drag to see the difference",
+      "getStarted": "Get Started",
+      "footerNote": "Subscriptions optional. Pay only for what you need.",
+      "items": {
+        "staging": {
+          "label": "AI Virtual Staging",
+          "description": "Stage empty rooms instantly",
+          "longDescription": "Transform empty spaces into warm, inviting homes. Choose from multiple interior styles to match your target market."
+        },
+        "redesign": {
+          "label": "AI Redesign",
+          "description": "Redesign any space instantly",
+          "longDescription": "Give rooms a fresh new look. Change styles, colors, and furniture in seconds with AI."
+        },
+        "video": {
+          "label": "AI Video Tours",
+          "description": "Create video tours in seconds",
+          "longDescription": "Turn static images into engaging video tours. Capture attention on social media with dynamic motion."
+        },
+        "enhance": {
+          "label": "AI Photo Enhance",
+          "description": "Professional photo enhancement",
+          "longDescription": "Automatically enhance, retouch, and improve real estate photos with AI-powered editing."
+        },
+        "pamphlet": {
+          "label": "Brochure",
+          "description": "Instant marketing materials",
+          "longDescription": "Generate professional brochures and pamphlets instantly. Properly laid out and ready for print or digital sharing."
+        },
+        "reels": {
+          "label": "Ready for Reels",
+          "description": "Social media ready content",
+          "longDescription": "Automatically generate short-form vertical videos optimized for Instagram Reels and TikTok."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Transforming empty spaces into beautiful homes has never been easier.",
+      "steps": {
+        "upload": {
+          "title": "Upload Your Room",
+          "description": "Take a photo of your empty room and upload it. Our AI automatically detects the geometry and lighting."
+        },
+        "choose": {
+          "title": "Choose Furniture",
+          "description": "Browse our library of real furniture from top brands or upload your own pieces to stage."
+        },
+        "export": {
+          "title": "Generate & Export",
+          "description": "Watch as AI seamlessly blends furniture into your room in seconds. Download high-res images instantly."
+        }
+      }
+    },
+    "solutions": {
+      "title": "Built for Professionals",
+      "subtitle": "Whether you are selling, designing, or photographing, AtlasVS helps you do it better.",
+      "items": {
+        "agents": {
+          "label": "Real Estate Agents",
+          "title": "Sell faster at higher prices",
+          "description": "Stage vacant listings instantly to attract more buyers and close deals faster. No physical furniture required."
+        },
+        "architects": {
+          "label": "Architects & Designers",
+          "title": "Visualize unfinished concepts",
+          "description": "Help clients see the potential of your designs. Show renovation possibilities before construction begins."
+        },
+        "homeowners": {
+          "label": "Homeowners",
+          "title": "See the potential before you sell",
+          "description": "Visualise your home's true potential. Remove clutter and update outdated decor to maximize your sale price."
+        },
+        "photographers": {
+          "label": "Photographers",
+          "title": "Premium editing at scale",
+          "description": "Deliver stunning, magazine-quality images. Automate enhancement, sky replacement, and color correction."
+        }
+      },
+      "cta": "Try {label}"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about our virtual staging platform.",
+      "items": [
+        {
+          "question": "How long does it take to generate a staged photo?",
+          "answer": "Most renders are completed in under 30 seconds. Complex scenes or 360 panoramas may take up to a minute."
+        },
+        {
+          "question": "Is the furniture real?",
+          "answer": "Our AI is trained on thousands of real furniture items, but the generated images are synthetic representations. However, you can browse our catalog to find similar purchasable items from our partners."
+        },
+        {
+          "question": "Can I remove existing furniture?",
+          "answer": "Yes! Our Object Removal and 'Redesign' mode allowing you to clear a room or replace existing furniture with a new style instantly."
+        },
+        {
+          "question": "Do I need professional photos?",
+          "answer": "No. Our AI enhances your photos automatically. While professional photos yield the best results, even smartphone photos can be transformed into high-quality marketing assets."
+        },
+        {
+          "question": "What happens if I don't like the result?",
+          "answer": "We offer free regenerations if the AI produces glitches. You can also use our 'Magic Edit' tool to fix specific areas without restaging the whole room."
+        }
+      ]
+    },
+    "gallery": {
+      "badge": "14+ Design Styles",
+      "title": "Pick Your Perfect",
+      "titleSpan": "Interior Style",
+      "subtitle": "From minimalist to luxurious, choose from our curated collection of interior design styles",
+      "exploreAll": "Explore All 14 Styles",
+      "premium": "Premium"
+    },
+    "testimonials": {
+      "title": "Loved by 10,000+ Professionals",
+      "subtitle": "Join the community of real estate experts who trust our AI for their visual marketing.",
+      "items": [
+        {
+          "name": "Sarah Jenkins",
+          "role": "Senior Realtor, New York",
+          "content": "AtlasVS has completely transformed how I list empty apartments. The speed and quality are unmatched. I've sold properties 2x faster since using it."
+        },
+        {
+          "name": "Michael Chen",
+          "role": "Interior Designer",
+          "content": "The AI understands design styles better than most tools I've tried. It's a great starting point for my client presentations."
+        },
+        {
+          "name": "Emily Rodriguez",
+          "role": "Property Manager",
+          "content": "Incredible value for money. We stage hundreds of rental units, and this is the only solution that scales with our budget."
+        }
+      ]
+    },
+    "header": {
+      "nav": {
+        "services": "Services",
+        "categories": "Categories",
+        "styles": "Styles",
+        "pricing": "Pricing",
+        "resources": "Resources"
+      },
+      "services": {
+        "staging": {
+          "label": "Virtual Staging",
+          "description": "Transform empty rooms into beautifully staged spaces"
+        },
+        "redesign": {
+          "label": "AI Room Redesign",
+          "description": "Reimagine your space with different styles"
+        },
+        "enhance": {
+          "label": "Photo Enhancement",
+          "description": "Enhance listing photos with AI-powered editing"
+        },
+        "3d": {
+          "label": "3D Visualization",
+          "description": "Create immersive 3D walkthroughs"
+        },
+        "video": {
+          "label": "Video Tours",
+          "description": "Generate engaging property video tours"
+        }
+      },
+      "resources": {
+        "docs": {
+          "label": "Documentation",
+          "description": "Learn how to use our platform"
+        },
+        "caseStudies": {
+          "label": "Case Studies",
+          "description": "See how others succeed with our tools"
+        },
+        "help": {
+          "label": "Help Center",
+          "description": "Get support and answers"
+        }
+      },
+      "auth": {
+        "signIn": "Sign In",
+        "signUp": "Sign Up",
+        "freeTrial": "Get Started Free"
+      },
+      "badges": {
+        "popular": "Popular",
+        "premium": "Premium",
+        "soon": "Coming Soon"
+      }
+    },
+    "footer": {
+      "sections": {
+        "services": "Services",
+        "categories": "Categories",
+        "styles": "Styles",
+        "company": "Company",
+        "resources": "Resources",
+        "legal": "Legal"
+      },
+      "newsletter": {
+        "title": "Stay Updated",
+        "subtitle": "Get the latest news and updates on AI staging technology",
+        "placeholder": "Enter your email",
+        "button": "Subscribe"
+      },
+      "copyright": "All rights reserved.",
+      "companyLinks": {
+        "about": "About Us",
+        "blog": "Blog",
+        "careers": "Careers",
+        "contact": "Contact"
+      },
+      "legalLinks": {
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "cookies": "Cookie Policy",
+        "gdpr": "GDPR"
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Listings?",
+      "subtitle": "Join thousands of real estate professionals using AI to sell properties faster.",
+      "button": "Start Staging Now"
+    },
+    "disclaimer": {
+      "title": "AI Visualization Disclaimer",
+      "text": "Images generated using these prompts are AI-staged visualizations. Final products may differ from visualizations. Product images are used as visual references, not exact replicas."
+    },
+    "features": {
+      "title": "Why Choose AtlasVS?"
+    },
+    "users": {
+      "title": "Built for Professionals",
+      "realtors": "Real Estate Agents",
+      "realtorsDesc": "Present vacant properties with stunning staging",
+      "architects": "Architects",
+      "architectsDesc": "Visualize designs with real furniture",
+      "designers": "Interior Designers",
+      "designersDesc": "Present concepts to clients beautifully",
+      "consumers": "Homeowners",
+      "consumersDesc": "Preview furniture before buying"
+    }
+  },
+  "editor": {
+    "title": "Staging Editor",
+    "uploadRoom": "Upload Room Photo",
+    "dragDrop": "Drag & drop an image, or click to browse",
+    "roomType": "Room Type",
+    "style": "Interior Style",
+    "colorPalette": "Color Palette",
+    "extras": "Additional Elements",
+    "computeMode": "Compute Mode",
+    "cpu": "CPU",
+    "gpu": "GPU",
+    "cpuDesc": "Slower but works everywhere",
+    "gpuDesc": "Faster with NVIDIA GPU",
+    "promptMode": "Generation Mode",
+    "staging": "Add Furniture",
+    "recolor": "Change Colors",
+    "styleTransfer": "Style Transfer",
+    "3dGeneration": "3D Generation",
+    "ipAdapterNote": "Your furniture images will be used as visual references for style consistency.",
+    "generatePrompt": "Generate Prompt"
+  },
+  "library": {
+    "title": "Furniture Library",
+    "myFurniture": "My Furniture",
+    "templates": "Templates",
+    "sellerCatalog": "Seller Catalog",
+    "uploadFurniture": "Upload Furniture",
+    "noFurniture": "No furniture yet. Upload your first item!",
+    "category": "Category",
+    "allCategories": "All Categories"
+  },
+  "output": {
+    "title": "Generated Prompt",
+    "positivePrompt": "Positive Prompt",
+    "negativePrompt": "Negative Prompt",
+    "settings": "Generation Settings",
+    "copyAll": "Copy All",
+    "disclaimer": "⚠️ Images generated using this prompt are AI-staged visualizations. Final products may differ."
+  },
+  "presets": {
+    "title": "Saved Presets",
+    "savePreset": "Save as Preset",
+    "loadPreset": "Load Preset",
+    "noPresets": "No presets saved yet"
+  },
+  "roomTypes": {
+    "living-room": "Living Room",
+    "bedroom": "Bedroom",
+    "office": "Home Office",
+    "dining-room": "Dining Room",
+    "kitchen": "Kitchen",
+    "bathroom": "Bathroom",
+    "outdoor": "Outdoor/Patio"
+  },
+  "styles": {
+    "modern-minimalist": {
+      "name": "Modern Minimalist",
+      "description": "Clean lines, neutral colors, and uncluttered spaces",
+      "features": [
+        "Neutral tones",
+        "Open spaces",
+        "Statement pieces"
+      ]
+    },
+    "scandinavian": {
+      "name": "Scandinavian",
+      "description": "Light, airy, and cozy Nordic-inspired interiors",
+      "features": [
+        "Light woods",
+        "White walls",
+        "Cozy textiles"
+      ]
+    },
+    "industrial": {
+      "name": "Industrial",
+      "description": "Raw materials, exposed elements, and urban aesthetics",
+      "features": [
+        "Exposed brick",
+        "Metal accents",
+        "Raw textures"
+      ]
+    },
+    "mid-century-modern": {
+      "name": "Mid-Century Modern",
+      "description": "Retro elegance with iconic 50s and 60s furniture",
+      "features": [
+        "Organic shapes",
+        "Bold colors",
+        "Iconic pieces"
+      ]
+    },
+    "luxury": {
+      "name": "Luxury",
+      "description": "Premium, sophisticated high-end interior design",
+      "features": [
+        "Rich materials",
+        "Gold accents",
+        "Designer pieces"
+      ]
+    },
+    "bohemian": {
+      "name": "Bohemian",
+      "description": "Eclectic, colorful, and globally-inspired spaces",
+      "features": [
+        "Layered textures",
+        "Plants",
+        "Global patterns"
+      ]
+    },
+    "coastal": {
+      "name": "Coastal",
+      "description": "Beach-inspired, relaxed, and breezy interiors",
+      "features": [
+        "Blue tones",
+        "Natural fibers",
+        "Light fabrics"
+      ]
+    },
+    "rustic": {
+      "name": "Rustic",
+      "description": "Warm, natural, and ruggedly charming spaces",
+      "features": [
+        "Natural wood",
+        "Stone elements",
+        "Handcrafted feel"
+      ]
+    },
+    "contemporary": {
+      "name": "Contemporary",
+      "description": "Current, evolving, and sophisticated design",
+      "features": [
+        "Sleek surfaces",
+        "Curated art",
+        "Modern tech"
+      ]
+    },
+    "farmhouse": {
+      "name": "Farmhouse",
+      "description": "Rustic, comfortable, and family-friendly interiors",
+      "features": [
+        "Apron sinks",
+        "Mixed metals",
+        "Distressed finishes"
+      ]
+    },
+    "japanese": {
+      "name": "Japanese",
+      "description": "Zen-inspired harmony, minimalism, and nature",
+      "features": [
+        "Natural materials",
+        "Simplicity",
+        "Balance"
+      ]
+    }
+  },
+  "extras": {
+    "plants": "Indoor Plants",
+    "lighting": "Decorative Lighting",
+    "wallArt": "Wall Art",
+    "rugs": "Area Rugs",
+    "cushions": "Throw Pillows",
+    "curtains": "Curtains/Drapes",
+    "books": "Books & Decor",
+    "vases": "Vases & Ceramics"
+  },
+  "roomCategories": {
+    "livingRoom": "Living Room",
+    "bedroom": "Bedroom",
+    "kitchen": "Kitchen",
+    "bathroom": "Bathroom",
+    "commercial": "Commercial",
+    "outdoor": "Outdoor"
+  },
+  "categories": {
+    "sofa": "Sofa",
+    "chair": "Chair",
+    "table": "Table",
+    "bed": "Bed",
+    "storage": "Storage",
+    "lighting": "Lighting",
+    "decor": "Decor",
+    "rug": "Rug",
+    "plant": "Plant"
+  }
+}

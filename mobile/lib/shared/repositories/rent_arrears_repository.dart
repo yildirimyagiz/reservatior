@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/rent_arrears_service.dart';
 
-/// Repository for RentArrears operations
-/// Provides CRUD operations with proper error handling and type safety
-class RentArrearsRepository {
-  final DioClient _dioClient;
+abstract class RentArrearsRepository {
+  Future<RentArrears> getById(String id);
+  Future<List<RentArrears>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<RentArrears> create(RentArrears item);
+  Future<RentArrears> update(String id, RentArrears item);
+  Future<void> delete(String id);
+}
 
-  RentArrearsRepository(this._dioClient);
+class RentArrearsRepositoryImpl implements RentArrearsRepository {
+  final RentArrearsService _service;
+  RentArrearsRepositoryImpl(this._service);
 
-  /// Get RentArrears by ID
-  /// Returns [RentArrears] if found, throws [RepositoryException] otherwise
-  Future<RentArrears> getRentArrearsById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/rent_arrears/$id');
-      if (response.statusCode == 200) {
-        return RentArrears.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch rent_arrears',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<RentArrears> getById(String id) => _service.getRentArrearsById(id);
 
-  /// Get all rent_arrearses with pagination and filtering
-  /// Returns list of [RentArrears] objects
-  Future<List<RentArrears>> getrent_arrearses({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<RentArrears>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/rent_arrears', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => RentArrears.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch rent_arrearses',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getRentArrearses(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new RentArrears
-  /// Returns created [RentArrears] object
-  Future<RentArrears> createRentArrears(RentArrears rentArrears) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/rent_arrears',
-        data: rentArrears.toJson(),
-      );
-      return RentArrears.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<RentArrears> create(RentArrears item) => _service.createRentArrears(item);
 
-  // Update RentArrears
-  Future<RentArrears> updateRentArrears(String id, RentArrears rentArrears) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/rent_arrears/$id',
-        data: rentArrears.toJson(),
-      );
-      return RentArrears.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<RentArrears> update(String id, RentArrears item) => _service.updateRentArrears(id, item);
 
-  // Delete RentArrears
-  Future<void> deleteRentArrears(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/rent_arrears/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteRentArrears(id);
 }

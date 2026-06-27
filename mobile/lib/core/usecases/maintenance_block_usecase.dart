@@ -1,106 +1,44 @@
-import '../../features/shared/services/maintenance_block_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for MaintenanceBlock
+import 'package:reservatior/shared/repositories/maintenance_block_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetMaintenanceBlockByIdUseCase {
-  final MaintenanceBlockService _service;
-  
-  GetMaintenanceBlockByIdUseCase(this._service);
-  
-  Future<MaintenanceBlock> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final MaintenanceBlockRepository _repository;
+  GetMaintenanceBlockByIdUseCase(this._repository);
+  Future<MaintenanceBlock> execute(String id) => _repository.getById(id);
 }
 
 class GetMaintenanceBlocksUseCase {
-  final MaintenanceBlockService _service;
-  
-  GetMaintenanceBlocksUseCase(this._service);
-  
+  final MaintenanceBlockRepository _repository;
+  GetMaintenanceBlocksUseCase(this._repository);
   Future<List<MaintenanceBlock>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateMaintenanceBlockUseCase {
-  final MaintenanceBlockService _service;
-  
-  CreateMaintenanceBlockUseCase(this._service);
-  
-  Future<MaintenanceBlock> execute(MaintenanceBlock maintenanceBlock) async {
-    // Add validation logic here
-    return await _service.create(maintenanceBlock);
-  }
+  final MaintenanceBlockRepository _repository;
+  CreateMaintenanceBlockUseCase(this._repository);
+  Future<MaintenanceBlock> execute(MaintenanceBlock item) => _repository.create(item);
 }
 
 class UpdateMaintenanceBlockUseCase {
-  final MaintenanceBlockService _service;
-  
-  UpdateMaintenanceBlockUseCase(this._service);
-  
-  Future<MaintenanceBlock> execute(String id, MaintenanceBlock maintenanceBlock) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, maintenanceBlock);
-  }
+  final MaintenanceBlockRepository _repository;
+  UpdateMaintenanceBlockUseCase(this._repository);
+  Future<MaintenanceBlock> execute(String id, MaintenanceBlock item) => _repository.update(id, item);
 }
 
 class DeleteMaintenanceBlockUseCase {
-  final MaintenanceBlockService _service;
-  
-  DeleteMaintenanceBlockUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// MaintenanceBlock Use Case Container
-class MaintenanceBlockUseCases {
-  final GetMaintenanceBlockByIdUseCase getById;
-  final GetMaintenanceBlocksUseCase getAll;
-  final CreateMaintenanceBlockUseCase create;
-  final UpdateMaintenanceBlockUseCase update;
-  final DeleteMaintenanceBlockUseCase delete;
-  
-  MaintenanceBlockUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory MaintenanceBlockUseCases.create(MaintenanceBlockService service) {
-    return MaintenanceBlockUseCases(
-      getById: GetMaintenanceBlockByIdUseCase(service),
-      getAll: GetMaintenanceBlocksUseCase(service),
-      create: CreateMaintenanceBlockUseCase(service),
-      update: UpdateMaintenanceBlockUseCase(service),
-      delete: DeleteMaintenanceBlockUseCase(service),
-    );
-  }
+  final MaintenanceBlockRepository _repository;
+  DeleteMaintenanceBlockUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

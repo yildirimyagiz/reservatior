@@ -1,0 +1,110 @@
+{
+  "TR": {
+    "countryCode": "TR",
+    "countryName": "Türkiye",
+    "currency": "TRY",
+    "currencySymbol": "₺",
+    "phoneCode": "+90",
+    "languageCode": "tr",
+    "supportedLanguages": ["tr", "en"],
+    "taxRate": 0.20,
+    "taxName": "KDV",
+    "baseCommission": 0.04,
+    "maxLeasePeriodMonths": 120,
+    "addressFormat": {
+      "adminLevel1": "İl",
+      "adminLevel2": "İlçe",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "APARTMENT", "VILLA", "DETACHED_HOUSE", "STUDIO", "PENTHOUSE", "OFFICE", "RETAIL", "COMMERCIAL_SPACE"
+    ],
+    "databaseSchema": "schema_tr.prisma"
+  },
+  "AE": {
+    "countryCode": "AE",
+    "countryName": "United Arab Emirates",
+    "currency": "AED",
+    "currencySymbol": "د.إ",
+    "phoneCode": "+971",
+    "languageCode": "ar",
+    "supportedLanguages": ["ar", "en"],
+    "taxRate": 0.05,
+    "taxName": "VAT",
+    "baseCommission": 0.02,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "Emirate",
+      "adminLevel2": "Area",
+      "zipCodeRequired": false
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": false
+    },
+    "propertyTypes": [
+      "VILLA", "APARTMENT", "TOWNHOUSE", "PENTHOUSE", "COMPOUND", "OFFICE", "RETAIL", "COMMERCIAL_SPACE"
+    ],
+    "databaseSchema": "schema_ae.prisma"
+  },
+  "US": {
+    "countryCode": "US",
+    "countryName": "United States",
+    "currency": "USD",
+    "currencySymbol": "$",
+    "phoneCode": "+1",
+    "languageCode": "en",
+    "supportedLanguages": ["en", "es"],
+    "taxRate": 0.07,
+    "taxName": "Sales Tax",
+    "baseCommission": 0.06,
+    "maxLeasePeriodMonths": 60,
+    "addressFormat": {
+      "adminLevel1": "State",
+      "adminLevel2": "County",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "SINGLE_FAMILY", "MULTI_FAMILY", "CONDO_APARTMENT", "TOWNHOUSE", "ADU_GUEST_HOUSE", "CABIN_TINY_HOUSE", "COMMERCIAL"
+    ],
+    "databaseSchema": "schema.prisma"
+  },
+  "UK": {
+    "countryCode": "UK",
+    "countryName": "United Kingdom",
+    "currency": "GBP",
+    "currencySymbol": "£",
+    "phoneCode": "+44",
+    "languageCode": "en",
+    "supportedLanguages": ["en"],
+    "taxRate": 0.20,
+    "taxName": "VAT",
+    "baseCommission": 0.015,
+    "maxLeasePeriodMonths": 36,
+    "addressFormat": {
+      "adminLevel1": "County",
+      "adminLevel2": "Post Town",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "DETACHED_HOUSE", "SEMI_DETACHED_HOUSE", "TERRACED_HOUSE", "FLAT_MAISONETTE", "BUNGALOW", "COTTAGE", "STUDIO", "COMMERCIAL"
+    ],
+    "databaseSchema": "schema_uk.prisma"
+  }
+}

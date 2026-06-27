@@ -1,61 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/listing_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import 'dio_client_provider.dart';
+import 'package:reservatior/shared/services/listing_service.dart';
+import 'package:reservatior/shared/repositories/listing_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/providers/dio_client_provider.dart';
 
-// Listing Providers
-
-final ListingServiceProvider = Provider<ListingService>((ref) {
-  final dioClient = ref.watch(dioClientProvider);
-  return ListingService(dioClient);
+final listingServiceProvider = Provider<ListingService>((ref) {
+  final dio = ref.watch(dioClientProvider);
+  return ListingService(dio);
 });
 
-// List Provider
-final listingProvider = FutureProvider.autoDispose<List<Listing>>((ref) async {
-  final service = ref.watch(ListingServiceProvider);
-  return service.getListings();
+final listingRepositoryProvider = Provider<ListingRepository>((ref) {
+  final service = ref.watch(listingServiceProvider);
+  return ListingRepositoryImpl(service);
 });
 
-// Create Provider
-final ListingCreateProvider = FutureProvider.autoDispose<Listing>((ref) async {
-  final service = ref.watch(ListingServiceProvider);
-  return service.createListing(Listing());
+// Default list (unfiltered)
+final listingListProvider = FutureProvider.autoDispose<List<Listing>>((ref) async {
+  final repo = ref.watch(listingRepositoryProvider);
+  return await repo.getAll();
 });
 
-// Update Provider  
-final ListingUpdateProvider = FutureProvider.autoDispose<Listing>((ref) async {
-  final service = ref.watch(ListingServiceProvider);
-  final state = ref.watch(ListingUpdateStateProvider);
-  if (state['id'] != null && state['listing'] != null) {
-    return service.updateListing(state['id'], state['listing']);
-  }
-  throw Exception('No update data provided');
+// Advanced Filtered Provider
+final filteredListingProvider = FutureProvider.family.autoDispose<List<Listing>, Map<String, dynamic>>((ref, filters) async {
+  final repo = ref.watch(listingRepositoryProvider);
+  return await repo.getAll(filters: filters);
 });
 
-// Delete Provider
-final ListingDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(ListingServiceProvider);
-  final state = ref.watch(ListingDeleteStateProvider);
-  if (state != null) {
-    return service.deleteListing(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final ListingUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final ListingDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final ListingLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(listingProvider);
-  final createAsync = ref.watch(ListingCreateProvider);
-  final updateAsync = ref.watch(ListingUpdateProvider);
-  final deleteAsync = ref.watch(ListingDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final listingCreateProvider = StateProvider<Listing?>((ref) => null);
+final listingUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final listingDeleteProvider = StateProvider<String?>((ref) => null);
+final listingLoadingProvider = StateProvider<bool>((ref) => false);

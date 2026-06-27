@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        @page { size: 210mm 297mm; margin: 0; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            width: 210mm; 
+            height: 297mm; 
+            margin: 0;
+            padding: 0;
+            background: #f8f8f8;
+            color: #333;
+            overflow: hidden;
+        }
+        
+        /* Curved Header */
+        .header-curve {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 250px;
+            background: white;
+            border-bottom-left-radius: 50% 20%;
+            border-bottom-right-radius: 50% 20%;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .logo-area {
+            text-align: center;
+        }
+        
+        .logo-img {
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-text {
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Hero Section under header */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 500px; /* Covers top half */
+            z-index: 1;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .about-overlay {
+            position: absolute;
+            top: 280px; /* Below curve */
+            left: 40px;
+            width: 500px;
+            color: white;
+        }
+
+        .about-overlay h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            margin: 0 0 20px 0;
+            font-weight: 400;
+        }
+
+        .about-overlay p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Services Section (White Curve Up) */
+        .services-curve {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: white;
+            border-top-left-radius: 50% 10%;
+            border-top-right-radius: 50% 10%;
+            z-index: 10;
+            padding-top: 80px;
+            text-align: center;
+        }
+
+        .services-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .services-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 0 40px;
+            margin-bottom: 60px;
+        }
+
+        .service-item {
+            width: 30%;
+            text-align: center;
+        }
+
+        .service-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .service-item h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .service-item p {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 30px 40px;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        
+        .contact-info {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-qr {
+            position: absolute;
+            top: 200px; /* Floating on boundary */
+            right: 40px;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Curve -->
+    <div class="header-curve">
+        <div class="logo-area">
+            {% if agency_logo_b64 %}
+            <img src="data:image/jpeg;base64,{{ agency_logo_b64 }}" class="logo-img">
+            {% else %}
+            <!-- Placeholder Logo Icon -->
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 10px;">
+                <path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-8h8v8" />
+            </svg>
+            {% endif %}
+            <div class="logo-text">{{ agency_name | default("REAL ESTATE") }}</div>
+        </div>
+    </div>
+
+    <!-- Main Hero Image -->
+    <div class="hero">
+        {% if photos and photos[0] %}
+        <img src="data:image/jpeg;base64,{{ photos[0] }}" class="hero-img">
+        {% else %}
+        <div class="hero-img" style="background: #333;"></div>
+        {% endif %}
+
+        <div class="about-overlay">
+            <h2>About Us</h2>
+            <p>
+                {{ description | truncate(300) }}
+                <br><br>
+                Starting at <strong>${{ price }}</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- QR Code Float -->
+    <div class="page-qr">
+        <img src="data:image/png;base64,{{ qr_code }}" width="80" height="80">
+    </div>
+
+    <!-- Services / Details Curve -->
+    <div class="services-curve">
+        <h2 class="services-title">Property Details</h2>
+        
+        <div class="services-grid">
+            <div class="service-item">
+                <span class="service-icon">🏠</span>
+                <h3>Property Sales</h3>
+                <p>Located at {{ address }}. A prime example of modern living with exceptional amenities.</p>
+            </div>
+            <div class="service-item">
+                <span class="service-icon">✨</span>
+                <h3>Features</h3>
+                <p>{{ bedrooms }} Bedrooms, {{ bathrooms }} Bathrooms, and a spacious {{ sqft }} sq ft layout.</p>
+            </div>
+            <div class="service-item">
+                <span class="service-icon">🛋️</span>
+                <h3>Home Staging</h3>
+                <p>Fully staged interiors available. Virtual tours ready upon request.</p>
+            </div>
+        </div>
+
+        <div class="services-title" style="font-size: 24px; margin-bottom: 10px;">Contact Us</div>
+        <p style="color: #666; margin-bottom: 30px;">{{ agent_name }}</p>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="contact-info">
+            <div class="contact-item">📞 {{ agent_phone | default("000 000 000") }}</div>
+            <div class="contact-item">✉️ {{ agent_email | default("info@business.com") }}</div>
+        </div>
+        <div class="contact-info">
+            <div class="contact-item">📍 {{ address }}</div>
+        </div>
+    </div>
+
+</body>
+</html>

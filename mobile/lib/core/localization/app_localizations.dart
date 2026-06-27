@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,33 +11,33 @@ class SupportedLanguage {
   final String flag;
   final bool isRTL;
 
-  const SupportedLanguage({
+  SupportedLanguage({
     required this.code, required this.name,
     required this.nativeName, required this.flag,
     this.isRTL = false,
   });
 }
 
-const List<SupportedLanguage> kSupportedLanguages = [
+List<SupportedLanguage> kSupportedLanguages = [
   SupportedLanguage(code: 'en', name: 'English',    nativeName: 'English',    flag: '🇺🇸'),
-  SupportedLanguage(code: 'tr', name: 'Turkish',    nativeName: 'Türkçe',     flag: '🇹🇷'),
+  SupportedLanguage(code: 'tr', name: 'Turkish',    nativeName: 'mobile.leftovers.t_rk_e'.tr(),     flag: '🇹🇷'),
   SupportedLanguage(code: 'ar', name: 'Arabic',     nativeName: 'العربية',    flag: '🇸🇦', isRTL: true),
   SupportedLanguage(code: 'de', name: 'German',     nativeName: 'Deutsch',    flag: '🇩🇪'),
-  SupportedLanguage(code: 'fr', name: 'French',     nativeName: 'Français',   flag: '🇫🇷'),
-  SupportedLanguage(code: 'es', name: 'Spanish',    nativeName: 'Español',    flag: '🇪🇸'),
+  SupportedLanguage(code: 'fr', name: 'French',     nativeName: 'mobile.leftovers.fran_ais'.tr(),   flag: '🇫🇷'),
+  SupportedLanguage(code: 'es', name: 'Spanish',    nativeName: 'mobile.leftovers.espa_ol'.tr(),    flag: '🇪🇸'),
   SupportedLanguage(code: 'it', name: 'Italian',    nativeName: 'Italiano',   flag: '🇮🇹'),
   SupportedLanguage(code: 'ru', name: 'Russian',    nativeName: 'Русский',    flag: '🇷🇺'),
   SupportedLanguage(code: 'zh', name: 'Chinese',    nativeName: '中文',        flag: '🇨🇳'),
   SupportedLanguage(code: 'ja', name: 'Japanese',   nativeName: '日本語',      flag: '🇯🇵'),
   SupportedLanguage(code: 'ko', name: 'Korean',     nativeName: '한국어',      flag: '🇰🇷'),
-  SupportedLanguage(code: 'pt', name: 'Portuguese', nativeName: 'Português',  flag: '🇧🇷'),
+  SupportedLanguage(code: 'pt', name: 'Portuguese', nativeName: 'mobile.leftovers.portugu_s'.tr(),  flag: '🇧🇷'),
   SupportedLanguage(code: 'nl', name: 'Dutch',      nativeName: 'Nederlands', flag: '🇳🇱'),
   SupportedLanguage(code: 'pl', name: 'Polish',     nativeName: 'Polski',     flag: '🇵🇱'),
-  SupportedLanguage(code: 'sv', name: 'Swedish',    nativeName: 'Svenska',    flag: '🇸🇪'),
+  SupportedLanguage(code: 'se', name: 'Swedish',    nativeName: 'Svenska',    flag: '🇸🇪'),
   SupportedLanguage(code: 'da', name: 'Danish',     nativeName: 'Dansk',      flag: '🇩🇰'),
   SupportedLanguage(code: 'fi', name: 'Finnish',    nativeName: 'Suomi',      flag: '🇫🇮'),
   SupportedLanguage(code: 'no', name: 'Norwegian',  nativeName: 'Norsk',      flag: '🇳🇴'),
-  SupportedLanguage(code: 'he', name: 'Hebrew',     nativeName: 'עברית',      flag: '🇮🇱', isRTL: true),
+  SupportedLanguage(code: 'gr', name: 'Greek',      nativeName: 'Ελληνικά',   flag: '🇬🇷'),
   SupportedLanguage(code: 'hi', name: 'Hindi',      nativeName: 'हिन्दी',     flag: '🇮🇳'),
 ];
 

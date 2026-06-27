@@ -1,106 +1,44 @@
-import '../../features/shared/services/security_deposit_protection_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for SecurityDepositProtection
+import 'package:reservatior/shared/repositories/security_deposit_protection_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetSecurityDepositProtectionByIdUseCase {
-  final SecurityDepositProtectionService _service;
-  
-  GetSecurityDepositProtectionByIdUseCase(this._service);
-  
-  Future<SecurityDepositProtection> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final SecurityDepositProtectionRepository _repository;
+  GetSecurityDepositProtectionByIdUseCase(this._repository);
+  Future<SecurityDepositProtection> execute(String id) => _repository.getById(id);
 }
 
 class GetSecurityDepositProtectionsUseCase {
-  final SecurityDepositProtectionService _service;
-  
-  GetSecurityDepositProtectionsUseCase(this._service);
-  
+  final SecurityDepositProtectionRepository _repository;
+  GetSecurityDepositProtectionsUseCase(this._repository);
   Future<List<SecurityDepositProtection>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateSecurityDepositProtectionUseCase {
-  final SecurityDepositProtectionService _service;
-  
-  CreateSecurityDepositProtectionUseCase(this._service);
-  
-  Future<SecurityDepositProtection> execute(SecurityDepositProtection securityDepositProtection) async {
-    // Add validation logic here
-    return await _service.create(securityDepositProtection);
-  }
+  final SecurityDepositProtectionRepository _repository;
+  CreateSecurityDepositProtectionUseCase(this._repository);
+  Future<SecurityDepositProtection> execute(SecurityDepositProtection item) => _repository.create(item);
 }
 
 class UpdateSecurityDepositProtectionUseCase {
-  final SecurityDepositProtectionService _service;
-  
-  UpdateSecurityDepositProtectionUseCase(this._service);
-  
-  Future<SecurityDepositProtection> execute(String id, SecurityDepositProtection securityDepositProtection) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, securityDepositProtection);
-  }
+  final SecurityDepositProtectionRepository _repository;
+  UpdateSecurityDepositProtectionUseCase(this._repository);
+  Future<SecurityDepositProtection> execute(String id, SecurityDepositProtection item) => _repository.update(id, item);
 }
 
 class DeleteSecurityDepositProtectionUseCase {
-  final SecurityDepositProtectionService _service;
-  
-  DeleteSecurityDepositProtectionUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// SecurityDepositProtection Use Case Container
-class SecurityDepositProtectionUseCases {
-  final GetSecurityDepositProtectionByIdUseCase getById;
-  final GetSecurityDepositProtectionsUseCase getAll;
-  final CreateSecurityDepositProtectionUseCase create;
-  final UpdateSecurityDepositProtectionUseCase update;
-  final DeleteSecurityDepositProtectionUseCase delete;
-  
-  SecurityDepositProtectionUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory SecurityDepositProtectionUseCases.create(SecurityDepositProtectionService service) {
-    return SecurityDepositProtectionUseCases(
-      getById: GetSecurityDepositProtectionByIdUseCase(service),
-      getAll: GetSecurityDepositProtectionsUseCase(service),
-      create: CreateSecurityDepositProtectionUseCase(service),
-      update: UpdateSecurityDepositProtectionUseCase(service),
-      delete: DeleteSecurityDepositProtectionUseCase(service),
-    );
-  }
+  final SecurityDepositProtectionRepository _repository;
+  DeleteSecurityDepositProtectionUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

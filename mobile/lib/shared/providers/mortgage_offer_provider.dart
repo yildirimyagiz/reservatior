@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/mortgage_offer_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/mortgage_offer_service.dart';
+import 'package:reservatior/shared/repositories/mortgage_offer_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// MortgageOffer Providers
-
-final MortgageOfferServiceProvider = Provider<MortgageOfferService>((ref) {
+final mortgageOfferServiceProvider = Provider<MortgageOfferService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return MortgageOfferService(dioClient);
 });
 
-// List Provider
-final mortgageOfferProvider = FutureProvider.autoDispose<List<MortgageOffer>>((ref) async {
-  final service = ref.watch(MortgageOfferServiceProvider);
-  return service.getMortgageOffers();
+final mortgageOfferRepositoryProvider = Provider<MortgageOfferRepository>((ref) {
+  final service = ref.watch(mortgageOfferServiceProvider);
+  return MortgageOfferRepositoryImpl(service);
 });
 
-// Create Provider
-final MortgageOfferCreateProvider = FutureProvider.autoDispose<MortgageOffer>((ref) async {
-  final service = ref.watch(MortgageOfferServiceProvider);
-  return service.createMortgageOffer(MortgageOffer());
+final mortgageOfferListProvider = FutureProvider.autoDispose<List<MortgageOffer>>((ref) async {
+  final repository = ref.watch(mortgageOfferRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final MortgageOfferUpdateProvider = FutureProvider.autoDispose<MortgageOffer>((ref) async {
-  final service = ref.watch(MortgageOfferServiceProvider);
-  final state = ref.watch(MortgageOfferUpdateStateProvider);
-  if (state['id'] != null && state['mortgage_offer'] != null) {
-    return service.updateMortgageOffer(state['id'], state['mortgage_offer']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final MortgageOfferDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(MortgageOfferServiceProvider);
-  final state = ref.watch(MortgageOfferDeleteStateProvider);
-  if (state != null) {
-    return service.deleteMortgageOffer(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final MortgageOfferUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final MortgageOfferDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final MortgageOfferLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(mortgageOfferProvider);
-  final createAsync = ref.watch(MortgageOfferCreateProvider);
-  final updateAsync = ref.watch(MortgageOfferUpdateProvider);
-  final deleteAsync = ref.watch(MortgageOfferDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final mortgageOfferCreateProvider = StateProvider<MortgageOffer?>((ref) => null);
+final mortgageOfferUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final mortgageOfferDeleteProvider = StateProvider<String?>((ref) => null);
+final mortgageOfferLoadingProvider = StateProvider<bool>((ref) => false);

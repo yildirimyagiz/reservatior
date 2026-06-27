@@ -1,0 +1,15 @@
+[Unit]
+Description=Persistent SSH Tunnel to RunPod AI Backend
+After=network.target
+
+[Service]
+User=root
+# Execute via the Python wrapper which handles the PTY requirement
+ExecStart=/usr/bin/python3 /usr/local/bin/runpod-tunnel.py
+
+# Restart automatically if it crashes
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

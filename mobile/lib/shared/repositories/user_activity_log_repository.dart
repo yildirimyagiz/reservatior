@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/user_activity_log_service.dart';
 
-/// Repository for UserActivityLog operations
-/// Provides CRUD operations with proper error handling and type safety
-class UserActivityLogRepository {
-  final DioClient _dioClient;
+abstract class UserActivityLogRepository {
+  Future<UserActivityLog> getById(String id);
+  Future<List<UserActivityLog>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<UserActivityLog> create(UserActivityLog item);
+  Future<UserActivityLog> update(String id, UserActivityLog item);
+  Future<void> delete(String id);
+}
 
-  UserActivityLogRepository(this._dioClient);
+class UserActivityLogRepositoryImpl implements UserActivityLogRepository {
+  final UserActivityLogService _service;
+  UserActivityLogRepositoryImpl(this._service);
 
-  /// Get UserActivityLog by ID
-  /// Returns [UserActivityLog] if found, throws [RepositoryException] otherwise
-  Future<UserActivityLog> getUserActivityLogById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/user_activity_log/$id');
-      if (response.statusCode == 200) {
-        return UserActivityLog.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch user_activity_log',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserActivityLog> getById(String id) => _service.getUserActivityLogById(id);
 
-  /// Get all user_activity_logs with pagination and filtering
-  /// Returns list of [UserActivityLog] objects
-  Future<List<UserActivityLog>> getuser_activity_logs({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<UserActivityLog>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/user_activity_log', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => UserActivityLog.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch user_activity_logs',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getUserActivityLogs(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new UserActivityLog
-  /// Returns created [UserActivityLog] object
-  Future<UserActivityLog> createUserActivityLog(UserActivityLog userActivityLog) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/user_activity_log',
-        data: userActivityLog.toJson(),
-      );
-      return UserActivityLog.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserActivityLog> create(UserActivityLog item) => _service.createUserActivityLog(item);
 
-  // Update UserActivityLog
-  Future<UserActivityLog> updateUserActivityLog(String id, UserActivityLog userActivityLog) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/user_activity_log/$id',
-        data: userActivityLog.toJson(),
-      );
-      return UserActivityLog.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<UserActivityLog> update(String id, UserActivityLog item) => _service.updateUserActivityLog(id, item);
 
-  // Delete UserActivityLog
-  Future<void> deleteUserActivityLog(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/user_activity_log/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteUserActivityLog(id);
 }

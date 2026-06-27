@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/ai_chat_message_service.dart';
 
-/// Repository for AiChatMessage operations
-/// Provides CRUD operations with proper error handling and type safety
-class AiChatMessageRepository {
-  final DioClient _dioClient;
+abstract class AiChatMessageRepository {
+  Future<AiChatMessage> getById(String id);
+  Future<List<AiChatMessage>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AiChatMessage> create(AiChatMessage item);
+  Future<AiChatMessage> update(String id, AiChatMessage item);
+  Future<void> delete(String id);
+}
 
-  AiChatMessageRepository(this._dioClient);
+class AiChatMessageRepositoryImpl implements AiChatMessageRepository {
+  final AiChatMessageService _service;
+  AiChatMessageRepositoryImpl(this._service);
 
-  /// Get AiChatMessage by ID
-  /// Returns [AiChatMessage] if found, throws [RepositoryException] otherwise
-  Future<AiChatMessage> getAiChatMessageById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_chat_message/$id');
-      if (response.statusCode == 200) {
-        return AiChatMessage.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_chat_message',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiChatMessage> getById(String id) => _service.getAiChatMessageById(id);
 
-  /// Get all ai_chat_messages with pagination and filtering
-  /// Returns list of [AiChatMessage] objects
-  Future<List<AiChatMessage>> getai_chat_messages({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AiChatMessage>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/ai_chat_message', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AiChatMessage.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_chat_messages',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAiChatMessages(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AiChatMessage
-  /// Returns created [AiChatMessage] object
-  Future<AiChatMessage> createAiChatMessage(AiChatMessage aiChatMessage) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_chat_message',
-        data: aiChatMessage.toJson(),
-      );
-      return AiChatMessage.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiChatMessage> create(AiChatMessage item) => _service.createAiChatMessage(item);
 
-  // Update AiChatMessage
-  Future<AiChatMessage> updateAiChatMessage(String id, AiChatMessage aiChatMessage) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_chat_message/$id',
-        data: aiChatMessage.toJson(),
-      );
-      return AiChatMessage.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiChatMessage> update(String id, AiChatMessage item) => _service.updateAiChatMessage(id, item);
 
-  // Delete AiChatMessage
-  Future<void> deleteAiChatMessage(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_chat_message/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAiChatMessage(id);
 }

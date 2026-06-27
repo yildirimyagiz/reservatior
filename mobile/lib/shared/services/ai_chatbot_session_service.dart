@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AIChatbotSessionService {
+class AiChatbotSessionService {
   final DioClient _dioClient;
+  AiChatbotSessionService(this._dioClient);
 
-  AIChatbotSessionService(this._dioClient);
-
-  // Get AIChatbotSession by ID
-  Future<AIChatbotSession> getAIChatbotSessionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_chatbot_session/$id');
-      return AIChatbotSession.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiChatbotSession> getAiChatbotSessionById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiChatbotSessions}/$id');
+    return AiChatbotSession.fromJson(response.data['data']);
   }
 
-  // Get all ai_chatbot_sessions
-  Future<List<AIChatbotSession>> getAIChatbotSessions({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiChatbotSession>> getAiChatbotSessions({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_chatbot_session', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AIChatbotSession.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiChatbotSessions, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiChatbotSession.fromJson(json)).toList();
   }
 
-  // Create AIChatbotSession
-  Future<AIChatbotSession> createAIChatbotSession(AIChatbotSession aIChatbotSession) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_chatbot_session',
-        data: aIChatbotSession.toJson(),
-      );
-      return AIChatbotSession.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiChatbotSession> createAiChatbotSession(AiChatbotSession item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiChatbotSessions, data: item.toJson());
+    return AiChatbotSession.fromJson(response.data['data']);
   }
 
-  // Update AIChatbotSession
-  Future<AIChatbotSession> updateAIChatbotSession(String id, AIChatbotSession aIChatbotSession) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_chatbot_session/$id',
-        data: aIChatbotSession.toJson(),
-      );
-      return AIChatbotSession.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiChatbotSession> updateAiChatbotSession(String id, AiChatbotSession item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiChatbotSessions}/$id', data: item.toJson());
+    return AiChatbotSession.fromJson(response.data['data']);
   }
 
-  // Delete AIChatbotSession
-  Future<void> deleteAIChatbotSession(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_chatbot_session/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiChatbotSession(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiChatbotSessions}/$id');
   }
 }

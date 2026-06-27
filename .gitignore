@@ -1,9 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+**/node_modules
 /.pnp
 .pnp.js
+
+# build artifacts
+**/dist
+**/chrome
+**/data
+**/.telegram_session
 
 # testing
 /coverage
@@ -25,6 +31,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -40,3 +47,6 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+/src/generated/prisma
+server/.wwebjs_auth/
+server/prisma-generated/

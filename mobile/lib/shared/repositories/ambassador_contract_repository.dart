@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/ambassador_contract_service.dart';
 
-/// Repository for AmbassadorContract operations
-/// Provides CRUD operations with proper error handling and type safety
-class AmbassadorContractRepository {
-  final DioClient _dioClient;
+abstract class AmbassadorContractRepository {
+  Future<AmbassadorContract> getById(String id);
+  Future<List<AmbassadorContract>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AmbassadorContract> create(AmbassadorContract item);
+  Future<AmbassadorContract> update(String id, AmbassadorContract item);
+  Future<void> delete(String id);
+}
 
-  AmbassadorContractRepository(this._dioClient);
+class AmbassadorContractRepositoryImpl implements AmbassadorContractRepository {
+  final AmbassadorContractService _service;
+  AmbassadorContractRepositoryImpl(this._service);
 
-  /// Get AmbassadorContract by ID
-  /// Returns [AmbassadorContract] if found, throws [RepositoryException] otherwise
-  Future<AmbassadorContract> getAmbassadorContractById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ambassador_contract/$id');
-      if (response.statusCode == 200) {
-        return AmbassadorContract.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ambassador_contract',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AmbassadorContract> getById(String id) => _service.getAmbassadorContractById(id);
 
-  /// Get all ambassador_contracts with pagination and filtering
-  /// Returns list of [AmbassadorContract] objects
-  Future<List<AmbassadorContract>> getambassador_contracts({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AmbassadorContract>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/ambassador_contract', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AmbassadorContract.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ambassador_contracts',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAmbassadorContracts(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AmbassadorContract
-  /// Returns created [AmbassadorContract] object
-  Future<AmbassadorContract> createAmbassadorContract(AmbassadorContract ambassadorContract) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ambassador_contract',
-        data: ambassadorContract.toJson(),
-      );
-      return AmbassadorContract.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AmbassadorContract> create(AmbassadorContract item) => _service.createAmbassadorContract(item);
 
-  // Update AmbassadorContract
-  Future<AmbassadorContract> updateAmbassadorContract(String id, AmbassadorContract ambassadorContract) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ambassador_contract/$id',
-        data: ambassadorContract.toJson(),
-      );
-      return AmbassadorContract.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AmbassadorContract> update(String id, AmbassadorContract item) => _service.updateAmbassadorContract(id, item);
 
-  // Delete AmbassadorContract
-  Future<void> deleteAmbassadorContract(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ambassador_contract/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAmbassadorContract(id);
 }

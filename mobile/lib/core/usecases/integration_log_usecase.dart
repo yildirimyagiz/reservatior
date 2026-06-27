@@ -1,106 +1,44 @@
-import '../../features/shared/services/integration_log_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for IntegrationLog
+import 'package:reservatior/shared/repositories/integration_log_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetIntegrationLogByIdUseCase {
-  final IntegrationLogService _service;
-  
-  GetIntegrationLogByIdUseCase(this._service);
-  
-  Future<IntegrationLog> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final IntegrationLogRepository _repository;
+  GetIntegrationLogByIdUseCase(this._repository);
+  Future<IntegrationLog> execute(String id) => _repository.getById(id);
 }
 
 class GetIntegrationLogsUseCase {
-  final IntegrationLogService _service;
-  
-  GetIntegrationLogsUseCase(this._service);
-  
+  final IntegrationLogRepository _repository;
+  GetIntegrationLogsUseCase(this._repository);
   Future<List<IntegrationLog>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateIntegrationLogUseCase {
-  final IntegrationLogService _service;
-  
-  CreateIntegrationLogUseCase(this._service);
-  
-  Future<IntegrationLog> execute(IntegrationLog integrationLog) async {
-    // Add validation logic here
-    return await _service.create(integrationLog);
-  }
+  final IntegrationLogRepository _repository;
+  CreateIntegrationLogUseCase(this._repository);
+  Future<IntegrationLog> execute(IntegrationLog item) => _repository.create(item);
 }
 
 class UpdateIntegrationLogUseCase {
-  final IntegrationLogService _service;
-  
-  UpdateIntegrationLogUseCase(this._service);
-  
-  Future<IntegrationLog> execute(String id, IntegrationLog integrationLog) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, integrationLog);
-  }
+  final IntegrationLogRepository _repository;
+  UpdateIntegrationLogUseCase(this._repository);
+  Future<IntegrationLog> execute(String id, IntegrationLog item) => _repository.update(id, item);
 }
 
 class DeleteIntegrationLogUseCase {
-  final IntegrationLogService _service;
-  
-  DeleteIntegrationLogUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// IntegrationLog Use Case Container
-class IntegrationLogUseCases {
-  final GetIntegrationLogByIdUseCase getById;
-  final GetIntegrationLogsUseCase getAll;
-  final CreateIntegrationLogUseCase create;
-  final UpdateIntegrationLogUseCase update;
-  final DeleteIntegrationLogUseCase delete;
-  
-  IntegrationLogUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory IntegrationLogUseCases.create(IntegrationLogService service) {
-    return IntegrationLogUseCases(
-      getById: GetIntegrationLogByIdUseCase(service),
-      getAll: GetIntegrationLogsUseCase(service),
-      create: CreateIntegrationLogUseCase(service),
-      update: UpdateIntegrationLogUseCase(service),
-      delete: DeleteIntegrationLogUseCase(service),
-    );
-  }
+  final IntegrationLogRepository _repository;
+  DeleteIntegrationLogUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

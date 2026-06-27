@@ -1,106 +1,44 @@
-import '../../features/shared/services/calendar_event_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for CalendarEvent
+import 'package:reservatior/shared/repositories/calendar_event_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetCalendarEventByIdUseCase {
-  final CalendarEventService _service;
-  
-  GetCalendarEventByIdUseCase(this._service);
-  
-  Future<CalendarEvent> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final CalendarEventRepository _repository;
+  GetCalendarEventByIdUseCase(this._repository);
+  Future<CalendarEvent> execute(String id) => _repository.getById(id);
 }
 
 class GetCalendarEventsUseCase {
-  final CalendarEventService _service;
-  
-  GetCalendarEventsUseCase(this._service);
-  
+  final CalendarEventRepository _repository;
+  GetCalendarEventsUseCase(this._repository);
   Future<List<CalendarEvent>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateCalendarEventUseCase {
-  final CalendarEventService _service;
-  
-  CreateCalendarEventUseCase(this._service);
-  
-  Future<CalendarEvent> execute(CalendarEvent calendarEvent) async {
-    // Add validation logic here
-    return await _service.create(calendarEvent);
-  }
+  final CalendarEventRepository _repository;
+  CreateCalendarEventUseCase(this._repository);
+  Future<CalendarEvent> execute(CalendarEvent item) => _repository.create(item);
 }
 
 class UpdateCalendarEventUseCase {
-  final CalendarEventService _service;
-  
-  UpdateCalendarEventUseCase(this._service);
-  
-  Future<CalendarEvent> execute(String id, CalendarEvent calendarEvent) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, calendarEvent);
-  }
+  final CalendarEventRepository _repository;
+  UpdateCalendarEventUseCase(this._repository);
+  Future<CalendarEvent> execute(String id, CalendarEvent item) => _repository.update(id, item);
 }
 
 class DeleteCalendarEventUseCase {
-  final CalendarEventService _service;
-  
-  DeleteCalendarEventUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// CalendarEvent Use Case Container
-class CalendarEventUseCases {
-  final GetCalendarEventByIdUseCase getById;
-  final GetCalendarEventsUseCase getAll;
-  final CreateCalendarEventUseCase create;
-  final UpdateCalendarEventUseCase update;
-  final DeleteCalendarEventUseCase delete;
-  
-  CalendarEventUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory CalendarEventUseCases.create(CalendarEventService service) {
-    return CalendarEventUseCases(
-      getById: GetCalendarEventByIdUseCase(service),
-      getAll: GetCalendarEventsUseCase(service),
-      create: CreateCalendarEventUseCase(service),
-      update: UpdateCalendarEventUseCase(service),
-      delete: DeleteCalendarEventUseCase(service),
-    );
-  }
+  final CalendarEventRepository _repository;
+  DeleteCalendarEventUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

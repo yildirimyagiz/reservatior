@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/guest_review_service.dart';
 
-/// Repository for GuestReview operations
-/// Provides CRUD operations with proper error handling and type safety
-class GuestReviewRepository {
-  final DioClient _dioClient;
+abstract class GuestReviewRepository {
+  Future<GuestReview> getById(String id);
+  Future<List<GuestReview>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<GuestReview> create(GuestReview item);
+  Future<GuestReview> update(String id, GuestReview item);
+  Future<void> delete(String id);
+}
 
-  GuestReviewRepository(this._dioClient);
+class GuestReviewRepositoryImpl implements GuestReviewRepository {
+  final GuestReviewService _service;
+  GuestReviewRepositoryImpl(this._service);
 
-  /// Get GuestReview by ID
-  /// Returns [GuestReview] if found, throws [RepositoryException] otherwise
-  Future<GuestReview> getGuestReviewById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/guest_review/$id');
-      if (response.statusCode == 200) {
-        return GuestReview.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch guest_review',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<GuestReview> getById(String id) => _service.getGuestReviewById(id);
 
-  /// Get all guest_reviews with pagination and filtering
-  /// Returns list of [GuestReview] objects
-  Future<List<GuestReview>> getguest_reviews({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<GuestReview>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/guest_review', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => GuestReview.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch guest_reviews',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getGuestReviews(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new GuestReview
-  /// Returns created [GuestReview] object
-  Future<GuestReview> createGuestReview(GuestReview guestReview) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/guest_review',
-        data: guestReview.toJson(),
-      );
-      return GuestReview.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<GuestReview> create(GuestReview item) => _service.createGuestReview(item);
 
-  // Update GuestReview
-  Future<GuestReview> updateGuestReview(String id, GuestReview guestReview) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/guest_review/$id',
-        data: guestReview.toJson(),
-      );
-      return GuestReview.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<GuestReview> update(String id, GuestReview item) => _service.updateGuestReview(id, item);
 
-  // Delete GuestReview
-  Future<void> deleteGuestReview(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/guest_review/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteGuestReview(id);
 }

@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class SolicitorManagementService {
   final DioClient _dioClient;
-
   SolicitorManagementService(this._dioClient);
 
-  // Get SolicitorManagement by ID
   Future<SolicitorManagement> getSolicitorManagementById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/solicitor_management/$id');
-      return SolicitorManagement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.solicitorManagements}/$id');
+    return SolicitorManagement.fromJson(response.data['data']);
   }
 
-  // Get all solicitor_managements
   Future<List<SolicitorManagement>> getSolicitorManagements({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/solicitor_management', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => SolicitorManagement.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.solicitorManagements, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => SolicitorManagement.fromJson(json)).toList();
   }
 
-  // Create SolicitorManagement
-  Future<SolicitorManagement> createSolicitorManagement(SolicitorManagement solicitorManagement) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/solicitor_management',
-        data: solicitorManagement.toJson(),
-      );
-      return SolicitorManagement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<SolicitorManagement> createSolicitorManagement(SolicitorManagement item) async {
+    final response = await _dioClient.post(ApiEndpoints.solicitorManagements, data: item.toJson());
+    return SolicitorManagement.fromJson(response.data['data']);
   }
 
-  // Update SolicitorManagement
-  Future<SolicitorManagement> updateSolicitorManagement(String id, SolicitorManagement solicitorManagement) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/solicitor_management/$id',
-        data: solicitorManagement.toJson(),
-      );
-      return SolicitorManagement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<SolicitorManagement> updateSolicitorManagement(String id, SolicitorManagement item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.solicitorManagements}/$id', data: item.toJson());
+    return SolicitorManagement.fromJson(response.data['data']);
   }
 
-  // Delete SolicitorManagement
   Future<void> deleteSolicitorManagement(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/solicitor_management/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.solicitorManagements}/$id');
   }
 }

@@ -28,7 +28,7 @@ class RepositoryException implements Exception {
 
   @override
   String toString() {
-    return 'RepositoryException: $message (Type: $type, Code: $code)';
+    return 'RepositoryException: $message (type: $type, code: $code)';
   }
 
   /// Factory for not found errors

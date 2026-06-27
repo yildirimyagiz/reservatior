@@ -1,106 +1,44 @@
-import '../../features/shared/services/mls_listing_enhancement_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for MlsListingEnhancement
+import 'package:reservatior/shared/repositories/mls_listing_enhancement_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetMlsListingEnhancementByIdUseCase {
-  final MlsListingEnhancementService _service;
-  
-  GetMlsListingEnhancementByIdUseCase(this._service);
-  
-  Future<MlsListingEnhancement> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final MlsListingEnhancementRepository _repository;
+  GetMlsListingEnhancementByIdUseCase(this._repository);
+  Future<MlsListingEnhancement> execute(String id) => _repository.getById(id);
 }
 
 class GetMlsListingEnhancementsUseCase {
-  final MlsListingEnhancementService _service;
-  
-  GetMlsListingEnhancementsUseCase(this._service);
-  
+  final MlsListingEnhancementRepository _repository;
+  GetMlsListingEnhancementsUseCase(this._repository);
   Future<List<MlsListingEnhancement>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateMlsListingEnhancementUseCase {
-  final MlsListingEnhancementService _service;
-  
-  CreateMlsListingEnhancementUseCase(this._service);
-  
-  Future<MlsListingEnhancement> execute(MlsListingEnhancement mlsListingEnhancement) async {
-    // Add validation logic here
-    return await _service.create(mlsListingEnhancement);
-  }
+  final MlsListingEnhancementRepository _repository;
+  CreateMlsListingEnhancementUseCase(this._repository);
+  Future<MlsListingEnhancement> execute(MlsListingEnhancement item) => _repository.create(item);
 }
 
 class UpdateMlsListingEnhancementUseCase {
-  final MlsListingEnhancementService _service;
-  
-  UpdateMlsListingEnhancementUseCase(this._service);
-  
-  Future<MlsListingEnhancement> execute(String id, MlsListingEnhancement mlsListingEnhancement) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, mlsListingEnhancement);
-  }
+  final MlsListingEnhancementRepository _repository;
+  UpdateMlsListingEnhancementUseCase(this._repository);
+  Future<MlsListingEnhancement> execute(String id, MlsListingEnhancement item) => _repository.update(id, item);
 }
 
 class DeleteMlsListingEnhancementUseCase {
-  final MlsListingEnhancementService _service;
-  
-  DeleteMlsListingEnhancementUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// MlsListingEnhancement Use Case Container
-class MlsListingEnhancementUseCases {
-  final GetMlsListingEnhancementByIdUseCase getById;
-  final GetMlsListingEnhancementsUseCase getAll;
-  final CreateMlsListingEnhancementUseCase create;
-  final UpdateMlsListingEnhancementUseCase update;
-  final DeleteMlsListingEnhancementUseCase delete;
-  
-  MlsListingEnhancementUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory MlsListingEnhancementUseCases.create(MlsListingEnhancementService service) {
-    return MlsListingEnhancementUseCases(
-      getById: GetMlsListingEnhancementByIdUseCase(service),
-      getAll: GetMlsListingEnhancementsUseCase(service),
-      create: CreateMlsListingEnhancementUseCase(service),
-      update: UpdateMlsListingEnhancementUseCase(service),
-      delete: DeleteMlsListingEnhancementUseCase(service),
-    );
-  }
+  final MlsListingEnhancementRepository _repository;
+  DeleteMlsListingEnhancementUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

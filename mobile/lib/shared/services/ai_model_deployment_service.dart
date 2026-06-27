@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AIModelDeploymentService {
+class AiModelDeploymentService {
   final DioClient _dioClient;
+  AiModelDeploymentService(this._dioClient);
 
-  AIModelDeploymentService(this._dioClient);
-
-  // Get AIModelDeployment by ID
-  Future<AIModelDeployment> getAIModelDeploymentById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_model_deployment/$id');
-      return AIModelDeployment.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiModelDeployment> getAiModelDeploymentById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiModelDeployments}/$id');
+    return AiModelDeployment.fromJson(response.data['data']);
   }
 
-  // Get all ai_model_deployments
-  Future<List<AIModelDeployment>> getAIModelDeployments({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiModelDeployment>> getAiModelDeployments({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_model_deployment', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AIModelDeployment.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiModelDeployments, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiModelDeployment.fromJson(json)).toList();
   }
 
-  // Create AIModelDeployment
-  Future<AIModelDeployment> createAIModelDeployment(AIModelDeployment aIModelDeployment) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_model_deployment',
-        data: aIModelDeployment.toJson(),
-      );
-      return AIModelDeployment.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiModelDeployment> createAiModelDeployment(AiModelDeployment item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiModelDeployments, data: item.toJson());
+    return AiModelDeployment.fromJson(response.data['data']);
   }
 
-  // Update AIModelDeployment
-  Future<AIModelDeployment> updateAIModelDeployment(String id, AIModelDeployment aIModelDeployment) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_model_deployment/$id',
-        data: aIModelDeployment.toJson(),
-      );
-      return AIModelDeployment.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiModelDeployment> updateAiModelDeployment(String id, AiModelDeployment item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiModelDeployments}/$id', data: item.toJson());
+    return AiModelDeployment.fromJson(response.data['data']);
   }
 
-  // Delete AIModelDeployment
-  Future<void> deleteAIModelDeployment(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_model_deployment/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiModelDeployment(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiModelDeployments}/$id');
   }
 }

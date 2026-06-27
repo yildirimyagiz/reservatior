@@ -1,106 +1,44 @@
-import '../../features/shared/services/system_metrics_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for SystemMetrics
+import 'package:reservatior/shared/repositories/system_metrics_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetSystemMetricsByIdUseCase {
-  final SystemMetricsService _service;
-  
-  GetSystemMetricsByIdUseCase(this._service);
-  
-  Future<SystemMetrics> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final SystemMetricsRepository _repository;
+  GetSystemMetricsByIdUseCase(this._repository);
+  Future<SystemMetrics> execute(String id) => _repository.getById(id);
 }
 
 class GetSystemMetricssUseCase {
-  final SystemMetricsService _service;
-  
-  GetSystemMetricssUseCase(this._service);
-  
+  final SystemMetricsRepository _repository;
+  GetSystemMetricssUseCase(this._repository);
   Future<List<SystemMetrics>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateSystemMetricsUseCase {
-  final SystemMetricsService _service;
-  
-  CreateSystemMetricsUseCase(this._service);
-  
-  Future<SystemMetrics> execute(SystemMetrics systemMetrics) async {
-    // Add validation logic here
-    return await _service.create(systemMetrics);
-  }
+  final SystemMetricsRepository _repository;
+  CreateSystemMetricsUseCase(this._repository);
+  Future<SystemMetrics> execute(SystemMetrics item) => _repository.create(item);
 }
 
 class UpdateSystemMetricsUseCase {
-  final SystemMetricsService _service;
-  
-  UpdateSystemMetricsUseCase(this._service);
-  
-  Future<SystemMetrics> execute(String id, SystemMetrics systemMetrics) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, systemMetrics);
-  }
+  final SystemMetricsRepository _repository;
+  UpdateSystemMetricsUseCase(this._repository);
+  Future<SystemMetrics> execute(String id, SystemMetrics item) => _repository.update(id, item);
 }
 
 class DeleteSystemMetricsUseCase {
-  final SystemMetricsService _service;
-  
-  DeleteSystemMetricsUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// SystemMetrics Use Case Container
-class SystemMetricsUseCases {
-  final GetSystemMetricsByIdUseCase getById;
-  final GetSystemMetricssUseCase getAll;
-  final CreateSystemMetricsUseCase create;
-  final UpdateSystemMetricsUseCase update;
-  final DeleteSystemMetricsUseCase delete;
-  
-  SystemMetricsUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory SystemMetricsUseCases.create(SystemMetricsService service) {
-    return SystemMetricsUseCases(
-      getById: GetSystemMetricsByIdUseCase(service),
-      getAll: GetSystemMetricssUseCase(service),
-      create: CreateSystemMetricsUseCase(service),
-      update: UpdateSystemMetricsUseCase(service),
-      delete: DeleteSystemMetricsUseCase(service),
-    );
-  }
+  final SystemMetricsRepository _repository;
+  DeleteSystemMetricsUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

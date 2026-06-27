@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class LeadService {
   final DioClient _dioClient;
-
   LeadService(this._dioClient);
 
-  // Get Lead by ID
   Future<Lead> getLeadById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/lead/$id');
-      return Lead.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.leads}/$id');
+    return Lead.fromJson(response.data['data']);
   }
 
-  // Get all leads
   Future<List<Lead>> getLeads({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/lead', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Lead.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.leads, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Lead.fromJson(json)).toList();
   }
 
-  // Create Lead
-  Future<Lead> createLead(Lead lead) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/lead',
-        data: lead.toJson(),
-      );
-      return Lead.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Lead> createLead(Lead item) async {
+    final response = await _dioClient.post(ApiEndpoints.leads, data: item.toJson());
+    return Lead.fromJson(response.data['data']);
   }
 
-  // Update Lead
-  Future<Lead> updateLead(String id, Lead lead) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/lead/$id',
-        data: lead.toJson(),
-      );
-      return Lead.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Lead> updateLead(String id, Lead item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.leads}/$id', data: item.toJson());
+    return Lead.fromJson(response.data['data']);
   }
 
-  // Delete Lead
   Future<void> deleteLead(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/lead/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.leads}/$id');
   }
 }

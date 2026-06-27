@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarı İbrahimoğulları — Soy Ağacı</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@100;300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root {
+  --gold:        #c9a84c;
+  --gold-bright: #f0c060;
+  --gold-dim:    rgba(201,168,76,0.35);
+  --gold-glow:   rgba(201,168,76,0.12);
+  --bg:          #06060c;
+  --bg2:         #0a0a14;
+  --card-bg:     rgba(18,16,32,0.88);
+  --card-border: rgba(201,168,76,0.22);
+  --text:        #dfd5bc;
+  --text-dim:    rgba(223,213,188,0.45);
+  --text-bright: #f5edd8;
+  /* Gender colors */
+  --male-color:  #4a8fd4;
+  --male-bg:     rgba(74,143,212,0.06);
+  --male-border: rgba(74,143,212,0.45);
+  --female-color:#d45a80;
+  --female-bg:   rgba(212,90,128,0.06);
+  --female-border:rgba(212,90,128,0.45);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Spectral', serif;
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: auto;
+  color: var(--text);
+  background-image:
+    radial-gradient(circle at 15% 0%,   rgba(74,143,212,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 0%,   rgba(201,168,76,0.07) 0%, transparent 50%),
+    radial-gradient(circle at 50% 100%,  rgba(212,90,128,0.06) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* ═══════════ PRINT OPTIMIZATION ═══════════ */
+@media print {
+  body { background: white !important; color: black !important; padding: 0 !important; }
+  .particle, #search-wrap, #stats-bar, .gender-key { display: none !important; }
+  #tree-scroll { overflow: visible !important; position: static !important; }
+  .tree-root { transform: scale(0.8); transform-origin: top left; padding: 0 !important; }
+  .card { box-shadow: none !important; border: 1px solid #ccc !important; background: white !important; }
+  .card-name { color: #333 !important; }
+  .card.ancestor { border: 2px solid #b8860b !important; }
+  .h-bar, .connector-v { background: #666 !important; }
+  h1 { color: #b8860b !important; margin-bottom: 20px !important; }
+}
+
+/* ── PARTICLE BG ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    radial-gradient(1px 1px at  8% 12%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 23%  4%, rgba(255,255,255,0.08) 0%, transparent 100%),
+    radial-gradient(1px 1px at 47% 22%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 91% 18%, rgba(201,168,76,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 13% 38%, rgba(255,255,255,0.05) 0%, transparent 100%),
+    radial-gradient(2px 2px at 44% 68%, rgba(201,168,76,0.07) 0%, transparent 100%);
+}
+
+/* ══════════ NAV ══════════ */
+#nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  height:64px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 32px;
+  background:rgba(6,6,12,0.85);
+  border-bottom:1px solid rgba(201,168,76,0.15);
+  backdrop-filter:blur(20px);
+}
+
+.nav-brand { display:flex; align-items:center; gap:12px; }
+.nav-emblem {
+  width:40px; height:40px;
+  border:1.5px solid var(--gold);
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+  background:linear-gradient(145deg, rgba(201,168,76,0.1), transparent);
+  box-shadow:0 0 15px rgba(201,168,76,0.15);
+  transform: rotate(45deg);
+}
+.nav-emblem span { transform: rotate(-45deg); display: block; }
+
+.nav-brand-text  { font-family:'Cinzel',serif; font-size:12px; letter-spacing:.28em; color:var(--gold); font-weight:700; }
+.nav-brand-sub   { font-family:'Josefin Sans',sans-serif; font-size:8px; letter-spacing:.45em; color:var(--text-dim); text-transform:uppercase; margin-top:2px; }
+
+.nav-tabs { display:flex; gap:32px; }
+.nav-tab {
+  font-family:'Josefin Sans',sans-serif;
+  font-size:10px; letter-spacing:.25em; text-transform:uppercase;
+  color:var(--text-dim); background:none; border:none; cursor:pointer;
+  padding:10px 0; position:relative; transition:all .3s ease;
+}
+.nav-tab:hover { color: var(--gold-bright); }
+.nav-tab::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  background:var(--gold); transform:scaleX(0); transition:transform .4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.nav-tab.active { color:var(--gold-bright); font-weight: 600; }
+.nav-tab.active::after { transform:scaleX(1); }
+
+.nav-legend { display:flex; align-items:center; gap:20px; }
+.legend-badge {
+  display:flex; align-items:center; gap:6px;
+  font-family:'Josefin Sans',sans-serif;
+  font-size:8.5px; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--text-dim);
+}
+.legend-pip { width:10px; height:10px; border-radius:3px; transform: rotate(45deg); }
+.legend-pip.male   { background:var(--male-color);   box-shadow:0 0 8px rgba(74,143,212,.4); }
+.legend-pip.female { background:var(--female-color); box-shadow:0 0 8px rgba(212,90,128,.4); }
+.legend-pip.anc    { background:var(--gold);          box-shadow:0 0 8px rgba(201,168,76,.4); }
+
+/* ══════════ HERO ══════════ */
+#hero {
+  position:relative; z-index:10;
+  text-align:center; padding:100px 40px 40px;
+}
+
+.hero-ornament {
+  font-size:28px; color:var(--gold); letter-spacing:1em;
+  display:block; margin-bottom:18px; opacity:.4;
+  animation:pulseOmni 4s ease-in-out infinite;
+}
+@keyframes pulseOmni { 0%,100%{opacity:.3; transform: scale(1);} 50%{opacity:.6; transform: scale(1.05);} }
+
+.hero-title {
+  font-family:'Cinzel Decorative',serif;
+  font-size:48px; font-weight:700; line-height:1.1;
+  background:linear-gradient(135deg, #b8860b, #daa520, #ffd700, #daa520, #b8860b);
+  background-size:200% 200%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:goldFlow 5s ease infinite;
+  text-shadow: 0 0 30px rgba(184, 134, 11, 0.15);
+}
+@keyframes goldFlow { 0%,100%{background-position:0% 50%}50%{background-position:100% 50%} }
+
+.hero-sub {
+  font-family:'Josefin Sans',sans-serif;
+  font-size:11px; letter-spacing:.6em; text-transform:uppercase;
+  color:rgba(201,168,76,.45); margin-top:12px;
+}
+.hero-divider {
+  width:100%; max-width:540px; height:1px; margin:24px auto;
+  background:linear-gradient(to right,transparent,rgba(201,168,76,.4),rgba(201,168,76,.1),rgba(201,168,76,.4),transparent);
+}
+
+.stats-row {
+  display:flex; gap:64px; justify-content:center; margin-bottom:40px;
+}
+.stat { text-align:center; position: relative; }
+.stat-n {
+  font-family:'Cinzel',serif; font-size:42px;
+  color:var(--gold-bright); line-height:1; font-weight: 700;
+}
+.stat-l {
+  font-family:'Josefin Sans',sans-serif;
+  font-size:8px; letter-spacing:.4em; text-transform:uppercase;
+  color:rgba(223,213,188,.3); margin-top:6px;
+}
+
+/* ══════════ TREE SCROLL ══════════ */
+#tree-scroll {
+  position:relative; z-index:10;
+  overflow-x:auto; overflow-y:visible;
+  padding:20px 80px 120px;
+  max-width: 100vw;
+  cursor: grab;
+}
+#tree-scroll:active { cursor: grabbing; }
+
+.tree-root {
+  display:inline-flex;
+  flex-direction: column;
+  min-width:max-content;
+  justify-content: flex-start;
+  gap: 40px;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar { height:6px; width:6px; }
+::-webkit-scrollbar-track { background:rgba(255,255,255,.01); }
+::-webkit-scrollbar-thumb { background:rgba(201,168,76,.2); border-radius:10px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(201,168,76,.4); }
+
+/* ══════════ NODES ══════════ */
+.node-wrap {
+  display:flex; flex-direction:column; align-items:center;
+  animation: fadeIn 0.8s ease backwards;
+}
+@keyframes fadeIn { from{opacity:0; transform: translateY(10px);} to{opacity:1; transform: translateY(0);} }
+
+.card-pair {
+  display:flex; align-items:center; gap:4px;
+  background: rgba(201,168,76,0.03);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(201,168,76,0.05);
+}
+
+.plus-sign {
+  color:var(--gold-dim); font-size:16px; font-weight:300;
+  font-family:'Josefin Sans',sans-serif;
+  opacity: 0.6;
+}
+
+/* ══════════ CARDS ══════════ */
+.card {
+  width:140px; min-height:auto;
+  border:1px solid var(--card-border);
+  border-radius:12px;
+  background:var(--card-bg);
+  padding:10px 8px;
+  text-align:center;
+  position:relative; cursor:pointer;
+  transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter:blur(12px);
+  overflow:hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
+  pointer-events: none;
+}
+
+/* Gender top bar */
+.card::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  transition:all 0.3s ease;
+}
+.card.male::after   { background:var(--male-color);   box-shadow:0 0 10px rgba(74,143,212,.4); }
+.card.female::after { background:var(--female-color); box-shadow:0 0 10px rgba(212,90,128,.4); }
+
+.card:hover {
+  border-color:rgba(201,168,76,.6);
+  box-shadow:0 12px 30px rgba(0,0,0,.5), 0 0 20px rgba(201,168,76,0.15);
+  transform:translateY(-6px) scale(1.02);
+}
+
+/* ANCESTOR card */
+.card.ancestor {
+  width:160px; min-height:auto;
+  border:1.5px solid var(--gold);
+  background:linear-gradient(145deg, rgba(30,25,12,.98), rgba(15,12,6,.99));
+  box-shadow:0 0 35px rgba(201,168,76,.15), 0 8px 30px rgba(0,0,0,0.4);
+}
+.card.ancestor::after {
+  background:linear-gradient(to right,#8b6200,#c9a84c,#f0c060,#c9a84c,#8b6200);
+  height:4px;
+}
+
+/* Portrait */
+.portrait {
+  width:80px; height:80px; border-radius:30% 70% 70% 30% / 30% 30% 70% 70%;
+  border:1.5px solid rgba(201,168,76,.2);
+  margin:0 auto 6px;
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+  transition:all 0.3s ease;
+  background: rgba(255,255,255,0.03);
+}
+.card.male   .portrait { border-color:rgba(74,143,212,.3); background: var(--male-bg); }
+.card.female .portrait { border-color:rgba(212,90,128,.3); background: var(--female-bg); }
+.card.ancestor .portrait {
+  width:100px; height:100px;
+  border:2px solid var(--gold);
+  box-shadow:0 0 20px rgba(201,168,76,.3);
+  transform: rotate(5deg);
+}
+
+.portrait-icon { font-size:42px; line-height:1; }
+.card.ancestor .portrait-icon { font-size:54px; }
+
+.card-name {
+  font-family:'Spectral',serif;
+  font-size:11px; color:var(--text); line-height:1.3;
+  word-break:break-word; font-weight:600;
+  letter-spacing:.01em;
+}
+.card.ancestor .card-name { color:var(--gold-bright); font-size:12px; text-transform: uppercase; }
+
+.card-year {
+  font-family:'Josefin Sans',sans-serif;
+  font-size:9px; color:var(--gold-dim); margin-top:4px;
+  letter-spacing:.05em; font-weight: 400;
+}
+
+/* Gender badge — bottom right */
+.gender-badge {
+  position:absolute; bottom:6px; right:6px;
+  width:14px; height:14px;
+  border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:8px; line-height:1;
+  background: rgba(255,255,255,0.05);
+}
+.card.male   .gender-badge { color:var(--male-color); }
+.card.female .gender-badge { color:var(--female-color); }
+.card.ancestor .gender-badge { color:var(--gold); border: 1px solid var(--gold-dim); }
+
+/* ══════════ CONNECTORS ══════════ */
+.connector-v {
+  width:1.5px;
+  background:rgba(201,168,76,0.45);
+  margin:0 auto;
+}
+.connector-v.sh { height:10px; }
+.connector-v.md { height:20px; }
+.connector-v.lg { height:32px; }
+
+.children-wrap {
+  display:flex; flex-direction:row; align-items:flex-start; width:100%;
+}
+
+.h-bar {
+  display: none;
+}
+
+.children-row {
+  display:flex; 
+  flex-direction: column;
+  gap:0; 
+  align-items:flex-start;
+  justify-content: flex-start;
+  padding-top: 2px;
+  width: 100%;
+}
+
+.child-col {
+  display:flex; flex-direction:row; align-items:flex-start;
+  width: 100%;
+  padding: 4px 0;
+}
+
+/* ══════════ TOOLTIP ══════════ */
+.tooltip {
+  position:fixed; z-index:700;
+  background:rgba(8,8,16,.94); backdrop-filter:blur(25px);
+  border:1px solid rgba(201,168,76,0.3); border-radius:14px;
+  padding:16px 20px; min-width:200px; max-width:280px;
+  pointer-events:none; opacity:0; transition:all .25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:0 15px 50px rgba(0,0,0,.6);
+  transform: translateY(10px) scale(0.95);
+}
+.tooltip.show { opacity:1; transform: translateY(0) scale(1); }
+.tt-name {
+  font-family:'Cinzel',serif; font-size:12px; font-weight: 700;
+  color:var(--gold-bright); margin-bottom:8px; border-bottom: 1px solid rgba(201,168,76,0.15); padding-bottom: 6px;
+}
+.tt-row {
+  font-family:'Josefin Sans',sans-serif;
+  font-size:10px; color:var(--text-dim);
+  line-height:1.8; letter-spacing:.05em;
+  display:flex; justify-content: space-between; gap:15px; align-items:center;
+}
+.tt-label { color:rgba(201,168,76,.5); font-size:8px; letter-spacing:.12em; text-transform:uppercase; font-weight: 600; }
+
+/* ══════════ SEARCH BAR ══════════ */
+#search-wrap {
+  position:fixed; bottom:32px; right:32px; z-index:300;
+  display:flex; align-items:center; gap:12px;
+  background:rgba(10,10,20,.85); backdrop-filter:blur(20px);
+  border:1.5px solid rgba(201,168,76,.25); border-radius:15px;
+  padding:10px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
+}
+#search-wrap:focus-within { border-color: var(--gold-bright); box-shadow: 0 8px 40px rgba(201,168,76,0.2); }
+
+#search-inp {
+  background:none; border:none; outline:none;
+  font-family:'Josefin Sans',sans-serif;
+  font-size:11px; letter-spacing:.15em;
+  color:var(--text); width:200px;
+}
+#search-inp::placeholder { color:rgba(223,213,188,0.25); }
+
+.card.highlight {
+  border-color:var(--gold-bright) !important;
+  box-shadow:0 0 35px rgba(240,192,96,.4), 0 0 0 3px rgba(240,192,96,.15) !important;
+  transform:translateY(-8px) scale(1.08) !important;
+  z-index: 100;
+}
+/* ═══════════ PRINT PREVIEW MODE ═══════════ */
+body.print-preview {
+  background: #f0f0f0 !important;
+}
+body.print-preview::before { display: none; }
+body.print-preview #hero, body.print-preview #search-wrap, body.print-preview .gender-key, body.print-preview .nav-legend, body.print-preview .nav-brand { display: none !important; }
+body.print-preview #nav { background: #fff; border-bottom: 1px solid #ddd; box-shadow: 0 2px 10px rgba(0,0,0,0.1); justify-content: center; }
+body.print-preview .nav-tab { color: #333; }
+body.print-preview .nav-tab.active { color: #000; }
+body.print-preview .nav-tab::after { background: #000; }
+
+body.print-preview #tree-scroll {
+  width: 120cm !important;
+  height: 80cm !important;
+  background: white !important;
+  padding: 2cm !important;
+  margin: 100px auto 50px auto !important;
+  box-sizing: border-box;
+  overflow: visible !important;
+  position: relative !important;
+  border: 1px solid #ccc;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  /* Scale for 13 inch screen preview */
+  transform: scale(0.22);
+  transform-origin: top center;
+}
+body.print-preview .card {
+  background: white !important;
+  border: 1.5px solid #333 !important;
+  box-shadow: none !important;
+}
+body.print-preview .card-name { color: #111 !important; font-weight: 700; }
+body.print-preview .card-date, body.print-preview .card-desc { color: #444 !important; }
+body.print-preview .h-bar, body.print-preview .connector-v { background: #333 !important; }
+body.print-preview .card::after { display: none !important; }
+body.print-preview .card-pair { border-color: #ddd !important; background: transparent !important; }
+body.print-preview .plus-sign { color: #666 !important; }
+
+@media print {
+  @page { size: 120cm 80cm; margin: 0; }
+  body { background: white !important; }
+  #nav, #hero, #search-wrap, .gender-key { display: none !important; }
+  #tree-scroll { width: 120cm !important; height: 80cm !important; transform: none !important; margin: 0 !important; border: none !important; box-shadow: none !important; padding: 2cm !important; }
+  .card { background: white !important; border: 1.5px solid #000 !important; box-shadow: none !important; }
+  .card-name { color: #000 !important; }
+  .card-date, .card-desc { color: #333 !important; }
+  .h-bar, .connector-v { background: #000 !important; }
+  .card::after { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="nav">
+  <div class="nav-brand">
+    <div class="nav-emblem">🌿</div>
+    <div>
+      <div class="nav-brand-text">SARI İBRAHİMOĞULLARI</div>
+      <div class="nav-brand-sub">Dijital Soy Ağacı</div>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="setMode('screen', this)">13" Ekran Modu</button>
+    <button class="nav-tab" onclick="setMode('print', this)">Baskı Modu (120x80cm)</button>
+    <button class="nav-tab" onclick="exportPDF(this)" style="font-weight: bold;">📄 PDF İndir (120×80cm)</button>
+  </div>
+  <div class="nav-legend">
+    <div class="legend-badge"><div class="legend-pip anc"></div>Ata / Büyükanne</div>
+    <div class="legend-badge"><div class="legend-pip male"></div>Erkek</div>
+    <div class="legend-badge"><div class="legend-pip female"></div>Kadın</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div id="hero">
+  <span class="hero-ornament">✦ ✦ ✦</span>
+  <div class="hero-title">Sarı İbrahimoğulları</div>
+  <div class="hero-sub">& Selimoğulları — Kadim Aile Arşivi</div>
+  <div class="hero-divider"></div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n" id="st-members">—</div><div class="stat-l">Aile Üyesi</div></div>
+    <div class="stat"><div class="stat-n" id="st-gens">—</div><div class="stat-l">Nesil</div></div>
+    <div class="stat"><div class="stat-n" id="st-branches">—</div><div class="stat-l">Kol</div></div>
+  </div>
+</div>
+
+<!-- TREE -->
+<div id="tree-scroll">
+  <div class="tree-root" id="tree-root"></div>
+</div>
+
+<!-- GENDER KEY -->
+<div class="gender-key">
+  <div class="gk-title">Açıklama</div>
+  <div class="gk-row"><div class="gk-bar a"></div><div class="gk-text">Ata / Büyükanne</div></div>
+  <div class="gk-row"><div class="gk-bar m"></div><div class="gk-text">Erkek (♂)</div></div>
+  <div class="gk-row"><div class="gk-bar f"></div><div class="gk-text">Kadın (♀)</div></div>
+  <div class="gk-row" style="margin-top:6px;"><span style="font-size:12px">🌿</span><div class="gk-text" style="margin-left:5px">Erkek üye</div></div>
+  <div class="gk-row"><span style="font-size:12px">🌸</span><div class="gk-text" style="margin-left:5px">Kadın üye</div></div>
+</div>
+
+<!-- SEARCH -->
+<div id="search-wrap">
+  <span style="color:var(--gold-dim);font-size:12px">🔍</span>
+  <input id="search-inp" type="search" placeholder="İsim, tarih ara…">
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip">
+  <div class="tt-name" id="tt-name"></div>
+  <div id="tt-body"></div>
+</div>
+
+<script>
+const DATA = [
+  {
+    id:'root', ad:'SARI İBRAHİMOĞULLARI', isRoot:true,
+    cocuklari:[
+      {
+        id:'sari-ibrahim', ad:'SARI İBRAHİM AĞA', esi:'AYDIN',
+        cocuklari:[
+          {
+            id:'haci-mehmet-aga', ad:'HACI MEHMET AĞA',
+            cocuklari:[
+              {
+                id:'haci-ahmet-aga', ad:'HACI AHMET AĞA', esi:'HATİCE',
+                cocuklari:[
+                  {
+                    id:'mehmet-ayse', ad:'MEHMET', esi:'AYŞE', tarih:'1271–1326',
+                    cocuklari:[
+                      {
+                        id:'ekmekci', ad:'EKMEKÇİ HACI HASAN', esi:'DUDU',
+                        cocuklari:[
+                          {id:'ahmet-hamdi',  ad:'AHMET HAMDİ'},
+                          {id:'halime-eh',    ad:'NAİME'},
+                          {id:'m-sukru',      ad:'MEHMET ŞÜKRÜ'},
+                          {id:'m-lutfi',      ad:'MEHMET LÜTFİ'},
+                          {id:'ayse-eh',      ad:'AYŞE'},
+                          {id:'m-emin-eh',    ad:'M. EMİN'},
+                          {id:'habibe-eh',    ad:'HABİBE'},
+                          {id:'hacer-eh',     ad:'HACER'},
+                          {id:'sehri-eh',     ad:'ŞEHRİ'}
+                        ]
+                      },
+                      {
+                        id:'ozaydin-ilyas', ad:'ÖZAYDIN İLYAS', tarih:'1300–1334',
+                        cocuklari:[
+                          {
+                            id:'m-kazim', ad:'M. KAZIM',
+                            cocuklari:[
+                              {id:'abdulkadir-mk', ad:'A. KADİR'},
+                              {id:'fatima-mk',     ad:'FATMA'},
+                              {id:'m-emin-mk',     ad:'M. EMİN'},
+                              {id:'a-ihsan-mk',    ad:'A. İHSAN'},
+                              {id:'ahmet-remzi',   ad:'AHMET REMZİ'},
+                              {id:'m-fevzi-mk',    ad:'M. FEVZİ'}
+                            ]
+                          },
+                          {id:'arife', ad:'ARİFE'},
+                          {
+                            id:'m-emin-ilyas', ad:'M. EMİN (BİLA VELED)', tarih:'1331–1337'
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    id:'halil-ibrahim-2', ad:'HALİL İBRAHİM (ÇOCUKSUZ)'
+                  },
+                  {
+                    id:'mustafa', ad:'ÖZAYDIN MUSTAFA', tarih:'1302–1905', 
+                    cocuklari:[
+                      {id:'fethiye', ad:'FETHİYE'},
+                      {id:'hatice-elveda', ad:'HATİCE'},
+                      {
+                        id:'a-hilmi', ad:'A. HİLMİ',
+                        cocuklari:[
+                          {id:'m-fevzi-m', ad:'M. FEVZİ'},
+                          {id:'m-nuri',    ad:'M. NURİ'},
+                          {id:'a-ihsan',   ad:'A. İHSAN'},
+                          {id:'nuriye',    ad:'NURİYE'},
+                          {id:'ulviye',    ad:'ULVİYE'}
+                        ]
+                      },
+                      {id:'elveda-ilyas', ad:'ELVEDA'},
+                      {id:'remziye', ad:'REMZİYE'}
+                    ]
+                  },
+                  {id:'hayriye', ad:'HAYRİYE'},
+                  {id:'selime', ad:'SELİME'},
+                  {
+                    id:'kamil-fadime', ad:'KAMİL', esi:'FADİME',
+                    cocuklari:[
+                      {
+                        id:'sabri', ad:'SABRİ', esi:'HATİCE',
+                        cocuklari:[
+                          {id:'kamil-s',       ad:'KAMİL'},
+                          {id:'muserref',      ad:'MÜŞERREF'},
+                          {id:'a-dudu',        ad:'A. DUDU'},
+                          {id:'hacer-s',       ad:'HACER'},
+                          {id:'abdulkadir-s',  ad:'ABDÜLKADİR'}
+                        ]
+                      },
+                      {id:'hacer-k', ad:'HACER'},
+                      {
+                        id:'mehmet-selime', ad:'MEHMET', esi:'EMİNE - AYŞE', tarih:'1328–1970',
+                        cocuklari:[
+                          {id:'kamil-m',     ad:'KAMİL'},
+                          {id:'nezahat-m',   ad:'NEZAHAT'},
+                          {id:'remziye-m',   ad:'REMZİYE'},
+                          {id:'ahilmi-m',    ad:'A. HİLMİ'},
+                          {id:'hacer-m',     ad:'HACER'}
+                        ]
+                      },
+                      {
+                        id:'halil-ibrahim-k', ad:'HALİL İBRAHİM', esi:'ŞEHRİ',
+                        cocuklari:[
+                          {id:'kamil-k',   ad:'KAMİL'},
+                          {id:'ramazan',   ad:'RAMAZAN'},
+                          {id:'sukriye',   ad:'ŞÜKRİYE'},
+                          {id:'nuri-k',    ad:'NURİ'},
+                          {id:'cavit',     ad:'CAVİT'}
+                        ]
+                      }
+                    ]
+                  },
+                  {id:'habibe-h', ad:'HABİBE'},
+                  {
+                    id:'abdulkadir-serife', ad:'ABDÜLKADİR', esi:'ŞERİFE',
+                    cocuklari:[
+                      {
+                        id:'haci-ahmet', ad:'HACI AHMET (BİLA VELED)', tarih:'1323–2001 (108 Yaşında)',
+                        esi:'SIDIKA'
+                      },
+                      {id:'nazime',   ad:'NAZİME'},
+                      {id:'hatice-ha',ad:'HATİCE'},
+                      {id:'safiye',   ad:'SAFİYE'},
+                      {id:'dudu-ha',  ad:'DUDU'},
+                      {id:'hayriye-ha',ad:'HAYRİYE'},
+                      {
+                        id:'ali-osman', ad:'ALİ OSMAN', esi:'AYŞE',
+                        cocuklari:[
+                          {id:'abdulkadir-i', ad:'ABDÜLKADİR'},
+                          {id:'imadettin', ad:'İMADETTİN'}
+                        ]
+                      }
+                    ]
+                  },
+                  {id:'adile', ad:'ADİLE'},
+                  {id:'dudu', ad:'DUDU'},
+                  {
+                    id:'cafer-gv', ad:'CAFER SADIK ÖZAYDIN', esi:'GÜLİSTAN - VESİLE',
+                    cocuklari:[
+                      {id:'samiye',    ad:'SAMİYE'},
+                      {
+                        id:'lutfiye', ad:'LÜTFİYE', esi:'EMİR',
+                        cocuklari: [
+                          {id:'nurten-l', ad:'NURTEN'},
+                          {id:'ahmet-l',  ad:'AHMET'},
+                          {id:'ummet-l',  ad:'ÜMMET'},
+                          {id:'haci-osman-l', ad:'HACI OSMAN'},
+                          {id:'ismail-l', ad:'İSMAİL'},
+                          {id:'muberra-l', ad:'MÜBERRA'}
+                        ]
+                      },
+                      {
+                        id:'ihsan', ad:'İHSAN',
+                        cocuklari:[
+                          {
+                            id:'cafer-sadik', ad:'CAFER SADIK',
+                            cocuklari: [
+                              {id:'selim',  ad:'SELİM'},
+                              {id:'sibel',  ad:'SİBEL'}
+                            ]
+                          },
+                          {
+                            id:'haldun', ad:'HALDUN',
+                            cocuklari: [
+                              {id:'talha',  ad:'TALHA'},
+                              {id:'betul',  ad:'BETÜL'}
+                            ]
+                          },
+                          {
+                            id:'nuriye-cs', ad:'NURİYE', esi:'FAHREDDİN',
+                            cocuklari: [
+                              {id:'ozge',  ad:'ÖZGE'},
+                              {id:'bilge', ad:'BİLGE'},
+                              {id:'tugce', ad:'TUĞÇE'}
+                            ]
+                          },
+                          {
+                            id:'hatice-p', ad:'HATİCE (PERİHAN)',
+                            cocuklari:[
+                              {id:'ahmet-p', ad:'AHMET'},
+                              {id:'esra-p',  ad:'ESRA'}
+                            ]
+                          },
+                          {id:'guler',   ad:'GÜLER (GÜLİSTAN)'},
+                          {id:'reyhan',  ad:'REYHAN', aciklama:"İhsan'dan olma / Raziye'den doğma Nezahat & Abdullah nüfusuna geçti (Evlatlık)"},
+                          {
+                            id:'nuran-cs', ad:'NURAN',
+                            cocuklari:[
+                              {id:'alper-n', ad:'ALPER'},
+                              {id:'simge-n', ad:'SİMGE'}
+                            ]
+                          },
+                          {
+                            id:'ahmed-sadik', ad:'AHMET SADIK ÖZAYDIN', esi:'ŞENGÜL ÖZAYDIN',
+                            cocuklari:[
+                              {id:'ali-taha', ad:'ALİ TAHA (ŞEHİD)'}
+                            ]
+                          }
+                        ]
+                      },
+                      {id:'habibe-d',  ad:'HABİBE'},
+                      {id:'nezahat-d', ad:'NEZAHAT', esi:'ABDULLAH'}
+                    ]
+                  }
+                ]
+              },
+              {
+                id:'halil-ibrahim-bilo', ad:'HALİL İBRAHİM (BİLA VELED)'
+              },
+              {
+                id:'asim', ad:'ASIM', esi:'AYDIN A / DÖNDÜ', tarih:'1305–1943'
+              },
+              {
+                id:'salih-ozaydin', ad:'SALİH ÖZAYDIN', esi:'SABİHA',
+                cocuklari:[
+                  {
+                    id:'m-asim-elveda', ad:'MEHMET ASIM', esi:'ELVEDA',
+                    cocuklari:[
+                      {
+                        id:'salih-munevver', ad:'SALİH', esi:'MÜNEVVER - SULTAN', tarih:'1325–1970',
+                        cocuklari:[
+                          {
+                            id:'abdulkadir-kambur', ad:'ABDÜLKADİR', aciklama:'Kambur sünnetçi, beni sünnet etti / Sıhhiye Memuru 1964'
+                          },
+                          {id:'sait',   ad:'SAİT'},
+                          {id:'necati', ad:'NECATİ'},
+                          {id:'fatih',  ad:'FATİH'}
+                        ]
+                      },
+                      {
+                        id:'dudu-am', ad:'DUDU', tarih:'1326–1983'
+                      },
+                      {
+                        id:'abdulmuttalib', ad:'ABDÜLMÜTTALİB (BİLA VELED)', tarih:'1330–1336'
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  { id: 'selimogullari', ad: 'SELİMOĞULLARI', isRoot: true },
+  { id: 'kor-hasan', ad: 'KÖR HASAN OĞULLARI (KARAKEÇİLİ - TAKTAKLAR)', isRoot: true }
+];
+
+
+/* ═══════════ GENDER DETECTION ═══════════
+   Kapsamlı Türkçe isim listesi
+   ─────────────────────────────────────── */
+const FEMALE_SET = new Set([
+  // Açık kadın isimleri
+  'ayşe','hatice','fatma','fatima','zeynep','halime','hayriye','selime',
+  'adile','samiye','lütfiye','habibe','nezahat','nuriye','ulviye',
+  'remziye','hacer','fethiye','müşerref','nazime','safiye','şehri',
+  'şükriye','arife','elveda','fadime','sabiha','münevver','sultan',
+  'sıddıka','siddika','azize','emine','döndü','dudu','rabia','zübeyde',
+  'zeliha','zülfiye','hanım','hanife','huriye','hurrem','naile','naime',
+  'naciye','latife','leyla','lütfiye','meryem','medine','melek','münire',
+  'nadide','nazan','nihal','nimet','rukiye','raziye','saadet','sadiye',
+  'sakine','saniye','seher','semiha','seniha','servet','sevgi','sevim',
+  'şerife','tahire','vesile','zehra','zekiye','zümrüt',
+  'sıdıka','sidika'
+]);
+
+/* Kesin erkek isimleri (karışıklığı önlemek için) */
+const MALE_SET = new Set([
+  'mehmet','mustafa','ahmet','ali','ibrahim','hasan','hüseyin','ömer',
+  'osman','abdülkadir','abdulkadir','kadir','kamil','kazım','fevzi','nuri',
+  'ihsan','cavit','ramazan','imadettin','abdullah','cafer','asım','asim',
+  'salih','necati','sait','fatih','haldun','taha','sabri','lütfi','lütfü',
+  'hilmi','halil','hamdi','remzi','şükrü','emin','hamza','ilyas','veli',
+  'ismail','yusuf','musa','süleyman','davut','halit','fikri','rifat',
+  'latif','rauf','raif','vasıf','şevket','bekir','cemal','hayri',
+  'hicri','rıfat','sıtkı','şakir','talat','veysel','yılmaz','ziya'
+]);
+
+function detectGender(rawName) {
+  if (!rawName) return 'male';
+  
+  // Custom precise lowercase to avoid any JS engine bugs with Turkish locales
+  const norm = rawName
+    .replace(/I/g, 'ı')
+    .replace(/İ/g, 'i')
+    .toLowerCase()
+    .replace(/i̇/g, 'i');
+
+  const parts = norm.split(/[\s\/\(\)\-,]+/).filter(Boolean);
+
+  /* New explicit female names from diagram */
+  const extraFemales = ['perihan', 'güler', 'reyhan', 'nuran', 'sibel', 'betül', 'esra', 'tuğçe', 'simge', 'azize', 'şengül', 'gülistan', 'kesibe', 'özge', 'bilge', 'şehri', 'şükriye', 'şerife', 'nurten', 'müberra'];
+  for (const f of extraFemales) {
+    if (norm.includes(f)) return 'female';
+  }
+
+  for (const p of parts) {
+    if (FEMALE_SET.has(p)) return 'female';
+  }
+  for (const f of FEMALE_SET) {
+    if (norm.includes(f)) return 'female';
+  }
+  return 'male';
+}
+
+function portrait(name) {
+  const g = detectGender(name);
+  return { icon: g==='female' ? '🌸' : '🌿', gender: g };
+}
+
+/* ═══════════ STATS ═══════════ */
+function countAll(n) {
+  let c = n.ad ? 1 : 0;
+  if (n.esi) c++;
+  (n.cocuklari||[]).forEach(ch => c += countAll(ch));
+  return c;
+}
+function maxDepth(n, d=0) {
+  if (!n.cocuklari?.length) return d;
+  return Math.max(...n.cocuklari.map(ch => maxDepth(ch, d+1)));
+}
+function countLeaves(n) {
+  if (!n.cocuklari?.length) return 1;
+  return n.cocuklari.reduce((s,c) => s + countLeaves(c), 0);
+}
+
+document.getElementById('st-members').textContent  = DATA.reduce((sum, root) => sum + countAll(root), 0);
+document.getElementById('st-gens').textContent     = Math.max(...DATA.map(root => maxDepth(root)));
+document.getElementById('st-branches').textContent = DATA[0].cocuklari?.[0]?.cocuklari?.length ?? 0;
+
+/* ═══════════ TOOLTIP ═══════════ */
+const tip = document.getElementById('tooltip');
+const ttN = document.getElementById('tt-name');
+const ttB = document.getElementById('tt-body');
+
+document.addEventListener('mousemove', e => {
+  const x = e.clientX + 14, y = e.clientY - 8;
+  tip.style.left = (x + 240 > innerWidth ? e.clientX - 254 : x) + 'px';
+  tip.style.top  = (y + 100 > innerHeight ? e.clientY - 104 : y) + 'px';
+});
+
+function showTip(ad, esi, tarih, gender, aciklama) {
+  ttN.textContent = ad;
+  const gLabel = gender==='female' ? '♀ Kadın' : '♂ Erkek';
+  let rows = `<div class="tt-row"><span class="tt-label">Cinsiyet&nbsp;</span>${gLabel}</div>`;
+  if (esi) rows += `<div class="tt-row"><span class="tt-label">Eş&nbsp;</span>${esi}</div>`;
+  if (tarih)   rows += `<div class="tt-row"><span class="tt-label">Tarih&nbsp;</span>${tarih}</div>`;
+  if (aciklama)   rows += `<div class="tt-row" style="margin-top:10px; display:block; height:auto; color:var(--text); line-height:1.5; border-top:1px solid rgba(201,168,76,0.15); padding-top:8px; font-size:9.5px;"><span class="tt-label" style="display:block; margin-bottom:4px;">Açıklama&nbsp;</span>${aciklama}</div>`;
+  ttB.innerHTML = rows;
+  tip.classList.add('show');
+}
+function hideTip() { tip.classList.remove('show'); }
+
+/* ═══════════ CARD ELEMENTS ═══════════ */
+const allCards = []; // for search
+
+function makeCard(uye, depth) {
+  const { icon, gender } = portrait(uye.ad);
+  const isAnc = depth <= 2;
+  const el = document.createElement('div');
+  el.className = `card ${gender}${isAnc ? ' ancestor' : ''}`;
+  el.dataset.name = uye.ad.toLowerCase();
+
+  const gSymbol = gender === 'female' ? '♀' : '♂';
+  el.innerHTML = `
+    <div class="portrait"><span class="portrait-icon">${icon}</span></div>
+    <div class="card-name">${uye.ad}</div>
+    ${uye.tarih ? `<div class="card-year">${uye.tarih}</div>` : ''}
+    ${uye.aciklama ? `<div class="card-desc" style="font-size:8px; line-height:1.2; color:#a39d8e; margin-top:4px; font-family:'Josefin Sans', sans-serif;">${uye.aciklama}</div>` : ''}
+    <div class="gender-badge">${gSymbol}</div>
+  `;
+
+  el.addEventListener('mouseenter', () => showTip(uye.ad, uye.esi, uye.tarih, gender, uye.aciklama));
+  el.addEventListener('mouseleave', hideTip);
+  allCards.push(el);
+  return el;
+}
+
+function makeSpouseCard(esAdi, depth) {
+  const { icon, gender } = portrait(esAdi);
+  const isAnc = depth <= 1;
+  const el = document.createElement('div');
+  el.className = `card ${gender}${isAnc ? ' ancestor' : ''}`;
+  el.dataset.name = esAdi.toLowerCase();
+  const gSymbol = gender === 'female' ? '♀' : '♂';
+  el.innerHTML = `
+    <div class="portrait"><span class="portrait-icon">${icon}</span></div>
+    <div class="card-name">${esAdi}</div>
+    <div class="gender-badge">${gSymbol}</div>
+  `;
+  el.addEventListener('mouseenter', () => showTip(esAdi, null, null, gender, null));
+  el.addEventListener('mouseleave', hideTip);
+  allCards.push(el);
+  return el;
+}
+
+/* ═══════════ RENDER ═══════════ */
+function renderNode(uye, depth) {
+  const wrap = document.createElement('div');
+  wrap.className = 'node-wrap';
+
+  // card pair
+  const pair = document.createElement('div');
+  pair.className = 'card-pair';
+  pair.appendChild(makeCard(uye, depth));
+
+  if (uye.esi) {
+    const plus = document.createElement('div');
+    plus.className = 'plus-sign'; plus.textContent = '+';
+    pair.appendChild(plus);
+    pair.appendChild(makeSpouseCard(uye.esi, depth));
+  }
+  wrap.appendChild(pair);
+
+  if (uye.cocuklari?.length) {
+    const section = document.createElement('div');
+    section.className = 'children-wrap';
+
+    const vLine = document.createElement('div');
+    vLine.className = 'connector-v md';
+    vLine.style.display = 'none';
+    section.appendChild(vLine);
+
+    const inner = document.createElement('div');
+    inner.style.cssText = 'display:flex;flex-direction:column;align-items:flex-start;width:100%;padding-left:20px;border-left:1.5px solid rgba(201,168,76,0.45);margin-left:60px;margin-top:0;';
+
+    const row = document.createElement('div');
+    row.className = 'children-row';
+
+    uye.cocuklari.forEach(cocuk => {
+      const col = document.createElement('div');
+      col.className = 'child-col';
+      // Yatay bağlayıcı çizgi (sol kenarda bir kancak)
+      const hConn = document.createElement('div');
+      hConn.style.cssText = 'width:16px;height:1.5px;background:rgba(201,168,76,0.45);margin-top:28px;flex-shrink:0;';
+      col.appendChild(hConn);
+      const nodeWrap = document.createElement('div');
+      nodeWrap.style.cssText = 'flex:1;';
+      nodeWrap.appendChild(renderNode(cocuk, depth+1));
+      col.appendChild(nodeWrap);
+      row.appendChild(col);
+    });
+
+    inner.appendChild(row);
+    section.appendChild(inner);
+    wrap.appendChild(section);
+  }
+
+  return wrap;
+}
+
+const treeRoot = document.getElementById('tree-root');
+treeRoot.style.gap = '40px';
+DATA.forEach(rootNode => treeRoot.appendChild(renderNode(rootNode, 0)));
+
+/* ═══════════ SEARCH ═══════════ */
+document.getElementById('search-inp').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase()
+    .replace(/ı/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u')
+    .replace(/ö/g,'o').replace(/ş/g,'s').replace(/ç/g,'c').replace(/İ/g,'i');
+
+  allCards.forEach(card => {
+    const name = (card.dataset.name||'')
+      .replace(/ı/g,'i').replace(/ğ/g,'g').replace(/ü/g,'u')
+      .replace(/ö/g,'o').replace(/ş/g,'s').replace(/ç/g,'c').replace(/İ/g,'i');
+    if (q && name.includes(q)) {
+      card.classList.add('highlight');
+    } else {
+      card.classList.remove('highlight');
+    }
+  });
+
+  /* scroll first match into view */
+  if (q) {
+    const first = allCards.find(c => {
+      const n = (c.dataset.name||'').replace(/ı/g,'i').replace(/ğ/g,'g')
+        .replace(/ü/g,'u').replace(/ö/g,'o').replace(/ş/g,'s')
+        .replace(/ç/g,'c').replace(/İ/g,'i');
+      return n.includes(q);
+    });
+    if (first) first.scrollIntoView({behavior:'smooth',block:'center',inline:'center'});
+  }
+});
+
+/* ═══════════ PDF EXPORT (html2canvas + jsPDF) ═══════════ */
+async function exportPDF(btn) {
+  const origText = btn.textContent;
+  btn.textContent = '⏳ Hazırlanıyor…';
+  btn.disabled = true;
+
+  try {
+    const treeInner = document.getElementById('tree-root');
+
+    /* ── 1: Create an isolated off-screen container ── */
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0; left: 0;
+      background: #ffffff;
+      padding: 60px 80px 100px 80px;
+      z-index: -9999;
+      visibility: hidden;
+      width: max-content;
+      height: auto;
+      overflow: visible;
+      font-family: 'Spectral', serif;
+    `;
+
+    /* Deep-clone the rendered tree */
+    const clone = treeInner.cloneNode(true);
+    container.appendChild(clone);
+    document.body.appendChild(container);
+
+    /* White out cards in clone */
+    container.querySelectorAll('.card').forEach(c => {
+      c.style.cssText += 'background:#fff!important;border:1.5px solid #333!important;box-shadow:none!important;backdrop-filter:none!important;';
+      const nm = c.querySelector('.card-name');
+      if (nm) nm.style.cssText += 'color:#111!important;-webkit-text-fill-color:#111!important;';
+      const yr = c.querySelector('.card-year');
+      if (yr) yr.style.cssText += 'color:#555!important;';
+      const desc = c.querySelector('.card-desc');
+      if (desc) desc.style.cssText += 'color:#555!important;';
+      c.querySelectorAll('*').forEach(el => { el.style.backdropFilter = 'none'; el.style.webkitBackdropFilter = 'none'; });
+    });
+    container.querySelectorAll('.card::before, .card::after').forEach(el => { el.style.display = 'none'; });
+    container.querySelectorAll('.h-bar').forEach(c => { c.style.cssText += 'background:#333!important;box-shadow:none!important;'; });
+    container.querySelectorAll('.connector-v').forEach(c => { c.style.cssText += 'background:#555!important;'; });
+    container.querySelectorAll('.card-pair').forEach(c => { c.style.cssText += 'background:transparent!important;border-color:#ddd!important;'; });
+    container.querySelectorAll('.plus-sign').forEach(c => { c.style.cssText += 'color:#666!important;'; });
+    container.querySelectorAll('.portrait').forEach(c => { c.style.cssText += 'background:#f5f5f5!important;border-color:#ccc!important;'; });
+    container.querySelectorAll('.gender-badge').forEach(c => { c.style.cssText += 'background:#eee!important;color:#333!important;'; });
+
+    /* Wait for layout */
+    await new Promise(r => setTimeout(r, 400));
+
+    btn.textContent = '📸 Görüntü alınıyor…';
+
+    const totalW = container.scrollWidth;
+    const totalH = container.scrollHeight;
+
+    /* ── 2: Capture from (0,0) with exact dimensions ── */
+    const canvas = await html2canvas(container, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      x: 0,
+      y: 0,
+      scrollX: 0,
+      scrollY: 0,
+      width: totalW,
+      height: totalH,
+      windowWidth: totalW,
+      windowHeight: totalH,
+    });
+
+    /* ── 3: Remove clone ── */
+    document.body.removeChild(container);
+
+    btn.textContent = '📄 PDF oluşturuluyor…';
+    await new Promise(r => setTimeout(r, 50));
+
+    /* 4 — Build PDF at 120cm × 80cm */
+    const { jsPDF } = window.jspdf;
+    const PDF_W_MM = 1200; // 120cm
+    const PDF_H_MM = 800;  // 80cm
+
+    const imgW = canvas.width;
+    const imgH = canvas.height;
+
+    /* Scale to fit within PDF dimensions while keeping aspect ratio */
+    const scaleW = PDF_W_MM / imgW;
+    const scaleH = PDF_H_MM / imgH;
+    const scale  = Math.min(scaleW, scaleH);
+
+    const drawW = imgW * scale;
+    const drawH = imgH * scale;
+    const offsetX = (PDF_W_MM - drawW) / 2;
+    const offsetY = (PDF_H_MM - drawH) / 2;
+
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: [PDF_W_MM, PDF_H_MM]
+    });
+
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+    pdf.addImage(imgData, 'JPEG', offsetX, offsetY, drawW, drawH);
+    pdf.save('Sari-Ibrahimogullari-Soy-Agaci.pdf');
+
+    btn.textContent = '✅ İndirildi!';
+    setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 2500);
+
+  } catch (err) {
+    console.error('PDF hatası:', err);
+    btn.textContent = '❌ Hata — tekrar deneyin';
+    setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 3000);
+  }
+}
+
+function setMode(mode, btn) {
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  
+  if (mode === 'print') {
+    document.body.classList.add('print-preview');
+  } else {
+    document.body.classList.remove('print-preview');
+  }
+}
+</script>
+</body>
+</html>

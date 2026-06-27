@@ -1,9 +1,11 @@
-import 'dart:io';
+// ignore_for_file: uri_does_not_exist, unused_import
+import 'dart:io'; 
+import 'package:easy_localization/easy_localization.dart';
 
 class UseCaseGenerator {
   static Future<void> regenerateAllUseCases() async {
-    final modelsDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/gen_models/models');
-    final useCasesDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/core/usecases');
+    final modelsDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/gen_models/models');
+    final useCasesDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/core/usecases');
     
     if (!await modelsDir.exists()) {
       print('Models directory not found');
@@ -43,8 +45,8 @@ class UseCaseGenerator {
       part.isEmpty ? '' : (part == modelName.split('_').first ? part : part[0].toUpperCase() + part.substring(1))
     ).join('');
     
-    final useCaseContent = '''import '../services/${snakeCase}_service.dart';
-import '../../gen_models/models_library.dart';
+    final useCaseContent = '''mobile.leftovers.import'.tr()../services/${snakeCase}_service.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 // Use Cases for ${className}
 

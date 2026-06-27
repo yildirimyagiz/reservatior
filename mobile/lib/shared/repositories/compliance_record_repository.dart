@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/compliance_record_service.dart';
 
-/// Repository for ComplianceRecord operations
-/// Provides CRUD operations with proper error handling and type safety
-class ComplianceRecordRepository {
-  final DioClient _dioClient;
+abstract class ComplianceRecordRepository {
+  Future<ComplianceRecord> getById(String id);
+  Future<List<ComplianceRecord>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<ComplianceRecord> create(ComplianceRecord item);
+  Future<ComplianceRecord> update(String id, ComplianceRecord item);
+  Future<void> delete(String id);
+}
 
-  ComplianceRecordRepository(this._dioClient);
+class ComplianceRecordRepositoryImpl implements ComplianceRecordRepository {
+  final ComplianceRecordService _service;
+  ComplianceRecordRepositoryImpl(this._service);
 
-  /// Get ComplianceRecord by ID
-  /// Returns [ComplianceRecord] if found, throws [RepositoryException] otherwise
-  Future<ComplianceRecord> getComplianceRecordById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/compliance_record/$id');
-      if (response.statusCode == 200) {
-        return ComplianceRecord.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch compliance_record',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ComplianceRecord> getById(String id) => _service.getComplianceRecordById(id);
 
-  /// Get all compliance_records with pagination and filtering
-  /// Returns list of [ComplianceRecord] objects
-  Future<List<ComplianceRecord>> getcompliance_records({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<ComplianceRecord>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/compliance_record', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => ComplianceRecord.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch compliance_records',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getComplianceRecords(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new ComplianceRecord
-  /// Returns created [ComplianceRecord] object
-  Future<ComplianceRecord> createComplianceRecord(ComplianceRecord complianceRecord) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/compliance_record',
-        data: complianceRecord.toJson(),
-      );
-      return ComplianceRecord.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ComplianceRecord> create(ComplianceRecord item) => _service.createComplianceRecord(item);
 
-  // Update ComplianceRecord
-  Future<ComplianceRecord> updateComplianceRecord(String id, ComplianceRecord complianceRecord) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/compliance_record/$id',
-        data: complianceRecord.toJson(),
-      );
-      return ComplianceRecord.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ComplianceRecord> update(String id, ComplianceRecord item) => _service.updateComplianceRecord(id, item);
 
-  // Delete ComplianceRecord
-  Future<void> deleteComplianceRecord(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/compliance_record/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteComplianceRecord(id);
 }

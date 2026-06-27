@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/ai_lead_score_service.dart';
 
-/// Repository for AiLeadScore operations
-/// Provides CRUD operations with proper error handling and type safety
-class AiLeadScoreRepository {
-  final DioClient _dioClient;
+abstract class AiLeadScoreRepository {
+  Future<AiLeadScore> getById(String id);
+  Future<List<AiLeadScore>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AiLeadScore> create(AiLeadScore item);
+  Future<AiLeadScore> update(String id, AiLeadScore item);
+  Future<void> delete(String id);
+}
 
-  AiLeadScoreRepository(this._dioClient);
+class AiLeadScoreRepositoryImpl implements AiLeadScoreRepository {
+  final AiLeadScoreService _service;
+  AiLeadScoreRepositoryImpl(this._service);
 
-  /// Get AiLeadScore by ID
-  /// Returns [AiLeadScore] if found, throws [RepositoryException] otherwise
-  Future<AiLeadScore> getAiLeadScoreById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_lead_score/$id');
-      if (response.statusCode == 200) {
-        return AiLeadScore.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_lead_score',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiLeadScore> getById(String id) => _service.getAiLeadScoreById(id);
 
-  /// Get all ai_lead_scores with pagination and filtering
-  /// Returns list of [AiLeadScore] objects
-  Future<List<AiLeadScore>> getai_lead_scores({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AiLeadScore>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/ai_lead_score', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AiLeadScore.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_lead_scores',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAiLeadScores(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AiLeadScore
-  /// Returns created [AiLeadScore] object
-  Future<AiLeadScore> createAiLeadScore(AiLeadScore aiLeadScore) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_lead_score',
-        data: aiLeadScore.toJson(),
-      );
-      return AiLeadScore.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiLeadScore> create(AiLeadScore item) => _service.createAiLeadScore(item);
 
-  // Update AiLeadScore
-  Future<AiLeadScore> updateAiLeadScore(String id, AiLeadScore aiLeadScore) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_lead_score/$id',
-        data: aiLeadScore.toJson(),
-      );
-      return AiLeadScore.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiLeadScore> update(String id, AiLeadScore item) => _service.updateAiLeadScore(id, item);
 
-  // Delete AiLeadScore
-  Future<void> deleteAiLeadScore(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_lead_score/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAiLeadScore(id);
 }

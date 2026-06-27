@@ -1,106 +1,44 @@
-import '../../features/shared/services/scraping_job_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for ScrapingJob
+import 'package:reservatior/shared/repositories/scraping_job_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetScrapingJobByIdUseCase {
-  final ScrapingJobService _service;
-  
-  GetScrapingJobByIdUseCase(this._service);
-  
-  Future<ScrapingJob> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ScrapingJobRepository _repository;
+  GetScrapingJobByIdUseCase(this._repository);
+  Future<ScrapingJob> execute(String id) => _repository.getById(id);
 }
 
 class GetScrapingJobsUseCase {
-  final ScrapingJobService _service;
-  
-  GetScrapingJobsUseCase(this._service);
-  
+  final ScrapingJobRepository _repository;
+  GetScrapingJobsUseCase(this._repository);
   Future<List<ScrapingJob>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateScrapingJobUseCase {
-  final ScrapingJobService _service;
-  
-  CreateScrapingJobUseCase(this._service);
-  
-  Future<ScrapingJob> execute(ScrapingJob scrapingJob) async {
-    // Add validation logic here
-    return await _service.create(scrapingJob);
-  }
+  final ScrapingJobRepository _repository;
+  CreateScrapingJobUseCase(this._repository);
+  Future<ScrapingJob> execute(ScrapingJob item) => _repository.create(item);
 }
 
 class UpdateScrapingJobUseCase {
-  final ScrapingJobService _service;
-  
-  UpdateScrapingJobUseCase(this._service);
-  
-  Future<ScrapingJob> execute(String id, ScrapingJob scrapingJob) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, scrapingJob);
-  }
+  final ScrapingJobRepository _repository;
+  UpdateScrapingJobUseCase(this._repository);
+  Future<ScrapingJob> execute(String id, ScrapingJob item) => _repository.update(id, item);
 }
 
 class DeleteScrapingJobUseCase {
-  final ScrapingJobService _service;
-  
-  DeleteScrapingJobUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ScrapingJob Use Case Container
-class ScrapingJobUseCases {
-  final GetScrapingJobByIdUseCase getById;
-  final GetScrapingJobsUseCase getAll;
-  final CreateScrapingJobUseCase create;
-  final UpdateScrapingJobUseCase update;
-  final DeleteScrapingJobUseCase delete;
-  
-  ScrapingJobUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ScrapingJobUseCases.create(ScrapingJobService service) {
-    return ScrapingJobUseCases(
-      getById: GetScrapingJobByIdUseCase(service),
-      getAll: GetScrapingJobsUseCase(service),
-      create: CreateScrapingJobUseCase(service),
-      update: UpdateScrapingJobUseCase(service),
-      delete: DeleteScrapingJobUseCase(service),
-    );
-  }
+  final ScrapingJobRepository _repository;
+  DeleteScrapingJobUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

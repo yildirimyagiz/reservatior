@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/payout_service.dart';
 
-/// Repository for Payout operations
-/// Provides CRUD operations with proper error handling and type safety
-class PayoutRepository {
-  final DioClient _dioClient;
+abstract class PayoutRepository {
+  Future<Payout> getById(String id);
+  Future<List<Payout>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<Payout> create(Payout item);
+  Future<Payout> update(String id, Payout item);
+  Future<void> delete(String id);
+}
 
-  PayoutRepository(this._dioClient);
+class PayoutRepositoryImpl implements PayoutRepository {
+  final PayoutService _service;
+  PayoutRepositoryImpl(this._service);
 
-  /// Get Payout by ID
-  /// Returns [Payout] if found, throws [RepositoryException] otherwise
-  Future<Payout> getPayoutById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/payout/$id');
-      if (response.statusCode == 200) {
-        return Payout.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch payout',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Payout> getById(String id) => _service.getPayoutById(id);
 
-  /// Get all payouts with pagination and filtering
-  /// Returns list of [Payout] objects
-  Future<List<Payout>> getpayouts({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<Payout>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/payout', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => Payout.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch payouts',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getPayouts(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new Payout
-  /// Returns created [Payout] object
-  Future<Payout> createPayout(Payout payout) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/payout',
-        data: payout.toJson(),
-      );
-      return Payout.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Payout> create(Payout item) => _service.createPayout(item);
 
-  // Update Payout
-  Future<Payout> updatePayout(String id, Payout payout) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/payout/$id',
-        data: payout.toJson(),
-      );
-      return Payout.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Payout> update(String id, Payout item) => _service.updatePayout(id, item);
 
-  // Delete Payout
-  Future<void> deletePayout(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/payout/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deletePayout(id);
 }

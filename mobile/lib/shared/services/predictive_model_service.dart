@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class PredictiveModelService {
   final DioClient _dioClient;
-
   PredictiveModelService(this._dioClient);
 
-  // Get PredictiveModel by ID
   Future<PredictiveModel> getPredictiveModelById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/predictive_model/$id');
-      return PredictiveModel.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.predictiveModels}/$id');
+    return PredictiveModel.fromJson(response.data['data']);
   }
 
-  // Get all predictive_models
   Future<List<PredictiveModel>> getPredictiveModels({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/predictive_model', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => PredictiveModel.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.predictiveModels, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => PredictiveModel.fromJson(json)).toList();
   }
 
-  // Create PredictiveModel
-  Future<PredictiveModel> createPredictiveModel(PredictiveModel predictiveModel) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/predictive_model',
-        data: predictiveModel.toJson(),
-      );
-      return PredictiveModel.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<PredictiveModel> createPredictiveModel(PredictiveModel item) async {
+    final response = await _dioClient.post(ApiEndpoints.predictiveModels, data: item.toJson());
+    return PredictiveModel.fromJson(response.data['data']);
   }
 
-  // Update PredictiveModel
-  Future<PredictiveModel> updatePredictiveModel(String id, PredictiveModel predictiveModel) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/predictive_model/$id',
-        data: predictiveModel.toJson(),
-      );
-      return PredictiveModel.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<PredictiveModel> updatePredictiveModel(String id, PredictiveModel item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.predictiveModels}/$id', data: item.toJson());
+    return PredictiveModel.fromJson(response.data['data']);
   }
 
-  // Delete PredictiveModel
   Future<void> deletePredictiveModel(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/predictive_model/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.predictiveModels}/$id');
   }
 }

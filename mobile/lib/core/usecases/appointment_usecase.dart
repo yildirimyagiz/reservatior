@@ -1,106 +1,44 @@
-import '../../features/shared/services/appointment_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Appointment
+import 'package:reservatior/shared/repositories/appointment_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetAppointmentByIdUseCase {
-  final AppointmentService _service;
-  
-  GetAppointmentByIdUseCase(this._service);
-  
-  Future<Appointment> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final AppointmentRepository _repository;
+  GetAppointmentByIdUseCase(this._repository);
+  Future<Appointment> execute(String id) => _repository.getById(id);
 }
 
 class GetAppointmentsUseCase {
-  final AppointmentService _service;
-  
-  GetAppointmentsUseCase(this._service);
-  
+  final AppointmentRepository _repository;
+  GetAppointmentsUseCase(this._repository);
   Future<List<Appointment>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateAppointmentUseCase {
-  final AppointmentService _service;
-  
-  CreateAppointmentUseCase(this._service);
-  
-  Future<Appointment> execute(Appointment appointment) async {
-    // Add validation logic here
-    return await _service.create(appointment);
-  }
+  final AppointmentRepository _repository;
+  CreateAppointmentUseCase(this._repository);
+  Future<Appointment> execute(Appointment item) => _repository.create(item);
 }
 
 class UpdateAppointmentUseCase {
-  final AppointmentService _service;
-  
-  UpdateAppointmentUseCase(this._service);
-  
-  Future<Appointment> execute(String id, Appointment appointment) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, appointment);
-  }
+  final AppointmentRepository _repository;
+  UpdateAppointmentUseCase(this._repository);
+  Future<Appointment> execute(String id, Appointment item) => _repository.update(id, item);
 }
 
 class DeleteAppointmentUseCase {
-  final AppointmentService _service;
-  
-  DeleteAppointmentUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Appointment Use Case Container
-class AppointmentUseCases {
-  final GetAppointmentByIdUseCase getById;
-  final GetAppointmentsUseCase getAll;
-  final CreateAppointmentUseCase create;
-  final UpdateAppointmentUseCase update;
-  final DeleteAppointmentUseCase delete;
-  
-  AppointmentUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory AppointmentUseCases.create(AppointmentService service) {
-    return AppointmentUseCases(
-      getById: GetAppointmentByIdUseCase(service),
-      getAll: GetAppointmentsUseCase(service),
-      create: CreateAppointmentUseCase(service),
-      update: UpdateAppointmentUseCase(service),
-      delete: DeleteAppointmentUseCase(service),
-    );
-  }
+  final AppointmentRepository _repository;
+  DeleteAppointmentUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

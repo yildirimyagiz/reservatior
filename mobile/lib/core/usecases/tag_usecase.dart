@@ -1,106 +1,44 @@
-import '../../features/shared/services/tag_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Tag
+import 'package:reservatior/shared/repositories/tag_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetTagByIdUseCase {
-  final TagService _service;
-  
-  GetTagByIdUseCase(this._service);
-  
-  Future<Tag> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final TagRepository _repository;
+  GetTagByIdUseCase(this._repository);
+  Future<Tag> execute(String id) => _repository.getById(id);
 }
 
 class GetTagsUseCase {
-  final TagService _service;
-  
-  GetTagsUseCase(this._service);
-  
+  final TagRepository _repository;
+  GetTagsUseCase(this._repository);
   Future<List<Tag>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateTagUseCase {
-  final TagService _service;
-  
-  CreateTagUseCase(this._service);
-  
-  Future<Tag> execute(Tag tag) async {
-    // Add validation logic here
-    return await _service.create(tag);
-  }
+  final TagRepository _repository;
+  CreateTagUseCase(this._repository);
+  Future<Tag> execute(Tag item) => _repository.create(item);
 }
 
 class UpdateTagUseCase {
-  final TagService _service;
-  
-  UpdateTagUseCase(this._service);
-  
-  Future<Tag> execute(String id, Tag tag) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, tag);
-  }
+  final TagRepository _repository;
+  UpdateTagUseCase(this._repository);
+  Future<Tag> execute(String id, Tag item) => _repository.update(id, item);
 }
 
 class DeleteTagUseCase {
-  final TagService _service;
-  
-  DeleteTagUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Tag Use Case Container
-class TagUseCases {
-  final GetTagByIdUseCase getById;
-  final GetTagsUseCase getAll;
-  final CreateTagUseCase create;
-  final UpdateTagUseCase update;
-  final DeleteTagUseCase delete;
-  
-  TagUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory TagUseCases.create(TagService service) {
-    return TagUseCases(
-      getById: GetTagByIdUseCase(service),
-      getAll: GetTagsUseCase(service),
-      create: CreateTagUseCase(service),
-      update: UpdateTagUseCase(service),
-      delete: DeleteTagUseCase(service),
-    );
-  }
+  final TagRepository _repository;
+  DeleteTagUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

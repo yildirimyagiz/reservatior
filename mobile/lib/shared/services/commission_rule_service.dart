@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class CommissionRuleService {
   final DioClient _dioClient;
-
   CommissionRuleService(this._dioClient);
 
-  // Get CommissionRule by ID
   Future<CommissionRule> getCommissionRuleById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/commission_rule/$id');
-      return CommissionRule.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.commissionRules}/$id');
+    return CommissionRule.fromJson(response.data['data']);
   }
 
-  // Get all commission_rules
   Future<List<CommissionRule>> getCommissionRules({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/commission_rule', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => CommissionRule.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.commissionRules, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => CommissionRule.fromJson(json)).toList();
   }
 
-  // Create CommissionRule
-  Future<CommissionRule> createCommissionRule(CommissionRule commissionRule) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/commission_rule',
-        data: commissionRule.toJson(),
-      );
-      return CommissionRule.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<CommissionRule> createCommissionRule(CommissionRule item) async {
+    final response = await _dioClient.post(ApiEndpoints.commissionRules, data: item.toJson());
+    return CommissionRule.fromJson(response.data['data']);
   }
 
-  // Update CommissionRule
-  Future<CommissionRule> updateCommissionRule(String id, CommissionRule commissionRule) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/commission_rule/$id',
-        data: commissionRule.toJson(),
-      );
-      return CommissionRule.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<CommissionRule> updateCommissionRule(String id, CommissionRule item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.commissionRules}/$id', data: item.toJson());
+    return CommissionRule.fromJson(response.data['data']);
   }
 
-  // Delete CommissionRule
   Future<void> deleteCommissionRule(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/commission_rule/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.commissionRules}/$id');
   }
 }

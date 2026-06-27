@@ -1,106 +1,55 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/document_analysis_service.dart';
 
-/// Repository for DocumentAnalysis operations
-/// Provides CRUD operations with proper error handling and type safety
-class DocumentAnalysisRepository {
-  final DioClient _dioClient;
+abstract class DocumentAnalysisRepository {
+  Future<DocumentAnalysis> getById(String id);
+  Future<List<DocumentAnalysis>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<DocumentAnalysis> create(DocumentAnalysis item);
+  Future<DocumentAnalysis> update(String id, DocumentAnalysis item);
+  Future<void> delete(String id);
+  Future<Map<String, dynamic>> getJobStatus(String id);
+  Future<List<Map<String, dynamic>>> searchContent(String orgId, String query, {Map<String, dynamic>? filters});
+}
 
-  DocumentAnalysisRepository(this._dioClient);
+class DocumentAnalysisRepositoryImpl implements DocumentAnalysisRepository {
+  final DocumentAnalysisService _service;
+  DocumentAnalysisRepositoryImpl(this._service);
 
-  /// Get DocumentAnalysis by ID
-  /// Returns [DocumentAnalysis] if found, throws [RepositoryException] otherwise
-  Future<DocumentAnalysis> getDocumentAnalysisById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/document_analysis/$id');
-      if (response.statusCode == 200) {
-        return DocumentAnalysis.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch document_analysis',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<DocumentAnalysis> getById(String id) => _service.getDocumentAnalysisById(id);
 
-  /// Get all document_analysises with pagination and filtering
-  /// Returns list of [DocumentAnalysis] objects
-  Future<List<DocumentAnalysis>> getdocument_analysises({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<DocumentAnalysis>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/document_analysis', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => DocumentAnalysis.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch document_analysises',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getDocumentAnalysises(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new DocumentAnalysis
-  /// Returns created [DocumentAnalysis] object
-  Future<DocumentAnalysis> createDocumentAnalysis(DocumentAnalysis documentAnalysis) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/document_analysis',
-        data: documentAnalysis.toJson(),
-      );
-      return DocumentAnalysis.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<DocumentAnalysis> create(DocumentAnalysis item) => _service.createDocumentAnalysis(item);
 
-  // Update DocumentAnalysis
-  Future<DocumentAnalysis> updateDocumentAnalysis(String id, DocumentAnalysis documentAnalysis) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/document_analysis/$id',
-        data: documentAnalysis.toJson(),
-      );
-      return DocumentAnalysis.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<DocumentAnalysis> update(String id, DocumentAnalysis item) => _service.updateDocumentAnalysis(id, item);
 
-  // Delete DocumentAnalysis
-  Future<void> deleteDocumentAnalysis(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/document_analysis/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteDocumentAnalysis(id);
 
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<Map<String, dynamic>> getJobStatus(String id) => _service.getJobStatus(id);
+
+  @override
+  Future<List<Map<String, dynamic>>> searchContent(String orgId, String query, {Map<String, dynamic>? filters}) => 
+    _service.searchContent(orgId, query, filters: filters);
 }

@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class SharedAmenityService {
   final DioClient _dioClient;
-
   SharedAmenityService(this._dioClient);
 
-  // Get SharedAmenity by ID
   Future<SharedAmenity> getSharedAmenityById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/shared_amenity/$id');
-      return SharedAmenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.sharedAmenities}/$id');
+    return SharedAmenity.fromJson(response.data['data']);
   }
 
-  // Get all shared_amenitys
-  Future<List<SharedAmenity>> getSharedAmenitys({
-    int page = 1,
-    int limit = 20,
+  Future<List<SharedAmenity>> getSharedAmenities({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/shared_amenity', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => SharedAmenity.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.sharedAmenities, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => SharedAmenity.fromJson(json)).toList();
   }
 
-  // Create SharedAmenity
-  Future<SharedAmenity> createSharedAmenity(SharedAmenity sharedAmenity) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/shared_amenity',
-        data: sharedAmenity.toJson(),
-      );
-      return SharedAmenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<SharedAmenity> createSharedAmenity(SharedAmenity item) async {
+    final response = await _dioClient.post(ApiEndpoints.sharedAmenities, data: item.toJson());
+    return SharedAmenity.fromJson(response.data['data']);
   }
 
-  // Update SharedAmenity
-  Future<SharedAmenity> updateSharedAmenity(String id, SharedAmenity sharedAmenity) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/shared_amenity/$id',
-        data: sharedAmenity.toJson(),
-      );
-      return SharedAmenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<SharedAmenity> updateSharedAmenity(String id, SharedAmenity item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.sharedAmenities}/$id', data: item.toJson());
+    return SharedAmenity.fromJson(response.data['data']);
   }
 
-  // Delete SharedAmenity
   Future<void> deleteSharedAmenity(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/shared_amenity/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.sharedAmenities}/$id');
   }
 }

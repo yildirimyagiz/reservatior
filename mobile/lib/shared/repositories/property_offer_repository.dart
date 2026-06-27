@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/property_offer_service.dart';
 
-/// Repository for PropertyOffer operations
-/// Provides CRUD operations with proper error handling and type safety
-class PropertyOfferRepository {
-  final DioClient _dioClient;
+abstract class PropertyOfferRepository {
+  Future<PropertyOffer> getById(String id);
+  Future<List<PropertyOffer>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<PropertyOffer> create(PropertyOffer item);
+  Future<PropertyOffer> update(String id, PropertyOffer item);
+  Future<void> delete(String id);
+}
 
-  PropertyOfferRepository(this._dioClient);
+class PropertyOfferRepositoryImpl implements PropertyOfferRepository {
+  final PropertyOfferService _service;
+  PropertyOfferRepositoryImpl(this._service);
 
-  /// Get PropertyOffer by ID
-  /// Returns [PropertyOffer] if found, throws [RepositoryException] otherwise
-  Future<PropertyOffer> getPropertyOfferById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/property_offer/$id');
-      if (response.statusCode == 200) {
-        return PropertyOffer.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch property_offer',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyOffer> getById(String id) => _service.getPropertyOfferById(id);
 
-  /// Get all property_offers with pagination and filtering
-  /// Returns list of [PropertyOffer] objects
-  Future<List<PropertyOffer>> getproperty_offers({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<PropertyOffer>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/property_offer', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => PropertyOffer.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch property_offers',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getPropertyOffers(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new PropertyOffer
-  /// Returns created [PropertyOffer] object
-  Future<PropertyOffer> createPropertyOffer(PropertyOffer propertyOffer) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/property_offer',
-        data: propertyOffer.toJson(),
-      );
-      return PropertyOffer.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyOffer> create(PropertyOffer item) => _service.createPropertyOffer(item);
 
-  // Update PropertyOffer
-  Future<PropertyOffer> updatePropertyOffer(String id, PropertyOffer propertyOffer) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/property_offer/$id',
-        data: propertyOffer.toJson(),
-      );
-      return PropertyOffer.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyOffer> update(String id, PropertyOffer item) => _service.updatePropertyOffer(id, item);
 
-  // Delete PropertyOffer
-  Future<void> deletePropertyOffer(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/property_offer/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deletePropertyOffer(id);
 }

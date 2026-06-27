@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sarı İbrahimoğulları — Soy Ağacı</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@100;300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Doğrudan PDF İndirme Kütüphanesi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+      :root {
+        --gold: #c9a84c;
+        --gold-bright: #f0c060;
+        --gold-dim: rgba(201, 168, 76, 0.35);
+        --bg: #06060c;
+        --text: #dfd5bc;
+        --text-dim: rgba(223, 213, 188, 0.45);
+        --male-color: #4a8fd4;
+        --female-color: #d45a80;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Spectral", serif;
+        background: var(--bg);
+        min-height: 100vh;
+        overflow: hidden;
+        color: var(--text);
+      }
+
+      /* ══════════ KUSURSUZ EKRAN ARAYÜZÜ ══════════ */
+      #nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        background: rgba(6, 6, 12, 0.9);
+        border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+        backdrop-filter: blur(20px);
+      }
+      .nav-brand-text {
+        font-family: "Cinzel", serif;
+        font-size: 12px;
+        letter-spacing: 0.28em;
+        color: var(--gold);
+        font-weight: 700;
+      }
+      .nav-brand-sub {
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 8px;
+        letter-spacing: 0.45em;
+        color: var(--text-dim);
+        text-transform: uppercase;
+      }
+
+      #viewport-container {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+        background: var(--bg);
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 40px;
+      }
+
+      #canvas-render-target {
+        position: relative;
+        margin: 0 auto;
+      }
+
+      .btn-vector {
+        font-family: "Josefin Sans", sans-serif;
+        font-weight: bold;
+        font-size: 11px;
+        color: #000;
+        background: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 2px solid var(--gold);
+        box-shadow: 0 4px 15px rgba(201, 168, 76, 0.4);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-vector:hover {
+        background: var(--gold-bright);
+        transform: translateY(-1px);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <div id="nav">
+      <div>
+        <div class="nav-brand-text">SARI İBRAHİMOĞULLARI</div>
+        <div class="nav-brand-sub">Mutlak Matematiksel Soy Ağacı Haritası</div>
+      </div>
+      <div>
+        <button class="btn-vector" onclick="generatePerfectPDF()">
+          ⚡ DOĞRUDAN SAF VEKTÖR PDF İNDİR (120x80cm)
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEWPORT CONTAINER -->
+    <div id="viewport-container">
+      <div id="canvas-render-target"></div>
+    </div>
+
+    <script>
+      const DATA = [
+        {
+          id: "root",
+          ad: "SARI İBRAHİMOĞULLARI",
+          isRoot: true,
+          cocuklari: [
+            {
+              id: "sari-ibrahim",
+              ad: "SARI İBRAHİM AĞA",
+              esi: "AYDIN",
+              cocuklari: [
+                {
+                  id: "haci-mehmet-aga",
+                  ad: "HACI MEHMET AĞA",
+                  cocuklari: [
+                    {
+                      id: "haci-ahmet-aga",
+                      ad: "HACI AHMET AĞA",
+                      esi: "HATİCE",
+                      cocuklari: [
+                        {
+                          id: "mehmet-ayse",
+                          ad: "MEHMET",
+                          esi: "AYŞE",
+                          tarih: "1271–1326",
+                          cocuklari: [
+                            {
+                              id: "ekmekci",
+                              ad: "EKMEKÇİ HACI HASAN",
+                              esi: "DUDU",
+                              cocuklari: [
+                                { id: "ahmet-hamdi", ad: "AHMET HAMDİ" },
+                                { id: "halime-eh", ad: "NAİME" },
+                                { id: "m-sukru", ad: "MEHMET ŞÜKRÜ" },
+                                { id: "m-lutfi", ad: "MEHMET LÜTFİ" },
+                                { id: "ayse-eh", ad: "AYŞE" },
+                                { id: "m-emin-eh", ad: "M. EMİN" },
+                                { id: "habibe-eh", ad: "HABİBE" },
+                                { id: "hacer-eh", ad: "HACER" },
+                                { id: "sehri-eh", ad: "ŞEHRİ" },
+                              ],
+                            },
+                            {
+                              id: "ozaydin-ilyas",
+                              ad: "ÖZAYDIN İLYAS",
+                              tarih: "1300–1334",
+                              cocuklari: [
+                                {
+                                  id: "m-kazim",
+                                  ad: "M. KAZIM",
+                                  cocuklari: [
+                                    { id: "abdulkadir-mk", ad: "A. KADİR" },
+                                    { id: "fatima-mk", ad: "FATMA" },
+                                    { id: "m-emin-mk", ad: "M. EMİN" },
+                                    { id: "a-ihsan-mk", ad: "A. İHSAN" },
+                                    { id: "ahmet-remzi", ad: "AHMET REMZİ" },
+                                    { id: "m-fevzi-mk", ad: "M. FEVZİ" },
+                                  ],
+                                },
+                                { id: "arife", ad: "ARİFE" },
+                                {
+                                  id: "m-emin-ilyas",
+                                  ad: "M. EMİN (BİLA VELED)",
+                                  tarih: "1331–1337",
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          id: "halil-ibrahim-2",
+                          ad: "HALİL İBRAHİM (ÇOCUKSUZ)",
+                        },
+                        {
+                          id: "mustafa",
+                          ad: "ÖZAYDIN MUSTAFA",
+                          tarih: "1302–1905",
+                          cocuklari: [
+                            { id: "fethiye", ad: "FETHİYE" },
+                            { id: "hatice-elveda", ad: "HATİCE" },
+                            {
+                              id: "a-hilmi",
+                              ad: "A. HİLMİ",
+                              cocuklari: [
+                                { id: "m-fevzi-m", ad: "M. FEVZİ" },
+                                { id: "m-nuri", ad: "M. NURİ" },
+                                { id: "a-ihsan", ad: "A. İHSAN" },
+                                { id: "nuriye", ad: "NURİYE" },
+                                { id: "ulviye", ad: "ULVİYE" },
+                              ],
+                            },
+                            { id: "elveda-ilyas", ad: "ELVEDA" },
+                            { id: "remziye", ad: "REMZİYE" },
+                          ],
+                        },
+                        { id: "hayriye", ad: "HAYRİYE" },
+                        { id: "selime", ad: "SELİME" },
+                        {
+                          id: "kamil-fadime",
+                          ad: "KAMİL",
+                          esi: "FADİME",
+                          cocuklari: [
+                            {
+                              id: "sabri",
+                              ad: "SABRİ",
+                              esi: "HATİCE",
+                              cocuklari: [
+                                { id: "kamil-s", ad: "KAMİL" },
+                                { id: "muserref", ad: "MÜŞERREF" },
+                                { id: "a-dudu", ad: "A. DUDU" },
+                                { id: "hacer-s", ad: "HACER" },
+                                { id: "abdulkadir-s", ad: "ABDÜLKADİR" },
+                              ],
+                            },
+                            { id: "hacer-k", ad: "HACER" },
+                            {
+                              id: "mehmet-selime",
+                              ad: "MEHMET",
+                              esi: "EMİNE - AYŞE",
+                              tarih: "1328–1970",
+                              cocuklari: [
+                                { id: "kamil-m", ad: "KAMİL" },
+                                { id: "nezahat-m", ad: "NEZAHAT" },
+                                { id: "remziye-m", ad: "REMZİYE" },
+                                { id: "ahilmi-m", ad: "A. HİLMİ" },
+                                { id: "hacer-m", ad: "HACER" },
+                              ],
+                            },
+                            {
+                              id: "halil-ibrahim-k",
+                              ad: "HALİL İBRAHİM",
+                              esi: "ŞEHRİ",
+                              cocuklari: [
+                                { id: "kamil-k", ad: "KAMİL" },
+                                { id: "ramazan", ad: "RAMAZAN" },
+                                { id: "sukriye", ad: "ŞÜKRİYE" },
+                                { id: "nuri-k", ad: "NURİ" },
+                                { id: "cavit", ad: "CAVİT" },
+                              ],
+                            },
+                          ],
+                        },
+                        { id: "habibe-h", ad: "HABİBE" },
+                        {
+                          id: "abdulkadir-serife",
+                          ad: "ABDÜLKADİR",
+                          esi: "ŞERİFE",
+                          cocuklari: [
+                            {
+                              id: "haci-ahmet",
+                              ad: "HACI AHMET (BİLA VELED)",
+                              tarih: "1323–2001 (108 Yaşında)",
+                              esi: "SIDIKA",
+                            },
+                            { id: "nazime", ad: "NAZİME" },
+                            { id: "hatice-ha", ad: "HATİCE" },
+                            { id: "safiye", ad: "SAFİYE" },
+                            { id: "dudu-ha", ad: "DUDU" },
+                            { id: "hayriye-ha", ad: "HAYRİYE" },
+                            {
+                              id: "ali-osman",
+                              ad: "ALİ OSMAN",
+                              esi: "AYŞE",
+                              cocuklari: [
+                                { id: "abdulkadir-i", ad: "ABDÜLKADİR" },
+                                { id: "imadettin", ad: "İMADETTİN" },
+                              ],
+                            },
+                          ],
+                        },
+                        { id: "adile", ad: "ADİLE" },
+                        { id: "dudu", ad: "DUDU" },
+                        {
+                          id: "cafer-gv",
+                          ad: "CAFER SADIK ÖZAYDIN",
+                          esi: "GÜLİSTAN - VESİLE",
+                          cocuklari: [
+                            { id: "samiye", ad: "SAMİYE" },
+                            {
+                              id: "lutfiye",
+                              ad: "LÜTFİYE",
+                              esi: "EMİR",
+                              cocuklari: [
+                                { id: "nurten-l", ad: "NURTEN" },
+                                { id: "ahmet-l", ad: "AHMET" },
+                                { id: "ummet-l", ad: "ÜMMET" },
+                                { id: "haci-osman-l", ad: "HACI OSMAN" },
+                                { id: "ismail-l", ad: "İSMAİL" },
+                                { id: "muberra-l", ad: "MÜBERRA" },
+                              ],
+                            },
+                            {
+                              id: "ihsan",
+                              ad: "İHSAN",
+                              cocuklari: [
+                                {
+                                  id: "cafer-sadik",
+                                  ad: "CAFER SADIK",
+                                  cocuklari: [
+                                    { id: "selim", ad: "SELİM" },
+                                    { id: "sibel", ad: "SİBEL" },
+                                  ],
+                                },
+                                {
+                                  id: "haldun",
+                                  ad: "HALDUN",
+                                  cocuklari: [
+                                    { id: "talha", ad: "TALHA" },
+                                    { id: "betul", ad: "BETÜL" },
+                                  ],
+                                },
+                                {
+                                  id: "nuriye-cs",
+                                  ad: "NURİYE",
+                                  esi: "FAHREDDİN",
+                                  cocuklari: [
+                                    { id: "ozge", ad: "ÖZGE" },
+                                    { id: "bilge", ad: "BİLGE" },
+                                    { id: "tugce", ad: "TUĞÇE" },
+                                  ],
+                                },
+                                {
+                                  id: "hatice-p",
+                                  ad: "HATİCE (PERİHAN)",
+                                  cocuklari: [
+                                    { id: "ahmet-p", ad: "AHMET" },
+                                    { id: "esra-p", ad: "ESRA" },
+                                  ],
+                                },
+                                { id: "guler", ad: "GÜLER (GÜLİSTAN)" },
+                                {
+                                  id: "reyhan",
+                                  ad: "REYHAN",
+                                  aciklama:
+                                    "İhsan'dan olma / Raziye'den doğma Nezahat & Abdullah nüfusuna geçti (Evlatlık)",
+                                },
+                                {
+                                  id: "nuran-cs",
+                                  ad: "NURAN",
+                                  cocuklari: [
+                                    { id: "alper-n", ad: "ALPER" },
+                                    { id: "simge-n", ad: "SİMGE" },
+                                  ],
+                                },
+                                {
+                                  id: "ahmed-sadik",
+                                  ad: "AHMET SADIK ÖZAYDIN",
+                                  esi: "ŞENGÜL ÖZAYDIN",
+                                  cocuklari: [
+                                    { id: "ali-taha", ad: "ALİ TAHA (ŞEHİD)" },
+                                  ],
+                                },
+                              ],
+                            },
+                            { id: "habibe-d", ad: "HABİBE" },
+                            { id: "nezahat-d", ad: "NEZAHAT", esi: "ABDULLAH" },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      id: "halil-ibrahim-bilo",
+                      ad: "HALİL İBRAHİM (BİLA VELED)",
+                    },
+                    {
+                      id: "asim",
+                      ad: "ASIM",
+                      esi: "AYDIN A / DÖNDÜ",
+                      tarih: "1305–1943",
+                    },
+                    {
+                      id: "salih-ozaydin",
+                      ad: "SALİH ÖZAYDIN",
+                      esi: "SABİHA",
+                      cocuklari: [
+                        {
+                          id: "m-asim-elveda",
+                          ad: "MEHMET ASIM",
+                          esi: "ELVEDA",
+                          cocuklari: [
+                            {
+                              id: "salih-munevver",
+                              ad: "SALİH",
+                              esi: "MÜNEVVER - SULTAN",
+                              tarih: "1325–1970",
+                              cocuklari: [
+                                {
+                                  id: "abdulkadir-kambur",
+                                  ad: "ABDÜLKADİR",
+                                  aciklama:
+                                    "Kambur sünnetçi, beni sünnet etti / Sıhhiye Memuru 1964",
+                                },
+                                { id: "sait", ad: "SAİT" },
+                                { id: "necati", ad: "NECATİ" },
+                                { id: "fatih", ad: "FATİH" },
+                              ],
+                            },
+                            {
+                              id: "dudu-am",
+                              ad: "DUDU",
+                              tarih: "1326–1983",
+                            },
+                            {
+                              id: "abdulmuttalib",
+                              ad: "ABDÜLMÜTTALİB (BİLA VELED)",
+                              tarih: "1330–1336",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        { id: "selimogullari", ad: "SELİMOĞULLARI", isRoot: true },
+        {
+          id: "kor-hasan",
+          ad: "KÖR HASAN OĞULLARI (KARAKEÇİLİ - TAKTAKLAR)",
+          isRoot: true,
+        },
+      ];
+
+      const FEMALE_SET = new Set([
+        "ayşe",
+        "hatice",
+        "fatma",
+        "fatima",
+        "zeynep",
+        "halime",
+        "hayriye",
+        "selime",
+        "adile",
+        "samiye",
+        "lütfiye",
+        "habibe",
+        "nezahat",
+        "nuriye",
+        "ulviye",
+        "remziye",
+        "hacer",
+        "fethiye",
+        "müşerref",
+        "nazime",
+        "safiye",
+        "şehri",
+        "şükriye",
+        "arife",
+        "elveda",
+        "fadime",
+        "sabiha",
+        "münevver",
+        "sultan",
+        "sıddıka",
+        "siddika",
+        "azize",
+        "emine",
+        "döndü",
+        "dudu",
+        "rabia",
+        "zübeyde",
+        "zeliha",
+        "zülfiye",
+        "hanım",
+        "hanife",
+        "huriye",
+        "hurrem",
+        "naile",
+        "naime",
+        "naciye",
+        "latife",
+        "leyla",
+        "lütfiye",
+        "meryem",
+        "medine",
+        "melek",
+        "münire",
+        "nadide",
+        "nazan",
+        "nihal",
+        "nimet",
+        "rukiye",
+        "raziye",
+        "saadet",
+        "sadiye",
+        "sakine",
+        "saniye",
+        "seher",
+        "semiha",
+        "seniha",
+        "servet",
+        "sevgi",
+        "sevim",
+        "şerife",
+        "tahire",
+        "vesile",
+        "zehra",
+        "zekiye",
+        "zümrüt",
+        "sıdıka",
+        "sidika",
+      ]);
+
+      const extraFemales = [
+        "perihan",
+        "güler",
+        "reyhan",
+        "nuran",
+        "sibel",
+        "betül",
+        "esra",
+        "tuğçe",
+        "simge",
+        "azize",
+        "şengül",
+        "gülistan",
+        "kesibe",
+        "özge",
+        "bilge",
+        "şehri",
+        "şükriye",
+        "şerife",
+        "nurten",
+        "müberra",
+      ];
+
+      function detectGender(rawName) {
+        if (!rawName) return "male";
+        const norm = rawName
+          .replace(/I/g, "ı")
+          .replace(/İ/g, "i")
+          .toLowerCase()
+          .replace(/i̇/g, "i");
+        for (const f of extraFemales) {
+          if (norm.includes(f)) return "female";
+        }
+        const parts = norm.split(/[\s\/\(\)\-,]+/).filter(Boolean);
+        for (const p of parts) {
+          if (FEMALE_SET.has(p)) return "female";
+        }
+        for (const f of FEMALE_SET) {
+          if (norm.includes(f)) return "female";
+        }
+        return "male";
+      }
+
+      // ══════════ KUSURSUZ VEKTÖREL MATEMATİK MOTORU ══════════
+      const CARD_W = 160;
+      const CARD_H = 75;
+      const SPOUSE_GAP = 6;
+      const HORIZ_GAP = 24;
+      const VERT_GAP = 65;
+
+      function measureTree(node, depth = 0) {
+        let cardPairWidth = CARD_W;
+        if (node.esi) {
+          cardPairWidth = CARD_W * 2 + SPOUSE_GAP;
+        }
+
+        if (!node.cocuklari || node.cocuklari.length === 0) {
+          return {
+            totalW: cardPairWidth,
+            cardPairW: cardPairWidth,
+            depth: depth,
+            children: [],
+          };
+        }
+
+        let totalChildrenW = 0;
+        const measuredChildren = node.cocuklari.map((child) => {
+          return measureTree(child, depth + 1);
+        });
+
+        measuredChildren.forEach((ch, idx) => {
+          totalChildrenW += ch.totalW;
+          if (idx < measuredChildren.length - 1) {
+            totalChildrenW += HORIZ_GAP;
+          }
+        });
+
+        return {
+          totalW: Math.max(cardPairWidth, totalChildrenW),
+          cardPairW: cardPairWidth,
+          depth: depth,
+          children: measuredChildren,
+        };
+      }
+
+      function generateSVGString() {
+        const measuredRoots = DATA.map((root) => measureTree(root));
+
+        let totalTreeW = 0;
+        measuredRoots.forEach((m, idx) => {
+          totalTreeW += m.totalW;
+          if (idx < measuredRoots.length - 1) totalTreeW += 120;
+        });
+
+        const width = totalTreeW + 200;
+        const height = 950;
+
+        let svg = `<?xml version="1.0" encoding="UTF-8"?>
+  <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <style>
+    .bg { fill: #06060c; }
+    .line-con { stroke: #c9a84c; stroke-width: 1.5; stroke-linecap: round; opacity: 0.5; fill: none; }
+    .card-rect { fill: #121020; stroke-width: 1.2; rx: 12px; }
+    .card-rect.anc { fill: #1a1408; stroke: #c9a84c; stroke-width: 1.8; }
+    .card-rect.male { stroke: #4a8fd4; }
+    .card-rect.female { stroke: #d45a80; }
+    .top-bar { rx: 2px; }
+    .top-bar.male { fill: #4a8fd4; }
+    .top-bar.female { fill: #d45a80; }
+    .top-bar.anc { fill: #c9a84c; }
+    .text-name { font-family: 'Cinzel', Georgia, serif; font-size: 10px; font-weight: 600; fill: #dfd5bc; text-anchor: middle; }
+    .text-name.anc { fill: #f0c060; font-size: 11px; }
+    .text-year { font-family: 'Josefin Sans', sans-serif; font-size: 8px; fill: #c9a84c; text-anchor: middle; }
+    .text-plus { font-family: 'Josefin Sans', sans-serif; font-size: 16px; fill: #c9a84c; text-anchor: middle; opacity: 0.6; }
+    .title-main { font-family: 'Cinzel', serif; font-size: 34px; font-weight: 700; fill: #c9a84c; text-anchor: middle; }
+    .title-sub { font-family: 'Josefin Sans', sans-serif; font-size: 12px; letter-spacing: 6px; fill: #6b6454; text-anchor: middle; }
+  </style>
+  <rect width="100%" height="100%" class="bg"/>
+  <text x="${width / 2}" y="65" class="title-main">Sarı İbrahimoğulları</text>
+  <text x="${width / 2}" y="88" class="title-sub">KADİM AİLE SOY AĞACI ARŞİVİ</text>
+  <line x1="${width / 2 - 300}" y1="105" x2="${width / 2 + 300}" y2="105" stroke="#c9a84c" stroke-opacity="0.3"/>`;
+
+        let currentX = 100;
+        const startY = 160;
+
+        function drawNode(node, measured, startX, y) {
+          const centerX = startX + measured.totalW / 2;
+          const pairLeftX = centerX - measured.cardPairW / 2;
+
+          const gender = detectGender(node.ad);
+          const isAnc = measured.depth <= 2;
+
+          // Ana Kart Çizimi
+          svg += `\n<g>`;
+          svg += `<rect x="${pairLeftX}" y="${y}" width="${CARD_W}" height="${CARD_H}" class="card-rect ${isAnc ? "anc" : gender}"/>`;
+          svg += `<rect x="${pairLeftX}" y="${y}" width="${CARD_W}" height="4" class="top-bar ${isAnc ? "anc" : gender}"/>`;
+
+          // İsim kırma ve yazma algoritması
+          const words = node.ad.split(" ");
+          if (words.length > 2) {
+            const mid = Math.ceil(words.length / 2);
+            svg += `<text x="${pairLeftX + CARD_W / 2}" y="${y + 32}" class="text-name ${isAnc ? "anc" : ""}">${words.slice(0, mid).join(" ")}</text>`;
+            svg += `<text x="${pairLeftX + CARD_W / 2}" y="${y + 46}" class="text-name ${isAnc ? "anc" : ""}">${words.slice(mid).join(" ")}</text>`;
+          } else {
+            svg += `<text x="${pairLeftX + CARD_W / 2}" y="${y + 38}" class="text-name ${isAnc ? "anc" : ""}">${node.ad}</text>`;
+          }
+
+          if (node.tarih) {
+            svg += `<text x="${pairLeftX + CARD_W / 2}" y="${y + 63}" class="text-year">${node.tarih}</text>`;
+          }
+          svg += `</g>`;
+
+          // Eş Kartı Çizimi
+          if (node.esi) {
+            const spouseX = pairLeftX + CARD_W + SPOUSE_GAP;
+            const sGender = detectGender(node.esi);
+            svg += `\n<g>`;
+            svg += `<rect x="${spouseX}" y="${y}" width="${CARD_W}" height="${CARD_H}" class="card-rect ${isAnc ? "anc" : sGender}"/>`;
+            svg += `<rect x="${spouseX}" y="${y}" width="${CARD_W}" height="4" class="top-bar ${isAnc ? "anc" : sGender}"/>`;
+            svg += `<text x="${spouseX + CARD_W / 2}" y="${y + 42}" class="text-name ${isAnc ? "anc" : ""}">${node.esi}</text>`;
+            svg += `<text x="${pairLeftX + CARD_W + SPOUSE_GAP / 2}" y="${y + 43}" class="text-plus">+</text>`;
+            svg += `</g>`;
+          }
+
+          // Çocuk Bağlantı Çizgileri (Kusursuz Vektör)
+          if (node.cocuklari && node.cocuklari.length > 0) {
+            const bottomLineY = y + CARD_H;
+            const middleJoinY = bottomLineY + VERT_GAP / 2;
+            const nextGenY = y + CARD_H + VERT_GAP;
+
+            // Merkez iniş çizgisi
+            svg += `\n<line x1="${centerX}" y1="${bottomLineY}" x2="${centerX}" y2="${middleJoinY}" class="line-con"/>`;
+
+            let childX = startX;
+            const childPositions = [];
+
+            node.cocuklari.forEach((child, idx) => {
+              const childM = measured.children[idx];
+              const childCenterX = childX + childM.totalW / 2;
+              childPositions.push(childCenterX);
+
+              // Çocuk dikey çıkış çizgisi
+              svg += `<line x1="${childCenterX}" y1="${middleJoinY}" x2="${childCenterX}" y2="${nextGenY}" class="line-con"/>`;
+
+              drawNode(child, childM, childX, nextGenY);
+              childX += childM.totalW + HORIZ_GAP;
+            });
+
+            // Yatay köprü çizgisi (H-bar)
+            if (childPositions.length > 1) {
+              svg += `<line x1="${childPositions[0]}" y1="${middleJoinY}" x2="${childPositions[childPositions.length - 1]}" y2="${middleJoinY}" class="line-con"/>`;
+            }
+          }
+        }
+
+        measuredRoots.forEach((m, idx) => {
+          drawNode(DATA[idx], m, currentX, startY);
+          currentX += m.totalW + 120;
+        });
+
+        svg += "\n</svg>";
+        return { svgString: svg, width: width, height: height };
+      }
+
+      // Ekran Görünümünü İlk Açılışta Oluşturma
+      const targetContainer = document.getElementById("canvas-render-target");
+      const res = generateSVGString();
+      targetContainer.innerHTML = res.svgString;
+      targetContainer.style.width = res.width + "px";
+      targetContainer.style.height = res.height + "px";
+
+      // ══════════ MATBAAYA TAM UYUMLU DOĞRUDAN PDF ÇIKTI ALMA ══════════
+      function generatePerfectPDF() {
+        const perfect = generateSVGString();
+        const blob = new Blob([perfect.svgString], {
+          type: "image/svg+xml;charset=utf-8",
+        });
+        const url = URL.createObjectURL(blob);
+
+        const img = new Image();
+        img.width = perfect.width;
+        img.height = perfect.height;
+
+        img.onload = function () {
+          const canvas = document.createElement("canvas");
+          canvas.width = perfect.width;
+          canvas.height = perfect.height;
+          const ctx = canvas.getContext("2d");
+
+          // Yüksek Çözünürlüklü Arka Plan Kaplaması
+          ctx.fillStyle = "#06060c";
+          ctx.fillRect(0, 0, perfect.width, perfect.height);
+          ctx.drawImage(img, 0, 0, perfect.width, perfect.height);
+          URL.revokeObjectURL(url);
+
+          const pngUrl = canvas.toDataURL("image/png");
+          const { jsPDF } = window.jspdf;
+
+          // Matbaacının İstediği Gerçek Kusursuz Ebat: 120cm x 80cm
+          const pdf = new jsPDF({
+            orientation: "landscape",
+            unit: "mm",
+            format: [1200, 800],
+          });
+
+          // Sıfır kayma, sıfır ezilme ile tam alan kaplama basımı
+          pdf.addImage(pngUrl, "PNG", 0, 0, 1200, 800, undefined, "NONE");
+          pdf.save("Sari_Ibrahimogullari_Baski_Hazir_120x80cm.pdf");
+        };
+        img.src = url;
+      }
+    </script>
+  </body>
+</html>

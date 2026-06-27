@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../core/theme/app_theme.dart';
+import 'package:reservatior/core/theme/app_theme.dart';
 
 // ─── Gold Gradient Button ───────────────────────────────────────────────────────
 class GoldButton extends StatelessWidget {

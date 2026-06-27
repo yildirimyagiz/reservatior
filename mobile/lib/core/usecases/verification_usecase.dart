@@ -1,106 +1,44 @@
-import '../../features/shared/services/verification_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Verification
+import 'package:reservatior/shared/repositories/verification_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetVerificationByIdUseCase {
-  final VerificationService _service;
-  
-  GetVerificationByIdUseCase(this._service);
-  
-  Future<Verification> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final VerificationRepository _repository;
+  GetVerificationByIdUseCase(this._repository);
+  Future<Verification> execute(String id) => _repository.getById(id);
 }
 
 class GetVerificationsUseCase {
-  final VerificationService _service;
-  
-  GetVerificationsUseCase(this._service);
-  
+  final VerificationRepository _repository;
+  GetVerificationsUseCase(this._repository);
   Future<List<Verification>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateVerificationUseCase {
-  final VerificationService _service;
-  
-  CreateVerificationUseCase(this._service);
-  
-  Future<Verification> execute(Verification verification) async {
-    // Add validation logic here
-    return await _service.create(verification);
-  }
+  final VerificationRepository _repository;
+  CreateVerificationUseCase(this._repository);
+  Future<Verification> execute(Verification item) => _repository.create(item);
 }
 
 class UpdateVerificationUseCase {
-  final VerificationService _service;
-  
-  UpdateVerificationUseCase(this._service);
-  
-  Future<Verification> execute(String id, Verification verification) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, verification);
-  }
+  final VerificationRepository _repository;
+  UpdateVerificationUseCase(this._repository);
+  Future<Verification> execute(String id, Verification item) => _repository.update(id, item);
 }
 
 class DeleteVerificationUseCase {
-  final VerificationService _service;
-  
-  DeleteVerificationUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Verification Use Case Container
-class VerificationUseCases {
-  final GetVerificationByIdUseCase getById;
-  final GetVerificationsUseCase getAll;
-  final CreateVerificationUseCase create;
-  final UpdateVerificationUseCase update;
-  final DeleteVerificationUseCase delete;
-  
-  VerificationUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory VerificationUseCases.create(VerificationService service) {
-    return VerificationUseCases(
-      getById: GetVerificationByIdUseCase(service),
-      getAll: GetVerificationsUseCase(service),
-      create: CreateVerificationUseCase(service),
-      update: UpdateVerificationUseCase(service),
-      delete: DeleteVerificationUseCase(service),
-    );
-  }
+  final VerificationRepository _repository;
+  DeleteVerificationUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

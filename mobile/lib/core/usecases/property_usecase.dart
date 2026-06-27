@@ -1,106 +1,44 @@
-import '../../features/shared/services/property_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Property
+import 'package:reservatior/shared/repositories/property_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetPropertyByIdUseCase {
-  final PropertyService _service;
-  
-  GetPropertyByIdUseCase(this._service);
-  
-  Future<Property> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final PropertyRepository _repository;
+  GetPropertyByIdUseCase(this._repository);
+  Future<Property> execute(String id) => _repository.getById(id);
 }
 
 class GetPropertysUseCase {
-  final PropertyService _service;
-  
-  GetPropertysUseCase(this._service);
-  
+  final PropertyRepository _repository;
+  GetPropertysUseCase(this._repository);
   Future<List<Property>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreatePropertyUseCase {
-  final PropertyService _service;
-  
-  CreatePropertyUseCase(this._service);
-  
-  Future<Property> execute(Property property) async {
-    // Add validation logic here
-    return await _service.create(property);
-  }
+  final PropertyRepository _repository;
+  CreatePropertyUseCase(this._repository);
+  Future<Property> execute(Property item) => _repository.create(item);
 }
 
 class UpdatePropertyUseCase {
-  final PropertyService _service;
-  
-  UpdatePropertyUseCase(this._service);
-  
-  Future<Property> execute(String id, Property property) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, property);
-  }
+  final PropertyRepository _repository;
+  UpdatePropertyUseCase(this._repository);
+  Future<Property> execute(String id, Property item) => _repository.update(id, item);
 }
 
 class DeletePropertyUseCase {
-  final PropertyService _service;
-  
-  DeletePropertyUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Property Use Case Container
-class PropertyUseCases {
-  final GetPropertyByIdUseCase getById;
-  final GetPropertysUseCase getAll;
-  final CreatePropertyUseCase create;
-  final UpdatePropertyUseCase update;
-  final DeletePropertyUseCase delete;
-  
-  PropertyUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory PropertyUseCases.create(PropertyService service) {
-    return PropertyUseCases(
-      getById: GetPropertyByIdUseCase(service),
-      getAll: GetPropertysUseCase(service),
-      create: CreatePropertyUseCase(service),
-      update: UpdatePropertyUseCase(service),
-      delete: DeletePropertyUseCase(service),
-    );
-  }
+  final PropertyRepository _repository;
+  DeletePropertyUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/health_check_service.dart';
 
-/// Repository for HealthCheck operations
-/// Provides CRUD operations with proper error handling and type safety
-class HealthCheckRepository {
-  final DioClient _dioClient;
+abstract class HealthCheckRepository {
+  Future<HealthCheck> getById(String id);
+  Future<List<HealthCheck>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<HealthCheck> create(HealthCheck item);
+  Future<HealthCheck> update(String id, HealthCheck item);
+  Future<void> delete(String id);
+}
 
-  HealthCheckRepository(this._dioClient);
+class HealthCheckRepositoryImpl implements HealthCheckRepository {
+  final HealthCheckService _service;
+  HealthCheckRepositoryImpl(this._service);
 
-  /// Get HealthCheck by ID
-  /// Returns [HealthCheck] if found, throws [RepositoryException] otherwise
-  Future<HealthCheck> getHealthCheckById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/health_check/$id');
-      if (response.statusCode == 200) {
-        return HealthCheck.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch health_check',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<HealthCheck> getById(String id) => _service.getHealthCheckById(id);
 
-  /// Get all health_checks with pagination and filtering
-  /// Returns list of [HealthCheck] objects
-  Future<List<HealthCheck>> gethealth_checks({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<HealthCheck>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/health_check', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => HealthCheck.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch health_checks',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getHealthChecks(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new HealthCheck
-  /// Returns created [HealthCheck] object
-  Future<HealthCheck> createHealthCheck(HealthCheck healthCheck) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/health_check',
-        data: healthCheck.toJson(),
-      );
-      return HealthCheck.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<HealthCheck> create(HealthCheck item) => _service.createHealthCheck(item);
 
-  // Update HealthCheck
-  Future<HealthCheck> updateHealthCheck(String id, HealthCheck healthCheck) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/health_check/$id',
-        data: healthCheck.toJson(),
-      );
-      return HealthCheck.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<HealthCheck> update(String id, HealthCheck item) => _service.updateHealthCheck(id, item);
 
-  // Delete HealthCheck
-  Future<void> deleteHealthCheck(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/health_check/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteHealthCheck(id);
 }

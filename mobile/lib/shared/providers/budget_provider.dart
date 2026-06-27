@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/budget_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/budget_service.dart';
+import 'package:reservatior/shared/repositories/budget_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// Budget Providers
-
-final BudgetServiceProvider = Provider<BudgetService>((ref) {
+final budgetServiceProvider = Provider<BudgetService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return BudgetService(dioClient);
 });
 
-// List Provider
-final budgetProvider = FutureProvider.autoDispose<List<Budget>>((ref) async {
-  final service = ref.watch(BudgetServiceProvider);
-  return service.getBudgets();
+final budgetRepositoryProvider = Provider<BudgetRepository>((ref) {
+  final service = ref.watch(budgetServiceProvider);
+  return BudgetRepositoryImpl(service);
 });
 
-// Create Provider
-final BudgetCreateProvider = FutureProvider.autoDispose<Budget>((ref) async {
-  final service = ref.watch(BudgetServiceProvider);
-  return service.createBudget(Budget());
+final budgetListProvider = FutureProvider.autoDispose<List<Budget>>((ref) async {
+  final repository = ref.watch(budgetRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final BudgetUpdateProvider = FutureProvider.autoDispose<Budget>((ref) async {
-  final service = ref.watch(BudgetServiceProvider);
-  final state = ref.watch(BudgetUpdateStateProvider);
-  if (state['id'] != null && state['budget'] != null) {
-    return service.updateBudget(state['id'], state['budget']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final BudgetDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(BudgetServiceProvider);
-  final state = ref.watch(BudgetDeleteStateProvider);
-  if (state != null) {
-    return service.deleteBudget(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final BudgetUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final BudgetDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final BudgetLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(budgetProvider);
-  final createAsync = ref.watch(BudgetCreateProvider);
-  final updateAsync = ref.watch(BudgetUpdateProvider);
-  final deleteAsync = ref.watch(BudgetDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final budgetCreateProvider = StateProvider<Budget?>((ref) => null);
+final budgetUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final budgetDeleteProvider = StateProvider<String?>((ref) => null);
+final budgetLoadingProvider = StateProvider<bool>((ref) => false);

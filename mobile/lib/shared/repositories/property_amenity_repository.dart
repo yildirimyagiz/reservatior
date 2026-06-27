@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/property_amenity_service.dart';
 
-/// Repository for PropertyAmenity operations
-/// Provides CRUD operations with proper error handling and type safety
-class PropertyAmenityRepository {
-  final DioClient _dioClient;
+abstract class PropertyAmenityRepository {
+  Future<PropertyAmenity> getById(String id);
+  Future<List<PropertyAmenity>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<PropertyAmenity> create(PropertyAmenity item);
+  Future<PropertyAmenity> update(String id, PropertyAmenity item);
+  Future<void> delete(String id);
+}
 
-  PropertyAmenityRepository(this._dioClient);
+class PropertyAmenityRepositoryImpl implements PropertyAmenityRepository {
+  final PropertyAmenityService _service;
+  PropertyAmenityRepositoryImpl(this._service);
 
-  /// Get PropertyAmenity by ID
-  /// Returns [PropertyAmenity] if found, throws [RepositoryException] otherwise
-  Future<PropertyAmenity> getPropertyAmenityById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/property_amenity/$id');
-      if (response.statusCode == 200) {
-        return PropertyAmenity.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch property_amenity',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyAmenity> getById(String id) => _service.getPropertyAmenityById(id);
 
-  /// Get all property_amenities with pagination and filtering
-  /// Returns list of [PropertyAmenity] objects
-  Future<List<PropertyAmenity>> getproperty_amenities({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<PropertyAmenity>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/property_amenity', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => PropertyAmenity.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch property_amenities',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getPropertyAmenities(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new PropertyAmenity
-  /// Returns created [PropertyAmenity] object
-  Future<PropertyAmenity> createPropertyAmenity(PropertyAmenity propertyAmenity) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/property_amenity',
-        data: propertyAmenity.toJson(),
-      );
-      return PropertyAmenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyAmenity> create(PropertyAmenity item) => _service.createPropertyAmenity(item);
 
-  // Update PropertyAmenity
-  Future<PropertyAmenity> updatePropertyAmenity(String id, PropertyAmenity propertyAmenity) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/property_amenity/$id',
-        data: propertyAmenity.toJson(),
-      );
-      return PropertyAmenity.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyAmenity> update(String id, PropertyAmenity item) => _service.updatePropertyAmenity(id, item);
 
-  // Delete PropertyAmenity
-  Future<void> deletePropertyAmenity(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/property_amenity/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deletePropertyAmenity(id);
 }

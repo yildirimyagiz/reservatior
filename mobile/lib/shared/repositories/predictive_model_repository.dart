@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/predictive_model_service.dart';
 
-/// Repository for PredictiveModel operations
-/// Provides CRUD operations with proper error handling and type safety
-class PredictiveModelRepository {
-  final DioClient _dioClient;
+abstract class PredictiveModelRepository {
+  Future<PredictiveModel> getById(String id);
+  Future<List<PredictiveModel>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<PredictiveModel> create(PredictiveModel item);
+  Future<PredictiveModel> update(String id, PredictiveModel item);
+  Future<void> delete(String id);
+}
 
-  PredictiveModelRepository(this._dioClient);
+class PredictiveModelRepositoryImpl implements PredictiveModelRepository {
+  final PredictiveModelService _service;
+  PredictiveModelRepositoryImpl(this._service);
 
-  /// Get PredictiveModel by ID
-  /// Returns [PredictiveModel] if found, throws [RepositoryException] otherwise
-  Future<PredictiveModel> getPredictiveModelById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/predictive_model/$id');
-      if (response.statusCode == 200) {
-        return PredictiveModel.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch predictive_model',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PredictiveModel> getById(String id) => _service.getPredictiveModelById(id);
 
-  /// Get all predictive_models with pagination and filtering
-  /// Returns list of [PredictiveModel] objects
-  Future<List<PredictiveModel>> getpredictive_models({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<PredictiveModel>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/predictive_model', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => PredictiveModel.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch predictive_models',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getPredictiveModels(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new PredictiveModel
-  /// Returns created [PredictiveModel] object
-  Future<PredictiveModel> createPredictiveModel(PredictiveModel predictiveModel) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/predictive_model',
-        data: predictiveModel.toJson(),
-      );
-      return PredictiveModel.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PredictiveModel> create(PredictiveModel item) => _service.createPredictiveModel(item);
 
-  // Update PredictiveModel
-  Future<PredictiveModel> updatePredictiveModel(String id, PredictiveModel predictiveModel) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/predictive_model/$id',
-        data: predictiveModel.toJson(),
-      );
-      return PredictiveModel.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PredictiveModel> update(String id, PredictiveModel item) => _service.updatePredictiveModel(id, item);
 
-  // Delete PredictiveModel
-  Future<void> deletePredictiveModel(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/predictive_model/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deletePredictiveModel(id);
 }

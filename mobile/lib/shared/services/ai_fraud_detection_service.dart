@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AIFraudDetectionService {
+class AiFraudDetectionService {
   final DioClient _dioClient;
+  AiFraudDetectionService(this._dioClient);
 
-  AIFraudDetectionService(this._dioClient);
-
-  // Get AIFraudDetection by ID
-  Future<AIFraudDetection> getAIFraudDetectionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_fraud_detection/$id');
-      return AIFraudDetection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiFraudDetection> getAiFraudDetectionById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiFraudDetections}/$id');
+    return AiFraudDetection.fromJson(response.data['data']);
   }
 
-  // Get all ai_fraud_detections
-  Future<List<AIFraudDetection>> getAIFraudDetections({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiFraudDetection>> getAiFraudDetections({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_fraud_detection', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AIFraudDetection.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiFraudDetections, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiFraudDetection.fromJson(json)).toList();
   }
 
-  // Create AIFraudDetection
-  Future<AIFraudDetection> createAIFraudDetection(AIFraudDetection aIFraudDetection) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_fraud_detection',
-        data: aIFraudDetection.toJson(),
-      );
-      return AIFraudDetection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiFraudDetection> createAiFraudDetection(AiFraudDetection item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiFraudDetections, data: item.toJson());
+    return AiFraudDetection.fromJson(response.data['data']);
   }
 
-  // Update AIFraudDetection
-  Future<AIFraudDetection> updateAIFraudDetection(String id, AIFraudDetection aIFraudDetection) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_fraud_detection/$id',
-        data: aIFraudDetection.toJson(),
-      );
-      return AIFraudDetection.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiFraudDetection> updateAiFraudDetection(String id, AiFraudDetection item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiFraudDetections}/$id', data: item.toJson());
+    return AiFraudDetection.fromJson(response.data['data']);
   }
 
-  // Delete AIFraudDetection
-  Future<void> deleteAIFraudDetection(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_fraud_detection/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiFraudDetection(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiFraudDetections}/$id');
   }
 }

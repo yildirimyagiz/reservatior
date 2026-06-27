@@ -1,106 +1,44 @@
-import '../../features/shared/services/payment_negotiation_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for PaymentNegotiation
+import 'package:reservatior/shared/repositories/payment_negotiation_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetPaymentNegotiationByIdUseCase {
-  final PaymentNegotiationService _service;
-  
-  GetPaymentNegotiationByIdUseCase(this._service);
-  
-  Future<PaymentNegotiation> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final PaymentNegotiationRepository _repository;
+  GetPaymentNegotiationByIdUseCase(this._repository);
+  Future<PaymentNegotiation> execute(String id) => _repository.getById(id);
 }
 
 class GetPaymentNegotiationsUseCase {
-  final PaymentNegotiationService _service;
-  
-  GetPaymentNegotiationsUseCase(this._service);
-  
+  final PaymentNegotiationRepository _repository;
+  GetPaymentNegotiationsUseCase(this._repository);
   Future<List<PaymentNegotiation>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreatePaymentNegotiationUseCase {
-  final PaymentNegotiationService _service;
-  
-  CreatePaymentNegotiationUseCase(this._service);
-  
-  Future<PaymentNegotiation> execute(PaymentNegotiation paymentNegotiation) async {
-    // Add validation logic here
-    return await _service.create(paymentNegotiation);
-  }
+  final PaymentNegotiationRepository _repository;
+  CreatePaymentNegotiationUseCase(this._repository);
+  Future<PaymentNegotiation> execute(PaymentNegotiation item) => _repository.create(item);
 }
 
 class UpdatePaymentNegotiationUseCase {
-  final PaymentNegotiationService _service;
-  
-  UpdatePaymentNegotiationUseCase(this._service);
-  
-  Future<PaymentNegotiation> execute(String id, PaymentNegotiation paymentNegotiation) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, paymentNegotiation);
-  }
+  final PaymentNegotiationRepository _repository;
+  UpdatePaymentNegotiationUseCase(this._repository);
+  Future<PaymentNegotiation> execute(String id, PaymentNegotiation item) => _repository.update(id, item);
 }
 
 class DeletePaymentNegotiationUseCase {
-  final PaymentNegotiationService _service;
-  
-  DeletePaymentNegotiationUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// PaymentNegotiation Use Case Container
-class PaymentNegotiationUseCases {
-  final GetPaymentNegotiationByIdUseCase getById;
-  final GetPaymentNegotiationsUseCase getAll;
-  final CreatePaymentNegotiationUseCase create;
-  final UpdatePaymentNegotiationUseCase update;
-  final DeletePaymentNegotiationUseCase delete;
-  
-  PaymentNegotiationUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory PaymentNegotiationUseCases.create(PaymentNegotiationService service) {
-    return PaymentNegotiationUseCases(
-      getById: GetPaymentNegotiationByIdUseCase(service),
-      getAll: GetPaymentNegotiationsUseCase(service),
-      create: CreatePaymentNegotiationUseCase(service),
-      update: UpdatePaymentNegotiationUseCase(service),
-      delete: DeletePaymentNegotiationUseCase(service),
-    );
-  }
+  final PaymentNegotiationRepository _repository;
+  DeletePaymentNegotiationUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

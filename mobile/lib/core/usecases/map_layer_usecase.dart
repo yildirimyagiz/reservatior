@@ -1,106 +1,44 @@
-import '../../features/shared/services/map_layer_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for MapLayer
+import 'package:reservatior/shared/repositories/map_layer_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetMapLayerByIdUseCase {
-  final MapLayerService _service;
-  
-  GetMapLayerByIdUseCase(this._service);
-  
-  Future<MapLayer> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final MapLayerRepository _repository;
+  GetMapLayerByIdUseCase(this._repository);
+  Future<MapLayer> execute(String id) => _repository.getById(id);
 }
 
 class GetMapLayersUseCase {
-  final MapLayerService _service;
-  
-  GetMapLayersUseCase(this._service);
-  
+  final MapLayerRepository _repository;
+  GetMapLayersUseCase(this._repository);
   Future<List<MapLayer>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateMapLayerUseCase {
-  final MapLayerService _service;
-  
-  CreateMapLayerUseCase(this._service);
-  
-  Future<MapLayer> execute(MapLayer mapLayer) async {
-    // Add validation logic here
-    return await _service.create(mapLayer);
-  }
+  final MapLayerRepository _repository;
+  CreateMapLayerUseCase(this._repository);
+  Future<MapLayer> execute(MapLayer item) => _repository.create(item);
 }
 
 class UpdateMapLayerUseCase {
-  final MapLayerService _service;
-  
-  UpdateMapLayerUseCase(this._service);
-  
-  Future<MapLayer> execute(String id, MapLayer mapLayer) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, mapLayer);
-  }
+  final MapLayerRepository _repository;
+  UpdateMapLayerUseCase(this._repository);
+  Future<MapLayer> execute(String id, MapLayer item) => _repository.update(id, item);
 }
 
 class DeleteMapLayerUseCase {
-  final MapLayerService _service;
-  
-  DeleteMapLayerUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// MapLayer Use Case Container
-class MapLayerUseCases {
-  final GetMapLayerByIdUseCase getById;
-  final GetMapLayersUseCase getAll;
-  final CreateMapLayerUseCase create;
-  final UpdateMapLayerUseCase update;
-  final DeleteMapLayerUseCase delete;
-  
-  MapLayerUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory MapLayerUseCases.create(MapLayerService service) {
-    return MapLayerUseCases(
-      getById: GetMapLayerByIdUseCase(service),
-      getAll: GetMapLayersUseCase(service),
-      create: CreateMapLayerUseCase(service),
-      update: UpdateMapLayerUseCase(service),
-      delete: DeleteMapLayerUseCase(service),
-    );
-  }
+  final MapLayerRepository _repository;
+  DeleteMapLayerUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

@@ -1,139 +1,125 @@
-import 'package:flutter/material.dart';
-import '../../../../gen_models/models_library.dart';
+import 'package:flutter/material.dart' hide Notification, Route;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-// ── Language Form Widget  |  Fields: code, name, nativeName, isRTL, isActive, agencyId, agentId, userId
-
-class LanguageFormWidget extends StatefulWidget {
+class LanguageFormWidget extends ConsumerStatefulWidget {
   final Language? item;
-  final void Function(Language)? onSubmit;
-  const LanguageFormWidget({super.key, this.item, this.onSubmit});
-  @override State<LanguageFormWidget> createState() => _LanguageFormWidgetState();
+  final Function(Language) onSubmit;
+  const LanguageFormWidget({super.key, this.item, required this.onSubmit});
+  @override
+  ConsumerState<LanguageFormWidget> createState() => _LanguageFormWidgetState();
 }
 
-class _LanguageFormWidgetState extends State<LanguageFormWidget> {
-  final _key = GlobalKey<FormState>();
+class _LanguageFormWidgetState extends ConsumerState<LanguageFormWidget> {
   String? _code;
   String? _name;
   String? _nativeName;
-  bool _isRTL = false;
-  bool _isActive = false;
+  bool? _isRTL;
+  bool? _isActive;
   String? _agencyId;
   String? _agentId;
   String? _userId;
-
   @override
   void initState() {
     super.initState();
-    _code = widget.item?.code?.toString();
-    _name = widget.item?.name?.toString();
-    _nativeName = widget.item?.nativeName?.toString();
-    _isRTL = widget.item?.isRTL ?? false;
-    _isActive = widget.item?.isActive ?? false;
-    _agencyId = widget.item?.agencyId?.toString();
-    _agentId = widget.item?.agentId?.toString();
-    _userId = widget.item?.userId?.toString();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void _submit() {
-    if (!_key.currentState!.validate()) return;
-    _key.currentState!.save();
-    final data = <String, dynamic>{
-        if (_code?.isNotEmpty == true) 'code': _code,
-        if (_name?.isNotEmpty == true) 'name': _name,
-        if (_nativeName?.isNotEmpty == true) 'nativeName': _nativeName,
-        'isRTL': _isRTL,
-        'isActive': _isActive,
-        if (_agencyId?.isNotEmpty == true) 'agencyId': _agencyId,
-        if (_agentId?.isNotEmpty == true) 'agentId': _agentId,
-        if (_userId?.isNotEmpty == true) 'userId': _userId,
-    };
-    final result = widget.item != null
-        ? Language.fromJson({...widget.item!.toJson(), ...data})
-        : Language.fromJson(data);
-    widget.onSubmit?.call(result);
+    _code = widget.item?.code;
+    _name = widget.item?.name;
+    _nativeName = widget.item?.nativeName;
+    _isRTL = widget.item?.isRTL;
+    _isActive = widget.item?.isActive;
+    _agencyId = widget.item?.agencyId;
+    _agentId = widget.item?.agentId;
+    _userId = widget.item?.userId;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _key,
+    return Container(
+      padding: EdgeInsets.all(16),
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Code', prefixIcon: const Icon(Icons.text_fields), border: const OutlineInputBorder()),
-                onSaved: (v) => _code = v?.isEmpty == true ? null : v,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Name', prefixIcon: const Icon(Icons.person), border: const OutlineInputBorder()),
-                onSaved: (v) => _name = v?.isEmpty == true ? null : v,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Native Name', prefixIcon: const Icon(Icons.person), border: const OutlineInputBorder()),
-                onSaved: (v) => _nativeName = v?.isEmpty == true ? null : v,
-              ),
-              const SizedBox(height: 12),
-              StatefulBuilder(
-                builder: (ctx2, ss) => SwitchListTile(
-                  title: Text('Is R T L'),
-                  secondary: const Icon(Icons.toggle_on),
-                  value: _isRTL,
-                  onChanged: (v) { ss(() {}); setState(() => _isRTL = v); },
-                ),
-              ),
-              const SizedBox(height: 8),
-              StatefulBuilder(
-                builder: (ctx2, ss) => SwitchListTile(
-                  title: Text('Is Active'),
-                  secondary: const Icon(Icons.toggle_on),
-                  value: _isActive,
-                  onChanged: (v) { ss(() {}); setState(() => _isActive = v); },
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Agency Id', prefixIcon: const Icon(Icons.link), border: const OutlineInputBorder()),
-                onSaved: (v) => _agencyId = v?.isEmpty == true ? null : v,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Agent Id', prefixIcon: const Icon(Icons.link), border: const OutlineInputBorder()),
-                onSaved: (v) => _agentId = v?.isEmpty == true ? null : v,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'User Id', prefixIcon: const Icon(Icons.link), border: const OutlineInputBorder()),
-                onSaved: (v) => _userId = v?.isEmpty == true ? null : v,
-              ),
-              const SizedBox(height: 12),
-            FilledButton.icon(
-              onPressed: _submit,
-              icon: Icon(widget.item != null ? Icons.save : Icons.add),
-              label: Text(widget.item != null ? 'Save Changes' : 'Create Language'),
-              style: FilledButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
+            Text(
+              widget.item == null ? "${'mobile.auto.new'.tr()} ${'mobile.modules.language'.tr()}" : "${'mobile.auto.edit'.tr()} ${'mobile.modules.language'.tr()}",
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            TextFormField(
+              initialValue: _code?.toString(),
+              decoration: InputDecoration(labelText: 'mobile.auto.code'.tr()),
+              onChanged: (v) => _code = v,
+            ),
+            TextFormField(
+              initialValue: _name?.toString(),
+              decoration: InputDecoration(labelText: 'mobile.auto.name'.tr()),
+              onChanged: (v) => _name = v,
+            ),
+            TextFormField(
+              initialValue: _nativeName?.toString(),
+              decoration: InputDecoration(labelText: 'mobile.auto.nativename'.tr()),
+              onChanged: (v) => _nativeName = v,
+            ),
+            SwitchListTile(
+              title: Text('mobile.auto.isrtl'.tr()),
+              value: _isRTL ?? false,
+              onChanged: (v) => setState(() => _isRTL = v),
+            ),
+            SwitchListTile(
+              title: Text('mobile.auto.isactive'.tr()),
+              value: _isActive ?? false,
+              onChanged: (v) => setState(() => _isActive = v),
+            ),
+            TextFormField(
+              initialValue: _agencyId?.toString(),
+              decoration: InputDecoration(labelText: 'mobile.auto.agencyid'.tr()),
+              onChanged: (v) => _agencyId = v,
+            ),
+            TextFormField(
+              initialValue: _agentId?.toString(),
+              decoration: InputDecoration(labelText: 'mobile.auto.agentid'.tr()),
+              onChanged: (v) => _agentId = v,
+            ),
+            TextFormField(
+              initialValue: _userId?.toString(),
+              decoration: InputDecoration(labelText: 'mobile.auto.userid'.tr()),
+              onChanged: (v) => _userId = v,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                final data = <String, dynamic>{
+                  if (_code != null) 'code': _code,
+                  if (_name != null) 'name': _name,
+                  if (_nativeName != null) 'nativeName': _nativeName,
+                  'isRTL': _isRTL,
+                  'isActive': _isActive,
+                  if (_agencyId != null) 'agencyId': _agencyId,
+                  if (_agentId != null) 'agentId': _agentId,
+                  if (_userId != null) 'userId': _userId,
+                };
+                try {
+                  final json = widget.item != null
+                      ? {...widget.item!.toJson(), ...data}
+                      : {
+                          'id': 'new',
+                          'createdAt': DateTime.now().toIso8601String(),
+                          'updatedAt': DateTime.now().toIso8601String(),
+                          ...data,
+                        };
+                  widget.onSubmit(Language.fromJson(json));
+                } catch (e) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text("${'mobile.admin.error_label'.tr()}: $e")));
+                }
+              },
+              child: Text('mobile.auto.save'.tr()),
             ),
           ],
         ),
       ),
     );
   }
-}
-
-String _fmt(DateTime? d) {
-  if (d == null) return 'N/A';
-  final mo = d.month.toString().padLeft(2,'0');
-  final day = d.day.toString().padLeft(2,'0');
-  final h = d.hour.toString().padLeft(2,'0');
-  final mi = d.minute.toString().padLeft(2,'0');
-  return '${d.year}-$mo-$day $h:$mi';
 }

@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/integration_log_service.dart';
 
-/// Repository for IntegrationLog operations
-/// Provides CRUD operations with proper error handling and type safety
-class IntegrationLogRepository {
-  final DioClient _dioClient;
+abstract class IntegrationLogRepository {
+  Future<IntegrationLog> getById(String id);
+  Future<List<IntegrationLog>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<IntegrationLog> create(IntegrationLog item);
+  Future<IntegrationLog> update(String id, IntegrationLog item);
+  Future<void> delete(String id);
+}
 
-  IntegrationLogRepository(this._dioClient);
+class IntegrationLogRepositoryImpl implements IntegrationLogRepository {
+  final IntegrationLogService _service;
+  IntegrationLogRepositoryImpl(this._service);
 
-  /// Get IntegrationLog by ID
-  /// Returns [IntegrationLog] if found, throws [RepositoryException] otherwise
-  Future<IntegrationLog> getIntegrationLogById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/integration_log/$id');
-      if (response.statusCode == 200) {
-        return IntegrationLog.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch integration_log',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<IntegrationLog> getById(String id) => _service.getIntegrationLogById(id);
 
-  /// Get all integration_logs with pagination and filtering
-  /// Returns list of [IntegrationLog] objects
-  Future<List<IntegrationLog>> getintegration_logs({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<IntegrationLog>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/integration_log', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => IntegrationLog.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch integration_logs',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getIntegrationLogs(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new IntegrationLog
-  /// Returns created [IntegrationLog] object
-  Future<IntegrationLog> createIntegrationLog(IntegrationLog integrationLog) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/integration_log',
-        data: integrationLog.toJson(),
-      );
-      return IntegrationLog.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<IntegrationLog> create(IntegrationLog item) => _service.createIntegrationLog(item);
 
-  // Update IntegrationLog
-  Future<IntegrationLog> updateIntegrationLog(String id, IntegrationLog integrationLog) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/integration_log/$id',
-        data: integrationLog.toJson(),
-      );
-      return IntegrationLog.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<IntegrationLog> update(String id, IntegrationLog item) => _service.updateIntegrationLog(id, item);
 
-  // Delete IntegrationLog
-  Future<void> deleteIntegrationLog(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/integration_log/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteIntegrationLog(id);
 }

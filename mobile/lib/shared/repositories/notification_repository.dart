@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/notification_service.dart';
 
-/// Repository for Notification operations
-/// Provides CRUD operations with proper error handling and type safety
-class NotificationRepository {
-  final DioClient _dioClient;
+abstract class NotificationRepository {
+  Future<Notification> getById(String id);
+  Future<List<Notification>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<Notification> create(Notification item);
+  Future<Notification> update(String id, Notification item);
+  Future<void> delete(String id);
+}
 
-  NotificationRepository(this._dioClient);
+class NotificationRepositoryImpl implements NotificationRepository {
+  final NotificationService _service;
+  NotificationRepositoryImpl(this._service);
 
-  /// Get Notification by ID
-  /// Returns [Notification] if found, throws [RepositoryException] otherwise
-  Future<Notification> getNotificationById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/notification/$id');
-      if (response.statusCode == 200) {
-        return Notification.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch notification',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Notification> getById(String id) => _service.getNotificationById(id);
 
-  /// Get all notifications with pagination and filtering
-  /// Returns list of [Notification] objects
-  Future<List<Notification>> getnotifications({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<Notification>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/notification', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => Notification.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch notifications',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getNotifications(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new Notification
-  /// Returns created [Notification] object
-  Future<Notification> createNotification(Notification notification) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/notification',
-        data: notification.toJson(),
-      );
-      return Notification.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Notification> create(Notification item) => _service.createNotification(item);
 
-  // Update Notification
-  Future<Notification> updateNotification(String id, Notification notification) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/notification/$id',
-        data: notification.toJson(),
-      );
-      return Notification.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Notification> update(String id, Notification item) => _service.updateNotification(id, item);
 
-  // Delete Notification
-  Future<void> deleteNotification(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/notification/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteNotification(id);
 }

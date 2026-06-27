@@ -1,389 +1,393 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:reservatior/features/admin/shared/widgets/command_center_modal.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sizer/sizer.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:reservatior/core/theme/app_theme.dart';
 
-import './core/theme/app_theme.dart';
-import './features/properties/presentation/screens/property_detail_screen.dart';
-import './features/dashboard/presentation/screens/dashboard_screen.dart';
-import './features/home/presentation/screens/home_screen.dart';
-import './features/splash/presentation/screens/splash_screen.dart';
-import './features/welcome/presentation/screens/welcome_screen.dart';
-import './features/navigation/presentation/screens/features_overview_screen.dart';
-import './features/navigation/presentation/screens/main_navigation_screen.dart';
-import './features/search/presentation/screens/search_screen.dart';
-import './features/favorite/presentation/pages/favorite_admin_page.dart';
-import './features/message/presentation/pages/messages_page.dart';
-import './features/communication/presentation/screens/communication_screen.dart';
-import './features/notification/presentation/pages/notifications_page.dart';
-import './features/auth/presentation/screens/login_screen.dart';
-import './features/auth/presentation/screens/register_screen.dart';
-import './features/auth/presentation/screens/forgot_password_screen.dart';
-import './features/auth/presentation/screens/profile_screen.dart';
-import './features/auth/presentation/screens/change_password_screen.dart';
-import './features/properties/presentation/screens/property_list_screen.dart';
-import './features/properties/presentation/screens/property_detail_screen.dart';
-<<<<<<< /Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/main.dart
-import './features/analytics/presentation/pages/analytics_admin_page.dart';
-import './features/task/presentation/pages/task_admin_page.dart';
-import './features/agencies/presentation/screens/agency_dashboard_screen.dart';
-import './features/agent/presentation/pages/agent_admin_page.dart';
-import './features/ai_chat/presentation/screens/ai_chat_screen.dart';
-=======
-import './features/analytics/presentation/screens/analytics_screen.dart';
-import './features/analytics/presentation/screens/business_analytics_screen.dart';
-import './features/tasks/presentation/screens/task_list_screen.dart';
-import './features/tasks/presentation/screens/task_detail_screen.dart';
-import './features/agency/presentation/pages/agency_admin_page.dart';
-import './features/agents/presentation/screens/agent_list_screen.dart';
-import './features/agents/presentation/screens/agent_performance_screen.dart';
-import './features/ai/presentation/screens/ai_chat_screen.dart';
->>>>>>> /Users/os2026/.windsurf/worktrees/reservatior main/reservatior main-d839815a/mobile/lib/main.dart
-import './features/ai/presentation/screens/ai_video_generation_screen.dart';
-import './features/ai/listing/presentation/screens/ai_listing_screen.dart';
-import './features/video/editor/presentation/screens/video_editor_screen.dart';
-import './features/reservation/presentation/pages/reservation_admin_page.dart';
-// More screen removed - using navigation instead
-import './shared/providers/auth_provider.dart';
+// Providers
+import 'package:reservatior/shared/providers/auth_provider.dart';
+import 'package:reservatior/shared/providers/theme_provider.dart';
+import 'package:reservatior/shared/providers/google_auth_provider.dart';
+import 'package:reservatior/shared/services/geo_init_service.dart';
+import 'package:reservatior/core/network/dio_client.dart';
 
-// Import all new UI modules
-import './features/achievement/presentation/pages/achievements_list_page.dart';
-import './features/admin/presentation/screens/admin_screen.dart';
-import './features/attachment/presentation/pages/attachment_admin_page.dart';
-import './features/signatures/presentation/screens/signatures_screen.dart';
-import './features/reports/presentation/screens/reports_screen.dart';
-// Removed duplicate tasks import - using task/presentation/pages/task_admin_page.dart
-import './features/contact/presentation/pages/contact_admin_page.dart';
-import './features/deal/presentation/pages/deal_admin_page.dart';
-import './features/payments/presentation/screens/payments_screen.dart';
-// Removed duplicate - using agent/presentation/pages/agent_admin_page.dart
-// Removed duplicate - using analytics/presentation/pages/analytics_admin_page.dart
-import './features/listings/presentation/screens/listings_screen.dart';
-import './features/dashboard/presentation/screens/dashboard_screen.dart';
-import './features/communication_log/presentation/pages/communication_log_admin_page.dart';
-import './features/settings/presentation/screens/settings_screen.dart';
-// Removed duplicate - using message/presentation/pages/messages_page.dart
-import './features/video/presentation/screens/video_screen.dart';
-import './features/user/presentation/pages/user_admin_page.dart';
-import './features/financials/presentation/screens/financials_screen.dart';
-import './features/escrow/presentation/screens/escrow_screen.dart';
-import './features/agency/presentation/pages/agency_admin_page.dart';
-import './features/ai/presentation/screens/ai_screen.dart';
-import './features/ai_chat/presentation/screens/ai_chat_screen.dart';
-import './features/ai_generation/presentation/screens/ai_generation_screen.dart';
-import './features/ai/listing/presentation/screens/ai_listing_screen.dart';
-// Note: Using appointment (singular) module instead of appointments (plural)
-import './features/booking/presentation/pages/booking_admin_page.dart';
-import './features/appointment/presentation/pages/appointment_admin_page.dart';
-import './features/brand/presentation/screens/brand_screen.dart';
-import './features/documents/presentation/screens/documents_screen.dart';
-import './features/contracts/presentation/screens/contracts_screen.dart';
-import './features/projects/presentation/screens/projects_screen.dart';
-import './features/marketing/presentation/screens/marketing_screen.dart';
-import './features/email_queue/presentation/screens/email_queue_screen.dart';
-import './features/mobile_devices/presentation/screens/mobile_devices_screen.dart';
-import './features/property_inventory/presentation/pages/property_inventory_admin_page.dart';
-import './features/system_metrics/presentation/pages/system_metrics_admin_page.dart';
-import './features/location/presentation/pages/location_admin_page.dart';
-import './features/advanced/presentation/screens/advanced_features_screen.dart';
-import './more.dart';
+// Routes
+import 'package:reservatior/core/navigation/feature_routes.dart';
 
-void main() {
-  runApp(const ProviderScope(child: ReservatiorApp()));
-}
+// Screens
+import 'package:reservatior/features/splash/presentation/screens/splash_screen.dart';
+import 'package:reservatior/features/auth/presentation/screens/welcome_screen.dart';
+import 'package:reservatior/features/auth/presentation/screens/login_screen.dart';
+import 'package:reservatior/features/auth/presentation/screens/register_screen.dart';
+import 'package:reservatior/features/auth/presentation/screens/forgot_password_screen.dart';
+import 'package:reservatior/features/auth/presentation/screens/change_password_screen.dart';
 
-class ReservatiorApp extends ConsumerWidget {
-  const ReservatiorApp({super.key});
+// Main Shell
+import 'package:reservatior/shared/widgets/main_shell.dart';
 
+// Feature Pages
+import 'package:reservatior/features/client/home/presentation/pages/home_admin_page.dart';
+import 'package:reservatior/features/client/home/presentation/screens/home_screen.dart';
+import 'package:reservatior/features/client/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:reservatior/features/client/home/presentation/screens/explore_screen.dart';
+import 'package:reservatior/features/client/property/presentation/widgets/property_feed.dart';
+import 'package:reservatior/features/client/property/presentation/screens/search_screen.dart';
+import 'package:reservatior/features/navigation/presentation/screens/features_overview_screen.dart';
+import 'package:reservatior/features/navigation/presentation/screens/not_found_screen.dart';
+
+import 'package:reservatior/more.dart';
+import 'package:reservatior/features/admin/admin_hub_screen.dart';
+import 'package:reservatior/features/client/marketplace/presentation/pages/marketplace_page.dart';
+
+// Feature Admin Pages
+import 'package:reservatior/features/client/property/presentation/pages/property_admin_page.dart';
+import 'package:reservatior/features/client/agent/presentation/pages/agent_admin_page.dart';
+import 'package:reservatior/features/client/booking/presentation/pages/neural_booking_center.dart';
+import 'package:reservatior/features/settings/presentation/pages/settings_page.dart';
+import 'package:reservatior/features/client/notification/presentation/screens/notifications_screen.dart';
+import 'package:reservatior/features/client/lease/presentation/screens/leasecare_screen.dart';
+import 'package:reservatior/features/client/property_valuation/presentation/pages/property_valuation_list_page.dart';
+import 'package:reservatior/features/client/video_content/presentation/pages/video_recording_studio_page.dart';
+import 'package:reservatior/features/client/property/presentation/screens/property_details_screen.dart';
+
+// New Feature Screens
+import 'package:reservatior/features/client/message/presentation/screens/messages_screen.dart';
+import 'package:reservatior/features/settings/presentation/screens/profile_screen.dart';
+import 'package:reservatior/features/client/user_activity_log/presentation/screens/activity_tracking_screen.dart';
+import 'package:reservatior/features/client/event/presentation/screens/events_screen.dart';
+import 'package:reservatior/features/client/document/presentation/screens/file_management_screen.dart';
+import 'package:reservatior/features/client/ai_model/presentation/screens/ai_studio_screen.dart';
+import 'package:reservatior/features/client/ai_recommendation/presentation/screens/ai_recommendations_screen.dart';
+import 'package:reservatior/features/client/deal/presentation/screens/deals_screen.dart';
+import 'package:reservatior/features/client/communication_log/presentation/screens/communication_center_screen.dart';
+import 'package:reservatior/features/client/financial_record/presentation/screens/financial_dashboard_screen.dart';
+import 'package:reservatior/features/client/calendar_event/presentation/screens/calendar_today_screen.dart';
+import 'package:reservatior/features/client/ticket/presentation/screens/support_screen.dart';
+import 'package:reservatior/features/client/api_integration/presentation/screens/integrations_screen.dart';
+import 'package:reservatior/features/client/organization/presentation/screens/organization_screen.dart';
+import 'package:reservatior/features/client/dashboard_widget/presentation/screens/dashboard_widgets_screen.dart';
+import 'package:reservatior/features/client/contact/presentation/screens/contact_screen.dart';
+import 'package:reservatior/features/client/plan/presentation/screens/pricing_screen.dart';
+import 'package:reservatior/features/client/home/presentation/screens/legal_screen.dart';
+import 'package:reservatior/features/client/listing_channel/presentation/screens/channel_distribution_screen.dart';
+import 'package:reservatior/features/client/property_promotion/presentation/screens/listing_doping_screen.dart';
+import 'package:reservatior/features/client/agent/presentation/screens/agent_profile_screen.dart';
+import 'package:reservatior/features/client/escrow_account/presentation/pages/escrow_account_admin_page.dart';
+import 'package:reservatior/features/client/compliance_record/presentation/pages/compliance_record_admin_page.dart';
+import 'package:reservatior/features/client/listing/presentation/screens/listings_screen.dart';
+import 'package:reservatior/features/client/report/presentation/screens/analytics_screen.dart';
+import 'package:reservatior/features/client/lead/presentation/screens/leads_screen.dart';
+import 'package:reservatior/features/client/property_viewing/presentation/screens/viewings_screen.dart';
+
+
+
+
+
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   
-  Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp.router(
-      title: 'Reservatior',
+  // Initialize Google Sign-In with error handling
+  try {
+    await GoogleSignIn(clientId: '851507782363-4favlf24174r6572rdc158ochos8t4f8.apps.googleusercontent.com').signInSilently();
+  } catch (e) {
+    debugPrint('Google Sign-In initialization failed: $e');
+  }
+  
+  // Custom Error Catcher
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark(),
-      locale: const Locale('en', 'US'),
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('tr', 'TR'),
-      ],
-      routerConfig: _router,
+      home: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: SelectableText(
+                'CRITICAL ERROR: ${details.exception}\n\nSTACK TRACE: ${details.stack}',
+                style: const TextStyle(color: Colors.red, fontSize: 10),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
+  };
+
+  try {
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    runApp(
+      EasyLocalization(
+        supportedLocales: [
+          Locale('en'),
+          Locale('tr'),
+          Locale('ar'),
+          Locale('de'),
+          Locale('es'),
+          Locale('fr'),
+          Locale('it'),
+          Locale('ja'),
+          Locale('ko'),
+          Locale('ru'),
+          Locale('zh'),
+          Locale('pt'),
+          Locale('nl'),
+          Locale('pl'),
+          Locale('fi'),
+          Locale('no'),
+          Locale('da'),
+          Locale('se'),
+          Locale('hi'),
+          Locale('gr'),
+        ],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        startLocale: const Locale('tr'),
+        child: const ProviderScope(child: ReservatiorApp()),
+      ),
+    );
+  } catch (e, stack) {
+    debugPrint('Initialization error: $e');
+    debugPrint(stack.toString());
   }
 }
 
 final GoRouter _router = GoRouter(
+  errorBuilder: (context, state) => NotFoundScreen(path: state.uri.path),
   initialLocation: '/splash',
+  redirect: (context, state) {
+    try {
+      final container = ProviderScope.containerOf(context);
+      final authState = container.read(authProvider);
+      final user = authState.user;
+      final path = state.uri.path;
+
+      // Restrict access to admin routes
+      if (path.startsWith('/admin')) {
+        if (user == null) {
+          return '/login'; // Not logged in -> Redirect to login
+        }
+        
+        final role = user.role?.toLowerCase() ?? '';
+        final hasAdminAccess = ['admin', 'super_admin', 'agency_admin', 'agent', 'owner'].contains(role);
+        
+        if (!hasAdminAccess) {
+          return '/home'; // Unauthorized -> Redirect to Home
+        }
+      }
+    } catch (_) {
+      // Gracefully handle initialization phases where ProviderScope might not be fully ready
+    }
+    return null;
+  },
   routes: [
-    // ─── Splash ────────────────────────────────────────────────────────
-    GoRoute(
-      path: '/splash',
-      builder: (_, __) => const SplashScreen(),
+    GoRoute(path: '/splash', builder: (_, __) => const SplashScreen()),
+    GoRoute(path: '/welcome', builder: (_, __) => const WelcomeScreen()),
+    GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
+    GoRoute(path: '/auth/login', builder: (_, __) => const LoginScreen()),
+    GoRoute(path: '/auth/register', builder: (_, __) => const RegisterScreen()),
+    GoRoute(path: '/auth/forgot-password', builder: (_, __) => const ForgotPasswordScreen()),
+    GoRoute(path: '/auth/change-password', builder: (_, __) => const ChangePasswordScreen()),
+    ShellRoute(
+      builder: (context, state, child) => MainShell(child: child),
+      routes: [
+        GoRoute(
+          path: '/home', 
+          builder: (context, state) => const HomeScreen(),
+        ),
+        GoRoute(
+          path: '/dashboard', 
+          builder: (context, state) => const DashboardScreen(),
+        ),
+        GoRoute(
+          path: '/explore', 
+          builder: (context, state) => const ExploreScreen(),
+        ),
+        GoRoute(path: '/reels', builder: (_, __) => const PropertyFeed()),
+        GoRoute(path: '/search', builder: (_, __) => const SearchScreen()),
+        GoRoute(path: '/features', builder: (_, __) => const FeaturesOverviewScreen()),
+        GoRoute(path: '/more', builder: (_, __) => const MoreScreen()),
+        GoRoute(path: '/admin-hub', builder: (_, __) => const AdminHubScreen()),
+        GoRoute(path: '/messages', builder: (_, __) => const MessagesScreen()),
+        GoRoute(
+          path: '/notifications', 
+          builder: (context, state) => const NotificationsScreen(),
+        ),
+        GoRoute(
+          path: '/tasks', 
+          builder: (context, state) => Consumer(
+            builder: (context, ref, _) {
+              final role = ref.watch(authProvider).user?.role?.toLowerCase();
+              final isWorker = ['admin', 'super_admin', 'owner', 'agency_admin', 'agent', 'maintenance'].contains(role);
+              if (isWorker) return const AgentAdminPage();
+              return Scaffold(body: Center(child: Text('mobile.auto.unauthorized_agent_admin_access_only'.tr())));
+            },
+          ),
+        ),
+        GoRoute(
+          path: '/calendar', 
+          builder: (context, state) => Consumer(
+            builder: (context, ref, _) {
+              final role = ref.watch(authProvider).user?.role?.toLowerCase();
+              final canBook = ['admin', 'super_admin', 'owner', 'org_admin', 'agency_admin', 'agent', 'vendor_manager'].contains(role);
+              if (canBook) return const NeuralBookingCenter();
+              return Scaffold(body: Center(child: Text('mobile.auto.unauthorized_admin_access_only'.tr())));
+            },
+          ),
+        ),
+        GoRoute(path: '/booking-center', builder: (_, __) => const NeuralBookingCenter()),
+        GoRoute(path: '/ai-valuation', builder: (_, __) => const PropertyValuationListPage()),
+        GoRoute(path: '/market-intel', builder: (_, __) => const AiStudioScreen()),
+        GoRoute(path: '/settings', builder: (_, __) => const SettingsPage()),
+        GoRoute(
+          path: '/properties', 
+          builder: (context, state) => Consumer(
+            builder: (context, ref, _) {
+              final role = ref.watch(authProvider).user?.role?.toLowerCase();
+              final isEditor = ['admin', 'super_admin', 'owner', 'org_admin', 'agency_admin', 'agent'].contains(role);
+              if (isEditor) return const PropertyAdminPage();
+              return Scaffold(body: Center(child: Text('mobile.auto.unauthorized_staff_only'.tr())));
+            },
+          ),
+        ),
+        GoRoute(path: '/marketplace', builder: (_, __) => const MarketplacePage()),
+        GoRoute(
+          path: '/properties/:id',
+          builder: (context, state) => PropertyDetailsScreen(
+            propertyId: state.pathParameters['id'] ?? '',
+          ),
+        ),
+        GoRoute(path: '/video-recording-studio', builder: (_, __) => const VideoRecordingStudioPage()),
+        // New feature routes
+        GoRoute(path: '/profile', builder: (_, __) => const ProfileScreen()),
+        GoRoute(path: '/activity', builder: (_, __) => const ActivityTrackingScreen()),
+        GoRoute(path: '/events', builder: (_, __) => const EventsScreen()),
+        GoRoute(path: '/files', builder: (_, __) => const FileManagementScreen()),
+        GoRoute(path: '/ai-studio', builder: (_, __) => const AiStudioScreen()),
+        GoRoute(path: '/ai-recommendations', builder: (_, __) => const AiRecommendationsScreen()),
+        GoRoute(path: '/deals', builder: (_, __) => const DealsScreen()),
+        GoRoute(path: '/communications', builder: (_, __) => const CommunicationCenterScreen()),
+        GoRoute(path: '/financial', builder: (_, __) => const FinancialDashboardScreen()),
+        GoRoute(path: '/escrow', builder: (_, __) => const EscrowAccountAdminPage()),
+        GoRoute(path: '/legal', builder: (_, __) => const ComplianceRecordAdminPage()),
+        GoRoute(path: '/today', builder: (_, __) => const CalendarTodayScreen()),
+        GoRoute(path: '/support', builder: (_, __) => const SupportScreen()),
+        GoRoute(path: '/integrations', builder: (_, __) => const IntegrationsScreen()),
+        GoRoute(path: '/organization', builder: (_, __) => const OrganizationScreen()),
+        GoRoute(path: '/dashboard-widgets', builder: (_, __) => const DashboardWidgetsScreen()),
+        GoRoute(path: '/contact', builder: (_, __) => const ContactScreen()),
+        GoRoute(path: '/pricing', builder: (_, __) => const PricingScreen()),
+        GoRoute(path: '/privacy', builder: (_, __) => LegalScreen(title: 'mobile.auto.privacy_policy'.tr(), type: 'privacy')),
+        GoRoute(path: '/terms', builder: (_, __) => LegalScreen(title: 'mobile.auto.terms_of_service'.tr(), type: 'terms')),
+        GoRoute(path: '/trust-center', builder: (_, __) => LegalScreen(title: 'mobile.auto.trust_center'.tr(), type: 'trust')),
+        GoRoute(path: '/channels', builder: (_, __) => const ChannelDistributionScreen()),
+        GoRoute(path: '/listing-promotion', builder: (_, __) => const ListingDopingScreen()),
+        GoRoute(path: '/agent-profile', builder: (_, __) => const AgentProfileScreen()),
+        GoRoute(path: '/listings', builder: (_, __) => const ListingsScreen()),
+        GoRoute(path: '/analytics', builder: (_, __) => const AnalyticsScreen()),
+        GoRoute(path: '/leads', builder: (_, __) => const LeadsScreen()),
+        GoRoute(path: '/viewings', builder: (_, __) => const ViewingsScreen()),
+        GoRoute(path: '/leasecare', builder: (_, __) => const LeaseCareScreen()),
+        ...getFeatureRoutes(),
+      ],
     ),
-
-    // ─── Welcome ────────────────────────────────────────────────────────
-    GoRoute(
-      path: '/welcome',
-      builder: (_, __) => const WelcomeScreen(),
-    ),
-
-    // ─── Auth Routes ─────────────────────────────────────────────────────
-    GoRoute(
-      path: '/auth/login',
-      builder: (_, __) => const LoginScreen(),
-    ),
-    GoRoute(
-      path: '/auth/register',
-      builder: (_, __) => const RegisterScreen(),
-    ),
-    GoRoute(
-      path: '/auth/forgot-password',
-      builder: (_, __) => const ForgotPasswordScreen(),
-    ),
-    GoRoute(
-      path: '/auth/change-password',
-      builder: (_, __) => const ChangePasswordScreen(),
-    ),
-    GoRoute(
-      path: '/profile',
-      builder: (_, __) => const ProfileScreen(),
-    ),
-
-    // ─── Main Navigation (Authenticated User) ───────────────────────────────
-    GoRoute(
-      path: '/main',
-      builder: (_, __) => const MainNavigationScreen(),
-    ),
-
-    // ─── Home (Instagram Style) ───────────────────────────────────────────
-    GoRoute(
-      path: '/home',
-      builder: (_, __) => const HomeScreen(),
-    ),
-
-    // ─── Dashboard (Business) ────────────────────────────────────────────
-    GoRoute(
-      path: '/dashboard',
-      builder: (_, __) => const DashboardScreen(),
-    ),
-
-    // ─── Features Overview ───────────────────────────────────────────────
-    GoRoute(
-      path: '/features',
-      builder: (_, __) => const FeaturesOverviewScreen(),
-    ),
-
-    // ─── Core Features ───────────────────────────────────────────────────
-    GoRoute(
-      path: '/properties',
-      builder: (_, __) => const PropertyListScreen(),
-    ),
-    GoRoute(
-      path: '/properties/:id',
-      builder: (_, state) => PropertyDetailScreen(propertyId: state.pathParameters['id']!),
-    ),
-    GoRoute(
-      path: '/contacts',
-      builder: (_, __) => const ContactAdminPage(),
-    ),
-    GoRoute(
-      path: '/deals',
-      builder: (_, __) => const DealAdminPage(),
-    ),
-    GoRoute(
-      path: '/payments',
-      builder: (_, __) => const PaymentsScreen(),
-    ),
-    GoRoute(
-      path: '/agents',
-      builder: (_, __) => const AgentAdminPage(),
-    ),
-    GoRoute(
-      path: '/Analytics',
-      builder: (_, __) => const AnalyticsAdminPage(),
-    ),
-    GoRoute(
-      path: '/listings',
-      builder: (_, __) => const ListingsScreen(),
-    ),
-    GoRoute(
-      path: '/tasks',
-      builder: (_, __) => const TaskAdminPage(),
-    ),
-    GoRoute(
-      path: '/tasks/:id',
-      builder: (_, __) => const TaskAdminPage(), // Detail view - TODO: implement detail page
-    ),
-
-    // ─── AI Features ───────────────────────────────────────────────────────
-    GoRoute(
-      path: '/ai',
-      builder: (_, __) => const AiScreen(),
-    ),
-    GoRoute(
-      path: '/ai/chat',
-      builder: (_, __) => const AiChatScreen(),
-    ),
-    GoRoute(
-      path: '/ai/generation',
-      builder: (_, __) => const AiGenerationScreen(),
-    ),
-    GoRoute(
-      path: '/ai/Listing',
-      builder: (_, __) => const AiListingScreen(),
-    ),
-
-    // ─── Management Features ───────────────────────────────────────────────
-    GoRoute(
-      path: '/appointments',
-      builder: (_, __) => const AppointmentAdminPage(),
-    ),
-    GoRoute(
-      path: '/bookings',
-      builder: (_, __) => const BookingAdminPage(),
-    ),
-    GoRoute(
-      path: '/brand',
-      builder: (_, __) => const BrandScreen(),
-    ),
-    GoRoute(
-      path: '/documents',
-      builder: (_, __) => const DocumentsScreen(),
-    ),
-    GoRoute(
-      path: '/contracts',
-      builder: (_, __) => const ContractsScreen(),
-    ),
-    GoRoute(
-      path: '/projects',
-      builder: (_, __) => const ProjectsScreen(),
-    ),
-    GoRoute(
-      path: '/marketing',
-      builder: (_, __) => const MarketingScreen(),
-    ),
-
-    // ─── System Features ───────────────────────────────────────────────────
-    GoRoute(
-      path: '/email_queue',
-      builder: (_, __) => const EmailQueueScreen(),
-    ),
-    GoRoute(
-      path: '/mobile_devices',
-      builder: (_, __) => const MobileDevicesScreen(),
-    ),
-    GoRoute(
-      path: '/property_inventory',
-      builder: (_, __) => const PropertyInventoryAdminPage(),
-    ),
-    GoRoute(
-      path: '/system_metrics',
-      builder: (_, __) => const SystemMetricsAdminPage(),
-    ),
-    GoRoute(
-      path: '/locations',
-      builder: (_, __) => const LocationAdminPage(),
-    ),
-
-    // ─── Additional Features ───────────────────────────────────────────────
-    GoRoute(
-      path: '/achievements',
-      builder: (_, __) => const AchievementsListPage(),
-    ),
-    GoRoute(
-      path: '/admin',
-      builder: (_, __) => const AdminScreen(),
-    ),
-    GoRoute(
-      path: '/attachments',
-      builder: (_, __) => const AttachmentAdminPage(),
-    ),
-    GoRoute(
-      path: '/signatures',
-      builder: (_, __) => const SignaturesScreen(),
-    ),
-    GoRoute(
-      path: '/reports',
-      builder: (_, __) => const ReportsScreen(),
-    ),
-    GoRoute(
-      path: '/communication_logs',
-      builder: (_, __) => const CommunicationLogAdminPage(),
-    ),
-    GoRoute(
-      path: '/settings',
-      builder: (_, __) => const SettingsScreen(),
-    ),
-    GoRoute(
-      path: '/video',
-      builder: (_, __) => const VideoScreen(),
-    ),
-    GoRoute(
-      path: '/User',
-      builder: (_, __) => const UserAdminPage(),
-    ),
-    GoRoute(
-      path: '/financials',
-      builder: (_, __) => const FinancialsScreen(),
-    ),
-    GoRoute(
-      path: '/escrow',
-      builder: (_, __) => const EscrowScreen(),
-    ),
-    GoRoute(
-      path: '/Agency',
-      builder: (_, __) => const AgencyAdminPage(),
-    ),
-
-    // ─── Communication ───────────────────────────────────────────────────────
-    GoRoute(
-      path: '/search',
-      builder: (_, __) => const SearchScreen(),
-    ),
-    GoRoute(
-      path: '/favorites',
-      builder: (_, __) => const FavoriteAdminPage(),
-    ),
-    GoRoute(
-      path: '/communication',
-      builder: (_, __) => const CommunicationScreen(),
-    ),
-    GoRoute(
-      path: '/messages',
-      builder: (_, __) => const MessagesPage(),
-    ),
-    GoRoute(
-      path: '/messages/:id',
-      builder: (_, __) => const MessagesPage(), // Detail view - TODO: implement detail page
-    ),
-    GoRoute(
-      path: '/messages/compose',
-      builder: (_, __) => const MessagesPage(), // Compose view - TODO: implement compose page
-    ),
-    GoRoute(
-      path: '/notifications',
-      builder: (_, __) => const NotificationsPage(),
-    ),
-
-    // ─── Legacy Routes ───────────────────────────────────────────────────────
-    GoRoute(
-      path: '/login',
-      builder: (_, __) => const LoginScreen(),
-    ),
-    GoRoute(
-      path: '/more',
-      builder: (_, __) => const MoreScreen(),
-    ),
-
-    // ─── Advanced Features ───────────────────────────────────────────────
-    GoRoute(
-      path: '/advanced',
-      builder: (_, __) => const AdvancedFeaturesScreen(),
-    ),
-
-    // ─── Fallback ────────────────────────────────────────────────────────
-    GoRoute(
-      path: '/',
-      builder: (_, __) => const SplashScreen(),
-    ),
+    GoRoute(path: '/', builder: (_, __) => const SplashScreen()),
   ],
 );
+
+class ReservatiorApp extends ConsumerStatefulWidget {
+  const ReservatiorApp({super.key});
+  
+  @override
+  ConsumerState<ReservatiorApp> createState() => _ReservatiorAppState();
+}
+
+class _ReservatiorAppState extends ConsumerState<ReservatiorApp> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeApp();
+  }
+  
+  Future<void> _initializeApp() async {
+    await _loadEnv();
+    
+    // Auto-detect and set initial region via IP
+    try {
+      final dioClient = DioClient();
+      await GeoInitService(dioClient).initializeGeo();
+    } catch (e) {
+      debugPrint('Error initializing geo service: $e');
+    }
+
+    // Initialize Google Auth when app starts
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(googleAuthProvider.notifier).initialize();
+    });
+  }
+  
+  Future<void> _loadEnv() async {
+    try {
+      await dotenv.load(fileName: '.env');
+    } catch (e) {
+      print('Error loading .env file: $e');
+    }
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    final themeMode = ref.watch(themeModeProvider);
+    
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp.router(
+          title: 'mobile.auto.reservatior'.tr(),
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+          themeMode: themeMode,
+          routerConfig: _router,
+          debugShowCheckedModeBanner: false,
+          builder: (context, child) {
+            return FocusableActionDetector(
+              autofocus: true,
+              shortcuts: {
+                LogicalKeySet(defaultTargetPlatform == TargetPlatform.macOS ? LogicalKeyboardKey.meta : LogicalKeyboardKey.control, LogicalKeyboardKey.keyK): const CommandCenterIntent(),
+              },
+              actions: {
+                CommandCenterIntent: CallbackAction<CommandCenterIntent>(
+                  onInvoke: (intent) {
+                    showDialog(
+                      context: context,
+                      barrierColor: Colors.black54,
+                      builder: (_) => const CommandCenterModal(),
+                    );
+                    return null;
+                  },
+                ),
+              },
+              child: child!,
+            );
+          },
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+        );
+      },
+    );
+  }
+}
+
+class CommandCenterIntent extends Intent {
+  const CommandCenterIntent();
+}

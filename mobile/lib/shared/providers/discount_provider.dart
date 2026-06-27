@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/discount_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/discount_service.dart';
+import 'package:reservatior/shared/repositories/discount_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// Discount Providers
-
-final DiscountServiceProvider = Provider<DiscountService>((ref) {
+final discountServiceProvider = Provider<DiscountService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return DiscountService(dioClient);
 });
 
-// List Provider
-final discountProvider = FutureProvider.autoDispose<List<Discount>>((ref) async {
-  final service = ref.watch(DiscountServiceProvider);
-  return service.getDiscounts();
+final discountRepositoryProvider = Provider<DiscountRepository>((ref) {
+  final service = ref.watch(discountServiceProvider);
+  return DiscountRepositoryImpl(service);
 });
 
-// Create Provider
-final DiscountCreateProvider = FutureProvider.autoDispose<Discount>((ref) async {
-  final service = ref.watch(DiscountServiceProvider);
-  return service.createDiscount(Discount());
+final discountListProvider = FutureProvider.autoDispose<List<Discount>>((ref) async {
+  final repository = ref.watch(discountRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final DiscountUpdateProvider = FutureProvider.autoDispose<Discount>((ref) async {
-  final service = ref.watch(DiscountServiceProvider);
-  final state = ref.watch(DiscountUpdateStateProvider);
-  if (state['id'] != null && state['discount'] != null) {
-    return service.updateDiscount(state['id'], state['discount']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final DiscountDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(DiscountServiceProvider);
-  final state = ref.watch(DiscountDeleteStateProvider);
-  if (state != null) {
-    return service.deleteDiscount(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final DiscountUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final DiscountDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final DiscountLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(discountProvider);
-  final createAsync = ref.watch(DiscountCreateProvider);
-  final updateAsync = ref.watch(DiscountUpdateProvider);
-  final deleteAsync = ref.watch(DiscountDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final discountCreateProvider = StateProvider<Discount?>((ref) => null);
+final discountUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final discountDeleteProvider = StateProvider<String?>((ref) => null);
+final discountLoadingProvider = StateProvider<bool>((ref) => false);

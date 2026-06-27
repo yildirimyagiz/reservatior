@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/lease_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/lease_service.dart';
+import 'package:reservatior/shared/repositories/lease_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// Lease Providers
-
-final LeaseServiceProvider = Provider<LeaseService>((ref) {
+final leaseServiceProvider = Provider<LeaseService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return LeaseService(dioClient);
 });
 
-// List Provider
-final leaseProvider = FutureProvider.autoDispose<List<Lease>>((ref) async {
-  final service = ref.watch(LeaseServiceProvider);
-  return service.getLeases();
+final leaseRepositoryProvider = Provider<LeaseRepository>((ref) {
+  final service = ref.watch(leaseServiceProvider);
+  return LeaseRepositoryImpl(service);
 });
 
-// Create Provider
-final LeaseCreateProvider = FutureProvider.autoDispose<Lease>((ref) async {
-  final service = ref.watch(LeaseServiceProvider);
-  return service.createLease(Lease());
+final leaseListProvider = FutureProvider.autoDispose<List<Lease>>((ref) async {
+  final repository = ref.watch(leaseRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final LeaseUpdateProvider = FutureProvider.autoDispose<Lease>((ref) async {
-  final service = ref.watch(LeaseServiceProvider);
-  final state = ref.watch(LeaseUpdateStateProvider);
-  if (state['id'] != null && state['lease'] != null) {
-    return service.updateLease(state['id'], state['lease']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final LeaseDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(LeaseServiceProvider);
-  final state = ref.watch(LeaseDeleteStateProvider);
-  if (state != null) {
-    return service.deleteLease(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final LeaseUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final LeaseDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final LeaseLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(leaseProvider);
-  final createAsync = ref.watch(LeaseCreateProvider);
-  final updateAsync = ref.watch(LeaseUpdateProvider);
-  final deleteAsync = ref.watch(LeaseDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final leaseCreateProvider = StateProvider<Lease?>((ref) => null);
+final leaseUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final leaseDeleteProvider = StateProvider<String?>((ref) => null);
+final leaseLoadingProvider = StateProvider<bool>((ref) => false);

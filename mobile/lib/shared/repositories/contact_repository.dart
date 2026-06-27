@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/contact_service.dart';
 
-/// Repository for Contact operations
-/// Provides CRUD operations with proper error handling and type safety
-class ContactRepository {
-  final DioClient _dioClient;
+abstract class ContactRepository {
+  Future<Contact> getById(String id);
+  Future<List<Contact>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<Contact> create(Contact item);
+  Future<Contact> update(String id, Contact item);
+  Future<void> delete(String id);
+}
 
-  ContactRepository(this._dioClient);
+class ContactRepositoryImpl implements ContactRepository {
+  final ContactService _service;
+  ContactRepositoryImpl(this._service);
 
-  /// Get Contact by ID
-  /// Returns [Contact] if found, throws [RepositoryException] otherwise
-  Future<Contact> getContactById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/contact/$id');
-      if (response.statusCode == 200) {
-        return Contact.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch contact',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Contact> getById(String id) => _service.getContactById(id);
 
-  /// Get all contacts with pagination and filtering
-  /// Returns list of [Contact] objects
-  Future<List<Contact>> getcontacts({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<Contact>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/contact', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => Contact.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch contacts',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getContacts(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new Contact
-  /// Returns created [Contact] object
-  Future<Contact> createContact(Contact contact) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/contact',
-        data: contact.toJson(),
-      );
-      return Contact.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Contact> create(Contact item) => _service.createContact(item);
 
-  // Update Contact
-  Future<Contact> updateContact(String id, Contact contact) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/contact/$id',
-        data: contact.toJson(),
-      );
-      return Contact.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Contact> update(String id, Contact item) => _service.updateContact(id, item);
 
-  // Delete Contact
-  Future<void> deleteContact(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/contact/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteContact(id);
 }

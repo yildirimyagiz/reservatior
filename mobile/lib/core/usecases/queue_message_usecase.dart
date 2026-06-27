@@ -1,106 +1,44 @@
-import '../../features/shared/services/queue_message_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for QueueMessage
+import 'package:reservatior/shared/repositories/queue_message_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetQueueMessageByIdUseCase {
-  final QueueMessageService _service;
-  
-  GetQueueMessageByIdUseCase(this._service);
-  
-  Future<QueueMessage> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final QueueMessageRepository _repository;
+  GetQueueMessageByIdUseCase(this._repository);
+  Future<QueueMessage> execute(String id) => _repository.getById(id);
 }
 
 class GetQueueMessagesUseCase {
-  final QueueMessageService _service;
-  
-  GetQueueMessagesUseCase(this._service);
-  
+  final QueueMessageRepository _repository;
+  GetQueueMessagesUseCase(this._repository);
   Future<List<QueueMessage>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateQueueMessageUseCase {
-  final QueueMessageService _service;
-  
-  CreateQueueMessageUseCase(this._service);
-  
-  Future<QueueMessage> execute(QueueMessage queueMessage) async {
-    // Add validation logic here
-    return await _service.create(queueMessage);
-  }
+  final QueueMessageRepository _repository;
+  CreateQueueMessageUseCase(this._repository);
+  Future<QueueMessage> execute(QueueMessage item) => _repository.create(item);
 }
 
 class UpdateQueueMessageUseCase {
-  final QueueMessageService _service;
-  
-  UpdateQueueMessageUseCase(this._service);
-  
-  Future<QueueMessage> execute(String id, QueueMessage queueMessage) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, queueMessage);
-  }
+  final QueueMessageRepository _repository;
+  UpdateQueueMessageUseCase(this._repository);
+  Future<QueueMessage> execute(String id, QueueMessage item) => _repository.update(id, item);
 }
 
 class DeleteQueueMessageUseCase {
-  final QueueMessageService _service;
-  
-  DeleteQueueMessageUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// QueueMessage Use Case Container
-class QueueMessageUseCases {
-  final GetQueueMessageByIdUseCase getById;
-  final GetQueueMessagesUseCase getAll;
-  final CreateQueueMessageUseCase create;
-  final UpdateQueueMessageUseCase update;
-  final DeleteQueueMessageUseCase delete;
-  
-  QueueMessageUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory QueueMessageUseCases.create(QueueMessageService service) {
-    return QueueMessageUseCases(
-      getById: GetQueueMessageByIdUseCase(service),
-      getAll: GetQueueMessagesUseCase(service),
-      create: CreateQueueMessageUseCase(service),
-      update: UpdateQueueMessageUseCase(service),
-      delete: DeleteQueueMessageUseCase(service),
-    );
-  }
+  final QueueMessageRepository _repository;
+  DeleteQueueMessageUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

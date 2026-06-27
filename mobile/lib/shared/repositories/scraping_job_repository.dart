@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/scraping_job_service.dart';
 
-/// Repository for ScrapingJob operations
-/// Provides CRUD operations with proper error handling and type safety
-class ScrapingJobRepository {
-  final DioClient _dioClient;
+abstract class ScrapingJobRepository {
+  Future<ScrapingJob> getById(String id);
+  Future<List<ScrapingJob>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<ScrapingJob> create(ScrapingJob item);
+  Future<ScrapingJob> update(String id, ScrapingJob item);
+  Future<void> delete(String id);
+}
 
-  ScrapingJobRepository(this._dioClient);
+class ScrapingJobRepositoryImpl implements ScrapingJobRepository {
+  final ScrapingJobService _service;
+  ScrapingJobRepositoryImpl(this._service);
 
-  /// Get ScrapingJob by ID
-  /// Returns [ScrapingJob] if found, throws [RepositoryException] otherwise
-  Future<ScrapingJob> getScrapingJobById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/scraping_job/$id');
-      if (response.statusCode == 200) {
-        return ScrapingJob.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch scraping_job',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ScrapingJob> getById(String id) => _service.getScrapingJobById(id);
 
-  /// Get all scraping_jobs with pagination and filtering
-  /// Returns list of [ScrapingJob] objects
-  Future<List<ScrapingJob>> getscraping_jobs({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<ScrapingJob>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/scraping_job', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => ScrapingJob.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch scraping_jobs',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getScrapingJobs(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new ScrapingJob
-  /// Returns created [ScrapingJob] object
-  Future<ScrapingJob> createScrapingJob(ScrapingJob scrapingJob) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/scraping_job',
-        data: scrapingJob.toJson(),
-      );
-      return ScrapingJob.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ScrapingJob> create(ScrapingJob item) => _service.createScrapingJob(item);
 
-  // Update ScrapingJob
-  Future<ScrapingJob> updateScrapingJob(String id, ScrapingJob scrapingJob) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/scraping_job/$id',
-        data: scrapingJob.toJson(),
-      );
-      return ScrapingJob.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ScrapingJob> update(String id, ScrapingJob item) => _service.updateScrapingJob(id, item);
 
-  // Delete ScrapingJob
-  Future<void> deleteScrapingJob(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/scraping_job/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteScrapingJob(id);
 }

@@ -1,106 +1,44 @@
-import '../../features/shared/services/project_alert_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for ProjectAlert
+import 'package:reservatior/shared/repositories/project_alert_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetProjectAlertByIdUseCase {
-  final ProjectAlertService _service;
-  
-  GetProjectAlertByIdUseCase(this._service);
-  
-  Future<ProjectAlert> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ProjectAlertRepository _repository;
+  GetProjectAlertByIdUseCase(this._repository);
+  Future<ProjectAlert> execute(String id) => _repository.getById(id);
 }
 
 class GetProjectAlertsUseCase {
-  final ProjectAlertService _service;
-  
-  GetProjectAlertsUseCase(this._service);
-  
+  final ProjectAlertRepository _repository;
+  GetProjectAlertsUseCase(this._repository);
   Future<List<ProjectAlert>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateProjectAlertUseCase {
-  final ProjectAlertService _service;
-  
-  CreateProjectAlertUseCase(this._service);
-  
-  Future<ProjectAlert> execute(ProjectAlert projectAlert) async {
-    // Add validation logic here
-    return await _service.create(projectAlert);
-  }
+  final ProjectAlertRepository _repository;
+  CreateProjectAlertUseCase(this._repository);
+  Future<ProjectAlert> execute(ProjectAlert item) => _repository.create(item);
 }
 
 class UpdateProjectAlertUseCase {
-  final ProjectAlertService _service;
-  
-  UpdateProjectAlertUseCase(this._service);
-  
-  Future<ProjectAlert> execute(String id, ProjectAlert projectAlert) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, projectAlert);
-  }
+  final ProjectAlertRepository _repository;
+  UpdateProjectAlertUseCase(this._repository);
+  Future<ProjectAlert> execute(String id, ProjectAlert item) => _repository.update(id, item);
 }
 
 class DeleteProjectAlertUseCase {
-  final ProjectAlertService _service;
-  
-  DeleteProjectAlertUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ProjectAlert Use Case Container
-class ProjectAlertUseCases {
-  final GetProjectAlertByIdUseCase getById;
-  final GetProjectAlertsUseCase getAll;
-  final CreateProjectAlertUseCase create;
-  final UpdateProjectAlertUseCase update;
-  final DeleteProjectAlertUseCase delete;
-  
-  ProjectAlertUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ProjectAlertUseCases.create(ProjectAlertService service) {
-    return ProjectAlertUseCases(
-      getById: GetProjectAlertByIdUseCase(service),
-      getAll: GetProjectAlertsUseCase(service),
-      create: CreateProjectAlertUseCase(service),
-      update: UpdateProjectAlertUseCase(service),
-      delete: DeleteProjectAlertUseCase(service),
-    );
-  }
+  final ProjectAlertRepository _repository;
+  DeleteProjectAlertUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

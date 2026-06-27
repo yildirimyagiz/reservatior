@@ -1,106 +1,55 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/exchange_rate_service.dart';
 
-/// Repository for ExchangeRate operations
-/// Provides CRUD operations with proper error handling and type safety
-class ExchangeRateRepository {
-  final DioClient _dioClient;
+abstract class ExchangeRateRepository {
+  Future<ExchangeRate> getById(String id);
+  Future<List<ExchangeRate>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<ExchangeRate> create(ExchangeRate item);
+  Future<ExchangeRate> update(String id, ExchangeRate item);
+  Future<void> delete(String id);
+  Future<ExchangeRate> getLatest(String base, String target);
+  Future<Map<String, dynamic>> convert(String from, String to, double amount, {String? date});
+}
 
-  ExchangeRateRepository(this._dioClient);
+class ExchangeRateRepositoryImpl implements ExchangeRateRepository {
+  final ExchangeRateService _service;
+  ExchangeRateRepositoryImpl(this._service);
 
-  /// Get ExchangeRate by ID
-  /// Returns [ExchangeRate] if found, throws [RepositoryException] otherwise
-  Future<ExchangeRate> getExchangeRateById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/exchange_rate/$id');
-      if (response.statusCode == 200) {
-        return ExchangeRate.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch exchange_rate',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ExchangeRate> getById(String id) => _service.getExchangeRateById(id);
 
-  /// Get all exchange_rates with pagination and filtering
-  /// Returns list of [ExchangeRate] objects
-  Future<List<ExchangeRate>> getexchange_rates({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<ExchangeRate>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/exchange_rate', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => ExchangeRate.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch exchange_rates',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getExchangeRates(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new ExchangeRate
-  /// Returns created [ExchangeRate] object
-  Future<ExchangeRate> createExchangeRate(ExchangeRate exchangeRate) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/exchange_rate',
-        data: exchangeRate.toJson(),
-      );
-      return ExchangeRate.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ExchangeRate> create(ExchangeRate item) => _service.createExchangeRate(item);
 
-  // Update ExchangeRate
-  Future<ExchangeRate> updateExchangeRate(String id, ExchangeRate exchangeRate) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/exchange_rate/$id',
-        data: exchangeRate.toJson(),
-      );
-      return ExchangeRate.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<ExchangeRate> update(String id, ExchangeRate item) => _service.updateExchangeRate(id, item);
 
-  // Delete ExchangeRate
-  Future<void> deleteExchangeRate(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/exchange_rate/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteExchangeRate(id);
 
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<ExchangeRate> getLatest(String base, String target) => _service.getLatest(base, target);
+
+  @override
+  Future<Map<String, dynamic>> convert(String from, String to, double amount, {String? date}) => 
+    _service.convert(from, to, amount, date: date);
 }

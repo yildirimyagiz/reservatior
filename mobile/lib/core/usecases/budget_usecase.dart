@@ -1,106 +1,44 @@
-import '../../features/shared/services/budget_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Budget
+import 'package:reservatior/shared/repositories/budget_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetBudgetByIdUseCase {
-  final BudgetService _service;
-  
-  GetBudgetByIdUseCase(this._service);
-  
-  Future<Budget> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final BudgetRepository _repository;
+  GetBudgetByIdUseCase(this._repository);
+  Future<Budget> execute(String id) => _repository.getById(id);
 }
 
 class GetBudgetsUseCase {
-  final BudgetService _service;
-  
-  GetBudgetsUseCase(this._service);
-  
+  final BudgetRepository _repository;
+  GetBudgetsUseCase(this._repository);
   Future<List<Budget>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateBudgetUseCase {
-  final BudgetService _service;
-  
-  CreateBudgetUseCase(this._service);
-  
-  Future<Budget> execute(Budget budget) async {
-    // Add validation logic here
-    return await _service.create(budget);
-  }
+  final BudgetRepository _repository;
+  CreateBudgetUseCase(this._repository);
+  Future<Budget> execute(Budget item) => _repository.create(item);
 }
 
 class UpdateBudgetUseCase {
-  final BudgetService _service;
-  
-  UpdateBudgetUseCase(this._service);
-  
-  Future<Budget> execute(String id, Budget budget) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, budget);
-  }
+  final BudgetRepository _repository;
+  UpdateBudgetUseCase(this._repository);
+  Future<Budget> execute(String id, Budget item) => _repository.update(id, item);
 }
 
 class DeleteBudgetUseCase {
-  final BudgetService _service;
-  
-  DeleteBudgetUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Budget Use Case Container
-class BudgetUseCases {
-  final GetBudgetByIdUseCase getById;
-  final GetBudgetsUseCase getAll;
-  final CreateBudgetUseCase create;
-  final UpdateBudgetUseCase update;
-  final DeleteBudgetUseCase delete;
-  
-  BudgetUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory BudgetUseCases.create(BudgetService service) {
-    return BudgetUseCases(
-      getById: GetBudgetByIdUseCase(service),
-      getAll: GetBudgetsUseCase(service),
-      create: CreateBudgetUseCase(service),
-      update: UpdateBudgetUseCase(service),
-      delete: DeleteBudgetUseCase(service),
-    );
-  }
+  final BudgetRepository _repository;
+  DeleteBudgetUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

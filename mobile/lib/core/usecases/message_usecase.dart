@@ -1,106 +1,44 @@
-import '../../features/shared/services/message_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Message
+import 'package:reservatior/shared/repositories/message_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetMessageByIdUseCase {
-  final MessageService _service;
-  
-  GetMessageByIdUseCase(this._service);
-  
-  Future<Message> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final MessageRepository _repository;
+  GetMessageByIdUseCase(this._repository);
+  Future<Message> execute(String id) => _repository.getById(id);
 }
 
 class GetMessagesUseCase {
-  final MessageService _service;
-  
-  GetMessagesUseCase(this._service);
-  
+  final MessageRepository _repository;
+  GetMessagesUseCase(this._repository);
   Future<List<Message>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateMessageUseCase {
-  final MessageService _service;
-  
-  CreateMessageUseCase(this._service);
-  
-  Future<Message> execute(Message message) async {
-    // Add validation logic here
-    return await _service.create(message);
-  }
+  final MessageRepository _repository;
+  CreateMessageUseCase(this._repository);
+  Future<Message> execute(Message item) => _repository.create(item);
 }
 
 class UpdateMessageUseCase {
-  final MessageService _service;
-  
-  UpdateMessageUseCase(this._service);
-  
-  Future<Message> execute(String id, Message message) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, message);
-  }
+  final MessageRepository _repository;
+  UpdateMessageUseCase(this._repository);
+  Future<Message> execute(String id, Message item) => _repository.update(id, item);
 }
 
 class DeleteMessageUseCase {
-  final MessageService _service;
-  
-  DeleteMessageUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Message Use Case Container
-class MessageUseCases {
-  final GetMessageByIdUseCase getById;
-  final GetMessagesUseCase getAll;
-  final CreateMessageUseCase create;
-  final UpdateMessageUseCase update;
-  final DeleteMessageUseCase delete;
-  
-  MessageUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory MessageUseCases.create(MessageService service) {
-    return MessageUseCases(
-      getById: GetMessageByIdUseCase(service),
-      getAll: GetMessagesUseCase(service),
-      create: CreateMessageUseCase(service),
-      update: UpdateMessageUseCase(service),
-      delete: DeleteMessageUseCase(service),
-    );
-  }
+  final MessageRepository _repository;
+  DeleteMessageUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

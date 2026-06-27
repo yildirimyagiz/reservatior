@@ -1,8 +1,10 @@
-import 'dart:io';
+// ignore_for_file: uri_does_not_exist, unused_import
+import 'dart:io'; 
+import 'package:easy_localization/easy_localization.dart';
 
 class RepositoryImplGenerator {
   static Future<void> generateAllRepositoryImpls() async {
-    final modelsDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/gen_models/models');
+    final modelsDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/shared/models');
     
     if (!await modelsDir.exists()) {
       print('Models directory not found');
@@ -30,7 +32,7 @@ class RepositoryImplGenerator {
   }
   
   static Future<void> clearAllRepositoryImpls() async {
-    final featuresDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/features');
+    final featuresDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/features');
     
     if (await featuresDir.exists()) {
       await for (final entity in featuresDir.list()) {
@@ -53,7 +55,7 @@ class RepositoryImplGenerator {
     final snakeCase = modelName;
     final featureName = snakeCase.replaceAll('_', '');
     
-    final featuresDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/features/$featureName');
+    final featuresDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/features/$featureName');
     final dataDir = Directory('${featuresDir.path}/data');
     final repositoriesDir = Directory('${dataDir.path}/repositories');
     
@@ -75,9 +77,9 @@ class RepositoryImplGenerator {
   static Future<void> generateRepositoryImplFile(String modelName, String className, String snakeCase, Directory repositoriesDir) async {
     final repositoryImplFile = File('${repositoriesDir.path}/${snakeCase}_repository_impl.dart');
     
-    final repositoryImplContent = '''import '../../../../repositories/${snakeCase}_repository.dart';
-import '../datasources/${snakeCase}_remote_datasource.dart';
-import '../datasources/${snakeCase}_local_datasource.dart';
+    final repositoryImplContent = '''mobile.leftovers.import'.tr()../../../../repositories/${snakeCase}_repository.dart';
+import 'package:reservatior/datasources/${snakeCase}_remote_datasource.dart';
+import 'package:reservatior/datasources/${snakeCase}_local_datasource.dart';
 
 class ${className}RepositoryImpl extends ${className}Repository {
   final ${className}RemoteDataSource _remoteDataSource;

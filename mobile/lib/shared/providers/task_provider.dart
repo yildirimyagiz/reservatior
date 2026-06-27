@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/task_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/task_service.dart';
+import 'package:reservatior/shared/repositories/task_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// Task Providers
-
-final TaskServiceProvider = Provider<TaskService>((ref) {
+final taskServiceProvider = Provider<TaskService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return TaskService(dioClient);
 });
 
-// List Provider
-final taskProvider = FutureProvider.autoDispose<List<Task>>((ref) async {
-  final service = ref.watch(TaskServiceProvider);
-  return service.getTasks();
+final taskRepositoryProvider = Provider<TaskRepository>((ref) {
+  final service = ref.watch(taskServiceProvider);
+  return TaskRepositoryImpl(service);
 });
 
-// Create Provider
-final TaskCreateProvider = FutureProvider.autoDispose<Task>((ref) async {
-  final service = ref.watch(TaskServiceProvider);
-  return service.createTask(Task());
+final taskListProvider = FutureProvider.autoDispose<List<Task>>((ref) async {
+  final repository = ref.watch(taskRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final TaskUpdateProvider = FutureProvider.autoDispose<Task>((ref) async {
-  final service = ref.watch(TaskServiceProvider);
-  final state = ref.watch(TaskUpdateStateProvider);
-  if (state['id'] != null && state['task'] != null) {
-    return service.updateTask(state['id'], state['task']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final TaskDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(TaskServiceProvider);
-  final state = ref.watch(TaskDeleteStateProvider);
-  if (state != null) {
-    return service.deleteTask(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final TaskUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final TaskDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final TaskLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(taskProvider);
-  final createAsync = ref.watch(TaskCreateProvider);
-  final updateAsync = ref.watch(TaskUpdateProvider);
-  final deleteAsync = ref.watch(TaskDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final taskCreateProvider = StateProvider<Task?>((ref) => null);
+final taskUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final taskDeleteProvider = StateProvider<String?>((ref) => null);
+final taskLoadingProvider = StateProvider<bool>((ref) => false);

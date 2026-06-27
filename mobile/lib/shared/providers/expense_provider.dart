@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/expense_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/expense_service.dart';
+import 'package:reservatior/shared/repositories/expense_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// Expense Providers
-
-final ExpenseServiceProvider = Provider<ExpenseService>((ref) {
+final expenseServiceProvider = Provider<ExpenseService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return ExpenseService(dioClient);
 });
 
-// List Provider
-final expenseProvider = FutureProvider.autoDispose<List<Expense>>((ref) async {
-  final service = ref.watch(ExpenseServiceProvider);
-  return service.getExpenses();
+final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
+  final service = ref.watch(expenseServiceProvider);
+  return ExpenseRepositoryImpl(service);
 });
 
-// Create Provider
-final ExpenseCreateProvider = FutureProvider.autoDispose<Expense>((ref) async {
-  final service = ref.watch(ExpenseServiceProvider);
-  return service.createExpense(Expense());
+final expenseListProvider = FutureProvider.autoDispose<List<Expense>>((ref) async {
+  final repository = ref.watch(expenseRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final ExpenseUpdateProvider = FutureProvider.autoDispose<Expense>((ref) async {
-  final service = ref.watch(ExpenseServiceProvider);
-  final state = ref.watch(ExpenseUpdateStateProvider);
-  if (state['id'] != null && state['expense'] != null) {
-    return service.updateExpense(state['id'], state['expense']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final ExpenseDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(ExpenseServiceProvider);
-  final state = ref.watch(ExpenseDeleteStateProvider);
-  if (state != null) {
-    return service.deleteExpense(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final ExpenseUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final ExpenseDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final ExpenseLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(expenseProvider);
-  final createAsync = ref.watch(ExpenseCreateProvider);
-  final updateAsync = ref.watch(ExpenseUpdateProvider);
-  final deleteAsync = ref.watch(ExpenseDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final expenseCreateProvider = StateProvider<Expense?>((ref) => null);
+final expenseUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final expenseDeleteProvider = StateProvider<String?>((ref) => null);
+final expenseLoadingProvider = StateProvider<bool>((ref) => false);

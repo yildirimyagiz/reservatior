@@ -1,106 +1,44 @@
-import '../../features/shared/services/facility_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Facility
+import 'package:reservatior/shared/repositories/facility_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetFacilityByIdUseCase {
-  final FacilityService _service;
-  
-  GetFacilityByIdUseCase(this._service);
-  
-  Future<Facility> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final FacilityRepository _repository;
+  GetFacilityByIdUseCase(this._repository);
+  Future<Facility> execute(String id) => _repository.getById(id);
 }
 
 class GetFacilitysUseCase {
-  final FacilityService _service;
-  
-  GetFacilitysUseCase(this._service);
-  
+  final FacilityRepository _repository;
+  GetFacilitysUseCase(this._repository);
   Future<List<Facility>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateFacilityUseCase {
-  final FacilityService _service;
-  
-  CreateFacilityUseCase(this._service);
-  
-  Future<Facility> execute(Facility facility) async {
-    // Add validation logic here
-    return await _service.create(facility);
-  }
+  final FacilityRepository _repository;
+  CreateFacilityUseCase(this._repository);
+  Future<Facility> execute(Facility item) => _repository.create(item);
 }
 
 class UpdateFacilityUseCase {
-  final FacilityService _service;
-  
-  UpdateFacilityUseCase(this._service);
-  
-  Future<Facility> execute(String id, Facility facility) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, facility);
-  }
+  final FacilityRepository _repository;
+  UpdateFacilityUseCase(this._repository);
+  Future<Facility> execute(String id, Facility item) => _repository.update(id, item);
 }
 
 class DeleteFacilityUseCase {
-  final FacilityService _service;
-  
-  DeleteFacilityUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Facility Use Case Container
-class FacilityUseCases {
-  final GetFacilityByIdUseCase getById;
-  final GetFacilitysUseCase getAll;
-  final CreateFacilityUseCase create;
-  final UpdateFacilityUseCase update;
-  final DeleteFacilityUseCase delete;
-  
-  FacilityUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory FacilityUseCases.create(FacilityService service) {
-    return FacilityUseCases(
-      getById: GetFacilityByIdUseCase(service),
-      getAll: GetFacilitysUseCase(service),
-      create: CreateFacilityUseCase(service),
-      update: UpdateFacilityUseCase(service),
-      delete: DeleteFacilityUseCase(service),
-    );
-  }
+  final FacilityRepository _repository;
+  DeleteFacilityUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

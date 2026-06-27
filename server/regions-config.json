@@ -1,0 +1,110 @@
+{
+  "US": {
+    "countryCode": "US",
+    "countryName": "United States",
+    "currency": "USD",
+    "currencySymbol": "$",
+    "phoneCode": "+1",
+    "languageCode": "en",
+    "supportedLanguages": ["en", "es"],
+    "taxRate": 0.08,
+    "taxName": "Sales Tax",
+    "baseCommission": 0.05,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "State",
+      "adminLevel2": "County",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": ["APARTMENT", "HOUSE", "CONDO", "TOWNHOUSE"],
+    "databaseSchema": "schema.prisma"
+  },
+  "TR": {
+    "countryCode": "TR",
+    "countryName": "Turkey",
+    "currency": "TRY",
+    "currencySymbol": "₺",
+    "phoneCode": "+90",
+    "languageCode": "tr",
+    "supportedLanguages": ["tr", "en"],
+    "taxRate": 0.20,
+    "taxName": "KDV",
+    "baseCommission": 0.04,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "İl",
+      "adminLevel2": "İlçe",
+      "zipCodeRequired": false
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": ["DAIRE", "MUSTAKIL_EV", "VILLA", "REZIDANS"],
+    "databaseSchema": "schema_tr.prisma",
+    "mapProvider": "yandex",
+    "mapConfig": {
+      "provider": "yandex",
+      "apiKey": "YANDEX_MAPS_API_KEY",
+      "javascriptApiKey": "YANDEX_JAVASCRIPT_API_KEY",
+      "geocoderApiKey": "YANDEX_GEOCODER_API_KEY",
+      "language": "tr_TR"
+    }
+  },
+  "UK": {
+    "countryCode": "UK",
+    "countryName": "United Kingdom",
+    "currency": "GBP",
+    "currencySymbol": "£",
+    "phoneCode": "+44",
+    "languageCode": "en",
+    "supportedLanguages": ["en"],
+    "taxRate": 0.20,
+    "taxName": "VAT",
+    "baseCommission": 0.05,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "County",
+      "adminLevel2": "District",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": ["FLAT", "HOUSE", "MAISONETTE"],
+    "databaseSchema": "schema_uk.prisma"
+  },
+  "AE": {
+    "countryCode": "AE",
+    "countryName": "United Arab Emirates",
+    "currency": "AED",
+    "currencySymbol": "د.إ",
+    "phoneCode": "+971",
+    "languageCode": "ar",
+    "supportedLanguages": ["ar", "en"],
+    "taxRate": 0.05,
+    "taxName": "VAT",
+    "baseCommission": 0.05,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "Emirate",
+      "adminLevel2": "Area",
+      "zipCodeRequired": false
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": ["APARTMENT", "VILLA", "PENTHOUSE"],
+    "databaseSchema": "schema_ae.prisma"
+  }
+}

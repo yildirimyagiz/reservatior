@@ -1,106 +1,44 @@
-import '../../features/shared/services/neighborhood_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Neighborhood
+import 'package:reservatior/shared/repositories/neighborhood_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetNeighborhoodByIdUseCase {
-  final NeighborhoodService _service;
-  
-  GetNeighborhoodByIdUseCase(this._service);
-  
-  Future<Neighborhood> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final NeighborhoodRepository _repository;
+  GetNeighborhoodByIdUseCase(this._repository);
+  Future<Neighborhood> execute(String id) => _repository.getById(id);
 }
 
 class GetNeighborhoodsUseCase {
-  final NeighborhoodService _service;
-  
-  GetNeighborhoodsUseCase(this._service);
-  
+  final NeighborhoodRepository _repository;
+  GetNeighborhoodsUseCase(this._repository);
   Future<List<Neighborhood>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateNeighborhoodUseCase {
-  final NeighborhoodService _service;
-  
-  CreateNeighborhoodUseCase(this._service);
-  
-  Future<Neighborhood> execute(Neighborhood neighborhood) async {
-    // Add validation logic here
-    return await _service.create(neighborhood);
-  }
+  final NeighborhoodRepository _repository;
+  CreateNeighborhoodUseCase(this._repository);
+  Future<Neighborhood> execute(Neighborhood item) => _repository.create(item);
 }
 
 class UpdateNeighborhoodUseCase {
-  final NeighborhoodService _service;
-  
-  UpdateNeighborhoodUseCase(this._service);
-  
-  Future<Neighborhood> execute(String id, Neighborhood neighborhood) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, neighborhood);
-  }
+  final NeighborhoodRepository _repository;
+  UpdateNeighborhoodUseCase(this._repository);
+  Future<Neighborhood> execute(String id, Neighborhood item) => _repository.update(id, item);
 }
 
 class DeleteNeighborhoodUseCase {
-  final NeighborhoodService _service;
-  
-  DeleteNeighborhoodUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Neighborhood Use Case Container
-class NeighborhoodUseCases {
-  final GetNeighborhoodByIdUseCase getById;
-  final GetNeighborhoodsUseCase getAll;
-  final CreateNeighborhoodUseCase create;
-  final UpdateNeighborhoodUseCase update;
-  final DeleteNeighborhoodUseCase delete;
-  
-  NeighborhoodUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory NeighborhoodUseCases.create(NeighborhoodService service) {
-    return NeighborhoodUseCases(
-      getById: GetNeighborhoodByIdUseCase(service),
-      getAll: GetNeighborhoodsUseCase(service),
-      create: CreateNeighborhoodUseCase(service),
-      update: UpdateNeighborhoodUseCase(service),
-      delete: DeleteNeighborhoodUseCase(service),
-    );
-  }
+  final NeighborhoodRepository _repository;
+  DeleteNeighborhoodUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

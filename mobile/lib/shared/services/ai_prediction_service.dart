@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AIPredictionService {
+class AiPredictionService {
   final DioClient _dioClient;
+  AiPredictionService(this._dioClient);
 
-  AIPredictionService(this._dioClient);
-
-  // Get AIPrediction by ID
-  Future<AIPrediction> getAIPredictionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_prediction/$id');
-      return AIPrediction.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiPrediction> getAiPredictionById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiPredictions}/$id');
+    return AiPrediction.fromJson(response.data['data']);
   }
 
-  // Get all ai_predictions
-  Future<List<AIPrediction>> getAIPredictions({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiPrediction>> getAiPredictions({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_prediction', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AIPrediction.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiPredictions, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiPrediction.fromJson(json)).toList();
   }
 
-  // Create AIPrediction
-  Future<AIPrediction> createAIPrediction(AIPrediction aIPrediction) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_prediction',
-        data: aIPrediction.toJson(),
-      );
-      return AIPrediction.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiPrediction> createAiPrediction(AiPrediction item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiPredictions, data: item.toJson());
+    return AiPrediction.fromJson(response.data['data']);
   }
 
-  // Update AIPrediction
-  Future<AIPrediction> updateAIPrediction(String id, AIPrediction aIPrediction) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_prediction/$id',
-        data: aIPrediction.toJson(),
-      );
-      return AIPrediction.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiPrediction> updateAiPrediction(String id, AiPrediction item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiPredictions}/$id', data: item.toJson());
+    return AiPrediction.fromJson(response.data['data']);
   }
 
-  // Delete AIPrediction
-  Future<void> deleteAIPrediction(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_prediction/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiPrediction(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiPredictions}/$id');
   }
 }

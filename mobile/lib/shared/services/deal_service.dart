@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class DealService {
   final DioClient _dioClient;
-
   DealService(this._dioClient);
 
-  // Get Deal by ID
   Future<Deal> getDealById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/deal/$id');
-      return Deal.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.deals}/$id');
+    return Deal.fromJson(response.data['data']);
   }
 
-  // Get all deals
   Future<List<Deal>> getDeals({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/deal', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Deal.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.deals, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Deal.fromJson(json)).toList();
   }
 
-  // Create Deal
-  Future<Deal> createDeal(Deal deal) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/deal',
-        data: deal.toJson(),
-      );
-      return Deal.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Deal> createDeal(Deal item) async {
+    final response = await _dioClient.post(ApiEndpoints.deals, data: item.toJson());
+    return Deal.fromJson(response.data['data']);
   }
 
-  // Update Deal
-  Future<Deal> updateDeal(String id, Deal deal) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/deal/$id',
-        data: deal.toJson(),
-      );
-      return Deal.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Deal> updateDeal(String id, Deal item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.deals}/$id', data: item.toJson());
+    return Deal.fromJson(response.data['data']);
   }
 
-  // Delete Deal
   Future<void> deleteDeal(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/deal/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.deals}/$id');
   }
 }

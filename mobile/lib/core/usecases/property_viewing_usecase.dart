@@ -1,106 +1,44 @@
-import '../../features/shared/services/property_viewing_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for PropertyViewing
+import 'package:reservatior/shared/repositories/property_viewing_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetPropertyViewingByIdUseCase {
-  final PropertyViewingService _service;
-  
-  GetPropertyViewingByIdUseCase(this._service);
-  
-  Future<PropertyViewing> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final PropertyViewingRepository _repository;
+  GetPropertyViewingByIdUseCase(this._repository);
+  Future<PropertyViewing> execute(String id) => _repository.getById(id);
 }
 
 class GetPropertyViewingsUseCase {
-  final PropertyViewingService _service;
-  
-  GetPropertyViewingsUseCase(this._service);
-  
+  final PropertyViewingRepository _repository;
+  GetPropertyViewingsUseCase(this._repository);
   Future<List<PropertyViewing>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreatePropertyViewingUseCase {
-  final PropertyViewingService _service;
-  
-  CreatePropertyViewingUseCase(this._service);
-  
-  Future<PropertyViewing> execute(PropertyViewing propertyViewing) async {
-    // Add validation logic here
-    return await _service.create(propertyViewing);
-  }
+  final PropertyViewingRepository _repository;
+  CreatePropertyViewingUseCase(this._repository);
+  Future<PropertyViewing> execute(PropertyViewing item) => _repository.create(item);
 }
 
 class UpdatePropertyViewingUseCase {
-  final PropertyViewingService _service;
-  
-  UpdatePropertyViewingUseCase(this._service);
-  
-  Future<PropertyViewing> execute(String id, PropertyViewing propertyViewing) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, propertyViewing);
-  }
+  final PropertyViewingRepository _repository;
+  UpdatePropertyViewingUseCase(this._repository);
+  Future<PropertyViewing> execute(String id, PropertyViewing item) => _repository.update(id, item);
 }
 
 class DeletePropertyViewingUseCase {
-  final PropertyViewingService _service;
-  
-  DeletePropertyViewingUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// PropertyViewing Use Case Container
-class PropertyViewingUseCases {
-  final GetPropertyViewingByIdUseCase getById;
-  final GetPropertyViewingsUseCase getAll;
-  final CreatePropertyViewingUseCase create;
-  final UpdatePropertyViewingUseCase update;
-  final DeletePropertyViewingUseCase delete;
-  
-  PropertyViewingUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory PropertyViewingUseCases.create(PropertyViewingService service) {
-    return PropertyViewingUseCases(
-      getById: GetPropertyViewingByIdUseCase(service),
-      getAll: GetPropertyViewingsUseCase(service),
-      create: CreatePropertyViewingUseCase(service),
-      update: UpdatePropertyViewingUseCase(service),
-      delete: DeletePropertyViewingUseCase(service),
-    );
-  }
+  final PropertyViewingRepository _repository;
+  DeletePropertyViewingUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

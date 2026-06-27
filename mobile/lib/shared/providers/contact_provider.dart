@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/contact_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/contact_service.dart';
+import 'package:reservatior/shared/repositories/contact_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// Contact Providers
-
-final ContactServiceProvider = Provider<ContactService>((ref) {
+final contactServiceProvider = Provider<ContactService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return ContactService(dioClient);
 });
 
-// List Provider
-final contactProvider = FutureProvider.autoDispose<List<Contact>>((ref) async {
-  final service = ref.watch(ContactServiceProvider);
-  return service.getContacts();
+final contactRepositoryProvider = Provider<ContactRepository>((ref) {
+  final service = ref.watch(contactServiceProvider);
+  return ContactRepositoryImpl(service);
 });
 
-// Create Provider
-final ContactCreateProvider = FutureProvider.autoDispose<Contact>((ref) async {
-  final service = ref.watch(ContactServiceProvider);
-  return service.createContact(Contact());
+final contactListProvider = FutureProvider.autoDispose<List<Contact>>((ref) async {
+  final repository = ref.watch(contactRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final ContactUpdateProvider = FutureProvider.autoDispose<Contact>((ref) async {
-  final service = ref.watch(ContactServiceProvider);
-  final state = ref.watch(ContactUpdateStateProvider);
-  if (state['id'] != null && state['contact'] != null) {
-    return service.updateContact(state['id'], state['contact']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final ContactDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(ContactServiceProvider);
-  final state = ref.watch(ContactDeleteStateProvider);
-  if (state != null) {
-    return service.deleteContact(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final ContactUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final ContactDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final ContactLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(contactProvider);
-  final createAsync = ref.watch(ContactCreateProvider);
-  final updateAsync = ref.watch(ContactUpdateProvider);
-  final deleteAsync = ref.watch(ContactDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final contactCreateProvider = StateProvider<Contact?>((ref) => null);
+final contactUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final contactDeleteProvider = StateProvider<String?>((ref) => null);
+final contactLoadingProvider = StateProvider<bool>((ref) => false);

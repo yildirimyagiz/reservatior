@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/automation_execution_service.dart';
 
-/// Repository for AutomationExecution operations
-/// Provides CRUD operations with proper error handling and type safety
-class AutomationExecutionRepository {
-  final DioClient _dioClient;
+abstract class AutomationExecutionRepository {
+  Future<AutomationExecution> getById(String id);
+  Future<List<AutomationExecution>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AutomationExecution> create(AutomationExecution item);
+  Future<AutomationExecution> update(String id, AutomationExecution item);
+  Future<void> delete(String id);
+}
 
-  AutomationExecutionRepository(this._dioClient);
+class AutomationExecutionRepositoryImpl implements AutomationExecutionRepository {
+  final AutomationExecutionService _service;
+  AutomationExecutionRepositoryImpl(this._service);
 
-  /// Get AutomationExecution by ID
-  /// Returns [AutomationExecution] if found, throws [RepositoryException] otherwise
-  Future<AutomationExecution> getAutomationExecutionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/automation_execution/$id');
-      if (response.statusCode == 200) {
-        return AutomationExecution.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch automation_execution',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AutomationExecution> getById(String id) => _service.getAutomationExecutionById(id);
 
-  /// Get all automation_executions with pagination and filtering
-  /// Returns list of [AutomationExecution] objects
-  Future<List<AutomationExecution>> getautomation_executions({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AutomationExecution>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/automation_execution', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AutomationExecution.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch automation_executions',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAutomationExecutions(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AutomationExecution
-  /// Returns created [AutomationExecution] object
-  Future<AutomationExecution> createAutomationExecution(AutomationExecution automationExecution) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/automation_execution',
-        data: automationExecution.toJson(),
-      );
-      return AutomationExecution.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AutomationExecution> create(AutomationExecution item) => _service.createAutomationExecution(item);
 
-  // Update AutomationExecution
-  Future<AutomationExecution> updateAutomationExecution(String id, AutomationExecution automationExecution) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/automation_execution/$id',
-        data: automationExecution.toJson(),
-      );
-      return AutomationExecution.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AutomationExecution> update(String id, AutomationExecution item) => _service.updateAutomationExecution(id, item);
 
-  // Delete AutomationExecution
-  Future<void> deleteAutomationExecution(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/automation_execution/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAutomationExecution(id);
 }

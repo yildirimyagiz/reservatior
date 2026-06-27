@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/rental_sync_job_service.dart';
 
-/// Repository for RentalSyncJob operations
-/// Provides CRUD operations with proper error handling and type safety
-class RentalSyncJobRepository {
-  final DioClient _dioClient;
+abstract class RentalSyncJobRepository {
+  Future<RentalSyncJob> getById(String id);
+  Future<List<RentalSyncJob>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<RentalSyncJob> create(RentalSyncJob item);
+  Future<RentalSyncJob> update(String id, RentalSyncJob item);
+  Future<void> delete(String id);
+}
 
-  RentalSyncJobRepository(this._dioClient);
+class RentalSyncJobRepositoryImpl implements RentalSyncJobRepository {
+  final RentalSyncJobService _service;
+  RentalSyncJobRepositoryImpl(this._service);
 
-  /// Get RentalSyncJob by ID
-  /// Returns [RentalSyncJob] if found, throws [RepositoryException] otherwise
-  Future<RentalSyncJob> getRentalSyncJobById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/rental_sync_job/$id');
-      if (response.statusCode == 200) {
-        return RentalSyncJob.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch rental_sync_job',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<RentalSyncJob> getById(String id) => _service.getRentalSyncJobById(id);
 
-  /// Get all rental_sync_jobs with pagination and filtering
-  /// Returns list of [RentalSyncJob] objects
-  Future<List<RentalSyncJob>> getrental_sync_jobs({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<RentalSyncJob>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/rental_sync_job', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => RentalSyncJob.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch rental_sync_jobs',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getRentalSyncJobs(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new RentalSyncJob
-  /// Returns created [RentalSyncJob] object
-  Future<RentalSyncJob> createRentalSyncJob(RentalSyncJob rentalSyncJob) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/rental_sync_job',
-        data: rentalSyncJob.toJson(),
-      );
-      return RentalSyncJob.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<RentalSyncJob> create(RentalSyncJob item) => _service.createRentalSyncJob(item);
 
-  // Update RentalSyncJob
-  Future<RentalSyncJob> updateRentalSyncJob(String id, RentalSyncJob rentalSyncJob) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/rental_sync_job/$id',
-        data: rentalSyncJob.toJson(),
-      );
-      return RentalSyncJob.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<RentalSyncJob> update(String id, RentalSyncJob item) => _service.updateRentalSyncJob(id, item);
 
-  // Delete RentalSyncJob
-  Future<void> deleteRentalSyncJob(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/rental_sync_job/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteRentalSyncJob(id);
 }

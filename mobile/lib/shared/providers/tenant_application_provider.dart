@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/tenant_application_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/tenant_application_service.dart';
+import 'package:reservatior/shared/repositories/tenant_application_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// TenantApplication Providers
-
-final TenantApplicationServiceProvider = Provider<TenantApplicationService>((ref) {
+final tenantApplicationServiceProvider = Provider<TenantApplicationService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return TenantApplicationService(dioClient);
 });
 
-// List Provider
-final tenantApplicationProvider = FutureProvider.autoDispose<List<TenantApplication>>((ref) async {
-  final service = ref.watch(TenantApplicationServiceProvider);
-  return service.getTenantApplications();
+final tenantApplicationRepositoryProvider = Provider<TenantApplicationRepository>((ref) {
+  final service = ref.watch(tenantApplicationServiceProvider);
+  return TenantApplicationRepositoryImpl(service);
 });
 
-// Create Provider
-final TenantApplicationCreateProvider = FutureProvider.autoDispose<TenantApplication>((ref) async {
-  final service = ref.watch(TenantApplicationServiceProvider);
-  return service.createTenantApplication(TenantApplication());
+final tenantApplicationListProvider = FutureProvider.autoDispose<List<TenantApplication>>((ref) async {
+  final repository = ref.watch(tenantApplicationRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final TenantApplicationUpdateProvider = FutureProvider.autoDispose<TenantApplication>((ref) async {
-  final service = ref.watch(TenantApplicationServiceProvider);
-  final state = ref.watch(TenantApplicationUpdateStateProvider);
-  if (state['id'] != null && state['tenant_application'] != null) {
-    return service.updateTenantApplication(state['id'], state['tenant_application']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final TenantApplicationDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(TenantApplicationServiceProvider);
-  final state = ref.watch(TenantApplicationDeleteStateProvider);
-  if (state != null) {
-    return service.deleteTenantApplication(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final TenantApplicationUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final TenantApplicationDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final TenantApplicationLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(tenantApplicationProvider);
-  final createAsync = ref.watch(TenantApplicationCreateProvider);
-  final updateAsync = ref.watch(TenantApplicationUpdateProvider);
-  final deleteAsync = ref.watch(TenantApplicationDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final tenantApplicationCreateProvider = StateProvider<TenantApplication?>((ref) => null);
+final tenantApplicationUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final tenantApplicationDeleteProvider = StateProvider<String?>((ref) => null);
+final tenantApplicationLoadingProvider = StateProvider<bool>((ref) => false);

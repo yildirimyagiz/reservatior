@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class IncreaseService {
   final DioClient _dioClient;
-
   IncreaseService(this._dioClient);
 
-  // Get Increase by ID
   Future<Increase> getIncreaseById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/increase/$id');
-      return Increase.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.increases}/$id');
+    return Increase.fromJson(response.data['data']);
   }
 
-  // Get all increases
   Future<List<Increase>> getIncreases({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/increase', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Increase.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.increases, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Increase.fromJson(json)).toList();
   }
 
-  // Create Increase
-  Future<Increase> createIncrease(Increase increase) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/increase',
-        data: increase.toJson(),
-      );
-      return Increase.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Increase> createIncrease(Increase item) async {
+    final response = await _dioClient.post(ApiEndpoints.increases, data: item.toJson());
+    return Increase.fromJson(response.data['data']);
   }
 
-  // Update Increase
-  Future<Increase> updateIncrease(String id, Increase increase) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/increase/$id',
-        data: increase.toJson(),
-      );
-      return Increase.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Increase> updateIncrease(String id, Increase item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.increases}/$id', data: item.toJson());
+    return Increase.fromJson(response.data['data']);
   }
 
-  // Delete Increase
   Future<void> deleteIncrease(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/increase/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.increases}/$id');
   }
 }

@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/signature_signer_service.dart';
 
-/// Repository for SignatureSigner operations
-/// Provides CRUD operations with proper error handling and type safety
-class SignatureSignerRepository {
-  final DioClient _dioClient;
+abstract class SignatureSignerRepository {
+  Future<SignatureSigner> getById(String id);
+  Future<List<SignatureSigner>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<SignatureSigner> create(SignatureSigner item);
+  Future<SignatureSigner> update(String id, SignatureSigner item);
+  Future<void> delete(String id);
+}
 
-  SignatureSignerRepository(this._dioClient);
+class SignatureSignerRepositoryImpl implements SignatureSignerRepository {
+  final SignatureSignerService _service;
+  SignatureSignerRepositoryImpl(this._service);
 
-  /// Get SignatureSigner by ID
-  /// Returns [SignatureSigner] if found, throws [RepositoryException] otherwise
-  Future<SignatureSigner> getSignatureSignerById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/signature_signer/$id');
-      if (response.statusCode == 200) {
-        return SignatureSigner.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch signature_signer',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SignatureSigner> getById(String id) => _service.getSignatureSignerById(id);
 
-  /// Get all signature_signers with pagination and filtering
-  /// Returns list of [SignatureSigner] objects
-  Future<List<SignatureSigner>> getsignature_signers({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<SignatureSigner>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/signature_signer', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => SignatureSigner.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch signature_signers',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getSignatureSigners(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new SignatureSigner
-  /// Returns created [SignatureSigner] object
-  Future<SignatureSigner> createSignatureSigner(SignatureSigner signatureSigner) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/signature_signer',
-        data: signatureSigner.toJson(),
-      );
-      return SignatureSigner.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SignatureSigner> create(SignatureSigner item) => _service.createSignatureSigner(item);
 
-  // Update SignatureSigner
-  Future<SignatureSigner> updateSignatureSigner(String id, SignatureSigner signatureSigner) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/signature_signer/$id',
-        data: signatureSigner.toJson(),
-      );
-      return SignatureSigner.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SignatureSigner> update(String id, SignatureSigner item) => _service.updateSignatureSigner(id, item);
 
-  // Delete SignatureSigner
-  Future<void> deleteSignatureSigner(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/signature_signer/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteSignatureSigner(id);
 }

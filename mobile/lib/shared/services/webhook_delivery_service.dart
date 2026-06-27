@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class WebhookDeliveryService {
   final DioClient _dioClient;
-
   WebhookDeliveryService(this._dioClient);
 
-  // Get WebhookDelivery by ID
   Future<WebhookDelivery> getWebhookDeliveryById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/webhook_delivery/$id');
-      return WebhookDelivery.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.webhookDeliveries}/$id');
+    return WebhookDelivery.fromJson(response.data['data']);
   }
 
-  // Get all webhook_deliverys
-  Future<List<WebhookDelivery>> getWebhookDeliverys({
-    int page = 1,
-    int limit = 20,
+  Future<List<WebhookDelivery>> getWebhookDeliveries({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/webhook_delivery', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => WebhookDelivery.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.webhookDeliveries, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => WebhookDelivery.fromJson(json)).toList();
   }
 
-  // Create WebhookDelivery
-  Future<WebhookDelivery> createWebhookDelivery(WebhookDelivery webhookDelivery) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/webhook_delivery',
-        data: webhookDelivery.toJson(),
-      );
-      return WebhookDelivery.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<WebhookDelivery> createWebhookDelivery(WebhookDelivery item) async {
+    final response = await _dioClient.post(ApiEndpoints.webhookDeliveries, data: item.toJson());
+    return WebhookDelivery.fromJson(response.data['data']);
   }
 
-  // Update WebhookDelivery
-  Future<WebhookDelivery> updateWebhookDelivery(String id, WebhookDelivery webhookDelivery) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/webhook_delivery/$id',
-        data: webhookDelivery.toJson(),
-      );
-      return WebhookDelivery.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<WebhookDelivery> updateWebhookDelivery(String id, WebhookDelivery item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.webhookDeliveries}/$id', data: item.toJson());
+    return WebhookDelivery.fromJson(response.data['data']);
   }
 
-  // Delete WebhookDelivery
   Future<void> deleteWebhookDelivery(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/webhook_delivery/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.webhookDeliveries}/$id');
   }
 }

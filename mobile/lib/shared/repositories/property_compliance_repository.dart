@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/property_compliance_service.dart';
 
-/// Repository for PropertyCompliance operations
-/// Provides CRUD operations with proper error handling and type safety
-class PropertyComplianceRepository {
-  final DioClient _dioClient;
+abstract class PropertyComplianceRepository {
+  Future<PropertyCompliance> getById(String id);
+  Future<List<PropertyCompliance>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<PropertyCompliance> create(PropertyCompliance item);
+  Future<PropertyCompliance> update(String id, PropertyCompliance item);
+  Future<void> delete(String id);
+}
 
-  PropertyComplianceRepository(this._dioClient);
+class PropertyComplianceRepositoryImpl implements PropertyComplianceRepository {
+  final PropertyComplianceService _service;
+  PropertyComplianceRepositoryImpl(this._service);
 
-  /// Get PropertyCompliance by ID
-  /// Returns [PropertyCompliance] if found, throws [RepositoryException] otherwise
-  Future<PropertyCompliance> getPropertyComplianceById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/property_compliance/$id');
-      if (response.statusCode == 200) {
-        return PropertyCompliance.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch property_compliance',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyCompliance> getById(String id) => _service.getPropertyComplianceById(id);
 
-  /// Get all property_compliances with pagination and filtering
-  /// Returns list of [PropertyCompliance] objects
-  Future<List<PropertyCompliance>> getproperty_compliances({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<PropertyCompliance>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/property_compliance', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => PropertyCompliance.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch property_compliances',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getPropertyCompliances(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new PropertyCompliance
-  /// Returns created [PropertyCompliance] object
-  Future<PropertyCompliance> createPropertyCompliance(PropertyCompliance propertyCompliance) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/property_compliance',
-        data: propertyCompliance.toJson(),
-      );
-      return PropertyCompliance.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyCompliance> create(PropertyCompliance item) => _service.createPropertyCompliance(item);
 
-  // Update PropertyCompliance
-  Future<PropertyCompliance> updatePropertyCompliance(String id, PropertyCompliance propertyCompliance) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/property_compliance/$id',
-        data: propertyCompliance.toJson(),
-      );
-      return PropertyCompliance.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PropertyCompliance> update(String id, PropertyCompliance item) => _service.updatePropertyCompliance(id, item);
 
-  // Delete PropertyCompliance
-  Future<void> deletePropertyCompliance(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/property_compliance/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deletePropertyCompliance(id);
 }

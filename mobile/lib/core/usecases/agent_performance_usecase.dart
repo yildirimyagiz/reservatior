@@ -1,106 +1,44 @@
-import '../../features/shared/services/agent_performance_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for AgentPerformance
+import 'package:reservatior/shared/repositories/agent_performance_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetAgentPerformanceByIdUseCase {
-  final AgentPerformanceService _service;
-  
-  GetAgentPerformanceByIdUseCase(this._service);
-  
-  Future<AgentPerformance> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final AgentPerformanceRepository _repository;
+  GetAgentPerformanceByIdUseCase(this._repository);
+  Future<AgentPerformance> execute(String id) => _repository.getById(id);
 }
 
 class GetAgentPerformancesUseCase {
-  final AgentPerformanceService _service;
-  
-  GetAgentPerformancesUseCase(this._service);
-  
+  final AgentPerformanceRepository _repository;
+  GetAgentPerformancesUseCase(this._repository);
   Future<List<AgentPerformance>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateAgentPerformanceUseCase {
-  final AgentPerformanceService _service;
-  
-  CreateAgentPerformanceUseCase(this._service);
-  
-  Future<AgentPerformance> execute(AgentPerformance agentPerformance) async {
-    // Add validation logic here
-    return await _service.create(agentPerformance);
-  }
+  final AgentPerformanceRepository _repository;
+  CreateAgentPerformanceUseCase(this._repository);
+  Future<AgentPerformance> execute(AgentPerformance item) => _repository.create(item);
 }
 
 class UpdateAgentPerformanceUseCase {
-  final AgentPerformanceService _service;
-  
-  UpdateAgentPerformanceUseCase(this._service);
-  
-  Future<AgentPerformance> execute(String id, AgentPerformance agentPerformance) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, agentPerformance);
-  }
+  final AgentPerformanceRepository _repository;
+  UpdateAgentPerformanceUseCase(this._repository);
+  Future<AgentPerformance> execute(String id, AgentPerformance item) => _repository.update(id, item);
 }
 
 class DeleteAgentPerformanceUseCase {
-  final AgentPerformanceService _service;
-  
-  DeleteAgentPerformanceUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// AgentPerformance Use Case Container
-class AgentPerformanceUseCases {
-  final GetAgentPerformanceByIdUseCase getById;
-  final GetAgentPerformancesUseCase getAll;
-  final CreateAgentPerformanceUseCase create;
-  final UpdateAgentPerformanceUseCase update;
-  final DeleteAgentPerformanceUseCase delete;
-  
-  AgentPerformanceUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory AgentPerformanceUseCases.create(AgentPerformanceService service) {
-    return AgentPerformanceUseCases(
-      getById: GetAgentPerformanceByIdUseCase(service),
-      getAll: GetAgentPerformancesUseCase(service),
-      create: CreateAgentPerformanceUseCase(service),
-      update: UpdateAgentPerformanceUseCase(service),
-      delete: DeleteAgentPerformanceUseCase(service),
-    );
-  }
+  final AgentPerformanceRepository _repository;
+  DeleteAgentPerformanceUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

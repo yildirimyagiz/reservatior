@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/document_service.dart';
 
-/// Repository for Document operations
-/// Provides CRUD operations with proper error handling and type safety
-class DocumentRepository {
-  final DioClient _dioClient;
+abstract class DocumentRepository {
+  Future<Document> getById(String id);
+  Future<List<Document>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<Document> create(Document item);
+  Future<Document> update(String id, Document item);
+  Future<void> delete(String id);
+}
 
-  DocumentRepository(this._dioClient);
+class DocumentRepositoryImpl implements DocumentRepository {
+  final DocumentService _service;
+  DocumentRepositoryImpl(this._service);
 
-  /// Get Document by ID
-  /// Returns [Document] if found, throws [RepositoryException] otherwise
-  Future<Document> getDocumentById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/document/$id');
-      if (response.statusCode == 200) {
-        return Document.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch document',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Document> getById(String id) => _service.getDocumentById(id);
 
-  /// Get all documents with pagination and filtering
-  /// Returns list of [Document] objects
-  Future<List<Document>> getdocuments({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<Document>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/document', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => Document.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch documents',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getDocuments(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new Document
-  /// Returns created [Document] object
-  Future<Document> createDocument(Document document) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/document',
-        data: document.toJson(),
-      );
-      return Document.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Document> create(Document item) => _service.createDocument(item);
 
-  // Update Document
-  Future<Document> updateDocument(String id, Document document) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/document/$id',
-        data: document.toJson(),
-      );
-      return Document.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Document> update(String id, Document item) => _service.updateDocument(id, item);
 
-  // Delete Document
-  Future<void> deleteDocument(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/document/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteDocument(id);
 }

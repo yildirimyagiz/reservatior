@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/api_integration_service.dart';
 
-/// Repository for ApiIntegration operations
-/// Provides CRUD operations with proper error handling and type safety
-class ApiIntegrationRepository {
-  final DioClient _dioClient;
+abstract class APIIntegrationRepository {
+  Future<APIIntegration> getById(String id);
+  Future<List<APIIntegration>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<APIIntegration> create(APIIntegration item);
+  Future<APIIntegration> update(String id, APIIntegration item);
+  Future<void> delete(String id);
+}
 
-  ApiIntegrationRepository(this._dioClient);
+class APIIntegrationRepositoryImpl implements APIIntegrationRepository {
+  final APIIntegrationService _service;
+  APIIntegrationRepositoryImpl(this._service);
 
-  /// Get ApiIntegration by ID
-  /// Returns [ApiIntegration] if found, throws [RepositoryException] otherwise
-  Future<ApiIntegration> getApiIntegrationById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/api_integration/$id');
-      if (response.statusCode == 200) {
-        return ApiIntegration.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch api_integration',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<APIIntegration> getById(String id) => _service.getAPIIntegrationById(id);
 
-  /// Get all api_integrations with pagination and filtering
-  /// Returns list of [ApiIntegration] objects
-  Future<List<ApiIntegration>> getapi_integrations({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<APIIntegration>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/api_integration', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => ApiIntegration.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch api_integrations',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAPIIntegrations(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new ApiIntegration
-  /// Returns created [ApiIntegration] object
-  Future<ApiIntegration> createApiIntegration(ApiIntegration apiIntegration) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/api_integration',
-        data: apiIntegration.toJson(),
-      );
-      return ApiIntegration.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<APIIntegration> create(APIIntegration item) => _service.createAPIIntegration(item);
 
-  // Update ApiIntegration
-  Future<ApiIntegration> updateApiIntegration(String id, ApiIntegration apiIntegration) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/api_integration/$id',
-        data: apiIntegration.toJson(),
-      );
-      return ApiIntegration.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<APIIntegration> update(String id, APIIntegration item) => _service.updateAPIIntegration(id, item);
 
-  // Delete ApiIntegration
-  Future<void> deleteApiIntegration(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/api_integration/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAPIIntegration(id);
 }

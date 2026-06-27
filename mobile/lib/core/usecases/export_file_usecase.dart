@@ -1,106 +1,44 @@
-import '../../features/shared/services/export_file_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for ExportFile
+import 'package:reservatior/shared/repositories/export_file_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetExportFileByIdUseCase {
-  final ExportFileService _service;
-  
-  GetExportFileByIdUseCase(this._service);
-  
-  Future<ExportFile> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ExportFileRepository _repository;
+  GetExportFileByIdUseCase(this._repository);
+  Future<ExportFile> execute(String id) => _repository.getById(id);
 }
 
 class GetExportFilesUseCase {
-  final ExportFileService _service;
-  
-  GetExportFilesUseCase(this._service);
-  
+  final ExportFileRepository _repository;
+  GetExportFilesUseCase(this._repository);
   Future<List<ExportFile>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateExportFileUseCase {
-  final ExportFileService _service;
-  
-  CreateExportFileUseCase(this._service);
-  
-  Future<ExportFile> execute(ExportFile exportFile) async {
-    // Add validation logic here
-    return await _service.create(exportFile);
-  }
+  final ExportFileRepository _repository;
+  CreateExportFileUseCase(this._repository);
+  Future<ExportFile> execute(ExportFile item) => _repository.create(item);
 }
 
 class UpdateExportFileUseCase {
-  final ExportFileService _service;
-  
-  UpdateExportFileUseCase(this._service);
-  
-  Future<ExportFile> execute(String id, ExportFile exportFile) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, exportFile);
-  }
+  final ExportFileRepository _repository;
+  UpdateExportFileUseCase(this._repository);
+  Future<ExportFile> execute(String id, ExportFile item) => _repository.update(id, item);
 }
 
 class DeleteExportFileUseCase {
-  final ExportFileService _service;
-  
-  DeleteExportFileUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ExportFile Use Case Container
-class ExportFileUseCases {
-  final GetExportFileByIdUseCase getById;
-  final GetExportFilesUseCase getAll;
-  final CreateExportFileUseCase create;
-  final UpdateExportFileUseCase update;
-  final DeleteExportFileUseCase delete;
-  
-  ExportFileUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ExportFileUseCases.create(ExportFileService service) {
-    return ExportFileUseCases(
-      getById: GetExportFileByIdUseCase(service),
-      getAll: GetExportFilesUseCase(service),
-      create: CreateExportFileUseCase(service),
-      update: UpdateExportFileUseCase(service),
-      delete: DeleteExportFileUseCase(service),
-    );
-  }
+  final ExportFileRepository _repository;
+  DeleteExportFileUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

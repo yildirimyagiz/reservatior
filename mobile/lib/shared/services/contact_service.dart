@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class ContactService {
   final DioClient _dioClient;
-
   ContactService(this._dioClient);
 
-  // Get Contact by ID
   Future<Contact> getContactById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/contact/$id');
-      return Contact.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.contacts}/$id');
+    return Contact.fromJson(response.data['data']);
   }
 
-  // Get all contacts
   Future<List<Contact>> getContacts({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/contact', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Contact.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.contacts, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Contact.fromJson(json)).toList();
   }
 
-  // Create Contact
-  Future<Contact> createContact(Contact contact) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/contact',
-        data: contact.toJson(),
-      );
-      return Contact.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Contact> createContact(Contact item) async {
+    final response = await _dioClient.post(ApiEndpoints.contacts, data: item.toJson());
+    return Contact.fromJson(response.data['data']);
   }
 
-  // Update Contact
-  Future<Contact> updateContact(String id, Contact contact) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/contact/$id',
-        data: contact.toJson(),
-      );
-      return Contact.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Contact> updateContact(String id, Contact item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.contacts}/$id', data: item.toJson());
+    return Contact.fromJson(response.data['data']);
   }
 
-  // Delete Contact
   Future<void> deleteContact(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/contact/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.contacts}/$id');
   }
 }

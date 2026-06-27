@@ -1,106 +1,44 @@
-import '../../features/shared/services/earning_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Earning
+import 'package:reservatior/shared/repositories/earning_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetEarningByIdUseCase {
-  final EarningService _service;
-  
-  GetEarningByIdUseCase(this._service);
-  
-  Future<Earning> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final EarningRepository _repository;
+  GetEarningByIdUseCase(this._repository);
+  Future<Earning> execute(String id) => _repository.getById(id);
 }
 
 class GetEarningsUseCase {
-  final EarningService _service;
-  
-  GetEarningsUseCase(this._service);
-  
+  final EarningRepository _repository;
+  GetEarningsUseCase(this._repository);
   Future<List<Earning>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateEarningUseCase {
-  final EarningService _service;
-  
-  CreateEarningUseCase(this._service);
-  
-  Future<Earning> execute(Earning earning) async {
-    // Add validation logic here
-    return await _service.create(earning);
-  }
+  final EarningRepository _repository;
+  CreateEarningUseCase(this._repository);
+  Future<Earning> execute(Earning item) => _repository.create(item);
 }
 
 class UpdateEarningUseCase {
-  final EarningService _service;
-  
-  UpdateEarningUseCase(this._service);
-  
-  Future<Earning> execute(String id, Earning earning) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, earning);
-  }
+  final EarningRepository _repository;
+  UpdateEarningUseCase(this._repository);
+  Future<Earning> execute(String id, Earning item) => _repository.update(id, item);
 }
 
 class DeleteEarningUseCase {
-  final EarningService _service;
-  
-  DeleteEarningUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Earning Use Case Container
-class EarningUseCases {
-  final GetEarningByIdUseCase getById;
-  final GetEarningsUseCase getAll;
-  final CreateEarningUseCase create;
-  final UpdateEarningUseCase update;
-  final DeleteEarningUseCase delete;
-  
-  EarningUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory EarningUseCases.create(EarningService service) {
-    return EarningUseCases(
-      getById: GetEarningByIdUseCase(service),
-      getAll: GetEarningsUseCase(service),
-      create: CreateEarningUseCase(service),
-      update: UpdateEarningUseCase(service),
-      delete: DeleteEarningUseCase(service),
-    );
-  }
+  final EarningRepository _repository;
+  DeleteEarningUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

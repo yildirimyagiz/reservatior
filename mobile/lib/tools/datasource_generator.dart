@@ -1,8 +1,10 @@
-import 'dart:io';
+// ignore_for_file: uri_does_not_exist, unused_import
+import 'dart:io'; 
+import 'package:easy_localization/easy_localization.dart';
 
 class DatasourcesGenerator {
   static Future<void> regenerateAllDatasources() async {
-    final modelsDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/gen_models/models');
+    final modelsDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/shared/models');
     
     if (!await modelsDir.exists()) {
       print('Models directory not found');
@@ -30,7 +32,7 @@ class DatasourcesGenerator {
   }
   
   static Future<void> clearAllDatasources() async {
-    final featuresDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/features');
+    final featuresDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/features');
     
     if (await featuresDir.exists()) {
       await for (final entity in featuresDir.list()) {
@@ -53,7 +55,7 @@ class DatasourcesGenerator {
     final snakeCase = modelName;
     final featureName = snakeCase.replaceAll('_', '');
     
-    final featuresDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/features/$featureName');
+    final featuresDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/features/$featureName');
     final dataDir = Directory('${featuresDir.path}/data');
     final datasourcesDir = Directory('${dataDir.path}/datasources');
     
@@ -78,9 +80,9 @@ class DatasourcesGenerator {
   static Future<void> generateRemoteDatasource(String modelName, String className, String snakeCase, Directory datasourcesDir) async {
     final remoteDatasourceFile = File('${datasourcesDir.path}/${snakeCase}_remote_datasource.dart');
     
-    final remoteContent = '''import 'package:dio/dio.dart';
-import '../../../../core/network/dio_client.dart';
-import '../../../../gen_models/models_library.dart';
+    final remoteContent = '''mobile.leftovers.import'.tr()package:dio/dio.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 abstract class ${className}RemoteDataSource {
   Future<${className}> get${className}ById(String id);
@@ -169,7 +171,7 @@ class ${className}RemoteDataSourceImpl implements ${className}RemoteDataSource {
   }
 
   Exception _handleError(DioException e) {
-    return Exception('API Error: \${e.message}');
+    return Exception('API error: \${e.message}');
   }
 }
 ''';
@@ -180,10 +182,10 @@ class ${className}RemoteDataSourceImpl implements ${className}RemoteDataSource {
   static Future<void> generateLocalDatasource(String modelName, String className, String snakeCase, Directory datasourcesDir) async {
     final localDatasourceFile = File('${datasourcesDir.path}/${snakeCase}_local_datasource.dart');
     
-    final localContent = '''// Note: This is a template for local datasource
+    final localContent = '''// note: This is a template for local datasource
 // Uncomment and implement when you need local storage
 // import 'package:sqflite/sqflite.dart';
-import '../../../../gen_models/models_library.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 abstract class ${className}LocalDataSource {
   Future<${className}> get${className}ById(String id);

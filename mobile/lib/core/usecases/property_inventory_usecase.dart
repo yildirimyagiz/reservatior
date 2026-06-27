@@ -1,106 +1,44 @@
-import '../../features/shared/services/property_inventory_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for PropertyInventory
+import 'package:reservatior/shared/repositories/property_inventory_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetPropertyInventoryByIdUseCase {
-  final PropertyInventoryService _service;
-  
-  GetPropertyInventoryByIdUseCase(this._service);
-  
-  Future<PropertyInventory> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final PropertyInventoryRepository _repository;
+  GetPropertyInventoryByIdUseCase(this._repository);
+  Future<PropertyInventory> execute(String id) => _repository.getById(id);
 }
 
 class GetPropertyInventorysUseCase {
-  final PropertyInventoryService _service;
-  
-  GetPropertyInventorysUseCase(this._service);
-  
+  final PropertyInventoryRepository _repository;
+  GetPropertyInventorysUseCase(this._repository);
   Future<List<PropertyInventory>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreatePropertyInventoryUseCase {
-  final PropertyInventoryService _service;
-  
-  CreatePropertyInventoryUseCase(this._service);
-  
-  Future<PropertyInventory> execute(PropertyInventory propertyInventory) async {
-    // Add validation logic here
-    return await _service.create(propertyInventory);
-  }
+  final PropertyInventoryRepository _repository;
+  CreatePropertyInventoryUseCase(this._repository);
+  Future<PropertyInventory> execute(PropertyInventory item) => _repository.create(item);
 }
 
 class UpdatePropertyInventoryUseCase {
-  final PropertyInventoryService _service;
-  
-  UpdatePropertyInventoryUseCase(this._service);
-  
-  Future<PropertyInventory> execute(String id, PropertyInventory propertyInventory) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, propertyInventory);
-  }
+  final PropertyInventoryRepository _repository;
+  UpdatePropertyInventoryUseCase(this._repository);
+  Future<PropertyInventory> execute(String id, PropertyInventory item) => _repository.update(id, item);
 }
 
 class DeletePropertyInventoryUseCase {
-  final PropertyInventoryService _service;
-  
-  DeletePropertyInventoryUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// PropertyInventory Use Case Container
-class PropertyInventoryUseCases {
-  final GetPropertyInventoryByIdUseCase getById;
-  final GetPropertyInventorysUseCase getAll;
-  final CreatePropertyInventoryUseCase create;
-  final UpdatePropertyInventoryUseCase update;
-  final DeletePropertyInventoryUseCase delete;
-  
-  PropertyInventoryUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory PropertyInventoryUseCases.create(PropertyInventoryService service) {
-    return PropertyInventoryUseCases(
-      getById: GetPropertyInventoryByIdUseCase(service),
-      getAll: GetPropertyInventorysUseCase(service),
-      create: CreatePropertyInventoryUseCase(service),
-      update: UpdatePropertyInventoryUseCase(service),
-      delete: DeletePropertyInventoryUseCase(service),
-    );
-  }
+  final PropertyInventoryRepository _repository;
+  DeletePropertyInventoryUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

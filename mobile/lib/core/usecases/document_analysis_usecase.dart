@@ -1,106 +1,44 @@
-import '../../features/shared/services/document_analysis_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for DocumentAnalysis
+import 'package:reservatior/shared/repositories/document_analysis_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetDocumentAnalysisByIdUseCase {
-  final DocumentAnalysisService _service;
-  
-  GetDocumentAnalysisByIdUseCase(this._service);
-  
-  Future<DocumentAnalysis> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final DocumentAnalysisRepository _repository;
+  GetDocumentAnalysisByIdUseCase(this._repository);
+  Future<DocumentAnalysis> execute(String id) => _repository.getById(id);
 }
 
 class GetDocumentAnalysissUseCase {
-  final DocumentAnalysisService _service;
-  
-  GetDocumentAnalysissUseCase(this._service);
-  
+  final DocumentAnalysisRepository _repository;
+  GetDocumentAnalysissUseCase(this._repository);
   Future<List<DocumentAnalysis>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateDocumentAnalysisUseCase {
-  final DocumentAnalysisService _service;
-  
-  CreateDocumentAnalysisUseCase(this._service);
-  
-  Future<DocumentAnalysis> execute(DocumentAnalysis documentAnalysis) async {
-    // Add validation logic here
-    return await _service.create(documentAnalysis);
-  }
+  final DocumentAnalysisRepository _repository;
+  CreateDocumentAnalysisUseCase(this._repository);
+  Future<DocumentAnalysis> execute(DocumentAnalysis item) => _repository.create(item);
 }
 
 class UpdateDocumentAnalysisUseCase {
-  final DocumentAnalysisService _service;
-  
-  UpdateDocumentAnalysisUseCase(this._service);
-  
-  Future<DocumentAnalysis> execute(String id, DocumentAnalysis documentAnalysis) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, documentAnalysis);
-  }
+  final DocumentAnalysisRepository _repository;
+  UpdateDocumentAnalysisUseCase(this._repository);
+  Future<DocumentAnalysis> execute(String id, DocumentAnalysis item) => _repository.update(id, item);
 }
 
 class DeleteDocumentAnalysisUseCase {
-  final DocumentAnalysisService _service;
-  
-  DeleteDocumentAnalysisUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// DocumentAnalysis Use Case Container
-class DocumentAnalysisUseCases {
-  final GetDocumentAnalysisByIdUseCase getById;
-  final GetDocumentAnalysissUseCase getAll;
-  final CreateDocumentAnalysisUseCase create;
-  final UpdateDocumentAnalysisUseCase update;
-  final DeleteDocumentAnalysisUseCase delete;
-  
-  DocumentAnalysisUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory DocumentAnalysisUseCases.create(DocumentAnalysisService service) {
-    return DocumentAnalysisUseCases(
-      getById: GetDocumentAnalysisByIdUseCase(service),
-      getAll: GetDocumentAnalysissUseCase(service),
-      create: CreateDocumentAnalysisUseCase(service),
-      update: UpdateDocumentAnalysisUseCase(service),
-      delete: DeleteDocumentAnalysisUseCase(service),
-    );
-  }
+  final DocumentAnalysisRepository _repository;
+  DeleteDocumentAnalysisUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

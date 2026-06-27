@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class QuoteService {
   final DioClient _dioClient;
-
   QuoteService(this._dioClient);
 
-  // Get Quote by ID
   Future<Quote> getQuoteById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/quote/$id');
-      return Quote.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.quotes}/$id');
+    return Quote.fromJson(response.data['data']);
   }
 
-  // Get all quotes
   Future<List<Quote>> getQuotes({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/quote', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Quote.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.quotes, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Quote.fromJson(json)).toList();
   }
 
-  // Create Quote
-  Future<Quote> createQuote(Quote quote) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/quote',
-        data: quote.toJson(),
-      );
-      return Quote.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Quote> createQuote(Quote item) async {
+    final response = await _dioClient.post(ApiEndpoints.quotes, data: item.toJson());
+    return Quote.fromJson(response.data['data']);
   }
 
-  // Update Quote
-  Future<Quote> updateQuote(String id, Quote quote) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/quote/$id',
-        data: quote.toJson(),
-      );
-      return Quote.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Quote> updateQuote(String id, Quote item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.quotes}/$id', data: item.toJson());
+    return Quote.fromJson(response.data['data']);
   }
 
-  // Delete Quote
   Future<void> deleteQuote(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/quote/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.quotes}/$id');
   }
 }

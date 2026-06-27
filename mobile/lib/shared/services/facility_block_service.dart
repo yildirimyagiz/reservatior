@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class FacilityBlockService {
   final DioClient _dioClient;
-
   FacilityBlockService(this._dioClient);
 
-  // Get FacilityBlock by ID
   Future<FacilityBlock> getFacilityBlockById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/facility_block/$id');
-      return FacilityBlock.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.facilityBlocks}/$id');
+    return FacilityBlock.fromJson(response.data['data']);
   }
 
-  // Get all facility_blocks
   Future<List<FacilityBlock>> getFacilityBlocks({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/facility_block', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => FacilityBlock.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.facilityBlocks, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => FacilityBlock.fromJson(json)).toList();
   }
 
-  // Create FacilityBlock
-  Future<FacilityBlock> createFacilityBlock(FacilityBlock facilityBlock) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/facility_block',
-        data: facilityBlock.toJson(),
-      );
-      return FacilityBlock.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<FacilityBlock> createFacilityBlock(FacilityBlock item) async {
+    final response = await _dioClient.post(ApiEndpoints.facilityBlocks, data: item.toJson());
+    return FacilityBlock.fromJson(response.data['data']);
   }
 
-  // Update FacilityBlock
-  Future<FacilityBlock> updateFacilityBlock(String id, FacilityBlock facilityBlock) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/facility_block/$id',
-        data: facilityBlock.toJson(),
-      );
-      return FacilityBlock.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<FacilityBlock> updateFacilityBlock(String id, FacilityBlock item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.facilityBlocks}/$id', data: item.toJson());
+    return FacilityBlock.fromJson(response.data['data']);
   }
 
-  // Delete FacilityBlock
   Future<void> deleteFacilityBlock(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/facility_block/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.facilityBlocks}/$id');
   }
 }

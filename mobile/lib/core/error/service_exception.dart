@@ -32,7 +32,7 @@ class ServiceException implements Exception {
 
   @override
   String toString() {
-    return 'ServiceException: $message (Type: $type, Code: $code)';
+    return 'ServiceException: $message (type: $type, code: $code)';
   }
 
   /// Factory for validation errors

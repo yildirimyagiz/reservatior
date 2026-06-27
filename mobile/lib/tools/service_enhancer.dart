@@ -1,8 +1,10 @@
-import 'dart:io';
+// ignore_for_file: uri_does_not_exist, unused_import
+import 'dart:io'; 
+import 'package:easy_localization/easy_localization.dart';
 
 class ServiceEnhancer {
   static Future<void> enhanceServices() async {
-    final servicesDir = Directory('/Users/os2026/Downloads/echosystem/reservatior main/mobile/lib/shared/services');
+    final servicesDir = Directory('/Users/os2026/Downloads/echosystem/reservatiormain/mobile/lib/shared/services');
     
     if (!await servicesDir.exists()) {
       print('Services directory not found');
@@ -44,9 +46,9 @@ class ServiceEnhancer {
     String enhancedContent = content;
     
     if (fileName.contains('user_service')) {
-      enhancedContent = '''import 'package:dio/dio.dart';
-import '../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+      enhancedContent = '''mobile.leftovers.import'.tr()package:dio/dio.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class UserService {
   final DioClient _dioClient;
@@ -200,26 +202,26 @@ class UserService {
   }
 
   Exception _handleError(DioException e) {
-    String message = 'Unknown error occurred';
+    String message = 'mobile.leftovers.unknown_error_occurred'.tr();
     
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
-        message = 'Connection timeout. Please check your internet connection.';
+        message = 'mobile.leftovers.connection_timeout_please_check_your_int'.tr();
         break;
       case DioExceptionType.sendTimeout:
-        message = 'Request timeout. Please try again.';
+        message = 'mobile.leftovers.request_timeout_please_try_again'.tr();
         break;
       case DioExceptionType.receiveTimeout:
-        message = 'Response timeout. Please try again.';
+        message = 'mobile.leftovers.response_timeout_please_try_again'.tr();
         break;
       case DioExceptionType.badResponse:
-        message = 'Invalid response from server. Please try again.';
+        message = 'mobile.leftovers.invalid_response_from_server_please_try'.tr();
         break;
       case DioExceptionType.cancel:
-        message = 'Request was cancelled.';
+        message = 'mobile.leftovers.request_was_cancelled'.tr();
         break;
       case DioExceptionType.connectionError:
-        message = 'Network connection error. Please check your internet connection.';
+        message = 'mobile.leftovers.network_connection_error_please_check_yo'.tr();
         break;
       case DioExceptionType.unknown:
         message = 'An unknown error occurred: \${e.message}';
@@ -232,9 +234,9 @@ class UserService {
     }
     
     if (fileName.contains('property_service')) {
-      enhancedContent = '''import 'package:dio/dio.dart';
-import '../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+      enhancedContent = '''mobile.leftovers.import'.tr()package:dio/dio.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class PropertyService {
   final DioClient _dioClient;
@@ -375,26 +377,26 @@ class PropertyService {
   }
 
   Exception _handleError(DioException e) {
-    String message = 'Unknown error occurred';
+    String message = 'mobile.leftovers.unknown_error_occurred'.tr();
     
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
-        message = 'Connection timeout. Please check your internet connection.';
+        message = 'mobile.leftovers.connection_timeout_please_check_your_int'.tr();
         break;
       case DioExceptionType.sendTimeout:
-        message = 'Request timeout. Please try again.';
+        message = 'mobile.leftovers.request_timeout_please_try_again'.tr();
         break;
       case DioExceptionType.receiveTimeout:
-        message = 'Response timeout. Please try again.';
+        message = 'mobile.leftovers.response_timeout_please_try_again'.tr();
         break;
       case DioExceptionType.badResponse:
-        message = 'Invalid response from server. Please try again.';
+        message = 'mobile.leftovers.invalid_response_from_server_please_try'.tr();
         break;
       case DioExceptionType.cancel:
-        message = 'Request was cancelled.';
+        message = 'mobile.leftovers.request_was_cancelled'.tr();
         break;
       case DioExceptionType.connectionError:
-        message = 'Network connection error. Please check your internet connection.';
+        message = 'mobile.leftovers.network_connection_error_please_check_yo'.tr();
         break;
       case DioExceptionType.unknown:
         message = 'An unknown error occurred: \${e.message}';

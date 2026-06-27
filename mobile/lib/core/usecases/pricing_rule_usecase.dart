@@ -1,106 +1,44 @@
-import '../../features/shared/services/pricing_rule_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for PricingRule
+import 'package:reservatior/shared/repositories/pricing_rule_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetPricingRuleByIdUseCase {
-  final PricingRuleService _service;
-  
-  GetPricingRuleByIdUseCase(this._service);
-  
-  Future<PricingRule> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final PricingRuleRepository _repository;
+  GetPricingRuleByIdUseCase(this._repository);
+  Future<PricingRule> execute(String id) => _repository.getById(id);
 }
 
 class GetPricingRulesUseCase {
-  final PricingRuleService _service;
-  
-  GetPricingRulesUseCase(this._service);
-  
+  final PricingRuleRepository _repository;
+  GetPricingRulesUseCase(this._repository);
   Future<List<PricingRule>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreatePricingRuleUseCase {
-  final PricingRuleService _service;
-  
-  CreatePricingRuleUseCase(this._service);
-  
-  Future<PricingRule> execute(PricingRule pricingRule) async {
-    // Add validation logic here
-    return await _service.create(pricingRule);
-  }
+  final PricingRuleRepository _repository;
+  CreatePricingRuleUseCase(this._repository);
+  Future<PricingRule> execute(PricingRule item) => _repository.create(item);
 }
 
 class UpdatePricingRuleUseCase {
-  final PricingRuleService _service;
-  
-  UpdatePricingRuleUseCase(this._service);
-  
-  Future<PricingRule> execute(String id, PricingRule pricingRule) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, pricingRule);
-  }
+  final PricingRuleRepository _repository;
+  UpdatePricingRuleUseCase(this._repository);
+  Future<PricingRule> execute(String id, PricingRule item) => _repository.update(id, item);
 }
 
 class DeletePricingRuleUseCase {
-  final PricingRuleService _service;
-  
-  DeletePricingRuleUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// PricingRule Use Case Container
-class PricingRuleUseCases {
-  final GetPricingRuleByIdUseCase getById;
-  final GetPricingRulesUseCase getAll;
-  final CreatePricingRuleUseCase create;
-  final UpdatePricingRuleUseCase update;
-  final DeletePricingRuleUseCase delete;
-  
-  PricingRuleUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory PricingRuleUseCases.create(PricingRuleService service) {
-    return PricingRuleUseCases(
-      getById: GetPricingRuleByIdUseCase(service),
-      getAll: GetPricingRulesUseCase(service),
-      create: CreatePricingRuleUseCase(service),
-      update: UpdatePricingRuleUseCase(service),
-      delete: DeletePricingRuleUseCase(service),
-    );
-  }
+  final PricingRuleRepository _repository;
+  DeletePricingRuleUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

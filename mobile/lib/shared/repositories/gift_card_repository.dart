@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/gift_card_service.dart';
 
-/// Repository for GiftCard operations
-/// Provides CRUD operations with proper error handling and type safety
-class GiftCardRepository {
-  final DioClient _dioClient;
+abstract class GiftCardRepository {
+  Future<GiftCard> getById(String id);
+  Future<List<GiftCard>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<GiftCard> create(GiftCard item);
+  Future<GiftCard> update(String id, GiftCard item);
+  Future<void> delete(String id);
+}
 
-  GiftCardRepository(this._dioClient);
+class GiftCardRepositoryImpl implements GiftCardRepository {
+  final GiftCardService _service;
+  GiftCardRepositoryImpl(this._service);
 
-  /// Get GiftCard by ID
-  /// Returns [GiftCard] if found, throws [RepositoryException] otherwise
-  Future<GiftCard> getGiftCardById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/gift_card/$id');
-      if (response.statusCode == 200) {
-        return GiftCard.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch gift_card',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<GiftCard> getById(String id) => _service.getGiftCardById(id);
 
-  /// Get all gift_cards with pagination and filtering
-  /// Returns list of [GiftCard] objects
-  Future<List<GiftCard>> getgift_cards({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<GiftCard>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/gift_card', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => GiftCard.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch gift_cards',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getGiftCards(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new GiftCard
-  /// Returns created [GiftCard] object
-  Future<GiftCard> createGiftCard(GiftCard giftCard) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/gift_card',
-        data: giftCard.toJson(),
-      );
-      return GiftCard.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<GiftCard> create(GiftCard item) => _service.createGiftCard(item);
 
-  // Update GiftCard
-  Future<GiftCard> updateGiftCard(String id, GiftCard giftCard) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/gift_card/$id',
-        data: giftCard.toJson(),
-      );
-      return GiftCard.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<GiftCard> update(String id, GiftCard item) => _service.updateGiftCard(id, item);
 
-  // Delete GiftCard
-  Future<void> deleteGiftCard(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/gift_card/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteGiftCard(id);
 }

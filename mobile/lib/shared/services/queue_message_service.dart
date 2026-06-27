@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class QueueMessageService {
   final DioClient _dioClient;
-
   QueueMessageService(this._dioClient);
 
-  // Get QueueMessage by ID
   Future<QueueMessage> getQueueMessageById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/queue_message/$id');
-      return QueueMessage.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.queueMessages}/$id');
+    return QueueMessage.fromJson(response.data['data']);
   }
 
-  // Get all queue_messages
   Future<List<QueueMessage>> getQueueMessages({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/queue_message', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => QueueMessage.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.queueMessages, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => QueueMessage.fromJson(json)).toList();
   }
 
-  // Create QueueMessage
-  Future<QueueMessage> createQueueMessage(QueueMessage queueMessage) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/queue_message',
-        data: queueMessage.toJson(),
-      );
-      return QueueMessage.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<QueueMessage> createQueueMessage(QueueMessage item) async {
+    final response = await _dioClient.post(ApiEndpoints.queueMessages, data: item.toJson());
+    return QueueMessage.fromJson(response.data['data']);
   }
 
-  // Update QueueMessage
-  Future<QueueMessage> updateQueueMessage(String id, QueueMessage queueMessage) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/queue_message/$id',
-        data: queueMessage.toJson(),
-      );
-      return QueueMessage.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<QueueMessage> updateQueueMessage(String id, QueueMessage item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.queueMessages}/$id', data: item.toJson());
+    return QueueMessage.fromJson(response.data['data']);
   }
 
-  // Delete QueueMessage
   Future<void> deleteQueueMessage(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/queue_message/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.queueMessages}/$id');
   }
 }

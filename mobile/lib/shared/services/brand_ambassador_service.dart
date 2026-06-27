@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class BrandAmbassadorService {
   final DioClient _dioClient;
-
   BrandAmbassadorService(this._dioClient);
 
-  // Get BrandAmbassador by ID
   Future<BrandAmbassador> getBrandAmbassadorById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/brand_ambassador/$id');
-      return BrandAmbassador.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.brandAmbassadors}/$id');
+    return BrandAmbassador.fromJson(response.data['data']);
   }
 
-  // Get all brand_ambassadors
   Future<List<BrandAmbassador>> getBrandAmbassadors({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/brand_ambassador', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => BrandAmbassador.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.brandAmbassadors, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => BrandAmbassador.fromJson(json)).toList();
   }
 
-  // Create BrandAmbassador
-  Future<BrandAmbassador> createBrandAmbassador(BrandAmbassador brandAmbassador) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/brand_ambassador',
-        data: brandAmbassador.toJson(),
-      );
-      return BrandAmbassador.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<BrandAmbassador> createBrandAmbassador(BrandAmbassador item) async {
+    final response = await _dioClient.post(ApiEndpoints.brandAmbassadors, data: item.toJson());
+    return BrandAmbassador.fromJson(response.data['data']);
   }
 
-  // Update BrandAmbassador
-  Future<BrandAmbassador> updateBrandAmbassador(String id, BrandAmbassador brandAmbassador) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/brand_ambassador/$id',
-        data: brandAmbassador.toJson(),
-      );
-      return BrandAmbassador.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<BrandAmbassador> updateBrandAmbassador(String id, BrandAmbassador item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.brandAmbassadors}/$id', data: item.toJson());
+    return BrandAmbassador.fromJson(response.data['data']);
   }
 
-  // Delete BrandAmbassador
   Future<void> deleteBrandAmbassador(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/brand_ambassador/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.brandAmbassadors}/$id');
   }
 }

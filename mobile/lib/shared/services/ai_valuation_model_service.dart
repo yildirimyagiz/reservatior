@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AIValuationModelService {
+class AiValuationModelService {
   final DioClient _dioClient;
+  AiValuationModelService(this._dioClient);
 
-  AIValuationModelService(this._dioClient);
-
-  // Get AIValuationModel by ID
-  Future<AIValuationModel> getAIValuationModelById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_valuation_model/$id');
-      return AIValuationModel.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiValuationModel> getAiValuationModelById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiValuationModels}/$id');
+    return AiValuationModel.fromJson(response.data['data']);
   }
 
-  // Get all ai_valuation_models
-  Future<List<AIValuationModel>> getAIValuationModels({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiValuationModel>> getAiValuationModels({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_valuation_model', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AIValuationModel.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiValuationModels, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiValuationModel.fromJson(json)).toList();
   }
 
-  // Create AIValuationModel
-  Future<AIValuationModel> createAIValuationModel(AIValuationModel aIValuationModel) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_valuation_model',
-        data: aIValuationModel.toJson(),
-      );
-      return AIValuationModel.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiValuationModel> createAiValuationModel(AiValuationModel item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiValuationModels, data: item.toJson());
+    return AiValuationModel.fromJson(response.data['data']);
   }
 
-  // Update AIValuationModel
-  Future<AIValuationModel> updateAIValuationModel(String id, AIValuationModel aIValuationModel) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_valuation_model/$id',
-        data: aIValuationModel.toJson(),
-      );
-      return AIValuationModel.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiValuationModel> updateAiValuationModel(String id, AiValuationModel item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiValuationModels}/$id', data: item.toJson());
+    return AiValuationModel.fromJson(response.data['data']);
   }
 
-  // Delete AIValuationModel
-  Future<void> deleteAIValuationModel(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_valuation_model/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiValuationModel(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiValuationModels}/$id');
   }
 }

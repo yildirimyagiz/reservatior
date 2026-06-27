@@ -1,106 +1,44 @@
-import '../../features/shared/services/exchange_rate_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for ExchangeRate
+import 'package:reservatior/shared/repositories/exchange_rate_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetExchangeRateByIdUseCase {
-  final ExchangeRateService _service;
-  
-  GetExchangeRateByIdUseCase(this._service);
-  
-  Future<ExchangeRate> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ExchangeRateRepository _repository;
+  GetExchangeRateByIdUseCase(this._repository);
+  Future<ExchangeRate> execute(String id) => _repository.getById(id);
 }
 
 class GetExchangeRatesUseCase {
-  final ExchangeRateService _service;
-  
-  GetExchangeRatesUseCase(this._service);
-  
+  final ExchangeRateRepository _repository;
+  GetExchangeRatesUseCase(this._repository);
   Future<List<ExchangeRate>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateExchangeRateUseCase {
-  final ExchangeRateService _service;
-  
-  CreateExchangeRateUseCase(this._service);
-  
-  Future<ExchangeRate> execute(ExchangeRate exchangeRate) async {
-    // Add validation logic here
-    return await _service.create(exchangeRate);
-  }
+  final ExchangeRateRepository _repository;
+  CreateExchangeRateUseCase(this._repository);
+  Future<ExchangeRate> execute(ExchangeRate item) => _repository.create(item);
 }
 
 class UpdateExchangeRateUseCase {
-  final ExchangeRateService _service;
-  
-  UpdateExchangeRateUseCase(this._service);
-  
-  Future<ExchangeRate> execute(String id, ExchangeRate exchangeRate) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, exchangeRate);
-  }
+  final ExchangeRateRepository _repository;
+  UpdateExchangeRateUseCase(this._repository);
+  Future<ExchangeRate> execute(String id, ExchangeRate item) => _repository.update(id, item);
 }
 
 class DeleteExchangeRateUseCase {
-  final ExchangeRateService _service;
-  
-  DeleteExchangeRateUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ExchangeRate Use Case Container
-class ExchangeRateUseCases {
-  final GetExchangeRateByIdUseCase getById;
-  final GetExchangeRatesUseCase getAll;
-  final CreateExchangeRateUseCase create;
-  final UpdateExchangeRateUseCase update;
-  final DeleteExchangeRateUseCase delete;
-  
-  ExchangeRateUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ExchangeRateUseCases.create(ExchangeRateService service) {
-    return ExchangeRateUseCases(
-      getById: GetExchangeRateByIdUseCase(service),
-      getAll: GetExchangeRatesUseCase(service),
-      create: CreateExchangeRateUseCase(service),
-      update: UpdateExchangeRateUseCase(service),
-      delete: DeleteExchangeRateUseCase(service),
-    );
-  }
+  final ExchangeRateRepository _repository;
+  DeleteExchangeRateUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

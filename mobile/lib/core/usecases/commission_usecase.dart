@@ -1,106 +1,44 @@
-import '../../features/shared/services/commission_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Commission
+import 'package:reservatior/shared/repositories/commission_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetCommissionByIdUseCase {
-  final CommissionService _service;
-  
-  GetCommissionByIdUseCase(this._service);
-  
-  Future<Commission> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final CommissionRepository _repository;
+  GetCommissionByIdUseCase(this._repository);
+  Future<Commission> execute(String id) => _repository.getById(id);
 }
 
 class GetCommissionsUseCase {
-  final CommissionService _service;
-  
-  GetCommissionsUseCase(this._service);
-  
+  final CommissionRepository _repository;
+  GetCommissionsUseCase(this._repository);
   Future<List<Commission>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateCommissionUseCase {
-  final CommissionService _service;
-  
-  CreateCommissionUseCase(this._service);
-  
-  Future<Commission> execute(Commission commission) async {
-    // Add validation logic here
-    return await _service.create(commission);
-  }
+  final CommissionRepository _repository;
+  CreateCommissionUseCase(this._repository);
+  Future<Commission> execute(Commission item) => _repository.create(item);
 }
 
 class UpdateCommissionUseCase {
-  final CommissionService _service;
-  
-  UpdateCommissionUseCase(this._service);
-  
-  Future<Commission> execute(String id, Commission commission) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, commission);
-  }
+  final CommissionRepository _repository;
+  UpdateCommissionUseCase(this._repository);
+  Future<Commission> execute(String id, Commission item) => _repository.update(id, item);
 }
 
 class DeleteCommissionUseCase {
-  final CommissionService _service;
-  
-  DeleteCommissionUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Commission Use Case Container
-class CommissionUseCases {
-  final GetCommissionByIdUseCase getById;
-  final GetCommissionsUseCase getAll;
-  final CreateCommissionUseCase create;
-  final UpdateCommissionUseCase update;
-  final DeleteCommissionUseCase delete;
-  
-  CommissionUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory CommissionUseCases.create(CommissionService service) {
-    return CommissionUseCases(
-      getById: GetCommissionByIdUseCase(service),
-      getAll: GetCommissionsUseCase(service),
-      create: CreateCommissionUseCase(service),
-      update: UpdateCommissionUseCase(service),
-      delete: DeleteCommissionUseCase(service),
-    );
-  }
+  final CommissionRepository _repository;
+  DeleteCommissionUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

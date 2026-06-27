@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AIMarketAnalysisService {
+class AiMarketAnalysisService {
   final DioClient _dioClient;
+  AiMarketAnalysisService(this._dioClient);
 
-  AIMarketAnalysisService(this._dioClient);
-
-  // Get AIMarketAnalysis by ID
-  Future<AIMarketAnalysis> getAIMarketAnalysisById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_market_analysis/$id');
-      return AIMarketAnalysis.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiMarketAnalysis> getAiMarketAnalysisById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiMarketAnalyses}/$id');
+    return AiMarketAnalysis.fromJson(response.data['data']);
   }
 
-  // Get all ai_market_analysiss
-  Future<List<AIMarketAnalysis>> getAIMarketAnalysiss({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiMarketAnalysis>> getAiMarketAnalysises({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_market_analysis', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AIMarketAnalysis.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiMarketAnalyses, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiMarketAnalysis.fromJson(json)).toList();
   }
 
-  // Create AIMarketAnalysis
-  Future<AIMarketAnalysis> createAIMarketAnalysis(AIMarketAnalysis aIMarketAnalysis) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_market_analysis',
-        data: aIMarketAnalysis.toJson(),
-      );
-      return AIMarketAnalysis.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiMarketAnalysis> createAiMarketAnalysis(AiMarketAnalysis item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiMarketAnalyses, data: item.toJson());
+    return AiMarketAnalysis.fromJson(response.data['data']);
   }
 
-  // Update AIMarketAnalysis
-  Future<AIMarketAnalysis> updateAIMarketAnalysis(String id, AIMarketAnalysis aIMarketAnalysis) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_market_analysis/$id',
-        data: aIMarketAnalysis.toJson(),
-      );
-      return AIMarketAnalysis.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiMarketAnalysis> updateAiMarketAnalysis(String id, AiMarketAnalysis item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiMarketAnalyses}/$id', data: item.toJson());
+    return AiMarketAnalysis.fromJson(response.data['data']);
   }
 
-  // Delete AIMarketAnalysis
-  Future<void> deleteAIMarketAnalysis(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_market_analysis/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiMarketAnalysis(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiMarketAnalyses}/$id');
   }
 }

@@ -1,82 +1,52 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class NotificationService {
   final DioClient _dioClient;
-
   NotificationService(this._dioClient);
 
-  // Get Notification by ID
   Future<Notification> getNotificationById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/notification/$id');
-      return Notification.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.notifications}/$id');
+    return Notification.fromJson(response.data['data']);
   }
 
-  // Get all notifications
   Future<List<Notification>> getNotifications({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/notification', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Notification.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.notifications, queryParameters: queryParams);
+    
+    print('🔔 Notification Response: ${response.data}');
+    
+    final data = response.data['data'] as List;
+    print('🔔 Notification Parsed ${data.length} items');
+    return data.map((json) => Notification.fromJson(json)).toList();
   }
 
-  // Create Notification
-  Future<Notification> createNotification(Notification notification) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/notification',
-        data: notification.toJson(),
-      );
-      return Notification.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Notification> createNotification(Notification item) async {
+    final response = await _dioClient.post(ApiEndpoints.notifications, data: item.toJson());
+    return Notification.fromJson(response.data['data']);
   }
 
-  // Update Notification
-  Future<Notification> updateNotification(String id, Notification notification) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/notification/$id',
-        data: notification.toJson(),
-      );
-      return Notification.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Notification> updateNotification(String id, Notification item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.notifications}/$id', data: item.toJson());
+    return Notification.fromJson(response.data['data']);
   }
 
-  // Delete Notification
   Future<void> deleteNotification(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/notification/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.notifications}/$id');
   }
 }

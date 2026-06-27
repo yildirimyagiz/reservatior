@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/ticket_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/ticket_service.dart';
+import 'package:reservatior/shared/repositories/ticket_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// Ticket Providers
-
-final TicketServiceProvider = Provider<TicketService>((ref) {
+final ticketServiceProvider = Provider<TicketService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return TicketService(dioClient);
 });
 
-// List Provider
-final ticketProvider = FutureProvider.autoDispose<List<Ticket>>((ref) async {
-  final service = ref.watch(TicketServiceProvider);
-  return service.getTickets();
+final ticketRepositoryProvider = Provider<TicketRepository>((ref) {
+  final service = ref.watch(ticketServiceProvider);
+  return TicketRepositoryImpl(service);
 });
 
-// Create Provider
-final TicketCreateProvider = FutureProvider.autoDispose<Ticket>((ref) async {
-  final service = ref.watch(TicketServiceProvider);
-  return service.createTicket(Ticket());
+final ticketListProvider = FutureProvider.autoDispose<List<Ticket>>((ref) async {
+  final repository = ref.watch(ticketRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final TicketUpdateProvider = FutureProvider.autoDispose<Ticket>((ref) async {
-  final service = ref.watch(TicketServiceProvider);
-  final state = ref.watch(TicketUpdateStateProvider);
-  if (state['id'] != null && state['ticket'] != null) {
-    return service.updateTicket(state['id'], state['ticket']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final TicketDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(TicketServiceProvider);
-  final state = ref.watch(TicketDeleteStateProvider);
-  if (state != null) {
-    return service.deleteTicket(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final TicketUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final TicketDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final TicketLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(ticketProvider);
-  final createAsync = ref.watch(TicketCreateProvider);
-  final updateAsync = ref.watch(TicketUpdateProvider);
-  final deleteAsync = ref.watch(TicketDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final ticketCreateProvider = StateProvider<Ticket?>((ref) => null);
+final ticketUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final ticketDeleteProvider = StateProvider<String?>((ref) => null);
+final ticketLoadingProvider = StateProvider<bool>((ref) => false);

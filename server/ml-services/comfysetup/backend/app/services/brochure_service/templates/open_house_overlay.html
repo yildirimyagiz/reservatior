@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: 210mm 297mm; margin: 0; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; width: 210mm; height: 297mm; display: flex; flex-direction: column; color: #333; background: #fff; }
+        .main-container { height: 100%; display: flex; flex-direction: column; background-size: cover; background-position: center; }
+        .overlay { flex-grow: 1; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; color: white; }
+        .header h1 { font-size: 48px; font-weight: 900; margin: 0 0 10px 0; }
+        .header p { font-size: 18px; margin: 0; }
+        .content { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; }
+        .property-details { width: 65%; }
+        .property-details h2 { font-size: 24px; font-weight: bold; margin-bottom: 15px; }
+        .property-details p { line-height: 1.6; }
+        .features { list-style: none; padding: 0; margin-top: 20px; display: flex; gap: 30px; font-size: 16px; }
+        .agent-footer { display: flex; align-items: center; gap: 15px; padding: 20px 40px; background: rgba(255,255,255,0.9); color: #333; }
+        .agent-photo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .agent-details p { margin: 0; }
+        .agent-name { font-weight: bold; }
+        .logo { margin-left: auto; font-size: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="main-container" style="background-image: url('data:image/jpeg;base64,{{ photos[0] }}');">
+        <div class="overlay">
+            <div class="header">
+                <h1>OPEN HOUSE</h1>
+                <p>{{ address }}</p>
+            </div>
+            <div class="content">
+                <div class="property-details">
+                    <h2>{{ title }}</h2>
+                    <p>{{ description }}</p>
+                    <ul class="features">
+                        <li>{{ bedrooms }} Bedrooms</li>
+                        <li>{{ bathrooms }} Bathrooms</li>
+                        <li>{{ area }} sq ft</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="agent-footer">
+            <img src="data:image/jpeg;base64,{{ agent_photo }}" class="agent-photo">
+            <div class="agent-details">
+                <p class="agent-name">{{ agent_name }}</p>
+                <p>{{ agent_email }} | {{ agent_phone }}</p>
+            </div>
+            <p class="logo">{{ company_name }}</p>
+        </div>
+    </div>
+</body>
+</html>

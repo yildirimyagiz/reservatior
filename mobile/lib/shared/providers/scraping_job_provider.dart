@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/scraping_job_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/scraping_job_service.dart';
+import 'package:reservatior/shared/repositories/scraping_job_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// ScrapingJob Providers
-
-final ScrapingJobServiceProvider = Provider<ScrapingJobService>((ref) {
+final scrapingJobServiceProvider = Provider<ScrapingJobService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return ScrapingJobService(dioClient);
 });
 
-// List Provider
-final scrapingJobProvider = FutureProvider.autoDispose<List<ScrapingJob>>((ref) async {
-  final service = ref.watch(ScrapingJobServiceProvider);
-  return service.getScrapingJobs();
+final scrapingJobRepositoryProvider = Provider<ScrapingJobRepository>((ref) {
+  final service = ref.watch(scrapingJobServiceProvider);
+  return ScrapingJobRepositoryImpl(service);
 });
 
-// Create Provider
-final ScrapingJobCreateProvider = FutureProvider.autoDispose<ScrapingJob>((ref) async {
-  final service = ref.watch(ScrapingJobServiceProvider);
-  return service.createScrapingJob(ScrapingJob());
+final scrapingJobListProvider = FutureProvider.autoDispose<List<ScrapingJob>>((ref) async {
+  final repository = ref.watch(scrapingJobRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final ScrapingJobUpdateProvider = FutureProvider.autoDispose<ScrapingJob>((ref) async {
-  final service = ref.watch(ScrapingJobServiceProvider);
-  final state = ref.watch(ScrapingJobUpdateStateProvider);
-  if (state['id'] != null && state['scraping_job'] != null) {
-    return service.updateScrapingJob(state['id'], state['scraping_job']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final ScrapingJobDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(ScrapingJobServiceProvider);
-  final state = ref.watch(ScrapingJobDeleteStateProvider);
-  if (state != null) {
-    return service.deleteScrapingJob(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final ScrapingJobUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final ScrapingJobDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final ScrapingJobLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(scrapingJobProvider);
-  final createAsync = ref.watch(ScrapingJobCreateProvider);
-  final updateAsync = ref.watch(ScrapingJobUpdateProvider);
-  final deleteAsync = ref.watch(ScrapingJobDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final scrapingJobCreateProvider = StateProvider<ScrapingJob?>((ref) => null);
+final scrapingJobUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final scrapingJobDeleteProvider = StateProvider<String?>((ref) => null);
+final scrapingJobLoadingProvider = StateProvider<bool>((ref) => false);

@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/subscription_service.dart';
 
-/// Repository for Subscription operations
-/// Provides CRUD operations with proper error handling and type safety
-class SubscriptionRepository {
-  final DioClient _dioClient;
+abstract class SubscriptionRepository {
+  Future<Subscription> getById(String id);
+  Future<List<Subscription>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<Subscription> create(Subscription item);
+  Future<Subscription> update(String id, Subscription item);
+  Future<void> delete(String id);
+}
 
-  SubscriptionRepository(this._dioClient);
+class SubscriptionRepositoryImpl implements SubscriptionRepository {
+  final SubscriptionService _service;
+  SubscriptionRepositoryImpl(this._service);
 
-  /// Get Subscription by ID
-  /// Returns [Subscription] if found, throws [RepositoryException] otherwise
-  Future<Subscription> getSubscriptionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/subscription/$id');
-      if (response.statusCode == 200) {
-        return Subscription.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch subscription',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Subscription> getById(String id) => _service.getSubscriptionById(id);
 
-  /// Get all subscriptions with pagination and filtering
-  /// Returns list of [Subscription] objects
-  Future<List<Subscription>> getsubscriptions({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<Subscription>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/subscription', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => Subscription.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch subscriptions',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getSubscriptions(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new Subscription
-  /// Returns created [Subscription] object
-  Future<Subscription> createSubscription(Subscription subscription) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/subscription',
-        data: subscription.toJson(),
-      );
-      return Subscription.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Subscription> create(Subscription item) => _service.createSubscription(item);
 
-  // Update Subscription
-  Future<Subscription> updateSubscription(String id, Subscription subscription) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/subscription/$id',
-        data: subscription.toJson(),
-      );
-      return Subscription.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<Subscription> update(String id, Subscription item) => _service.updateSubscription(id, item);
 
-  // Delete Subscription
-  Future<void> deleteSubscription(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/subscription/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteSubscription(id);
 }

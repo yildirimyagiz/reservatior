@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class ProjectAnalyticsService {
   final DioClient _dioClient;
-
   ProjectAnalyticsService(this._dioClient);
 
-  // Get ProjectAnalytics by ID
   Future<ProjectAnalytics> getProjectAnalyticsById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/project_analytics/$id');
-      return ProjectAnalytics.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.projectAnalyticses}/$id');
+    return ProjectAnalytics.fromJson(response.data['data']);
   }
 
-  // Get all project_analyticss
-  Future<List<ProjectAnalytics>> getProjectAnalyticss({
-    int page = 1,
-    int limit = 20,
+  Future<List<ProjectAnalytics>> getProjectAnalyticses({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/project_analytics', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => ProjectAnalytics.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.projectAnalyticses, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => ProjectAnalytics.fromJson(json)).toList();
   }
 
-  // Create ProjectAnalytics
-  Future<ProjectAnalytics> createProjectAnalytics(ProjectAnalytics projectAnalytics) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/project_analytics',
-        data: projectAnalytics.toJson(),
-      );
-      return ProjectAnalytics.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<ProjectAnalytics> createProjectAnalytics(ProjectAnalytics item) async {
+    final response = await _dioClient.post(ApiEndpoints.projectAnalyticses, data: item.toJson());
+    return ProjectAnalytics.fromJson(response.data['data']);
   }
 
-  // Update ProjectAnalytics
-  Future<ProjectAnalytics> updateProjectAnalytics(String id, ProjectAnalytics projectAnalytics) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/project_analytics/$id',
-        data: projectAnalytics.toJson(),
-      );
-      return ProjectAnalytics.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<ProjectAnalytics> updateProjectAnalytics(String id, ProjectAnalytics item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.projectAnalyticses}/$id', data: item.toJson());
+    return ProjectAnalytics.fromJson(response.data['data']);
   }
 
-  // Delete ProjectAnalytics
   Future<void> deleteProjectAnalytics(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/project_analytics/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.projectAnalyticses}/$id');
   }
 }

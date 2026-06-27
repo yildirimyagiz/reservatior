@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  easy_localization: ^3.0.5
 
   # State Management
   flutter_riverpod: ^2.5.1
@@ -51,6 +52,7 @@ dependencies:
   connectivity_plus: ^6.1.0
   logger: ^2.4.0
   uuid: ^4.5.1
+  flutter_dotenv: ^5.1.0
 
   # Social Auth
   google_sign_in: ^6.2.1
@@ -59,6 +61,30 @@ dependencies:
   timeago: ^3.7.1
   flutter_bloc: ^9.1.1
 
+  http: any
+  sizer: ^3.1.3
+  flutter_slidable: ^4.0.3
+  google_maps_flutter: ^2.16.0
+  table_calendar: ^3.2.0
+
+  flutter_local_notifications: ^18.0.0
+  glassmotion_navbar: ^0.1.5
+  web_socket_channel: ^3.0.1
+  local_auth: any
+  pinput: ^6.0.2
+  crypto: ^3.0.7
+  local_session_timeout: ^3.2.0
+  encrypt: ^5.0.3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  geolocator: ^14.0.2
+  camera: ^0.12.0+1
+  permission_handler: ^12.0.1
+  flutter_stripe: ^11.5.0
+  url_launcher: ^6.3.2
+  flutter_web_auth_2: ^5.0.1
+  flutter_facebook_auth: ^7.1.5
+  twitter_login: ^4.4.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -70,9 +96,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  generate: true
 
   assets:
+    - assets/translations/
     - assets/images/
     - assets/animations/
     - assets/icons/
+    - .env

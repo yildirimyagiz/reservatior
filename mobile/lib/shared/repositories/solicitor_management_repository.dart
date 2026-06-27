@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/solicitor_management_service.dart';
 
-/// Repository for SolicitorManagement operations
-/// Provides CRUD operations with proper error handling and type safety
-class SolicitorManagementRepository {
-  final DioClient _dioClient;
+abstract class SolicitorManagementRepository {
+  Future<SolicitorManagement> getById(String id);
+  Future<List<SolicitorManagement>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<SolicitorManagement> create(SolicitorManagement item);
+  Future<SolicitorManagement> update(String id, SolicitorManagement item);
+  Future<void> delete(String id);
+}
 
-  SolicitorManagementRepository(this._dioClient);
+class SolicitorManagementRepositoryImpl implements SolicitorManagementRepository {
+  final SolicitorManagementService _service;
+  SolicitorManagementRepositoryImpl(this._service);
 
-  /// Get SolicitorManagement by ID
-  /// Returns [SolicitorManagement] if found, throws [RepositoryException] otherwise
-  Future<SolicitorManagement> getSolicitorManagementById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/solicitor_management/$id');
-      if (response.statusCode == 200) {
-        return SolicitorManagement.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch solicitor_management',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SolicitorManagement> getById(String id) => _service.getSolicitorManagementById(id);
 
-  /// Get all solicitor_managements with pagination and filtering
-  /// Returns list of [SolicitorManagement] objects
-  Future<List<SolicitorManagement>> getsolicitor_managements({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<SolicitorManagement>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/solicitor_management', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => SolicitorManagement.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch solicitor_managements',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getSolicitorManagements(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new SolicitorManagement
-  /// Returns created [SolicitorManagement] object
-  Future<SolicitorManagement> createSolicitorManagement(SolicitorManagement solicitorManagement) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/solicitor_management',
-        data: solicitorManagement.toJson(),
-      );
-      return SolicitorManagement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SolicitorManagement> create(SolicitorManagement item) => _service.createSolicitorManagement(item);
 
-  // Update SolicitorManagement
-  Future<SolicitorManagement> updateSolicitorManagement(String id, SolicitorManagement solicitorManagement) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/solicitor_management/$id',
-        data: solicitorManagement.toJson(),
-      );
-      return SolicitorManagement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SolicitorManagement> update(String id, SolicitorManagement item) => _service.updateSolicitorManagement(id, item);
 
-  // Delete SolicitorManagement
-  Future<void> deleteSolicitorManagement(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/solicitor_management/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteSolicitorManagement(id);
 }

@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/signature_signer_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/signature_signer_service.dart';
+import 'package:reservatior/shared/repositories/signature_signer_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// SignatureSigner Providers
-
-final SignatureSignerServiceProvider = Provider<SignatureSignerService>((ref) {
+final signatureSignerServiceProvider = Provider<SignatureSignerService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return SignatureSignerService(dioClient);
 });
 
-// List Provider
-final signatureSignerProvider = FutureProvider.autoDispose<List<SignatureSigner>>((ref) async {
-  final service = ref.watch(SignatureSignerServiceProvider);
-  return service.getSignatureSigners();
+final signatureSignerRepositoryProvider = Provider<SignatureSignerRepository>((ref) {
+  final service = ref.watch(signatureSignerServiceProvider);
+  return SignatureSignerRepositoryImpl(service);
 });
 
-// Create Provider
-final SignatureSignerCreateProvider = FutureProvider.autoDispose<SignatureSigner>((ref) async {
-  final service = ref.watch(SignatureSignerServiceProvider);
-  return service.createSignatureSigner(SignatureSigner());
+final signatureSignerListProvider = FutureProvider.autoDispose<List<SignatureSigner>>((ref) async {
+  final repository = ref.watch(signatureSignerRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final SignatureSignerUpdateProvider = FutureProvider.autoDispose<SignatureSigner>((ref) async {
-  final service = ref.watch(SignatureSignerServiceProvider);
-  final state = ref.watch(SignatureSignerUpdateStateProvider);
-  if (state['id'] != null && state['signature_signer'] != null) {
-    return service.updateSignatureSigner(state['id'], state['signature_signer']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final SignatureSignerDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(SignatureSignerServiceProvider);
-  final state = ref.watch(SignatureSignerDeleteStateProvider);
-  if (state != null) {
-    return service.deleteSignatureSigner(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final SignatureSignerUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final SignatureSignerDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final SignatureSignerLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(signatureSignerProvider);
-  final createAsync = ref.watch(SignatureSignerCreateProvider);
-  final updateAsync = ref.watch(SignatureSignerUpdateProvider);
-  final deleteAsync = ref.watch(SignatureSignerDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final signatureSignerCreateProvider = StateProvider<SignatureSigner?>((ref) => null);
+final signatureSignerUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final signatureSignerDeleteProvider = StateProvider<String?>((ref) => null);
+final signatureSignerLoadingProvider = StateProvider<bool>((ref) => false);

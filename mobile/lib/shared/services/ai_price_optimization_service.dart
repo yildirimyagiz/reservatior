@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AIPriceOptimizationService {
+class AiPriceOptimizationService {
   final DioClient _dioClient;
+  AiPriceOptimizationService(this._dioClient);
 
-  AIPriceOptimizationService(this._dioClient);
-
-  // Get AIPriceOptimization by ID
-  Future<AIPriceOptimization> getAIPriceOptimizationById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_price_optimization/$id');
-      return AIPriceOptimization.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiPriceOptimization> getAiPriceOptimizationById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiPriceOptimizations}/$id');
+    return AiPriceOptimization.fromJson(response.data['data']);
   }
 
-  // Get all ai_price_optimizations
-  Future<List<AIPriceOptimization>> getAIPriceOptimizations({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiPriceOptimization>> getAiPriceOptimizations({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_price_optimization', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AIPriceOptimization.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiPriceOptimizations, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiPriceOptimization.fromJson(json)).toList();
   }
 
-  // Create AIPriceOptimization
-  Future<AIPriceOptimization> createAIPriceOptimization(AIPriceOptimization aIPriceOptimization) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_price_optimization',
-        data: aIPriceOptimization.toJson(),
-      );
-      return AIPriceOptimization.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiPriceOptimization> createAiPriceOptimization(AiPriceOptimization item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiPriceOptimizations, data: item.toJson());
+    return AiPriceOptimization.fromJson(response.data['data']);
   }
 
-  // Update AIPriceOptimization
-  Future<AIPriceOptimization> updateAIPriceOptimization(String id, AIPriceOptimization aIPriceOptimization) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_price_optimization/$id',
-        data: aIPriceOptimization.toJson(),
-      );
-      return AIPriceOptimization.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiPriceOptimization> updateAiPriceOptimization(String id, AiPriceOptimization item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiPriceOptimizations}/$id', data: item.toJson());
+    return AiPriceOptimization.fromJson(response.data['data']);
   }
 
-  // Delete AIPriceOptimization
-  Future<void> deleteAIPriceOptimization(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_price_optimization/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiPriceOptimization(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiPriceOptimizations}/$id');
   }
 }

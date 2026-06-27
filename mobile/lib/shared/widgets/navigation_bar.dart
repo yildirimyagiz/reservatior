@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../core/theme/app_theme.dart';
-import '../providers/notification_provider.dart';
+import 'package:reservatior/core/theme/app_theme.dart';
+import 'package:reservatior/shared/providers/notification_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Custom widget for Notification badge in bottom navigation
 class _NotificationIcon extends StatelessWidget {
@@ -56,7 +57,7 @@ class ReelStateNavigationBar extends ConsumerWidget {
             context: context,
             icon: Icons.home_outlined,
             activeIcon: Icons.home,
-            label: 'Home',
+            label: 'mobile.auto.home'.tr(),
             isSelected: currentIndex == 0,
             onTap: () => onTap(0),
           ),
@@ -64,7 +65,7 @@ class ReelStateNavigationBar extends ConsumerWidget {
             context: context,
             icon: Icons.search_outlined,
             activeIcon: Icons.search,
-            label: 'Search',
+            label: 'mobile.auto.search'.tr(),
             isSelected: currentIndex == 1,
             onTap: () => onTap(1),
           ),
@@ -72,15 +73,15 @@ class ReelStateNavigationBar extends ConsumerWidget {
             context: context,
             icon: Icons.add_box_outlined,
             activeIcon: Icons.add_box,
-            label: 'Create',
+            label: 'mobile.auto.create'.tr(),
             isSelected: currentIndex == 2,
             onTap: () => onTap(2),
           ),
           _buildNavItem(
             context: context,
             icon: Icons.favorite_border,
-            activeIcon: Icons.Favorite,
-            label: 'Favorites',
+            activeIcon: Icons.favorite,
+            label: 'mobile.auto.favorites'.tr(),
             isSelected: currentIndex == 3,
             onTap: () => onTap(3),
           ),
@@ -91,7 +92,7 @@ class ReelStateNavigationBar extends ConsumerWidget {
               context.push('/notifications');
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -99,9 +100,8 @@ class ReelStateNavigationBar extends ConsumerWidget {
                     unreadCount: unreadCount,
                     isSelected: currentIndex == 4,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Notifications',
+                  SizedBox(height: 4),
+                  Text('mobile.auto.notifications'.tr(),
                     style: TextStyle(
                       fontSize: 12,
                       color: currentIndex == 4 ? AppColors.gold : AppColors.textSecondaryDark,
@@ -127,7 +127,7 @@ class ReelStateNavigationBar extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -135,7 +135,7 @@ class ReelStateNavigationBar extends ConsumerWidget {
               isSelected ? activeIcon : icon,
               color: isSelected ? AppColors.gold : AppColors.textSecondaryDark,
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
@@ -170,36 +170,36 @@ class DashboardNavigationRail extends ConsumerWidget {
       selectedLabelTextStyle: const TextStyle(color: AppColors.gold),
       unselectedIconTheme: const IconThemeData(color: AppColors.textSecondaryDark),
       unselectedLabelTextStyle: const TextStyle(color: AppColors.textSecondaryDark),
-      destinations: const [
+      destinations: [
         NavigationRailDestination(
           icon: Icon(Icons.dashboard),
           selectedIcon: Icon(Icons.dashboard),
-          label: Text('Dashboard'),
+          label: Text('mobile.auto.dashboard'.tr()),
         ),
         NavigationRailDestination(
           icon: Icon(Icons.business),
           selectedIcon: Icon(Icons.business),
-          label: Text('Properties'),
+          label: Text('mobile.auto.properties'.tr()),
         ),
         NavigationRailDestination(
           icon: Icon(Icons.apartment),
           selectedIcon: Icon(Icons.apartment),
-          label: Text('Agencies'),
+          label: Text('mobile.auto.agencies'.tr()),
         ),
         NavigationRailDestination(
           icon: Icon(Icons.domain),
           selectedIcon: Icon(Icons.domain),
-          label: Text('Facilities'),
+          label: Text('mobile.auto.facilities'.tr()),
         ),
         NavigationRailDestination(
-          icon: Icon(Icons.Task),
-          selectedIcon: Icon(Icons.Task),
-          label: Text('Tasks'),
+          icon: Icon(Icons.task),
+          selectedIcon: Icon(Icons.task),
+          label: Text('mobile.auto.tasks'.tr()),
         ),
         NavigationRailDestination(
           icon: Icon(Icons.more_horiz),
           selectedIcon: Icon(Icons.more_horiz),
-          label: Text('More'),
+          label: Text('mobile.auto.more'.tr()),
         ),
       ],
     );
@@ -222,15 +222,20 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final Color iconColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
       elevation: 0,
       centerTitle: false,
       title: Row(
         children: [
           if (showBackButton)
             IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.arrow_back, color: iconColor),
               onPressed: onBackPressed ?? () => Navigator.pop(context),
             ),
           Container(
@@ -238,19 +243,18 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             height: 32,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [AppColors.gold, AppColors.goldLight],
+                colors: [AppColors.primary, AppColors.primaryLight],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(Icons.home, color: Colors.white, size: 18),
+            child: Icon(Icons.home, color: Colors.white, size: 18),
           ),
-          const SizedBox(width: 8),
-          Text(
-            'Reservatior', 
-            style: const TextStyle(
-              color: Colors.white,
+          SizedBox(width: 8),
+          Text('mobile.auto.reservatior'.tr(), 
+            style: TextStyle(
+              color: textColor,
               fontSize: 24,
               fontWeight: FontWeight.w700,
             ),
@@ -259,20 +263,21 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: actions ?? [
         IconButton(
-          icon: const Icon(Icons.add_box_outlined, color: Colors.white),
+          icon: Icon(Icons.add_box_outlined, color: iconColor),
           onPressed: () => context.push('/properties/new'),
         ),
         IconButton(
-          icon: const Icon(Icons.favorite_border, color: Colors.white),
+          icon: Icon(Icons.favorite_border, color: iconColor),
           onPressed: () => context.push('/favorites'),
         ),
         IconButton(
-          icon: const Icon(Icons.send, color: Colors.white),
+          icon: Icon(Icons.send, color: iconColor),
           onPressed: () => context.push('/communication'),
         ),
       ],
     );
   }
+
 
   
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -305,9 +310,9 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
             ), 
             borderRadius: BorderRadius.circular(7)
           ),
-          child: const Icon(Icons.home, color: Colors.white, size: 16)
+          child: Icon(Icons.home, color: Colors.white, size: 16)
         ),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         Text(
           title, 
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -319,20 +324,19 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions ?? [
         IconButton(
           icon: Badge(
-            label: const Text('3'), 
-            child: const Icon(Icons.notifications_outlined, color: AppColors.textPrimaryDark)
+            label: Text('mobile.auto.3'.tr()), 
+            child: Icon(Icons.notifications_outlined, color: AppColors.textPrimaryDark)
           ),
           onPressed: () => context.push('/notifications'),
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 16, left: 4),
+          padding: EdgeInsets.only(right: 16, left: 4),
           child: GestureDetector(
             onTap: () => context.push('/profile'),
             child: CircleAvatar(
               radius: 17,
               backgroundColor: AppColors.gold.withOpacity(0.15),
-              child: const Text(
-                'M',
+              child: Text('mobile.auto.m'.tr(),
                 style: TextStyle(
                   color: AppColors.gold, 
                   fontWeight: FontWeight.w700, 

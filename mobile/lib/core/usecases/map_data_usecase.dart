@@ -1,106 +1,44 @@
-import '../../features/shared/services/map_data_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for MapData
+import 'package:reservatior/shared/repositories/map_data_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetMapDataByIdUseCase {
-  final MapDataService _service;
-  
-  GetMapDataByIdUseCase(this._service);
-  
-  Future<MapData> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final MapDataRepository _repository;
+  GetMapDataByIdUseCase(this._repository);
+  Future<MapData> execute(String id) => _repository.getById(id);
 }
 
 class GetMapDatasUseCase {
-  final MapDataService _service;
-  
-  GetMapDatasUseCase(this._service);
-  
+  final MapDataRepository _repository;
+  GetMapDatasUseCase(this._repository);
   Future<List<MapData>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateMapDataUseCase {
-  final MapDataService _service;
-  
-  CreateMapDataUseCase(this._service);
-  
-  Future<MapData> execute(MapData mapData) async {
-    // Add validation logic here
-    return await _service.create(mapData);
-  }
+  final MapDataRepository _repository;
+  CreateMapDataUseCase(this._repository);
+  Future<MapData> execute(MapData item) => _repository.create(item);
 }
 
 class UpdateMapDataUseCase {
-  final MapDataService _service;
-  
-  UpdateMapDataUseCase(this._service);
-  
-  Future<MapData> execute(String id, MapData mapData) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, mapData);
-  }
+  final MapDataRepository _repository;
+  UpdateMapDataUseCase(this._repository);
+  Future<MapData> execute(String id, MapData item) => _repository.update(id, item);
 }
 
 class DeleteMapDataUseCase {
-  final MapDataService _service;
-  
-  DeleteMapDataUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// MapData Use Case Container
-class MapDataUseCases {
-  final GetMapDataByIdUseCase getById;
-  final GetMapDatasUseCase getAll;
-  final CreateMapDataUseCase create;
-  final UpdateMapDataUseCase update;
-  final DeleteMapDataUseCase delete;
-  
-  MapDataUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory MapDataUseCases.create(MapDataService service) {
-    return MapDataUseCases(
-      getById: GetMapDataByIdUseCase(service),
-      getAll: GetMapDatasUseCase(service),
-      create: CreateMapDataUseCase(service),
-      update: UpdateMapDataUseCase(service),
-      delete: DeleteMapDataUseCase(service),
-    );
-  }
+  final MapDataRepository _repository;
+  DeleteMapDataUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

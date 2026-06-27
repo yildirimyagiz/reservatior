@@ -1,0 +1,13 @@
+// ignore_for_file: constant_identifier_names
+enum VideoCampaignType {
+  SALES_ASSISTANT,
+  PRICE_OPTIMIZATION,
+  MARKET_REPORT,
+  SOCIAL_PROOF,
+  SEASONAL,
+  RETARGETING,
+  AMBASSADOR,
+  SOCIAL_IMPACT,
+  PROPERTY_SHOWCASE,
+  ONBOARDING
+}

@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/ai_predictive_maintenance_service.dart';
 
-/// Repository for AiPredictiveMaintenance operations
-/// Provides CRUD operations with proper error handling and type safety
-class AiPredictiveMaintenanceRepository {
-  final DioClient _dioClient;
+abstract class AiPredictiveMaintenanceRepository {
+  Future<AiPredictiveMaintenance> getById(String id);
+  Future<List<AiPredictiveMaintenance>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<AiPredictiveMaintenance> create(AiPredictiveMaintenance item);
+  Future<AiPredictiveMaintenance> update(String id, AiPredictiveMaintenance item);
+  Future<void> delete(String id);
+}
 
-  AiPredictiveMaintenanceRepository(this._dioClient);
+class AiPredictiveMaintenanceRepositoryImpl implements AiPredictiveMaintenanceRepository {
+  final AiPredictiveMaintenanceService _service;
+  AiPredictiveMaintenanceRepositoryImpl(this._service);
 
-  /// Get AiPredictiveMaintenance by ID
-  /// Returns [AiPredictiveMaintenance] if found, throws [RepositoryException] otherwise
-  Future<AiPredictiveMaintenance> getAiPredictiveMaintenanceById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_predictive_maintenance/$id');
-      if (response.statusCode == 200) {
-        return AiPredictiveMaintenance.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_predictive_maintenance',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiPredictiveMaintenance> getById(String id) => _service.getAiPredictiveMaintenanceById(id);
 
-  /// Get all ai_predictive_maintenances with pagination and filtering
-  /// Returns list of [AiPredictiveMaintenance] objects
-  Future<List<AiPredictiveMaintenance>> getai_predictive_maintenances({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<AiPredictiveMaintenance>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/ai_predictive_maintenance', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => AiPredictiveMaintenance.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch ai_predictive_maintenances',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getAiPredictiveMaintenances(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new AiPredictiveMaintenance
-  /// Returns created [AiPredictiveMaintenance] object
-  Future<AiPredictiveMaintenance> createAiPredictiveMaintenance(AiPredictiveMaintenance aiPredictiveMaintenance) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_predictive_maintenance',
-        data: aiPredictiveMaintenance.toJson(),
-      );
-      return AiPredictiveMaintenance.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiPredictiveMaintenance> create(AiPredictiveMaintenance item) => _service.createAiPredictiveMaintenance(item);
 
-  // Update AiPredictiveMaintenance
-  Future<AiPredictiveMaintenance> updateAiPredictiveMaintenance(String id, AiPredictiveMaintenance aiPredictiveMaintenance) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_predictive_maintenance/$id',
-        data: aiPredictiveMaintenance.toJson(),
-      );
-      return AiPredictiveMaintenance.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<AiPredictiveMaintenance> update(String id, AiPredictiveMaintenance item) => _service.updateAiPredictiveMaintenance(id, item);
 
-  // Delete AiPredictiveMaintenance
-  Future<void> deleteAiPredictiveMaintenance(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_predictive_maintenance/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteAiPredictiveMaintenance(id);
 }

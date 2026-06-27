@@ -1,106 +1,44 @@
-import '../../features/shared/services/gift_card_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for GiftCard
+import 'package:reservatior/shared/repositories/gift_card_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetGiftCardByIdUseCase {
-  final GiftCardService _service;
-  
-  GetGiftCardByIdUseCase(this._service);
-  
-  Future<GiftCard> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final GiftCardRepository _repository;
+  GetGiftCardByIdUseCase(this._repository);
+  Future<GiftCard> execute(String id) => _repository.getById(id);
 }
 
 class GetGiftCardsUseCase {
-  final GiftCardService _service;
-  
-  GetGiftCardsUseCase(this._service);
-  
+  final GiftCardRepository _repository;
+  GetGiftCardsUseCase(this._repository);
   Future<List<GiftCard>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateGiftCardUseCase {
-  final GiftCardService _service;
-  
-  CreateGiftCardUseCase(this._service);
-  
-  Future<GiftCard> execute(GiftCard giftCard) async {
-    // Add validation logic here
-    return await _service.create(giftCard);
-  }
+  final GiftCardRepository _repository;
+  CreateGiftCardUseCase(this._repository);
+  Future<GiftCard> execute(GiftCard item) => _repository.create(item);
 }
 
 class UpdateGiftCardUseCase {
-  final GiftCardService _service;
-  
-  UpdateGiftCardUseCase(this._service);
-  
-  Future<GiftCard> execute(String id, GiftCard giftCard) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, giftCard);
-  }
+  final GiftCardRepository _repository;
+  UpdateGiftCardUseCase(this._repository);
+  Future<GiftCard> execute(String id, GiftCard item) => _repository.update(id, item);
 }
 
 class DeleteGiftCardUseCase {
-  final GiftCardService _service;
-  
-  DeleteGiftCardUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// GiftCard Use Case Container
-class GiftCardUseCases {
-  final GetGiftCardByIdUseCase getById;
-  final GetGiftCardsUseCase getAll;
-  final CreateGiftCardUseCase create;
-  final UpdateGiftCardUseCase update;
-  final DeleteGiftCardUseCase delete;
-  
-  GiftCardUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory GiftCardUseCases.create(GiftCardService service) {
-    return GiftCardUseCases(
-      getById: GetGiftCardByIdUseCase(service),
-      getAll: GetGiftCardsUseCase(service),
-      create: CreateGiftCardUseCase(service),
-      update: UpdateGiftCardUseCase(service),
-      delete: DeleteGiftCardUseCase(service),
-    );
-  }
+  final GiftCardRepository _repository;
+  DeleteGiftCardUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/video_content_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/video_content_service.dart';
+import 'package:reservatior/shared/repositories/video_content_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// VideoContent Providers
-
-final VideoContentServiceProvider = Provider<VideoContentService>((ref) {
+final videoContentServiceProvider = Provider<VideoContentService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return VideoContentService(dioClient);
 });
 
-// List Provider
-final videoContentProvider = FutureProvider.autoDispose<List<VideoContent>>((ref) async {
-  final service = ref.watch(VideoContentServiceProvider);
-  return service.getVideoContents();
+final videoContentRepositoryProvider = Provider<VideoContentRepository>((ref) {
+  final service = ref.watch(videoContentServiceProvider);
+  return VideoContentRepositoryImpl(service);
 });
 
-// Create Provider
-final VideoContentCreateProvider = FutureProvider.autoDispose<VideoContent>((ref) async {
-  final service = ref.watch(VideoContentServiceProvider);
-  return service.createVideoContent(VideoContent());
+final videoContentListProvider = FutureProvider.autoDispose<List<VideoContent>>((ref) async {
+  final repository = ref.watch(videoContentRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final VideoContentUpdateProvider = FutureProvider.autoDispose<VideoContent>((ref) async {
-  final service = ref.watch(VideoContentServiceProvider);
-  final state = ref.watch(VideoContentUpdateStateProvider);
-  if (state['id'] != null && state['video_content'] != null) {
-    return service.updateVideoContent(state['id'], state['video_content']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final VideoContentDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(VideoContentServiceProvider);
-  final state = ref.watch(VideoContentDeleteStateProvider);
-  if (state != null) {
-    return service.deleteVideoContent(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final VideoContentUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final VideoContentDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final VideoContentLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(videoContentProvider);
-  final createAsync = ref.watch(VideoContentCreateProvider);
-  final updateAsync = ref.watch(VideoContentUpdateProvider);
-  final deleteAsync = ref.watch(VideoContentDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final videoContentCreateProvider = StateProvider<VideoContent?>((ref) => null);
+final videoContentUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final videoContentDeleteProvider = StateProvider<String?>((ref) => null);
+final videoContentLoadingProvider = StateProvider<bool>((ref) => false);

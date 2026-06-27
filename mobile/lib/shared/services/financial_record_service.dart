@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class FinancialRecordService {
   final DioClient _dioClient;
-
   FinancialRecordService(this._dioClient);
 
-  // Get FinancialRecord by ID
   Future<FinancialRecord> getFinancialRecordById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/financial_record/$id');
-      return FinancialRecord.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.financialRecords}/$id');
+    return FinancialRecord.fromJson(response.data['data']);
   }
 
-  // Get all financial_records
   Future<List<FinancialRecord>> getFinancialRecords({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/financial_record', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => FinancialRecord.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.financialRecords, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => FinancialRecord.fromJson(json)).toList();
   }
 
-  // Create FinancialRecord
-  Future<FinancialRecord> createFinancialRecord(FinancialRecord financialRecord) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/financial_record',
-        data: financialRecord.toJson(),
-      );
-      return FinancialRecord.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<FinancialRecord> createFinancialRecord(FinancialRecord item) async {
+    final response = await _dioClient.post(ApiEndpoints.financialRecords, data: item.toJson());
+    return FinancialRecord.fromJson(response.data['data']);
   }
 
-  // Update FinancialRecord
-  Future<FinancialRecord> updateFinancialRecord(String id, FinancialRecord financialRecord) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/financial_record/$id',
-        data: financialRecord.toJson(),
-      );
-      return FinancialRecord.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<FinancialRecord> updateFinancialRecord(String id, FinancialRecord item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.financialRecords}/$id', data: item.toJson());
+    return FinancialRecord.fromJson(response.data['data']);
   }
 
-  // Delete FinancialRecord
   Future<void> deleteFinancialRecord(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/financial_record/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.financialRecords}/$id');
   }
 }

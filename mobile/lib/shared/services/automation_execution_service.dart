@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class AutomationExecutionService {
   final DioClient _dioClient;
-
   AutomationExecutionService(this._dioClient);
 
-  // Get AutomationExecution by ID
   Future<AutomationExecution> getAutomationExecutionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/automation_execution/$id');
-      return AutomationExecution.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.automationExecutions}/$id');
+    return AutomationExecution.fromJson(response.data['data']);
   }
 
-  // Get all automation_executions
   Future<List<AutomationExecution>> getAutomationExecutions({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/automation_execution', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AutomationExecution.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.automationExecutions, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AutomationExecution.fromJson(json)).toList();
   }
 
-  // Create AutomationExecution
-  Future<AutomationExecution> createAutomationExecution(AutomationExecution automationExecution) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/automation_execution',
-        data: automationExecution.toJson(),
-      );
-      return AutomationExecution.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AutomationExecution> createAutomationExecution(AutomationExecution item) async {
+    final response = await _dioClient.post(ApiEndpoints.automationExecutions, data: item.toJson());
+    return AutomationExecution.fromJson(response.data['data']);
   }
 
-  // Update AutomationExecution
-  Future<AutomationExecution> updateAutomationExecution(String id, AutomationExecution automationExecution) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/automation_execution/$id',
-        data: automationExecution.toJson(),
-      );
-      return AutomationExecution.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AutomationExecution> updateAutomationExecution(String id, AutomationExecution item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.automationExecutions}/$id', data: item.toJson());
+    return AutomationExecution.fromJson(response.data['data']);
   }
 
-  // Delete AutomationExecution
   Future<void> deleteAutomationExecution(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/automation_execution/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.automationExecutions}/$id');
   }
 }

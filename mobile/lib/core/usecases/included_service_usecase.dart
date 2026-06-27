@@ -1,106 +1,44 @@
-import '../../features/shared/services/included_service_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for IncludedService
+import 'package:reservatior/shared/repositories/included_service_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetIncludedServiceByIdUseCase {
-  final IncludedServiceService _service;
-  
-  GetIncludedServiceByIdUseCase(this._service);
-  
-  Future<IncludedService> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final IncludedServiceRepository _repository;
+  GetIncludedServiceByIdUseCase(this._repository);
+  Future<IncludedService> execute(String id) => _repository.getById(id);
 }
 
 class GetIncludedServicesUseCase {
-  final IncludedServiceService _service;
-  
-  GetIncludedServicesUseCase(this._service);
-  
+  final IncludedServiceRepository _repository;
+  GetIncludedServicesUseCase(this._repository);
   Future<List<IncludedService>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateIncludedServiceUseCase {
-  final IncludedServiceService _service;
-  
-  CreateIncludedServiceUseCase(this._service);
-  
-  Future<IncludedService> execute(IncludedService includedService) async {
-    // Add validation logic here
-    return await _service.create(includedService);
-  }
+  final IncludedServiceRepository _repository;
+  CreateIncludedServiceUseCase(this._repository);
+  Future<IncludedService> execute(IncludedService item) => _repository.create(item);
 }
 
 class UpdateIncludedServiceUseCase {
-  final IncludedServiceService _service;
-  
-  UpdateIncludedServiceUseCase(this._service);
-  
-  Future<IncludedService> execute(String id, IncludedService includedService) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, includedService);
-  }
+  final IncludedServiceRepository _repository;
+  UpdateIncludedServiceUseCase(this._repository);
+  Future<IncludedService> execute(String id, IncludedService item) => _repository.update(id, item);
 }
 
 class DeleteIncludedServiceUseCase {
-  final IncludedServiceService _service;
-  
-  DeleteIncludedServiceUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// IncludedService Use Case Container
-class IncludedServiceUseCases {
-  final GetIncludedServiceByIdUseCase getById;
-  final GetIncludedServicesUseCase getAll;
-  final CreateIncludedServiceUseCase create;
-  final UpdateIncludedServiceUseCase update;
-  final DeleteIncludedServiceUseCase delete;
-  
-  IncludedServiceUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory IncludedServiceUseCases.create(IncludedServiceService service) {
-    return IncludedServiceUseCases(
-      getById: GetIncludedServiceByIdUseCase(service),
-      getAll: GetIncludedServicesUseCase(service),
-      create: CreateIncludedServiceUseCase(service),
-      update: UpdateIncludedServiceUseCase(service),
-      delete: DeleteIncludedServiceUseCase(service),
-    );
-  }
+  final IncludedServiceRepository _repository;
+  DeleteIncludedServiceUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

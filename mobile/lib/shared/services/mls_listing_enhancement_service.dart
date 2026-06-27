@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class MlsListingEnhancementService {
   final DioClient _dioClient;
-
   MlsListingEnhancementService(this._dioClient);
 
-  // Get MlsListingEnhancement by ID
   Future<MlsListingEnhancement> getMlsListingEnhancementById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/mls_listing_enhancement/$id');
-      return MlsListingEnhancement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.mlsListingEnhancements}/$id');
+    return MlsListingEnhancement.fromJson(response.data['data']);
   }
 
-  // Get all mls_listing_enhancements
   Future<List<MlsListingEnhancement>> getMlsListingEnhancements({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/mls_listing_enhancement', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => MlsListingEnhancement.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.mlsListingEnhancements, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => MlsListingEnhancement.fromJson(json)).toList();
   }
 
-  // Create MlsListingEnhancement
-  Future<MlsListingEnhancement> createMlsListingEnhancement(MlsListingEnhancement mlsListingEnhancement) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/mls_listing_enhancement',
-        data: mlsListingEnhancement.toJson(),
-      );
-      return MlsListingEnhancement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<MlsListingEnhancement> createMlsListingEnhancement(MlsListingEnhancement item) async {
+    final response = await _dioClient.post(ApiEndpoints.mlsListingEnhancements, data: item.toJson());
+    return MlsListingEnhancement.fromJson(response.data['data']);
   }
 
-  // Update MlsListingEnhancement
-  Future<MlsListingEnhancement> updateMlsListingEnhancement(String id, MlsListingEnhancement mlsListingEnhancement) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/mls_listing_enhancement/$id',
-        data: mlsListingEnhancement.toJson(),
-      );
-      return MlsListingEnhancement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<MlsListingEnhancement> updateMlsListingEnhancement(String id, MlsListingEnhancement item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.mlsListingEnhancements}/$id', data: item.toJson());
+    return MlsListingEnhancement.fromJson(response.data['data']);
   }
 
-  // Delete MlsListingEnhancement
   Future<void> deleteMlsListingEnhancement(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/mls_listing_enhancement/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.mlsListingEnhancements}/$id');
   }
 }

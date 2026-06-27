@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/key_management_service.dart';
 
-/// Repository for KeyManagement operations
-/// Provides CRUD operations with proper error handling and type safety
-class KeyManagementRepository {
-  final DioClient _dioClient;
+abstract class KeyManagementRepository {
+  Future<KeyManagement> getById(String id);
+  Future<List<KeyManagement>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<KeyManagement> create(KeyManagement item);
+  Future<KeyManagement> update(String id, KeyManagement item);
+  Future<void> delete(String id);
+}
 
-  KeyManagementRepository(this._dioClient);
+class KeyManagementRepositoryImpl implements KeyManagementRepository {
+  final KeyManagementService _service;
+  KeyManagementRepositoryImpl(this._service);
 
-  /// Get KeyManagement by ID
-  /// Returns [KeyManagement] if found, throws [RepositoryException] otherwise
-  Future<KeyManagement> getKeyManagementById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/key_management/$id');
-      if (response.statusCode == 200) {
-        return KeyManagement.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch key_management',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<KeyManagement> getById(String id) => _service.getKeyManagementById(id);
 
-  /// Get all key_managements with pagination and filtering
-  /// Returns list of [KeyManagement] objects
-  Future<List<KeyManagement>> getkey_managements({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<KeyManagement>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/key_management', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => KeyManagement.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch key_managements',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getKeyManagements(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new KeyManagement
-  /// Returns created [KeyManagement] object
-  Future<KeyManagement> createKeyManagement(KeyManagement keyManagement) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/key_management',
-        data: keyManagement.toJson(),
-      );
-      return KeyManagement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<KeyManagement> create(KeyManagement item) => _service.createKeyManagement(item);
 
-  // Update KeyManagement
-  Future<KeyManagement> updateKeyManagement(String id, KeyManagement keyManagement) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/key_management/$id',
-        data: keyManagement.toJson(),
-      );
-      return KeyManagement.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<KeyManagement> update(String id, KeyManagement item) => _service.updateKeyManagement(id, item);
 
-  // Delete KeyManagement
-  Future<void> deleteKeyManagement(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/key_management/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteKeyManagement(id);
 }

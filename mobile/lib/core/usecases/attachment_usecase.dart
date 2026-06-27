@@ -1,106 +1,44 @@
-import '../../features/shared/services/attachment_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Attachment
+import 'package:reservatior/shared/repositories/attachment_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetAttachmentByIdUseCase {
-  final AttachmentService _service;
-  
-  GetAttachmentByIdUseCase(this._service);
-  
-  Future<Attachment> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final AttachmentRepository _repository;
+  GetAttachmentByIdUseCase(this._repository);
+  Future<Attachment> execute(String id) => _repository.getById(id);
 }
 
 class GetAttachmentsUseCase {
-  final AttachmentService _service;
-  
-  GetAttachmentsUseCase(this._service);
-  
+  final AttachmentRepository _repository;
+  GetAttachmentsUseCase(this._repository);
   Future<List<Attachment>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateAttachmentUseCase {
-  final AttachmentService _service;
-  
-  CreateAttachmentUseCase(this._service);
-  
-  Future<Attachment> execute(Attachment attachment) async {
-    // Add validation logic here
-    return await _service.create(attachment);
-  }
+  final AttachmentRepository _repository;
+  CreateAttachmentUseCase(this._repository);
+  Future<Attachment> execute(Attachment item) => _repository.create(item);
 }
 
 class UpdateAttachmentUseCase {
-  final AttachmentService _service;
-  
-  UpdateAttachmentUseCase(this._service);
-  
-  Future<Attachment> execute(String id, Attachment attachment) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, attachment);
-  }
+  final AttachmentRepository _repository;
+  UpdateAttachmentUseCase(this._repository);
+  Future<Attachment> execute(String id, Attachment item) => _repository.update(id, item);
 }
 
 class DeleteAttachmentUseCase {
-  final AttachmentService _service;
-  
-  DeleteAttachmentUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Attachment Use Case Container
-class AttachmentUseCases {
-  final GetAttachmentByIdUseCase getById;
-  final GetAttachmentsUseCase getAll;
-  final CreateAttachmentUseCase create;
-  final UpdateAttachmentUseCase update;
-  final DeleteAttachmentUseCase delete;
-  
-  AttachmentUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory AttachmentUseCases.create(AttachmentService service) {
-    return AttachmentUseCases(
-      getById: GetAttachmentByIdUseCase(service),
-      getAll: GetAttachmentsUseCase(service),
-      create: CreateAttachmentUseCase(service),
-      update: UpdateAttachmentUseCase(service),
-      delete: DeleteAttachmentUseCase(service),
-    );
-  }
+  final AttachmentRepository _repository;
+  DeleteAttachmentUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

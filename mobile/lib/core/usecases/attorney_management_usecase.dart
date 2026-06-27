@@ -1,106 +1,44 @@
-import '../../features/shared/services/attorney_management_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for AttorneyManagement
+import 'package:reservatior/shared/repositories/attorney_management_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetAttorneyManagementByIdUseCase {
-  final AttorneyManagementService _service;
-  
-  GetAttorneyManagementByIdUseCase(this._service);
-  
-  Future<AttorneyManagement> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final AttorneyManagementRepository _repository;
+  GetAttorneyManagementByIdUseCase(this._repository);
+  Future<AttorneyManagement> execute(String id) => _repository.getById(id);
 }
 
 class GetAttorneyManagementsUseCase {
-  final AttorneyManagementService _service;
-  
-  GetAttorneyManagementsUseCase(this._service);
-  
+  final AttorneyManagementRepository _repository;
+  GetAttorneyManagementsUseCase(this._repository);
   Future<List<AttorneyManagement>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateAttorneyManagementUseCase {
-  final AttorneyManagementService _service;
-  
-  CreateAttorneyManagementUseCase(this._service);
-  
-  Future<AttorneyManagement> execute(AttorneyManagement attorneyManagement) async {
-    // Add validation logic here
-    return await _service.create(attorneyManagement);
-  }
+  final AttorneyManagementRepository _repository;
+  CreateAttorneyManagementUseCase(this._repository);
+  Future<AttorneyManagement> execute(AttorneyManagement item) => _repository.create(item);
 }
 
 class UpdateAttorneyManagementUseCase {
-  final AttorneyManagementService _service;
-  
-  UpdateAttorneyManagementUseCase(this._service);
-  
-  Future<AttorneyManagement> execute(String id, AttorneyManagement attorneyManagement) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, attorneyManagement);
-  }
+  final AttorneyManagementRepository _repository;
+  UpdateAttorneyManagementUseCase(this._repository);
+  Future<AttorneyManagement> execute(String id, AttorneyManagement item) => _repository.update(id, item);
 }
 
 class DeleteAttorneyManagementUseCase {
-  final AttorneyManagementService _service;
-  
-  DeleteAttorneyManagementUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// AttorneyManagement Use Case Container
-class AttorneyManagementUseCases {
-  final GetAttorneyManagementByIdUseCase getById;
-  final GetAttorneyManagementsUseCase getAll;
-  final CreateAttorneyManagementUseCase create;
-  final UpdateAttorneyManagementUseCase update;
-  final DeleteAttorneyManagementUseCase delete;
-  
-  AttorneyManagementUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory AttorneyManagementUseCases.create(AttorneyManagementService service) {
-    return AttorneyManagementUseCases(
-      getById: GetAttorneyManagementByIdUseCase(service),
-      getAll: GetAttorneyManagementsUseCase(service),
-      create: CreateAttorneyManagementUseCase(service),
-      update: UpdateAttorneyManagementUseCase(service),
-      delete: DeleteAttorneyManagementUseCase(service),
-    );
-  }
+  final AttorneyManagementRepository _repository;
+  DeleteAttorneyManagementUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

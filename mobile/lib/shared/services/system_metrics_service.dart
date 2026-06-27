@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class SystemMetricsService {
   final DioClient _dioClient;
-
   SystemMetricsService(this._dioClient);
 
-  // Get SystemMetrics by ID
   Future<SystemMetrics> getSystemMetricsById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/system_metrics/$id');
-      return SystemMetrics.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.systemMetrics}/$id');
+    return SystemMetrics.fromJson(response.data['data']);
   }
 
-  // Get all system_metricss
-  Future<List<SystemMetrics>> getSystemMetricss({
-    int page = 1,
-    int limit = 20,
+  Future<List<SystemMetrics>> getSystemMetricses({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/system_metrics', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => SystemMetrics.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.systemMetrics, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => SystemMetrics.fromJson(json)).toList();
   }
 
-  // Create SystemMetrics
-  Future<SystemMetrics> createSystemMetrics(SystemMetrics systemMetrics) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/system_metrics',
-        data: systemMetrics.toJson(),
-      );
-      return SystemMetrics.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<SystemMetrics> createSystemMetrics(SystemMetrics item) async {
+    final response = await _dioClient.post(ApiEndpoints.systemMetrics, data: item.toJson());
+    return SystemMetrics.fromJson(response.data['data']);
   }
 
-  // Update SystemMetrics
-  Future<SystemMetrics> updateSystemMetrics(String id, SystemMetrics systemMetrics) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/system_metrics/$id',
-        data: systemMetrics.toJson(),
-      );
-      return SystemMetrics.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<SystemMetrics> updateSystemMetrics(String id, SystemMetrics item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.systemMetrics}/$id', data: item.toJson());
+    return SystemMetrics.fromJson(response.data['data']);
   }
 
-  // Delete SystemMetrics
   Future<void> deleteSystemMetrics(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/system_metrics/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.systemMetrics}/$id');
   }
 }

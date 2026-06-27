@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class PermissionService {
   final DioClient _dioClient;
-
   PermissionService(this._dioClient);
 
-  // Get Permission by ID
   Future<Permission> getPermissionById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/permission/$id');
-      return Permission.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.permissions}/$id');
+    return Permission.fromJson(response.data['data']);
   }
 
-  // Get all permissions
   Future<List<Permission>> getPermissions({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/permission', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Permission.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.permissions, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Permission.fromJson(json)).toList();
   }
 
-  // Create Permission
-  Future<Permission> createPermission(Permission permission) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/permission',
-        data: permission.toJson(),
-      );
-      return Permission.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Permission> createPermission(Permission item) async {
+    final response = await _dioClient.post(ApiEndpoints.permissions, data: item.toJson());
+    return Permission.fromJson(response.data['data']);
   }
 
-  // Update Permission
-  Future<Permission> updatePermission(String id, Permission permission) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/permission/$id',
-        data: permission.toJson(),
-      );
-      return Permission.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Permission> updatePermission(String id, Permission item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.permissions}/$id', data: item.toJson());
+    return Permission.fromJson(response.data['data']);
   }
 
-  // Delete Permission
   Future<void> deletePermission(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/permission/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.permissions}/$id');
   }
 }

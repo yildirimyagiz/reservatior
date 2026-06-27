@@ -50,7 +50,7 @@ Metod standardizasyonu:
 **Özel Düzeltmeler:**
 - agent, agent_assignment, agent_performance, agent_team, agent_team_member
 - agency, property, document, payment
-- a_p_i_integration
+- api_integration
 
 ### 4. Widget Temizliği (250+ dosya) ✅
 ```

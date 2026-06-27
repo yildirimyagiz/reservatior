@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/map_data_service.dart';
 
-/// Repository for MapData operations
-/// Provides CRUD operations with proper error handling and type safety
-class MapDataRepository {
-  final DioClient _dioClient;
+abstract class MapDataRepository {
+  Future<MapData> getById(String id);
+  Future<List<MapData>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<MapData> create(MapData item);
+  Future<MapData> update(String id, MapData item);
+  Future<void> delete(String id);
+}
 
-  MapDataRepository(this._dioClient);
+class MapDataRepositoryImpl implements MapDataRepository {
+  final MapDataService _service;
+  MapDataRepositoryImpl(this._service);
 
-  /// Get MapData by ID
-  /// Returns [MapData] if found, throws [RepositoryException] otherwise
-  Future<MapData> getMapDataById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/map_data/$id');
-      if (response.statusCode == 200) {
-        return MapData.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch map_data',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MapData> getById(String id) => _service.getMapDataById(id);
 
-  /// Get all map_datas with pagination and filtering
-  /// Returns list of [MapData] objects
-  Future<List<MapData>> getmap_datas({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<MapData>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/map_data', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => MapData.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch map_datas',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getMapDatas(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new MapData
-  /// Returns created [MapData] object
-  Future<MapData> createMapData(MapData mapData) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/map_data',
-        data: mapData.toJson(),
-      );
-      return MapData.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MapData> create(MapData item) => _service.createMapData(item);
 
-  // Update MapData
-  Future<MapData> updateMapData(String id, MapData mapData) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/map_data/$id',
-        data: mapData.toJson(),
-      );
-      return MapData.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MapData> update(String id, MapData item) => _service.updateMapData(id, item);
 
-  // Delete MapData
-  Future<void> deleteMapData(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/map_data/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteMapData(id);
 }

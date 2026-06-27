@@ -1,82 +1,65 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class AgencyService {
   final DioClient _dioClient;
-
   AgencyService(this._dioClient);
 
-  // Get Agency by ID
   Future<Agency> getAgencyById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/agency/$id');
-      return Agency.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.agencies}/$id');
+    return Agency.fromJson(response.data['data']);
   }
 
-  // Get all agencys
-  Future<List<Agency>> getAgencys({
-    int page = 1,
-    int limit = 20,
+  Future<List<Agency>> getAgencies({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/agency', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => Agency.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.agencies, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => Agency.fromJson(json)).toList();
   }
 
-  // Create Agency
-  Future<Agency> createAgency(Agency agency) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/agency',
-        data: agency.toJson(),
-      );
-      return Agency.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Agency> createAgency(Agency item) async {
+    final response = await _dioClient.post(ApiEndpoints.agencies, data: item.toJson());
+    return Agency.fromJson(response.data['data']);
   }
 
-  // Update Agency
-  Future<Agency> updateAgency(String id, Agency agency) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/agency/$id',
-        data: agency.toJson(),
-      );
-      return Agency.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<Agency> updateAgency(String id, Agency item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.agencies}/$id', data: item.toJson());
+    return Agency.fromJson(response.data['data']);
   }
 
-  // Delete Agency
   Future<void> deleteAgency(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/agency/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    await _dioClient.delete('${ApiEndpoints.agencies}/$id');
   }
 
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<List<Map<String, dynamic>>> getAgents(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.agencies}/$id/agents');
+    final data = response.data['data'] as List;
+    return data.cast<Map<String, dynamic>>();
+  }
+
+  Future<Map<String, dynamic>> getStats(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.agencies}/$id/stats');
+    return response.data['data'];
+  }
+
+  Future<List<Map<String, dynamic>>> getListings(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.agencies}/$id/listings');
+    final data = response.data['data'] as List;
+    return data.cast<Map<String, dynamic>>();
   }
 }

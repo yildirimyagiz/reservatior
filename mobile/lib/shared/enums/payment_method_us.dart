@@ -1,0 +1,19 @@
+// ignore_for_file: constant_identifier_names
+enum PaymentMethodUS {
+  ACH_TRANSFER,
+  WIRE_TRANSFER,
+  CHECK,
+  CASHIERS_CHECK,
+  CERTIFIED_CHECK,
+  MONEY_ORDER,
+  DEBIT_CARD,
+  CREDIT_CARD,
+  PAYPAL,
+  VENMO,
+  ZELLE,
+  APPLE_PAY,
+  GOOGLE_PAY,
+  CRYPTOCURRENCY,
+  ESCROW_ACCOUNT,
+  TITLE_COMPANY_HOLD
+}

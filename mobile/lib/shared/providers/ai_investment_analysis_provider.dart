@@ -1,68 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/ai_investment_analysis_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/ai_investment_analysis_service.dart';
+import 'package:reservatior/shared/repositories/ai_investment_analysis_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-
-final aiInvestmentAnalysisServiceProvider = Provider<AIInvestmentAnalysisService>((ref) {
+final aiInvestmentAnalysisServiceProvider = Provider<AiInvestmentAnalysisService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
-  return AIInvestmentAnalysisService(dioClient);
+  return AiInvestmentAnalysisService(dioClient);
 });
 
-// List Provider
-final aiInvestmentAnalysisListProvider = FutureProvider.autoDispose<List<AIInvestmentAnalysis>>((ref) async {
+final aiInvestmentAnalysisRepositoryProvider = Provider<AiInvestmentAnalysisRepository>((ref) {
   final service = ref.watch(aiInvestmentAnalysisServiceProvider);
-  
-  // Watch for state changes
-  ref.watch(aiInvestmentAnalysisCreateStateProvider);
-  ref.watch(aiInvestmentAnalysisUpdateStateProvider);
-  ref.watch(aiInvestmentAnalysisDeleteStateProvider);
-  
-  return service.getAIInvestmentAnalysiss();
+  return AiInvestmentAnalysisRepositoryImpl(service);
 });
 
-// State Providers
-final aiInvestmentAnalysisCreateStateProvider = StateProvider<AIInvestmentAnalysis?>((ref) => null);
-final aiInvestmentAnalysisUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final aiInvestmentAnalysisDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Action Providers
-final aiInvestmentAnalysisCreateProvider = FutureProvider.autoDispose<AIInvestmentAnalysis?>((ref) async {
-  final service = ref.watch(aiInvestmentAnalysisServiceProvider);
-  final data = ref.watch(aiInvestmentAnalysisCreateStateProvider);
-  if (data == null) return null;
-  return service.createAIInvestmentAnalysis(data);
+final aiInvestmentAnalysisListProvider = FutureProvider.autoDispose<List<AiInvestmentAnalysis>>((ref) async {
+  final repository = ref.watch(aiInvestmentAnalysisRepositoryProvider);
+  return repository.getAll();
 });
 
-final aiInvestmentAnalysisUpdateProvider = FutureProvider.autoDispose<AIInvestmentAnalysis?>((ref) async {
-  final service = ref.watch(aiInvestmentAnalysisServiceProvider);
-  final state = ref.watch(aiInvestmentAnalysisUpdateStateProvider);
-  if (state['id'] != null && state['ai_investment_analysis'] != null) {
-    return service.updateAIInvestmentAnalysis(state['id'], state['ai_investment_analysis']);
-  }
-  return null;
-});
-
-final aiInvestmentAnalysisDeleteProvider = FutureProvider.autoDispose<bool>((ref) async {
-  final service = ref.watch(aiInvestmentAnalysisServiceProvider);
-  final id = ref.watch(aiInvestmentAnalysisDeleteStateProvider);
-  if (id != null) {
-    await service.deleteAIInvestmentAnalysis(id);
-    return true;
-  }
-  return false;
-});
-
-// Loading Provider
-final aiInvestmentAnalysisLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(aiInvestmentAnalysisListProvider);
-  final createAsync = ref.watch(aiInvestmentAnalysisCreateProvider);
-  final updateAsync = ref.watch(aiInvestmentAnalysisUpdateProvider);
-  final deleteAsync = ref.watch(aiInvestmentAnalysisDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final aiInvestmentAnalysisCreateProvider = StateProvider<AiInvestmentAnalysis?>((ref) => null);
+final aiInvestmentAnalysisUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final aiInvestmentAnalysisDeleteProvider = StateProvider<String?>((ref) => null);
+final aiInvestmentAnalysisLoadingProvider = StateProvider<bool>((ref) => false);

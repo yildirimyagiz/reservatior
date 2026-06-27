@@ -1,0 +1,9 @@
+// ignore_for_file: constant_identifier_names
+enum AIChatModuleType {
+  SALES_ASSISTANT,
+  PAYMENT_NEGOTIATION,
+  RESERVATION_APPROVAL,
+  DISPUTE_RESOLUTION,
+  CONTRACT_ASSISTANT,
+  GENERAL
+}

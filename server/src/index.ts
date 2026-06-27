@@ -1,0 +1,568 @@
+import { Elysia } from "elysia";
+import { swagger } from "@elysiajs/swagger";
+import { staticPlugin } from "@elysiajs/static";
+import { cors } from "@elysiajs/cors";
+import { router } from "./router";
+import { prisma } from "./lib/prisma";
+import { SignJWT } from "jose";
+import { ENCODED_SECRET } from "./lib/jwt";
+import { cronScheduler } from "./cron/cron-scheduler";
+
+const app = new Elysia()
+  // Public health endpoint
+  .get("/health", () => ({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    version: "1.0.0"
+  }))
+  .onError(({ code, error }) => {
+    const message = (error as any)?.message || String(error);
+    console.error(`🔥 Server Error [${code}]:`, message);
+    if (code === 'NOT_FOUND') return { error: "Route not found" };
+    return { error: message };
+  })
+  .use(swagger({
+    documentation: {
+      info: {
+        title: "Reservatior API",
+        version: "1.0.0",
+      },
+    },
+    path: "/docs",
+  }))
+  .use(cors({
+    origin: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-region', 'x-platform', 'x-version'],
+    credentials: true
+  }))
+  .use(staticPlugin({
+    assets: process.cwd() + "/ml-services/comfysetup/backend/uploads",
+    prefix: "/uploads",
+    headers: {
+      'Cache-Control': 'public, max-age=31536000'
+    }
+  }))
+  .use(staticPlugin({
+    assets: process.cwd() + "/data",
+    prefix: "/data",
+    headers: {
+      'Cache-Control': 'public, max-age=31536000'
+    }
+  }))
+
+  // GET /api/auth/google — exact match for the redirect path in the user's Google Console
+  .get("/api/auth/google", ({ redirect }) => {
+    const params = new URLSearchParams({
+      client_id: process.env.AUTH_GOOGLE_ID || "",
+      redirect_uri: "http://localhost:3000/api/auth/callback/google",
+      response_type: "code",
+      scope: "email profile",
+    });
+    return redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`);
+  })
+
+  // GET /api/auth/callback/google — exact match for the callback path in the user's Google Console
+  .get("/api/auth/callback/google", async ({ query, redirect }) => {
+    const code = query.code as string;
+    if (!code) {
+      return redirect("http://localhost:3001/auth/callback?error=NoCode");
+    }
+
+    try {
+      const clientId = process.env.AUTH_GOOGLE_ID!;
+      const clientSecret = process.env.AUTH_GOOGLE_SECRET!;
+      const redirectUri = "http://localhost:3000/api/auth/callback/google";
+
+      const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: clientId,
+          client_secret: clientSecret,
+          code,
+          grant_type: "authorization_code",
+          redirect_uri: redirectUri,
+        }),
+      });
+
+      const tokenData = await tokenRes.json();
+      if (!tokenData.access_token) {
+        console.error("Failed to fetch access token:", tokenData);
+        throw new Error("No access token");
+      }
+
+      const userRes = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+      });
+      const googleUser = await userRes.json();
+
+      if (!googleUser.email) throw new Error("No email in google profile");
+
+      let user = await prisma.user.findUnique({ where: { email: googleUser.email } });
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            email: googleUser.email,
+            name: googleUser.name || googleUser.given_name || "",
+          },
+        });
+        
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            type: "OAUTH",
+            providerId: "google",
+            accountId: googleUser.id || googleUser.sub,
+            accessToken: tokenData.access_token,
+          },
+        });
+      }
+
+      // Check user permissions and role
+      let role = "USER";
+      let permissions = ["PROPERTIES_VIEW_ALL"];
+      let orgId = null;
+
+      const dbUser = await prisma.user.findUnique({
+        where: { id: user.id },
+        include: {
+          memberships: {
+            include: {
+              role: { include: { permissions: { include: { permission: true } } } }
+            }
+          }
+        }
+      });
+
+      if (dbUser?.memberships && dbUser.memberships.length > 0) {
+        const primaryMember = dbUser.memberships[0];
+        role = primaryMember.role.key;
+        orgId = primaryMember.orgId;
+        permissions = primaryMember.role.permissions.map(rp => rp.permission.key);
+      }
+
+      const superAdminEmails = ["yagizyildirim@icloud.com", "admin@propos.com", "info@reservatior.com", "admin@demorealty.com"];
+      if (superAdminEmails.includes(user.email)) {
+        role = "OWNER";
+        permissions = ["*"];
+      }
+
+      const token = await new SignJWT({
+        sub: user.id,
+        email: user.email,
+        role,
+        permissions,
+        orgId
+      })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('7d')
+      .sign(ENCODED_SECRET);
+
+      const session = await prisma.session.create({
+        data: {
+          userId: user.id,
+          tokenHash: token.split(".").pop() ?? token,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
+
+      return redirect(`http://localhost:3001/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role,
+        permissions,
+        organizationId: orgId
+      }))}`);
+    } catch (e) {
+      console.error("Google auth callback error:", e);
+      return redirect("http://localhost:3001/auth/login?error=GoogleAuthFailed");
+    }
+  })
+
+  // GET /api/auth/facebook — exact match for the redirect path in the user's Facebook Console
+  .get("/api/auth/facebook", ({ redirect }) => {
+    const params = new URLSearchParams({
+      client_id: process.env.FACEBOOK_APP_ID || "",
+      redirect_uri: "http://localhost:3000/api/auth/facebook/callback",
+      response_type: "code",
+      scope: "email public_profile",
+    });
+    return redirect(`https://www.facebook.com/v20.0/dialog/oauth?${params.toString()}`);
+  })
+
+  // GET /api/auth/facebook/callback — exact match for the callback path in the user's Facebook Console
+  .get("/api/auth/facebook/callback", async ({ query, redirect }) => {
+    const code = query.code as string;
+    if (!code) {
+      return redirect("http://localhost:3001/auth/callback?error=NoCode");
+    }
+
+    try {
+      const clientId = process.env.FACEBOOK_APP_ID!;
+      const clientSecret = process.env.FACEBOOK_APP_SECRET!;
+      const redirectUri = "http://localhost:3000/api/auth/facebook/callback";
+
+      const tokenRes = await fetch(`https://graph.facebook.com/v20.0/oauth/access_token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}&redirect_uri=${redirectUri}`, {
+        method: "GET",
+      });
+
+      const tokenData = await tokenRes.json();
+      if (!tokenData.access_token) {
+        console.error("Failed to fetch Facebook access token:", tokenData);
+        throw new Error("No access token");
+      }
+
+      const userRes = await fetch(`https://graph.facebook.com/v20.0/me?fields=id,name,email,picture&access_token=${tokenData.access_token}`, {
+        method: "GET",
+      });
+      const facebookUser = await userRes.json();
+
+      if (!facebookUser.email) throw new Error("No email in facebook profile");
+
+      let user = await prisma.user.findUnique({ where: { email: facebookUser.email } });
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            email: facebookUser.email,
+            name: facebookUser.name || "",
+            imageUrl: facebookUser.picture?.data?.url || null,
+          },
+        });
+        
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            type: "OAUTH",
+            providerId: "facebook",
+            accountId: facebookUser.id,
+            accessToken: tokenData.access_token,
+          },
+        });
+      }
+
+      // Check user permissions and role
+      let role = "USER";
+      let permissions = ["PROPERTIES_VIEW_ALL"];
+      let orgId = null;
+
+      const dbUser = await prisma.user.findUnique({
+        where: { id: user.id },
+        include: {
+          memberships: {
+            include: {
+              role: { include: { permissions: { include: { permission: true } } } }
+            }
+          }
+        }
+      });
+
+      if (dbUser?.memberships && dbUser.memberships.length > 0) {
+        const primaryMember = dbUser.memberships[0];
+        role = primaryMember.role.key;
+        orgId = primaryMember.orgId;
+        permissions = primaryMember.role.permissions.map(rp => rp.permission.key);
+      }
+
+      const superAdminEmails = ["yagizyildirim@icloud.com", "admin@propos.com", "info@reservatior.com", "admin@demorealty.com"];
+      if (superAdminEmails.includes(user.email)) {
+        role = "OWNER";
+        permissions = ["*"];
+      }
+
+      const token = await new SignJWT({
+        sub: user.id,
+        email: user.email,
+        role,
+        permissions,
+        orgId
+      })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('7d')
+      .sign(ENCODED_SECRET);
+
+      const session = await prisma.session.create({
+        data: {
+          userId: user.id,
+          tokenHash: token.split(".").pop() ?? token,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
+
+      return redirect(`http://localhost:3001/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        imageUrl: user.imageUrl,
+        role,
+        permissions,
+        organizationId: orgId
+      }))}`);
+    } catch (e) {
+      console.error("Facebook auth callback error:", e);
+      return redirect("http://localhost:3001/auth/login?error=FacebookAuthFailed");
+    }
+  })
+
+  // GET /api/auth/twitter — exact match for the redirect path in the user's Twitter Console
+  .get("/api/auth/twitter", ({ redirect }) => {
+    const params = new URLSearchParams({
+      response_type: "code",
+      client_id: process.env.TWITTER_API_KEY || "",
+      redirect_uri: "http://localhost:3000/api/auth/twitter/callback",
+      scope: "users.read tweet.read offline.access",
+      state: "state-reservatior",
+      code_challenge: "challenge",
+      code_challenge_method: "plain"
+    });
+    return redirect(`https://twitter.com/i/oauth2/authorize?${params.toString()}`);
+  })
+
+  // GET /api/auth/twitter/callback
+  .get("/api/auth/twitter/callback", async ({ query, redirect }) => {
+    const code = query.code as string;
+    if (!code) {
+      return redirect("http://localhost:3001/auth/callback?error=NoCode");
+    }
+
+    try {
+      const clientId = process.env.TWITTER_API_KEY!;
+      const clientSecret = process.env.TWITTER_API_SECRET!;
+      const redirectUri = "http://localhost:3000/api/auth/twitter/callback";
+
+      const credentials = btoa(`${clientId}:${clientSecret}`);
+
+      const tokenRes = await fetch(`https://api.twitter.com/2/oauth2/token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": `Basic ${credentials}`
+        },
+        body: new URLSearchParams({
+          code,
+          grant_type: "authorization_code",
+          client_id: clientId,
+          redirect_uri: redirectUri,
+          code_verifier: "challenge"
+        })
+      });
+
+      const tokenData = await tokenRes.json();
+      if (!tokenData.access_token) {
+        console.error("Failed to fetch Twitter access token:", tokenData);
+        throw new Error("No access token");
+      }
+
+      const userRes = await fetch(`https://api.twitter.com/2/users/me?user.fields=profile_image_url`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${tokenData.access_token}`
+        }
+      });
+      const twitterUserRaw = await userRes.json();
+      if (!twitterUserRaw.data) {
+          throw new Error("No user data returned from Twitter");
+      }
+      const twitterUser = twitterUserRaw.data;
+      const userEmail = `${twitterUser.username}@twitter.reservatior.com`;
+
+      let user = await prisma.user.findUnique({ where: { email: userEmail } });
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            email: userEmail,
+            name: twitterUser.name || twitterUser.username || "",
+            imageUrl: twitterUser.profile_image_url || null,
+          },
+        });
+        
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            type: "OAUTH",
+            providerId: "twitter",
+            accountId: twitterUser.id,
+            accessToken: tokenData.access_token,
+          },
+        });
+      }
+
+      // Check user permissions and role
+      let role = "USER";
+      let permissions = ["PROPERTIES_VIEW_ALL"];
+      let orgId = null;
+
+      const dbUser = await prisma.user.findUnique({
+        where: { id: user.id },
+        include: {
+          memberships: {
+            include: {
+              role: { include: { permissions: { include: { permission: true } } } }
+            }
+          }
+        }
+      });
+
+      if (dbUser?.memberships && dbUser.memberships.length > 0) {
+        const primaryMember = dbUser.memberships[0];
+        role = primaryMember.role.key;
+        orgId = primaryMember.orgId;
+        permissions = primaryMember.role.permissions.map(rp => rp.permission.key);
+      }
+
+      const token = await new SignJWT({
+        sub: user.id,
+        email: user.email,
+        role,
+        permissions,
+        orgId
+      })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('7d')
+      .sign(ENCODED_SECRET);
+
+      const session = await prisma.session.create({
+        data: {
+          userId: user.id,
+          tokenHash: token.split(".").pop() ?? token,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
+
+      return redirect(`http://localhost:3001/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        imageUrl: user.imageUrl,
+        role,
+        permissions,
+        organizationId: orgId
+      }))}`);
+    } catch (e) {
+      console.error("Twitter auth callback error:", e);
+      return redirect("http://localhost:3001/auth/login?error=TwitterAuthFailed");
+    }
+  })
+  // POST /api/auth/facebook/native — For Mobile native SDK login
+  .post("/api/auth/facebook/native", async ({ body, set }) => {
+    try {
+      const { accessToken } = body as { accessToken: string };
+      if (!accessToken) throw new Error("Missing access token");
+
+      const fbRes = await fetch(`https://graph.facebook.com/me?fields=id,name,email,picture.type(large)&access_token=${accessToken}`);
+      const fbUser = await fbRes.json();
+      
+      if (fbUser.error) throw new Error(fbUser.error.message);
+      
+      const email = fbUser.email || `${fbUser.id}@facebook.reservatior.com`;
+      let user = await prisma.user.findUnique({ where: { email } });
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            email,
+            name: fbUser.name,
+            imageUrl: fbUser.picture?.data?.url || null,
+          },
+        });
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            type: "OAUTH",
+            providerId: "facebook",
+            accountId: fbUser.id,
+            accessToken: accessToken,
+          },
+        });
+      }
+
+      let role = "USER";
+      let permissions = ["PROPERTIES_VIEW_ALL"];
+      let orgId = null;
+
+      const token = await new SignJWT({ sub: user.id, email: user.email, role, permissions, orgId })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('7d')
+        .sign(ENCODED_SECRET);
+
+      return { accessToken: token, user };
+    } catch (e: any) {
+      set.status = 401;
+      return { error: e.message || "Facebook native auth failed" };
+    }
+  })
+
+  // POST /api/auth/twitter/native — For Mobile native SDK login
+  .post("/api/auth/twitter/native", async ({ body, set }) => {
+    try {
+      const { email, name, twitterId, photoUrl, accessToken } = body as any;
+      if (!twitterId) throw new Error("Missing Twitter ID");
+
+      const finalEmail = email || `${twitterId}@twitter.reservatior.com`;
+      let user = await prisma.user.findUnique({ where: { email: finalEmail } });
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            email: finalEmail,
+            name: name || "Twitter User",
+            imageUrl: photoUrl || null,
+          },
+        });
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            type: "OAUTH",
+            providerId: "twitter",
+            accountId: twitterId,
+            accessToken: accessToken || "native_token",
+          },
+        });
+      }
+
+      let role = "USER";
+      let permissions = ["PROPERTIES_VIEW_ALL"];
+      let orgId = null;
+
+      const token = await new SignJWT({ sub: user.id, email: user.email, role, permissions, orgId })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('7d')
+        .sign(ENCODED_SECRET);
+
+      return { accessToken: token, user };
+    } catch (e: any) {
+      set.status = 401;
+      return { error: e.message || "Twitter native auth failed" };
+    }
+  })
+
+  .use(router)
+  .use(cronScheduler)
+  .listen({ 
+    port: Number(process.env.PORT) || 3000, 
+    hostname: "0.0.0.0" 
+  });
+
+import { AIMailResponderService } from "./services/ai-mail-responder";
+
+console.log("🦊 Elysia server is running at http://localhost:" + (process.env.PORT || 3000));
+console.log("📚 Swagger docs available at http://localhost:" + (process.env.PORT || 3000) + "/docs");
+
+// Initialize AI Mail Auto-Responder polling
+AIMailResponderService.startPolling();
+
+// Initialize MLS RabbitMQ Consumer
+import { initMlsConsumer } from "./services/mls-sync-consumer";
+initMlsConsumer().catch(console.error);
+
+// Initialize Autonomous Event-Driven Worker Pool
+import { startWorkerPool } from "./workers/worker-pool";
+startWorkerPool().catch(console.error);
+
+export type App = typeof app;
+export default app;

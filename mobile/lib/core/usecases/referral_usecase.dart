@@ -1,106 +1,44 @@
-import '../../features/shared/services/referral_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Referral
+import 'package:reservatior/shared/repositories/referral_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetReferralByIdUseCase {
-  final ReferralService _service;
-  
-  GetReferralByIdUseCase(this._service);
-  
-  Future<Referral> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ReferralRepository _repository;
+  GetReferralByIdUseCase(this._repository);
+  Future<Referral> execute(String id) => _repository.getById(id);
 }
 
 class GetReferralsUseCase {
-  final ReferralService _service;
-  
-  GetReferralsUseCase(this._service);
-  
+  final ReferralRepository _repository;
+  GetReferralsUseCase(this._repository);
   Future<List<Referral>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateReferralUseCase {
-  final ReferralService _service;
-  
-  CreateReferralUseCase(this._service);
-  
-  Future<Referral> execute(Referral referral) async {
-    // Add validation logic here
-    return await _service.create(referral);
-  }
+  final ReferralRepository _repository;
+  CreateReferralUseCase(this._repository);
+  Future<Referral> execute(Referral item) => _repository.create(item);
 }
 
 class UpdateReferralUseCase {
-  final ReferralService _service;
-  
-  UpdateReferralUseCase(this._service);
-  
-  Future<Referral> execute(String id, Referral referral) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, referral);
-  }
+  final ReferralRepository _repository;
+  UpdateReferralUseCase(this._repository);
+  Future<Referral> execute(String id, Referral item) => _repository.update(id, item);
 }
 
 class DeleteReferralUseCase {
-  final ReferralService _service;
-  
-  DeleteReferralUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Referral Use Case Container
-class ReferralUseCases {
-  final GetReferralByIdUseCase getById;
-  final GetReferralsUseCase getAll;
-  final CreateReferralUseCase create;
-  final UpdateReferralUseCase update;
-  final DeleteReferralUseCase delete;
-  
-  ReferralUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ReferralUseCases.create(ReferralService service) {
-    return ReferralUseCases(
-      getById: GetReferralByIdUseCase(service),
-      getAll: GetReferralsUseCase(service),
-      create: CreateReferralUseCase(service),
-      update: UpdateReferralUseCase(service),
-      delete: DeleteReferralUseCase(service),
-    );
-  }
+  final ReferralRepository _repository;
+  DeleteReferralUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

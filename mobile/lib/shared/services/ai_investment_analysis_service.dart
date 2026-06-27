@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
-class AIInvestmentAnalysisService {
+class AiInvestmentAnalysisService {
   final DioClient _dioClient;
+  AiInvestmentAnalysisService(this._dioClient);
 
-  AIInvestmentAnalysisService(this._dioClient);
-
-  // Get AIInvestmentAnalysis by ID
-  Future<AIInvestmentAnalysis> getAIInvestmentAnalysisById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/ai_investment_analysis/$id');
-      return AIInvestmentAnalysis.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiInvestmentAnalysis> getAiInvestmentAnalysisById(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.aiInvestmentAnalyses}/$id');
+    return AiInvestmentAnalysis.fromJson(response.data['data']);
   }
 
-  // Get all ai_investment_analysiss
-  Future<List<AIInvestmentAnalysis>> getAIInvestmentAnalysiss({
-    int page = 1,
-    int limit = 20,
+  Future<List<AiInvestmentAnalysis>> getAiInvestmentAnalysises({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/ai_investment_analysis', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AIInvestmentAnalysis.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.aiInvestmentAnalyses, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AiInvestmentAnalysis.fromJson(json)).toList();
   }
 
-  // Create AIInvestmentAnalysis
-  Future<AIInvestmentAnalysis> createAIInvestmentAnalysis(AIInvestmentAnalysis aIInvestmentAnalysis) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/ai_investment_analysis',
-        data: aIInvestmentAnalysis.toJson(),
-      );
-      return AIInvestmentAnalysis.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiInvestmentAnalysis> createAiInvestmentAnalysis(AiInvestmentAnalysis item) async {
+    final response = await _dioClient.post(ApiEndpoints.aiInvestmentAnalyses, data: item.toJson());
+    return AiInvestmentAnalysis.fromJson(response.data['data']);
   }
 
-  // Update AIInvestmentAnalysis
-  Future<AIInvestmentAnalysis> updateAIInvestmentAnalysis(String id, AIInvestmentAnalysis aIInvestmentAnalysis) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/ai_investment_analysis/$id',
-        data: aIInvestmentAnalysis.toJson(),
-      );
-      return AIInvestmentAnalysis.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AiInvestmentAnalysis> updateAiInvestmentAnalysis(String id, AiInvestmentAnalysis item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.aiInvestmentAnalyses}/$id', data: item.toJson());
+    return AiInvestmentAnalysis.fromJson(response.data['data']);
   }
 
-  // Delete AIInvestmentAnalysis
-  Future<void> deleteAIInvestmentAnalysis(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/ai_investment_analysis/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<void> deleteAiInvestmentAnalysis(String id) async {
+    await _dioClient.delete('${ApiEndpoints.aiInvestmentAnalyses}/$id');
   }
 }

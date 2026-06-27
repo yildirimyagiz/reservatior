@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/performance_alert_service.dart';
 
-/// Repository for PerformanceAlert operations
-/// Provides CRUD operations with proper error handling and type safety
-class PerformanceAlertRepository {
-  final DioClient _dioClient;
+abstract class PerformanceAlertRepository {
+  Future<PerformanceAlert> getById(String id);
+  Future<List<PerformanceAlert>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<PerformanceAlert> create(PerformanceAlert item);
+  Future<PerformanceAlert> update(String id, PerformanceAlert item);
+  Future<void> delete(String id);
+}
 
-  PerformanceAlertRepository(this._dioClient);
+class PerformanceAlertRepositoryImpl implements PerformanceAlertRepository {
+  final PerformanceAlertService _service;
+  PerformanceAlertRepositoryImpl(this._service);
 
-  /// Get PerformanceAlert by ID
-  /// Returns [PerformanceAlert] if found, throws [RepositoryException] otherwise
-  Future<PerformanceAlert> getPerformanceAlertById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/performance_alert/$id');
-      if (response.statusCode == 200) {
-        return PerformanceAlert.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch performance_alert',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PerformanceAlert> getById(String id) => _service.getPerformanceAlertById(id);
 
-  /// Get all performance_alerts with pagination and filtering
-  /// Returns list of [PerformanceAlert] objects
-  Future<List<PerformanceAlert>> getperformance_alerts({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<PerformanceAlert>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/performance_alert', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => PerformanceAlert.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch performance_alerts',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getPerformanceAlerts(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new PerformanceAlert
-  /// Returns created [PerformanceAlert] object
-  Future<PerformanceAlert> createPerformanceAlert(PerformanceAlert performanceAlert) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/performance_alert',
-        data: performanceAlert.toJson(),
-      );
-      return PerformanceAlert.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PerformanceAlert> create(PerformanceAlert item) => _service.createPerformanceAlert(item);
 
-  // Update PerformanceAlert
-  Future<PerformanceAlert> updatePerformanceAlert(String id, PerformanceAlert performanceAlert) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/performance_alert/$id',
-        data: performanceAlert.toJson(),
-      );
-      return PerformanceAlert.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<PerformanceAlert> update(String id, PerformanceAlert item) => _service.updatePerformanceAlert(id, item);
 
-  // Delete PerformanceAlert
-  Future<void> deletePerformanceAlert(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/performance_alert/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deletePerformanceAlert(id);
 }

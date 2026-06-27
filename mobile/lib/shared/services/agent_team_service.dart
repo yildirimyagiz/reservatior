@@ -1,82 +1,54 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class AgentTeamService {
   final DioClient _dioClient;
-
   AgentTeamService(this._dioClient);
 
-  // Get AgentTeam by ID
   Future<AgentTeam> getAgentTeamById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/agent_team/$id');
-      return AgentTeam.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.agentTeams}/$id');
+    return AgentTeam.fromJson(response.data['data']);
   }
 
-  // Get all agent_teams
   Future<List<AgentTeam>> getAgentTeams({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/agent_team', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AgentTeam.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.agentTeams, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AgentTeam.fromJson(json)).toList();
   }
 
-  // Create AgentTeam
-  Future<AgentTeam> createAgentTeam(AgentTeam agentTeam) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/agent_team',
-        data: agentTeam.toJson(),
-      );
-      return AgentTeam.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AgentTeam> createAgentTeam(AgentTeam item) async {
+    final response = await _dioClient.post(ApiEndpoints.agentTeams, data: item.toJson());
+    return AgentTeam.fromJson(response.data['data']);
   }
 
-  // Update AgentTeam
-  Future<AgentTeam> updateAgentTeam(String id, AgentTeam agentTeam) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/agent_team/$id',
-        data: agentTeam.toJson(),
-      );
-      return AgentTeam.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AgentTeam> updateAgentTeam(String id, AgentTeam item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.agentTeams}/$id', data: item.toJson());
+    return AgentTeam.fromJson(response.data['data']);
   }
 
-  // Delete AgentTeam
   Future<void> deleteAgentTeam(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/agent_team/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    await _dioClient.delete('${ApiEndpoints.agentTeams}/$id');
   }
 
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<List<Map<String, dynamic>>> getMembers(String id) async {
+    final response = await _dioClient.get('${ApiEndpoints.agentTeams}/$id/members');
+    final data = response.data['data'] as List;
+    return data.cast<Map<String, dynamic>>();
   }
 }

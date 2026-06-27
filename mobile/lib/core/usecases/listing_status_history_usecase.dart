@@ -1,106 +1,44 @@
-import '../../features/shared/services/listing_status_history_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for ListingStatusHistory
+import 'package:reservatior/shared/repositories/listing_status_history_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetListingStatusHistoryByIdUseCase {
-  final ListingStatusHistoryService _service;
-  
-  GetListingStatusHistoryByIdUseCase(this._service);
-  
-  Future<ListingStatusHistory> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ListingStatusHistoryRepository _repository;
+  GetListingStatusHistoryByIdUseCase(this._repository);
+  Future<ListingStatusHistory> execute(String id) => _repository.getById(id);
 }
 
 class GetListingStatusHistorysUseCase {
-  final ListingStatusHistoryService _service;
-  
-  GetListingStatusHistorysUseCase(this._service);
-  
+  final ListingStatusHistoryRepository _repository;
+  GetListingStatusHistorysUseCase(this._repository);
   Future<List<ListingStatusHistory>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateListingStatusHistoryUseCase {
-  final ListingStatusHistoryService _service;
-  
-  CreateListingStatusHistoryUseCase(this._service);
-  
-  Future<ListingStatusHistory> execute(ListingStatusHistory listingStatusHistory) async {
-    // Add validation logic here
-    return await _service.create(listingStatusHistory);
-  }
+  final ListingStatusHistoryRepository _repository;
+  CreateListingStatusHistoryUseCase(this._repository);
+  Future<ListingStatusHistory> execute(ListingStatusHistory item) => _repository.create(item);
 }
 
 class UpdateListingStatusHistoryUseCase {
-  final ListingStatusHistoryService _service;
-  
-  UpdateListingStatusHistoryUseCase(this._service);
-  
-  Future<ListingStatusHistory> execute(String id, ListingStatusHistory listingStatusHistory) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, listingStatusHistory);
-  }
+  final ListingStatusHistoryRepository _repository;
+  UpdateListingStatusHistoryUseCase(this._repository);
+  Future<ListingStatusHistory> execute(String id, ListingStatusHistory item) => _repository.update(id, item);
 }
 
 class DeleteListingStatusHistoryUseCase {
-  final ListingStatusHistoryService _service;
-  
-  DeleteListingStatusHistoryUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ListingStatusHistory Use Case Container
-class ListingStatusHistoryUseCases {
-  final GetListingStatusHistoryByIdUseCase getById;
-  final GetListingStatusHistorysUseCase getAll;
-  final CreateListingStatusHistoryUseCase create;
-  final UpdateListingStatusHistoryUseCase update;
-  final DeleteListingStatusHistoryUseCase delete;
-  
-  ListingStatusHistoryUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ListingStatusHistoryUseCases.create(ListingStatusHistoryService service) {
-    return ListingStatusHistoryUseCases(
-      getById: GetListingStatusHistoryByIdUseCase(service),
-      getAll: GetListingStatusHistorysUseCase(service),
-      create: CreateListingStatusHistoryUseCase(service),
-      update: UpdateListingStatusHistoryUseCase(service),
-      delete: DeleteListingStatusHistoryUseCase(service),
-    );
-  }
+  final ListingStatusHistoryRepository _repository;
+  DeleteListingStatusHistoryUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

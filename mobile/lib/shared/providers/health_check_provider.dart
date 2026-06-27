@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/health_check_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/health_check_service.dart';
+import 'package:reservatior/shared/repositories/health_check_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// HealthCheck Providers
-
-final HealthCheckServiceProvider = Provider<HealthCheckService>((ref) {
+final healthCheckServiceProvider = Provider<HealthCheckService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return HealthCheckService(dioClient);
 });
 
-// List Provider
-final healthCheckProvider = FutureProvider.autoDispose<List<HealthCheck>>((ref) async {
-  final service = ref.watch(HealthCheckServiceProvider);
-  return service.getHealthChecks();
+final healthCheckRepositoryProvider = Provider<HealthCheckRepository>((ref) {
+  final service = ref.watch(healthCheckServiceProvider);
+  return HealthCheckRepositoryImpl(service);
 });
 
-// Create Provider
-final HealthCheckCreateProvider = FutureProvider.autoDispose<HealthCheck>((ref) async {
-  final service = ref.watch(HealthCheckServiceProvider);
-  return service.createHealthCheck(HealthCheck());
+final healthCheckListProvider = FutureProvider.autoDispose<List<HealthCheck>>((ref) async {
+  final repository = ref.watch(healthCheckRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final HealthCheckUpdateProvider = FutureProvider.autoDispose<HealthCheck>((ref) async {
-  final service = ref.watch(HealthCheckServiceProvider);
-  final state = ref.watch(HealthCheckUpdateStateProvider);
-  if (state['id'] != null && state['health_check'] != null) {
-    return service.updateHealthCheck(state['id'], state['health_check']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final HealthCheckDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(HealthCheckServiceProvider);
-  final state = ref.watch(HealthCheckDeleteStateProvider);
-  if (state != null) {
-    return service.deleteHealthCheck(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final HealthCheckUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final HealthCheckDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final HealthCheckLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(healthCheckProvider);
-  final createAsync = ref.watch(HealthCheckCreateProvider);
-  final updateAsync = ref.watch(HealthCheckUpdateProvider);
-  final deleteAsync = ref.watch(HealthCheckDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final healthCheckCreateProvider = StateProvider<HealthCheck?>((ref) => null);
+final healthCheckUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final healthCheckDeleteProvider = StateProvider<String?>((ref) => null);
+final healthCheckLoadingProvider = StateProvider<bool>((ref) => false);

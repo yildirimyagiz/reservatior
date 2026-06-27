@@ -1,82 +1,66 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class ExchangeRateService {
   final DioClient _dioClient;
-
   ExchangeRateService(this._dioClient);
 
-  // Get ExchangeRate by ID
   Future<ExchangeRate> getExchangeRateById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/exchange_rate/$id');
-      return ExchangeRate.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.exchangeRates}/$id');
+    return ExchangeRate.fromJson(response.data['data']);
   }
 
-  // Get all exchange_rates
   Future<List<ExchangeRate>> getExchangeRates({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/exchange_rate', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => ExchangeRate.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.exchangeRates, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => ExchangeRate.fromJson(json)).toList();
   }
 
-  // Create ExchangeRate
-  Future<ExchangeRate> createExchangeRate(ExchangeRate exchangeRate) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/exchange_rate',
-        data: exchangeRate.toJson(),
-      );
-      return ExchangeRate.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<ExchangeRate> createExchangeRate(ExchangeRate item) async {
+    final response = await _dioClient.post(ApiEndpoints.exchangeRates, data: item.toJson());
+    return ExchangeRate.fromJson(response.data['data']);
   }
 
-  // Update ExchangeRate
-  Future<ExchangeRate> updateExchangeRate(String id, ExchangeRate exchangeRate) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/exchange_rate/$id',
-        data: exchangeRate.toJson(),
-      );
-      return ExchangeRate.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<ExchangeRate> updateExchangeRate(String id, ExchangeRate item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.exchangeRates}/$id', data: item.toJson());
+    return ExchangeRate.fromJson(response.data['data']);
   }
 
-  // Delete ExchangeRate
   Future<void> deleteExchangeRate(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/exchange_rate/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    await _dioClient.delete('${ApiEndpoints.exchangeRates}/$id');
   }
 
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+  Future<ExchangeRate> getLatest(String base, String target) async {
+    final response = await _dioClient.get('${ApiEndpoints.exchangeRates}/latest', queryParameters: {'base': base, 'target': target});
+    return ExchangeRate.fromJson(response.data['data']);
+  }
+
+  Future<Map<String, dynamic>> convert(String from, String to, double amount, {String? date}) async {
+    final response = await _dioClient.get(
+      '${ApiEndpoints.exchangeRates}/convert', 
+      queryParameters: {
+        'from': from, 
+        'to': to, 
+        'amount': amount,
+        if (date != null) 'date': date,
+      }
+    );
+    return response.data['data'];
   }
 }

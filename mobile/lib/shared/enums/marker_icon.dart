@@ -1,0 +1,23 @@
+// ignore_for_file: constant_identifier_names
+enum MarkerIcon {
+  HOME,
+  BUILDING,
+  APARTMENT,
+  COMMERCIAL,
+  LAND,
+  VACANT,
+  UNDER_CONSTRUCTION,
+  FOR_SALE,
+  FOR_RENT,
+  SOLD,
+  PENDING,
+  SCHOOL,
+  HOSPITAL,
+  PARK,
+  TRANSIT,
+  SHOPPING,
+  RESTAURANT,
+  BANK,
+  GOVERNMENT,
+  CUSTOM
+}

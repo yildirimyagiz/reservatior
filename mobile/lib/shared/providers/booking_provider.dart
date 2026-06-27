@@ -1,58 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/booking_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/booking_service.dart';
+import 'package:reservatior/shared/repositories/booking_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
-
-// Booking Providers
 
 final bookingServiceProvider = Provider<BookingService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return BookingService(dioClient);
 });
 
-// List Provider
+final bookingRepositoryProvider = Provider<BookingRepository>((ref) {
+  final service = ref.watch(bookingServiceProvider);
+  return BookingRepositoryImpl(service);
+});
+
 final bookingListProvider = FutureProvider.autoDispose<List<Booking>>((ref) async {
-  final service = ref.watch(bookingServiceProvider);
-  return service.getBookings();
+  final repository = ref.watch(bookingRepositoryProvider);
+  return repository.getAll();
 });
 
-// State Providers for create/update/delete
-final bookingCreateStateProvider = StateProvider<Booking?>((ref) => null);
-final bookingUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final bookingDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Create Provider
-final bookingCreateProvider = FutureProvider.autoDispose<Booking?>((ref) async {
-  final service = ref.watch(bookingServiceProvider);
-  final state = ref.watch(bookingCreateStateProvider);
-  if (state != null) {
-    return service.createBooking(state);
-  }
-  return null;
+final bookingGuestReviewProvider = FutureProvider.family.autoDispose<Map<String, dynamic>, Map<String, dynamic>>((ref, params) async {
+  final repository = ref.watch(bookingRepositoryProvider);
+  final bookingId = params['bookingId'] as String;
+  final reviewData = params['reviewData'] as Map<String, dynamic>;
+  return repository.createGuestReview(bookingId, reviewData);
 });
 
-// Update Provider  
-final bookingUpdateProvider = FutureProvider.autoDispose<Booking?>((ref) async {
-  final service = ref.watch(bookingServiceProvider);
-  final state = ref.watch(bookingUpdateStateProvider);
-  if (state['id'] != null && state['booking'] != null) {
-    return service.updateBooking(state['id'], state['booking']);
-  }
-  return null;
-});
-
-// Delete Provider
-final bookingDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(bookingServiceProvider);
-  final state = ref.watch(bookingDeleteStateProvider);
-  if (state != null) {
-    return service.deleteBooking(state);
-  }
-});
-
-// Loading Provider
-final bookingLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(bookingListProvider);
-  return listAsync.isLoading;
-});
+final bookingCreateProvider = StateProvider<Booking?>((ref) => null);
+final bookingUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final bookingDeleteProvider = StateProvider<String?>((ref) => null);
+final bookingLoadingProvider = StateProvider<bool>((ref) => false);

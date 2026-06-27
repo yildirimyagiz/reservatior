@@ -1,106 +1,64 @@
-import '../../features/shared/services/property_valuation_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for PropertyValuation
+import 'package:reservatior/shared/repositories/property_valuation_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetPropertyValuationByIdUseCase {
-  final PropertyValuationService _service;
-  
-  GetPropertyValuationByIdUseCase(this._service);
-  
-  Future<PropertyValuation> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final PropertyValuationRepository _repository;
+  GetPropertyValuationByIdUseCase(this._repository);
+  Future<PropertyValuation> execute(String id) => _repository.getById(id);
 }
 
 class GetPropertyValuationsUseCase {
-  final PropertyValuationService _service;
-  
-  GetPropertyValuationsUseCase(this._service);
-  
+  final PropertyValuationRepository _repository;
+  GetPropertyValuationsUseCase(this._repository);
   Future<List<PropertyValuation>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreatePropertyValuationUseCase {
-  final PropertyValuationService _service;
-  
-  CreatePropertyValuationUseCase(this._service);
-  
-  Future<PropertyValuation> execute(PropertyValuation propertyValuation) async {
-    // Add validation logic here
-    return await _service.create(propertyValuation);
-  }
+  final PropertyValuationRepository _repository;
+  CreatePropertyValuationUseCase(this._repository);
+  Future<PropertyValuation> execute(PropertyValuation item) => _repository.create(
+    propertyId: item.propertyId,
+    valuationType: item.valuationType.name,
+    contactInfo: item.contactInfo,
+    propertyData: item.propertyData,
+    videoUrl: item.videoUrl,
+    images: item.images,
+  );
 }
 
 class UpdatePropertyValuationUseCase {
-  final PropertyValuationService _service;
-  
-  UpdatePropertyValuationUseCase(this._service);
-  
-  Future<PropertyValuation> execute(String id, PropertyValuation propertyValuation) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, propertyValuation);
-  }
+  final PropertyValuationRepository _repository;
+  UpdatePropertyValuationUseCase(this._repository);
+  Future<PropertyValuation> execute(String id, PropertyValuation item) => _repository.update(
+    id,
+    value: item.value,
+    confidence: item.confidence,
+    status: item.status.name,
+    priceRange: item.priceRange,
+    marketTrends: item.marketTrends,
+    comparableProperties: item.comparableProperties,
+    factors: item.factors,
+    aiAnalysis: item.aiAnalysis,
+    videoAnalysis: item.videoAnalysis,
+    userBehavior: item.userBehavior,
+    recommendations: item.recommendations,
+  );
 }
 
 class DeletePropertyValuationUseCase {
-  final PropertyValuationService _service;
-  
-  DeletePropertyValuationUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// PropertyValuation Use Case Container
-class PropertyValuationUseCases {
-  final GetPropertyValuationByIdUseCase getById;
-  final GetPropertyValuationsUseCase getAll;
-  final CreatePropertyValuationUseCase create;
-  final UpdatePropertyValuationUseCase update;
-  final DeletePropertyValuationUseCase delete;
-  
-  PropertyValuationUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory PropertyValuationUseCases.create(PropertyValuationService service) {
-    return PropertyValuationUseCases(
-      getById: GetPropertyValuationByIdUseCase(service),
-      getAll: GetPropertyValuationsUseCase(service),
-      create: CreatePropertyValuationUseCase(service),
-      update: UpdatePropertyValuationUseCase(service),
-      delete: DeletePropertyValuationUseCase(service),
-    );
-  }
+  final PropertyValuationRepository _repository;
+  DeletePropertyValuationUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

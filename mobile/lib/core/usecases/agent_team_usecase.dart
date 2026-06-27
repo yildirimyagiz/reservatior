@@ -1,106 +1,44 @@
-import '../../features/shared/services/agent_team_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for AgentTeam
+import 'package:reservatior/shared/repositories/agent_team_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetAgentTeamByIdUseCase {
-  final AgentTeamService _service;
-  
-  GetAgentTeamByIdUseCase(this._service);
-  
-  Future<AgentTeam> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final AgentTeamRepository _repository;
+  GetAgentTeamByIdUseCase(this._repository);
+  Future<AgentTeam> execute(String id) => _repository.getById(id);
 }
 
 class GetAgentTeamsUseCase {
-  final AgentTeamService _service;
-  
-  GetAgentTeamsUseCase(this._service);
-  
+  final AgentTeamRepository _repository;
+  GetAgentTeamsUseCase(this._repository);
   Future<List<AgentTeam>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateAgentTeamUseCase {
-  final AgentTeamService _service;
-  
-  CreateAgentTeamUseCase(this._service);
-  
-  Future<AgentTeam> execute(AgentTeam agentTeam) async {
-    // Add validation logic here
-    return await _service.create(agentTeam);
-  }
+  final AgentTeamRepository _repository;
+  CreateAgentTeamUseCase(this._repository);
+  Future<AgentTeam> execute(AgentTeam item) => _repository.create(item);
 }
 
 class UpdateAgentTeamUseCase {
-  final AgentTeamService _service;
-  
-  UpdateAgentTeamUseCase(this._service);
-  
-  Future<AgentTeam> execute(String id, AgentTeam agentTeam) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, agentTeam);
-  }
+  final AgentTeamRepository _repository;
+  UpdateAgentTeamUseCase(this._repository);
+  Future<AgentTeam> execute(String id, AgentTeam item) => _repository.update(id, item);
 }
 
 class DeleteAgentTeamUseCase {
-  final AgentTeamService _service;
-  
-  DeleteAgentTeamUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// AgentTeam Use Case Container
-class AgentTeamUseCases {
-  final GetAgentTeamByIdUseCase getById;
-  final GetAgentTeamsUseCase getAll;
-  final CreateAgentTeamUseCase create;
-  final UpdateAgentTeamUseCase update;
-  final DeleteAgentTeamUseCase delete;
-  
-  AgentTeamUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory AgentTeamUseCases.create(AgentTeamService service) {
-    return AgentTeamUseCases(
-      getById: GetAgentTeamByIdUseCase(service),
-      getAll: GetAgentTeamsUseCase(service),
-      create: CreateAgentTeamUseCase(service),
-      update: UpdateAgentTeamUseCase(service),
-      delete: DeleteAgentTeamUseCase(service),
-    );
-  }
+  final AgentTeamRepository _repository;
+  DeleteAgentTeamUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

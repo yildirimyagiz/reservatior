@@ -1,106 +1,44 @@
-import '../../features/shared/services/webhook_delivery_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for WebhookDelivery
+import 'package:reservatior/shared/repositories/webhook_delivery_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetWebhookDeliveryByIdUseCase {
-  final WebhookDeliveryService _service;
-  
-  GetWebhookDeliveryByIdUseCase(this._service);
-  
-  Future<WebhookDelivery> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final WebhookDeliveryRepository _repository;
+  GetWebhookDeliveryByIdUseCase(this._repository);
+  Future<WebhookDelivery> execute(String id) => _repository.getById(id);
 }
 
 class GetWebhookDeliverysUseCase {
-  final WebhookDeliveryService _service;
-  
-  GetWebhookDeliverysUseCase(this._service);
-  
+  final WebhookDeliveryRepository _repository;
+  GetWebhookDeliverysUseCase(this._repository);
   Future<List<WebhookDelivery>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateWebhookDeliveryUseCase {
-  final WebhookDeliveryService _service;
-  
-  CreateWebhookDeliveryUseCase(this._service);
-  
-  Future<WebhookDelivery> execute(WebhookDelivery webhookDelivery) async {
-    // Add validation logic here
-    return await _service.create(webhookDelivery);
-  }
+  final WebhookDeliveryRepository _repository;
+  CreateWebhookDeliveryUseCase(this._repository);
+  Future<WebhookDelivery> execute(WebhookDelivery item) => _repository.create(item);
 }
 
 class UpdateWebhookDeliveryUseCase {
-  final WebhookDeliveryService _service;
-  
-  UpdateWebhookDeliveryUseCase(this._service);
-  
-  Future<WebhookDelivery> execute(String id, WebhookDelivery webhookDelivery) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, webhookDelivery);
-  }
+  final WebhookDeliveryRepository _repository;
+  UpdateWebhookDeliveryUseCase(this._repository);
+  Future<WebhookDelivery> execute(String id, WebhookDelivery item) => _repository.update(id, item);
 }
 
 class DeleteWebhookDeliveryUseCase {
-  final WebhookDeliveryService _service;
-  
-  DeleteWebhookDeliveryUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// WebhookDelivery Use Case Container
-class WebhookDeliveryUseCases {
-  final GetWebhookDeliveryByIdUseCase getById;
-  final GetWebhookDeliverysUseCase getAll;
-  final CreateWebhookDeliveryUseCase create;
-  final UpdateWebhookDeliveryUseCase update;
-  final DeleteWebhookDeliveryUseCase delete;
-  
-  WebhookDeliveryUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory WebhookDeliveryUseCases.create(WebhookDeliveryService service) {
-    return WebhookDeliveryUseCases(
-      getById: GetWebhookDeliveryByIdUseCase(service),
-      getAll: GetWebhookDeliverysUseCase(service),
-      create: CreateWebhookDeliveryUseCase(service),
-      update: UpdateWebhookDeliveryUseCase(service),
-      delete: DeleteWebhookDeliveryUseCase(service),
-    );
-  }
+  final WebhookDeliveryRepository _repository;
+  DeleteWebhookDeliveryUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

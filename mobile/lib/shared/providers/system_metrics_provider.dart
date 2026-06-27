@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/system_metrics_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/system_metrics_service.dart';
+import 'package:reservatior/shared/repositories/system_metrics_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// SystemMetrics Providers
-
-final SystemMetricsServiceProvider = Provider<SystemMetricsService>((ref) {
+final systemMetricsServiceProvider = Provider<SystemMetricsService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return SystemMetricsService(dioClient);
 });
 
-// List Provider
-final systemMetricsProvider = FutureProvider.autoDispose<List<SystemMetrics>>((ref) async {
-  final service = ref.watch(SystemMetricsServiceProvider);
-  return service.getSystemMetricss();
+final systemMetricsRepositoryProvider = Provider<SystemMetricsRepository>((ref) {
+  final service = ref.watch(systemMetricsServiceProvider);
+  return SystemMetricsRepositoryImpl(service);
 });
 
-// Create Provider
-final SystemMetricsCreateProvider = FutureProvider.autoDispose<SystemMetrics>((ref) async {
-  final service = ref.watch(SystemMetricsServiceProvider);
-  return service.createSystemMetrics(SystemMetrics());
+final systemMetricsListProvider = FutureProvider.autoDispose<List<SystemMetrics>>((ref) async {
+  final repository = ref.watch(systemMetricsRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final SystemMetricsUpdateProvider = FutureProvider.autoDispose<SystemMetrics>((ref) async {
-  final service = ref.watch(SystemMetricsServiceProvider);
-  final state = ref.watch(SystemMetricsUpdateStateProvider);
-  if (state['id'] != null && state['system_metrics'] != null) {
-    return service.updateSystemMetrics(state['id'], state['system_metrics']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final SystemMetricsDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(SystemMetricsServiceProvider);
-  final state = ref.watch(SystemMetricsDeleteStateProvider);
-  if (state != null) {
-    return service.deleteSystemMetrics(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final SystemMetricsUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final SystemMetricsDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final SystemMetricsLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(systemMetricsProvider);
-  final createAsync = ref.watch(SystemMetricsCreateProvider);
-  final updateAsync = ref.watch(SystemMetricsUpdateProvider);
-  final deleteAsync = ref.watch(SystemMetricsDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final systemMetricsCreateProvider = StateProvider<SystemMetrics?>((ref) => null);
+final systemMetricsUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final systemMetricsDeleteProvider = StateProvider<String?>((ref) => null);
+final systemMetricsLoadingProvider = StateProvider<bool>((ref) => false);

@@ -1,106 +1,44 @@
-import '../../features/shared/services/guest_review_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for GuestReview
+import 'package:reservatior/shared/repositories/guest_review_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetGuestReviewByIdUseCase {
-  final GuestReviewService _service;
-  
-  GetGuestReviewByIdUseCase(this._service);
-  
-  Future<GuestReview> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final GuestReviewRepository _repository;
+  GetGuestReviewByIdUseCase(this._repository);
+  Future<GuestReview> execute(String id) => _repository.getById(id);
 }
 
 class GetGuestReviewsUseCase {
-  final GuestReviewService _service;
-  
-  GetGuestReviewsUseCase(this._service);
-  
+  final GuestReviewRepository _repository;
+  GetGuestReviewsUseCase(this._repository);
   Future<List<GuestReview>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateGuestReviewUseCase {
-  final GuestReviewService _service;
-  
-  CreateGuestReviewUseCase(this._service);
-  
-  Future<GuestReview> execute(GuestReview guestReview) async {
-    // Add validation logic here
-    return await _service.create(guestReview);
-  }
+  final GuestReviewRepository _repository;
+  CreateGuestReviewUseCase(this._repository);
+  Future<GuestReview> execute(GuestReview item) => _repository.create(item);
 }
 
 class UpdateGuestReviewUseCase {
-  final GuestReviewService _service;
-  
-  UpdateGuestReviewUseCase(this._service);
-  
-  Future<GuestReview> execute(String id, GuestReview guestReview) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, guestReview);
-  }
+  final GuestReviewRepository _repository;
+  UpdateGuestReviewUseCase(this._repository);
+  Future<GuestReview> execute(String id, GuestReview item) => _repository.update(id, item);
 }
 
 class DeleteGuestReviewUseCase {
-  final GuestReviewService _service;
-  
-  DeleteGuestReviewUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// GuestReview Use Case Container
-class GuestReviewUseCases {
-  final GetGuestReviewByIdUseCase getById;
-  final GetGuestReviewsUseCase getAll;
-  final CreateGuestReviewUseCase create;
-  final UpdateGuestReviewUseCase update;
-  final DeleteGuestReviewUseCase delete;
-  
-  GuestReviewUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory GuestReviewUseCases.create(GuestReviewService service) {
-    return GuestReviewUseCases(
-      getById: GetGuestReviewByIdUseCase(service),
-      getAll: GetGuestReviewsUseCase(service),
-      create: CreateGuestReviewUseCase(service),
-      update: UpdateGuestReviewUseCase(service),
-      delete: DeleteGuestReviewUseCase(service),
-    );
-  }
+  final GuestReviewRepository _repository;
+  DeleteGuestReviewUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

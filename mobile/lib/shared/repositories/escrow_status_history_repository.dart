@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/escrow_status_history_service.dart';
 
-/// Repository for EscrowStatusHistory operations
-/// Provides CRUD operations with proper error handling and type safety
-class EscrowStatusHistoryRepository {
-  final DioClient _dioClient;
+abstract class EscrowStatusHistoryRepository {
+  Future<EscrowStatusHistory> getById(String id);
+  Future<List<EscrowStatusHistory>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<EscrowStatusHistory> create(EscrowStatusHistory item);
+  Future<EscrowStatusHistory> update(String id, EscrowStatusHistory item);
+  Future<void> delete(String id);
+}
 
-  EscrowStatusHistoryRepository(this._dioClient);
+class EscrowStatusHistoryRepositoryImpl implements EscrowStatusHistoryRepository {
+  final EscrowStatusHistoryService _service;
+  EscrowStatusHistoryRepositoryImpl(this._service);
 
-  /// Get EscrowStatusHistory by ID
-  /// Returns [EscrowStatusHistory] if found, throws [RepositoryException] otherwise
-  Future<EscrowStatusHistory> getEscrowStatusHistoryById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/escrow_status_history/$id');
-      if (response.statusCode == 200) {
-        return EscrowStatusHistory.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch escrow_status_history',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<EscrowStatusHistory> getById(String id) => _service.getEscrowStatusHistoryById(id);
 
-  /// Get all escrow_status_histories with pagination and filtering
-  /// Returns list of [EscrowStatusHistory] objects
-  Future<List<EscrowStatusHistory>> getescrow_status_histories({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<EscrowStatusHistory>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/escrow_status_history', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => EscrowStatusHistory.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch escrow_status_histories',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getEscrowStatusHistories(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new EscrowStatusHistory
-  /// Returns created [EscrowStatusHistory] object
-  Future<EscrowStatusHistory> createEscrowStatusHistory(EscrowStatusHistory escrowStatusHistory) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/escrow_status_history',
-        data: escrowStatusHistory.toJson(),
-      );
-      return EscrowStatusHistory.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<EscrowStatusHistory> create(EscrowStatusHistory item) => _service.createEscrowStatusHistory(item);
 
-  // Update EscrowStatusHistory
-  Future<EscrowStatusHistory> updateEscrowStatusHistory(String id, EscrowStatusHistory escrowStatusHistory) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/escrow_status_history/$id',
-        data: escrowStatusHistory.toJson(),
-      );
-      return EscrowStatusHistory.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<EscrowStatusHistory> update(String id, EscrowStatusHistory item) => _service.updateEscrowStatusHistory(id, item);
 
-  // Delete EscrowStatusHistory
-  Future<void> deleteEscrowStatusHistory(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/escrow_status_history/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteEscrowStatusHistory(id);
 }

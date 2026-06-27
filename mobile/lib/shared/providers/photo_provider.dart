@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/photo_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/photo_service.dart';
+import 'package:reservatior/shared/repositories/photo_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// Photo Providers
-
-final PhotoServiceProvider = Provider<PhotoService>((ref) {
+final photoServiceProvider = Provider<PhotoService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return PhotoService(dioClient);
 });
 
-// List Provider
-final photoProvider = FutureProvider.autoDispose<List<Photo>>((ref) async {
-  final service = ref.watch(PhotoServiceProvider);
-  return service.getPhotos();
+final photoRepositoryProvider = Provider<PhotoRepository>((ref) {
+  final service = ref.watch(photoServiceProvider);
+  return PhotoRepositoryImpl(service);
 });
 
-// Create Provider
-final PhotoCreateProvider = FutureProvider.autoDispose<Photo>((ref) async {
-  final service = ref.watch(PhotoServiceProvider);
-  return service.createPhoto(Photo());
+final photoListProvider = FutureProvider.autoDispose<List<Photo>>((ref) async {
+  final repository = ref.watch(photoRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final PhotoUpdateProvider = FutureProvider.autoDispose<Photo>((ref) async {
-  final service = ref.watch(PhotoServiceProvider);
-  final state = ref.watch(PhotoUpdateStateProvider);
-  if (state['id'] != null && state['photo'] != null) {
-    return service.updatePhoto(state['id'], state['photo']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final PhotoDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(PhotoServiceProvider);
-  final state = ref.watch(PhotoDeleteStateProvider);
-  if (state != null) {
-    return service.deletePhoto(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final PhotoUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final PhotoDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final PhotoLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(photoProvider);
-  final createAsync = ref.watch(PhotoCreateProvider);
-  final updateAsync = ref.watch(PhotoUpdateProvider);
-  final deleteAsync = ref.watch(PhotoDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final photoCreateProvider = StateProvider<Photo?>((ref) => null);
+final photoUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final photoDeleteProvider = StateProvider<String?>((ref) => null);
+final photoLoadingProvider = StateProvider<bool>((ref) => false);

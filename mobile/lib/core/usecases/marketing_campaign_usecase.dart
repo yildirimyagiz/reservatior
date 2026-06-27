@@ -1,106 +1,44 @@
-import '../../features/shared/services/marketing_campaign_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for MarketingCampaign
+import 'package:reservatior/shared/repositories/marketing_campaign_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetMarketingCampaignByIdUseCase {
-  final MarketingCampaignService _service;
-  
-  GetMarketingCampaignByIdUseCase(this._service);
-  
-  Future<MarketingCampaign> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final MarketingCampaignRepository _repository;
+  GetMarketingCampaignByIdUseCase(this._repository);
+  Future<MarketingCampaign> execute(String id) => _repository.getById(id);
 }
 
 class GetMarketingCampaignsUseCase {
-  final MarketingCampaignService _service;
-  
-  GetMarketingCampaignsUseCase(this._service);
-  
+  final MarketingCampaignRepository _repository;
+  GetMarketingCampaignsUseCase(this._repository);
   Future<List<MarketingCampaign>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateMarketingCampaignUseCase {
-  final MarketingCampaignService _service;
-  
-  CreateMarketingCampaignUseCase(this._service);
-  
-  Future<MarketingCampaign> execute(MarketingCampaign marketingCampaign) async {
-    // Add validation logic here
-    return await _service.create(marketingCampaign);
-  }
+  final MarketingCampaignRepository _repository;
+  CreateMarketingCampaignUseCase(this._repository);
+  Future<MarketingCampaign> execute(MarketingCampaign item) => _repository.create(item);
 }
 
 class UpdateMarketingCampaignUseCase {
-  final MarketingCampaignService _service;
-  
-  UpdateMarketingCampaignUseCase(this._service);
-  
-  Future<MarketingCampaign> execute(String id, MarketingCampaign marketingCampaign) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, marketingCampaign);
-  }
+  final MarketingCampaignRepository _repository;
+  UpdateMarketingCampaignUseCase(this._repository);
+  Future<MarketingCampaign> execute(String id, MarketingCampaign item) => _repository.update(id, item);
 }
 
 class DeleteMarketingCampaignUseCase {
-  final MarketingCampaignService _service;
-  
-  DeleteMarketingCampaignUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// MarketingCampaign Use Case Container
-class MarketingCampaignUseCases {
-  final GetMarketingCampaignByIdUseCase getById;
-  final GetMarketingCampaignsUseCase getAll;
-  final CreateMarketingCampaignUseCase create;
-  final UpdateMarketingCampaignUseCase update;
-  final DeleteMarketingCampaignUseCase delete;
-  
-  MarketingCampaignUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory MarketingCampaignUseCases.create(MarketingCampaignService service) {
-    return MarketingCampaignUseCases(
-      getById: GetMarketingCampaignByIdUseCase(service),
-      getAll: GetMarketingCampaignsUseCase(service),
-      create: CreateMarketingCampaignUseCase(service),
-      update: UpdateMarketingCampaignUseCase(service),
-      delete: DeleteMarketingCampaignUseCase(service),
-    );
-  }
+  final MarketingCampaignRepository _repository;
+  DeleteMarketingCampaignUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

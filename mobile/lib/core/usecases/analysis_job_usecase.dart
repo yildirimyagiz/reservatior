@@ -1,106 +1,44 @@
-import '../../features/shared/services/analysis_job_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for AnalysisJob
+import 'package:reservatior/shared/repositories/analysis_job_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetAnalysisJobByIdUseCase {
-  final AnalysisJobService _service;
-  
-  GetAnalysisJobByIdUseCase(this._service);
-  
-  Future<AnalysisJob> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final AnalysisJobRepository _repository;
+  GetAnalysisJobByIdUseCase(this._repository);
+  Future<AnalysisJob> execute(String id) => _repository.getById(id);
 }
 
 class GetAnalysisJobsUseCase {
-  final AnalysisJobService _service;
-  
-  GetAnalysisJobsUseCase(this._service);
-  
+  final AnalysisJobRepository _repository;
+  GetAnalysisJobsUseCase(this._repository);
   Future<List<AnalysisJob>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateAnalysisJobUseCase {
-  final AnalysisJobService _service;
-  
-  CreateAnalysisJobUseCase(this._service);
-  
-  Future<AnalysisJob> execute(AnalysisJob analysisJob) async {
-    // Add validation logic here
-    return await _service.create(analysisJob);
-  }
+  final AnalysisJobRepository _repository;
+  CreateAnalysisJobUseCase(this._repository);
+  Future<AnalysisJob> execute(AnalysisJob item) => _repository.create(item);
 }
 
 class UpdateAnalysisJobUseCase {
-  final AnalysisJobService _service;
-  
-  UpdateAnalysisJobUseCase(this._service);
-  
-  Future<AnalysisJob> execute(String id, AnalysisJob analysisJob) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, analysisJob);
-  }
+  final AnalysisJobRepository _repository;
+  UpdateAnalysisJobUseCase(this._repository);
+  Future<AnalysisJob> execute(String id, AnalysisJob item) => _repository.update(id, item);
 }
 
 class DeleteAnalysisJobUseCase {
-  final AnalysisJobService _service;
-  
-  DeleteAnalysisJobUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// AnalysisJob Use Case Container
-class AnalysisJobUseCases {
-  final GetAnalysisJobByIdUseCase getById;
-  final GetAnalysisJobsUseCase getAll;
-  final CreateAnalysisJobUseCase create;
-  final UpdateAnalysisJobUseCase update;
-  final DeleteAnalysisJobUseCase delete;
-  
-  AnalysisJobUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory AnalysisJobUseCases.create(AnalysisJobService service) {
-    return AnalysisJobUseCases(
-      getById: GetAnalysisJobByIdUseCase(service),
-      getAll: GetAnalysisJobsUseCase(service),
-      create: CreateAnalysisJobUseCase(service),
-      update: UpdateAnalysisJobUseCase(service),
-      delete: DeleteAnalysisJobUseCase(service),
-    );
-  }
+  final AnalysisJobRepository _repository;
+  DeleteAnalysisJobUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

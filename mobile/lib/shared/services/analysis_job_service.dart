@@ -1,82 +1,48 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/core/network/dio_client.dart';
+import 'package:reservatior/core/network/api_endpoints.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class AnalysisJobService {
   final DioClient _dioClient;
-
   AnalysisJobService(this._dioClient);
 
-  // Get AnalysisJob by ID
   Future<AnalysisJob> getAnalysisJobById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/analysis_job/$id');
-      return AnalysisJob.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _dioClient.get('${ApiEndpoints.analysisJobs}/$id');
+    return AnalysisJob.fromJson(response.data['data']);
   }
 
-  // Get all analysis_jobs
   Future<List<AnalysisJob>> getAnalysisJobs({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
+    String? orgId,
     Map<String, dynamic>? filters,
+    String? sortBy,
+    String? sortOrder,
   }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page.toString(),
-        'limit': limit.toString(),
-      };
-
-      if (filters != null) {
-        queryParams.addAll(filters);
-      }
-
-      final response = await _dioClient.get('/api/v1/analysis_job', queryParameters: queryParams);
-      final data = response.data['data'] as List;
-      return data.map((json) => AnalysisJob.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final queryParams = {
+      'page': page, 
+      'limit': limit,
+      if (orgId != null) 'orgId': orgId,
+      if (sortBy != null) 'sortBy': sortBy,
+      if (sortOrder != null) 'sortOrder': sortOrder,
+      ...?filters
+    };
+    final response = await _dioClient.get(ApiEndpoints.analysisJobs, queryParameters: queryParams);
+    final data = response.data['data'] as List;
+    return data.map((json) => AnalysisJob.fromJson(json)).toList();
   }
 
-  // Create AnalysisJob
-  Future<AnalysisJob> createAnalysisJob(AnalysisJob analysisJob) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/analysis_job',
-        data: analysisJob.toJson(),
-      );
-      return AnalysisJob.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AnalysisJob> createAnalysisJob(AnalysisJob item) async {
+    final response = await _dioClient.post(ApiEndpoints.analysisJobs, data: item.toJson());
+    return AnalysisJob.fromJson(response.data['data']);
   }
 
-  // Update AnalysisJob
-  Future<AnalysisJob> updateAnalysisJob(String id, AnalysisJob analysisJob) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/analysis_job/$id',
-        data: analysisJob.toJson(),
-      );
-      return AnalysisJob.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<AnalysisJob> updateAnalysisJob(String id, AnalysisJob item) async {
+    final response = await _dioClient.patch('${ApiEndpoints.analysisJobs}/$id', data: item.toJson());
+    return AnalysisJob.fromJson(response.data['data']);
   }
 
-  // Delete AnalysisJob
   Future<void> deleteAnalysisJob(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/analysis_job/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    return Exception('API Error: ${e.message}');
+    await _dioClient.delete('${ApiEndpoints.analysisJobs}/$id');
   }
 }

@@ -1,106 +1,44 @@
-import '../../features/shared/services/signature_request_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for SignatureRequest
+import 'package:reservatior/shared/repositories/signature_request_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetSignatureRequestByIdUseCase {
-  final SignatureRequestService _service;
-  
-  GetSignatureRequestByIdUseCase(this._service);
-  
-  Future<SignatureRequest> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final SignatureRequestRepository _repository;
+  GetSignatureRequestByIdUseCase(this._repository);
+  Future<SignatureRequest> execute(String id) => _repository.getById(id);
 }
 
 class GetSignatureRequestsUseCase {
-  final SignatureRequestService _service;
-  
-  GetSignatureRequestsUseCase(this._service);
-  
+  final SignatureRequestRepository _repository;
+  GetSignatureRequestsUseCase(this._repository);
   Future<List<SignatureRequest>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateSignatureRequestUseCase {
-  final SignatureRequestService _service;
-  
-  CreateSignatureRequestUseCase(this._service);
-  
-  Future<SignatureRequest> execute(SignatureRequest signatureRequest) async {
-    // Add validation logic here
-    return await _service.create(signatureRequest);
-  }
+  final SignatureRequestRepository _repository;
+  CreateSignatureRequestUseCase(this._repository);
+  Future<SignatureRequest> execute(SignatureRequest item) => _repository.create(item);
 }
 
 class UpdateSignatureRequestUseCase {
-  final SignatureRequestService _service;
-  
-  UpdateSignatureRequestUseCase(this._service);
-  
-  Future<SignatureRequest> execute(String id, SignatureRequest signatureRequest) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, signatureRequest);
-  }
+  final SignatureRequestRepository _repository;
+  UpdateSignatureRequestUseCase(this._repository);
+  Future<SignatureRequest> execute(String id, SignatureRequest item) => _repository.update(id, item);
 }
 
 class DeleteSignatureRequestUseCase {
-  final SignatureRequestService _service;
-  
-  DeleteSignatureRequestUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// SignatureRequest Use Case Container
-class SignatureRequestUseCases {
-  final GetSignatureRequestByIdUseCase getById;
-  final GetSignatureRequestsUseCase getAll;
-  final CreateSignatureRequestUseCase create;
-  final UpdateSignatureRequestUseCase update;
-  final DeleteSignatureRequestUseCase delete;
-  
-  SignatureRequestUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory SignatureRequestUseCases.create(SignatureRequestService service) {
-    return SignatureRequestUseCases(
-      getById: GetSignatureRequestByIdUseCase(service),
-      getAll: GetSignatureRequestsUseCase(service),
-      create: CreateSignatureRequestUseCase(service),
-      update: UpdateSignatureRequestUseCase(service),
-      delete: DeleteSignatureRequestUseCase(service),
-    );
-  }
+  final SignatureRequestRepository _repository;
+  DeleteSignatureRequestUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

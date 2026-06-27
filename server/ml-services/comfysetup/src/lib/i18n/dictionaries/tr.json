@@ -1,0 +1,465 @@
+{
+  "common": {
+    "appName": "FurnitureStaging.AI",
+    "tagline": "Yapay Zeka Destekli Mobilya Görselleştirme",
+    "loading": "Yükleniyor...",
+    "error": "Bir şeyler yanlış gitti",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı!",
+    "generate": "Oluştur",
+    "upload": "Yükle",
+    "download": "İndir",
+    "settings": "Ayarlar",
+    "language": "Dil",
+    "before": "Orijinal",
+    "after": "Sanal Sahneleme"
+  },
+  "landing": {
+"hero": {
+      "title": "Emlak için Yapay Zeka Destekli Mekan Stilisti",
+      "subtitle": "Boş odaları anında çarpıcı görsellere dönüştürün. Profesyonel yapay zeka yardımıyla her alanda mobilya ekleyin, yeniden tasarlayın ve görselleştirin.",
+      "cta": "Stil Vermeye Başla",
+      "secondaryCta": "Nasıl Çalışır?",
+      "tagline": "Yapay zeka görselleştirmeyle mülkleri daha hızlı satın",
+      "description": "Mülkleri daha hızlı satmak için profesyonel yapay zeka sahneleme. Emlak fotoğraflarınızı saniyeler içinde sahneleyin, düzenleyin ve geliştirin.",
+      "pills": {
+        "why": "Neden AtlasVS",
+        "agents": "Emlakçılar İçin",
+        "results": "Sonuçlar",
+        "pricing": "Basit Fiyatlandırma"
+      },
+      "footerCallout": "Abonelik isteğe bağlıdır. Sadece ihtiyacınız olan kadar ödeyin."
+    },
+    "featureShowcase": {
+      "dragText": "Farkı görmek için kaydırın",
+      "getStarted": "Hemen Başla",
+      "footerNote": "Abonelik isteğe bağlıdır. Sadece ihtiyacınız olan kadar ödeyin.",
+      "items": {
+        "staging": {
+          "label": "Yapay Zeka Sanal Sahneleme",
+          "description": "Boş odaları anında donatın",
+          "longDescription": "Boş alanları sıcak, davetkar evlere dönüştürün. Hedef pazarınıza uygun birden fazla iç mekan stili arasından seçim yapın."
+        },
+        "redesign": {
+          "label": "Yapay Zeka Yeniden Tasarım",
+          "description": "Her alanı anında yeniden tasarlayın",
+          "longDescription": "Odalara taze bir görünüm kazandırın. Yapay zeka ile saniyeler içinde stilleri, renkleri ve mobilyaları değiştirin."
+        },
+        "video": {
+          "label": "Yapay Zeka Video Turları",
+          "description": "Saniyeler içinde video turları oluşturun",
+          "longDescription": "Statik görselleri ilgi çekici video turlarına dönüştürün. Dinamik hareketle sosyal medyada dikkat çekin."
+        },
+        "enhance": {
+          "label": "Yapay Zeka Fotoğraf Geliştirme",
+          "description": "Profesyonel fotoğraf geliştirme",
+          "longDescription": "Emlak fotoğraflarını yapay zeka destekli düzenleme ile otomatik olarak geliştirin, rötuş yapın ve iyileştirin."
+        },
+        "pamphlet": {
+          "label": "Broşür",
+          "description": "Anında pazarlama materyalleri",
+          "longDescription": "Profesyonel broşür ve el ilanlarını anında oluşturun. Düzenli ve baskıya veya dijital paylaşıma hazır."
+        },
+        "reels": {
+          "label": "Reels'a Hazır",
+          "description": "Sosyal medyaya hazır içerik",
+          "longDescription": "Instagram Reels ve TikTok için optimize edilmiş kısa dikey videoları otomatik olarak oluşturun."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Nasıl Çalışır",
+      "subtitle": "Boş alanları güzel evlere dönüştürmek hiç bu kadar kolay olmamıştı.",
+      "steps": {
+        "upload": {
+          "title": "Odanızı Yükleyin",
+          "description": "Boş odanızın bir fotoğrafını çekin ve yükleyin. Yapay zekamız geometriyi ve aydınlatmayı otomatik olarak algılar."
+        },
+        "choose": {
+          "title": "Mobilya Seçin",
+          "description": "En iyi markaların gerçek mobilya kütüphanemize göz atın veya sahnelemek için kendi parçalarınızı yükleyin."
+        },
+        "export": {
+          "title": "Oluştur ve Dışa Aktar",
+          "description": "Yapay zekanın mobilyaları saniyeler içinde odanıza kusursuz bir şekilde harmanlamasını izleyin. Yüksek çözünürlüklü görselleri anında indirin."
+        }
+      }
+    },
+    "solutions": {
+      "title": "Profesyoneller İçin Tasarlandı",
+      "subtitle": "İster satıyor, ister tasarlıyor, ister fotoğraflıyor olun, AtlasVS daha iyisini yapmanıza yardımcı olur.",
+      "items": {
+        "agents": {
+          "label": "Gayrimenkul Danışmanları",
+          "title": "Daha yüksek fiyatlara daha hızlı satın",
+          "description": "Daha fazla alıcı çekmek ve işlemleri daha hızlı kapatmak için boş ilanları anında sahneleyin. Fiziksel mobilya gerekmez."
+        },
+        "architects": {
+          "label": "Mimarlar ve Tasarımcılar",
+          "title": "Tamamlanmamış konseptleri görselleştirin",
+          "description": "Müşterilerin tasarımlarınızın potansiyelini görmesine yardımcı olun. İnşaat başlamadan önce tadilat olasılıklarını gösterin."
+        },
+        "homeowners": {
+          "label": "Ev Sahipleri",
+          "title": "Satmadan önce potansiyeli görün",
+          "description": "Evinizin gerçek potansiyelini görselleştirin. Satış fiyatınızı maksimize etmek için dağınıklığı giderin ve eski dekoru güncelleyin."
+        },
+        "photographers": {
+          "label": "Fotoğrafçılar",
+          "title": "Ölçeklenebilir profesyonel düzenleme",
+          "description": "Çarpıcı, dergi kalitesinde görseller sunun. İyileştirme, gökyüzü değiştirme ve renk düzeltmeyi otomatikleştirin."
+        }
+      },
+      "cta": "{label} Deneyin"
+    },
+    "faq": {
+      "title": "Sıkça Sorulan Sorular",
+      "subtitle": "Sanal sahneleme platformumuz hakkında bilmeniz gereken her şey.",
+      "items": [
+        {
+          "question": "Sahnelerenmiş bir fotoğraf oluşturmak ne kadar sürer?",
+          "answer": "Çoğu render 30 saniyenin altında tamamlanır. Karmaşık sahneler veya 360 panoramalar bir dakikaya kadar sürebilir."
+        },
+        {
+          "question": "Mobilyalar gerçek mi?",
+          "answer": "Yapay zekamız binlerce gerçek mobilya öğesi üzerinde eğitilmiştir, ancak oluşturulan görseller sentetik temsillerdir. Bununla birlikte, ortaklarımızdan satın alınabilir benzer öğeleri bulmak için kataloğumuza göz atabilirsiniz."
+        },
+        {
+          "question": "Mevcut mobilyaları kaldırabilir miyim?",
+          "answer": "Evet! Nesne Kaldırma ve 'Yeniden Tasarım' modumuz, bir odayı temizlemenize veya mevcut mobilyaları anında yeni bir stille değiştirmenize olanak tanır."
+        },
+        {
+          "question": "Profesyonel fotoğraflara ihtiyacım var mı?",
+          "answer": "Hayır. Yapay zekamız fotoğraflarınızı otomatik olarak geliştirir. Profesyonel fotoğraflar en iyi sonuçları verse de, akıllı telefon fotoğrafları bile yüksek kaliteli pazarlama varlıklarına dönüştürülebilir."
+        },
+        {
+          "question": "Sonucu beğenmezsem ne olur?",
+          "answer": "Yapay zeka hatalar üretirse ücretsiz yeniden oluşturma sunuyoruz. Ayrıca, tüm odayı yeniden sahnelemeden belirli alanları düzeltmek için 'Sihirli Düzenleme' aracımızı kullanabilirsiniz."
+        }
+      ]
+    },
+    "gallery": {
+      "badge": "14+ Tasarım Stili",
+      "title": "Mükemmelinizi Seçin",
+      "titleSpan": "İç Mekan Stili",
+      "subtitle": "Minimalistten lükse, özenle seçilmiş iç mekan tasarım stilleri koleksiyonumuzdan seçim yapın",
+      "exploreAll": "Tüm 14 Stili Keşfedin",
+      "premium": "Premium"
+    },
+    "testimonials": {
+      "title": "10.000+ Profesyonel Tarafından Sevildi",
+      "subtitle": "Görsel pazarlamaları için yapay zekamıza güvenen gayrimenkul uzmanları topluluğuna katılın.",
+      "items": [
+        {
+          "name": "Sarah Jenkins",
+          "role": "Kıdemli Emlakçı, New York",
+          "content": "AtlasVS, boş daireleri listeleme şeklimi tamamen değiştirdi. Hız ve kalite eşsiz. Onu kullanmaya başladığımdan beri mülkleri 2 kat daha hızlı sattım."
+        },
+        {
+          "name": "Michael Chen",
+          "role": "İç Mimar",
+          "content": "Yapay zeka, tasarım stillerini denediğim çoğu araçtan daha iyi anlıyor. Müşteri sunumlarım için harika bir başlangıç noktası."
+        },
+        {
+          "name": "Emily Rodriguez",
+          "role": "Mülk Yöneticisi",
+          "content": "Para için inanılmaz bir değer. Yüzlerce kiralık birimi sahneliyoruz ve bu, bütçemizle ölçeklenen tek çözüm."
+        }
+      ]
+    },
+    "header": {
+      "nav": {
+        "services": "Hizmetler",
+        "categories": "Kategoriler",
+        "styles": "Stiller",
+        "pricing": "Fiyatlandırma",
+        "resources": "Kaynaklar"
+      },
+      "services": {
+        "staging": {
+          "label": "Sanal Sahneleme",
+          "description": "Boş odaları güzelce döşenmiş alanlara dönüştürün"
+        },
+        "redesign": {
+          "label": "Yapay Zeka Oda Yenileme",
+          "description": "Alanınızı farklı stillerle yeniden hayal edin"
+        },
+        "enhance": {
+          "label": "Fotoğraf Geliştirme",
+          "description": "İlan fotoğraflarını yapay zeka destekli düzenleme ile geliştirin"
+        },
+        "3d": {
+          "label": "3B Görselleştirme",
+          "description": "Sürükleyici 3B turlar oluşturun"
+        },
+        "video": {
+          "label": "Video Turlar",
+          "description": "Etkileyici gayrimenkul video turları oluşturun"
+        }
+      },
+      "resources": {
+        "docs": {
+          "label": "Dokümantasyon",
+          "description": "Platformumuzu nasıl kullanacağınızı öğrenin"
+        },
+        "caseStudies": {
+          "label": "Vaka Çalışmaları",
+          "description": "Başkalarının araçlarımızla nasıl başarılı olduğunu görün"
+        },
+        "help": {
+          "label": "Yardım Merkezi",
+          "description": "Destek alın ve sorularınızı yanıtlayın"
+        }
+      },
+      "auth": {
+        "signIn": "Giriş Yap",
+        "signUp": "Kayıt Ol",
+        "freeTrial": "Ücretsiz Başlayın"
+      },
+      "badges": {
+        "popular": "Popüler",
+        "premium": "Premium",
+        "soon": "Yakında"
+      }
+    },
+    "cta": {
+      "title": "İlanlarınızı Dönüştürmeye Hazır mısınız?",
+      "subtitle": "Mülkleri daha hızlı satmak için yapay zeka kullanan binlerce gayrimenkul profesyoneline katılın.",
+      "button": "Şimdi Sahnelemeye Başlayın"
+    },
+    "disclaimer": {
+      "title": "Yapay Zeka Görselleştirme Uyarısı",
+      "text": "Bu promptlar kullanılarak oluşturulan görseller AI destekli sahneleme görselleştirmeleridir. Nihai ürünler görselleştirmelerden farklılık gösterebilir. Ürün görselleri görsel referans olarak kullanılır, birebir kopya değildir."
+    },
+    "features": {
+      "title": "Neden AtlasVS'i Seçmelisiniz?"
+    },
+    "users": {
+      "title": "Profesyoneller İçin Tasarlandı",
+      "realtors": "Gayrimenkul Danışmanları",
+      "realtorsDesc": "Boş mülkleri muhteşem sahneleme ile sunun",
+      "architects": "Mimarlar",
+      "architectsDesc": "Tasarımları gerçek mobilyalarla görselleştirin",
+      "designers": "İç Mimarlar",
+      "designersDesc": "Konseptleri müşterilere güzel bir şekilde sunun",
+      "consumers": "Ev Sahipleri",
+      "consumersDesc": "Satın almadan önce mobilyaların önizlemesini yapın"
+    },
+    "footer": {
+      "sections": {
+        "services": "Hizmetler",
+        "categories": "Kategoriler",
+        "styles": "Stiller",
+        "company": "Şirket",
+        "resources": "Kaynaklar",
+        "legal": "Yasal"
+      },
+      "newsletter": {
+        "title": "Güncel Kalın",
+        "subtitle": "AI sahneleme teknolojisi hakkındaki son haberleri ve güncellemeleri alın",
+        "placeholder": "E-posta adresinizi girin",
+        "button": "Abone Ol"
+      },
+      "copyright": "Tüm hakları saklıdır.",
+      "companyLinks": {
+        "about": "Hakkımızda",
+        "blog": "Blog",
+        "careers": "Kariyer",
+        "contact": "İletişim"
+      },
+      "legalLinks": {
+        "privacy": "Gizlilik Politikası",
+        "terms": "Hizmet Şartları",
+        "cookies": "Çerez Politikası",
+        "gdpr": "GDPR"
+      }
+    }
+  },
+  "editor": {
+    "title": "Sahneleme Editörü",
+    "uploadRoom": "Oda Fotoğrafı Yükle",
+    "dragDrop": "Bir resmi sürükleyip bırakın veya göz atmak için tıklayın",
+    "roomType": "Oda Tipi",
+    "style": "İç Mekan Stili",
+    "colorPalette": "Renk Paleti",
+    "extras": "Ek Elemanlar",
+    "computeMode": "İşlem Modu",
+    "cpu": "CPU",
+    "gpu": "GPU",
+    "cpuDesc": "Yavaş ama her yerde çalışır",
+    "gpuDesc": "NVIDIA GPU ile hızlı",
+    "promptMode": "Oluşturma Modu",
+    "staging": "Mobilya Ekle",
+    "recolor": "Renk Değiştir",
+    "styleTransfer": "Stil Transferi",
+    "3dGeneration": "3D Oluşturma",
+    "ipAdapterNote": "Mobilya görselleriniz stil tutarlılığı için görsel referans olarak kullanılacak.",
+    "generatePrompt": "Prompt Oluştur"
+  },
+  "library": {
+    "title": "Mobilya Kütüphanesi",
+    "myFurniture": "Mobilyalarım",
+    "templates": "Şablonlar",
+    "sellerCatalog": "Satıcı Kataloğu",
+    "uploadFurniture": "Mobilya Yükle",
+    "noFurniture": "Henüz mobilya yok. İlk öğenizi yükleyin!",
+    "category": "Kategori",
+    "allCategories": "Tüm Kategoriler"
+  },
+  "output": {
+    "title": "Oluşturulan Prompt",
+    "positivePrompt": "Pozitif Prompt",
+    "negativePrompt": "Negatif Prompt",
+    "settings": "Oluşturma Ayarları",
+    "copyAll": "Tümünü Kopyala",
+    "disclaimer": "⚠️ Bu prompt kullanılarak oluşturulan görseller AI destekli sahneleme görselleştirmeleridir. Nihai ürünler farklılık gösterebilir."
+  },
+  "presets": {
+    "title": "Kayıtlı Ön Ayarlar",
+    "savePreset": "Ön Ayar Olarak Kaydet",
+    "loadPreset": "Ön Ayar Yükle",
+    "noPresets": "Henüz kayıtlı ön ayar yok"
+  },
+  "roomTypes": {
+    "living-room": "Oturma Odası",
+    "bedroom": "Yatak Odası",
+    "office": "Ev Ofisi",
+    "dining-room": "Yemek Odası",
+    "kitchen": "Mutfak",
+    "bathroom": "Banyo",
+    "outdoor": "Dış Mekan/Teras"
+  },
+  "styles": {
+    "modern-minimalist": {
+      "name": "Modern Minimalist",
+      "description": "Temiz çizgiler, nötr renkler ve düzenli alanlar",
+      "features": [
+        "Nötr tonlar",
+        "Açık alanlar",
+        "İmza parçalar"
+      ]
+    },
+    "scandinavian": {
+      "name": "İskandinav",
+      "description": "Hafif, havadar ve rahat İskandinav esintili iç mekanlar",
+      "features": [
+        "Hafif ahşaplar",
+        "Beyaz duvarlar",
+        "Rahat tekstiller"
+      ]
+    },
+    "industrial": {
+      "name": "Endüstriyel",
+      "description": "Ham maddeler, açıkta kalan unsurlar ve kentsel estetik",
+      "features": [
+        "Açık tuğla",
+        "Metal vurgular",
+        "Ham dokular"
+      ]
+    },
+    "mid-century-modern": {
+      "name": "Yüzyıl Ortası Modern",
+      "description": "İkonik 50'li ve 60'lı yılların mobilyalarıyla retro zarafet",
+      "features": [
+        "Organik şekiller",
+        "Cesur renkler",
+        "İkonik parçalar"
+      ]
+    },
+    "luxury": {
+      "name": "Lüks",
+      "description": "Birinci sınıf, sofistike ve üst düzey iç mekan tasarımı",
+      "features": [
+        "Zengin malzemeler",
+        "Altın vurgular",
+        "Tasarımcı parçaları"
+      ]
+    },
+    "bohemian": {
+      "name": "Bohem",
+      "description": "Eklektik, renkli ve küresel esintili alanlar",
+      "features": [
+        "Katmanlı dokular",
+        "Bitkiler",
+        "Küresel desenler"
+      ]
+    },
+    "coastal": {
+      "name": "Sahil",
+      "description": "Plaj esintili, rahat ve havadar iç mekanlar",
+      "features": [
+        "Mavi tonlar",
+        "Doğal lifler",
+        "Hafif kumaşlar"
+      ]
+    },
+    "rustic": {
+      "name": "Rustik",
+      "description": "Sıcak, doğal ve rustik çekiciliğe sahip alanlar",
+      "features": [
+        "Doğal ahşap",
+        "Taş unsurlar",
+        "El yapımı hissi"
+      ]
+    },
+    "contemporary": {
+      "name": "Çağdaş",
+      "description": "Güncel, gelişen ve sofistike tasarım",
+      "features": [
+        "Şık yüzeyler",
+        "Özel seçilmiş sanat",
+        "Modern teknoloji"
+      ]
+    },
+    "farmhouse": {
+      "name": "Çiftlik Evi",
+      "description": "Rustik, konforlu ve aile dostu iç mekanlar",
+      "features": [
+        "Geniş evyeler",
+        "Karışık metaller",
+        "Eskitme yüzeyler"
+      ]
+    },
+    "japanese": {
+      "name": "Japon",
+      "description": "Zen esintili uyum, minimalizm ve doğa",
+      "features": [
+        "Doğal malzemeler",
+        "Sadelik",
+        "Denge"
+      ]
+    }
+  },
+  "extras": {
+    "plants": "İç Mekan Bitkileri",
+    "lighting": "Dekoratif Aydınlatma",
+    "wallArt": "Duvar Sanatı",
+    "rugs": "Alan Halıları",
+    "cushions": "Dekoratif Yastıklar",
+    "curtains": "Perdeler",
+    "books": "Kitaplar ve Dekor",
+    "vases": "Vazolar ve Seramikler"
+  },
+  "roomCategories": {
+    "livingRoom": "Oturma Odası",
+    "bedroom": "Yatak Odası",
+    "kitchen": "Mutfak",
+    "bathroom": "Banyo",
+    "commercial": "Ticari",
+    "outdoor": "Dış Mekan"
+  },
+  "categories": {
+    "sofa": "Kanepe",
+    "chair": "Sandalye",
+    "table": "Masa",
+    "bed": "Yatak",
+    "storage": "Depolama",
+    "lighting": "Aydınlatma",
+    "decor": "Dekor",
+    "rug": "Halı",
+    "plant": "Bitki"
+  }
+}

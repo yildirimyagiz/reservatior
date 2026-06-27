@@ -1,106 +1,44 @@
-import '../../features/shared/services/task_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Task
+import 'package:reservatior/shared/repositories/task_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetTaskByIdUseCase {
-  final TaskService _service;
-  
-  GetTaskByIdUseCase(this._service);
-  
-  Future<Task> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final TaskRepository _repository;
+  GetTaskByIdUseCase(this._repository);
+  Future<Task> execute(String id) => _repository.getById(id);
 }
 
 class GetTasksUseCase {
-  final TaskService _service;
-  
-  GetTasksUseCase(this._service);
-  
+  final TaskRepository _repository;
+  GetTasksUseCase(this._repository);
   Future<List<Task>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateTaskUseCase {
-  final TaskService _service;
-  
-  CreateTaskUseCase(this._service);
-  
-  Future<Task> execute(Task task) async {
-    // Add validation logic here
-    return await _service.create(task);
-  }
+  final TaskRepository _repository;
+  CreateTaskUseCase(this._repository);
+  Future<Task> execute(Task item) => _repository.create(item);
 }
 
 class UpdateTaskUseCase {
-  final TaskService _service;
-  
-  UpdateTaskUseCase(this._service);
-  
-  Future<Task> execute(String id, Task task) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, task);
-  }
+  final TaskRepository _repository;
+  UpdateTaskUseCase(this._repository);
+  Future<Task> execute(String id, Task item) => _repository.update(id, item);
 }
 
 class DeleteTaskUseCase {
-  final TaskService _service;
-  
-  DeleteTaskUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Task Use Case Container
-class TaskUseCases {
-  final GetTaskByIdUseCase getById;
-  final GetTasksUseCase getAll;
-  final CreateTaskUseCase create;
-  final UpdateTaskUseCase update;
-  final DeleteTaskUseCase delete;
-  
-  TaskUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory TaskUseCases.create(TaskService service) {
-    return TaskUseCases(
-      getById: GetTaskByIdUseCase(service),
-      getAll: GetTasksUseCase(service),
-      create: CreateTaskUseCase(service),
-      update: UpdateTaskUseCase(service),
-      delete: DeleteTaskUseCase(service),
-    );
-  }
+  final TaskRepository _repository;
+  DeleteTaskUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

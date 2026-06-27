@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/virtual_tour_service.dart';
 
-/// Repository for VirtualTour operations
-/// Provides CRUD operations with proper error handling and type safety
-class VirtualTourRepository {
-  final DioClient _dioClient;
+abstract class VirtualTourRepository {
+  Future<VirtualTour> getById(String id);
+  Future<List<VirtualTour>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<VirtualTour> create(VirtualTour item);
+  Future<VirtualTour> update(String id, VirtualTour item);
+  Future<void> delete(String id);
+}
 
-  VirtualTourRepository(this._dioClient);
+class VirtualTourRepositoryImpl implements VirtualTourRepository {
+  final VirtualTourService _service;
+  VirtualTourRepositoryImpl(this._service);
 
-  /// Get VirtualTour by ID
-  /// Returns [VirtualTour] if found, throws [RepositoryException] otherwise
-  Future<VirtualTour> getVirtualTourById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/virtual_tour/$id');
-      if (response.statusCode == 200) {
-        return VirtualTour.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch virtual_tour',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<VirtualTour> getById(String id) => _service.getVirtualTourById(id);
 
-  /// Get all virtual_tours with pagination and filtering
-  /// Returns list of [VirtualTour] objects
-  Future<List<VirtualTour>> getvirtual_tours({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<VirtualTour>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/virtual_tour', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => VirtualTour.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch virtual_tours',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getVirtualTours(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new VirtualTour
-  /// Returns created [VirtualTour] object
-  Future<VirtualTour> createVirtualTour(VirtualTour virtualTour) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/virtual_tour',
-        data: virtualTour.toJson(),
-      );
-      return VirtualTour.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<VirtualTour> create(VirtualTour item) => _service.createVirtualTour(item);
 
-  // Update VirtualTour
-  Future<VirtualTour> updateVirtualTour(String id, VirtualTour virtualTour) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/virtual_tour/$id',
-        data: virtualTour.toJson(),
-      );
-      return VirtualTour.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<VirtualTour> update(String id, VirtualTour item) => _service.updateVirtualTour(id, item);
 
-  // Delete VirtualTour
-  Future<void> deleteVirtualTour(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/virtual_tour/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteVirtualTour(id);
 }

@@ -1,106 +1,44 @@
-import '../../features/shared/services/discount_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Discount
+import 'package:reservatior/shared/repositories/discount_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetDiscountByIdUseCase {
-  final DiscountService _service;
-  
-  GetDiscountByIdUseCase(this._service);
-  
-  Future<Discount> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final DiscountRepository _repository;
+  GetDiscountByIdUseCase(this._repository);
+  Future<Discount> execute(String id) => _repository.getById(id);
 }
 
 class GetDiscountsUseCase {
-  final DiscountService _service;
-  
-  GetDiscountsUseCase(this._service);
-  
+  final DiscountRepository _repository;
+  GetDiscountsUseCase(this._repository);
   Future<List<Discount>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateDiscountUseCase {
-  final DiscountService _service;
-  
-  CreateDiscountUseCase(this._service);
-  
-  Future<Discount> execute(Discount discount) async {
-    // Add validation logic here
-    return await _service.create(discount);
-  }
+  final DiscountRepository _repository;
+  CreateDiscountUseCase(this._repository);
+  Future<Discount> execute(Discount item) => _repository.create(item);
 }
 
 class UpdateDiscountUseCase {
-  final DiscountService _service;
-  
-  UpdateDiscountUseCase(this._service);
-  
-  Future<Discount> execute(String id, Discount discount) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, discount);
-  }
+  final DiscountRepository _repository;
+  UpdateDiscountUseCase(this._repository);
+  Future<Discount> execute(String id, Discount item) => _repository.update(id, item);
 }
 
 class DeleteDiscountUseCase {
-  final DiscountService _service;
-  
-  DeleteDiscountUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Discount Use Case Container
-class DiscountUseCases {
-  final GetDiscountByIdUseCase getById;
-  final GetDiscountsUseCase getAll;
-  final CreateDiscountUseCase create;
-  final UpdateDiscountUseCase update;
-  final DeleteDiscountUseCase delete;
-  
-  DiscountUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory DiscountUseCases.create(DiscountService service) {
-    return DiscountUseCases(
-      getById: GetDiscountByIdUseCase(service),
-      getAll: GetDiscountsUseCase(service),
-      create: CreateDiscountUseCase(service),
-      update: UpdateDiscountUseCase(service),
-      delete: DeleteDiscountUseCase(service),
-    );
-  }
+  final DiscountRepository _repository;
+  DeleteDiscountUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

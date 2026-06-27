@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        @page { size: 210mm 297mm; margin: 0; }
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            width: 210mm; 
+            height: 297mm; 
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Dark Theme Header */
+        .header {
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px solid #333;
+        }
+
+        .headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 60px;
+            font-weight: 400;
+            line-height: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .headline i { font-style: italic; font-weight: 400; }
+
+        .address-block {
+            text-align: right;
+            font-size: 12px;
+            color: #aaa;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Main Visual */
+        .main-visual {
+            width: 100%;
+            height: 400px;
+            background: #000;
+        }
+
+        img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 400px; /* Remaining height logic */
+        }
+
+        .info-panel {
+            padding: 40px;
+            background: #222;
+        }
+
+        .price-display {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .desc {
+            font-size: 13px;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        .features {
+            display: flex;
+            gap: 30px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .feature i { margin-right: 5px; color: #888; }
+        
+        /* Secondary Photo Area */
+        .photo-grid {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+        }
+        
+        .photo-cell { overflow: hidden; position: relative; }
+
+        /* Footer / Agent */
+        .footer {
+            padding: 40px;
+            background: #151515;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            border-top: 1px solid #333;
+        }
+
+        .agent-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #444;
+        }
+
+        .agent-info h3 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .agent-info p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            color: #888;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="headline">
+            <i>Just</i> LISTED
+        </div>
+        <div class="address-block">
+            {{ address }}<br>
+            {{ date | default("Hollywood 90210") }}
+        </div>
+    </div>
+
+    <div class="main-visual">
+         {% if photos[0] %}<img src="data:image/jpeg;base64,{{ photos[0] }}">{% endif %}
+    </div>
+
+    <div class="content-grid">
+        <div class="info-panel">
+            <div class="price-display">
+                ${{ price }}
+            </div>
+            <p class="desc">
+                {{ description }}
+                <br><br>
+                Luxury property on 3,500 sq ft with sweeping views. The infinity pool is the perfect backdrop to parties and entertaining. This premium site is hidden in the hills.
+            </p>
+
+            <div class="features">
+                <div class="feature">🚗 Two</div>
+                <div class="feature">🛁 {{ bathrooms }}</div>
+                <div class="feature">🛏️ {{ bedrooms }}</div>
+            </div>
+        </div>
+
+        <div class="photo-grid">
+             <div class="photo-cell">
+                 {% if photos[1] %}<img src="data:image/jpeg;base64,{{ photos[1] }}">{% endif %}
+             </div>
+             <div class="photo-cell">
+                 {% if photos[2] %}<img src="data:image/jpeg;base64,{{ photos[2] }}">{% endif %}
+             </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="data:image/jpeg;base64,{{ agent_photo }}" class="agent-avatar">
+        <div class="agent-info">
+            <p style="text-transform: uppercase; font-size: 10px; letter-spacing: 2px;">Realtor</p>
+            <h3>{{ agent_name | upper }}</h3>
+            <p>{{ agent_phone }} | {{ listing_url }}</p>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,106 +1,44 @@
-import '../../features/shared/services/organization_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for Organization
+import 'package:reservatior/shared/repositories/organization_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetOrganizationByIdUseCase {
-  final OrganizationService _service;
-  
-  GetOrganizationByIdUseCase(this._service);
-  
-  Future<Organization> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final OrganizationRepository _repository;
+  GetOrganizationByIdUseCase(this._repository);
+  Future<Organization> execute(String id) => _repository.getById(id);
 }
 
 class GetOrganizationsUseCase {
-  final OrganizationService _service;
-  
-  GetOrganizationsUseCase(this._service);
-  
+  final OrganizationRepository _repository;
+  GetOrganizationsUseCase(this._repository);
   Future<List<Organization>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateOrganizationUseCase {
-  final OrganizationService _service;
-  
-  CreateOrganizationUseCase(this._service);
-  
-  Future<Organization> execute(Organization organization) async {
-    // Add validation logic here
-    return await _service.create(organization);
-  }
+  final OrganizationRepository _repository;
+  CreateOrganizationUseCase(this._repository);
+  Future<Organization> execute(Organization item) => _repository.create(item);
 }
 
 class UpdateOrganizationUseCase {
-  final OrganizationService _service;
-  
-  UpdateOrganizationUseCase(this._service);
-  
-  Future<Organization> execute(String id, Organization organization) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, organization);
-  }
+  final OrganizationRepository _repository;
+  UpdateOrganizationUseCase(this._repository);
+  Future<Organization> execute(String id, Organization item) => _repository.update(id, item);
 }
 
 class DeleteOrganizationUseCase {
-  final OrganizationService _service;
-  
-  DeleteOrganizationUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// Organization Use Case Container
-class OrganizationUseCases {
-  final GetOrganizationByIdUseCase getById;
-  final GetOrganizationsUseCase getAll;
-  final CreateOrganizationUseCase create;
-  final UpdateOrganizationUseCase update;
-  final DeleteOrganizationUseCase delete;
-  
-  OrganizationUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory OrganizationUseCases.create(OrganizationService service) {
-    return OrganizationUseCases(
-      getById: GetOrganizationByIdUseCase(service),
-      getAll: GetOrganizationsUseCase(service),
-      create: CreateOrganizationUseCase(service),
-      update: UpdateOrganizationUseCase(service),
-      delete: DeleteOrganizationUseCase(service),
-    );
-  }
+  final OrganizationRepository _repository;
+  DeleteOrganizationUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

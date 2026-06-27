@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/social_impact_counter_service.dart';
 
-/// Repository for SocialImpactCounter operations
-/// Provides CRUD operations with proper error handling and type safety
-class SocialImpactCounterRepository {
-  final DioClient _dioClient;
+abstract class SocialImpactCounterRepository {
+  Future<SocialImpactCounter> getById(String id);
+  Future<List<SocialImpactCounter>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<SocialImpactCounter> create(SocialImpactCounter item);
+  Future<SocialImpactCounter> update(String id, SocialImpactCounter item);
+  Future<void> delete(String id);
+}
 
-  SocialImpactCounterRepository(this._dioClient);
+class SocialImpactCounterRepositoryImpl implements SocialImpactCounterRepository {
+  final SocialImpactCounterService _service;
+  SocialImpactCounterRepositoryImpl(this._service);
 
-  /// Get SocialImpactCounter by ID
-  /// Returns [SocialImpactCounter] if found, throws [RepositoryException] otherwise
-  Future<SocialImpactCounter> getSocialImpactCounterById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/social_impact_counter/$id');
-      if (response.statusCode == 200) {
-        return SocialImpactCounter.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch social_impact_counter',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SocialImpactCounter> getById(String id) => _service.getSocialImpactCounterById(id);
 
-  /// Get all social_impact_counters with pagination and filtering
-  /// Returns list of [SocialImpactCounter] objects
-  Future<List<SocialImpactCounter>> getsocial_impact_counters({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<SocialImpactCounter>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/social_impact_counter', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => SocialImpactCounter.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch social_impact_counters',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getSocialImpactCounters(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new SocialImpactCounter
-  /// Returns created [SocialImpactCounter] object
-  Future<SocialImpactCounter> createSocialImpactCounter(SocialImpactCounter socialImpactCounter) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/social_impact_counter',
-        data: socialImpactCounter.toJson(),
-      );
-      return SocialImpactCounter.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SocialImpactCounter> create(SocialImpactCounter item) => _service.createSocialImpactCounter(item);
 
-  // Update SocialImpactCounter
-  Future<SocialImpactCounter> updateSocialImpactCounter(String id, SocialImpactCounter socialImpactCounter) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/social_impact_counter/$id',
-        data: socialImpactCounter.toJson(),
-      );
-      return SocialImpactCounter.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<SocialImpactCounter> update(String id, SocialImpactCounter item) => _service.updateSocialImpactCounter(id, item);
 
-  // Delete SocialImpactCounter
-  Future<void> deleteSocialImpactCounter(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/social_impact_counter/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteSocialImpactCounter(id);
 }

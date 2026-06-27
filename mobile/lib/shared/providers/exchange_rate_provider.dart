@@ -1,61 +1,35 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/exchange_rate_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/exchange_rate_service.dart';
+import 'package:reservatior/shared/repositories/exchange_rate_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// ExchangeRate Providers
-
-final ExchangeRateServiceProvider = Provider<ExchangeRateService>((ref) {
+final exchangeRateServiceProvider = Provider<ExchangeRateService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return ExchangeRateService(dioClient);
 });
 
-// List Provider
-final exchangeRateProvider = FutureProvider.autoDispose<List<ExchangeRate>>((ref) async {
-  final service = ref.watch(ExchangeRateServiceProvider);
-  return service.getExchangeRates();
+final exchangeRateRepositoryProvider = Provider<ExchangeRateRepository>((ref) {
+  final service = ref.watch(exchangeRateServiceProvider);
+  return ExchangeRateRepositoryImpl(service);
 });
 
-// Create Provider
-final ExchangeRateCreateProvider = FutureProvider.autoDispose<ExchangeRate>((ref) async {
-  final service = ref.watch(ExchangeRateServiceProvider);
-  return service.createExchangeRate(ExchangeRate());
+final exchangeRateListProvider = FutureProvider.autoDispose<List<ExchangeRate>>((ref) async {
+  final repository = ref.watch(exchangeRateRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final ExchangeRateUpdateProvider = FutureProvider.autoDispose<ExchangeRate>((ref) async {
-  final service = ref.watch(ExchangeRateServiceProvider);
-  final state = ref.watch(ExchangeRateUpdateStateProvider);
-  if (state['id'] != null && state['exchange_rate'] != null) {
-    return service.updateExchangeRate(state['id'], state['exchange_rate']);
-  }
-  throw Exception('No update data provided');
+final exchangeRateCreateProvider = StateProvider<ExchangeRate?>((ref) => null);
+final exchangeRateUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final exchangeRateDeleteProvider = StateProvider<String?>((ref) => null);
+final exchangeRateLoadingProvider = StateProvider<bool>((ref) => false);
+
+final exchangeRateLatestProvider = FutureProvider.family.autoDispose<ExchangeRate, ({String base, String quote})>((ref, arg) async {
+  final repository = ref.watch(exchangeRateRepositoryProvider);
+  return repository.getLatest(arg.base, arg.quote);
 });
 
-// Delete Provider
-final ExchangeRateDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(ExchangeRateServiceProvider);
-  final state = ref.watch(ExchangeRateDeleteStateProvider);
-  if (state != null) {
-    return service.deleteExchangeRate(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final ExchangeRateUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final ExchangeRateDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final ExchangeRateLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(exchangeRateProvider);
-  final createAsync = ref.watch(ExchangeRateCreateProvider);
-  final updateAsync = ref.watch(ExchangeRateUpdateProvider);
-  final deleteAsync = ref.watch(ExchangeRateDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
+final currencyConversionProvider = FutureProvider.family.autoDispose<Map<String, dynamic>, ({String base, String quote, double amount, String? date})>((ref, arg) async {
+  final repository = ref.watch(exchangeRateRepositoryProvider);
+  return repository.convert(arg.base, arg.quote, arg.amount, date: arg.date);
 });

@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/communication_template_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/communication_template_service.dart';
+import 'package:reservatior/shared/repositories/communication_template_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// CommunicationTemplate Providers
-
-final CommunicationTemplateServiceProvider = Provider<CommunicationTemplateService>((ref) {
+final communicationTemplateServiceProvider = Provider<CommunicationTemplateService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return CommunicationTemplateService(dioClient);
 });
 
-// List Provider
-final communicationTemplateProvider = FutureProvider.autoDispose<List<CommunicationTemplate>>((ref) async {
-  final service = ref.watch(CommunicationTemplateServiceProvider);
-  return service.getCommunicationTemplates();
+final communicationTemplateRepositoryProvider = Provider<CommunicationTemplateRepository>((ref) {
+  final service = ref.watch(communicationTemplateServiceProvider);
+  return CommunicationTemplateRepositoryImpl(service);
 });
 
-// Create Provider
-final CommunicationTemplateCreateProvider = FutureProvider.autoDispose<CommunicationTemplate>((ref) async {
-  final service = ref.watch(CommunicationTemplateServiceProvider);
-  return service.createCommunicationTemplate(CommunicationTemplate());
+final communicationTemplateListProvider = FutureProvider.autoDispose<List<CommunicationTemplate>>((ref) async {
+  final repository = ref.watch(communicationTemplateRepositoryProvider);
+  return repository.getAll();
 });
 
-// Update Provider  
-final CommunicationTemplateUpdateProvider = FutureProvider.autoDispose<CommunicationTemplate>((ref) async {
-  final service = ref.watch(CommunicationTemplateServiceProvider);
-  final state = ref.watch(CommunicationTemplateUpdateStateProvider);
-  if (state['id'] != null && state['communication_template'] != null) {
-    return service.updateCommunicationTemplate(state['id'], state['communication_template']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final CommunicationTemplateDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(CommunicationTemplateServiceProvider);
-  final state = ref.watch(CommunicationTemplateDeleteStateProvider);
-  if (state != null) {
-    return service.deleteCommunicationTemplate(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final CommunicationTemplateUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final CommunicationTemplateDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final CommunicationTemplateLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(communicationTemplateProvider);
-  final createAsync = ref.watch(CommunicationTemplateCreateProvider);
-  final updateAsync = ref.watch(CommunicationTemplateUpdateProvider);
-  final deleteAsync = ref.watch(CommunicationTemplateDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final communicationTemplateCreateProvider = StateProvider<CommunicationTemplate?>((ref) => null);
+final communicationTemplateUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final communicationTemplateDeleteProvider = StateProvider<String?>((ref) => null);
+final communicationTemplateLoadingProvider = StateProvider<bool>((ref) => false);

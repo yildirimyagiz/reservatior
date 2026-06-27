@@ -1,106 +1,44 @@
-import '../../features/shared/services/extra_charge_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for ExtraCharge
+import 'package:reservatior/shared/repositories/extra_charge_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetExtraChargeByIdUseCase {
-  final ExtraChargeService _service;
-  
-  GetExtraChargeByIdUseCase(this._service);
-  
-  Future<ExtraCharge> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final ExtraChargeRepository _repository;
+  GetExtraChargeByIdUseCase(this._repository);
+  Future<ExtraCharge> execute(String id) => _repository.getById(id);
 }
 
 class GetExtraChargesUseCase {
-  final ExtraChargeService _service;
-  
-  GetExtraChargesUseCase(this._service);
-  
+  final ExtraChargeRepository _repository;
+  GetExtraChargesUseCase(this._repository);
   Future<List<ExtraCharge>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateExtraChargeUseCase {
-  final ExtraChargeService _service;
-  
-  CreateExtraChargeUseCase(this._service);
-  
-  Future<ExtraCharge> execute(ExtraCharge extraCharge) async {
-    // Add validation logic here
-    return await _service.create(extraCharge);
-  }
+  final ExtraChargeRepository _repository;
+  CreateExtraChargeUseCase(this._repository);
+  Future<ExtraCharge> execute(ExtraCharge item) => _repository.create(item);
 }
 
 class UpdateExtraChargeUseCase {
-  final ExtraChargeService _service;
-  
-  UpdateExtraChargeUseCase(this._service);
-  
-  Future<ExtraCharge> execute(String id, ExtraCharge extraCharge) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, extraCharge);
-  }
+  final ExtraChargeRepository _repository;
+  UpdateExtraChargeUseCase(this._repository);
+  Future<ExtraCharge> execute(String id, ExtraCharge item) => _repository.update(id, item);
 }
 
 class DeleteExtraChargeUseCase {
-  final ExtraChargeService _service;
-  
-  DeleteExtraChargeUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// ExtraCharge Use Case Container
-class ExtraChargeUseCases {
-  final GetExtraChargeByIdUseCase getById;
-  final GetExtraChargesUseCase getAll;
-  final CreateExtraChargeUseCase create;
-  final UpdateExtraChargeUseCase update;
-  final DeleteExtraChargeUseCase delete;
-  
-  ExtraChargeUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory ExtraChargeUseCases.create(ExtraChargeService service) {
-    return ExtraChargeUseCases(
-      getById: GetExtraChargeByIdUseCase(service),
-      getAll: GetExtraChargesUseCase(service),
-      create: CreateExtraChargeUseCase(service),
-      update: UpdateExtraChargeUseCase(service),
-      delete: DeleteExtraChargeUseCase(service),
-    );
-  }
+  final ExtraChargeRepository _repository;
+  DeleteExtraChargeUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

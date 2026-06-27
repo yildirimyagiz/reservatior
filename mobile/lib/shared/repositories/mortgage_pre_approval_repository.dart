@@ -1,106 +1,46 @@
-import 'package:dio/dio.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
-import '../../core/error/repository_exception.dart';
+import 'package:reservatior/shared/models/models.dart';
+import 'package:reservatior/shared/services/mortgage_pre_approval_service.dart';
 
-/// Repository for MortgagePreApproval operations
-/// Provides CRUD operations with proper error handling and type safety
-class MortgagePreApprovalRepository {
-  final DioClient _dioClient;
+abstract class MortgagePreApprovalRepository {
+  Future<MortgagePreApproval> getById(String id);
+  Future<List<MortgagePreApproval>> getAll({int page, int limit, String? orgId, Map<String, dynamic>? filters, String? sortBy, String? sortOrder});
+  Future<MortgagePreApproval> create(MortgagePreApproval item);
+  Future<MortgagePreApproval> update(String id, MortgagePreApproval item);
+  Future<void> delete(String id);
+}
 
-  MortgagePreApprovalRepository(this._dioClient);
+class MortgagePreApprovalRepositoryImpl implements MortgagePreApprovalRepository {
+  final MortgagePreApprovalService _service;
+  MortgagePreApprovalRepositoryImpl(this._service);
 
-  /// Get MortgagePreApproval by ID
-  /// Returns [MortgagePreApproval] if found, throws [RepositoryException] otherwise
-  Future<MortgagePreApproval> getMortgagePreApprovalById(String id) async {
-    try {
-      final response = await _dioClient.get('/api/v1/mortgage_pre_approval/$id');
-      if (response.statusCode == 200) {
-        return MortgagePreApproval.fromJson(response.data['data']);
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch mortgage_pre_approval',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.notFound,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MortgagePreApproval> getById(String id) => _service.getMortgagePreApprovalById(id);
 
-  /// Get all mortgage_pre_approvals with pagination and filtering
-  /// Returns list of [MortgagePreApproval] objects
-  Future<List<MortgagePreApproval>> getmortgage_pre_approvals({
-    int page = 1,
-    int limit = 20,
+  @override
+  Future<List<MortgagePreApproval>> getAll({
+    int page = 1, 
+    int limit = 20, 
+    String? orgId, 
     Map<String, dynamic>? filters,
     String? sortBy,
     String? sortOrder,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'page': page,
-        'limit': limit,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (sortOrder != null) 'sort_order': sortOrder,
-        ...?filters,
-      };
-      
-      final response = await _dioClient.get('/api/v1/mortgage_pre_approval', queryParameters: queryParams);
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((item) => MortgagePreApproval.fromJson(item)).toList();
-      } else {
-        throw RepositoryException(
-          message: 'Failed to fetch mortgage_pre_approvals',
-          code: response.statusCode.toString(),
-          type: RepositoryExceptionType.fetchError,
-        );
-      }
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  }) {
+    return _service.getMortgagePreApprovals(
+      page: page, 
+      limit: limit, 
+      orgId: orgId, 
+      filters: filters,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
   }
 
-  /// Create new MortgagePreApproval
-  /// Returns created [MortgagePreApproval] object
-  Future<MortgagePreApproval> createMortgagePreApproval(MortgagePreApproval mortgagePreApproval) async {
-    try {
-      final response = await _dioClient.post(
-        '/api/v1/mortgage_pre_approval',
-        data: mortgagePreApproval.toJson(),
-      );
-      return MortgagePreApproval.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MortgagePreApproval> create(MortgagePreApproval item) => _service.createMortgagePreApproval(item);
 
-  // Update MortgagePreApproval
-  Future<MortgagePreApproval> updateMortgagePreApproval(String id, MortgagePreApproval mortgagePreApproval) async {
-    try {
-      final response = await _dioClient.put(
-        '/api/v1/mortgage_pre_approval/$id',
-        data: mortgagePreApproval.toJson(),
-      );
-      return MortgagePreApproval.fromJson(response.data['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
+  @override
+  Future<MortgagePreApproval> update(String id, MortgagePreApproval item) => _service.updateMortgagePreApproval(id, item);
 
-  // Delete MortgagePreApproval
-  Future<void> deleteMortgagePreApproval(String id) async {
-    try {
-      await _dioClient.delete('/api/v1/mortgage_pre_approval/$id');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    // Implement error handling logic here
-    return Exception('API Error: ${e.message}');
-  }
+  @override
+  Future<void> delete(String id) => _service.deleteMortgagePreApproval(id);
 }

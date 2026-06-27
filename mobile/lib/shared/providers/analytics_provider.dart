@@ -1,62 +1,33 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/analytics_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/analytics_service.dart';
+import 'package:reservatior/shared/repositories/analytics_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
-
-// Analytics Providers
+import 'auth_provider.dart';
 
 final analyticsServiceProvider = Provider<AnalyticsService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return AnalyticsService(dioClient);
 });
 
-// List Provider
+final analyticsRepositoryProvider = Provider<AnalyticsRepository>((ref) {
+  final service = ref.watch(analyticsServiceProvider);
+  return AnalyticsRepositoryImpl(service);
+});
+
+final dashboardStatsProvider = FutureProvider.autoDispose<DashboardStats>((ref) async {
+  final authState = ref.watch(authProvider);
+  final orgId = authState.user?.organizationId ?? 'global';
+  final repository = ref.watch(analyticsRepositoryProvider);
+  return repository.getDashboardStats(orgId);
+});
+
 final analyticsListProvider = FutureProvider.autoDispose<List<Analytics>>((ref) async {
-  final service = ref.watch(analyticsServiceProvider);
-  return service.getAnalyticss();
+  final repository = ref.watch(analyticsRepositoryProvider);
+  return repository.getAll();
 });
 
-// Create Provider
-final analyticsCreateProvider = FutureProvider.autoDispose<Analytics>((ref) async {
-  final service = ref.watch(analyticsServiceProvider);
-  return service.createAnalytics(Analytics());
-});
-
-// Update Provider  
-final analyticsUpdateProvider = FutureProvider.autoDispose<Analytics>((ref) async {
-  final service = ref.watch(analyticsServiceProvider);
-  final state = ref.watch(analyticsUpdateStateProvider);
-  if (state['id'] != null && state['analytics'] != null) {
-    return service.updateAnalytics(state['id'], state['analytics']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final analyticsDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(analyticsServiceProvider);
-  final state = ref.watch(analyticsDeleteStateProvider);
-  if (state != null) {
-    return service.deleteAnalytics(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final analyticsCreateStateProvider = StateProvider<Analytics?>((ref) => null);
-final analyticsUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final analyticsDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final analyticsLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(analyticsListProvider);
-  final createAsync = ref.watch(analyticsCreateProvider);
-  final updateAsync = ref.watch(analyticsUpdateProvider);
-  final deleteAsync = ref.watch(analyticsDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final analyticsCreateProvider = StateProvider<Analytics?>((ref) => null);
+final analyticsUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final analyticsDeleteProvider = StateProvider<String?>((ref) => null);
+final analyticsLoadingProvider = StateProvider<bool>((ref) => false);

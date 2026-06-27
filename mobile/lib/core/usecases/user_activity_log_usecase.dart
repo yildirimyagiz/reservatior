@@ -1,106 +1,44 @@
-import '../../features/shared/services/user_activity_log_service.dart';
-import '../../gen_models/models_library.dart';
-
-// Use Cases for UserActivityLog
+import 'package:reservatior/shared/repositories/user_activity_log_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 
 class GetUserActivityLogByIdUseCase {
-  final UserActivityLogService _service;
-  
-  GetUserActivityLogByIdUseCase(this._service);
-  
-  Future<UserActivityLog> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.getById(id);
-  }
+  final UserActivityLogRepository _repository;
+  GetUserActivityLogByIdUseCase(this._repository);
+  Future<UserActivityLog> execute(String id) => _repository.getById(id);
 }
 
 class GetUserActivityLogsUseCase {
-  final UserActivityLogService _service;
-  
-  GetUserActivityLogsUseCase(this._service);
-  
+  final UserActivityLogRepository _repository;
+  GetUserActivityLogsUseCase(this._repository);
   Future<List<UserActivityLog>> execute({
-    int page = 1,
-    int limit = 20,
+    int page = 1, 
+    int limit = 20, 
     Map<String, dynamic>? filters,
-  }) async {
-    if (page <= 0) {
-      throw ArgumentError('Page must be greater than 0');
-    }
-    if (limit <= 0 || limit > 100) {
-      throw ArgumentError('Limit must be between 1 and 100');
-    }
-    return await _service.getAll(
-      page: page,
-      limit: limit,
-      filters: filters,
-    );
-  }
+    String? sortBy,
+    String? sortOrder,
+  }) => _repository.getAll(
+    page: page, 
+    limit: limit, 
+    filters: filters,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
+  );
 }
 
 class CreateUserActivityLogUseCase {
-  final UserActivityLogService _service;
-  
-  CreateUserActivityLogUseCase(this._service);
-  
-  Future<UserActivityLog> execute(UserActivityLog userActivityLog) async {
-    // Add validation logic here
-    return await _service.create(userActivityLog);
-  }
+  final UserActivityLogRepository _repository;
+  CreateUserActivityLogUseCase(this._repository);
+  Future<UserActivityLog> execute(UserActivityLog item) => _repository.create(item);
 }
 
 class UpdateUserActivityLogUseCase {
-  final UserActivityLogService _service;
-  
-  UpdateUserActivityLogUseCase(this._service);
-  
-  Future<UserActivityLog> execute(String id, UserActivityLog userActivityLog) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    // Add validation logic here
-    return await _service.update(id, userActivityLog);
-  }
+  final UserActivityLogRepository _repository;
+  UpdateUserActivityLogUseCase(this._repository);
+  Future<UserActivityLog> execute(String id, UserActivityLog item) => _repository.update(id, item);
 }
 
 class DeleteUserActivityLogUseCase {
-  final UserActivityLogService _service;
-  
-  DeleteUserActivityLogUseCase(this._service);
-  
-  Future<void> execute(String id) async {
-    if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
-    }
-    return await _service.delete(id);
-  }
-}
-
-// UserActivityLog Use Case Container
-class UserActivityLogUseCases {
-  final GetUserActivityLogByIdUseCase getById;
-  final GetUserActivityLogsUseCase getAll;
-  final CreateUserActivityLogUseCase create;
-  final UpdateUserActivityLogUseCase update;
-  final DeleteUserActivityLogUseCase delete;
-  
-  UserActivityLogUseCases({
-    required this.getById,
-    required this.getAll,
-    required this.create,
-    required this.update,
-    required this.delete,
-  });
-  
-  factory UserActivityLogUseCases.create(UserActivityLogService service) {
-    return UserActivityLogUseCases(
-      getById: GetUserActivityLogByIdUseCase(service),
-      getAll: GetUserActivityLogsUseCase(service),
-      create: CreateUserActivityLogUseCase(service),
-      update: UpdateUserActivityLogUseCase(service),
-      delete: DeleteUserActivityLogUseCase(service),
-    );
-  }
+  final UserActivityLogRepository _repository;
+  DeleteUserActivityLogUseCase(this._repository);
+  Future<void> execute(String id) => _repository.delete(id);
 }

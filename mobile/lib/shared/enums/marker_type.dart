@@ -1,0 +1,17 @@
+// ignore_for_file: constant_identifier_names
+enum MarkerType {
+  PROPERTY_PIN,
+  LISTING_PIN,
+  DEAL_PIN,
+  LEAD_PIN,
+  VENDOR_PIN,
+  SCHOOL_PIN,
+  TRANSIT_PIN,
+  SHOPPING_PIN,
+  PARK_PIN,
+  MEDICAL_PIN,
+  RESTAURANT_PIN,
+  BANK_PIN,
+  GOVERNMENT_PIN,
+  CUSTOM_PIN
+}

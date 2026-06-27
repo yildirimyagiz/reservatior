@@ -1,61 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/property_amenity_service.dart';
-import '../../core/network/dio_client.dart';
-import '../../gen_models/models_library.dart';
+import 'package:reservatior/shared/services/property_amenity_service.dart';
+import 'package:reservatior/shared/repositories/property_amenity_repository.dart';
+import 'package:reservatior/shared/models/models.dart';
 import 'dio_client_provider.dart';
 
-// PropertyAmenity Providers
-
-final PropertyAmenityServiceProvider = Provider<PropertyAmenityService>((ref) {
+final propertyAmenityServiceProvider = Provider<PropertyAmenityService>((ref) {
   final dioClient = ref.watch(dioClientProvider);
   return PropertyAmenityService(dioClient);
 });
 
-// List Provider
-final propertyAmenityProvider = FutureProvider.autoDispose<List<PropertyAmenity>>((ref) async {
-  final service = ref.watch(PropertyAmenityServiceProvider);
-  return service.getPropertyAmenitys();
+final propertyAmenityRepositoryProvider = Provider<PropertyAmenityRepository>((ref) {
+  final service = ref.watch(propertyAmenityServiceProvider);
+  return PropertyAmenityRepositoryImpl(service);
 });
 
-// Create Provider
-final PropertyAmenityCreateProvider = FutureProvider.autoDispose<PropertyAmenity>((ref) async {
-  final service = ref.watch(PropertyAmenityServiceProvider);
-  return service.createPropertyAmenity(PropertyAmenity());
+final propertyAmenityListProvider = FutureProvider.autoDispose.family<List<PropertyAmenity>, String>((ref, propertyId) async {
+  final repository = ref.watch(propertyAmenityRepositoryProvider);
+  return repository.getAll(filters: {'propertyId': propertyId});
 });
 
-// Update Provider  
-final PropertyAmenityUpdateProvider = FutureProvider.autoDispose<PropertyAmenity>((ref) async {
-  final service = ref.watch(PropertyAmenityServiceProvider);
-  final state = ref.watch(PropertyAmenityUpdateStateProvider);
-  if (state['id'] != null && state['property_amenity'] != null) {
-    return service.updatePropertyAmenity(state['id'], state['property_amenity']);
-  }
-  throw Exception('No update data provided');
-});
-
-// Delete Provider
-final PropertyAmenityDeleteProvider = FutureProvider.autoDispose<void>((ref) async {
-  final service = ref.watch(PropertyAmenityServiceProvider);
-  final state = ref.watch(PropertyAmenityDeleteStateProvider);
-  if (state != null) {
-    return service.deletePropertyAmenity(state);
-  }
-  throw Exception('No delete ID provided');
-});
-
-// State Providers
-final PropertyAmenityUpdateStateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-final PropertyAmenityDeleteStateProvider = StateProvider<String?>((ref) => null);
-
-// Loading Provider
-final PropertyAmenityLoadingProvider = Provider<bool>((ref) {
-  final listAsync = ref.watch(propertyAmenityProvider);
-  final createAsync = ref.watch(PropertyAmenityCreateProvider);
-  final updateAsync = ref.watch(PropertyAmenityUpdateProvider);
-  final deleteAsync = ref.watch(PropertyAmenityDeleteProvider);
-  
-  return listAsync.isLoading || 
-         createAsync.isLoading || 
-         updateAsync.isLoading || 
-         deleteAsync.isLoading;
-});
+final propertyAmenityCreateProvider = StateProvider<PropertyAmenity?>((ref) => null);
+final propertyAmenityUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
+final propertyAmenityDeleteProvider = StateProvider<String?>((ref) => null);
+final propertyAmenityLoadingProvider = StateProvider<bool>((ref) => false);
