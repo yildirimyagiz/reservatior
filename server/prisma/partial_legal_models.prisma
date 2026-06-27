@@ -1,0 +1,76 @@
+
+model LegalCompliance {
+  id                String       @id @default(cuid())
+  orgId             String
+  propertyId        String       @unique
+  region            String?      // Replaced Region enum with String or specific enum if exists
+  licenseNumber     String?
+  registrationDate  DateTime?
+  expiryDate        DateTime?
+  metadata          Json?
+  vettedBy          String?
+  vettedAt          DateTime?
+  isPublic          Boolean      @default(true)
+  verificationLevel Int          @default(1)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  org               Organization @relation(fields: [orgId], references: [id])
+  property          Property     @relation(fields: [propertyId], references: [id])
+
+  @@index([licenseNumber])
+  @@index([orgId])
+}
+
+model LedgerEntry {
+  id            String          @id @default(cuid())
+  orgId         String
+  propertyId    String
+  listingId     String?
+  leaseId       String?
+  bookingId     String?
+  contractId    String?
+  billId        String?
+  transactionId String?
+  type          String?         // Replaced LedgerEventType with String or specific enum if exists
+  amount        Decimal?        @db.Decimal(14, 2)
+  currency      String?
+  occurredAt    DateTime        @default(now())
+  note          String?
+  meta          Json?
+  createdBy     String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  deletedAt     DateTime?
+  org           Organization    @relation(fields: [orgId], references: [id])
+  property      Property        @relation(fields: [propertyId], references: [id])
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([occurredAt])
+}
+
+model SolicitorManagement {
+  id            String       @id @default(cuid())
+  orgId         String
+  dealId        String?
+  contactId     String
+  solicitorType String
+  status        String       @default("engaged")
+  engagedAt     DateTime?
+  completedAt   DateTime?
+  fee           Decimal?     @db.Decimal(14, 2)
+  currency      String?
+  notes         String?
+  createdBy     String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  deletedAt     DateTime?
+  contact       Contact      @relation(fields: [contactId], references: [id])
+  deal          Deal?        @relation(fields: [dealId], references: [id])
+  org           Organization @relation(fields: [orgId], references: [id])
+
+  @@index([orgId])
+  @@index([dealId])
+  @@index([contactId])
+  @@index([status])
+}

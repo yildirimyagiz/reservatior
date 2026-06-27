@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        @page { size: 210mm 297mm; margin: 0; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            width: 210mm; 
+            height: 297mm; 
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            color: #333;
+            display: flex;
+        }
+
+        /* Left Sidebar: 30% */
+        .sidebar {
+            width: 30%;
+            background: #fff;
+            padding: 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #f0f0f0;
+        }
+
+        .header-section {
+            margin-bottom: 60px;
+        }
+
+        .mini-label {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .big-title {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: #000;
+        }
+        
+        .big-title span { display: block; }
+
+        .sidebar-content {
+            margin-bottom: auto;
+        }
+        
+        .desc-text {
+            font-size: 11px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .spec-grid {
+            margin-top: 20px;
+        }
+        
+        .spec-item {
+            margin-bottom: 15px;
+        }
+        
+        .spec-val { font-weight: 700; font-size: 14px; }
+        .spec-lbl { font-size: 10px; color: #999; text-transform: uppercase; }
+
+        .agent-section {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .agent-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        /* Right Content: 70% */
+        .main-gallery {
+            width: 70%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-section {
+            height: 55%;
+            width: 100%;
+            position: relative;
+        }
+        
+        .hero-img { width: 100%; height: 100%; object-fit: cover; }
+
+        .sub-gallery {
+            height: 45%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sub-row {
+            flex: 1;
+            display: flex;
+        }
+        
+        .sub-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .split-half { width: 50%; border-right: 2px solid #fff; border-top: 2px solid #fff; }
+        .full-width { width: 100%; border-top: 2px solid #fff; }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="header-section">
+            <div class="mini-label">{{ address }}</div>
+            <div class="big-title">
+                <span>OPEN</span>
+                <span>HOUSE</span>
+            </div>
+            <div class="mini-label" style="margin-top: 10px; color: #c0a062;">Monday, May 15</div>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="desc-text">
+                {{ description | truncate(400) }}
+            </div>
+
+            <div class="spec-grid">
+                <div class="spec-item">
+                    <div class="spec-val">${{ price }}</div>
+                    <div class="spec-lbl">Listing Price</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-val">{{ sqft }} Sq Ft</div>
+                    <div class="spec-lbl">Living Area</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-val">{{ bedrooms }} Beds / {{ bathrooms }} Baths</div>
+                    <div class="spec-lbl">Configuration</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="agent-section">
+            <img src="data:image/jpeg;base64,{{ agent_photo }}" class="agent-img">
+            <div style="font-size: 12px; font-weight: 700;">{{ agent_name }}</div>
+            <div style="font-size: 10px; color: #888;">{{ agent_email }}</div>
+            <div style="font-size: 10px; color: #888;">{{ agent_phone }}</div>
+        </div>
+    </div>
+
+    <div class="main-gallery">
+        <div class="hero-section">
+             {% if photos[0] %}<img src="data:image/jpeg;base64,{{ photos[0] }}" class="hero-img">{% endif %}
+        </div>
+        <div class="sub-gallery">
+            <!-- Split row -->
+            <div class="sub-row">
+                <div class="split-half">
+                    {% if photos[1] %}<img src="data:image/jpeg;base64,{{ photos[1] }}" class="sub-img">{% endif %}
+                </div>
+                <div class="split-half" style="border-right: none;">
+                    {% if photos[2] %}<img src="data:image/jpeg;base64,{{ photos[2] }}" class="sub-img">{% endif %}
+                </div>
+            </div>
+            <!-- Bottom row full -->
+            <div class="sub-row">
+                 {% if photos[3] %}
+                 <img src="data:image/jpeg;base64,{{ photos[3] }}" class="sub-img full-width">
+                 {% else %}
+                 <div style="width:100%; background:#f8f8f8;"></div>
+                 {% endif %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,465 @@
+{
+  "common": {
+    "appName": "FurnitureStaging.AI",
+    "tagline": "Visualización de Muebles con IA",
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "generate": "Generar",
+    "upload": "Subir",
+    "download": "Descargar",
+    "settings": "Configuración",
+    "language": "Idioma",
+    "before": "Original",
+    "after": "Staging Virtual"
+  },
+  "landing": {
+    "hero": {
+      "title": "Asistente de Estilismo de Espacios con IA para Bienes Raíces",
+      "subtitle": "Transforma habitaciones vacías en visuales impresionantes al instante. Decora, rediseña y visualiza muebles en cualquier espacio con asistencia profesional de IA.",
+      "cta": "Comenzar a Estilizar",
+      "secondaryCta": "Ver Cómo Funciona",
+      "tagline": "Vende propiedades más rápido con visualización IA",
+      "description": "Staging profesional con IA que vende propiedades más rápido. Organiza, edita y mejora tus fotos inmobiliarias en segundos.",
+      "pills": {
+        "why": "Por Qué AtlasVS",
+        "agents": "Para Agentes",
+        "results": "Resultados",
+        "pricing": "Precios Simples"
+      },
+      "footerCallout": "Suscripciones opcionales. Paga solo por lo que necesitas."
+    },
+    "featureShowcase": {
+      "dragText": "Arrastra para ver la diferencia",
+      "getStarted": "Comenzar",
+      "footerNote": "Suscripciones opcionales. Paga solo por lo que necesitas.",
+      "items": {
+        "staging": {
+          "label": "Staging Virtual con IA",
+          "description": "Decora habitaciones vacías al instante",
+          "longDescription": "Transforma espacios vacíos en hogares cálidos y acogedores. Elige entre múltiples estilos de interiores para adaptarte a tu mercado objetivo."
+        },
+        "redesign": {
+          "label": "Rediseño con IA",
+          "description": "Rediseña cualquier espacio al instante",
+          "longDescription": "Dale a las habitaciones un aspecto nuevo y fresco. Cambia estilos, colores y muebles en segundos con IA."
+        },
+        "video": {
+          "label": "Tours de Video con IA",
+          "description": "Crea tours de video en segundos",
+          "longDescription": "Convierte imágenes estáticas en tours de video atractivos. Captura la atención en redes sociales con movimiento dinámico."
+        },
+        "enhance": {
+          "label": "Mejora de Fotos con IA",
+          "description": "Mejora profesional de fotos",
+          "longDescription": "Mejora, retoca y mejora automáticamente las fotos inmobiliarias con edición potenciada por IA."
+        },
+        "pamphlet": {
+          "label": "Folletos",
+          "description": "Material de marketing instantáneo",
+          "longDescription": "Genera folletos y panfletos profesionales al instante. Diseñados correctamente y listos para imprimir o compartir digitalmente."
+        },
+        "reels": {
+          "label": "Listo para Reels",
+          "description": "Contenido listo para redes sociales",
+          "longDescription": "Genera automáticamente videos verticales de formato corto optimizados para Instagram Reels y TikTok."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona",
+      "subtitle": "Transformar espacios vacíos en hermosos hogares nunca ha sido tan fácil.",
+      "steps": {
+        "upload": {
+          "title": "Sube Tu Habitación",
+          "description": "Toma una foto de tu habitación vacía y súbela. Nuestra IA detecta automáticamente la geometría y la iluminación."
+        },
+        "choose": {
+          "title": "Elige los Muebles",
+          "description": "Navega por nuestra biblioteca de muebles reales de las mejores marcas o sube tus propias piezas para organizar."
+        },
+        "export": {
+          "title": "Genera y Exporta",
+          "description": "Observa cómo la IA combina perfectamente los muebles en tu habitación en segundos. Descarga imágenes de alta resolución al instante."
+        }
+      }
+    },
+    "solutions": {
+      "title": "Construido para Profesionales",
+      "subtitle": "Ya sea que vendas, diseñes o fotografíes, AtlasVS te ayuda a hacerlo mejor.",
+      "items": {
+        "agents": {
+          "label": "Agentes Inmobiliarios",
+          "title": "Vende más rápido a precios más altos",
+          "description": "Organiza listados vacantes al instante para atraer más compradores y cerrar tratos más rápido. No se requieren muebles físicos."
+        },
+        "architects": {
+          "label": "Arquitectos y Diseñadores",
+          "title": "Visualiza conceptos sin terminar",
+          "description": "Ayuda a los clientes a ver el potencial de tus diseños. Muestra posibilidades de renovación antes de que comience la construcción."
+        },
+        "homeowners": {
+          "label": "Propietarios",
+          "title": "Ve el potencial antes de vender",
+          "description": "Visualiza el verdadero potencial de tu hogar. Elimina el desorden y actualiza la decoración anticuada para maximizar tu precio de venta."
+        },
+        "photographers": {
+          "label": "Fotógrafos",
+          "title": "Edición premium a escala",
+          "description": "Entrega imágenes impresionantes de calidad de revista. Automatiza la mejora, el reemplazo del cielo y la corrección de color."
+        }
+      },
+      "cta": "Probar {label}"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "subtitle": "Todo lo que necesitas saber sobre nuestra plataforma de staging virtual.",
+      "items": [
+        {
+          "question": "¿Cuánto tiempo toma generar una foto organizada?",
+          "answer": "La mayoría de los renders se completan en menos de 30 segundos. Las escenas complejas o panoramas de 360 pueden tomar hasta un minuto."
+        },
+        {
+          "question": "¿Los muebles son reales?",
+          "answer": "Nuestra IA está entrenada con miles de artículos de muebles reales, pero las imágenes generadas son representaciones sintéticas. Sin embargo, puedes explorar nuestro catálogo para encontrar artículos similares que se pueden comprar de nuestros socios."
+        },
+        {
+          "question": "¿Puedo eliminar muebles existentes?",
+          "answer": "¡Sí! Nuestro modo de eliminación de objetos y 'Rediseño' te permite limpiar una habitación o reemplazar los muebles existentes con un nuevo estilo al instante."
+        },
+        {
+          "question": "¿Necesito fotos profesionales?",
+          "answer": "No. Nuestra IA mejora tus fotos automáticamente. Si bien las fotos profesionales producen los mejores resultados, incluso las fotos de teléfonos inteligentes se pueden transformar en activos de marketing de alta calidad."
+        },
+        {
+          "question": "¿Qué pasa si no me gusta el resultado?",
+          "answer": "Ofrecemos regeneraciones gratuitas si la IA produce fallas. También puedes usar nuestra herramienta 'Edición Mágica' para arreglar áreas específicas sin reorganizar toda la habitación."
+        }
+      ]
+    },
+    "gallery": {
+      "badge": "Más de 14 Estilos de Diseño",
+      "title": "Elige Tu",
+      "titleSpan": "Estilo Interior Perfecto",
+      "subtitle": "Desde minimalista hasta lujoso, elige de nuestra colección curada de estilos de diseño de interiores",
+      "exploreAll": "Explorar los 14 Estilos",
+      "premium": "Premium"
+    },
+    "testimonials": {
+      "title": "Amado por más de 10,000 Profesionales",
+      "subtitle": "Únete a la comunidad de expertos inmobiliarios que confían en nuestra IA para su marketing visual.",
+      "items": [
+        {
+          "name": "Sarah Jenkins",
+          "role": "Agente Inmobiliaria Senior, Nueva York",
+          "content": "AtlasVS ha transformado completamente cómo listo apartamentos vacíos. La velocidad y la calidad son inigualables. He vendido propiedades 2 veces más rápido desde que lo uso."
+        },
+        {
+          "name": "Michael Chen",
+          "role": "Diseñador de Interiores",
+          "content": "La IA entiende los estilos de diseño mejor que la mayoría de las herramientas que he probado. Es un excelente punto de partida para mis presentaciones a clientes."
+        },
+        {
+          "name": "Emily Rodriguez",
+          "role": "Gerente de Propiedades",
+          "content": "Valor increíble por el dinero. Organizamos cientos de unidades de alquiler, y esta es la única solución que se escala con nuestro presupuesto."
+        }
+      ]
+    },
+    "header": {
+      "nav": {
+        "services": "Servicios",
+        "categories": "Categorías",
+        "styles": "Estilos",
+        "pricing": "Precios",
+        "resources": "Recursos"
+      },
+      "services": {
+        "staging": {
+          "label": "Staging Virtual",
+          "description": "Transforma habitaciones vacías en espacios bellamente organizados"
+        },
+        "redesign": {
+          "label": "Rediseño de Habitación con IA",
+          "description": "Reimagina tu espacio con diferentes estilos"
+        },
+        "enhance": {
+          "label": "Mejora de Fotos",
+          "description": "Mejora las fotos de listados con edición impulsada por IA"
+        },
+        "3d": {
+          "label": "Visualización 3D",
+          "description": "Crea recorridos 3D inmersivos"
+        },
+        "video": {
+          "label": "Tours en Video",
+          "description": "Genera tours de video de propiedades atractivos"
+        }
+      },
+      "resources": {
+        "docs": {
+          "label": "Documentación",
+          "description": "Aprende a usar nuestra plataforma"
+        },
+        "caseStudies": {
+          "label": "Casos de Estudio",
+          "description": "Ve cómo otros tienen éxito con nuestras herramientas"
+        },
+        "help": {
+          "label": "Centro de Ayuda",
+          "description": "Obtén soporte y respuestas"
+        }
+      },
+      "auth": {
+        "signIn": "Iniciar Sesión",
+        "signUp": "Registrarse",
+        "freeTrial": "Comenzar Gratis"
+      },
+      "badges": {
+        "popular": "Popular",
+        "premium": "Premium",
+        "soon": "Próximamente"
+      }
+    },
+    "footer": {
+      "sections": {
+        "services": "Servicios",
+        "categories": "Categorías",
+        "styles": "Estilos",
+        "company": "Compañía",
+        "resources": "Recursos",
+        "legal": "Legal"
+      },
+      "newsletter": {
+        "title": "Mantente Actualizado",
+        "subtitle": "Recibe las últimas noticias y actualizaciones sobre tecnología de staging con IA",
+        "placeholder": "Ingresa tu correo electrónico",
+        "button": "Suscribirse"
+      },
+      "copyright": "Todos los derechos reservados.",
+      "companyLinks": {
+        "about": "Acerca de Nosotros",
+        "blog": "Blog",
+        "careers": "Carreras",
+        "contact": "Contacto"
+      },
+      "legalLinks": {
+        "privacy": "Política de Privacidad",
+        "terms": "Términos de Servicio",
+        "cookies": "Política de Cookies",
+        "gdpr": "GDPR"
+      }
+    },
+    "cta": {
+      "title": "¿Listo para Transformar tus Listados?",
+      "subtitle": "Únete a miles de profesionales inmobiliarios que usan IA para vender propiedades más rápido.",
+      "button": "Comenzar Staging Ahora"
+    },
+    "disclaimer": {
+      "title": "Aviso de Visualización con IA",
+      "text": "Las imágenes generadas usando estos prompts son visualizaciones de staging con IA. Los productos finales pueden diferir de las visualizaciones. Las imágenes de productos se usan como referencias visuales, no como réplicas exactas."
+    },
+    "features": {
+      "title": "¿Por Qué Elegir AtlasVS?"
+    },
+    "users": {
+      "title": "Construido para Profesionales",
+      "realtors": "Agentes Inmobiliarios",
+      "realtorsDesc": "Presenta propiedades vacantes con staging impresionante",
+      "architects": "Arquitectos",
+      "architectsDesc": "Visualiza diseños con muebles reales",
+      "designers": "Diseñadores de Interiores",
+      "designersDesc": "Presenta conceptos a clientes de manera hermosa",
+      "consumers": "Propietarios",
+      "consumersDesc": "Vista previa de muebles antes de comprar"
+    }
+  },
+  "editor": {
+    "title": "Editor de Staging",
+    "uploadRoom": "Subir Foto de Habitación",
+    "dragDrop": "Arrastra y suelta una imagen, o haz clic para explorar",
+    "roomType": "Tipo de Habitación",
+    "style": "Estilo Interior",
+    "colorPalette": "Paleta de Colores",
+    "extras": "Elementos Adicionales",
+    "computeMode": "Modo de Cómputo",
+    "cpu": "CPU",
+    "gpu": "GPU",
+    "cpuDesc": "Más lento pero funciona en todas partes",
+    "gpuDesc": "Más rápido con GPU NVIDIA",
+    "promptMode": "Modo de Generación",
+    "staging": "Añadir Muebles",
+    "recolor": "Cambiar Colores",
+    "styleTransfer": "Transferencia de Estilo",
+    "3dGeneration": "Generación 3D",
+    "ipAdapterNote": "Tus imágenes de muebles se usarán como referencias visuales para consistencia de estilo.",
+    "generatePrompt": "Generar Prompt"
+  },
+  "library": {
+    "title": "Biblioteca de Muebles",
+    "myFurniture": "Mis Muebles",
+    "templates": "Plantillas",
+    "sellerCatalog": "Catálogo de Vendedores",
+    "uploadFurniture": "Subir Mueble",
+    "noFurniture": "Sin muebles aún. ¡Sube tu primer artículo!",
+    "category": "Categoría",
+    "allCategories": "Todas las Categorías"
+  },
+  "output": {
+    "title": "Prompt Generado",
+    "positivePrompt": "Prompt Positivo",
+    "negativePrompt": "Prompt Negativo",
+    "settings": "Configuración de Generación",
+    "copyAll": "Copiar Todo",
+    "disclaimer": "⚠️ Las imágenes generadas usando este prompt son visualizaciones de staging con IA. Los productos finales pueden diferir."
+  },
+  "presets": {
+    "title": "Presets Guardados",
+    "savePreset": "Guardar como Preset",
+    "loadPreset": "Cargar Preset",
+    "noPresets": "Sin presets guardados aún"
+  },
+  "roomTypes": {
+    "living-room": "Sala de Estar",
+    "bedroom": "Dormitorio",
+    "office": "Oficina en Casa",
+    "dining-room": "Comedor",
+    "kitchen": "Cocina",
+    "bathroom": "Baño",
+    "outdoor": "Exterior/Patio"
+  },
+  "styles": {
+    "modern-minimalist": {
+      "name": "Minimalista Moderno",
+      "description": "Líneas limpias, colores neutros y espacios despejados",
+      "features": [
+        "Tonos neutros",
+        "Espacios abiertos",
+        "Piezas destacadas"
+      ]
+    },
+    "scandinavian": {
+      "name": "Escandinavo",
+      "description": "Interiores ligeros, aireados y acogedores de inspiración nórdica",
+      "features": [
+        "Maderas claras",
+        "Paredes blancas",
+        "Textiles acogedores"
+      ]
+    },
+    "industrial": {
+      "name": "Industrial",
+      "description": "Materiales crudos, elementos expuestos y estética urbana",
+      "features": [
+        "Ladrillo expuesto",
+        "Acentos metálicos",
+        "Texturas crudas"
+      ]
+    },
+    "mid-century-modern": {
+      "name": "Mid-Century Moderno",
+      "description": "Elegancia retro con muebles icónicos de los años 50 y 60",
+      "features": [
+        "Formas orgánicas",
+        "Colores audaces",
+        "Piezas icónicas"
+      ]
+    },
+    "luxury": {
+      "name": "Lujo",
+      "description": "Diseño de interiores premium y sofisticado de alta gama",
+      "features": [
+        "Materiales ricos",
+        "Acentos dorados",
+        "Piezas de diseñador"
+      ]
+    },
+    "bohemian": {
+      "name": "Bohemio",
+      "description": "Espacios eclécticos, coloridos e inspirados globalmente",
+      "features": [
+        "Texturas en capas",
+        "Plantas",
+        "Patrones globales"
+      ]
+    },
+    "coastal": {
+      "name": "Costero",
+      "description": "Interiores relajados y ventilados inspirados en la playa",
+      "features": [
+        "Tonos azules",
+        "Fibras naturales",
+        "Telas ligeras"
+      ]
+    },
+    "rustic": {
+      "name": "Rústico",
+      "description": "Espacios cálidos, naturales y encantadoramente rústicos",
+      "features": [
+        "Madera natural",
+        "Elementos de piedra",
+        "Sensación artesanal"
+      ]
+    },
+    "contemporary": {
+      "name": "Contemporáneo",
+      "description": "Diseño actual, en evolución y sofisticado",
+      "features": [
+        "Superficies elegantes",
+        "Arte curado",
+        "Tecnología moderna"
+      ]
+    },
+    "farmhouse": {
+      "name": "Casa de Campo",
+      "description": "Interiores rústicos, cómodos y familiares",
+      "features": [
+        "Fregaderos de delantal",
+        "Metales mezclados",
+        "Acabados desgastados"
+      ]
+    },
+    "japanese": {
+      "name": "Japonés",
+      "description": "Armonía inspirada en Zen, minimalismo y naturaleza",
+      "features": [
+        "Materiales naturales",
+        "Simplicidad",
+        "Equilibrio"
+      ]
+    }
+  },
+  "extras": {
+    "plants": "Plantas de Interior",
+    "lighting": "Iluminación Decorativa",
+    "wallArt": "Arte de Pared",
+    "rugs": "Alfombras",
+    "cushions": "Cojines Decorativos",
+    "curtains": "Cortinas",
+    "books": "Libros y Decoración",
+    "vases": "Jarrones y Cerámicas"
+  },
+  "roomCategories": {
+    "livingRoom": "Sala de Estar",
+    "bedroom": "Dormitorio",
+    "kitchen": "Cocina",
+    "bathroom": "Baño",
+    "commercial": "Comercial",
+    "outdoor": "Exterior"
+  },
+  "categories": {
+    "sofa": "Sofá",
+    "chair": "Silla",
+    "table": "Mesa",
+    "bed": "Cama",
+    "storage": "Almacenamiento",
+    "lighting": "Iluminación",
+    "decor": "Decoración",
+    "rug": "Alfombra",
+    "plant": "Planta"
+  }
+}

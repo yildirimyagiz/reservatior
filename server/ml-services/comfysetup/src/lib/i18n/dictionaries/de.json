@@ -1,0 +1,474 @@
+{
+  "common": {
+    "appName": "FurnitureStaging.AI",
+    "tagline": "KI-gestützte Möbelvisualisierung",
+    "loading": "Wird geladen...",
+    "error": "Etwas ist schiefgelaufen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "copy": "Kopieren",
+    "copied": "Kopiert!",
+    "generate": "Generieren",
+    "upload": "Hochladen",
+    "download": "Herunterladen",
+    "settings": "Einstellungen",
+    "language": "Sprache",
+    "before": "Original",
+    "after": "Virtuelles Staging"
+  },
+  "landing": {
+"hero": {
+      "title": "KI-gestützter Raumstylist für Immobilien",
+      "subtitle": "Verwandeln Sie leere Räume sofort in beeindruckende Visuals. Dekorieren, gestalten Sie neu und visualisieren Sie Möbel in jedem Raum mit professioneller KI-Unterstützung.",
+      "cta": "Styling Starten",
+      "secondaryCta": "So Funktioniert's",
+      "tagline": "Verkaufen Sie Immobilien schneller mit KI-Visualisierung",
+      "description": "Professionelles KI-Staging, das Immobilien schneller verkauft. Organisieren, bearbeiten und verbessern Sie Ihre Immobilienfotos in Sekunden.",
+      "pills": {
+        "why": "Warum AtlasVS",
+        "agents": "Für Makler",
+        "results": "Ergebnisse",
+        "pricing": "Einfache Preise"
+      },
+      "footerCallout": "Optionale Abonnements. Zahlen Sie nur für das, was Sie brauchen."
+    },
+    "featureShowcase": {
+      "dragText": "Ziehen Sie, um den Unterschied zu sehen",
+      "getStarted": "Loslegen",
+      "footerNote": "Optionale Abonnements. Zahlen Sie nur für das, was Sie brauchen.",
+      "items": {
+        "staging": {
+          "label": "KI Virtuelles Staging",
+          "description": "Dekorieren Sie leere Räume sofort",
+          "longDescription": "Verwandeln Sie leere Räume in warme, einladende Häuser. Wählen Sie aus mehreren Innendesign-Stilen, um zu Ihrem Zielmarkt zu passen."
+        },
+        "redesign": {
+          "label": "KI Neu Gestaltung",
+          "description": "Gestalten Sie jeden Raum sofort neu",
+          "longDescription": "Verleihen Sie Räumen ein frisches neues Aussehen. Ändern Sie Stile, Farben und Möbel in Sekunden mit KI."
+        },
+        "video": {
+          "label": "KI Video Touren",
+          "description": "Erstellen Sie Videotouren in Sekunden",
+          "longDescription": "Verwandeln Sie statische Bilder in ansprechende Videotouren. Erregen Sie Aufmerksamkeit in sozialen Medien mit dynamischer Bewegung."
+        },
+        "enhance": {
+          "label": "KI Foto-Verbesserung",
+          "description": "Professionelle Foto-Verbesserung",
+          "longDescription": "Verbessern, retuschieren und optimieren Sie Immobilienfotos automatisch mit KI-gestützter Bearbeitung."
+        }
+      }
+    },
+    "featureShowcase": {
+      "dragText": "Ziehen Sie, um den Unterschied zu sehen",
+      "getStarted": "Loslegen",
+      "footerNote": "Optionale Abonnements. Zahlen Sie nur für das, was Sie brauchen.",
+      "items": {
+        "staging": {
+          "label": "KI Virtuelles Staging",
+          "description": "Dekorieren Sie leere Räume sofort",
+          "longDescription": "Verwandeln Sie leere Räume in warme, einladende Häuser. Wählen Sie aus mehreren Innendesign-Stilen, um zu Ihrem Zielmarkt zu passen."
+        },
+        "redesign": {
+          "label": "KI Neu Gestaltung",
+          "description": "Gestalten Sie jeden Raum sofort neu",
+          "longDescription": "Verleihen Sie Räumen ein frisches neues Aussehen. Ändern Sie Stile, Farben und Möbel in Sekunden mit KI."
+        },
+        "video": {
+          "label": "KI Video Touren",
+          "description": "Erstellen Sie Videotouren in Sekunden",
+          "longDescription": "Verwandeln Sie statische Bilder in ansprechende Videotouren. Erregen Sie Aufmerksamkeit in sozialen Medien mit dynamischer Bewegung."
+        },
+        "enhance": {
+          "label": "KI Foto-Verbesserung",
+          "description": "Professionelle Foto-Verbesserung",
+          "longDescription": "Verbessern, retuschieren und optimieren Sie Immobilienfotos automatisch mit KI-gestützter Bearbeitung."
+        },
+        "pamphlet": {
+          "label": "Broschüren",
+          "description": "Sofortiges Marketingmaterial",
+          "longDescription": "Erstellen Sie professionelle Broschüren und Flyer sofort. Richtig gestaltet und druckfertig oder digital teilbar."
+        },
+        "reels": {
+          "label": "Reels-fertig",
+          "description": "Social-Media-bereiter Inhalt",
+          "longDescription": "Generieren Sie automatisch vertikale Kurzvideos optimiert für Instagram Reels und TikTok."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Wie es funktioniert",
+      "subtitle": "Leere Räume in schöne Häuser zu verwandeln war noch nie so einfach.",
+      "steps": {
+        "upload": {
+          "title": "Laden Sie Ihren Raum hoch",
+          "description": "Machen Sie ein Foto Ihres leeren Raums und laden Sie es hoch. Unsere KI erkennt automatisch Geometrie und Beleuchtung."
+        },
+        "choose": {
+          "title": "Wählen Sie Möbel",
+          "description": "Durchsuchen Sie unsere Bibliothek echter Möbel von Top-Marken oder laden Sie Ihre eigenen Stücke zum Inszenieren hoch."
+        },
+        "export": {
+          "title": "Generieren und Exportieren",
+          "description": "Sehen Sie zu, wie die KI Möbel nahtlos in Ihren Raum in Sekunden einfügt. Laden Sie sofort hochauflösende Bilder herunter."
+        }
+      }
+    },
+    "solutions": {
+      "title": "Für Profis gebaut",
+      "subtitle": "Ob Sie verkaufen, gestalten oder fotografieren, AtlasVS hilft Ihnen, es besser zu machen.",
+      "items": {
+        "agents": {
+          "label": "Immobilienmakler",
+          "title": "Verkaufen Sie schneller zu höheren Preisen",
+          "description": "Inszenieren Sie leere Angebote sofort, um mehr Käufer anzuziehen und Geschäfte schneller abzuschließen. Keine physischen Möbel erforderlich."
+        },
+        "architects": {
+          "label": "Architekten & Designer",
+          "title": "Visualisieren Sie unfertige Konzepte",
+          "description": "Helfen Sie Kunden, das Potenzial Ihrer Entwürfe zu sehen. Zeigen Sie Renovierungsmöglichkeiten, bevor der Bau beginnt."
+        },
+        "homeowners": {
+          "label": "Hausbesitzer",
+          "title": "Sehen Sie das Potenzial vor dem Verkauf",
+          "description": "Visualisieren Sie das wahre Potenzial Ihres Hauses. Entfernen Sie Unordnung und aktualisieren Sie veraltete Dekoration, um Ihren Verkaufspreis zu maximieren."
+        },
+        "photographers": {
+          "label": "Fotografen",
+          "title": "Premium-Bearbeitung im großen Maßstab",
+          "description": "Liefern Sie atemberaubende Bilder in Magazinqualität. Automatisieren Sie Verbesserung, Himmelsersetzung und Farbkorrektur."
+        }
+      },
+      "cta": "{label} ausprobieren"
+    },
+    "faq": {
+      "title": "Häufig gestellte Fragen",
+      "subtitle": "Alles, was Sie über unsere virtuelle Staging-Plattform wissen müssen.",
+      "items": [
+        {
+          "question": "Wie lange dauert es, ein inszeniertes Foto zu erstellen?",
+          "answer": "Die meisten Renderings werden in weniger als 30 Sekunden fertiggestellt. Komplexe Szenen oder 360-Panoramen können bis zu einer Minute dauern."
+        },
+        {
+          "question": "Sind die Möbel echt?",
+          "answer": "Unsere KI ist mit Tausenden von echten Möbelstücken trainiert, aber die generierten Bilder sind synthetische Darstellungen. Sie können jedoch unseren Katalog durchsuchen, um ähnliche Artikel zu finden, die bei unseren Partnern gekauft werden können."
+        },
+        {
+          "question": "Kann ich vorhandene Möbel entfernen?",
+          "answer": "Ja! Unser Objektentfernungs- und 'Neugestaltungs'-Modus ermöglicht es Ihnen, einen Raum zu räumen oder vorhandene Möbel sofort durch einen neuen Stil zu ersetzen."
+        },
+        {
+          "question": "Brauche ich professionelle Fotos?",
+          "answer": "Nein. Unsere KI verbessert Ihre Fotos automatisch. Während professionelle Fotos die besten Ergebnisse liefern, können sogar Smartphone-Fotos in hochwertige Marketing-Assets verwandelt werden."
+        },
+        {
+          "question": "Was ist, wenn mir das Ergebnis nicht gefällt?",
+          "answer": "Wir bieten kostenlose Neugenerierungen an, wenn die KI Fehler produziert. Sie können auch unser 'Magisches Bearbeiten'-Tool verwenden, um bestimmte Bereiche zu korrigieren, ohne den gesamten Raum neu zu inszenieren."
+        }
+      ]
+    },
+    "gallery": {
+      "badge": "Über 14 Design-Stile",
+      "title": "Wählen Sie Ihren",
+      "titleSpan": "Perfekten Innendesign-Stil",
+      "subtitle": "Von minimalistisch bis luxuriös, wählen Sie aus unserer kuratierten Sammlung von Innendesign-Stilen",
+      "exploreAll": "Alle 14 Stile erkunden",
+      "premium": "Premium"
+    },
+    "testimonials": {
+      "title": "Geliebt von über 10.000 Profis",
+      "subtitle": "Treten Sie der Gemeinschaft von Immobilienexperten bei, die unserer KI für ihr visuelles Marketing vertrauen.",
+      "items": [
+        {
+          "name": "Sarah Jenkins",
+          "role": "Senior Immobilienmaklerin, New York",
+          "content": "AtlasVS hat völlig verändert, wie ich leere Wohnungen anbiete. Die Geschwindigkeit und Qualität sind unübertroffen. Ich habe Immobilien seit der Nutzung 2x schneller verkauft."
+        },
+        {
+          "name": "Michael Chen",
+          "role": "Innenarchitekt",
+          "content": "Die KI versteht Design-Stile besser als die meisten Tools, die ich ausprobiert habe. Es ist ein großartiger Ausgangspunkt für meine Kundenpräsentationen."
+        },
+        {
+          "name": "Emily Rodriguez",
+          "role": "Immobilienverwalterin",
+          "content": "Unglaubliches Preis-Leistungs-Verhältnis. Wir inszenieren Hunderte von Mieteinheiten, und dies ist die einzige Lösung, die mit unserem Budget skaliert."
+        }
+      ]
+    },
+    "footer": {
+      "sections": {
+        "services": "Dienstleistungen",
+        "categories": "Kategorien",
+        "styles": "Stile",
+        "company": "Unternehmen",
+        "resources": "Ressourcen",
+        "legal": "Rechtliches"
+      },
+      "newsletter": {
+        "title": "Bleiben Sie auf dem Laufenden",
+        "subtitle": "Erhalten Sie die neuesten Nachrichten und Updates zur KI-Staging-Technologie",
+        "placeholder": "Geben Sie Ihre E-Mail ein",
+        "button": "Abonnieren"
+      },
+      "copyright": "Alle Rechte vorbehalten.",
+      "companyLinks": {
+        "about": "Über uns",
+        "blog": "Blog",
+        "careers": "Karriere",
+        "contact": "Kontakt"
+      },
+      "legalLinks": {
+        "privacy": "Datenschutz",
+        "terms": "Nutzungsbedingungen",
+        "cookies": "Cookie-Richtlinie",
+        "gdpr": "DSGVO"
+      }
+    },
+    "cta": {
+      "title": "Bereit, Ihre Angebote zu transformieren?",
+      "subtitle": "Treten Sie Tausenden von Immobilienprofis bei, die KI nutzen, um Immobilien schneller zu verkaufen.",
+      "button": "Jetzt mit Staging beginnen"
+    },
+    "header": {
+      "nav": {
+        "services": "Dienstleistungen",
+        "categories": "Kategorien",
+        "styles": "Stile",
+        "pricing": "Preise",
+        "resources": "Ressourcen"
+      },
+      "services": {
+        "staging": {
+          "label": "Virtuelles Staging",
+          "description": "Verwandeln Sie leere Räume in wunderschön eingerichtete Bereiche"
+        },
+        "redesign": {
+          "label": "KI-Raumgestaltung",
+          "description": "Stellen Sie sich Ihren Raum mit verschiedenen Stilen neu vor"
+        },
+        "enhance": {
+          "label": "Foto-Verbesserung",
+          "description": "Verbessern Sie Angebotsfotos mit KI-gestützter Bearbeitung"
+        },
+        "3d": {
+          "label": "3D-Visualisierung",
+          "description": "Erstellen Sie immersive 3D-Touren"
+        },
+        "video": {
+          "label": "Video-Touren",
+          "description": "Generieren Sie ansprechende Immobilien-Videotouren"
+        }
+      },
+      "resources": {
+        "docs": {
+          "label": "Dokumentation",
+          "description": "Lernen Sie, wie Sie unsere Plattform nutzen"
+        },
+        "caseStudies": {
+          "label": "Fallstudien",
+          "description": "Sehen Sie, wie andere mit unseren Tools erfolgreich sind"
+        },
+        "help": {
+          "label": "Hilfe-Center",
+          "description": "Erhalten Sie Unterstützung und Antworten"
+        }
+      },
+      "auth": {
+        "signIn": "Anmelden",
+        "signUp": "Registrieren",
+        "freeTrial": "Kostenlos starten"
+      },
+      "badges": {
+        "popular": "Beliebt",
+        "premium": "Premium",
+        "soon": "Demnächst"
+      }
+    }
+  },
+  "editor": {
+    "title": "Staging-Editor",
+    "uploadRoom": "Raumfoto hochladen",
+    "dragDrop": "Ziehen Sie ein Bild per Drag & Drop oder klicken Sie zum Durchsuchen",
+    "roomType": "Raumtyp",
+    "style": "Einrichtungsstil",
+    "colorPalette": "Farbpalette",
+    "extras": "Zusätzliche Elemente",
+    "computeMode": "Berechnungsmodus",
+    "cpu": "CPU",
+    "gpu": "GPU",
+    "cpuDesc": "Langsamer, funktioniert aber überall",
+    "gpuDesc": "Schneller mit NVIDIA GPU",
+    "promptMode": "Generierungsmodus",
+    "staging": "Möbel Hinzufügen",
+    "recolor": "Farben Ändern",
+    "styleTransfer": "Stiltransfer",
+    "3dGeneration": "3D-Generierung",
+    "ipAdapterNote": "Ihre Möbelbilder werden als visuelle Referenzen für Stilkonsistenz verwendet.",
+    "generatePrompt": "Prompt Generieren"
+  },
+  "library": {
+    "title": "Möbelbibliothek",
+    "myFurniture": "Meine Möbel",
+    "templates": "Vorlagen",
+    "sellerCatalog": "Händlerkatalog",
+    "uploadFurniture": "Möbel Hochladen",
+    "noFurniture": "Noch keine Möbel. Laden Sie Ihr erstes Stück hoch!",
+    "category": "Kategorie",
+    "allCategories": "Alle Kategorien"
+  },
+  "output": {
+    "title": "Generierter Prompt",
+    "positivePrompt": "Positiver Prompt",
+    "negativePrompt": "Negativer Prompt",
+    "settings": "Generierungseinstellungen",
+    "copyAll": "Alles Kopieren",
+    "disclaimer": "⚠️ Mit diesem Prompt generierte Bilder sind KI-gestützte Staging-Visualisierungen. Endprodukte können abweichen."
+  },
+  "presets": {
+    "title": "Gespeicherte Presets",
+    "savePreset": "Als Preset Speichern",
+    "loadPreset": "Preset Laden",
+    "noPresets": "Noch keine Presets gespeichert"
+  },
+  "roomTypes": {
+    "living-room": "Wohnzimmer",
+    "bedroom": "Schlafzimmer",
+    "office": "Homeoffice",
+    "dining-room": "Esszimmer",
+    "kitchen": "Küche",
+    "bathroom": "Badezimmer",
+    "outdoor": "Außenbereich/Terrasse"
+  },
+  "styles": {
+    "modern-minimalist": {
+      "name": "Moderner Minimalismus",
+      "description": "Klare Linien, neutrale Farben und aufgeräumte Räume",
+      "features": [
+        "Neutrale Töne",
+        "Offene Räume",
+        "Statement-Stücke"
+      ]
+    },
+    "scandinavian": {
+      "name": "Skandinavisch",
+      "description": "Helle, luftige und gemütliche nordisch inspirierte Innenräume",
+      "features": [
+        "Helle Hölzer",
+        "Weiße Wände",
+        "Gemütliche Textilien"
+      ]
+    },
+    "industrial": {
+      "name": "Industrial",
+      "description": "Rohe Materialien, freiliegende Elemente und urbane Ästhetik",
+      "features": [
+        "Freiliegender Ziegel",
+        "Metall-Akzente",
+        "Rohe Texturen"
+      ]
+    },
+    "mid-century-modern": {
+      "name": "Mid-Century Modern",
+      "description": "Retro-Eleganz mit ikonischen Möbeln der 50er und 60er Jahre",
+      "features": [
+        "Organische Formen",
+        "Mutige Farben",
+        "Ikonische Stücke"
+      ]
+    },
+    "luxury": {
+      "name": "Luxus",
+      "description": "High-End, anspruchsvolles Premium-Innendesign",
+      "features": [
+        "Edle Materialien",
+        "Gold-Akzente",
+        "Designer-Stücke"
+      ]
+    },
+    "bohemian": {
+      "name": "Bohème",
+      "description": "Eklektische, farbenfrohe und global inspirierte Räume",
+      "features": [
+        "Geschichtete Texturen",
+        "Pflanzen",
+        "Globale Muster"
+      ]
+    },
+    "coastal": {
+      "name": "Küsten-Stil",
+      "description": "Entspannte, luftige, vom Strand inspirierte Innenräume",
+      "features": [
+        "Blautöne",
+        "Naturfasern",
+        "Leichte Stoffe"
+      ]
+    },
+    "rustic": {
+      "name": "Rustikal",
+      "description": "Warme, natürliche und charmant rustikale Räume",
+      "features": [
+        "Naturholz",
+        "Stein-Elemente",
+        "Handwerkliches Flair"
+      ]
+    },
+    "contemporary": {
+      "name": "Zeitgenössisch",
+      "description": "Aktuelles, sich entwickelndes und raffiniertes Design",
+      "features": [
+        "Glatte Oberflächen",
+        "Kuratierte Kunst",
+        "Moderne Technik"
+      ]
+    },
+    "farmhouse": {
+      "name": "Landhaus",
+      "description": "Rustikale, gemütliche und familiäre Innenräume",
+      "features": [
+        "Spülbecken",
+        "Gemischte Metalle",
+        "Abgenutzte Oberflächen"
+      ]
+    },
+    "japanese": {
+      "name": "Japanisch",
+      "description": "Zen-inspirierte Harmonie, Minimalismus und Natur",
+      "features": [
+        "Natürliche Materialien",
+        "Einfachheit",
+        "Balance"
+      ]
+    }
+  },
+  "extras": {
+    "plants": "Zimmerpflanzen",
+    "lighting": "Dekorative Beleuchtung",
+    "wallArt": "Wandkunst",
+    "rugs": "Teppiche",
+    "cushions": "Dekokissen",
+    "curtains": "Vorhänge/Gardinen",
+    "books": "Bücher & Deko",
+    "vases": "Vasen & Keramik"
+  },
+  "categories": {
+    "sofa": "Sofa",
+    "chair": "Stuhl",
+    "table": "Tisch",
+    "bed": "Bett",
+    "storage": "Stauraum",
+    "lighting": "Beleuchtung",
+    "decor": "Dekoration",
+    "rug": "Teppich",
+    "plant": "Pflanze"
+  },
+  "roomCategories": {
+    "livingRoom": "Wohnzimmer",
+    "bedroom": "Schlafzimmer",
+    "kitchen": "Küche",
+    "bathroom": "Badezimmer",
+    "commercial": "Gewerbe",
+    "outdoor": "Außenbereich"
+  }
+}

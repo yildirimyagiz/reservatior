@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: 210mm 297mm; margin: 0; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; width: 210mm; height: 297mm; display: flex; color: #333; }
+        .left-panel { width: 40%; padding: 40px; display: flex; flex-direction: column; background: #f8f8f8; }
+        .right-panel { width: 60%; display: grid; grid-template-rows: 2fr 1fr; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+        .main-image { grid-column: 1 / 3; }
+        img { width: 100%; height: 100%; object-fit: cover; }
+        h1 { font-size: 48px; font-weight: 900; }
+        .date { font-size: 18px; color: #555; margin-bottom: 20px; }
+        .description { font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 20px; }
+        .features { list-style: none; padding: 0; columns: 2; }
+        .features li { margin-bottom: 10px; }
+        .price { font-size: 32px; font-weight: 100; margin-top: auto; }
+        .agent-footer { display: flex; align-items: center; gap: 15px; padding-top: 20px; border-top: 1px solid #ddd; }
+        .agent-photo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .agent-details p { margin: 0; }
+        .agent-name { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="left-panel">
+        <h1>OPEN HOUSE</h1>
+        <p class="date">{{ open_house_date }} | {{ open_house_time }}</p>
+        <p class="description">{{ description }}</p>
+        <ul class="features">
+            <li>{{ area }} sqft</li>
+            <li>{{ bedrooms }} Bedrooms</li>
+            <li>{{ bathrooms }} Bathrooms</li>
+            <li>Built in {{ yearBuilt }}</li>
+        </ul>
+        <p class="price">Offered at ${{ price }}</p>
+        <div class="agent-footer">
+            <img src="data:image/jpeg;base64,{{ agent_photo }}" class="agent-photo">
+            <div class="agent-details">
+                <p class="agent-name">{{ agent_name }}</p>
+                <p>{{ agent_email }} | {{ agent_phone }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="right-panel">
+        <div class="main-image"><img src="data:image/jpeg;base64,{{ photos[0] }}"></div>
+        <div><img src="data:image/jpeg;base64,{{ photos[1] }}"></div>
+        <div><img src="data:image/jpeg;base64,{{ photos[2] }}"></div>
+    </div>
+</body>
+</html>

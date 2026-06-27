@@ -1,0 +1,86 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin123
+    restart: unless-stopped
+
+  ml-backend:
+    build: ./server/ml-services/backend
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - REDIS_URL=redis://host.docker.internal:6379/0
+      - RUNPOD_API_KEY=${RUNPOD_API_KEY:-}
+      - A1111_HOST=${A1111_HOST:-127.0.0.1:7860}
+      - VPS_COMFY_HOST=72.62.163.166:8188
+    env_file:
+      - ./server/ml-services/backend/.env
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  ml-classifier:
+    build: ./server/ml-services/classifier
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  ml-extractor:
+    build: ./server/ml-services/extractor
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  ml-ocr:
+    build: ./server/ml-services/ocr
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  ml-worker:
+    build: ./server/ml-services/worker
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  ml-skipper:
+    build: ./server/ml-services/skipper-api
+    ports:
+      - "8081:8080"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  ml-translation:
+    build: ./server/ml-services/translation-api
+    ports:
+      - "8002:8002"
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  ml-video-neural:
+    build: ./server/ml-services/video-neural-engine
+    ports:
+      - "8005:8005"
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+

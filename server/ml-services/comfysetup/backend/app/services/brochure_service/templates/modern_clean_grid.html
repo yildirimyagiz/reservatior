@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Oswald:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        @page { size: 210mm 297mm; margin: 0; }
+        body { 
+            font-family: 'Lato', sans-serif; 
+            width: 210mm; 
+            height: 297mm; 
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            color: #333;
+        }
+
+        .header {
+            padding: 40px 40px 20px 40px;
+        }
+
+        .sub-header {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #c5a47e; /* Beige Gold */
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .main-header {
+            font-family: 'Oswald', sans-serif;
+            font-size: 56px;
+            text-transform: uppercase;
+            line-height: 1;
+            margin: 10px 0;
+        }
+
+        .address-bar {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* Hero */
+        .hero {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .hero img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Content Split */
+        .content-split {
+            display: flex;
+            padding: 0 40px;
+            gap: 40px;
+        }
+
+        .intro-col { width: 60%; }
+        .specs-col { width: 40%; padding-top: 10px; }
+
+        .feature-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .paragraph {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .price-big {
+            font-family: 'Oswald', sans-serif;
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .spec-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .spec-item {
+            border-bottom: 1px solid #eee;
+            padding: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        /* Bottom Images */
+        .bottom-gallery {
+            display: flex;
+            gap: 15px;
+            padding: 20px 40px;
+            height: 200px;
+        }
+
+        .gallery-item {
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Profile Footer */
+        .profile-footer {
+            padding: 20px 40px;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="sub-header">Just Listed</div>
+        <div class="main-header">
+            Open<br>House
+        </div>
+        <div class="address-bar">{{ address }}</div>
+    </div>
+
+    <div class="hero">
+        {% if photos[0] %}<img src="data:image/jpeg;base64,{{ photos[0] }}">{% endif %}
+    </div>
+
+    <div class="content-split">
+        <div class="intro-col">
+            <div class="feature-title">Modern Home</div>
+            <p class="paragraph">
+                {{ description }}
+            </p>
+            <p class="paragraph">
+                Beautifully built new construction with careful attention paid to every detail. This home features an open floor plan, vaulted ceilings, and custom finishes.
+            </p>
+        </div>
+
+        <div class="specs-col">
+            <div class="price-big">${{ price }}</div>
+            <ul class="spec-list">
+                <li class="spec-item"><span>Bedrooms</span> <b>{{ bedrooms }}</b></li>
+                <li class="spec-item"><span>Bathrooms</span> <b>{{ bathrooms }}</b></li>
+                <li class="spec-item"><span>Sq Ft</span> <b>{{ sqft }}</b></li>
+                <li class="spec-item"><span>Garage</span> <b>2 Cars</b></li>
+                <li class="spec-item"><span>Built In</span> <b>2025</b></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="bottom-gallery">
+        <div class="gallery-item">
+            {% if photos[1] %}<img src="data:image/jpeg;base64,{{ photos[1] }}">{% else %}<div style="background:#eee; height:100%"></div>{% endif %}
+        </div>
+        <div class="gallery-item">
+            {% if photos[2] %}<img src="data:image/jpeg;base64,{{ photos[2] }}">{% else %}<div style="background:#ddd; height:100%"></div>{% endif %}
+        </div>
+        <div class="gallery-item">
+            {% if photos[3] %}<img src="data:image/jpeg;base64,{{ photos[3] }}">{% else %}<div style="background:#ccc; height:100%"></div>{% endif %}
+        </div>
+    </div>
+
+    <div class="profile-footer">
+        <img src="data:image/jpeg;base64,{{ agent_photo }}" class="avatar">
+        <div>
+            <div style="font-weight: 700; text-transform: uppercase;">{{ agent_name }}</div>
+            <div style="font-size: 11px; color: #666;">Real Estate Agent</div>
+        </div>
+        <div style="margin-left: auto; text-align: right; font-size: 11px;">
+            {{ agent_email }}<br>
+            {{ agent_phone }}<br>
+            {{ agency_name }}
+        </div>
+    </div>
+
+</body>
+</html>

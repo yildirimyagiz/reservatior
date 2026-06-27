@@ -1,0 +1,31 @@
+// Simple placeholder image generator for development
+export function createPlaceholderImage(width: number, height: number): string {
+  // Create a simple SVG placeholder
+  const svg = `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100%" height="100%" fill="#f3f4f6"/>
+      <text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#9ca3af" font-family="Arial, sans-serif" font-size="14">
+        ${width}x${height}
+      </text>
+    </svg>
+  `;
+
+  return `data:image/svg+xml;base64,${btoa(svg)}`;
+}
+
+// Mock API endpoint handler for placeholder images
+export function handlePlaceholderRequest(path: string): Response | null {
+  const match = path.match(/\/api\/placeholder\/(\d+)\/(\d+)/);
+  if (match) {
+    const [, width, height] = match;
+    const imageUrl = createPlaceholderImage(parseInt(width), parseInt(height));
+
+    return new Response("", {
+      status: 302,
+      headers: {
+        Location: imageUrl,
+      },
+    });
+  }
+  return null;
+}

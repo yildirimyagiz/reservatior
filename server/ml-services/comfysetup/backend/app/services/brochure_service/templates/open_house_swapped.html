@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: 210mm 297mm; margin: 0; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; width: 210mm; height: 297mm; display: flex; flex-direction: column; color: #333; background: #fff; }
+        .main-content { flex-grow: 1; display: flex; }
+        .left-panel { width: 50%; padding: 40px; display: flex; flex-direction: column; }
+        .right-panel { width: 50%; }
+        .right-panel img { width: 100%; height: 100%; object-fit: cover; }
+        .header h1 { font-size: 48px; font-weight: 900; margin: 0 0 10px 0; }
+        .header .address { font-size: 18px; color: #555; }
+        .property-info { margin-top: 30px; }
+        .property-info h2 { font-size: 24px; font-weight: bold; margin-bottom: 15px; }
+        .property-info p { line-height: 1.6; }
+        .features { list-style: none; padding: 0; margin-top: 20px; columns: 2; }
+        .features li { margin-bottom: 8px; }
+        .agent-footer { margin-top: auto; display: flex; align-items: center; gap: 15px; padding-top: 20px; border-top: 1px solid #ddd; }
+        .agent-photo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .agent-details p { margin: 0; }
+        .agent-name { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="left-panel">
+            <div class="header">
+                <h1>{{ title }}</h1>
+                <p class="address">{{ address }}</p>
+            </div>
+            <div class="property-info">
+                <h2>OPEN HOUSE</h2>
+                <p>{{ description }}</p>
+                <ul class="features">
+                    <li>{{ bedrooms }} Bedrooms</li>
+                    <li>{{ bathrooms }} Bathrooms</li>
+                    <li>{{ area }} sq ft</li>
+                    <li>Built in {{ yearBuilt }}</li>
+                </ul>
+            </div>
+            <div class="agent-footer">
+                <img src="data:image/jpeg;base64,{{ agent_photo }}" class="agent-photo">
+                <div class="agent-details">
+                    <p class="agent-name">{{ agent_name }}</p>
+                    <p>{{ agent_email }} | {{ agent_phone }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="right-panel">
+            <img src="data:image/jpeg;base64,{{ photos[0] }}">
+        </div>
+    </div>
+</body>
+</html>

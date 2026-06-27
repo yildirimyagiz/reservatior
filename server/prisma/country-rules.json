@@ -1,0 +1,76 @@
+{
+  "models": {
+    "Organization": {
+      "rentIncreaseSchedules": [
+        "TR"
+      ],
+      "leaseRenewalReminders": [
+        "TR"
+      ]
+    },
+    "Property": {
+      "escrowSplitConfigs": [
+        "TR"
+      ]
+    },
+    "Lease": {
+      "commissionSplitRules": [
+        "TR"
+      ],
+      "agentTaxWithholdings": [
+        "TR"
+      ],
+      "rentIncreaseSchedules": [
+        "TR"
+      ],
+      "leaseRenewalReminders": [
+        "TR"
+      ]
+    },
+    "Reservation": {
+      "agentTaxWithholdings": [
+        "TR"
+      ]
+    },
+    "AutomationRule": {
+      "notificationTemplates": [
+        "TR"
+      ]
+    },
+    "AutomationExecution": {
+      "systemEvents": [
+        "TR"
+      ]
+    },
+    "EscrowAccount": {
+      "agentEscrowTransactions": [
+        "TR"
+      ]
+    },
+    "Agency": {
+      "tenantSideAgencyCommissions": [
+        "TR"
+      ],
+      "ownerSideAgencyCommissions": [
+        "TR"
+      ]
+    },
+    "Agent": {
+      "tenantSideCommissions": [
+        "TR"
+      ],
+      "ownerSideCommissions": [
+        "TR"
+      ],
+      "agentTaxWithholdings": [
+        "TR"
+      ],
+      "agentEscrowWallets": [
+        "TR"
+      ],
+      "escrowSplitConfigs": [
+        "TR"
+      ]
+    }
+  }
+}

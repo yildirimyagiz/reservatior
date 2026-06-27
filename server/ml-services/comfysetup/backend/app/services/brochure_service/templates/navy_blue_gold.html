@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        @page { size: 210mm 297mm; margin: 0; }
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            width: 210mm; 
+            height: 297mm; 
+            margin: 0;
+            padding: 0;
+            background: #1a1e26; /* Dark Navy */
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Top Section */
+        .top-section {
+            position: relative;
+            height: 350px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-tag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(30,30,30,0.9);
+            color: #d4a353; /* Gold */
+            padding: 10px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 24px;
+        }
+
+        /* Waves */
+        .wave-container {
+            position: relative;
+            margin-top: -60px;
+            z-index: 10;
+        }
+        
+        .wave-gold {
+            height: 80px;
+            background: #c58e3f;
+            border-top-left-radius: 100% 50%;
+            border-top-right-radius: 0;
+            transform: skewY(-2deg);
+        }
+        
+        .wave-navy {
+             margin-top: -50px;
+             height: 80px;
+             background: #1a1e26;
+             border-top-left-radius: 50% 100%;
+             transform: skewY(2deg);
+        }
+
+        /* Pricing Badge */
+        .price-badge {
+            position: absolute;
+            top: 280px;
+            left: 40px;
+            z-index: 20;
+            text-align: left;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .price-label { font-size: 14px; color: #ccc; text-transform: uppercase; }
+        .price-val { font-family: 'Montserrat', sans-serif; font-size: 42px; font-weight: 700; color: #c58e3f; }
+
+        /* Content */
+        .main-content {
+            padding: 40px;
+            margin-top: 20px;
+        }
+
+        .invite-text {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            color: #eee;
+        }
+        
+        .invite-text span { color: #c58e3f; font-weight: 700; }
+
+        .details-grid {
+            display: flex;
+            gap: 40px;
+        }
+
+        .left-col { width: 40%; }
+        .right-col { width: 60%; }
+
+        .sub-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border: 2px solid #333;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            color: #c58e3f;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .desc-text {
+            font-size: 11px;
+            line-height: 1.6;
+            color: #bbb;
+            margin-bottom: 20px;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #ddd;
+        }
+
+        .feature-icon {
+            width: 20px;
+            text-align: center;
+            color: #c58e3f;
+        }
+
+        /* Footer */
+        .footer-bar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            font-size: 12px;
+            color: #888;
+            box-sizing: border-box;
+            border-top: 3px solid #c58e3f;
+        }
+
+        .footer-highlight { color: #c58e3f; font-weight: 700; }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-section">
+        {% if photos[0] %}<img src="data:image/jpeg;base64,{{ photos[0] }}" class="hero-img">{% endif %}
+        <div class="header-tag">Open House</div>
+        
+        <div class="price-badge">
+            <div class="price-label">Offer At</div>
+            <div class="price-val">${{ price }}</div>
+        </div>
+    </div>
+
+    <div class="wave-container">
+        <div class="wave-gold"></div>
+        <div class="wave-navy"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="invite-text">
+            You are invited to my <span>Open House</span> this weekend
+        </div>
+
+        <div class="details-grid">
+            <div class="left-col">
+                {% if photos[1] %}<img src="data:image/jpeg;base64,{{ photos[1] }}" class="sub-img">{% endif %}
+                <div class="section-title">Property Details</div>
+                <p class="desc-text">{{ description | truncate(150) }}</p>
+                
+                {% if photos[2] %}<img src="data:image/jpeg;base64,{{ photos[2] }}" class="sub-img">{% endif %}
+            </div>
+
+            <div class="right-col">
+                <div class="section-title">Our Features</div>
+                <div class="desc-text" style="margin-bottom:30px;">
+                    This luxury residence offers premium amenities including a chef's kitchen, spacious living areas, and a private garden.
+                </div>
+                
+                <ul class="features-list">
+                    <li class="feature-item"><span class="feature-icon">🛏</span> {{ bedrooms }} Bedrooms</li>
+                    <li class="feature-item"><span class="feature-icon">🛁</span> {{ bathrooms }} Bathrooms</li>
+                    <li class="feature-item"><span class="feature-icon">🍳</span> Chef's Kitchen</li>
+                    <li class="feature-item"><span class="feature-icon">🌳</span> Private Garden</li>
+                    <li class="feature-item"><span class="feature-icon">🛋</span> Large Living Area</li>
+                    <li class="feature-item"><span class="feature-icon">🚗</span> 2 Car Garage</li>
+                </ul>
+
+                <div class="section-title" style="margin-top: 40px;">When?</div>
+                <div style="font-size: 24px; color: #fff; font-family: 'Montserrat', sans-serif;">
+                    Saturday, 10th May<br>
+                    <span style="color: #c58e3f;">9:00am to 12:00pm</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bar">
+        <div>www.comyfystaging.com</div>
+        <div><span class="footer-highlight">{{ agent_email }}</span></div>
+        <div>{{ agent_name }}</div>
+    </div>
+
+</body>
+</html>

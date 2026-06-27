@@ -1,0 +1,574 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Elysia Real Estate API — Full Docker Compose
+#  22 microservices + PostgreSQL
+#
+#  Quick start:
+#    cp .env.example .env        # fill in JWT_SECRET
+#    docker compose up -d        # start everything
+#    docker compose logs -f      # tail logs
+# ─────────────────────────────────────────────────────────────────────────────
+
+x-common-env: &common-env
+  DATABASE_URL: postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+  JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+  CORS_ORIGIN: ${CORS_ORIGIN:-*}
+  NODE_ENV: ${NODE_ENV:-production}
+
+x-service-defaults: &service-defaults
+  build:
+    context: .
+    dockerfile: Dockerfile
+  restart: unless-stopped
+  depends_on:
+    postgres:
+      condition: service_healthy
+  environment:
+    <<: *common-env
+
+services:
+  # ── Database ───────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: elysia
+      POSTGRES_PASSWORD: elysia_pass
+      POSTGRES_DB: elysia_db
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U elysia"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - elysia-net
+
+  # ── DB Migration (runs once, then exits) ───────────────────────────────────
+  migrate:
+    <<: *service-defaults
+    command: ["bunx", "prisma", "db", "push", "--skip-generate"]
+    restart: "no"
+    networks:
+      - elysia-net
+
+  # ── API Gateway (monolith — all routes on one port) ────────────────────────
+  gateway:
+    <<: *service-defaults
+    command: ["bun", "run", "src/index.ts"]
+    ports:
+      - "${PORT_GATEWAY:-3000}:3000"
+    environment:
+      <<: *common-env
+      PORT: 3000
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gateway.rule=PathPrefix(`/api`)"
+
+  # ── Microservices ──────────────────────────────────────────────────────────
+  svc-auth:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/auth/index.ts"]
+    ports:
+      - "${PORT_AUTH:-3001}:3001"
+    environment:
+      <<: *common-env
+      PORT_AUTH: 3001
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-organizations:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/organizations/index.ts"]
+    ports:
+      - "${PORT_ORGANIZATIONS:-3002}:3002"
+    environment:
+      <<: *common-env
+      PORT_ORGANIZATIONS: 3002
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-properties:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/properties/index.ts"]
+    ports:
+      - "${PORT_PROPERTIES:-3003}:3003"
+    environment:
+      <<: *common-env
+      PORT_PROPERTIES: 3003
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-listings:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/listings/index.ts"]
+    ports:
+      - "${PORT_LISTINGS:-3004}:3004"
+    environment:
+      <<: *common-env
+      PORT_LISTINGS: 3004
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-leads:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/leads/index.ts"]
+    ports:
+      - "${PORT_LEADS:-3005}:3005"
+    environment:
+      <<: *common-env
+      PORT_LEADS: 3005
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-contacts:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/contacts/index.ts"]
+    ports:
+      - "${PORT_CONTACTS:-3006}:3006"
+    environment:
+      <<: *common-env
+      PORT_CONTACTS: 3006
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-leases:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/leases/index.ts"]
+    ports:
+      - "${PORT_LEASES:-3007}:3007"
+    environment:
+      <<: *common-env
+      PORT_LEASES: 3007
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-appointments:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/appointments/index.ts"]
+    ports:
+      - "${PORT_APPOINTMENTS:-3008}:3008"
+    environment:
+      <<: *common-env
+      PORT_APPOINTMENTS: 3008
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-tasks:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/tasks/index.ts"]
+    ports:
+      - "${PORT_TASKS:-3009}:3009"
+    environment:
+      <<: *common-env
+      PORT_TASKS: 3009
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-maintenance:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/maintenance/index.ts"]
+    ports:
+      - "${PORT_MAINTENANCE:-3010}:3010"
+    environment:
+      <<: *common-env
+      PORT_MAINTENANCE: 3010
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-documents:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/documents/index.ts"]
+    ports:
+      - "${PORT_DOCUMENTS:-3011}:3011"
+    environment:
+      <<: *common-env
+      PORT_DOCUMENTS: 3011
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-financials:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/financials/index.ts"]
+    ports:
+      - "${PORT_FINANCIALS:-3012}:3012"
+    environment:
+      <<: *common-env
+      PORT_FINANCIALS: 3012
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-notifications:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/notifications/index.ts"]
+    ports:
+      - "${PORT_NOTIFICATIONS:-3013}:3013"
+    environment:
+      <<: *common-env
+      PORT_NOTIFICATIONS: 3013
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-reports:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/reports/index.ts"]
+    ports:
+      - "${PORT_REPORTS:-3014}:3014"
+    environment:
+      <<: *common-env
+      PORT_REPORTS: 3014
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-webhooks:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/webhooks/index.ts"]
+    ports:
+      - "${PORT_WEBHOOKS:-3015}:3015"
+    environment:
+      <<: *common-env
+      PORT_WEBHOOKS: 3015
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-audit:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/audit/index.ts"]
+    ports:
+      - "${PORT_AUDIT:-3016}:3016"
+    environment:
+      <<: *common-env
+      PORT_AUDIT: 3016
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-reservations:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/reservations/index.ts"]
+    ports:
+      - "${PORT_RESERVATIONS:-3017}:3017"
+    environment:
+      <<: *common-env
+      PORT_RESERVATIONS: 3017
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-deals:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/deals/index.ts"]
+    ports:
+      - "${PORT_DEALS:-3018}:3018"
+    environment:
+      <<: *common-env
+      PORT_DEALS: 3018
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-commissions:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/commissions/index.ts"]
+    ports:
+      - "${PORT_COMMISSIONS:-3019}:3019"
+    environment:
+      <<: *common-env
+      PORT_COMMISSIONS: 3019
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-bookings:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/bookings/index.ts"]
+    ports:
+      - "${PORT_BOOKINGS:-3020}:3020"
+    environment:
+      <<: *common-env
+      PORT_BOOKINGS: 3020
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-escrow:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/escrow/index.ts"]
+    ports:
+      - "${PORT_ESCROW:-3021}:3021"
+    environment:
+      <<: *common-env
+      PORT_ESCROW: 3021
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-ai:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/ai/index.ts"]
+    ports:
+      - "${PORT_AI:-3022}:3022"
+    environment:
+      <<: *common-env
+      PORT_AI: 3022
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-users:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/users/index.ts"]
+    ports:
+      - "${PORT_USERS:-3023}:3023"
+    environment:
+      <<: *common-env
+      PORT_USERS: 3023
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-agents:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/agents/index.ts"]
+    ports:
+      - "${PORT_AGENTS:-3024}:3024"
+    environment:
+      <<: *common-env
+      PORT_AGENTS: 3024
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-contracts:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/contracts/index.ts"]
+    ports:
+      - "${PORT_CONTRACTS:-3025}:3025"
+    environment:
+      <<: *common-env
+      PORT_CONTRACTS: 3025
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-marketing:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/marketing/index.ts"]
+    ports:
+      - "${PORT_MARKETING:-3026}:3026"
+    environment:
+      <<: *common-env
+      PORT_MARKETING: 3026
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-investors:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/investors/index.ts"]
+    ports:
+      - "${PORT_INVESTORS:-3027}:3027"
+    environment:
+      <<: *common-env
+      PORT_INVESTORS: 3027
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-calendar:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/calendar/index.ts"]
+    ports:
+      - "${PORT_CALENDAR:-3028}:3028"
+    environment:
+      <<: *common-env
+      PORT_CALENDAR: 3028
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-messages:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/messages/index.ts"]
+    ports:
+      - "${PORT_MESSAGES:-3029}:3029"
+    environment:
+      <<: *common-env
+      PORT_MESSAGES: 3029
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-mls:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/mls/index.ts"]
+    ports:
+      - "${PORT_MLS:-3030}:3030"
+    environment:
+      <<: *common-env
+      PORT_MLS: 3030
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-integrations:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/integrations/index.ts"]
+    ports:
+      - "${PORT_INTEGRATIONS:-3031}:3031"
+    environment:
+      <<: *common-env
+      PORT_INTEGRATIONS: 3031
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-admin:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/admin/index.ts"]
+    ports:
+      - "${PORT_ADMIN:-3032}:3032"
+    environment:
+      <<: *common-env
+      PORT_ADMIN: 3032
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-system:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/system/index.ts"]
+    ports:
+      - "${PORT_SYSTEM:-3033}:3033"
+    environment:
+      <<: *common-env
+      PORT_SYSTEM: 3033
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-projects:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/projects/index.ts"]
+    ports:
+      - "${PORT_PROJECTS:-3034}:3034"
+    environment:
+      <<: *common-env
+      PORT_PROJECTS: 3034
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+  svc-locations:
+    <<: *service-defaults
+    command: ["bun", "run", "src/pages/locations/index.ts"]
+    ports:
+      - "${PORT_LOCATIONS:-3035}:3035"
+    environment:
+      <<: *common-env
+      PORT_LOCATIONS: 3035
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - elysia-net
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  elysia-net:
+    driver: bridge

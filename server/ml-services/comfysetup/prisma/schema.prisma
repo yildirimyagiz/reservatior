@@ -1,0 +1,597 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  accounts      Account[]
+  sessions      Session[]
+
+  // Role
+  role          UserRole  @default(USER)
+
+  // Custom Extensions
+  phoneNumber   String?   @unique
+  phoneVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Credits
+  credits       Int       @default(0)
+
+  // Stripe
+  stripeCustomerId String? @unique
+
+  // Relations
+  trial         TrialProfile?
+  subscription  Subscription?
+  fingerprints  UserFingerprint[]
+  ipHistory     UserIpHistory[]
+  riskEvents    RiskEvent[]
+  generations   Generation[]
+  orders        Order[]
+  carts         Cart[]
+  brochures     Brochure[]
+  walkthroughs  Walkthrough[]
+  notifications Notification[]
+  properties    Property[]
+  assets        Asset[]
+  tickets       HelpTicket[]
+}
+
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type     NotificationType
+  title    String
+  message  String
+  read     Boolean          @default(false)
+  link     String? // Action link (e.g., to a specific design)
+  imageUrl String? // Thumbnail for the notification
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum NotificationType {
+  GENERATION // "Your design is ready"
+  CREDIT // "Low credits warning"
+  SYSTEM // "Maintenance scheduled"
+  PROMO // "Weekend sale"
+  SECURITY // "New login detected"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model TrialProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  status    TrialStatus @default(ACTIVE)
+  startedAt DateTime    @default(now())
+  expiresAt DateTime
+
+  // Credit System (better than time-based)
+  totalCredits Int @default(50)
+  usedCredits  Int @default(0)
+
+  // Daily Limits
+  dailyLimit    Int      @default(10)
+  lastUsageDate DateTime @default(now())
+  todayUsage    Int      @default(0)
+
+  // Risk Score (0-100)
+  riskScore Int       @default(0)
+  riskLevel RiskLevel @default(LOW)
+}
+
+enum TrialStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED // Abuse detected
+  CONVERTED // Paid
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+// -----------------------------------------------------------------------------
+// FINGERPRINTING & DEVICE INTELLIGENCE
+// -----------------------------------------------------------------------------
+
+model UserFingerprint {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  visitorId String // From FingerprintJS or similar
+  userAgent String
+  browser   String?
+  os        String?
+  device    String?
+  screenRes String?
+  timezone  String?
+
+  createdAt DateTime @default(now())
+
+  @@index([visitorId])
+}
+
+model UserIpHistory {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  ipAddress String
+  asn       String? // Autonomous System Number
+  isp       String?
+  isProxy   Boolean @default(false)
+  isHosting Boolean @default(false) // Datacenter IP
+  country   String?
+
+  createdAt DateTime @default(now())
+
+  @@index([ipAddress])
+}
+
+// -----------------------------------------------------------------------------
+// RISK & ABUSE TRACKING
+// -----------------------------------------------------------------------------
+
+model RiskEvent {
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  type     RiskEventType
+  severity RiskLevel
+  details  Json? // Context: "Multiple accounts on same device", etc.
+
+  ipAddress     String?
+  fingerprintId String?
+
+  createdAt DateTime @default(now())
+}
+
+enum RiskEventType {
+  MULTIPLE_ACCOUNTS
+  DISPOSABLE_EMAIL
+  VOIP_PHONE
+  VPN_DETECTED
+  VELOCITY_ABUSE // Too many requests too fast
+  PAYMENT_DECLINE
+  BROWSER_TAMPERING
+  BLOCK_TRIAL_ATTEMPT
+}
+
+model BlockedIdentifier {
+  id        String    @id @default(cuid())
+  type      BlockType
+  value     String    @unique // The hash of the email, phone, or fingerprint
+  reason    String?
+  createdAt DateTime  @default(now())
+}
+
+enum BlockType {
+  EMAIL_DOMAIN
+  PHONE_NUMBER
+  FINGERPRINT
+  IP_ADDRESS
+}
+
+// -----------------------------------------------------------------------------
+// V1: STAGING, VIDEO & MARKETING
+// -----------------------------------------------------------------------------
+
+model Property {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  title       String? // e.g. "Modern Downtown Loft"
+  address     String?
+  description String? @db.Text
+
+  // Specs
+  price     Decimal? @db.Decimal(10, 2)
+  bedrooms  Int?
+  bathrooms Int?
+  sqft      Int?
+
+  // Listing / Agent Data
+  listingUrl String? // Canonical listing URL (e.g. Zillow, Realtor.com)
+  agentId    String?
+  agent      Agent?   @relation(fields: [agentId], references: [id])
+
+  // Content
+  assets       Asset[]
+  generations  Generation[]
+  walkthroughs Walkthrough[]
+  brochures    Brochure[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Agency {
+  id           String   @id @default(cuid())
+  name         String
+  logoUrl      String?
+  website      String?
+  contactEmail String?
+  phoneNumber  String?
+  address      String?
+  
+  agents       Agent[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Agent {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  photoUrl  String?
+  
+  agencyId  String?
+  agency    Agency?  @relation(fields: [agencyId], references: [id])
+  
+  properties Property[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Asset {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  propertyId String?
+  property   Property? @relation(fields: [propertyId], references: [id])
+
+  url      String
+  filename String?
+  mimeType String?
+  size     Int?
+
+  createdAt DateTime @default(now())
+}
+
+model Generation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  propertyId String?
+  property   Property? @relation(fields: [propertyId], references: [id])
+
+  type GenerationType @default(IMAGE)
+
+  // Inputs
+  prompt           String  @db.Text
+  roomType         String?
+  style            String?
+  originalImageUrl String? // The "Before" image
+  maskImageUrl     String? // Optional mask for inpainting
+
+  // Outputs
+  imageUrl String?
+  videoUrl String?
+
+  // Meta
+  cost     Int // Credit cost
+  settings Json? // ComfyUI workflow settings, seed, etc.
+
+  createdAt DateTime @default(now())
+
+  // Relations
+  brochureId String?
+  brochure   Brochure? @relation(fields: [brochureId], references: [id])
+}
+
+enum GenerationType {
+  IMAGE
+  VIDEO
+  PANORAMA_360
+}
+
+model Brochure {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  propertyId String?
+  property   Property? @relation(fields: [propertyId], references: [id])
+
+  title           String
+  propertyAddress String?
+
+  // Content
+  generations Generation[]
+  content     Json? // Layout data, text blocks
+  pdfUrl      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// V2: E-COMMERCE CORE (Native Inventory)
+// -----------------------------------------------------------------------------
+
+model Product {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  description    String?
+  price          Decimal  @db.Decimal(10, 2)
+  compareAtPrice Decimal? @db.Decimal(10, 2)
+  currency       String   @default("USD")
+
+  images String[]
+
+  sku       String? @unique
+  inventory Int     @default(0)
+
+  // Relations
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  providerId String? // "Our own providers"
+  provider   Provider? @relation(fields: [providerId], references: [id])
+
+  orderItems OrderItem[]
+  cartItems  CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  description String?
+  products    Product[]
+  parentId    String?
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+}
+
+model Provider {
+  id           String    @id @default(cuid())
+  name         String
+  contactEmail String?
+  products     Product[]
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String? // Can be anonymous
+  user      User?      @relation(fields: [userId], references: [id])
+  sessionId String? // For guest carts
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@unique([userId]) // simplified for now
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+}
+
+model Order {
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  status OrderStatus @default(PENDING)
+  total  Decimal     @db.Decimal(10, 2)
+
+  items   OrderItem[]
+  address Address?
+
+  paymentId String? // Stripe Payment Intent ID
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FULFILLED
+  CANCELLED
+  REFUNDED
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Decimal @db.Decimal(10, 2) // Snapshot price
+}
+
+model Address {
+  id      String @id @default(cuid())
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  line1      String
+  line2      String?
+  city       String
+  state      String
+  postalCode String
+  country    String
+}
+
+// -----------------------------------------------------------------------------
+// V3: WALKTHROUGH & 3D
+// -----------------------------------------------------------------------------
+
+model Walkthrough {
+  id         String              @id @default(cuid())
+  userId     String
+  user       User                @relation(fields: [userId], references: [id])
+  propertyId String?
+  property   Property?           @relation(fields: [propertyId], references: [id])
+  status     WalkthroughStatus   @default(QUEUED)
+  photoCount Int
+  roomTypes  String[] // Array of strings
+  luxury     Boolean             @default(false)
+  pipeline   WalkthroughPipeline
+  videoUrl   String?
+  cost       Decimal?            @db.Decimal(10, 2)
+  metadata   Json? // Extra params like camera path, quality settings
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+}
+
+enum WalkthroughStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum WalkthroughPipeline {
+  PARALLAX_2_5D
+  INSTANT_NGP_SINGLE
+  INSTANT_NGP_FULL
+  GAUSSIAN_SPLATTING
+}
+
+model Subscription {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  stripeSubscriptionId String             @unique
+  stripePriceId        String
+  stripeCustomerId     String
+  status               SubscriptionStatus
+  currentPeriodEnd     DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum SubscriptionStatus {
+  active
+  canceled
+  incomplete
+  incomplete_expired
+  past_due
+  trialing
+  unpaid
+  paused
+}
+
+// -----------------------------------------------------------------------------
+// V4: SUPPORT & HELP
+// -----------------------------------------------------------------------------
+
+model HelpTicket {
+  id        String         @id @default(cuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id])
+  
+  subject   String
+  message   String         @db.Text
+  category  String?        // e.g. "Billing", "Technical", "Account"
+  
+  status    TicketStatus   @default(OPEN)
+  priority  TicketPriority @default(MEDIUM)
+  
+  adminResponse String?    @db.Text // Simple single response for now
+  
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}

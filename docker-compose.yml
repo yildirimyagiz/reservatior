@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8082:3000"
+    env_file:
+      - .env
+    environment:
+      # Connect to server-postgres-1 via Docker network (all regions share same DB for now)
+      - DATABASE_URL=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_AE=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_AR=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_AU=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_BR=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_CA=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_CN=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_DE=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_ES=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_FR=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_IN=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_IT=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_JP=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_KR=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_MX=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_MY=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_NL=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_NZ=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_SA=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_SG=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_TH=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_TR=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_UK=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - DATABASE_URL_US=postgresql://elysia:elysia_pass@postgres:5432/elysia_db
+      - APP_URL=https://reservatior.com
+      - CLIENT_URL=https://reservatior.com
+    volumes:
+      - ./server/data:/app/data
+    networks:
+      - server_elysia-net
+    restart: unless-stopped
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - server_elysia-net
+    depends_on:
+      - server
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:8080/ || exit 1"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+
+networks:
+  server_elysia-net:
+    external: true
