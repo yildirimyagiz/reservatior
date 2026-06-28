@@ -12,17 +12,31 @@ async function run() {
   try {
     await prisma.$connect();
     console.log("Connected to default postgres db");
-    // We can't use executeRaw for CREATE DATABASE. 
-    // Wait, executeRawUnsafe might work if it's not in a transaction.
-    // Let's try it.
-    await prisma.$executeRawUnsafe(`CREATE DATABASE realestate_us;`);
-    console.log("Created database realestate_us");
-  } catch (e: any) {
-    if (e.message.includes("already exists")) {
-      console.log("Database already exists.");
-    } else {
-      console.error(e);
+    
+    try {
+      await prisma.$executeRawUnsafe(`CREATE DATABASE realestate_us;`);
+      console.log("Created database realestate_us");
+    } catch (e: any) {
+      if (e.message.includes("already exists")) {
+        console.log("Database realestate_us already exists.");
+      } else {
+        console.error(e);
+      }
     }
+
+    try {
+      await prisma.$executeRawUnsafe(`CREATE DATABASE realestate_tr;`);
+      console.log("Created database realestate_tr");
+    } catch (e: any) {
+      if (e.message.includes("already exists")) {
+        console.log("Database realestate_tr already exists.");
+      } else {
+        console.error(e);
+      }
+    }
+
+  } catch (e: any) {
+    console.error(e);
   } finally {
     await prisma.$disconnect();
   }
