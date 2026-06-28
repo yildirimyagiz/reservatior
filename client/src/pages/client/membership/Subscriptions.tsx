@@ -1,16 +1,17 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle2, Zap, Video, Globe, BarChart4, Sparkles, Crown, Building2, Instagram, Film, Languages, ArrowRight, UserPlus, Users2, Briefcase, Rocket, Clock, TrendingUp, MapPin, Mic2, Cpu, BrainCircuit, Settings2 } from "lucide-react";
+import { CheckCircle2, Zap, Video, Globe, BarChart4, Sparkles, Crown, Building2, Instagram, Film, Languages, ArrowRight, UserPlus, Users2, Briefcase, Rocket, Clock, TrendingUp, MapPin, Mic2, Cpu, BrainCircuit, Settings2, Sliders, Shield, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PageShell } from "../../client/layout/PageShell";
+import { apiClient } from "@/lib/api";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface PricingPlan {
@@ -273,10 +274,349 @@ const AGENCY_PLANS: PricingPlan[] = [{
   },
   ctaLabel: "Contact Sales"
 }];
+
+interface PrivateYieldDashboardProps {
+  agreement: {
+    id: string;
+    tenantId: string;
+    status: string;
+    terms?: {
+      initial_move_in_cost_subsidy: number;
+      monthly_commission_schedule: Array<{ month: number; rate: number }>;
+      loyalty_yield_multipliers: Array<{ month: number; multiplier: number }>;
+    }
+  };
+}
+
+function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
+  const [baseRevenue, setBaseRevenue] = useState(10000);
+  const [exposure, setExposure] = useState(0.9);
+  const [engagement, setEngagement] = useState(0.8);
+  const [conversion, setConversion] = useState(0.85);
+  const [timeDecay, setTimeDecay] = useState(0.97);
+  const [behavior, setBehavior] = useState(1.1);
+
+  const terms = agreement.terms || {
+    initial_move_in_cost_subsidy: 1500,
+    monthly_commission_schedule: [
+      { month: 1, rate: 0.02 },
+      { month: 2, rate: 0.02 },
+      { month: 3, rate: 0.015 },
+      { month: 6, rate: 0.012 },
+      { month: 12, rate: 0.01 }
+    ],
+    loyalty_yield_multipliers: [
+      { month: 6, multiplier: 1.1 },
+      { month: 12, multiplier: 1.25 }
+    ]
+  };
+
+  const steps = [
+    "CREATED",
+    "PENDING",
+    "ACTIVE",
+    "SUSPENDED",
+    "MODIFIED",
+    "ESCALATED",
+    "RE_EXECUTED",
+    "SETTLED",
+    "ARCHIVED"
+  ];
+
+  const currentStepIndex = steps.indexOf(agreement.status);
+
+  const monthsData = Array.from({ length: 12 }, (_, i) => {
+    const monthIndex = i + 1;
+    const sched = terms.monthly_commission_schedule || [];
+    const rate = sched.find((m: any) => m.month === monthIndex)?.rate 
+      ?? sched[sched.length - 1]?.rate 
+      ?? 0.015;
+
+    const mults = terms.loyalty_yield_multipliers || [];
+    const loyalty = mults.find((m: any) => m.month === monthIndex)?.multiplier 
+      ?? 1;
+
+    const decayFactor = Math.pow(timeDecay, monthIndex);
+    const gross = baseRevenue * exposure * engagement * conversion * decayFactor * behavior;
+    const commission = gross * rate * loyalty;
+    const net = gross - commission;
+
+    return {
+      month: monthIndex,
+      rate,
+      loyalty,
+      gross: Math.round(gross),
+      commission: Math.round(commission),
+      net: Math.round(net)
+    };
+  });
+
+  const totalGross = monthsData.reduce((acc, m) => acc + m.gross, 0);
+  const totalCommission = monthsData.reduce((acc, m) => acc + m.commission, 0);
+  const totalNet = monthsData.reduce((acc, m) => acc + m.net, 0);
+  const subsidyAmortized = terms.initial_move_in_cost_subsidy / 12;
+
+  return (
+    <div className="space-y-12 max-w-7xl mx-auto p-6 bg-[#0c0d12] border border-orange-500/10 rounded-[40px] shadow-2xl relative overflow-hidden">
+       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px] pointer-events-none" />
+       
+       <div className="relative z-10 space-y-8">
+         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/5 pb-8 gap-4">
+           <div>
+             <Badge className="bg-orange-500/10 text-orange-400 border border-orange-500/20 px-4 py-1.5 font-black tracking-widest text-[10px] uppercase mb-3">
+               <Shield className="w-3.5 h-3.5 mr-2 inline" /> Opaque Financial Matrix Active
+             </Badge>
+             <h2 className="text-3xl md:text-5xl font-black text-white italic tracking-tighter leading-none">
+               PRIVATE YIELD ENGINE
+             </h2>
+             <p className="text-slate-400 text-sm italic font-medium mt-1">
+               Contract ID: <span className="font-mono text-orange-500 font-bold">{agreement.id}</span> • Tenant Isolated Operating Loop
+             </p>
+           </div>
+           
+           <div className="bg-[#14151a]/80 backdrop-blur-xl border border-white/5 p-4 rounded-3xl flex items-center gap-4">
+             <div className="w-3 h-3 rounded-full bg-emerald-500 animate-ping" />
+             <div>
+               <p className="text-[10px] font-black text-slate-500 tracking-widest uppercase">System State</p>
+               <p className="text-lg font-black text-emerald-400 italic tracking-wider">{agreement.status}</p>
+             </div>
+           </div>
+         </div>
+
+         <div className="space-y-4 bg-white/5 border border-white/5 p-6 rounded-3xl">
+           <h3 className="text-[11px] font-black text-slate-400 tracking-[0.2em] uppercase italic">
+             Contract Execution State Machine
+           </h3>
+           <div className="grid grid-cols-2 md:grid-cols-9 gap-3">
+             {steps.map((st, i) => {
+               const isActive = i <= currentStepIndex;
+               const isCurrent = st === agreement.status;
+               return (
+                 <div
+                   key={st}
+                   className={cn(
+                     "p-3 rounded-xl border text-center transition-all duration-300",
+                     isCurrent 
+                       ? "bg-orange-500/20 border-orange-500 text-white font-black scale-105 shadow-lg shadow-orange-500/10"
+                       : isActive
+                       ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 font-bold"
+                       : "bg-white/5 border-white/5 text-slate-600 font-medium"
+                   )}
+                 >
+                   <p className="text-[9px] tracking-tight">{st}</p>
+                 </div>
+               );
+             })}
+           </div>
+         </div>
+
+         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+           <div className="lg:col-span-1 space-y-6 bg-white/5 border border-white/5 p-8 rounded-[30px]">
+             <div className="flex items-center justify-between pb-4 border-b border-white/5">
+               <h3 className="text-sm font-black text-white italic tracking-widest uppercase flex items-center gap-2">
+                 <Sliders className="w-4 h-4 text-orange-500" /> Revenue DAG Sim
+               </h3>
+               <span className="text-[9px] font-mono text-slate-500">f(x) Deterministic</span>
+             </div>
+
+             <div className="space-y-5">
+               <div className="space-y-2">
+                 <div className="flex justify-between text-xs font-bold italic">
+                   <span className="text-slate-400">Base Revenue Estimate</span>
+                   <span className="text-white">${baseRevenue.toLocaleString()}</span>
+                 </div>
+                 <input 
+                   type="range" min="1000" max="50000" step="500" 
+                   value={baseRevenue} onChange={e => setBaseRevenue(Number(e.target.value))}
+                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                 />
+               </div>
+
+               <div className="space-y-2">
+                 <div className="flex justify-between text-xs font-bold italic">
+                   <span className="text-slate-400">Exposure Score (Visibility)</span>
+                   <span className="text-orange-400">{Math.round(exposure * 100)}%</span>
+                 </div>
+                 <input 
+                   type="range" min="0.1" max="1.0" step="0.05" 
+                   value={exposure} onChange={e => setExposure(Number(e.target.value))}
+                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                 />
+               </div>
+
+               <div className="space-y-2">
+                 <div className="flex justify-between text-xs font-bold italic">
+                   <span className="text-slate-400">Engagement Rate</span>
+                   <span className="text-orange-400">{Math.round(engagement * 100)}%</span>
+                 </div>
+                 <input 
+                   type="range" min="0.1" max="1.0" step="0.05" 
+                   value={engagement} onChange={e => setEngagement(Number(e.target.value))}
+                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                 />
+               </div>
+
+               <div className="space-y-2">
+                 <div className="flex justify-between text-xs font-bold italic">
+                   <span className="text-slate-400">Lead Conversion Prob</span>
+                   <span className="text-orange-400">{Math.round(conversion * 100)}%</span>
+                 </div>
+                 <input 
+                   type="range" min="0.1" max="1.0" step="0.05" 
+                   value={conversion} onChange={e => setConversion(Number(e.target.value))}
+                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                 />
+               </div>
+
+               <div className="space-y-2">
+                 <div className="flex justify-between text-xs font-bold italic">
+                   <span className="text-slate-400">Monthly Time Decay</span>
+                   <span className="text-blue-400">{(timeDecay).toFixed(2)}x</span>
+                 </div>
+                 <input 
+                   type="range" min="0.80" max="1.0" step="0.01" 
+                   value={timeDecay} onChange={e => setTimeDecay(Number(e.target.value))}
+                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                 />
+               </div>
+
+               <div className="space-y-2">
+                 <div className="flex justify-between text-xs font-bold italic">
+                   <span className="text-slate-400">Tenant Behavior Multiplier</span>
+                   <span className="text-blue-400">{(behavior).toFixed(2)}x</span>
+                 </div>
+                 <input 
+                   type="range" min="0.50" max="1.50" step="0.05" 
+                   value={behavior} onChange={e => setBehavior(Number(e.target.value))}
+                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                 />
+               </div>
+             </div>
+           </div>
+
+           <div className="lg:col-span-2 space-y-6">
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+               <Card className="bg-[#14151a]/40 border-white/5 rounded-2xl">
+                 <CardContent className="pt-6">
+                   <p className="text-[10px] font-black text-slate-500 tracking-widest uppercase">Projected 12M Gross</p>
+                   <p className="text-3xl font-black text-white italic tracking-tighter mt-1">
+                     ${totalGross.toLocaleString()}
+                   </p>
+                 </CardContent>
+               </Card>
+
+               <Card className="bg-[#14151a]/40 border-orange-500/20 rounded-2xl relative overflow-hidden">
+                 <div className="absolute top-0 right-0 bg-orange-600 text-white text-[8px] font-black px-2.5 py-1 rounded-bl-lg">
+                   ACTIVE YIELD
+                 </div>
+                 <CardContent className="pt-6">
+                   <p className="text-[10px] font-black text-slate-500 tracking-widest uppercase">Net Partner Payout</p>
+                   <p className="text-3xl font-black text-orange-400 italic tracking-tighter mt-1">
+                     ${totalNet.toLocaleString()}
+                   </p>
+                 </CardContent>
+               </Card>
+
+               <Card className="bg-[#14151a]/40 border-white/5 rounded-2xl">
+                 <CardContent className="pt-6">
+                   <p className="text-[10px] font-black text-slate-500 tracking-widest uppercase">Move-In Subsidy</p>
+                   <p className="text-3xl font-black text-blue-400 italic tracking-tighter mt-1">
+                     -${terms.initial_move_in_cost_subsidy}
+                   </p>
+                   <p className="text-[9px] text-slate-400 italic mt-1">
+                     Amortized: ${Math.round(subsidyAmortized)}/month
+                   </p>
+                 </CardContent>
+               </Card>
+             </div>
+
+             <div className="bg-white/5 border border-white/5 p-8 rounded-[30px] space-y-4">
+               <div className="flex justify-between items-center pb-2">
+                 <h4 className="text-[10px] font-black text-white tracking-[0.2em] uppercase italic">
+                   12-Month Net Yield Projection Curve
+                 </h4>
+                 <span className="text-[9px] text-slate-500 font-mono">Commission vs Net</span>
+               </div>
+               
+               <div className="h-48 w-full bg-slate-950/40 rounded-2xl border border-white/5 p-4 flex items-end relative">
+                 <svg className="w-full h-full overflow-visible" viewBox="0 0 120 40">
+                   <line x1="0" y1="10" x2="120" y2="10" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
+                   <line x1="0" y1="20" x2="120" y2="20" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
+                   <line x1="0" y1="30" x2="120" y2="30" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
+                   
+                   <path
+                     d={`M ${monthsData.map((d, idx) => `${idx * 10.9}, ${40 - (d.net / Math.max(...monthsData.map(m => m.gross))) * 35}`).join(' L ')}`}
+                     fill="none"
+                     stroke="#f97316"
+                     strokeWidth="1.5"
+                   />
+                   <path
+                     d={`M ${monthsData.map((d, idx) => `${idx * 10.9}, ${40 - (d.gross / Math.max(...monthsData.map(m => m.gross))) * 35}`).join(' L ')}`}
+                     fill="none"
+                     stroke="rgba(255,255,255,0.2)"
+                     strokeWidth="1"
+                     strokeDasharray="2"
+                   />
+                 </svg>
+
+                 <div className="absolute bottom-2 left-4 right-4 flex justify-between text-[8px] font-mono text-slate-500">
+                   <span>M1</span>
+                   <span>M3</span>
+                   <span>M6</span>
+                   <span>M9</span>
+                   <span>M12</span>
+                 </div>
+               </div>
+               
+               <div className="overflow-x-auto">
+                 <table className="w-full text-left text-xs text-slate-400">
+                   <thead>
+                     <tr className="border-b border-white/5 text-[9px] font-black text-slate-500 tracking-wider">
+                       <th className="py-2">Month</th>
+                       <th className="py-2">Gross Est.</th>
+                       <th className="py-2">Comm. Rate</th>
+                       <th className="py-2">Loyalty</th>
+                       <th className="py-2 text-right">Net Payout</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     {monthsData.slice(0, 6).map((m) => (
+                       <tr key={m.month} className="border-b border-white/5 hover:bg-white/5 transition-all">
+                         <td className="py-2 font-black text-white">Month {m.month}</td>
+                         <td className="py-2">${m.gross.toLocaleString()}</td>
+                         <td className="py-2">{(m.rate * 100).toFixed(1)}%</td>
+                         <td className="py-2">{m.loyalty}x</td>
+                         <td className="py-2 text-right font-bold text-orange-400">${m.net.toLocaleString()}</td>
+                       </tr>
+                     ))}
+                   </tbody>
+                 </table>
+                 <p className="text-[9px] text-slate-500 italic mt-2 text-center">
+                   *Showing first 6 months. Detailed 36-month projections compiled securely in server memory.
+                 </p>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+    </div>
+  );
+}
+
 export default function SubscriptionsPage() {
-  const {
-    t
-  } = useTranslation();
+  const [agreement, setAgreement] = useState<any>(null);
+  const [loadingAgreement, setLoadingAgreement] = useState(true);
+
+  useEffect(() => {
+    apiClient.get("/partner-agreement/active")
+      .then((res: any) => {
+        if (res && res.data) {
+          setAgreement(res.data);
+        }
+      })
+      .catch(err => console.error("Error loading agreement:", err))
+      .finally(() => setLoadingAgreement(false));
+  }, []);
   const [searchParams] = useSearchParams();
   const isVipPromo = searchParams.get("promo") === "VIPTR";
 
@@ -291,9 +631,29 @@ export default function SubscriptionsPage() {
       ...plan,
       priceMonthly: plan.priceMonthly * 0.5,
       priceYearly: plan.priceYearly * 0.5,
-      ctaLabel: "2 Ay Ücretsiz Dene"
     };
   });
+
+  if (loadingAgreement) {
+    return (
+      <PageShell title={t("client.src.membership_plans")} description={t("client.src.neuralpowered_real_estate_tiers")}>
+        <div className="flex items-center justify-center h-64 bg-[#0a0b0d] text-slate-200">
+          <RefreshCw className="h-8 w-8 animate-spin text-orange-500" />
+        </div>
+      </PageShell>
+    );
+  }
+
+  if (agreement) {
+    return (
+      <PageShell title="Private Yield Engine" description="Secure Contract Yield Dashboard">
+        <div className="p-4 lg:p-8 space-y-12 bg-[#0a0b0d] min-h-full text-slate-200">
+          <PrivateYieldDashboard agreement={agreement} />
+        </div>
+      </PageShell>
+    );
+  }
+
   return <PageShell title={t("client.src.membership_plans")} description={t("client.src.neuralpowered_real_estate_tiers")}>
       <div className="p-4 lg:p-8 space-y-12 bg-[#0a0b0d] min-h-full text-slate-200">
         
@@ -309,7 +669,7 @@ export default function SubscriptionsPage() {
             <Sparkles className="w-4 h-4" />{t("client.src.ai_media_infrastructure")}</motion.div>
           
           {isVipPromo && (
-            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 p-4 rounded-xl mb-6 shadow-lg shadow-emerald-500/10">
+            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="bg-linear-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 p-4 rounded-xl mb-6 shadow-lg shadow-emerald-500/10">
               <div className="flex items-center justify-center gap-2 font-bold text-lg">
                 <Crown className="w-6 h-6 text-emerald-400" />
                 <span>VIP Emlakçı Kampanyası Aktif!</span>

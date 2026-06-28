@@ -13,6 +13,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Video, Upload, Wand2, Sparkles, Play, Pause, SkipForward, Download, Trash2, Eye, Film, Layers, Palette, Music, Type, Scissors, RotateCcw, Maximize, SlidersHorizontal, Zap, Clock, FileVideo, ImagePlus, Camera, Globe, TrendingUp, ChevronRight, Plus, Search, Filter, MonitorPlay, Cpu, CloudLightning, Box, Clapperboard, Volume2, Subtitles, Move3D, Sun, Contrast, Droplets } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { apiClient } from "@/lib/api/client";
+import { Share2 } from "lucide-react";
+import { toast } from "sonner";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface VideoProject {
@@ -223,6 +226,79 @@ export default function VideoContentManagement() {
   const [activeToolCategory, setActiveToolCategory] = useState("motion");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+
+  // Share state
+  const [showShareDialog, setShowShareDialog] = useState(false);
+  const [sharingProject, setSharingProject] = useState<VideoProject | null>(null);
+  const [generatedHashtags, setGeneratedHashtags] = useState<string[]>([]);
+  const [trendingHashtags, setTrendingHashtags] = useState<string[]>([]);
+  const [selectedHashtags, setSelectedHashtags] = useState<string[]>([]);
+  const [customMention, setCustomMention] = useState("");
+  const [isSharing, setIsSharing] = useState(false);
+
+  const fetchTrendingHashtags = async () => {
+    try {
+      const response = await apiClient.get("/hashtags/trending") as any;
+      if (response && Array.isArray(response.data)) {
+        setTrendingHashtags(response.data.map((h: any) => h.name));
+      } else {
+        setTrendingHashtags(["realestate", "icny27", "luxury", "nycRentals", "aiStaging"]);
+      }
+    } catch {
+      setTrendingHashtags(["realestate", "icny27", "luxury", "nycRentals", "aiStaging"]);
+    }
+  };
+
+  const handleOpenShareDialog = (project: VideoProject) => {
+    setSharingProject(project);
+    // Simulate AI hashtag generation from title
+    const tags = ["rent", "listing", "aiStudio"];
+    if (project.loraStyle) tags.push(project.loraStyle.toLowerCase());
+    if (project.propertyName) tags.push(project.propertyName.replace(/\s+/g, "").toLowerCase());
+    setGeneratedHashtags(tags);
+    setSelectedHashtags(tags);
+    setCustomMention("@douglaselliman");
+    fetchTrendingHashtags();
+    setShowShareDialog(true);
+  };
+
+  const handleShareSubmit = async () => {
+    if (!sharingProject) return;
+    setIsSharing(true);
+    try {
+      // 1. Post to Twitter via hashtag service
+      await apiClient.post("/hashtags/post-twitter", {
+        title: sharingProject.title,
+        location: sharingProject.propertyName || "Manhattan, NY",
+        price: 2000,
+        currency: "USD",
+        url: "https://reservatior.com/listing/" + sharingProject.id
+      });
+
+      // 2. Track hashtags used
+      for (const tag of selectedHashtags) {
+        await apiClient.post("/hashtags/track", { hashtag: tag });
+      }
+
+      // 3. Create mention audit trail
+      if (customMention) {
+        await apiClient.post("/mentions", {
+          mentionedById: "current-user", // handled by auth/session
+          mentionedToId: "agent-id",
+          type: "TWITTER",
+          propertyId: sharingProject.propertyId || undefined,
+          content: `Posted listing video ${sharingProject.title} mentioning ${customMention}`
+        });
+      }
+
+      toast.success("Video ve ilan sosyal ağlarda başarıyla paylaşıldı!");
+      setShowShareDialog(false);
+    } catch (err: any) {
+      toast.error("Paylaşım yapılırken bir hata oluşdu: " + (err.message || err));
+    } finally {
+      setIsSharing(false);
+    }
+  };
 
   // New project form state
   const [newProject, setNewProject] = useState({
@@ -478,8 +554,24 @@ export default function VideoContentManagement() {
                             {project.pipeline}
                           </Badge>
                         </div>
-                        <Button variant="ghost" size="sm" className="h-7 px-3 text-[10px] text-violet-400 hover:text-white hover:bg-violet-600/10 rounded-lg">
-                          <Wand2 className="w-3 h-3 mr-1" />{t("client.src.edit")}</Button>
+                        <div className="flex gap-1">
+                          {project.status === "completed" && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="h-7 px-2.5 text-[10px] text-emerald-400 hover:text-white hover:bg-emerald-600/10 rounded-lg flex items-center"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOpenShareDialog(project);
+                              }}
+                            >
+                              <Share2 className="w-3 h-3 mr-1" />
+                              Paylaş
+                            </Button>
+                          )}
+                          <Button variant="ghost" size="sm" className="h-7 px-3 text-[10px] text-violet-400 hover:text-white hover:bg-violet-600/10 rounded-lg">
+                            <Wand2 className="w-3 h-3 mr-1" />{t("client.src.edit")}</Button>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -778,6 +870,114 @@ export default function VideoContentManagement() {
               <Button variant="ghost" className="text-slate-400" onClick={() => setShowCreateDialog(false)}>{t("client.src.cancel")}</Button>
               <Button onClick={() => setShowCreateDialog(false)} className="bg-violet-600 hover:bg-violet-500 px-8 rounded-xl h-11 font-bold shadow-lg shadow-violet-600/20">
                 <Wand2 className="w-4 h-4 mr-2" />{t("client.src.generate_video")}</Button>
+            </DialogFooter>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* ── Share on Social Networks Dialog ──────────────────────────────── */}
+      <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+        <DialogContent className="bg-[#14151a] border-slate-800 text-white rounded-4xl max-w-xl p-0 shadow-[0_0_60px_rgba(0,0,0,0.5)]">
+          <div className="p-8 space-y-6">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+                <Share2 className="w-6 h-6 text-emerald-500" />
+                Sosyal Ağlarda Paylaş
+              </DialogTitle>
+              <DialogDescription className="text-slate-400">
+                AI tarafından oluşturulan video klibi ve ilanı otomatik hashtagler ve mentionlar ile Twitter'da paylaşın.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-4">
+              {/* Project Title */}
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Video Başlığı</label>
+                <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-sm text-slate-200 mt-1">
+                  {sharingProject?.title}
+                </div>
+              </div>
+
+              {/* Mention Input */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Acente / Ofis Mention Etiketi</label>
+                <Input 
+                  value={customMention} 
+                  onChange={e => setCustomMention(e.target.value)} 
+                  placeholder="@douglaselliman" 
+                  className="bg-slate-950 border-slate-800 rounded-xl h-11"
+                />
+              </div>
+
+              {/* AI Generated Hashtags */}
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Yapay Zeka Hashtagleri</label>
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {generatedHashtags.map(tag => {
+                    const isSelected = selectedHashtags.includes(tag);
+                    return (
+                      <Badge 
+                        key={tag}
+                        onClick={() => setSelectedHashtags(prev => isSelected ? prev.filter(t => t !== tag) : [...prev, tag])}
+                        className={cn(
+                          "cursor-pointer text-[10px] py-1 px-2.5 rounded-lg border transition-all",
+                          isSelected 
+                            ? "bg-emerald-600/20 text-emerald-400 border-emerald-500/30" 
+                            : "bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700"
+                        )}
+                      >
+                        #{tag}
+                      </Badge>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Trending Hashtags */}
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Popüler Hashtag Önerileri</label>
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {trendingHashtags.map(tag => {
+                    const isSelected = selectedHashtags.includes(tag);
+                    return (
+                      <Badge 
+                        key={tag}
+                        onClick={() => setSelectedHashtags(prev => isSelected ? prev.filter(t => t !== tag) : [...prev, tag])}
+                        className={cn(
+                          "cursor-pointer text-[10px] py-1 px-2.5 rounded-lg border transition-all",
+                          isSelected 
+                            ? "bg-blue-600/20 text-blue-400 border-blue-500/30" 
+                            : "bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700"
+                        )}
+                      >
+                        #{tag}
+                      </Badge>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Preview post content */}
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Paylaşım Metni Önizlemesi</label>
+                <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 font-mono mt-1 leading-relaxed">
+                  🏠 {sharingProject?.title} <br />
+                  📍 {sharingProject?.propertyName || "Manhattan, NY"} <br />
+                  🔑 Kiralık İlan Videosu yayında! {customMention} <br /><br />
+                  {selectedHashtags.map(t => `#${t}`).join(" ")}
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter className="pt-4 border-t border-white/5">
+              <Button variant="ghost" className="text-slate-400" onClick={() => setShowShareDialog(false)}>İptal</Button>
+              <Button 
+                onClick={handleShareSubmit} 
+                disabled={isSharing}
+                className="bg-emerald-600 hover:bg-emerald-500 px-8 rounded-xl h-11 font-bold shadow-lg shadow-emerald-600/20"
+              >
+                {isSharing ? "Paylaşılıyor..." : "Twitter'da Paylaş"}
+              </Button>
             </DialogFooter>
           </div>
         </DialogContent>

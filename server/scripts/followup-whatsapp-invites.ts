@@ -23,9 +23,17 @@ Türkiye'nin en gelişmiş yeni nesil B2B gayrimenkul ağı olan Reservatior'da 
 
 🎁 *VIP Emlakçı Kampanyası (Sadece Size Özel)*
 1. Platformu **İlk 2 Ay Boyunca Tamamen ÜCRETSİZ** deneyin.
-2. 3. Ay üyeliğinizde **%50 İndirim** fırsatından yararlanın (4. aydan itibaren standart ücretlendirme başlar).
+2. 3. Ay üyeliğinizde **%50 İndirim** fırsatından yararlanın.
+3. Müşterilerinize komisyon ve depozitoda **Kredi Kartına Taksit** sunun.
+4. Müşterilerinizi sisteme kilitleyerek, meslek hayatınız boyunca komisyonlarınızı güvence altına alın.
 
-Bu fırsatla kendi portföyünüzü yönetebilir, diğer VIP emlakçılarla işbirliği yapabilir ve yapay zeka araçlarımızı ücretsiz kullanabilirsiniz.
+💎 *Maksimum Kârlılık ve Bağımsızlık!*
+İster ofisinizi dijitale taşıyın, ister bağımsız çalışın:
+• 🔑 Kiralama İşlemleri: *%3.5 Kiracı + %3.5 Ev Sahibi*
+• 🤝 Satış (Ortak/Co-broker): *Biz: %3 | Emlakçı 1: %2 | Emlakçı 2: %2*
+• 👤 Satış (Tek Acente): *Biz: %3.5 | Siz: %3.5*
+
+Bu fırsatla kendi portföyünüzü yönetebilir, komisyonunuzu maksimize edebilir ve yapay zeka araçlarımızı ücretsiz kullanabilirsiniz.
 
 Kayıt esnasında veya fiyatlandırma sayfasında otomatik olarak bu indirim yansıyacaktır. Hemen denemek için tıklayın:
 🔗 https://app.reservatior.com/invite/vip-tr?promo=VIPTR

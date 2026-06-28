@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { aiApi } from "@/lib/api/ai";
+import { apiClient } from "@/lib/api/client";
 
 export default function AIStudio() {
   const { t } = useTranslation();
@@ -96,8 +97,8 @@ export default function AIStudio() {
         description: `Task created: ${task.id}. Dispatching to ML pipeline.`,
       });
 
-      // 2. Poll for updates
-      pollTaskStatus(task.id);
+      // 2. Listen to SSE for updates
+      listenToTaskStream(task.id);
 
     } catch (err: any) {
       setIsProcessing(false);
@@ -110,38 +111,77 @@ export default function AIStudio() {
     }
   };
 
-  const pollTaskStatus = (id: string) => {
-    const interval = setInterval(async () => {
-      try {
-        const response = await aiApi.getServiceTaskById(id);
-        const task = (response as any).data || response;
-        
-        setProgress(task.progress || 0);
+  const listenToTaskStream = (taskId: string) => {
+    const baseURL = apiClient.defaults.baseURL?.replace('/api/v1', '') || 'http://localhost:3000';
+    const sse = new EventSource(`${baseURL}/api/v1/system/trigger-stream`);
 
-        if (task.status === "COMPLETED") {
-          clearInterval(interval);
-          setIsProcessing(false);
-          setProgress(100);
-          setTaskOutput(task.outputData);
-          toast({
-            title: "Synthesis Completed!",
-            description: "Neural hub successfully resolved output.",
-          });
-        } else if (task.status === "FAILED") {
-          clearInterval(interval);
-          setIsProcessing(false);
-          setTaskError(task.error || "Execution failed.");
-          toast({
-            title: "Execution Error",
-            description: task.error || "Worker encountered an issue.",
-            variant: "destructive"
-          });
+    const cleanup = () => {
+      sse.close();
+    };
+
+    // Safety fallback: if task hangs, close SSE after 60s
+    const timeout = setTimeout(() => {
+      cleanup();
+      setIsProcessing(false);
+      setTaskError("Task timeout. Connection closed.");
+    }, 60000);
+
+    sse.onmessage = (msg) => {
+      try {
+        const data = JSON.parse(msg.data);
+        if (data.event === "CONNECTED") return;
+
+        // Check if the event payload matches our taskId
+        const payload = data.payload;
+        if (payload?.taskId === taskId) {
+          if (data.event === "AI_TASK_STARTED") {
+            setProgress(10);
+          } else if (data.event === "AI_TASK_PROGRESS") {
+            setProgress(payload.progress || 50);
+          } else if (data.event === "AI_TASK_COMPLETED") {
+            clearTimeout(timeout);
+            cleanup();
+            setIsProcessing(false);
+            setProgress(100);
+            setTaskOutput(payload.outputData);
+            toast({
+              title: "Synthesis Completed!",
+              description: "Neural hub successfully resolved output.",
+            });
+          } else if (data.event === "AI_TASK_FAILED") {
+            clearTimeout(timeout);
+            cleanup();
+            setIsProcessing(false);
+            setTaskError(payload.error || "Execution failed.");
+            toast({
+              title: "Execution Error",
+              description: payload.error || "Worker encountered an issue.",
+              variant: "destructive"
+            });
+          }
         }
       } catch (err) {
-        clearInterval(interval);
-        setIsProcessing(false);
+        console.error("SSE parsing error in AI Studio:", err);
       }
-    }, 1500);
+    };
+
+    sse.onerror = () => {
+      // Fallback: if SSE fails, do a single check after delay
+      setTimeout(async () => {
+        try {
+          const response = await aiApi.getServiceTaskById(taskId);
+          const task = (response as any).data || response;
+          if (task.status === "COMPLETED") {
+            setProgress(100);
+            setTaskOutput(task.outputData);
+          } else if (task.status === "FAILED") {
+            setTaskError(task.errorMessage || "Failed");
+          }
+        } catch {}
+        setIsProcessing(false);
+        cleanup();
+      }, 5000);
+    };
   };
 
   if (!mounted) return null;

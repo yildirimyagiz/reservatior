@@ -7,7 +7,8 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "prismabox/*": ["./generated/prismabox/*"]
     }
   },
   "include": ["src/**/*", "prisma/**/*", "generated/**/*"],

@@ -225,6 +225,29 @@ export default function SubscriptionManagement() {
   }
   return <PageShell title={t("admin.organization.subscription_management")}>
       <div className="space-y-6">
+        {/* Opaque Financial Matrix Banner */}
+        <Card className="bg-linear-to-r from-orange-600/10 to-blue-600/5 border-orange-500/20 rounded-2xl p-6 relative overflow-hidden">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Badge className="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[9px] font-black uppercase">
+                  Opaque Shield Active
+                </Badge>
+                <span className="text-[10px] text-slate-400 font-mono">AES-256-GCM Verified</span>
+              </div>
+              <h3 className="text-lg font-black text-white italic tracking-tight">
+                Secure Partner Agreement Gateway
+              </h3>
+              <p className="text-xs text-slate-400 max-w-3xl">
+                Custom negotiated rates, time-decay amortization schedules, and behavioral loyalty multipliers are encrypted. Core financial calculations are run internally on the server event stream to prevent competitive reverse-engineering.
+              </p>
+            </div>
+            <Button variant="outline" className="border-orange-500/20 hover:border-orange-500/40 text-xs font-black text-orange-400 hover:text-orange-300 bg-orange-500/5 h-10 px-4 rounded-xl">
+              Audit Contracts
+            </Button>
+          </div>
+        </Card>
+
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>

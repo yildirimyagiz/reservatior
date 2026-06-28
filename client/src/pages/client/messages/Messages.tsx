@@ -12,6 +12,26 @@ import { messagesApi } from '@/lib/api/messages';
 import { communicationsApi } from '@/lib/api/communications';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useToast } from "@/hooks/use-toast";
+
+// AI Chat Masking Utility
+const maskSensitiveData = (text: string) => {
+  if (!text) return text;
+  
+  // Mask Turkish Phone Numbers (e.g., 05XX XXX XX XX)
+  let masked = text.replace(/(?:\+90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2}/g, "📞 [TELEFON GİZLENDİ]");
+  
+  // Mask IBANs (e.g., TRXX XXXX XXXX XXXX XXXX XXXX XX)
+  masked = masked.replace(/TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}/gi, "🏦 [IBAN GİZLENDİ - Lütfen Ödemeyi Checkout'tan Yapın]");
+  
+  return masked;
+};
+
+const containsSensitiveData = (text: string) => {
+  const hasPhone = /(?:\+90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2}/.test(text);
+  const hasIban = /TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}/i.test(text);
+  return hasPhone || hasIban;
+};
 export default function Messages() {
   const {
     t
@@ -20,6 +40,7 @@ export default function Messages() {
     id
   } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [selectedId, setSelectedId] = useState<string | number>(id || '');
   const [message, setMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -84,7 +105,7 @@ export default function Messages() {
         const mapped = data.map((m: any) => ({
           id: m.id,
           senderId: m.senderId,
-          text: m.body || m.content,
+          text: maskSensitiveData(m.body || m.content),
           time: new Date(m.createdAt || m.timestamp).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit'
@@ -112,6 +133,14 @@ export default function Messages() {
   const selectedChat = conversations.find(c => c.id === selectedId);
   const handleSendMessage = async () => {
     if (message.trim() && selectedId) {
+      if (containsSensitiveData(message)) {
+        toast({
+          title: "⚠️ Reservatior AI Güvenlik Uyarısı",
+          description: "Sistem dışı işlem yapmaya çalıştığınız tespit edildi. IBAN veya Telefon numarası paylaşımı yasaktır.",
+          variant: "destructive"
+        });
+      }
+
       try {
         await messagesApi.sendMessage(selectedId.toString(), message);
         setMessage('');
@@ -121,7 +150,7 @@ export default function Messages() {
         const mapped = data.map((m: any) => ({
           id: m.id,
           senderId: m.senderId === 'ME' ? 'me' : 'other',
-          text: m.body || m.content,
+          text: maskSensitiveData(m.body || m.content),
           time: new Date(m.createdAt || m.timestamp).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit'

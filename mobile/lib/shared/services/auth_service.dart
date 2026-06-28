@@ -9,6 +9,11 @@ class AuthService {
   
   AuthService(this._dioClient);
 
+  /// Save a JWT token to secure storage (used by social OAuth flows)
+  Future<void> saveToken(String token) async {
+    await _storage.write(key: 'access_token', value: token);
+  }
+
   Future<User?> login(String email, String password) async {
     print('Attempting login to: ${ApiEndpoints.login}');
     print('Email: $email, Password: ${password.length > 0 ? "***" : "empty"}');

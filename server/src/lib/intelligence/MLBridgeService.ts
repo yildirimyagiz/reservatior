@@ -1,5 +1,6 @@
 import { prisma } from "../prisma";
 import axios from "axios";
+import { EventDispatcher } from "../../core/events/event-dispatcher";
 
 // Environment variables
 const SKIPPER_API_URL = process.env.SKIPPER_API_URL || "http://localhost:8080";
@@ -69,20 +70,36 @@ export class MLBridgeService {
       }
 
       // Update state to PROCESSING
-      await prisma.aiServiceTask.update({
+      const updatedTask = await prisma.aiServiceTask.update({
         where: { id: taskId },
         data: { status: "PROCESSING", progress: 10 }
       });
 
+      // Emit Domain Event
+      await EventDispatcher.emit("AI_TASK_STARTED", {
+        taskId: updatedTask.id,
+        orgId: updatedTask.orgId,
+        taskType: updatedTask.taskType,
+        progress: 10
+      });
+
     } catch (error: any) {
       console.error(`[MLBridgeService] Error triggering task ${taskId}:`, error.message);
-      await prisma.aiServiceTask.update({
+      const failedTask = await prisma.aiServiceTask.update({
         where: { id: taskId },
         data: {
           status: "FAILED",
           progress: 0,
           errorMessage: error.message
         }
+      });
+
+      // Emit Domain Event
+      await EventDispatcher.emit("AI_TASK_FAILED", {
+        taskId: failedTask.id,
+        orgId: failedTask.orgId,
+        taskType: failedTask.taskType,
+        error: error.message
       });
     }
   }
@@ -181,6 +198,47 @@ export class MLBridgeService {
         progress: status === "COMPLETED" ? 100 : (status === "FAILED" ? 0 : undefined)
       }
     });
+
+    // Emit Domain Event
+    if (status === "COMPLETED") {
+      await EventDispatcher.emit("AI_TASK_COMPLETED", {
+        taskId: task.id,
+        orgId: task.orgId,
+        taskType: task.taskType,
+        outputData: result
+      });
+
+      // Raise high-level business events
+      if (task.taskType === "AI_PHOTO_STAGING") {
+        await EventDispatcher.emit("STAGING_GENERATED", { propertyId: task.propertyId, orgId: task.orgId });
+      } else if (task.taskType === "MARKETING_BROCHURE_GEN") {
+        await EventDispatcher.emit("LISTING_OPTIMIZED", { propertyId: task.propertyId, orgId: task.orgId });
+      }
+    } else if (status === "FAILED") {
+      let aiDiagnostics = null;
+      try {
+        const { GeminiEventAnalyzer } = await import("../../core/events/gemini-event-analyzer");
+        aiDiagnostics = await GeminiEventAnalyzer.analyzeFailure(task.taskType, error || "Unknown error", task.inputData);
+        
+        // Append AI diagnostics to the database task log
+        await prisma.aiServiceTask.update({
+          where: { id: task.id },
+          data: {
+            errorMessage: `${error || "Unknown error"} | AI Diagnostics: ${aiDiagnostics.rootCause} -> Suggestion: ${aiDiagnostics.suggestedAction}`
+          }
+        });
+      } catch (geminiErr) {
+        console.error("[MLBridgeService] Gemini Analysis failed, falling back to raw error.", geminiErr);
+      }
+
+      await EventDispatcher.emit("AI_TASK_FAILED", {
+        taskId: task.id,
+        orgId: task.orgId,
+        taskType: task.taskType,
+        error: error,
+        aiDiagnostics
+      });
+    }
 
     // Write to Extracted Data database if OCR/Extraction completed
     if (status === "COMPLETED" && result && (task.taskType === "DOCUMENT_OCR" || task.taskType === "FINANCIAL_EXTRACTION")) {

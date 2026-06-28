@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +16,7 @@ export default function Checkout() {
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [installments, setInstallments] = useState(1);
 
   const state = location.state as {
     property: any;
@@ -127,7 +128,7 @@ export default function Checkout() {
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-6 border-t border-white/5">
                 <Button 
                   onClick={handlePayment} 
                   disabled={isProcessing || isSuccess}
@@ -196,21 +197,34 @@ export default function Checkout() {
               </div>
 
               <div className="border-t border-white/5 pt-6 space-y-4">
+                <div className="flex justify-between items-center bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 mb-4">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-bold text-emerald-400">Reservatior Avantajı Aktif!</span>
+                    <span className="text-xs text-emerald-100/70">Komisyon ve depozito yükü aylara bölündü. Peşinat ödemiyorsunuz.</span>
+                  </div>
+                </div>
+
                 <div className="flex justify-between text-white/70">
-                  <span>Ara Toplam</span>
-                  <span>${(totalAmount - 120 - (totalAmount * 0.1)).toFixed(0)}</span>
+                  <span>İlk Ay Kirası</span>
+                  <span>${(totalAmount * 0.8).toFixed(0)}</span>
                 </div>
                 <div className="flex justify-between text-white/70">
-                  <span>Temizlik Ücreti</span>
-                  <span>$120</span>
+                  <span>Aylık Depozito Payı (1/12)</span>
+                  <span>${((totalAmount * 0.8) / 12).toFixed(0)}</span>
                 </div>
                 <div className="flex justify-between text-white/70">
-                  <span>Hizmet Bedeli</span>
-                  <span>${(totalAmount * 0.1).toFixed(0)}</span>
+                  <span>Aylık Komisyon Payı (%3.5)</span>
+                  <span>${((totalAmount * 0.8) * 0.035).toFixed(0)}</span>
                 </div>
                 <div className="flex justify-between text-xl font-black pt-4 border-t border-white/5">
-                  <span>Tahsil Edilecek</span>
-                  <span className="text-emerald-400">${totalAmount.toLocaleString()}</span>
+                  <span>Bu Ay Ödenecek Toplam</span>
+                  <span className="text-emerald-400">
+                    ${(
+                      (totalAmount * 0.8) + 
+                      ((totalAmount * 0.8) / 12) + 
+                      ((totalAmount * 0.8) * 0.035)
+                    ).toFixed(0)}
+                  </span>
                 </div>
               </div>
             </div>

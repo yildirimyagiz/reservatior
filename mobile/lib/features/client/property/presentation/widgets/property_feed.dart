@@ -173,11 +173,14 @@ class _PropertyFeedState extends ConsumerState<PropertyFeed> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: AIUpsellBannerWidget(
-            data: _upsellData!,
-            onClose: () {
+            upsellData: _upsellData!,
+            onDismiss: () {
               setState(() {
                 _isUpsellDismissed = true;
               });
+            },
+            onTap: () {
+              debugPrint('AI Upsell tapped');
             },
           ),
         ),

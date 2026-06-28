@@ -22,16 +22,70 @@ export class CountryGuardError extends Error {
   }
 }
 
-/**
- * Creates a Prisma Client extension that restricts database operations 
- * for country-specific fields based on country-rules.json.
- */
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+
+async function auditRegulatoryCompliance(model: string, data: any, region: string) {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: `
+        You are a global real estate compliance auditor.
+        Analyze this database write payload for compliance with local regulations in region: '${region}'.
+        
+        Model: ${model}
+        Write Payload: ${JSON.stringify(data)}
+        
+        Regulations to verify based on region:
+        - EU/DE/FR/ES/IT/NL: GDPR (biometric data, national ids, marketing consent).
+        - TR: KVKK and Turkish Tax Law (tax configuration, Turkish billing fields).
+        - US: CCPA and Fair Housing Act (discrimination, marketing, privacy).
+        
+        Determine if there is a compliance violation. Return a JSON object with:
+        1. "isViolation": true or false.
+        2. "violatedRegulation": Name of regulation violated (e.g. GDPR Art 6, KVKK Madde 5, Fair Housing Act).
+        3. "description": Why this is a violation.
+        4. "remedy": How to fix this data entry.
+        
+        Return ONLY valid JSON.
+      `
+    });
+
+    const text = response.text?.trim() || "{}";
+    const cleanJson = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    const analysis = JSON.parse(cleanJson);
+
+    if (analysis.isViolation) {
+      console.warn(`🚨 [Compliance Guard] REGULATORY BREACH DETECTED on ${model} in ${region}: ${analysis.description}`);
+      const { EventDispatcher } = await import("../core/events/event-dispatcher");
+      EventDispatcher.emit("COMPLIANCE_ALERT", {
+        model,
+        region,
+        violatedRegulation: analysis.violatedRegulation,
+        description: analysis.description,
+        remedy: analysis.remedy,
+        timestamp: new Date()
+      }).catch(err => console.error("Failed to emit compliance alert:", err));
+    }
+  } catch (err) {
+    console.error("Gemini Compliance Auditing failed:", err);
+  }
+}
+
 export const countryGuardExtension = (region: string) => {
   return Prisma.defineExtension({
     name: `CountryGuard-${region}`,
     query: {
       $allModels: {
         async $allOperations({ model, operation, args, query }) {
+          // Asynchronously trigger AI compliance audit for writes
+          if (['create', 'update', 'upsert', 'createMany'].includes(operation) && (args as any).data) {
+            auditRegulatoryCompliance(model, (args as any).data, region).catch(e => 
+              console.error("[CountryGuard] Async audit error:", e)
+            );
+          }
+
           if (!countryRules) {
             return query(args);
           }

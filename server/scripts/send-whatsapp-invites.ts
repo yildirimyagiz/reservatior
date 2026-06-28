@@ -22,9 +22,15 @@ Türkiye'nin en yenilikçi B2B Gayrimenkul ve Portföy Yönetim Platformu *Reser
 
 🌟 *Neden Reservatior?*
 • Kendi portföyünüzü tek bir akıllı panelden yönetin.
-• Sizin gibi seçkin profesyonellerle doğrudan işbirliği yapın (Global ve Yerel Ağ).
-• Yapay zeka destekli değerleme, otomatik sözleşme ve CRM özellikleriyle zaman kazanın.
-• Portföyünüzü MLS standartlarında, kurumsal bir güvenle sunun.
+• Müşterilerinize komisyon ve depozitoda **Kredi Kartına Taksit** imkanı sunarak işlemleri hızlandırın.
+• Müşterileriniz sisteme kilitlenir; ömür boyu portföyünüzde kalır ve komisyonlarınız her zaman güvencede olur.
+• Yapay zeka destekli değerleme ve CRM özellikleriyle zaman kazanın.
+
+💎 *Yeni Nesil Bağımsız Kazanç Modeli!*
+İster kendi ofisinizi yönetin, ister bağımsız çalışın; kârlılığınızı zirveye taşıyın:
+• 🔑 Kiralama İşlemleri: *%3.5 Kiracı + %3.5 Ev Sahibi*
+• 🤝 Satış (Ortak/Co-broker): *Biz: %3 | Emlakçı 1: %2 | Emlakçı 2: %2*
+• 👤 Satış (Tek Acente): *Biz: %3.5 | Siz: %3.5*
 
 Tamamen ücretsiz erken erişim (Early Bird) hesabınızı oluşturmak ve platformu deneyimlemek için aşağıdaki özel davet bağlantınızı kullanabilirsiniz:
 🔗 https://app.reservatior.com/invite/vip-tr

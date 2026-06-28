@@ -79,6 +79,8 @@ import { predictiveModelRoutes } from "./routes/predictive-model";
 import { loyaltyAccountRoutes } from "./routes/loyalty-account";
 import { referralRoutes } from "./routes/referral";
 import { subscriptionRoutes } from "./routes/subscription";
+import { partnerAgreementRoutes } from "./routes/partner-agreement";
+import { agentMatchingRoutes } from "./routes/agent-matching";
 import { giftCardRoutes } from "./routes/gift-card";
 import { achievementRoutes } from "./routes/achievement";
 import { earningRoutes } from "./routes/earning";
@@ -380,6 +382,8 @@ const cluster3 = new Elysia()
   .use(loyaltyAccountRoutes)
   .use(referralRoutes)
   .use(subscriptionRoutes)
+  .use(partnerAgreementRoutes)
+  .use(agentMatchingRoutes)
   .use(giftCardRoutes)
   .use(achievementRoutes)
   .use(earningRoutes)

@@ -8,7 +8,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reservatior/shared/providers/payment_provider.dart';
 
 class SmartCheckoutScreen extends ConsumerStatefulWidget {
-  const SmartCheckoutScreen({super.key});
+  final double rentAmount;
+  final String propertyName;
+  final String propertyImage;
+  final int leaseDuration;
+
+  const SmartCheckoutScreen({
+    super.key,
+    this.rentAmount = 20000.0,
+    this.propertyName = 'mobile.auto.bosphorus_premium_suite',
+    this.propertyImage = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&w=200&q=80',
+    this.leaseDuration = 36,
+  });
 
   @override
   ConsumerState<SmartCheckoutScreen> createState() => _SmartCheckoutScreenState();
@@ -21,8 +32,13 @@ class _SmartCheckoutScreenState extends ConsumerState<SmartCheckoutScreen> {
     setState(() => _isProcessing = true);
     try {
       final gateway = ref.read(paymentGatewayServiceProvider);
-      // Hardcoded amount representing ₺40,400.00
-      await gateway.initPaymentSheet('4040000', 'try');
+      
+      final depositPortion = widget.rentAmount / 12;
+      final commissionPortion = widget.rentAmount * 0.035;
+      final total = widget.rentAmount + depositPortion + commissionPortion;
+      final amountInCents = (total * 100).toInt().toString();
+
+      await gateway.initPaymentSheet(amountInCents, 'try');
       
       if (!mounted) return;
       setState(() => _isProcessing = false);
@@ -196,7 +212,7 @@ class _SmartCheckoutScreenState extends ConsumerState<SmartCheckoutScreen> {
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.network(
-              'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&w=200&q=80',
+              widget.propertyImage,
               width: 80,
               height: 80,
               fit: BoxFit.cover,
@@ -207,9 +223,9 @@ class _SmartCheckoutScreenState extends ConsumerState<SmartCheckoutScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('mobile.auto.bosphorus_premium_suite'.tr(), style: GoogleFonts.outfit(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(widget.propertyName.tr(), style: GoogleFonts.outfit(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 SizedBox(height: 4),
-                Text('mobile.auto.lease_duration_36_months'.tr(), style: GoogleFonts.outfit(color: Colors.white54, fontSize: 13)),
+                Text('Sözleşme Süresi: ${widget.leaseDuration} Ay', style: GoogleFonts.outfit(color: Colors.white54, fontSize: 13)),
                 SizedBox(height: 8),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -283,6 +299,12 @@ class _SmartCheckoutScreenState extends ConsumerState<SmartCheckoutScreen> {
   }
 
   Widget _buildBreakdown() {
+    final currencyFormatter = NumberFormat.currency(locale: 'tr_TR', symbol: '₺');
+    
+    final depositPortion = widget.rentAmount / 12;
+    final commissionPortion = widget.rentAmount * 0.035;
+    final total = widget.rentAmount + depositPortion + commissionPortion;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -291,20 +313,38 @@ class _SmartCheckoutScreenState extends ConsumerState<SmartCheckoutScreen> {
         border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildRow('mobile.payment.first_month_rent'.tr(), '₺20,000.00'),
+          Container(
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: const Color(0xFF10B981).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFF10B981).withOpacity(0.2)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Reservatior Avantajı Aktif!', style: GoogleFonts.outfit(color: const Color(0xFF10B981), fontSize: 14, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 4),
+                Text('Komisyon ve depozito yükü aylara bölündü. Peşinat ödemiyorsunuz.', style: GoogleFonts.outfit(color: const Color(0xFF10B981).withOpacity(0.7), fontSize: 12)),
+              ],
+            ),
+          ),
+          _buildRow('İlk Ay Kirası', currencyFormatter.format(widget.rentAmount)),
           const SizedBox(height: 12),
-          _buildRow('mobile.payment.security_deposit'.tr(), '₺20,000.00'),
+          _buildRow('Aylık Depozito Payı (1/12)', currencyFormatter.format(depositPortion)),
           const SizedBox(height: 12),
-          _buildRow('mobile.payment.dynamic_smart_fee'.tr(), '₺400.00', isHighlight: true),
+          _buildRow('Aylık Komisyon Payı (%3.5)', currencyFormatter.format(commissionPortion), isHighlight: true),
           const SizedBox(height: 16),
           const Divider(color: Colors.white12),
           SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('mobile.auto.total_to_authorize'.tr(), style: GoogleFonts.outfit(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-              Text('₺40,400.00', style: GoogleFonts.outfit(color: const Color(0xFF10B981), fontSize: 24, fontWeight: FontWeight.w900)),
+              Text('Bu Ay Ödenecek Toplam', style: GoogleFonts.outfit(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(currencyFormatter.format(total), style: GoogleFonts.outfit(color: const Color(0xFF10B981), fontSize: 24, fontWeight: FontWeight.w900)),
             ],
           ),
         ],

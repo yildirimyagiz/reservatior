@@ -20,7 +20,7 @@ class DioClient {
       baseUrl: ApiEndpoints.baseUrl,
       connectTimeout: _timeout,
       receiveTimeout: _timeout,
-      headers: {'Accept': 'application/json', 'mobile.leftovers.content_type'.tr(): 'application/json'},
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     ));
 
     _dio.interceptors.addAll([
@@ -94,11 +94,8 @@ class _AuthInterceptor extends Interceptor {
   @override
   Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401 && !err.requestOptions.path.contains('/auth/')) {
-       // Only try refresh if NOT an auth endpoint to avoid loops
-       // But wait, the server uses a single token (Elysia JWT). 
-       // If it'mobile.leftovers.s_401_on_me_then_it'.tr()s expired.
-       // Actually, the current server implementation doesn't seem to have a /refresh yet.
-       // It just has /login and /register.
+       // Token expired - could implement refresh token logic here
+       // Currently the server uses single JWT without refresh endpoint
     }
     handler.next(err);
   }

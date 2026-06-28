@@ -185,7 +185,7 @@ class SystemTriggerNotifier extends StateNotifier<SystemTriggerState> {
   void dispose() {
     _sseSubscription?.cancel();
     _pollingTimer?.cancel();
-    _sseService._stopConnection();
+    _sseService.stopConnection();
     super.dispose();
   }
 }

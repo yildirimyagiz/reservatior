@@ -86,6 +86,18 @@ class _MessagesScreenState extends ConsumerState<MessagesScreen>
     super.dispose();
   }
 
+  bool _containsSensitiveData(String text) {
+    final phoneRegex = RegExp(r'(?:\+90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2}');
+    final ibanRegex = RegExp(r'TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}', caseSensitive: false);
+    return phoneRegex.hasMatch(text) || ibanRegex.hasMatch(text);
+  }
+
+  String _maskSensitiveData(String text) {
+    var masked = text.replaceAll(RegExp(r'(?:\+90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2}'), '📞 [TELEFON GİZLENDİ]');
+    masked = masked.replaceAll(RegExp(r'TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}', caseSensitive: false), '🏦 [IBAN GİZLENDİ]');
+    return masked;
+  }
+
   Future<void> _handleAiSend() async {
     if (_aiTextController.text.trim().isEmpty) return;
     final userMsg = _aiTextController.text.trim();
@@ -350,7 +362,7 @@ class _MessagesScreenState extends ConsumerState<MessagesScreen>
           subtitle: Padding(
             padding: EdgeInsets.only(top: 4),
             child: Text(
-              msg.body,
+              _maskSensitiveData(msg.body),
               style: TextStyle(color: colors.textSecondary, fontSize: 13),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -469,13 +481,19 @@ class _MessagesScreenState extends ConsumerState<MessagesScreen>
               SizedBox(height: 20),
               Divider(color: colors.border),
               SizedBox(height: 16),
-              FormattedMessageText(text: msg.body, colors: colors),
-              if (RegExp(r'#\w+').hasMatch(msg.body)) ...[
-                SizedBox(height: 16),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: RegExp(r'#\w+').allMatches(msg.body).map((m) => m.group(0)!).toSet().map((tag) => 
+              Builder(
+                builder: (context) {
+                  final maskedBody = _maskSensitiveData(msg.body);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FormattedMessageText(text: maskedBody, colors: colors),
+                      if (RegExp(r'#\w+').hasMatch(maskedBody)) ...[
+                        SizedBox(height: 16),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: RegExp(r'#\w+').allMatches(maskedBody).map((m) => m.group(0)!).toSet().map((tag) => 
                     ActionChip(
                       label: Text(tag, style: TextStyle(color: AppColors.gold, fontWeight: FontWeight.w600, fontSize: 12)),
                       backgroundColor: AppColors.gold.withValues(alpha: 0.1),
@@ -488,8 +506,12 @@ class _MessagesScreenState extends ConsumerState<MessagesScreen>
                   ).toList(),
                 ),
               ],
-              SizedBox(height: 24),
-              Text(
+            ],
+          );
+        },
+      ),
+      SizedBox(height: 24),
+      Text(
                 'mobile.auto.quick_actions'.tr(),
                 style: GoogleFonts.outfit(
                   fontSize: 14,
@@ -577,7 +599,7 @@ class _MessagesScreenState extends ConsumerState<MessagesScreen>
                           final response = await dio.post(
                             '/api/v1/ai/concierge',
                             data: {
-                              'message': 'Lütfen bu mesaja profesyonel bir yanıt oluştur: ${msg.body}',
+                              'message': 'Lütfen bu mesaja profesyonel bir yanıt oluştur: ${_maskSensitiveData(msg.body)}',
                               'chatHistory': [],
                             },
                           );
@@ -867,6 +889,19 @@ class _MessagesScreenState extends ConsumerState<MessagesScreen>
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () async {
+                  if (_containsSensitiveData(bodyController.text)) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('⚠️ Reservatior AI Güvenlik Uyarısı: Mesajınızda telefon veya IBAN bilgisi algılandı. Lütfen ödemelerinizi ve iletişimini platform dışına taşımayınız.'),
+                          backgroundColor: Colors.red.shade800,
+                          duration: Duration(seconds: 4),
+                        ),
+                      );
+                    }
+                    return;
+                  }
+                  
                   try {
                     final dio = DioClient();
                     await dio.post('/api/v1/message', data: {

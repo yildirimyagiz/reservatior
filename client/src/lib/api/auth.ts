@@ -11,6 +11,9 @@ export interface RegisterRequest {
   name: string;
   phone?: string;
   organizationName?: string;
+  promoCode?: string;
+  accountType?: "INDIVIDUAL" | "CORPORATE";
+  corporateType?: string;
 }
 
 export interface AuthResponse {

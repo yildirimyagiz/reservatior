@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 import { prisma } from "../lib/prisma";
-import { b2bAuth } from "../middlewares/b2b-auth";
+import { b2bAuth } from "../middleware/b2b-auth";
 
 export const publicApiRoutes = new Elysia({ prefix: "/public" })
   .use(b2bAuth)

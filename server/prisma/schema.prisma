@@ -7736,7 +7736,7 @@ model PlatformRevenueRecord {
 model AiServiceTask {
   id            String       @id @default(cuid())
   orgId         String
-  propertyId    String
+  propertyId    String?
   listingId     String?
   taskType      AiTaskType
   status        AiTaskStatus @default(QUEUED)
@@ -7749,7 +7749,7 @@ model AiServiceTask {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   organization  Organization @relation(fields: [orgId], references: [id])
-  property      Property     @relation(fields: [propertyId], references: [id])
+  property      Property?    @relation(fields: [propertyId], references: [id])
 
   @@index([orgId])
   @@index([propertyId])
@@ -12109,4 +12109,47 @@ model TransferBooking {
   @@index([orgId])
   @@index([reservationId])
   @@index([transferServiceId])
+}
+
+model EventRecord {
+  id        String   @id @default(uuid())
+  type      String
+  payload   Json
+  createdAt DateTime @default(now())
+  source    String
+
+  @@map("event_records")
+}
+
+enum AgreementState {
+  CREATED
+  PENDING
+  ACTIVE
+  SUSPENDED
+  MODIFIED
+  ESCALATED
+  RE_EXECUTED
+  SETTLED
+  ARCHIVED
+}
+
+model PartnerAgreement {
+  id             String         @id @default(cuid())
+  tenantId       String
+  userId         String
+  status         AgreementState @default(CREATED)
+  encryptedTerms String         // AES/GCM encrypted blob (CommissionSchedule + DAG factors)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([tenantId])
+  @@index([userId])
+}
+
+model VisibilityBudget {
+  id        String   @id @default(cuid())
+  agentId   String   @unique
+  budget    Int      @default(100) // Exposure budget limit per week
+  used      Int      @default(0)
+  updatedAt DateTime @updatedAt
 }

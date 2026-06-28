@@ -4,7 +4,7 @@ import { automationTaskService } from "../services/automationtask";
 import { 
   AutomationTaskPlainInputCreate, 
   AutomationTaskPlainInputUpdate 
-} from "../../generated/prismabox/AutomationTask";
+} from "prismabox/AutomationTask";
 
 export const automationTaskRoutes = new Elysia({ prefix: "/system/automation-tasks" })
   .use(authMiddleware)

@@ -16,6 +16,7 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
+    "types": ["bun-types", "node"],
     "paths": {
       "@/*": ["src/*"],
       "@server/*": ["../server/src/*"]

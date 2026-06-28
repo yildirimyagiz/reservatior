@@ -35,7 +35,7 @@ class SseTriggerService {
   Stream<SseEvent> get eventStream {
     _controller = StreamController<SseEvent>.broadcast(
       onListen: _startConnection,
-      onCancel: _stopConnection,
+      onCancel: stopConnection,
     );
     return _controller!.stream;
   }
@@ -154,7 +154,7 @@ class SseTriggerService {
     _client = null;
   }
 
-  void _stopConnection() {
+  void stopConnection() {
     debugPrint('⚡ SSE Stopping Stream Connection');
     _cleanup();
     _controller?.close();

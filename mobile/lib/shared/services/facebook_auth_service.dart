@@ -20,7 +20,7 @@ class FacebookAuthService {
         final response = await _dioClient.post(
           '/auth/facebook/native', // Or the correct endpoint
           data: {
-            'accessToken': accessToken.token,
+            'accessToken': accessToken.tokenString,
           },
         );
 

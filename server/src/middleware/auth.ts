@@ -1,27 +1,26 @@
 import { Elysia } from "elysia";
 import { bearer } from "@elysiajs/bearer";
-import { PrismaClient } from '@prisma/client';
 import { jwtVerify } from "jose";
 
 import { ENCODED_SECRET } from "../lib/jwt";
+import { prisma } from "../lib/prisma";
 
-const prisma = new PrismaClient();
+const IS_DEV = process.env.NODE_ENV !== "production";
 
 export const authMiddleware = new Elysia({ name: "auth-middleware" })
   .use(bearer())
   .derive({ as: "scoped" }, async ({ bearer, set }) => {
     if (!bearer) {
-      console.log("❌ No bearer token found in request headers");
       set.status = 401;
       throw new Error("Unauthorized");
     }
     
     try {
-      console.log("🔍 Verifying bearer token with Jose:", bearer.substring(0, 15) + "...");
       const { payload } = await jwtVerify(bearer, ENCODED_SECRET);
-      console.log(`👤 Jose Auth Payload Verified: User ID [${payload.sub}] Role [${payload.role}]`);
+      if (IS_DEV) {
+        console.log(`👤 Auth: User [${payload.sub}] Role [${payload.role}]`);
+      }
     
-    // Fetch user information
     const user = await prisma.user.findUnique({
       where: { id: payload.sub as string },
       select: {
@@ -31,10 +30,7 @@ export const authMiddleware = new Elysia({ name: "auth-middleware" })
       }
     });
 
-    // Get user's organization
     let userOrgId = payload.orgId as string | undefined;
-    // For now, we'll use the orgId from JWT token
-    // In a real implementation, you might want to fetch from user relationships
 
       return { 
         userId: payload.sub as string, 
@@ -44,24 +40,26 @@ export const authMiddleware = new Elysia({ name: "auth-middleware" })
         permissions: (payload.permissions as string[]) || []
       };
     } catch (e: any) {
-      console.log("❌ JWT Verification Failed for bearer (Jose):", e.message);
+      if (IS_DEV) {
+        console.log("❌ JWT Verification Failed:", e.message);
+      }
       set.status = 401;
       throw new Error("Unauthorized");
     }
   });
 
 export const hasPermission = (permission: string) => ({ permissions, set, user }: any) => {
-  console.log(`🔍 Checking permission [${permission}] for [${user?.email}]. User has:`, permissions);
   const hasAccess = permissions?.includes("*") || 
                     permissions?.includes(permission) ||
                     permissions?.some((p: string) => p.endsWith('.*') && (permission === p.replace('.*', '') || permission.startsWith(p.replace('*', ''))));
 
   if (!hasAccess) {
-    console.log(`🚫 Access Denied for [${user?.email}]: Missing permission [${permission}].`);
+    if (IS_DEV) {
+      console.log(`🚫 Access Denied for [${user?.email}]: Missing [${permission}]`);
+    }
     set.status = 403;
     return { error: "Forbidden: Missing required permission " + permission };
   }
-  console.log(`✅ Access Granted for [${user?.email}] for [${permission}]`);
 };
 
 export const hasAnyPermission = (perms: string[]) => ({ permissions, set }: any) => {

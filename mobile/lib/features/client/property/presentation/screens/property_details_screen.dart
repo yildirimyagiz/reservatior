@@ -786,7 +786,7 @@ class _PropertyDetailsScreenState extends ConsumerState<PropertyDetailsScreen>
                             } else {
                               final url = Uri.parse(offer['url']);
                               if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not launch \${offer['provider']}')));
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Could not launch ${offer['provider']}")));
                               }
                             }
                           },
@@ -831,7 +831,7 @@ class _PropertyDetailsScreenState extends ConsumerState<PropertyDetailsScreen>
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text('\${offer['currency']} \${offer['price']}', style: GoogleFonts.outfit(color: isBestDeal ? const Color(0xFF10B981) : Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+                                    Text("${offer['currency']} ${offer['price']}", style: GoogleFonts.outfit(color: isBestDeal ? const Color(0xFF10B981) : Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
                                     Container(
                                       margin: const EdgeInsets.only(top: 4),
                                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -998,7 +998,8 @@ class _PropertyDetailsScreenState extends ConsumerState<PropertyDetailsScreen>
                 ),
               ],
             ),
-          ),
+            ),
+          ], // Closes else ...[ array
           const SizedBox(height: 40),
         ],
       ),

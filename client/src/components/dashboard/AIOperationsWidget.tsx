@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiClient } from "@/lib/api/client";
 import { useAuth } from "@/lib/auth/hooks";
-import { BrainCircuit, Loader2, Clock, Activity, Zap, Server, Car, Box, ShieldAlert, Wand2, Megaphone, RefreshCcw, Radar, AlertTriangle, FileText, CheckCircle2 } from "lucide-react";
+import { BrainCircuit, Loader2, Clock, Activity, Zap, Server, Car, Box, ShieldAlert, Wand2, Megaphone, RefreshCcw, Radar, AlertTriangle, FileText, CheckCircle2, UserPlus, TrendingUp, ShieldCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface TriggerTask {
@@ -115,6 +115,15 @@ export function AIOperationsWidget() {
       case "SECURITY_INCIDENT_CREATED": return { title: "Güvenlik İhlali Bildirimi", icon: <ShieldAlert className="w-4 h-4 text-rose-500" />, color: "text-rose-500", bg: "bg-rose-500/10" };
       case "DOCUMENT_EXPIRED": return { title: "Belge Süresi Doldu", icon: <AlertTriangle className="w-4 h-4 text-orange-500" />, color: "text-orange-500", bg: "bg-orange-500/10" };
       case "VIEWING_COMPLETED": return { title: "Gösterim Geri Bildirim Analizi", icon: <BrainCircuit className="w-4 h-4 text-cyan-400" />, color: "text-cyan-400", bg: "bg-cyan-400/10" };
+      case "AI_TASK_STARTED": return { title: "Yapay Zeka Görevi Başladı", icon: <BrainCircuit className="w-4 h-4 text-blue-400" />, color: "text-blue-400", bg: "bg-blue-400/10" };
+      case "AI_TASK_COMPLETED": return { title: "Yapay Zeka Görevi Tamamlandı", icon: <CheckCircle2 className="w-4 h-4 text-emerald-400" />, color: "text-emerald-400", bg: "bg-emerald-400/10" };
+      case "AI_TASK_FAILED": return { title: "Yapay Zeka Görevi Başarısız", icon: <AlertTriangle className="w-4 h-4 text-rose-400" />, color: "text-rose-400", bg: "bg-rose-400/10" };
+      case "STAGING_GENERATED": return { title: "Sanal Sahneleme Üretildi", icon: <Wand2 className="w-4 h-4 text-fuchsia-400" />, color: "text-fuchsia-400", bg: "bg-fuchsia-400/10" };
+      case "LISTING_OPTIMIZED": return { title: "İlan Optimizasyonu Tamamlandı", icon: <Megaphone className="w-4 h-4 text-orange-400" />, color: "text-orange-400", bg: "bg-orange-400/10" };
+      case "AGENT_ASSIGNED": return { title: "Acente İlana Atandı", icon: <UserPlus className="w-4 h-4 text-cyan-400" />, color: "text-cyan-400", bg: "bg-cyan-400/10" };
+      case "AGENT_PERFORMANCE_UPDATED": return { title: "Acente Performansı Güncellendi", icon: <TrendingUp className="w-4 h-4 text-emerald-400" />, color: "text-emerald-400", bg: "bg-emerald-400/10" };
+      case "AGENT_LICENSE_VERIFIED": return { title: "Acente Lisansı Doğrulandı", icon: <ShieldCheck className="w-4 h-4 text-blue-400" />, color: "text-blue-400", bg: "bg-blue-400/10" };
+      case "COMPLIANCE_ALERT": return { title: "Yasal Mevzuat Uyum İhlali", icon: <ShieldAlert className="w-4 h-4 text-rose-500" />, color: "text-rose-500", bg: "bg-rose-500/10" };
       default: return { title: `Sistem Olayı: ${eventName}`, icon: <Radar className="w-4 h-4 text-slate-400" />, color: "text-slate-400", bg: "bg-slate-400/10" };
     }
   };

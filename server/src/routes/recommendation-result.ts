@@ -4,7 +4,7 @@ import { recommendationResultService } from "../services/recommendationresult";
 import { 
   RecommendationResultPlainInputCreate, 
   RecommendationResultPlainInputUpdate 
-} from "../../generated/prismabox/RecommendationResult";
+} from "prismabox/RecommendationResult";
 
 export const recommendationResultRoutes = new Elysia({ prefix: "/recommendation-results" })
   .use(authMiddleware)

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Bed, Bath, Square, Calendar as CalendarIcon, Heart, Share2, Zap, ChevronLeft, Star, PlayCircle, Play, DollarSign, Users, Activity, ShieldCheck, Camera, MessageSquare, AlertTriangle, Clapperboard } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Calendar as CalendarIcon, Heart, Share2, Zap, ChevronLeft, Star, PlayCircle, Play, DollarSign, Users, Activity, ShieldCheck, Camera, MessageSquare, AlertTriangle, Clapperboard, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
@@ -704,8 +704,6 @@ export default function PropertyDetail() {
                                       </div>
                                    </div>
 
-                                   </div>
-
                                    <Separator className="my-2 bg-border/50" />
                                    
                                    {/* Super App Cross-Sell */}
@@ -727,7 +725,7 @@ export default function PropertyDetail() {
                                         className={cn("p-3 rounded-xl border-2 cursor-pointer transition-all flex flex-col gap-1", addExperience ? "border-pink-500 bg-pink-500/10" : "border-white/5 hover:border-white/20")}
                                       >
                                          <div className="flex justify-between items-center text-white">
-                                           <span className="text-muted-foreground flex items-center gap-2"><Globe2 className="w-3 h-3 text-pink-400" /> Exclusive City Tour</span>
+                                           <span className="text-muted-foreground flex items-center gap-2"><Globe className="w-3 h-3 text-pink-400" /> Exclusive City Tour</span>
                                            <span>+ {currencySymbol}250</span>
                                          </div>
                                       </div>

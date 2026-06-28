@@ -23,7 +23,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   .post(
     "/register",
     async ({ body, set }) => {
-      const { email, password, name, phone } = body;
+      const { email, password, name, phone, promoCode, accountType, corporateType, organizationName } = body as any;
 
       const existing = await prisma.user.findUnique({ where: { email } });
       if (existing) {
@@ -46,6 +46,74 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
           accessToken: passwordHash,
         },
       });
+
+      // --- CORPORATE ACCOUNT LOGIC ---
+      if (accountType === 'CORPORATE' && organizationName) {
+        let mappedType: any = "OWNER_PORTFOLIO";
+        if (corporateType === "AGENCY") mappedType = "AGENCY";
+        
+        const org = await prisma.organization.create({
+          data: {
+            name: organizationName,
+            type: mappedType,
+            status: "ACTIVE",
+            subscriptionStatus: "TRIAL",
+          }
+        });
+        
+        const newRole = await prisma.role.create({
+          data: {
+            name: "Owner",
+            key: "OWNER",
+            orgId: org.id,
+            description: "Organization Owner"
+          }
+        });
+
+        await prisma.organizationMember.create({
+          data: {
+            userId: user.id,
+            orgId: org.id,
+            roleId: newRole.id,
+          }
+        });
+        
+        console.log(`[AUTH] Corporate org created for user ${user.id} - ${org.name}`);
+      }
+
+      // --- LEAD CONVERSION & PROMO LOGIC ---
+      if (phone) {
+        let checkPhone = phone;
+        if (checkPhone.startsWith('0')) checkPhone = checkPhone.substring(1);
+        if (checkPhone.startsWith('+90')) checkPhone = checkPhone.substring(3);
+        if (checkPhone.startsWith('90')) checkPhone = checkPhone.substring(2);
+        
+        const lead = await prisma.lead.findFirst({
+          where: { phone: { contains: checkPhone } }
+        });
+
+        if (lead && lead.status !== 'CONVERTED') {
+          await prisma.lead.update({
+            where: { id: lead.id },
+            data: { status: 'CONVERTED' }
+          });
+          console.log(`[AUTH] Lead ${lead.phone} converted to user ${user.id}`);
+        }
+      }
+
+      if (promoCode === 'VIPTR') {
+        // Tag user as VIP for future subscription creation or billing
+        await prisma.userPreference.create({
+          data: {
+            userId: user.id,
+            theme: "dark",
+            language: "tr",
+            currency: "TRY",
+            marketingEmails: true,
+          }
+        });
+        console.log(`[AUTH] User ${user.email} registered with VIPTR promo code.`);
+      }
 
       // --- DYNAMIC RBAC LOGIC ---
       // 1. Fetch user's roles and permissions from the DB
@@ -124,6 +192,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
         password: t.String({ minLength: 8 }),
         name: t.Optional(t.String()),
         phone: t.Optional(t.String()),
+        promoCode: t.Optional(t.String()),
       }),
     }
   )

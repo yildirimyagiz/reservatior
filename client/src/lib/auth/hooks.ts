@@ -61,7 +61,11 @@ export const useAuth = () => {
     email: string,
     password: string,
     name: string,
-    phone?: string
+    phone?: string,
+    promoCode?: string,
+    accountType?: "INDIVIDUAL" | "CORPORATE",
+    corporateType?: string,
+    organizationName?: string
   ) => {
     setLoading(true);
     setError(null);
@@ -72,6 +76,10 @@ export const useAuth = () => {
         password,
         name,
         phone,
+        promoCode,
+        accountType,
+        corporateType,
+        organizationName
       });
 
       setUser(authData.user as any);

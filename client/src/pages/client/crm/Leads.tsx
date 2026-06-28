@@ -370,7 +370,7 @@ export default function Leads() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="source" className="text-[10px] font-black text-slate-500 italic">{t("client.src.origin_node")}</Label>
-                <Select value={formData.source} onValueChange={v => setFormData({ ...formData, source: v })}>
+                <Select value={formData.leadSource} onValueChange={v => setFormData({ ...formData, leadSource: v })}>
                   <SelectTrigger className="bg-black/40 border-white/5 h-12 rounded-xl text-xs font-black italic">
                     <SelectValue placeholder={t("client.src.select_origin")} />
                   </SelectTrigger>

@@ -6,9 +6,9 @@ class ApiEndpoints {
   static String get baseUrl {
     if (dotenv.isInitialized) {
       return dotenv.env['API_BASE_URL'] ?? 
-             const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:3005');
+             const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:3000');
     }
-    return const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:3005');
+    return const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:3000');
   }
   
   static String get _apiPrefix => '$baseUrl/api/v1';

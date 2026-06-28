@@ -164,7 +164,10 @@ const prisma = new PrismaClient();
 
 // ─── Yardımcı: ID üretici ─────────────────────────────────────────────────────
 const SI = process.env.SEED_INDEX || "1";
-const id = (prefix: string, n: number | string = 1) => `seed-${prefix}-${String(n).padStart(3, "0")}-${SI}`;
+const id = (prefix: string, n: number | string = 1) => {
+  if (prefix === "org") return "us_seattle_org";
+  return `seed-${prefix}-${String(n).padStart(3, "0")}-${SI}`;
+};
 
 async function main() {
   console.log("🌱 Tam seed başlatılıyor — 213 model...\n");
@@ -1881,7 +1884,6 @@ async function main() {
     data: {
       orgId: org.id,
       id: id("mortgageoffer"),
-      
       propertyId: property!.id,
       contactId: contact1!.id,
       lender: "Chase Bank",
@@ -1889,6 +1891,16 @@ async function main() {
       interestRate: 6.25,
       termYears: 30,
       monthlyPayment: 5544,
+      lenderName: "Chase Bank",
+      mortgageType: "FIXED_RATE",
+      mortgageTerm: 30,
+      arrangementFee: 1500,
+      valuationFee: 500,
+      loanAmount: 900000,
+      depositAmount: 200000,
+      loanToValue: 81.8,
+      totalPayable: 2000000,
+      offerDate: new Date(),
       currency: "USD",
       status: "offered",
       offeredAt: new Date(),
@@ -1938,7 +1950,6 @@ async function main() {
     data: {
       orgId: org.id,
       id: id("deprotect"),
-      
       leaseId: lease!.id,
       amount: 10000,
       currency: "USD",
@@ -1947,6 +1958,10 @@ async function main() {
       reference: `DPS-2024-001-${SI}`,
       status: "PROTECTED",
       protectedAt: new Date("2024-01-02"),
+      schemeProvider: "DPS",
+      schemeReference: `seed-depref-001-${SI}`,
+      depositAmount: 10000,
+      tenantDetails: { name: "John Doe", email: "john@example.com" },
     },
   }).catch((e) => { console.error(e); });
 
@@ -1954,7 +1969,6 @@ async function main() {
     data: {
       orgId: org.id,
       id: id("rentcheck"),
-      
       leaseId: lease!.id,
       contactId: contact1!.id,
       checkType: "PASSPORT",
@@ -1962,6 +1976,7 @@ async function main() {
       status: "PASSED",
       checkedAt: new Date("2024-01-01"),
       expiresAt: new Date("2025-01-01"),
+      tenantId: tenant!.id,
     },
   }).catch((e) => { console.error(e); });
   console.log("✅ LeaseRenewal + DepositProtection + RightToRentCheck");
@@ -2047,14 +2062,16 @@ async function main() {
     data: {
       orgId: org.id,
       id: id("solicitor"),
-      
-      
       contactId: contact2!.id,
       solicitorType: "BUYER_SOLICITOR",
       status: "INSTRUCTED",
       engagedAt: new Date(),
       fee: 2000,
       currency: "USD",
+      solicitorFirm: "Apex Legal Partners",
+      solicitorName: "Sarah Jenkins",
+      solicitorEmail: "sarah@apexlegal.com",
+      appointmentType: "INITIAL_CONSULTATION",
     },
   }).catch((e) => { console.error(e); });
   console.log("✅ HomeInformationPack + SolicitorManagement");
@@ -4238,7 +4255,6 @@ async function main() {
       orgId: org.id,
       amount: 1500,
       currency: "USD",
-      source: "COMMISSION",
       sourceType: "PLATFORM_FEE"
     }
   }).catch((e: any) => { console.error(e); });

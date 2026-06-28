@@ -5,6 +5,8 @@ import { MLBridgeService } from "../lib/intelligence/MLBridgeService";
 import { MarketplaceEngine } from "../services/ai/marketplace-engine";
 import { NotificationDispatcher } from "../services/notification-dispatcher";
 import { rabbitMQService } from "../services/rabbitmq-service";
+import { AISocialParser } from "../services/ai/ai-social-parser";
+import { SmartMatcher } from "../services/matchmaking/smart-matcher";
 
 export const systemCronRoutes = new Elysia({ prefix: "/system-cron" })
   .use(
@@ -368,9 +370,52 @@ export const systemCronRoutes = new Elysia({ prefix: "/system-cron" })
             }).catch(console.warn);
           }
 
+          // ============================================
+          // 5. Visibility Budget Nightly Decay (Continuous Regeneration)
+          // ============================================
+          console.log("[CRON] Applying nightly decay to Visibility Budgets for smooth regeneration...");
+          const { agentMatchingService } = await import("../../src/services/agent-matching");
+          await agentMatchingService.decayVisibilityBudgets(0.85).catch(console.warn);
+
           console.log("[CRON] Nightly system checks completed successfully.");
         } catch (error) {
           console.error("[CRON] Nightly system check failed:", error);
+        }
+      }
+    })
+  )
+  .use(
+    cron({
+      name: 'social-inbound-matchmaker',
+      pattern: '*/5 * * * *', // Run every 5 minutes
+      async run() {
+        console.log("[CRON] Running Social Inbound Message Matchmaker...");
+        const regions = ["TR", "AE"];
+        
+        for (const region of regions) {
+          try {
+            const db = prismaManager.getClient(region);
+            const pendingMessages = await db.socialInboundMessage.findMany({
+              where: { status: "PENDING" },
+              take: 20
+            });
+
+            if (pendingMessages.length === 0) continue;
+
+            console.log(`[CRON] Found ${pendingMessages.length} pending inbound messages in region [${region}]`);
+
+            for (const msg of pendingMessages) {
+              try {
+                console.log(`[CRON] Processing message: "${msg.messageText.substring(0, 50)}..."`);
+                const parsedResult = await AISocialParser.parseMessage(msg.messageText);
+                await SmartMatcher.processParsedMessage(msg.externalSenderId, parsedResult, msg.id);
+              } catch (msgErr: any) {
+                console.error(`[CRON] Error processing message ${msg.id}:`, msgErr.message);
+              }
+            }
+          } catch (regionErr: any) {
+            console.error(`[CRON] Failed to connect or query region [${region}]:`, regionErr.message);
+          }
         }
       }
     })

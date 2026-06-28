@@ -39,6 +39,48 @@ const REGION_DB_MAP: Record<string, string> = {
 // Default region when no X-Region header is sent
 const DEFAULT_REGION = "US";
 
+const eventBusExtension = {
+  name: "eventBusExtension",
+  query: {
+    $allModels: {
+      async create({ model, args, query }: any) {
+        const result = await query(args);
+        if (["AiServiceTask", "MLSSyncJob", "ConciergeRequest", "Task", "Agent", "AgentAssignment", "AgentPerformance"].includes(model)) {
+          try {
+            const { EventDispatcher } = await import("../core/events/event-dispatcher");
+            let eventName: string = "PROPERTY_STATUS_CHANGED";
+            if (model === "AiServiceTask") eventName = "AI_TASK_CREATED";
+            else if (model === "AgentAssignment") eventName = "AGENT_ASSIGNED";
+            else if (model === "AgentPerformance") eventName = "AGENT_PERFORMANCE_UPDATED";
+
+            EventDispatcher.emit(eventName as any, result).catch(err => console.error("Prisma Middleware emit error:", err));
+          } catch (err) {
+            console.error("Prisma Middleware import error:", err);
+          }
+        }
+        return result;
+      },
+      async update({ model, args, query }: any) {
+        const result = await query(args);
+        if (["AiServiceTask", "MLSSyncJob", "ConciergeRequest", "Task", "Agent", "AgentAssignment", "AgentPerformance"].includes(model)) {
+          try {
+            const { EventDispatcher } = await import("../core/events/event-dispatcher");
+            let eventName: string = "PROPERTY_STATUS_CHANGED";
+            if (model === "AiServiceTask") eventName = "AI_TASK_PROGRESS";
+            else if (model === "AgentPerformance") eventName = "AGENT_PERFORMANCE_UPDATED";
+            else if (model === "Agent" && result.licenseVerified === true) eventName = "AGENT_LICENSE_VERIFIED";
+
+            EventDispatcher.emit(eventName as any, result).catch(err => console.error("Prisma Middleware emit error:", err));
+          } catch (err) {
+            console.error("Prisma Middleware import error:", err);
+          }
+        }
+        return result;
+      }
+    }
+  }
+};
+
 class PrismaManager {
   private clients = new Map<string, PrismaClient>();
   private defaultClient: PrismaClient;
@@ -47,7 +89,9 @@ class PrismaManager {
     // The default client uses DATABASE_URL (main/base database)
     this.defaultClient = new PrismaClient({
       log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-    }).$extends(countryGuardExtension(DEFAULT_REGION)) as unknown as PrismaClient;
+    })
+      .$extends(countryGuardExtension(DEFAULT_REGION))
+      .$extends(eventBusExtension) as unknown as PrismaClient;
   }
 
   /**
@@ -95,7 +139,9 @@ class PrismaManager {
       log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
     });
     
-    const client = baseClient.$extends(countryGuardExtension(normalized)) as unknown as PrismaClient;
+    const client = baseClient
+      .$extends(countryGuardExtension(normalized))
+      .$extends(eventBusExtension) as unknown as PrismaClient;
 
     this.clients.set(normalized, client);
     return client;

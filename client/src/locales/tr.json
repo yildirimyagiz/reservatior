@@ -16836,5 +16836,18 @@
   "yearly": "Yıllık",
   "yield": "Getiri",
   "yieldDna": "Getiri Yapısı (Dna)",
-  "yieldTier": "Getiri Seviyesi"
+  "yieldTier": "Getiri Seviyesi",
+  "client.src.individual": "Bireysel",
+  "client.src.corporate": "Kurumsal",
+  "client.src.organization_name": "Kurum / Şirket Adı",
+  "client.src.organization_type": "Kurum Tipi",
+  "client.src.select_organization_type": "Kurum Tipi Seçin",
+  "client.src.real_estate_agency": "Emlak Ofisi",
+  "client.src.hotel_facility": "Otel / Tesis",
+  "client.src.landlord_company": "Şirket / Ev Sahibi",
+  "client.src.matching_lead_ready": "Eşleşen Müşteri Talebiniz Hazır!",
+  "client.src.matching_lead_desc": "Kayıt işleminizi tamamlayarak hazır müşterinizle Taksitli Depozito vb. avantajlarla güvenli sözleşme sürecini hemen başlatabilirsiniz.",
+  "client.src.individual_signup_desc": "Kiracı veya bireysel kullanıcılar için",
+  "client.src.corporate_signup_desc": "Ev sahipleri, emlak ofisleri ve işletmeler için",
+  "client.src.eg_vizyon_real_estate": "Örn: Vizyon Gayrimenkul"
 }

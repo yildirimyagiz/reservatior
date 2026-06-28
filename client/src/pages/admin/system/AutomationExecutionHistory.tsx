@@ -6,8 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { automationExecutionsApi } from "@/lib/api/automation-rules";
+
 import { Eye, RefreshCw } from "lucide-react";
+import { automationExecutionsApi } from "@/lib/api/automation-rules";
 
 const STATUS_COLORS: Record<string, string> = {
   COMPLETED: "bg-green-100 text-green-800",

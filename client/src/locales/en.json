@@ -7765,7 +7765,7 @@
   "client.src.organizations": "Organizations",
   "client.src.origin_acquisition_vectors": "Origin Acquisition Vectors",
   "client.src.origin_node": "Origin Node",
-  "client.src.other": "Other",
+
   "client.src.our": ", our",
   "client.src.our_ai_compares_these": "Our ai compares these",
   "client.src.our_ai_has_generated": "Our ai has generated",
@@ -16792,5 +16792,19 @@
   "yearly": "Yearly",
   "yield": "Yield",
   "yieldDna": "Yield Dna",
-  "yieldTier": "Yield Tier"
+  "yieldTier": "Yield Tier",
+  "client.src.individual": "Individual",
+  "client.src.corporate": "Corporate",
+  "client.src.organization_name": "Organization / Company Name",
+  "client.src.organization_type": "Organization Type",
+  "client.src.select_organization_type": "Select Organization Type",
+  "client.src.real_estate_agency": "Real Estate Agency",
+  "client.src.hotel_facility": "Hotel / Facility",
+  "client.src.other": "Other",
+  "client.src.landlord_company": "Landlord / Company",
+  "client.src.matching_lead_ready": "Matching Client Request Ready!",
+  "client.src.matching_lead_desc": "Complete your registration to instantly initiate a secure lease contract with your ready tenant, utilizing benefits like Installment Deposit.",
+  "client.src.individual_signup_desc": "For tenants or individual users",
+  "client.src.corporate_signup_desc": "For landlords, agencies, and businesses",
+  "client.src.eg_vizyon_real_estate": "e.g. Vision Real Estate"
 }

@@ -1,5 +1,13 @@
-import { prisma } from "../../lib/prisma";
+import { prismaManager } from "../../lib/prisma";
 import { SocialParsedResult } from "../ai/ai-social-parser";
+import { RealtorAcquisitionEngine } from "./realtor-acquisition";
+
+// Detect region from phone number prefix
+function getRegionFromPhone(phone: string): string {
+  const clean = phone.replace(/\D/g, "");
+  if (clean.startsWith("971")) return "AE";
+  return "TR";
+}
 
 export class SmartMatcher {
   /**
@@ -12,91 +20,152 @@ export class SmartMatcher {
     rawMessageId: string
   ) {
     if (parsedResult.intent === "NOISE") {
-      return; // Ignore noise
+      console.log(`[SmartMatcher] Message parsed as NOISE, ignoring.`);
+      return { success: false, reason: "Noise" };
     }
 
+    const countryCode = getRegionFromPhone(senderPhoneOrId);
+    const prisma = prismaManager.getClient(countryCode);
+    const orgId = `org_whatsapp_${countryCode.toLowerCase()}`;
+
     if (parsedResult.intent === "STATUS_UPDATE") {
-      // If it's a status update, we find the existing property/lead and update it.
-      // Example: Mark as SOLD or CANCELED
       console.log(`[SmartMatcher] Archiving/Updating status for entity based on message: ${parsedResult.summary}`);
-      // In a real scenario, we would search by the sender and location/price to find the exact Property
-      // await prisma.property.update({ ... status: parsedResult.extractedData.statusUpdateType })
-      return;
+      
+      // Try to find the raw message and archive it
+      try {
+        await prisma.socialInboundMessage.updateMany({
+          where: { id: rawMessageId },
+          data: {
+            intent: parsedResult.intent,
+            status: "IGNORED" as any
+          }
+        });
+      } catch (e) {
+        // Safe to ignore if not exists
+      }
+      return { success: true, action: "status_update" };
     }
 
     if (parsedResult.intent === "DEMAND") {
-      // A user is looking for a property
       console.log(`[SmartMatcher] New DEMAND from ${senderPhoneOrId}: ${parsedResult.summary}`);
       
-      // 1. Save Demand (Lead)
-      // await prisma.lead.create({ ... })
+      // 1. Clean and save the demand as a Lead
+      const budget = parsedResult.extractedData.budget ? parsedResult.extractedData.budget : null;
+      const bedrooms = parsedResult.extractedData.bedrooms || null;
+      const txType = parsedResult.extractedData.transactionType || "RENT";
+      const location = parsedResult.extractedData.location || "";
+      const projects = parsedResult.extractedData.projects || [];
 
-      // 2. Search for existing SUPPLY (Properties)
-      const budget = parsedResult.extractedData.budget;
-      const city = parsedResult.extractedData.location;
+      let lead = null;
+      try {
+        lead = await prisma.lead.create({
+          data: {
+            orgId: orgId,
+            phone: senderPhoneOrId,
+            notes: JSON.stringify({
+              aiParsed: true,
+              summary: parsedResult.summary,
+              projects: projects,
+              bedrooms: bedrooms,
+              transactionType: txType,
+              location: location,
+              originalMessageId: rawMessageId,
+            }),
+            budget: budget,
+            timeline: "WhatsApp Inbound Demand",
+            firstName: "WhatsApp Group",
+            lastName: "User",
+          }
+        });
+        console.log(`[SmartMatcher] Saved demand as Lead ID: ${lead.id}`);
+      } catch (leadErr: any) {
+        console.error("❌ Error saving lead:", leadErr.message);
+      }
+
+      // 2. Query properties matching the demand criteria
+      const searchConditions: any = {
+        listingStatus: "AVAILABLE",
+        listingType: txType as any,
+      };
+
+      if (bedrooms) {
+        searchConditions.bedrooms = bedrooms;
+      }
+
+      // Project matching query structure
+      if (projects.length > 0) {
+        searchConditions.OR = projects.flatMap(p => [
+          { name: { contains: p, mode: "insensitive" as const } },
+          { notes: { contains: p, mode: "insensitive" as const } },
+          { addressLine1: { contains: p, mode: "insensitive" as const } }
+        ]);
+      } else if (location) {
+        searchConditions.OR = [
+          { city: { contains: location, mode: "insensitive" as const } },
+          { addressLine1: { contains: location, mode: "insensitive" as const } },
+          { notes: { contains: location, mode: "insensitive" as const } }
+        ];
+      }
 
       const matches = await prisma.property.findMany({
-        where: {
-          // If city is mentioned, filter by city loosely
-          ...(city ? { city: { contains: city, mode: "insensitive" } } : {}),
-          // Further filtering would go here based on bedrooms, budget, etc.
-        },
-        take: 3
+        where: searchConditions,
+        take: 5
       });
 
+      console.log(`[SmartMatcher] Found ${matches.length} matching properties in the ${countryCode} database.`);
+
       if (matches.length > 0) {
-        // Send a private message with the match
+        // Send a private match message
         await this.sendPrivateMatchMessage(senderPhoneOrId, matches, parsedResult);
       }
+
+      // 3. Realtor Acquisition matching & dispatch
+      if (lead) {
+        await RealtorAcquisitionEngine.findAndInviteScrapedAgents(parsedResult, lead.id, countryCode);
+      }
+
+      // 3. Archive the message
+      try {
+        await prisma.socialInboundMessage.updateMany({
+          where: { id: rawMessageId },
+          data: {
+            intent: parsedResult.intent,
+            status: "LEAD_CREATED" as any,
+            leadId: lead?.id,
+          }
+        });
+      } catch (e) {
+        // Ignore archive issue
+      }
+
+      return { success: true, matches: matches.map(m => m.id), leadId: lead?.id };
     }
 
     if (parsedResult.intent === "SUPPLY") {
-      // A user is offering a property
       console.log(`[SmartMatcher] New SUPPLY from ${senderPhoneOrId}: ${parsedResult.summary}`);
-      
-      // 1. Save Supply (Property)
-      // await prisma.property.create({ ... })
-
-      // 2. Search for existing DEMAND (Leads)
-      // In a real app, we would search Leads where budget >= property price and location matches
-      
-      // 3. Send private message to the Leads that match this supply
-      // ...
+      // In a supply flow, we would register the property and query matching leads (demands)
+      return { success: true, action: "supply" };
     }
 
-    // Finally, archive the conversation message so we have a record
-    // This assumes the rawMessage has already been saved to SocialInboundMessage
-    // We update the intent and status.
-    try {
-      await prisma.socialInboundMessage.updateMany({
-        where: { id: rawMessageId },
-        data: {
-          intent: parsedResult.intent,
-          status: "RESOLVED" // Mark as archived/resolved
-        }
-      });
-    } catch (e) {
-      console.warn("Could not archive message, might not exist yet:", e);
-    }
+    return { success: false, reason: "Unhandled intent" };
   }
 
   private static async sendPrivateMatchMessage(userId: string, matches: any[], parsedResult: SocialParsedResult) {
-    // This function will integrate with your WhatsApp/Telegram sender to send a Direct Message
     console.log(`[SmartMatcher] Sending PRIVATE match message to ${userId}...`);
     
-    let messageText = `Merhaba! "${parsedResult.summary}" talebinize uygun harika ilanlar bulduk:\n\n`;
+    let messageText = `Merhaba! WhatsApp grubunda paylaştığınız "${parsedResult.summary}" talebinize uygun olarak veri tabanımızda eşleşen ilanlar bulduk:\n\n`;
     
     matches.forEach((match, index) => {
-      // Create a direct link to the Reservatior website for traffic direction
-      const link = `https://reservatior.com/listing/${match.id}`;
-      messageText += `${index + 1}. ${match.name} - ${match.city} \nDetaylar: ${link}\n\n`;
+      const priceStr = match.listingPrice ? `${match.listingPrice.toLocaleString()} ${match.currency}` : "Fiyat Sorunuz";
+      const link = `http://localhost:3001/property/${match.id}`; // Local dashboard link
+      messageText += `🔹 ${index + 1}. *${match.name}*\n📍 Konum: ${match.addressLine1 || match.city}\n💰 Fiyat: ${priceStr}\n🛏️ Oda Sayısı: ${match.bedrooms || 'Belirtilmemiş'}\n🔗 Detaylar: ${link}\n\n`;
     });
 
-    messageText += `İlanlarla ilgilenirseniz hemen rezervasyon yapabilirsiniz!`;
-
-    // 1. Here you would call your WhatsApp bot API or Telegram bot API to send the DM
-    // e.g. await WhatsAppClient.sendMessage(userId, messageText);
+    messageText += `İlginizi çeken bir portföy olursa doğrudan bu hat üzerinden veya platformumuzdan rezervasyon talebi başlatabilirsiniz!`;
     
-    console.log(`[SmartMatcher] Private Message Sent:\n${messageText}`);
+    console.log("=========================================");
+    console.log(`📡 [OUTBOUND WHATSAPP MESSAGE TO ${userId}]:`);
+    console.log(messageText);
+    console.log("=========================================");
   }
 }

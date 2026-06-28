@@ -174,6 +174,7 @@ const Notifications = lazy(() => import("@/pages/client/notifications/Notificati
 const TaskManagement = lazy(() => import("@/pages/client/tasks/TaskManagement"));
 const DealsManagement = lazy(() => import("@/pages/client/deals/DealsManagement"));
 const MarketplaceBrain = lazy(() => import("@/pages/client/marketplace/MarketplaceBrain"));
+import InmanConnect from "@/pages/marketing/InmanConnect";
 
 
 // ─── Server Parity Financial / Client ──────────────────────────────────────────
@@ -330,6 +331,8 @@ export const router = createBrowserRouter([
       { path: "/leasecare",              element: <LeaseCare /> },
       { path: "/properties",             element: <PropertySearch /> },
       { path: "/properties/:id",         element: <PropertyDetail /> },
+      { path: "/icny27",                 element: <InmanConnect /> },
+      { path: "/inman",                  element: <InmanConnect /> },
     ]
   },
 

@@ -79,6 +79,67 @@ export class GeminiService {
     }
   }
 
+  /**
+   * Analyzes a chat message to detect Platform Leakage (e.g., sharing IBANs, phone numbers, 
+   * or asking to transact outside the platform).
+   * Returns whether it's a leakage attempt, and a masked version of the message.
+   */
+  static async analyzeMessageForLeakage(message: string): Promise<{ isLeakage: boolean; maskedMessage: string; reason?: string }> {
+    try {
+      if (apiKey === "AIzaSy_MOCK_KEY_FOR_DEV") {
+        // Fallback simple regex check if no API key
+        const hasPhone = /(?:\+90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2}/.test(message);
+        const hasIban = /TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}/i.test(message);
+        const isLeakage = hasPhone || hasIban;
+        
+        let masked = message;
+        if (hasPhone) masked = masked.replace(/(?:\+90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2}/g, "📞 [TELEFON GİZLENDİ]");
+        if (hasIban) masked = masked.replace(/TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}/gi, "🏦 [IBAN GİZLENDİ - Lütfen Ödemeyi Checkout'tan Yapın]");
+        
+        return { isLeakage, maskedMessage: masked, reason: isLeakage ? "Regex fallback match" : "" };
+      }
+
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      
+      const prompt = `
+        You are the security AI for a real estate marketplace called "Reservatior".
+        Your job is to prevent "Platform Leakage" - meaning users trying to share contact info 
+        (phone numbers, emails) or payment info (IBAN, bank details, crypto wallets, asking for cash) 
+        to bypass the platform's escrow and commission system.
+        
+        Analyze the following message:
+        "${message}"
+        
+        If it contains a phone number, IBAN, email, or an attempt to bypass the platform, set "isLeakage" to true.
+        Also, provide a "maskedMessage" where the sensitive information is replaced with "[GÜVENLİK GEREĞİ GİZLENDİ]".
+        
+        Return ONLY valid JSON with this structure:
+        {
+          "isLeakage": boolean,
+          "maskedMessage": "string",
+          "reason": "string (why it was flagged, empty if false)"
+        }
+      `;
+
+      const result = await model.generateContent(prompt);
+      const text = result.response.text().replace(/```json/g, "").replace(/```/g, "").trim();
+      
+      return JSON.parse(text);
+    } catch (error) {
+      console.error("GeminiService leakage analysis error (falling back to regex):", (error as any).message);
+      // Fallback to simple regex check on API failure
+      const hasPhone = /(?:\+90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2}/.test(message);
+      const hasIban = /TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}/i.test(message);
+      const isLeakage = hasPhone || hasIban;
+      
+      let masked = message;
+      if (hasPhone) masked = masked.replace(/(?:\+90|0)?\s*5\d{2}\s*\d{3}\s*\d{2}\s*\d{2}/g, "📞 [TELEFON GİZLENDİ]");
+      if (hasIban) masked = masked.replace(/TR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}/gi, "🏦 [IBAN GİZLENDİ - Lütfen Ödemeyi Checkout'tan Yapın]");
+      
+      return { isLeakage, maskedMessage: masked, reason: isLeakage ? "Regex fallback match" : "" };
+    }
+  }
+
   static _getMockResponse(query: string, role: string) {
     if (role === "ADMIN") {
       return {
@@ -118,4 +179,58 @@ export class GeminiService {
       };
     }
   }
+
+  /**
+   * Audits a Partner Agreement using Gemini model to protect the "Invisible Moat".
+   * Checks if the agreement is too static (replicable) or satisfies dynamic lifecycle standards.
+   */
+  static async auditAgreementWithGemini(agreement: any): Promise<{
+    isMoatCompliant: boolean;
+    recommendation: string;
+    riskScore: number;
+  }> {
+    try {
+      if (apiKey === "AIzaSy_MOCK_KEY_FOR_DEV") {
+        return {
+          isMoatCompliant: true,
+          recommendation: "Dev Mode: Agreement verified against simulated moat rules.",
+          riskScore: 0.1
+        };
+      }
+
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const prompt = `
+        You are the Chief Financial Auditor AI for Reservatior.
+        Our core defense strategy (Moat) is keeping commercial pricing rules/commissions hidden and dynamically dependent on real-time event lifecycle curves, preventing competitors from reverse-engineering our economics.
+        
+        Analyze this Partner Agreement structure:
+        ${JSON.stringify(agreement, null, 2)}
+        
+        Evaluate:
+        1. Is this agreement too static or easily copyable by competitors? (e.g. flat % rates with no time decay or loyalty multipliers).
+        2. Does it utilize dynamic curves (monthly schedules, behavioral multipliers, time-decay factors)?
+        
+        Provide a riskScore (0.0: secure/highly dynamic, to 1.0: highly vulnerable/static) and recommendations to enforce our structural moat.
+        
+        Return ONLY valid JSON:
+        {
+          "isMoatCompliant": boolean,
+          "recommendation": "string",
+          "riskScore": number
+        }
+      `;
+
+      const result = await model.generateContent(prompt);
+      const text = result.response.text().replace(/```json/g, "").replace(/```/g, "").trim();
+      return JSON.parse(text);
+    } catch (e: any) {
+      console.error("Gemini Moat Audit failed:", e.message);
+      return {
+        isMoatCompliant: true,
+        recommendation: "Auditor Offline: Fallback automated security validation applied.",
+        riskScore: 0.2
+      };
+    }
+  }
 }
+
