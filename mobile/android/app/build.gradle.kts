@@ -33,7 +33,7 @@ android {
         applicationId = "com.reservatior.reservatior"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21  // Google Maps requires SDK 21+
+        minSdk = flutter.minSdkVersion  // Google Maps requires SDK 21+
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

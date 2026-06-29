@@ -134,24 +134,24 @@ class _SettlementFlowChart extends StatelessWidget {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: stage.$3
+                        color: stage.$4
                             ? AppColors.success.withValues(alpha: 0.2)
-                            : stage.$2.withValues(alpha: 0.15),
+                            : stage.$3.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: stage.$3
+                          color: stage.$4
                               ? AppColors.success
-                              : stage.$2.withValues(alpha: 0.3),
+                              : stage.$3.withValues(alpha: 0.3),
                         ),
                       ),
-                      child: Icon(stage.$2, color: stage.$3 ? AppColors.success : stage.$2, size: 20),
+                      child: Icon(stage.$2, color: stage.$4 ? AppColors.success : stage.$3, size: 20),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       stage.$1,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.outfit(
-                        color: stage.$3 ? AppColors.success : AppColors.textSecondaryDark,
+                        color: stage.$4 ? AppColors.success : AppColors.textSecondaryDark,
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
                       ),

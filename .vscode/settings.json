@@ -1,4 +1,5 @@
 {
-    "cmake.ignoreCMakeListsMissing": true,
-    "git.ignoreLimitWarning": true
+  "cmake.ignoreCMakeListsMissing": true,
+  "git.ignoreLimitWarning": true,
+  "java.configuration.updateBuildConfiguration": "automatic"
 }
