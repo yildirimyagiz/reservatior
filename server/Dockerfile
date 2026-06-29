@@ -15,8 +15,8 @@ RUN bun install --frozen-lockfile
 # ── Build ───────────────────────────────────────────────────────────────────
 FROM deps AS builder
 COPY . .
-# Skip Prisma generate during build - do it at runtime instead
-# This prevents build timeouts with large schemas
+# Generate Prisma client and prismabox schemas during build
+RUN bun run db:generate
 
 # ── Production runner ────────────────────────────────────────────────────────
 FROM oven/bun:1-alpine AS runner
@@ -32,6 +32,7 @@ ENV NODE_ENV=production
 COPY --from=builder --chown=elysia:elysia /app/node_modules ./node_modules
 COPY --from=builder --chown=elysia:elysia /app/prisma      ./prisma
 COPY --from=builder --chown=elysia:elysia /app/src         ./src
+COPY --from=builder --chown=elysia:elysia /app/generated   ./generated
 COPY --from=builder --chown=elysia:elysia /app/package.json ./
 
 # Switch to non-root user
