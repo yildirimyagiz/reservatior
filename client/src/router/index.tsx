@@ -346,8 +346,8 @@ export const router = createBrowserRouter([
   {
     element: <PublicLayout />,
     children: [
-      { path: "/",                       element: <Home /> },
-      { path: "/ai-search",              element: <HomeChat /> },
+      { path: "/",                       element: <HomeChat /> },
+      { path: "/ai-search",              element: <Home /> },
       { path: "/trust",                  element: <TrustCenter /> },
       { path: "/hospitality-standards",  element: <HospitalityStandards /> },
       { path: "/short-term-rental-safety", element: <ShortTermRentalSafety /> },
