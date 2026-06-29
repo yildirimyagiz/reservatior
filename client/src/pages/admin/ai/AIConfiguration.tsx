@@ -245,6 +245,16 @@ export default function AIConfiguration() {
     toast
   } = useToast();
   const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
   const [workflows, setWorkflows] = useState<AIWorkflow[]>(MOCK_WORKFLOWS);
   const [services, setServices] = useState<AIService[]>(MOCK_SERVICES);
   const [activeTab, setActiveTab] = useState("models");

@@ -1,5 +1,5 @@
 async function main() {
-  const API_URL = 'http://localhost:3005/api/v1';
+  const API_URL = 'http://localhost:3000/api/v1';
 
   async function login() {
     try {

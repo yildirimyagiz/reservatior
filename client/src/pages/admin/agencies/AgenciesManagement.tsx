@@ -1,3 +1,5 @@
+import { useToast } from "@/hooks/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
@@ -15,7 +17,36 @@ const AgenciesManagement = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [newAgency, setNewAgency] = useState({ name: '', email: '', phoneNumber: '' });
+  const [newAgency, setNewAgency] = useState<any>({ name: '', email: '', phoneNumber: '', status: 'ACTIVE', website: '' });
+  const { toast } = useToast();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => {
+      return api.put(`/agency/${editingId}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-agencies'] });
+      setIsEditModalOpen(false);
+      setEditingId(null);
+      setNewAgency({ name: '', email: '', phoneNumber: '', status: 'ACTIVE', website: '' });
+      toast({ title: "Success", description: "Agency updated successfully" });
+    }
+  });
+
+  const handleEditClick = (agency: any) => {
+    setEditingId(agency.id);
+    setNewAgency({
+      name: agency.name || '',
+      email: agency.email || '',
+      phoneNumber: agency.phoneNumber || '',
+      status: agency.status || 'ACTIVE',
+      website: agency.website || ''
+    });
+    setIsEditModalOpen(true);
+  };
+
 
   const { data: agenciesRes, isLoading } = useQuery({
     queryKey: ['admin-agencies'],
@@ -112,6 +143,31 @@ const AgenciesManagement = () => {
                     onChange={e => setNewAgency({...newAgency, phoneNumber: e.target.value})}
                   />
                 </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="website">Website</Label>
+                  <Input 
+                    id="website" 
+                    className="bg-white/5 border-white/10" 
+                    value={newAgency.website || ''}
+                    onChange={e => setNewAgency({...newAgency, website: e.target.value})}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Status</Label>
+                  <Select value={newAgency.status} onValueChange={v => setNewAgency({...newAgency, status: v})}>
+                    <SelectTrigger className="bg-white/5 border-white/10">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-slate-900 border-white/10 text-white">
+                      <SelectItem value="PENDING">Pending</SelectItem>
+                      <SelectItem value="ACTIVE">Active</SelectItem>
+                      <SelectItem value="INACTIVE">Inactive</SelectItem>
+                      <SelectItem value="SUSPENDED">Suspended</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="pt-4 flex justify-end gap-2">
                   <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
                   <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={createMutation.isPending}>
@@ -121,6 +177,47 @@ const AgenciesManagement = () => {
               </form>
             </DialogContent>
           </Dialog>
+
+          <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+              <DialogHeader>
+                <DialogTitle>{t("admin.agencies.edit", "Edit Agency")}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={(e) => { e.preventDefault(); updateMutation.mutate(newAgency); }} className="space-y-4 pt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-name">Agency Name</Label>
+                  <Input id="edit-name" className="bg-white/5 border-white/10" value={newAgency.name} onChange={e => setNewAgency({...newAgency, name: e.target.value})} required />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-email">Email</Label>
+                  <Input id="edit-email" type="email" className="bg-white/5 border-white/10" value={newAgency.email} onChange={e => setNewAgency({...newAgency, email: e.target.value})} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-phoneNumber">Phone Number</Label>
+                  <Input id="edit-phoneNumber" className="bg-white/5 border-white/10" value={newAgency.phoneNumber} onChange={e => setNewAgency({...newAgency, phoneNumber: e.target.value})} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Status</Label>
+                  <Select value={newAgency.status} onValueChange={v => setNewAgency({...newAgency, status: v})}>
+                    <SelectTrigger className="bg-white/5 border-white/10"><SelectValue placeholder="Select status" /></SelectTrigger>
+                    <SelectContent className="bg-slate-900 border-white/10 text-white">
+                      <SelectItem value="PENDING">Pending</SelectItem>
+                      <SelectItem value="ACTIVE">Active</SelectItem>
+                      <SelectItem value="INACTIVE">Inactive</SelectItem>
+                      <SelectItem value="SUSPENDED">Suspended</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="pt-4 flex justify-end gap-2">
+                  <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+                  <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={updateMutation.isPending}>
+                    {updateMutation.isPending ? "Saving..." : "Update Agency"}
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+
         </div>
       </div>
 
@@ -196,9 +293,7 @@ const AgenciesManagement = () => {
                         </span>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
-                          <Edit className="w-4 h-4" />
-                        </Button>
+                        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white" onClick={() => handleEditClick(a)}><Edit className="w-4 h-4" /></Button>
                         <Button 
                           variant="ghost" 
                           size="icon" 

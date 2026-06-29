@@ -14,19 +14,19 @@ export interface InvestorPortfolio {
 export const investorsApi = {
   // Portfolios
   getPortfolios: (params?: { userId?: string }) =>
-    apiClient.get("/investors/portfolios", params),
-  getPortfolioById: (id: string) => apiClient.get(`/investors/portfolios/${id}`),
-  createPortfolio: (data: Partial<InvestorPortfolio>) => apiClient.post("/investors/portfolios", data),
-  updatePortfolio: (id: string, data: Partial<InvestorPortfolio>) => apiClient.patch(`/investors/portfolios/${id}`, data),
-  deletePortfolio: (id: string) => apiClient.delete(`/investors/portfolios/${id}`),
+    apiClient.get("/investor-portfolios", params),
+  getPortfolioById: (id: string) => apiClient.get(`/investor-portfolios/${id}`),
+  createPortfolio: (data: Partial<InvestorPortfolio>) => apiClient.post("/investor-portfolios", data),
+  updatePortfolio: (id: string, data: Partial<InvestorPortfolio>) => apiClient.patch(`/investor-portfolios/${id}`, data),
+  deletePortfolio: (id: string) => apiClient.delete(`/investor-portfolios/${id}`),
 
   // Portfolio Properties
   addPropertyToPortfolio: (portfolioId: string, data: any) =>
-    apiClient.post(`/investors/portfolios/${portfolioId}/properties`, data),
+    apiClient.post(`/investor-portfolios/${portfolioId}/properties`, data),
   removePropertyFromPortfolio: (portfolioId: string, propertyId: string) =>
-    apiClient.delete(`/investors/portfolios/${portfolioId}/properties/${propertyId}`),
+    apiClient.delete(`/investor-portfolios/${portfolioId}/properties/${propertyId}`),
 
   // Analytics
   getPortfolioAnalytics: (portfolioId: string) =>
-    apiClient.get(`/investors/portfolios/${portfolioId}/analytics`),
+    apiClient.get(`/investor-portfolios/${portfolioId}/analytics`),
 };

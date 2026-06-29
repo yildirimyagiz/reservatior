@@ -131,6 +131,16 @@ export default function CommunicationTemplates() {
     toast
   } = useToast();
   const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
   const [templateDialogOpen, setTemplateDialogOpen] = useState(false);
   const [testDialogOpen, setTestDialogOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<CommunicationTemplate | null>(null);

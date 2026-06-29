@@ -1,3 +1,4 @@
+import 'package:reservatior/features/admin/dynamic/dynamic_admin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,6 @@ import 'package:reservatior/shared/providers/exchange_rate_provider.dart';
 import 'package:reservatior/shared/providers/document_analysis_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:reservatior/features/client/financial/presentation/screens/escrow_overview_screen.dart';
 import 'package:reservatior/shared/providers/theme_provider.dart';
 import 'package:reservatior/shared/providers/system_trigger_provider.dart';
 import 'package:reservatior/shared/services/sse_trigger_service.dart';
@@ -1032,7 +1032,7 @@ class DashboardScreen extends ConsumerWidget {
             colors,
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const EscrowOverviewScreen()),
+              MaterialPageRoute(builder: (_) => DynamicAdminScreen(modelName: 'EscrowOverview')),
             ),
           ),
           const SizedBox(height: 20),

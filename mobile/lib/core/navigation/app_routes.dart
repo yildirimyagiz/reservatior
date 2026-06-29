@@ -1,3 +1,4 @@
+import 'package:reservatior/features/admin/dynamic/dynamic_admin_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reservatior/core/navigation/role_based_router.dart';
@@ -8,7 +9,6 @@ import 'package:reservatior/features/auth/presentation/screens/login_screen.dart
 import 'package:reservatior/features/client/home/presentation/screens/home_screen.dart';
 import 'package:reservatior/shared/models/property.dart';
 import 'package:reservatior/features/client/booking/presentation/screens/checkout_screen.dart';
-import 'package:reservatior/features/admin/escrow/presentation/screens/escrow_dashboard_screen.dart';
 
 class AppRoutes {
   static const String splash = '/splash';
@@ -232,7 +232,7 @@ class AppRoutes {
           // Generated Admin Routes
           GoRoute(
             path: '/admin/escrow',
-            builder: (context, state) => const EscrowDashboardScreen(),
+            builder: (context, state) => DynamicAdminScreen(modelName: 'Escrow'),
           ),
           GoRoute(
             path: adminAccount,

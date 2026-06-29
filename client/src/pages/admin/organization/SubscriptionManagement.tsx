@@ -62,6 +62,22 @@ interface Subscription {
   };
 }
 export default function SubscriptionManagement() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/subscriptionmanagement/${data.id}`, data),
+    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/subscriptionmanagement/${id}`),
+    onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
   const {
     t
   } = useTranslation();
@@ -74,9 +90,6 @@ export default function SubscriptionManagement() {
   const [selectedSubscription, setSelectedSubscription] = useState<OrgSubscription | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const {
-    toast
-  } = useToast();
   const [createData, setCreateData] = useState({
     orgId: '',
     planId: '',

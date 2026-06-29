@@ -528,6 +528,168 @@ export const adminRoutes = new Elysia({ prefix: "/admin" })
     };
   }, { beforeHandle: hasPermission("USERS_MANAGE") })
 
+  // GET /admin/users/permissions
+  .get("/users/permissions", async () => {
+    const users = await prisma.user.findMany({
+      include: {
+        memberships: {
+          include: {
+            role: {
+              include: {
+                permissions: {
+                  include: { permission: true }
+                }
+              }
+            }
+          }
+        }
+      },
+      where: { deletedAt: null },
+      take: 100
+    });
+
+    const mappedPermissions = users.map(user => {
+      const allPermissions = new Set<string>();
+      let primaryRole = "USER";
+      
+      user.memberships.forEach(membership => {
+        if (membership.role) {
+          primaryRole = membership.role.name;
+          membership.role.permissions.forEach(rp => {
+            allPermissions.add(rp.permission.name);
+          });
+        }
+      });
+
+      return {
+        id: user.id,
+        userId: user.id,
+        userName: user.name || "Unknown",
+        userEmail: user.email,
+        role: primaryRole,
+        permissions: [{ module: "SYSTEM", actions: Array.from(allPermissions) }],
+        grantedBy: "System",
+        grantedAt: user.createdAt.toISOString(),
+        isActive: !user.deletedAt,
+        restrictions: { ipWhitelist: [], timeRestrictions: [], locationRestrictions: [] }
+      };
+    });
+
+    return { data: mappedPermissions };
+  })
+
+  // GET /admin/users/preferences
+  .get("/users/preferences", async () => {
+    const preferences = await prisma.userPreference.findMany({
+      include: { user: true },
+      take: 100
+    });
+    
+    const mappedPreferences = preferences.map(pref => ({
+      id: pref.id,
+      userId: pref.userId,
+      userName: pref.user.name || "Unknown",
+      category: "UI",
+      settings: {
+        theme: pref.theme === "dark" ? "DARK" : "LIGHT",
+        language: pref.language,
+        timezone: pref.timezone,
+        dateFormat: pref.dateFormat,
+        currency: pref.currency,
+        emailNotifications: pref.emailNotifications,
+        pushNotifications: pref.pushNotifications,
+        smsNotifications: false,
+        twoFactorEnabled: pref.twoFactorEnabled,
+        sessionTimeout: 30,
+        autoLock: true,
+        fontSize: "MEDIUM",
+        highContrast: false,
+        screenReader: false
+      },
+      devicePreferences: [],
+      updatedAt: pref.updatedAt.toISOString(),
+      updatedBy: "System"
+    }));
+
+    return { data: mappedPreferences };
+  })
+
+  // GET /admin/users/roles
+  .get("/users/roles", async () => {
+    const roles = await prisma.role.findMany({
+      include: {
+        _count: { select: { members: true } },
+        permissions: { include: { permission: true } }
+      },
+      where: { deletedAt: null },
+      take: 100
+    });
+
+    const mappedRoles = roles.map(role => ({
+      id: role.id,
+      name: role.name,
+      description: role.key,
+      level: 50,
+      permissions: role.permissions.map(p => p.permission.name),
+      userCount: role._count.members,
+      isActive: !role.deletedAt,
+      createdAt: role.createdAt.toISOString(),
+      systemRole: true
+    }));
+
+    return { data: mappedRoles };
+  })
+
+  // GET /admin/users/access-logs
+  .get("/users/access-logs", async () => {
+    const logs = await prisma.auditLog.findMany({
+      where: { action: { in: ["LOGIN", "SESSION_START"] } },
+      include: { user: true },
+      orderBy: { createdAt: "desc" },
+      take: 100
+    });
+
+    const mappedLogs = logs.map(log => ({
+      id: log.id,
+      userId: log.userId || "unknown",
+      userName: log.user?.name || "System User",
+      action: log.action,
+      resource: log.entityType,
+      ipAddress: log.ipAddress || "Unknown",
+      userAgent: log.userAgent || "Unknown",
+      location: { country: "Unknown", city: "Unknown" },
+      timestamp: log.createdAt.toISOString(),
+      success: true,
+      sessionId: log.sessionId || "unknown"
+    }));
+
+    return { data: mappedLogs };
+  })
+
+  // GET /admin/users/security-alerts
+  .get("/users/security-alerts", async () => {
+    const alerts = await prisma.auditLog.findMany({
+      where: { action: { in: ["FAILED_LOGIN", "SUSPICIOUS_ACTIVITY", "PERMISSION_ESCALATION"] } },
+      include: { user: true },
+      orderBy: { createdAt: "desc" },
+      take: 100
+    });
+
+    const mappedAlerts = alerts.map(alert => ({
+      id: alert.id,
+      userId: alert.userId || "unknown",
+      userName: alert.user?.name || "System User",
+      type: alert.action,
+      severity: "MEDIUM",
+      description: `Security event: ${alert.action} on ${alert.entityType}`,
+      ipAddress: alert.ipAddress || "Unknown",
+      timestamp: alert.createdAt.toISOString(),
+      status: "OPEN"
+    }));
+
+    return { data: mappedAlerts };
+  })
+
   // GET /admin/users/:userId - Enhanced user details
   .get("/users/:userId", async ({ params, set }: { params: any; set: any }) => {
     const user = await prisma.user.findUnique({ 

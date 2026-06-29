@@ -8,10 +8,57 @@ import { Button } from "@/components/ui/button";
 import { financialsApi, type Mortgage } from "@/lib/api/financials";
 import { propertiesApi, type Property } from "@/lib/api/properties";
 import { Building2, Landmark, Calendar, Percent, Plus, RefreshCw, Loader2, Info } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+
 export default function Mortgages() {
-  const {
-    t
-  } = useTranslation();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
+  const { t } = useTranslation();
+  const [isAddOpen, setIsAddOpen] = useState(false);
+
+          const [newMortgage, setNewMortgage] = useState({
+            propertyId: '',
+            lender: '',
+            principal: '',
+            interestRate: '',
+            startDate: '',
+            status: 'ACTIVE'
+          });
+
+          const createMutation = useMutation({
+            mutationFn: async (data: any) => {
+              return financialsApi.createMortgage({
+                ...data,
+                principal: parseFloat(data.principal),
+                interestRate: parseFloat(data.interestRate),
+                startDate: new Date(data.startDate).toISOString()
+              });
+            },
+            onSuccess: () => {
+              setIsAddOpen(false);
+              fetchData();
+              toast({ title: "Success", description: "Mortgage created successfully" });
+            },
+            onError: (err: any) => {
+              toast({ title: "Error", description: err.message || "Failed to create mortgage", variant: "destructive" });
+            }
+          });
+        
   const [mortgages, setMortgages] = useState<Mortgage[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,8 +114,72 @@ export default function Mortgages() {
   return <PageShell title={t("admin.financial.property_mortgages")} description={t("admin.financial.track_and_manage_property")} actions={<div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
             <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin.financial.refresh")}</Button>
-          <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-            <Plus className="w-4 h-4 mr-2" />{t("admin.financial.add_mortgage")}</Button>
+          
+                <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <Plus className="w-4 h-4 mr-2" />{t("admin.financial.add_mortgage")}</Button>
+                  </DialogTrigger>
+                  
+          <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
+            <DialogHeader>
+              <DialogTitle>Add New Mortgage</DialogTitle>
+              <DialogDescription>
+                Register a new mortgage for a property mapping to the backend.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="propertyId" className="text-right text-xs">Property</Label>
+                <Select value={newMortgage.propertyId} onValueChange={(v) => setNewMortgage({...newMortgage, propertyId: v})}>
+                  <SelectTrigger className="col-span-3 h-10">
+                    <SelectValue placeholder="Select Property" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {properties.map(p => (
+                      <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="lender" className="text-right text-xs">Lender Bank</Label>
+                <Input id="lender" className="col-span-3 h-10" value={newMortgage.lender} onChange={e => setNewMortgage({...newMortgage, lender: e.target.value})} placeholder="e.g. Chase Bank" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="principal" className="text-right text-xs">Principal ($)</Label>
+                <Input id="principal" type="number" className="col-span-3 h-10" value={newMortgage.principal} onChange={e => setNewMortgage({...newMortgage, principal: e.target.value})} placeholder="450000" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="interestRate" className="text-right text-xs">Interest Rate (%)</Label>
+                <Input id="interestRate" type="number" step="0.1" className="col-span-3 h-10" value={newMortgage.interestRate} onChange={e => setNewMortgage({...newMortgage, interestRate: e.target.value})} placeholder="4.5" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="startDate" className="text-right text-xs">Start Date</Label>
+                <Input id="startDate" type="date" className="col-span-3 h-10" value={newMortgage.startDate} onChange={e => setNewMortgage({...newMortgage, startDate: e.target.value})} />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="status" className="text-right text-xs">Status</Label>
+                <Select value={newMortgage.status} onValueChange={(v) => setNewMortgage({...newMortgage, status: v})}>
+                  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Status" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ACTIVE">Active</SelectItem>
+                    <SelectItem value="PAID_OFF">Paid Off</SelectItem>
+                    <SelectItem value="REFINANCED">Refinanced</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+              <Button onClick={() => createMutation.mutate(newMortgage)} disabled={createMutation.isPending}>
+                {createMutation.isPending ? "Saving..." : "Add Mortgage"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+                
+                </Dialog>
+              
         </div>}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <Card className="shadow-sm border-muted">
@@ -114,7 +225,7 @@ export default function Mortgages() {
                     <span>{t("admin.financial.loading_mortgage_data")}</span>
                   </div>
                 </TableCell>
-              </TableRow> : mortgages.map(mort => <TableRow key={mort.id} className="hover:bg-muted/40 transition-colors">
+              </TableRow> : mortgages.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin.financial.no_mortgages_found", "No mortgages found")}</TableCell></TableRow> : mortgages.map(mort => <TableRow key={mort.id} className="hover:bg-muted/40 transition-colors">
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Building2 className="w-4 h-4 text-primary" />

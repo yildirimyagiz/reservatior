@@ -13,6 +13,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { notificationTemplatesApi } from "@/lib/api/notification-templates";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api";
+import { MoreHorizontal } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const CHANNELS = ["EMAIL", "SMS", "IN_APP", "PUSH", "WHATSAPP", "SLACK", "TEAMS"];
 
@@ -27,8 +31,23 @@ const EMPTY_FORM = {
 };
 
 export default function NotificationTemplates() {
-  const { t } = useTranslation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/notificationtemplates/${data.id}`, data),
+    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/notificationtemplates/${id}`),
+    onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+  const { t } = useTranslation();
   const [templates, setTemplates] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -38,8 +57,6 @@ export default function NotificationTemplates() {
   const [createOpen, setCreateOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [form, setForm] = useState<any>(EMPTY_FORM);
-  const [editingId, setEditingId] = useState<string | null>(null);
-
   const load = useCallback(async () => {
     setLoading(true);
     try {
@@ -217,7 +234,7 @@ export default function NotificationTemplates() {
                   <TableCell colSpan={5} className="text-center py-8 text-gray-500">
                     {loading ? t("admin.system.loading") : t("admin.system.no_templates")}
                   </TableCell>
-                </TableRow>
+                  </TableRow>
               ) : templates.map((tmpl: any) => (
                 <TableRow key={tmpl.id}>
                   <TableCell className="font-medium">{tmpl.name}</TableCell>
@@ -238,7 +255,7 @@ export default function NotificationTemplates() {
                       </Button>
                     </div>
                   </TableCell>
-                </TableRow>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>

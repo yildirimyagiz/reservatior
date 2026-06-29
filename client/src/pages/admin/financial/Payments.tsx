@@ -47,12 +47,24 @@ const STATUS_CONFIG = (t: any) => {
   };
 };
 export default function Payments() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
+  
+  
+    
   const {
     t
   } = useTranslation();
-  const {
-    toast
-  } = useToast();
   const statusConfig = STATUS_CONFIG(t);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -60,8 +72,6 @@ export default function Payments() {
   const [createOpen, setCreateOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
-  const queryClient = useQueryClient();
-
   const { data: paymentsData, isLoading: loading } = useQuery({
     queryKey: ['adminPayments'],
     queryFn: async () => {

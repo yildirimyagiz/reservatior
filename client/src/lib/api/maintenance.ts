@@ -32,14 +32,14 @@ export interface MaintenanceBlock {
 export const maintenanceApi = {
   // Work Orders
   getWorkOrders: (params?: { orgId?: string; propertyId?: string; status?: string; priority?: string }) =>
-    apiClient.get("/maintenance/work-orders", params),
-  getWorkOrderById: (id: string) => apiClient.get(`/maintenance/work-orders/${id}`),
-  createWorkOrder: (data: Partial<MaintenanceWorkOrder>) => apiClient.post("/maintenance/work-orders", data),
-  updateWorkOrder: (id: string, data: Partial<MaintenanceWorkOrder>) => apiClient.patch(`/maintenance/work-orders/${id}`, data),
+    apiClient.get("/maintenance-work-orders", params),
+  getWorkOrderById: (id: string) => apiClient.get(`/maintenance-work-orders/${id}`),
+  createWorkOrder: (data: Partial<MaintenanceWorkOrder>) => apiClient.post("/maintenance-work-orders", data),
+  updateWorkOrder: (id: string, data: Partial<MaintenanceWorkOrder>) => apiClient.patch(`/maintenance-work-orders/${id}`, data),
 
   // Blocks
   getBlocks: (params?: { orgId?: string; propertyId?: string; listingId?: string }) =>
-    apiClient.get("/maintenance/blocks", params),
-  createBlock: (data: Partial<MaintenanceBlock>) => apiClient.post("/maintenance/blocks", data),
-  deleteBlock: (id: string) => apiClient.delete(`/maintenance/blocks/${id}`),
+    apiClient.get("/maintenance-blocks", params),
+  createBlock: (data: Partial<MaintenanceBlock>) => apiClient.post("/maintenance-blocks", data),
+  deleteBlock: (id: string) => apiClient.delete(`/maintenance-blocks/${id}`),
 };

@@ -14,9 +14,9 @@ export async function handleDocumentExpiry(data: any) {
     const affectedProperties = await prisma.property.findMany({
       where: {
         orgId,
-        status: "AVAILABLE"
+        listingStatus: "AVAILABLE"
       },
-      select: { id: true, title: true }
+      select: { id: true, name: true }
     });
 
     if (affectedProperties.length === 0) {
@@ -30,7 +30,7 @@ export async function handleDocumentExpiry(data: any) {
         id: { in: affectedProperties.map((p) => p.id) },
         orgId
       },
-      data: { status: "SUSPENDED" }
+      data: { listingStatus: "MAINTENANCE" }
     });
 
     // Log to activity log

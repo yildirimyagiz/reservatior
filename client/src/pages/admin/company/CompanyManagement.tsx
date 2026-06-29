@@ -13,6 +13,11 @@ import { Building, Users, FileText, CheckCircle, AlertTriangle, Clock, DollarSig
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api/client";
+
 interface CompanyDocument {
   id: string;
   name: string;
@@ -44,9 +49,45 @@ interface TeamMember {
   status: 'ACTIVE' | 'ON_LEAVE' | 'TERMINATED';
 }
 export default function CompanyManagement() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/organization/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
+  
+  
+    
+    const [isAddOpen, setIsAddOpen] = useState(false);
   const {
     t
   } = useTranslation();
+
+            const [newOrg, setNewOrg] = useState({
+              name: '',
+              type: 'OWNER_PORTFOLIO',
+              region: 'GLOBAL'
+            });
+
+            const createMutation = useMutation({
+              mutationFn: async (data: any) => {
+                return apiClient.post('/api/v1/organization', data);
+              },
+              onSuccess: () => {
+                setIsAddOpen(false);
+                toast({ title: "Success", description: "Organization created successfully" });
+              },
+              onError: (err: any) => {
+                toast({ title: "Error", description: err.message || "Failed to create organization", variant: "destructive" });
+              }
+            });
+          
   const [activeTab, setActiveTab] = useState<'overview' | 'documents' | 'milestones' | 'team'>('overview');
   const [documents, setDocuments] = useState<CompanyDocument[]>([{
     id: "doc_001",
@@ -160,9 +201,6 @@ export default function CompanyManagement() {
     joinDate: "2026-03-15T00:00:00Z",
     status: "ACTIVE"
   }]);
-  const {
-    toast
-  } = useToast();
   const getDocumentStatusColor = (status: string) => {
     switch (status) {
       case 'APPROVED':
@@ -370,8 +408,64 @@ export default function CompanyManagement() {
               <CardHeader className="flex items-center justify-between">
                 <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
                   <FileText className="w-5 h-5 text-orange-500" />{t("admin.company.company_documents")}</CardTitle>
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-500">
-                  <Plus className="w-4 h-4 mr-2" />{t("admin.company.upload_document")}</Button>
+                
+                                <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+                                  <DialogTrigger asChild>
+                                    <Button size="sm" className="bg-blue-600 hover:bg-blue-500">
+                                        <Plus className="w-4 h-4 mr-2" />{t("admin.company.upload_document")}</Button>
+                                  </DialogTrigger>
+                                  
+                          <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
+                            <DialogHeader>
+                              <DialogTitle>Create New Organization</DialogTitle>
+                              <DialogDescription>
+                                Register a new organization (company, agency, vendor) mapped to the backend.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="text-right text-xs">Org Name</Label>
+                                <Input id="name" className="col-span-3 h-10" value={newOrg.name} onChange={e => setNewOrg({...newOrg, name: e.target.value})} placeholder="Acme Corporation" />
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="type" className="text-right text-xs">Org Type</Label>
+                                <Select value={newOrg.type} onValueChange={(v) => setNewOrg({...newOrg, type: v})}>
+                                  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Type" /></SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="OWNER_PORTFOLIO">Owner Portfolio</SelectItem>
+                                    <SelectItem value="VENDOR_PM">Vendor PM</SelectItem>
+                                    <SelectItem value="AGENCY">Agency</SelectItem>
+                                    <SelectItem value="ACCOUNTING_FIRM">Accounting Firm</SelectItem>
+                                    <SelectItem value="PUBLIC_ENTITY">Public Entity</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="region" className="text-right text-xs">Region</Label>
+                                <Select value={newOrg.region} onValueChange={(v) => setNewOrg({...newOrg, region: v})}>
+                                  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Region" /></SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="GLOBAL">Global</SelectItem>
+                                    <SelectItem value="TR">Turkey</SelectItem>
+                                    <SelectItem value="USA">USA</SelectItem>
+                                    <SelectItem value="UK">UK</SelectItem>
+                                    <SelectItem value="UAE">UAE</SelectItem>
+                                    <SelectItem value="FR">France</SelectItem>
+                                    <SelectItem value="DE">Germany</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            </div>
+                            <DialogFooter>
+                              <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+                              <Button onClick={() => createMutation.mutate(newOrg)} disabled={createMutation.isPending || !newOrg.name}>
+                                {createMutation.isPending ? "Saving..." : "Create Organization"}
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                                
+                                </Dialog>
+                              
               </CardHeader>
               <CardContent className="space-y-4">
                 {documents.map(document => <motion.div key={document.id} initial={{

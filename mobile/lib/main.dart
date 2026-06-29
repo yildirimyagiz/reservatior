@@ -1,3 +1,4 @@
+import 'package:reservatior/features/admin/dynamic/dynamic_admin_screen.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -45,47 +46,49 @@ import 'package:reservatior/features/navigation/presentation/screens/not_found_s
 
 import 'package:reservatior/more.dart';
 import 'package:reservatior/features/admin/admin_hub_screen.dart';
-import 'package:reservatior/features/client/marketplace/presentation/pages/marketplace_page.dart';
+// missing import removed: features/client/marketplace/presentation/pages/marketplace_page.dart
 
 // Feature Admin Pages
 import 'package:reservatior/features/client/property/presentation/pages/property_admin_page.dart';
-import 'package:reservatior/features/client/agent/presentation/pages/agent_admin_page.dart';
+// missing import removed: features/client/agent/presentation/pages/agent_admin_page.dart
 import 'package:reservatior/features/client/booking/presentation/pages/neural_booking_center.dart';
 import 'package:reservatior/features/settings/presentation/pages/settings_page.dart';
 import 'package:reservatior/features/client/notification/presentation/screens/notifications_screen.dart';
-import 'package:reservatior/features/client/lease/presentation/screens/leasecare_screen.dart';
-import 'package:reservatior/features/client/property_valuation/presentation/pages/property_valuation_list_page.dart';
+// missing import removed: features/client/lease/presentation/screens/leasecare_screen.dart
 import 'package:reservatior/features/client/video_content/presentation/pages/video_recording_studio_page.dart';
 import 'package:reservatior/features/client/property/presentation/screens/property_details_screen.dart';
 
 // New Feature Screens
 import 'package:reservatior/features/client/message/presentation/screens/messages_screen.dart';
 import 'package:reservatior/features/settings/presentation/screens/profile_screen.dart';
-import 'package:reservatior/features/client/user_activity_log/presentation/screens/activity_tracking_screen.dart';
-import 'package:reservatior/features/client/event/presentation/screens/events_screen.dart';
-import 'package:reservatior/features/client/document/presentation/screens/file_management_screen.dart';
-import 'package:reservatior/features/client/ai_model/presentation/screens/ai_studio_screen.dart';
-import 'package:reservatior/features/client/ai_recommendation/presentation/screens/ai_recommendations_screen.dart';
-import 'package:reservatior/features/client/deal/presentation/screens/deals_screen.dart';
-import 'package:reservatior/features/client/communication_log/presentation/screens/communication_center_screen.dart';
-import 'package:reservatior/features/client/financial_record/presentation/screens/financial_dashboard_screen.dart';
-import 'package:reservatior/features/client/calendar_event/presentation/screens/calendar_today_screen.dart';
-import 'package:reservatior/features/client/ticket/presentation/screens/support_screen.dart';
-import 'package:reservatior/features/client/api_integration/presentation/screens/integrations_screen.dart';
-import 'package:reservatior/features/client/organization/presentation/screens/organization_screen.dart';
-import 'package:reservatior/features/client/dashboard_widget/presentation/screens/dashboard_widgets_screen.dart';
-import 'package:reservatior/features/client/contact/presentation/screens/contact_screen.dart';
-import 'package:reservatior/features/client/plan/presentation/screens/pricing_screen.dart';
+// missing import removed: features/client/user_activity_log/presentation/screens/activity_tracking_screen.dart
+// missing import removed: features/client/document/presentation/screens/file_management_screen.dart
+// missing import removed: features/client/ai_recommendation/presentation/screens/ai_recommendations_screen.dart
+// missing import removed: features/client/communication_log/presentation/screens/communication_center_screen.dart
+// missing import removed: features/client/calendar_event/presentation/screens/calendar_today_screen.dart
+// missing import removed: features/client/api_integration/presentation/screens/integrations_screen.dart
+// missing import removed: features/client/dashboard_widget/presentation/screens/dashboard_widgets_screen.dart
+// missing import removed: features/client/plan/presentation/screens/pricing_screen.dart
 import 'package:reservatior/features/client/home/presentation/screens/legal_screen.dart';
-import 'package:reservatior/features/client/listing_channel/presentation/screens/channel_distribution_screen.dart';
-import 'package:reservatior/features/client/property_promotion/presentation/screens/listing_doping_screen.dart';
-import 'package:reservatior/features/client/agent/presentation/screens/agent_profile_screen.dart';
-import 'package:reservatior/features/client/escrow_account/presentation/pages/escrow_account_admin_page.dart';
-import 'package:reservatior/features/client/compliance_record/presentation/pages/compliance_record_admin_page.dart';
+// missing import removed: features/client/listing_channel/presentation/screens/channel_distribution_screen.dart
+// missing import removed: features/client/agent/presentation/screens/agent_profile_screen.dart
+// missing import removed: features/client/compliance_record/presentation/pages/compliance_record_admin_page.dart
 import 'package:reservatior/features/client/listing/presentation/screens/listings_screen.dart';
-import 'package:reservatior/features/client/report/presentation/screens/analytics_screen.dart';
-import 'package:reservatior/features/client/lead/presentation/screens/leads_screen.dart';
-import 'package:reservatior/features/client/property_viewing/presentation/screens/viewings_screen.dart';
+// missing import removed: features/client/report/presentation/screens/analytics_screen.dart
+// missing import removed: features/client/property_viewing/presentation/screens/viewings_screen.dart
+import 'package:reservatior/features/agent_os/presentation/pages/agent_dashboard_page.dart';
+import 'package:reservatior/features/agent_os/presentation/pages/compliance_page.dart';
+import 'package:reservatior/features/agent_os/presentation/pages/verification_page.dart';
+import 'package:reservatior/features/agent_os/presentation/pages/behavioral_scoring_page.dart';
+import 'package:reservatior/features/finance_os/presentation/pages/finance_dashboard_page.dart';
+import 'package:reservatior/features/finance_os/presentation/pages/escrow_vault_page.dart';
+import 'package:reservatior/features/finance_os/presentation/pages/ledger_page.dart';
+import 'package:reservatior/features/finance_os/presentation/pages/payout_page.dart';
+import 'package:reservatior/features/finance_os/presentation/pages/settlement_page.dart';
+import 'package:reservatior/features/admin/contract/contract_state_machine_screen.dart';
+import 'package:reservatior/features/admin/commission/revenue_dag_screen.dart';
+import 'package:reservatior/features/admin/failover/failover_inventory_screen.dart';
+import 'package:reservatior/features/admin/payment_routing/payment_routing_screen.dart';
 
 
 
@@ -229,7 +232,7 @@ final GoRouter _router = GoRouter(
             builder: (context, ref, _) {
               final role = ref.watch(authProvider).user?.role?.toLowerCase();
               final isWorker = ['admin', 'super_admin', 'owner', 'agency_admin', 'agent', 'maintenance'].contains(role);
-              if (isWorker) return const AgentAdminPage();
+              if (isWorker) return DynamicAdminScreen(modelName: 'Agent');
               return Scaffold(body: Center(child: Text('mobile.auto.unauthorized_agent_admin_access_only'.tr())));
             },
           ),
@@ -246,8 +249,8 @@ final GoRouter _router = GoRouter(
           ),
         ),
         GoRoute(path: '/booking-center', builder: (_, __) => const NeuralBookingCenter()),
-        GoRoute(path: '/ai-valuation', builder: (_, __) => const PropertyValuationListPage()),
-        GoRoute(path: '/market-intel', builder: (_, __) => const AiStudioScreen()),
+        GoRoute(path: '/ai-valuation', builder: (_, __) => DynamicAdminScreen(modelName: 'PropertyValuationList')),
+        GoRoute(path: '/market-intel', builder: (_, __) => DynamicAdminScreen(modelName: 'AiStudio')),
         GoRoute(path: '/settings', builder: (_, __) => const SettingsPage()),
         GoRoute(
           path: '/properties', 
@@ -260,7 +263,7 @@ final GoRouter _router = GoRouter(
             },
           ),
         ),
-        GoRoute(path: '/marketplace', builder: (_, __) => const MarketplacePage()),
+        GoRoute(path: '/marketplace', builder: (_, __) => DynamicAdminScreen(modelName: 'Marketplace')),
         GoRoute(
           path: '/properties/:id',
           builder: (context, state) => PropertyDetailsScreen(
@@ -270,34 +273,47 @@ final GoRouter _router = GoRouter(
         GoRoute(path: '/video-recording-studio', builder: (_, __) => const VideoRecordingStudioPage()),
         // New feature routes
         GoRoute(path: '/profile', builder: (_, __) => const ProfileScreen()),
-        GoRoute(path: '/activity', builder: (_, __) => const ActivityTrackingScreen()),
-        GoRoute(path: '/events', builder: (_, __) => const EventsScreen()),
-        GoRoute(path: '/files', builder: (_, __) => const FileManagementScreen()),
-        GoRoute(path: '/ai-studio', builder: (_, __) => const AiStudioScreen()),
-        GoRoute(path: '/ai-recommendations', builder: (_, __) => const AiRecommendationsScreen()),
-        GoRoute(path: '/deals', builder: (_, __) => const DealsScreen()),
-        GoRoute(path: '/communications', builder: (_, __) => const CommunicationCenterScreen()),
-        GoRoute(path: '/financial', builder: (_, __) => const FinancialDashboardScreen()),
-        GoRoute(path: '/escrow', builder: (_, __) => const EscrowAccountAdminPage()),
-        GoRoute(path: '/legal', builder: (_, __) => const ComplianceRecordAdminPage()),
-        GoRoute(path: '/today', builder: (_, __) => const CalendarTodayScreen()),
-        GoRoute(path: '/support', builder: (_, __) => const SupportScreen()),
-        GoRoute(path: '/integrations', builder: (_, __) => const IntegrationsScreen()),
-        GoRoute(path: '/organization', builder: (_, __) => const OrganizationScreen()),
-        GoRoute(path: '/dashboard-widgets', builder: (_, __) => const DashboardWidgetsScreen()),
-        GoRoute(path: '/contact', builder: (_, __) => const ContactScreen()),
-        GoRoute(path: '/pricing', builder: (_, __) => const PricingScreen()),
+        GoRoute(path: '/activity', builder: (_, __) => DynamicAdminScreen(modelName: 'ActivityTracking')),
+        GoRoute(path: '/events', builder: (_, __) => DynamicAdminScreen(modelName: 'Events')),
+        GoRoute(path: '/files', builder: (_, __) => DynamicAdminScreen(modelName: 'FileManagement')),
+        GoRoute(path: '/ai-studio', builder: (_, __) => DynamicAdminScreen(modelName: 'AiStudio')),
+        GoRoute(path: '/ai-recommendations', builder: (_, __) => DynamicAdminScreen(modelName: 'AiRecommendations')),
+        GoRoute(path: '/deals', builder: (_, __) => DynamicAdminScreen(modelName: 'Deals')),
+        GoRoute(path: '/communications', builder: (_, __) => DynamicAdminScreen(modelName: 'CommunicationCenter')),
+        GoRoute(path: '/financial', builder: (_, __) => DynamicAdminScreen(modelName: 'FinancialDashboard')),
+        GoRoute(path: '/escrow', builder: (_, __) => DynamicAdminScreen(modelName: 'EscrowAccount')),
+        GoRoute(path: '/legal', builder: (_, __) => DynamicAdminScreen(modelName: 'ComplianceRecord')),
+        GoRoute(path: '/today', builder: (_, __) => DynamicAdminScreen(modelName: 'CalendarToday')),
+        GoRoute(path: '/support', builder: (_, __) => DynamicAdminScreen(modelName: 'Support')),
+        GoRoute(path: '/integrations', builder: (_, __) => DynamicAdminScreen(modelName: 'Integrations')),
+        GoRoute(path: '/organization', builder: (_, __) => DynamicAdminScreen(modelName: 'Organization')),
+        GoRoute(path: '/dashboard-widgets', builder: (_, __) => DynamicAdminScreen(modelName: 'DashboardWidgets')),
+        GoRoute(path: '/contact', builder: (_, __) => DynamicAdminScreen(modelName: 'Contact')),
+        GoRoute(path: '/pricing', builder: (_, __) => DynamicAdminScreen(modelName: 'Pricing')),
         GoRoute(path: '/privacy', builder: (_, __) => LegalScreen(title: 'mobile.auto.privacy_policy'.tr(), type: 'privacy')),
         GoRoute(path: '/terms', builder: (_, __) => LegalScreen(title: 'mobile.auto.terms_of_service'.tr(), type: 'terms')),
         GoRoute(path: '/trust-center', builder: (_, __) => LegalScreen(title: 'mobile.auto.trust_center'.tr(), type: 'trust')),
-        GoRoute(path: '/channels', builder: (_, __) => const ChannelDistributionScreen()),
-        GoRoute(path: '/listing-promotion', builder: (_, __) => const ListingDopingScreen()),
-        GoRoute(path: '/agent-profile', builder: (_, __) => const AgentProfileScreen()),
+        GoRoute(path: '/channels', builder: (_, __) => DynamicAdminScreen(modelName: 'ChannelDistribution')),
+        GoRoute(path: '/listing-promotion', builder: (_, __) => DynamicAdminScreen(modelName: 'ListingDoping')),
+        GoRoute(path: '/agent-profile', builder: (_, __) => DynamicAdminScreen(modelName: 'AgentProfile')),
         GoRoute(path: '/listings', builder: (_, __) => const ListingsScreen()),
-        GoRoute(path: '/analytics', builder: (_, __) => const AnalyticsScreen()),
-        GoRoute(path: '/leads', builder: (_, __) => const LeadsScreen()),
-        GoRoute(path: '/viewings', builder: (_, __) => const ViewingsScreen()),
-        GoRoute(path: '/leasecare', builder: (_, __) => const LeaseCareScreen()),
+        GoRoute(path: '/analytics', builder: (_, __) => DynamicAdminScreen(modelName: 'Analytics')),
+        GoRoute(path: '/leads', builder: (_, __) => DynamicAdminScreen(modelName: 'Leads')),
+        GoRoute(path: '/viewings', builder: (_, __) => DynamicAdminScreen(modelName: 'Viewings')),
+        GoRoute(path: '/leasecare', builder: (_, __) => DynamicAdminScreen(modelName: 'LeaseCare')),
+        GoRoute(path: '/agent-os', builder: (_, __) => const AgentDashboardPage()),
+        GoRoute(path: '/agent-compliance', builder: (_, __) => const CompliancePage()),
+        GoRoute(path: '/agent-verification', builder: (_, __) => const VerificationPage()),
+        GoRoute(path: '/agent-scoring', builder: (_, __) => const BehavioralScoringPage()),
+        GoRoute(path: '/finance-os', builder: (_, __) => const FinanceDashboardPage()),
+        GoRoute(path: '/finance-escrow', builder: (_, __) => const EscrowVaultPage()),
+        GoRoute(path: '/finance-ledger', builder: (_, __) => const LedgerPage()),
+        GoRoute(path: '/finance-payouts', builder: (_, __) => const PayoutPage()),
+        GoRoute(path: '/finance-settlements', builder: (_, __) => const SettlementPage()),
+        GoRoute(path: '/contract-state-machine', builder: (_, __) => const ContractStateMachineScreen()),
+        GoRoute(path: '/revenue-dag', builder: (_, __) => const RevenueDagScreen()),
+        GoRoute(path: '/failover-engine', builder: (_, __) => const FailoverInventoryScreen()),
+        GoRoute(path: '/payment-routing', builder: (_, __) => const PaymentRoutingScreen()),
         ...getFeatureRoutes(),
       ],
     ),

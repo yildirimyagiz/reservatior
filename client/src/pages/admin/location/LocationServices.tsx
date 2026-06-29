@@ -15,7 +15,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { locationsApi } from "@/lib/api/locations";
-import { Map, MapPin, Navigation, Globe, Layers, Plus, Edit, Eye, Download, RefreshCw, CheckCircle, XCircle, Map as MapIcon, Route, Building, MoreHorizontal, Save, Loader2 } from "lucide-react";
+import { Map, MapPin, Navigation, Globe, Layers, Plus, Edit, Eye, Download, RefreshCw, CheckCircle, XCircle, Route, Building, MoreHorizontal, Save, Loader2 } from "lucide-react";
 interface LocationService {
   id: string;
   name: string;
@@ -198,6 +198,16 @@ export default function LocationServices() {
     toast
   } = useToast();
   const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
   const [services, setServices] = useState<LocationService[]>(MOCK_SERVICES);
   const [geofences, setGeofences] = useState<Geofence[]>(MOCK_GEOFENCES);
   const [activeTab, setActiveTab] = useState("services");

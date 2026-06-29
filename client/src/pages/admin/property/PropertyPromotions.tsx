@@ -43,6 +43,22 @@ interface PropertyPromotion {
   };
 }
 export default function PropertyPromotions() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/propertypromotions/${data.id}`, data),
+    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/propertypromotions/${id}`),
+    onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
   const {
     t
   } = useTranslation();
@@ -51,9 +67,6 @@ export default function PropertyPromotions() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [platformFilter, setPlatformFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const {
-    toast
-  } = useToast();
   const [newPromotion, setNewPromotion] = useState({
     propertyId: '',
     promotionType: 'FEATURED',

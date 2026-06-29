@@ -188,6 +188,16 @@ export default function MobileDeviceManagement() {
     toast
   } = useToast();
   const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
   const [policies, setPolicies] = useState<DevicePolicy[]>(MOCK_POLICIES);
   const [activeTab, setActiveTab] = useState("devices");
   const [selectedDevice, setSelectedDevice] = useState<MobileDevice | null>(null);

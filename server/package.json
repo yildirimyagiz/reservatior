@@ -134,6 +134,7 @@
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
     "slugify": "^1.6.9",
+    "ssh2": "^1.17.0",
     "stripe": "^21.0.0",
     "telegram": "^2.26.22",
     "uuid": "^14.0.0",

@@ -37,15 +37,15 @@ export interface AccessLog {
 export const smartAccessApi = {
   // Lock Management
   getLocks: (propertyId?: string) => 
-    apiClient.get<SmartLock[]>("/smart-access/locks", { propertyId }),
+    apiClient.get<SmartLock[]>("/smart-lock", { propertyId }),
   getLockById: (id: string) => 
-    apiClient.get<SmartLock>(`/smart-access/locks/${id}`),
+    apiClient.get<SmartLock>(`/smart-lock/${id}`),
   updateLock: (id: string, data: Partial<SmartLock>) =>
-    apiClient.patch<SmartLock>(`/smart-access/locks/${id}`, data),
+    apiClient.patch<SmartLock>(`/smart-lock/${id}`, data),
   lockProperty: (id: string) => 
-    apiClient.post(`/smart-access/locks/${id}/lock`),
+    apiClient.post(`/smart-lock/${id}/lock`),
   unlockProperty: (id: string) => 
-    apiClient.post(`/smart-access/locks/${id}/unlock`),
+    apiClient.post(`/smart-lock/${id}/unlock`),
 
   // Access Codes
   getAccessCodes: (lockId: string) => 

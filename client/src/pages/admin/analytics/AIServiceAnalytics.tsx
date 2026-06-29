@@ -1,14 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { PageShell } from "../../client/layout/PageShell";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend, LineChart, Line } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from "recharts";
 import { Brain, TrendingUp, Building2, UserCheck, CalendarCheck, Download, Sparkles, AlertCircle, Camera, Zap, Loader2 } from "lucide-react";
 import { adminNeuralApi, AIServiceStats } from "@/lib/api/admin-neural";
-import { useEffect } from "react";
 const ROI_DATA = [{
   month: "Jan",
   aiStaged: 45,
@@ -71,34 +70,18 @@ export default function AIServiceAnalytics() {
   } = useTranslation();
   const [dateRange, setDateRange] = useState("90d");
   const [serviceFilter, setServiceFilter] = useState("all");
-  const [stats, setStats] = useState<AIServiceStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        setLoading(true);
-        const response = await adminNeuralApi.getServiceStats();
-        if (response) {
-          setStats(response as any);
-        }
-      } catch (error) {
-        console.error("Failed to fetch AI stats:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchStats();
-  }, [dateRange]);
-  if (loading) {
-    return <PageShell title={t("admin.analytics.service_architecture_analytics")} description={t("admin.analytics.loading_neural_hub_data")}>
-        <div className="flex h-[400px] items-center justify-center">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        </div>
-      </PageShell>;
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['aiServiceStats', dateRange],
+    queryFn: () => adminNeuralApi.getServiceStats(),
+  });
+  if (isLoading) {
+    return <div className="flex h-[400px] items-center justify-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>;
   }
-  return <PageShell title={t("admin.analytics.service_architecture_analytics")} description={t("admin.analytics.track_the_conversion_and")}>
-      <div className="space-y-6">
-        {/* Filters */}
+  return <div className="p-6 space-y-6">
+      {/* Filters */}
+      <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
             <Select value={dateRange} onValueChange={setDateRange}>
@@ -127,159 +110,159 @@ export default function AIServiceAnalytics() {
           <Button variant="outline" className="gap-2">
             <Download className="w-4 h-4" />{t("admin.analytics.export_report")}</Button>
         </div>
+      </div>
 
-        {/* Global Impact Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-linear-to-br from-indigo-500/10 via-slate-900 to-slate-900 border-indigo-500/20">
-            <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.total_agencies_using_ai")}</CardTitle>
-              <Building2 className="w-4 h-4 text-indigo-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-foreground">482</div>
-              <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.12_from_last")}{dateRange}</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-linear-to-br from-purple-500/10 via-slate-900 to-slate-900 border-purple-500/20">
-            <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.agent_adoption_rate")}</CardTitle>
-              <UserCheck className="w-4 h-4 text-purple-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-foreground">{stats?.adoptionRate?.toFixed(1)}%</div>
-              <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.82_across_platform")}</p>
-            </CardContent>
-          </Card>
+      {/* Global Impact Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="bg-linear-to-br from-indigo-500/10 via-slate-900 to-slate-900 border-indigo-500/20">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.total_agencies_using_ai")}</CardTitle>
+            <Building2 className="w-4 h-4 text-indigo-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-foreground">482</div>
+            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.12_from_last")}{dateRange}</p>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-linear-to-br from-purple-500/10 via-slate-900 to-slate-900 border-purple-500/20">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.agent_adoption_rate")}</CardTitle>
+            <UserCheck className="w-4 h-4 text-purple-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-foreground">{stats?.adoptionRate?.toFixed(1)}%</div>
+            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.82_across_platform")}</p>
+          </CardContent>
+        </Card>
 
-          <Card className="bg-linear-to-br from-emerald-500/10 via-slate-900 to-slate-900 border-emerald-500/20">
-            <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.total_ai_processes")}</CardTitle>
-              <CalendarCheck className="w-4 h-4 text-emerald-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-foreground">{stats?.totalUsage?.toLocaleString()}</div>
-              <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.global_usage_track")}</p>
-            </CardContent>
-          </Card>
+        <Card className="bg-linear-to-br from-emerald-500/10 via-slate-900 to-slate-900 border-emerald-500/20">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.total_ai_processes")}</CardTitle>
+            <CalendarCheck className="w-4 h-4 text-emerald-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-foreground">{stats?.totalUsage?.toLocaleString()}</div>
+            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.global_usage_track")}</p>
+          </CardContent>
+        </Card>
 
-          <Card className="bg-linear-to-br from-amber-500/10 via-slate-900 to-slate-900 border-amber-500/20">
-            <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.avg_revenue_lift")}</CardTitle>
-              <TrendingUp className="w-4 h-4 text-amber-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-foreground">+{stats?.revenueLift}%</div>
-              <p className="text-xs text-muted-foreground font-bold mt-1">{t("admin.analytics.compared_to_nonai_listings")}</p>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="bg-linear-to-br from-amber-500/10 via-slate-900 to-slate-900 border-amber-500/20">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.avg_revenue_lift")}</CardTitle>
+            <TrendingUp className="w-4 h-4 text-amber-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-foreground">+{stats?.revenueLift}%</div>
+            <p className="text-xs text-muted-foreground font-bold mt-1">{t("admin.analytics.compared_to_nonai_listings")}</p>
+          </CardContent>
+        </Card>
+      </div>
 
-        {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-purple-400" />{t("admin.analytics.booking_revenue_ai_vs")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300} minWidth={0}>
-                <AreaChart data={stats?.conversions}>
-                  <defs>
-                    <linearGradient id="colorStaged" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
-                  <XAxis dataKey="date" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <Tooltip contentStyle={{
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="bg-white/5 border-white/10">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-purple-400" />{t("admin.analytics.booking_revenue_ai_vs")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300} minWidth={0}>
+              <AreaChart data={stats?.conversions}>
+                <defs>
+                  <linearGradient id="colorStaged" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
+                <XAxis dataKey="date" stroke="#94a3b8" />
+                <YAxis stroke="#94a3b8" />
+                <Tooltip contentStyle={{
                   backgroundColor: '#0f172a',
                   borderColor: '#334155'
                 }} itemStyle={{
                   color: '#f8fafc'
                 }} />
-                  <Legend />
-                  <Area type="monotone" dataKey="aiGroup" name={t("admin.analytics.ai_enhanced", "Yapay Zeka Destekli")} stroke="#8b5cf6" fill="url(#colorStaged)" strokeWidth={3} />
-                  <Area type="monotone" dataKey="controlGroup" name={t("admin.analytics.standard", "Standart")} stroke="#64748b" fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+                <Legend />
+                <Area type="monotone" dataKey="aiGroup" name={t("admin.analytics.ai_enhanced", "Yapay Zeka Destekli")} stroke="#8b5cf6" fill="url(#colorStaged)" strokeWidth={3} />
+                <Area type="monotone" dataKey="controlGroup" name={t("admin.analytics.standard", "Standart")} stroke="#64748b" fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="h-5 w-5 text-emerald-400" />{t("admin.analytics.ai_service_roi_breakdown")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300} minWidth={0}>
-                <BarChart data={stats?.roiData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
-                  <XAxis dataKey="name" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <Tooltip contentStyle={{
+        <Card className="bg-white/5 border-white/10">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Brain className="h-5 w-5 text-emerald-400" />{t("admin.analytics.ai_service_roi_breakdown")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300} minWidth={0}>
+              <BarChart data={stats?.roiData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
+                <XAxis dataKey="name" stroke="#94a3b8" />
+                <YAxis stroke="#94a3b8" />
+                <Tooltip contentStyle={{
                   backgroundColor: '#0f172a',
                   borderColor: '#334155'
                 }} />
-                  <Legend />
-                  <Bar dataKey="value" name={t("admin.analytics.roi_score", "ROI Skoru")} fill="#10b981" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Actionable Insights & Handlers */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Zap className="h-5 w-5 text-blue-400" />{t("admin.analytics.ai_service_handlers_performance")}</CardTitle>
-            <CardDescription>{t("admin.analytics.direct_breakdown_of_client")}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-card border-b border-border text-muted-foreground">
-                  <tr>
-                    <th className="p-4 font-semibold rounded-tl-xl">{t("admin.analytics.service_handler")}</th>
-                    <th className="p-4 font-semibold">{t("admin.analytics.processed_properties")}</th>
-                    <th className="p-4 font-semibold">{t("admin.analytics.generated_bookings")}</th>
-                    <th className="p-4 font-semibold">{t("admin.analytics.conversion_lift")}</th>
-                    <th className="p-4 font-semibold rounded-tr-xl">{t("admin.analytics.agent_adoption")}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800">
-                  {stats?.services?.map((row, i) => <tr key={i} className="hover:bg-slate-800/20 transition-colors group">
-                      <td className="p-4 font-medium flex items-center gap-3 text-foreground">
-                        <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-slate-700 transition-colors">
-                          {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-purple-400" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-amber-400" />}
-                        </div>
-                        {row.name}
-                      </td>
-                      <td className="p-4 text-muted-foreground">{row.usage.toLocaleString()}</td>
-                      <td className="p-4 font-bold text-foreground">${row.revenue.toLocaleString()}</td>
-                      <td className="p-4">
-                        <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-                          {row.efficiency.toFixed(1)}{t("admin.analytics.acc")}</Badge>
-                      </td>
-                      <td className="p-4 text-muted-foreground">
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                            <div className="h-full bg-blue-500 rounded-full" style={{
-                          width: `${row.trend * 5}%`
-                        }}></div>
-                          </div>
-                          <span>+{row.trend}%</span>
-                        </div>
-                      </td>
-                    </tr>)}
-                </tbody>
-              </table>
-            </div>
+                <Legend />
+                <Bar dataKey="value" name={t("admin.analytics.roi_score", "ROI Skoru")} fill="#10b981" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
-    </PageShell>;
+
+      {/* Actionable Insights & Handlers */}
+      <Card className="bg-white/5 border-white/10">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Zap className="h-5 w-5 text-blue-400" />{t("admin.analytics.ai_service_handlers_performance")}</CardTitle>
+          <CardDescription>{t("admin.analytics.direct_breakdown_of_client")}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left">
+              <thead className="bg-white/5 border-b border-white/10 text-slate-400">
+                <tr>
+                  <th className="p-4 font-semibold rounded-tl-xl">{t("admin.analytics.service_handler")}</th>
+                  <th className="p-4 font-semibold">{t("admin.analytics.processed_properties")}</th>
+                  <th className="p-4 font-semibold">{t("admin.analytics.generated_bookings")}</th>
+                  <th className="p-4 font-semibold">{t("admin.analytics.conversion_lift")}</th>
+                  <th className="p-4 font-semibold rounded-tr-xl">{t("admin.analytics.agent_adoption")}</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/10">
+                {stats?.services?.map((row, i) => <tr key={i} className="hover:bg-white/5 transition-colors group">
+                    <td className="p-4 font-medium flex items-center gap-3 text-white">
+                      <div className="p-2 bg-white/5 rounded-lg group-hover:bg-white/10 transition-colors">
+                        {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-purple-400" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-amber-400" />}
+                      </div>
+                      {row.name}
+                    </td>
+                    <td className="p-4 text-slate-400">{row.usage.toLocaleString()}</td>
+                    <td className="p-4 font-bold text-white">${row.revenue.toLocaleString()}</td>
+                    <td className="p-4">
+                      <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+                        {row.efficiency.toFixed(1)}{t("admin.analytics.acc")}</Badge>
+                    </td>
+                    <td className="p-4 text-slate-400">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                          <div className="h-full bg-blue-500 rounded-full" style={{
+                            width: `${row.trend * 5}%`
+                          }}></div>
+                        </div>
+                        <span>+{row.trend}%</span>
+                      </div>
+                    </td>
+                  </tr>)}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>;
 }

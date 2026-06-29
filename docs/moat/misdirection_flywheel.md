@@ -4,6 +4,8 @@ This document details the **"Misdirection & Real Moat Separation Layer"** model.
 
 ---
 
+http://localhost:3001/admin/user
+
 ## 1. The Strategy: Misdirection (Decoy Layer)
 
 Competitors copy what they see. When they analyze our platform, they see a highly complex suite of **four distinct operating surfaces**:
@@ -25,6 +27,7 @@ Competitors copy what they see. When they analyze our platform, they see a highl
 ```
 
 By presenting the platform as four specialized operating suites (Listing, Booking, Agent, Finance), we misdirect competitor engineering resources:
+
 - Competitors focus on copying the modular user interfaces, navigation flows, and generic workflow features.
 - They assume the value lies in building a "complete multi-product suite."
 - **The Reality**: The frontends are merely decentralized sensors. The true value is completely centralized and invisible.
@@ -50,12 +53,12 @@ Each of the four surfaces is designed with a specific **Data Intake Pattern** th
 
 ### Ingestion Matrix:
 
-| Surface | Data Ingested | Primary Metaphor | Target Metric in DAG |
-| :--- | :--- | :--- | :--- |
-| **Listing OS** | Exposure duration, property categories, neighborhood DNA. | Inventory Management | `exposureScore` |
-| **Booking OS** | Conversion rates, calendar occupancy, tenant lead response. | Property Management | `conversionProbability`, `engagementRate` |
-| **Agent OS** | Response latency, compliance records, verification status. | CRM / Field Tools | `tenantBehaviorScore` |
-| **Finance OS** | Escrow lock states, transaction payouts, contract rules. | Ledgers & Payouts | `timeDecay`, `contractRules` |
+| Surface              | Data Ingested                                               | Primary Metaphor     | Target Metric in DAG                          |
+| :------------------- | :---------------------------------------------------------- | :------------------- | :-------------------------------------------- |
+| **Listing OS** | Exposure duration, property categories, neighborhood DNA.   | Inventory Management | `exposureScore`                             |
+| **Booking OS** | Conversion rates, calendar occupancy, tenant lead response. | Property Management  | `conversionProbability`, `engagementRate` |
+| **Agent OS**   | Response latency, compliance records, verification status.  | CRM / Field Tools    | `tenantBehaviorScore`                       |
+| **Finance OS** | Escrow lock states, transaction payouts, contract rules.    | Ledgers & Payouts    | `timeDecay`, `contractRules`              |
 
 ---
 
@@ -70,6 +73,7 @@ This separation creates a closed-loop flywheel that compounds over time:
 5. The transaction outcomes are fed back into the **Listing OS** to adjust visibility rankings, starting the loop again.
 
 ### Why a Competitor Cannot Replicate this Flywheel:
+
 - If a copycat only builds a "Listing & Booking" clone, they lack the **Agent OS** behavioral signals and the **Finance OS** settlement audit loop.
 - Without all four feeds, their pricing optimization algorithm runs on static, generic estimates, destroying their unit economics.
 - The switching cost for a tenant becomes absolute: leaving the platform means severing all four operating systems, completely breaking their unified operational and financial workflow.

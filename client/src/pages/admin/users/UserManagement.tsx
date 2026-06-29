@@ -1,7 +1,6 @@
 import { t } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PageShell } from "../../client/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,8 +11,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Users, Shield, Eye, Edit, Plus, Search, Unlock, AlertTriangle, CheckCircle, Clock, UserCheck, UserX, Mail, Phone, MapPin, Globe, Bell, Monitor, Smartphone, Tablet, Trash2, Ban, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api/client";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { usersApi } from "@/lib/api/users";
+
 interface UserPermission {
   id: string;
   userId: string;
@@ -113,24 +116,59 @@ interface SecurityAlert {
   resolution?: string;
 }
 export default function UserManagement() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/usermanagement/${data.id}`, data),
+    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/usermanagement/${id}`),
+    onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+    const [isAddOpen, setIsAddOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+            const [newUser, setNewUser] = useState({
+              email: '',
+              name: '',
+              phone: '',
+              locale: 'en-US',
+              timezone: 'America/New_York'
+            });
+
+            const createMutation = useMutation({
+              mutationFn: async (data: any) => {
+                return usersApi.create(data);
+              },
+              onSuccess: () => {
+                setIsAddOpen(false);
+                toast({ title: "Success", description: "User created successfully" });
+                // Should refetch data but there's a lot going on in this component
+              },
+              onError: (err: any) => {
+                toast({ title: "Error", description: err.message || "Failed to create user", variant: "destructive" });
+              }
+            });
+          
   const [roleFilter, setRoleFilter] = useState("ALL");
   const [statusFilter, setStatusFilter] = useState("ALL");
-  const {
-    t
-  } = useTranslation();
-  const {
-    toast
-  } = useToast();
+  const { t } = useTranslation();
 
-  const fetchUserManagementData = async () => {
+  const fetchUserManagementData = async (): Promise<{ permissions: UserPermission[], preferences: UserPreference[], roles: Role[], accessLogs: AccessLog[], securityAlerts: SecurityAlert[] }> => {
     try {
       const [permissionsRes, preferencesRes, rolesRes, logsRes, alertsRes] = await Promise.all([
-        apiClient.get('/users/permissions') as Promise<{ data: UserPermission[] }>,
-        apiClient.get('/users/preferences') as Promise<{ data: UserPreference[] }>,
-        apiClient.get('/users/roles') as Promise<{ data: Role[] }>,
-        apiClient.get('/users/access-logs') as Promise<{ data: AccessLog[] }>,
-        apiClient.get('/users/security-alerts') as Promise<{ data: SecurityAlert[] }>
+        apiClient.get('/api/v1/admin/users/permissions') as Promise<{ data: UserPermission[] }>,
+        apiClient.get('/api/v1/admin/users/preferences') as Promise<{ data: UserPreference[] }>,
+        apiClient.get('/api/v1/admin/users/roles') as Promise<{ data: Role[] }>,
+        apiClient.get('/api/v1/admin/users/access-logs') as Promise<{ data: AccessLog[] }>,
+        apiClient.get('/api/v1/admin/users/security-alerts') as Promise<{ data: SecurityAlert[] }>
       ]);
       return {
         permissions: permissionsRes.data || [],
@@ -223,24 +261,24 @@ const getRoleLevelColor = (level: number) => {
   const totalRoles = roles.length;
   const recentLogins = accessLogs.filter(log => log.action === 'LOGIN' && log.success && new Date(log.timestamp) > new Date(Date.now() - 24 * 60 * 60 * 1000)).length;
   if (loading) {
-    return <PageShell title={t('usersTitle')}>
+    return <div className="p-6 space-y-6 min-h-screen">
         <div className="flex items-center justify-center h-64">
           <Users className="h-8 w-8 animate-spin" />
         </div>
-      </PageShell>;
+      </div>;
   }
-  return <PageShell title={t('usersTitle')}>
+  return <div className="p-6 space-y-6 min-h-screen">
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card>
+          <Card className="bg-white/5 border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t('admin.users.activeUsers')}</CardTitle>
-              <UserCheck className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-white">{t('admin.users.activeUsers')}</CardTitle>
+              <UserCheck className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{activeUsers}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-400">
                 {t('admin.users.ofTotal', {
                 count: permissions.length
               })}
@@ -248,27 +286,27 @@ const getRoleLevelColor = (level: number) => {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white/5 border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t('admin.users.criticalAlerts')}</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-white">{t('admin.users.criticalAlerts')}</CardTitle>
+              <AlertTriangle className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">{criticalAlerts}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-400">
                 {t('admin.users.immediateAttention')}
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white/5 border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t('admin.users.totalRoles')}</CardTitle>
-              <Shield className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-white">{t('admin.users.totalRoles')}</CardTitle>
+              <Shield className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalRoles}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-400">
                 {t('admin.users.activeCount', {
                 count: roles.filter(r => r.isActive).length
               })}
@@ -276,14 +314,14 @@ const getRoleLevelColor = (level: number) => {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white/5 border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t('admin.users.recentLogins')}</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-white">{t('admin.users.recentLogins')}</CardTitle>
+              <Clock className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-blue-600">{recentLogins}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-400">
                 {t('admin.users.last24Hours')}
               </p>
             </CardContent>
@@ -303,7 +341,7 @@ const getRoleLevelColor = (level: number) => {
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <div className="relative">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
                   <Input placeholder={t('admin.users.searchUsers')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
                 </div>
                 <Select value={roleFilter} onValueChange={setRoleFilter}>
@@ -326,15 +364,74 @@ const getRoleLevelColor = (level: number) => {
                   </SelectContent>
                 </Select>
               </div>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                {t('admin.users.grantPermission')}
-              </Button>
+              
+                                <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+                                  <DialogTrigger asChild>
+                                    <Button>
+                                      <Plus className="h-4 w-4 mr-2" />
+                                      {t('admin.users.grantPermission')}
+                                    </Button>
+                                  </DialogTrigger>
+                                  
+                          <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
+                            <DialogHeader>
+                              <DialogTitle>Create New User</DialogTitle>
+                              <DialogDescription>
+                                Fill in the user details. This maps directly to the backend User model.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="email" className="text-right text-xs">Email *</Label>
+                                <Input id="email" type="email" className="col-span-3 h-10" value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} placeholder="user@example.com" />
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="text-right text-xs">Name</Label>
+                                <Input id="name" className="col-span-3 h-10" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} placeholder="John Doe" />
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="phone" className="text-right text-xs">Phone</Label>
+                                <Input id="phone" className="col-span-3 h-10" value={newUser.phone} onChange={e => setNewUser({...newUser, phone: e.target.value})} placeholder="+1 555-0123" />
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="locale" className="text-right text-xs">Locale</Label>
+                                <Select value={newUser.locale} onValueChange={(v) => setNewUser({...newUser, locale: v})}>
+                                  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Locale" /></SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="en-US">English (US)</SelectItem>
+                                    <SelectItem value="tr-TR">Turkish</SelectItem>
+                                    <SelectItem value="fr-FR">French</SelectItem>
+                                    <SelectItem value="de-DE">German</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="timezone" className="text-right text-xs">Timezone</Label>
+                                <Select value={newUser.timezone} onValueChange={(v) => setNewUser({...newUser, timezone: v})}>
+                                  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Timezone" /></SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="America/New_York">Eastern Time (ET)</SelectItem>
+                                    <SelectItem value="Europe/Istanbul">Istanbul (TRT)</SelectItem>
+                                    <SelectItem value="Europe/London">London (GMT)</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            </div>
+                            <DialogFooter>
+                              <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+                              <Button onClick={() => createMutation.mutate(newUser)} disabled={createMutation.isPending || !newUser.email}>
+                                {createMutation.isPending ? "Saving..." : "Create User"}
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                                
+                                </Dialog>
+                              
             </div>
 
-            <Card>
+            <Card className="bg-white/5 border-white/10">
               <CardHeader>
-                <CardTitle>{t('permissions')}</CardTitle>
+                <CardTitle className="text-white">{t('permissions')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -356,7 +453,7 @@ const getRoleLevelColor = (level: number) => {
                         <TableCell className="font-medium">{permission.userName}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            <Mail className="h-3 w-3 text-muted-foreground" />
+                            <Mail className="h-3 w-3 text-slate-400" />
                             {permission.userEmail}
                           </div>
                         </TableCell>
@@ -371,7 +468,7 @@ const getRoleLevelColor = (level: number) => {
                             {permission.permissions.slice(0, 2).map((perm, idx) => <div key={idx} className="text-sm">
                                 <span className="font-medium">{perm.module}</span>: {perm.actions.join(', ')}
                               </div>)}
-                            {permission.permissions.length > 2 && <div className="text-xs text-muted-foreground">
+                            {permission.permissions.length > 2 && <div className="text-xs text-slate-400">
                                 +{permission.permissions.length - 2}{t("admin.users.more")}</div>}
                           </div>
                         </TableCell>
@@ -385,7 +482,7 @@ const getRoleLevelColor = (level: number) => {
                         <TableCell>
                           {permission.expiresAt ? <div className={new Date(permission.expiresAt) < new Date() ? "text-red-600 font-medium" : ""}>
                               {new Date(permission.expiresAt).toLocaleDateString()}
-                            </div> : <span className="text-muted-foreground">{t('common.never')}</span>}
+                            </div> : <span className="text-slate-400">{t('common.never')}</span>}
                         </TableCell>
                         <TableCell>
                           {permission.lastUsed ? new Date(permission.lastUsed).toLocaleDateString() : t('common.never')}
@@ -411,9 +508,9 @@ const getRoleLevelColor = (level: number) => {
           </TabsContent>
 
           <TabsContent value="preferences" className="space-y-4">
-            <Card>
+            <Card className="bg-white/5 border-white/10">
               <CardHeader>
-                <CardTitle>{t("admin.users.user_preferences")}</CardTitle>
+                <CardTitle className="text-white">{t("admin.users.user_preferences")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -440,7 +537,7 @@ const getRoleLevelColor = (level: number) => {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            <Globe className="h-3 w-3 text-muted-foreground" />
+                            <Globe className="h-3 w-3 text-slate-400" />
                             {preference.settings.language}
                           </div>
                         </TableCell>
@@ -474,7 +571,7 @@ const getRoleLevelColor = (level: number) => {
                                 {device.deviceType === 'MOBILE' ? <Smartphone className="h-3 w-3" /> : device.deviceType === 'TABLET' ? <Tablet className="h-3 w-3" /> : <Monitor className="h-3 w-3" />}
                                 <span className="text-xs">{device.deviceType}</span>
                               </div>)}
-                            {preference.devicePreferences.length > 2 && <div className="text-xs text-muted-foreground">
+                            {preference.devicePreferences.length > 2 && <div className="text-xs text-slate-400">
                                 +{preference.devicePreferences.length - 2}{t("admin.users.more")}</div>}
                           </div>
                         </TableCell>
@@ -505,43 +602,43 @@ const getRoleLevelColor = (level: number) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {roles.map(role => <Card key={role.id}>
+              {roles.map(role => <Card key={role.id} className="bg-white/5 border-white/10">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {role.systemRole ? <Crown className="h-4 w-4 text-yellow-500" /> : <Shield className="h-4 w-4" />}
-                        <CardTitle className="text-lg">{role.name}</CardTitle>
+                        <CardTitle className="text-lg text-white">{role.name}</CardTitle>
                       </div>
                       <Switch checked={role.isActive} />
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <p className="text-sm text-muted-foreground">{role.description}</p>
+                      <p className="text-sm text-slate-400">{role.description}</p>
                       
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">{t('admin.users.status.level')}</span>
+                        <span className="text-sm font-medium text-white">{t('admin.users.status.level')}</span>
                         <Badge className={getRoleLevelColor(role.level)}>{role.level}</Badge>
                       </div>
                       
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">{t('users')}</span>
+                        <span className="text-sm font-medium text-white">{t('users')}</span>
                         <span className="text-sm">{role.userCount}</span>
                       </div>
                       
                       <div>
-                        <span className="text-sm font-medium">{t('permissions')} ({role.permissions.length})</span>
+                        <span className="text-sm font-medium text-white">{t('permissions')} ({role.permissions.length})</span>
                         <div className="mt-1 space-y-1">
                           {role.permissions.slice(0, 3).map((permission, idx) => <div key={idx} className="text-xs bg-gray-100 px-2 py-1 rounded">
                               {permission}
                             </div>)}
-                          {role.permissions.length > 3 && <div className="text-xs text-muted-foreground">
+                          {role.permissions.length > 3 && <div className="text-xs text-slate-400">
                               +{role.permissions.length - 3}{t("admin.users.more")}</div>}
                         </div>
                       </div>
                       
                       <div className="flex justify-between items-center pt-2 border-t">
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-xs text-slate-400">
                           {t('common.created')} {new Date(role.createdAt).toLocaleDateString()}
                         </span>
                         <div className="flex gap-1">
@@ -560,9 +657,9 @@ const getRoleLevelColor = (level: number) => {
           </TabsContent>
 
           <TabsContent value="access-logs" className="space-y-4">
-            <Card>
+            <Card className="bg-white/5 border-white/10">
               <CardHeader>
-                <CardTitle>{t('admin.users.accessLogs')}</CardTitle>
+                <CardTitle className="text-white">{t('admin.users.accessLogs')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -590,7 +687,7 @@ const getRoleLevelColor = (level: number) => {
                         <TableCell className="font-mono text-sm">{log.ipAddress}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            <MapPin className="h-3 w-3 text-muted-foreground" />
+                            <MapPin className="h-3 w-3 text-slate-400" />
                             <span className="text-sm">{log.location.city}, {log.location.country}</span>
                           </div>
                         </TableCell>
@@ -617,9 +714,9 @@ const getRoleLevelColor = (level: number) => {
 
           <TabsContent value="security" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
+              <Card className="bg-white/5 border-white/10">
                 <CardHeader>
-                  <CardTitle>{t('admin.users.security.alerts')}</CardTitle>
+                  <CardTitle className="text-white">{t('admin.users.security.alerts')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
@@ -630,8 +727,8 @@ const getRoleLevelColor = (level: number) => {
                             <span className="font-medium">{alert.userName}</span>
                             <Badge variant="outline">{getLocalizedType(alert.type)}</Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground mb-1">{alert.description}</p>
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <p className="text-sm text-slate-400 mb-1">{alert.description}</p>
+                          <div className="flex items-center gap-2 text-xs text-slate-400">
                             <span>{alert.ipAddress}</span>
                             <span>•</span>
                             <span>{new Date(alert.timestamp).toLocaleString()}</span>
@@ -648,9 +745,9 @@ const getRoleLevelColor = (level: number) => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="bg-white/5 border-white/10">
                 <CardHeader>
-                  <CardTitle>{t('overview')}</CardTitle>
+                  <CardTitle className="text-white">{t('overview')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -659,13 +756,13 @@ const getRoleLevelColor = (level: number) => {
                         <div className="text-2xl font-bold text-green-600">
                           {securityAlerts.filter(a => a.status === 'RESOLVED').length}
                         </div>
-                        <div className="text-sm text-muted-foreground">{t('admin.users.status.resolved')}</div>
+                        <div className="text-sm text-slate-400">{t('admin.users.status.resolved')}</div>
                       </div>
                       <div className="text-center p-3 border rounded">
                         <div className="text-2xl font-bold text-red-600">
                           {securityAlerts.filter(a => a.status === 'OPEN').length}
                         </div>
-                        <div className="text-sm text-muted-foreground">{t('admin.users.status.open')}</div>
+                        <div className="text-sm text-slate-400">{t('admin.users.status.open')}</div>
                       </div>
                     </div>
                     
@@ -686,5 +783,5 @@ const getRoleLevelColor = (level: number) => {
           </TabsContent>
         </Tabs>
       </div>
-    </PageShell>;
+    </div>;
 }

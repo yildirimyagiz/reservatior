@@ -57,6 +57,33 @@ class ApiClient {
         headers,
       });
 
+      // --- GLOBAL AUDIT LOG INTERCEPTOR ---
+      if (response.ok && options.method && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(options.method)) {
+        // Fire and forget audit log for mutations
+        try {
+          const actionMap: Record<string, string> = { 'POST': 'CREATE', 'PUT': 'UPDATE', 'PATCH': 'UPDATE', 'DELETE': 'DELETE' };
+          const segments = cleanEndpoint.split('/').filter(Boolean);
+          const entityType = segments[0] || 'system';
+          const entityId = segments.length > 1 ? segments[segments.length - 1] : null;
+          
+          fetch(`${this.baseURL}/audit-logs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...(token && { Authorization: `Bearer ${token}` }) },
+            body: JSON.stringify({
+              action: actionMap[options.method] || 'UNKNOWN',
+              entityType: entityType.toUpperCase(),
+              entityId: entityId || 'N/A',
+              userId: token ? 'SYSTEM_USER' : 'ANONYMOUS', // Replace with real decoded userId if available
+              details: { endpoint: cleanEndpoint, timestamp: new Date().toISOString() },
+              ipAddress: 'Client-Side'
+            })
+          }).catch(err => console.error("Audit log failed to send", err));
+        } catch(e) {
+          // Ignore audit errors so main request doesn't fail
+        }
+      }
+      // ------------------------------------
+
       if (!response.ok) {
         if (response.status === 401 && !url.includes("/auth/login") && !url.includes("/auth/register")) {
           localStorage.removeItem("user-storage");
@@ -78,8 +105,15 @@ class ApiClient {
         throw error;
       }
 
-      const data = await response.json();
-      return { data: data as T };
+      let data = {} as T;
+      if (response.status !== 204) {
+        try {
+          data = await response.json();
+        } catch (e) {
+          // Empty body
+        }
+      }
+      return { data };
     } catch (error: any) {
       console.error("API request failed:", error);
       throw error;

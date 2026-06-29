@@ -205,11 +205,25 @@ export const financialsApi = {
   getCommissionRules: () => apiClient.get<CommissionRule[]>("/financials/commissions/rules"),
   
   // Mortgages
-  getMortgages: (propertyId?: string) => apiClient.get<Mortgage[]>("/financials/mortgages", { propertyId }),
+  getMortgages: (propertyId?: string) => apiClient.get<Mortgage[]>("/mortgages", { propertyId }),
+  createMortgage: (data: any) => apiClient.post<{ data: any }>("/mortgages", data),
   
   // Rent Increases
   getRentIncreases: (propertyId?: string) => apiClient.get<RentIncrease[]>("/financials/increases", { propertyId }),
   
   // Discounts
   getDiscounts: (propertyId?: string) => apiClient.get<Discount[]>("/financials/discounts", { propertyId }),
+
+  // Invoices (using the dedicated /invoices backend route)
+  getInvoices: (params?: { 
+    status?: string; 
+    customerId?: string; 
+    dateFrom?: string; 
+    dateTo?: string; 
+    page?: number; 
+    limit?: number 
+  }) => apiClient.get<PaginatedResponse<any>>("/invoices", params),
+  
+  createInvoice: (data: any) => 
+    apiClient.post<{ data: any }>("/invoices", data),
 };

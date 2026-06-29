@@ -377,11 +377,15 @@ export default function Home() {
                 </div>
                 )}
 
-                {/* Search Button */}
-                <div className="w-full md:w-auto mt-2 md:mt-0">
-                  <Button type="submit" className="w-full md:w-16 h-14 md:h-16 rounded-full bg-linear-to-br from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-xl shadow-blue-500/30 p-0 flex items-center justify-center transition-all hover:scale-105">
+                {/* Search Buttons */}
+                <div className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
+                  <Button type="submit" className="flex-1 md:flex-none md:w-16 h-14 md:h-16 rounded-full bg-linear-to-br from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-xl shadow-blue-500/30 p-0 flex items-center justify-center transition-all hover:scale-105" title={t('home.search.button', 'Search') as string}>
                     <Search className="w-6 h-6" />
                     <span className="md:hidden ml-2 font-bold">{t('home.search.button', 'Search')}</span>
+                  </Button>
+                  <Button type="button" onClick={() => navigate('/ai-search')} className="flex-1 md:flex-none md:w-16 h-14 md:h-16 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white shadow-xl shadow-indigo-500/30 p-0 flex items-center justify-center transition-all hover:scale-105 group" title={t('home.search.ai_search_tooltip', 'Search with AI') as string}>
+                    <Sparkles className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                    <span className="md:hidden ml-2 font-bold">{t('home.search.ai_button', 'AI Search')}</span>
                   </Button>
                 </div>
               </form>
@@ -580,6 +584,17 @@ export default function Home() {
             </div>
           </div>
         </section>
+        
+        {/* ══════ FLOATING AI BUTTON ══════ */}
+        <Link to="/ai-search" className="fixed bottom-6 right-6 z-50 group flex items-center gap-3 bg-white dark:bg-neutral-900/90 backdrop-blur-xl p-2 pr-6 rounded-full shadow-2xl border border-indigo-500/20 hover:scale-105 transition-all duration-300">
+          <div className="w-12 h-12 rounded-full bg-linear-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/40">
+            <Sparkles className="w-5 h-5 text-white animate-pulse" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 tracking-widest uppercase">YENİ</span>
+            <span className="text-sm font-bold text-foreground">Reservatior AI'ı Dene</span>
+          </div>
+        </Link>
       </div>
     </>
   );

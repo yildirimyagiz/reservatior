@@ -14,6 +14,9 @@ import { apiClient } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { Eye, Download, Shield, Settings, Trash2, Edit, Plus, LogIn, Search, AlertTriangle, Info, Activity, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { MoreHorizontal } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 interface AuditLog {
   id: string;
   orgId: string;
@@ -95,12 +98,25 @@ const CATEGORIES = {
   INTEGRATION: "Integration"
 };
 export default function AuditLogs() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/auditlogs/${data.id}`, data),
+    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/auditlogs/${id}`),
+    onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
   const {
     t
   } = useTranslation();
-  const {
-    toast
-  } = useToast();
   const [search, setSearch] = useState("");
   const [filterAction, setFilterAction] = useState("all");
   const [filterSeverity, setFilterSeverity] = useState("all");

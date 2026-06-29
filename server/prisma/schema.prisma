@@ -114,6 +114,9 @@ model User {
   socialCommentReplies           SocialCommentReply[]
   socialAutomationRules          SocialAutomationRule[]
   ownedListings                  Listing[]                       @relation("UserOwnedListings")
+  aiintentAuditLogs              AIIntentAuditLog[]
+  userAIHabits                   UserAIHabit[]
+  userRevenueProfile             UserRevenueProfile?
 }
 
 model Session {
@@ -635,6 +638,12 @@ model Property {
   stateCode                State?
   propertyCategory         PropertyCategory                @default(RESIDENTIAL)
   listingType              ListingType                     @default(SALE)
+  
+  // AI Precomputed Fields
+  aiSummary                String?                         @db.Text
+  aiProsCons               String?                         @db.Text
+  aiNeighborhoodScore      Float?
+  aiROIHint                String?                         @db.Text
   listingStatus            ListingStatus                   @default(AVAILABLE)
   listingPrice             Decimal?                        @db.Decimal(14, 2)
   originalPrice            Decimal?                        @db.Decimal(14, 2)
@@ -12138,7 +12147,7 @@ model PartnerAgreement {
   tenantId       String
   userId         String
   status         AgreementState @default(CREATED)
-  encryptedTerms String         // AES/GCM encrypted blob (CommissionSchedule + DAG factors)
+  encryptedTerms String // AES/GCM encrypted blob (CommissionSchedule + DAG factors)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 
@@ -12152,4 +12161,215 @@ model VisibilityBudget {
   budget    Int      @default(100) // Exposure budget limit per week
   used      Int      @default(0)
   updatedAt DateTime @updatedAt
+}
+
+model AIIntentAuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rawQuery    String
+  intent      String
+  confidence  Float    @default(0)
+  actionTaken String
+  cost        Int      @default(0)
+  sseEmitted  Boolean  @default(false)
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([intent])
+  @@index([createdAt])
+}
+
+model UserAIHabit {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category     String
+  habitKey     String
+  habitValue   String
+  confidence   Float
+  lastObserved DateTime @default(now())
+
+  @@index([userId])
+  @@index([habitKey])
+}
+
+model AIKnowledgeArticle {
+  id          String   @id @default(cuid())
+  category    String
+  title       String
+  content     String   @db.Text
+  // Note: Using Json to store embeddings if pgvector is not enabled locally, or Unsupported("vector(768)") if it is.
+  // Using Json is safer for broader environments without failing the push.
+  embedding   Json?    
+  isActive    Boolean  @default(true)
+  updatedAt   DateTime @updatedAt
+}
+
+model AICreditBalance {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  monthlyQuota   Int      @default(100)   // Abonelik paketine göre aylık yenilenir
+  purchasedQuota Int      @default(0)     // Pay-as-you-go satın alınan ekstra
+  consumed       Int      @default(0)     // Bu ay tüketilen toplam
+  resetAt        DateTime @default(now()) // Sonraki aylık sıfırlama tarihi
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model AICreditLedger {
+  id          String   @id @default(cuid())
+  userId      String
+  amount      Int                          // Negatif = harcama, Pozitif = yükleme
+  balance     Int      @default(0)         // İşlem sonrası güncel bakiye
+  actionType  String                       // "PROPERTY_SEARCH", "POI_LOOKUP", "VALUATION", "COMPARE", "TOPUP", "MONTHLY_RESET"
+  metadata    Json?                        // Ekstra bilgi (sorgu metni, fatura ID vb.)
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([actionType])
+  @@index([createdAt])
+}
+
+model UserRevenueProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  arpuScore         Float    @default(0)
+  intentValueMap    Json     @default("{}") // Örn: {"PROPERTY_SEARCH": 1.0, "TOURISM_POI": 2.2}
+  conversionRate    Float    @default(0)
+  upsellProbability Float    @default(0)
+  lastUpdated       DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+model MarketState {
+  segment           String   @id // "PROPERTY", "TOURISM", "AGENT_SERVICE"
+  demandIndex       Float    @default(0.5) // 0 - 1 arası
+  supplyIndex       Float    @default(0.5) // 0 - 1 arası
+  priceElasticity   Float    @default(1.0)
+  liquidityScore    Float    @default(1.0)
+  congestionLevel   Float    @default(0)
+  underSupplyLevel  Float    @default(0)
+  lastUpdated       DateTime @default(now())
+}
+
+model AISemanticCache {
+  id          String   @id @default(cuid())
+  queryHash   String   @unique  // hash(intent + location + filters)
+  response    Json
+  hitCount    Int      @default(1)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  
+  @@index([queryHash])
+}
+
+model AICostAnalytics {
+  id             String   @id @default(cuid())
+  route          String   // "DB_ONLY", "TEMPLATE_RENDER", "LIGHT_AI", "FULL_AI", "PRECOMPUTED_AI"
+  cost           Float
+  conversion     Boolean  @default(false)
+  revenue        Float    @default(0)
+  intent         String
+  createdAt      DateTime @default(now())
+}
+
+// ==========================================
+// Decision Engine & Revenue Architecture
+// ==========================================
+
+model RevenueSnapshot {
+  id                String   @id @default(cuid())
+  entityId          String
+  entityType        String   // "PROPERTY", "CONTRACT", "AGENT"
+  conversionScore   Float    @default(0)
+  marketScore       Float    @default(0)
+  pricingScore      Float    @default(0)
+  contractState     String?
+  forecastRevenue   Decimal  @default(0) @db.Decimal(14, 2)
+  createdAt         DateTime @default(now())
+
+  @@index([entityId, entityType])
+  @@index([createdAt])
+}
+
+model DecisionJournal {
+  id                String   @id @default(cuid())
+  eventName         String   // e.g. "LISTING_VIEWED"
+  decision          String   // e.g. "DECREASED_PRICE"
+  reason            String   // e.g. "DemandScore dropped to 0.18"
+  confidence        Float    // 0 to 1
+  outcome           String?  // The result of the decision (updated asynchronously)
+  revenueImpact     Decimal? @db.Decimal(14, 2)
+  feedback          String?  // Human or ML feedback
+  createdAt         DateTime @default(now())
+
+  @@index([eventName])
+  @@index([confidence])
+  @@index([createdAt])
+}
+
+// ==========================================
+// Unified Knowledge Graph Architecture
+// ==========================================
+
+enum GraphRelationType {
+  VIEWED
+  SEARCHED
+  CLICKED
+  CONTACTED
+  BOOKMARKED
+  MANAGED_BY
+  BELONGS_TO
+  LOCATED_IN
+  GENERATED
+  RECOMMENDED
+  BOOKED
+  CONVERTED_TO
+  AFFECTED
+  HAS_CONTRACT
+  HAS_REVENUE
+  SIMILAR_TO
+}
+
+model KnowledgeNode {
+  id          String   @id @default(cuid())
+  entityId    String
+  entityType  String
+  label       String?
+  metadata    Json?
+  embeddingId String?
+  createdAt   DateTime @default(now())
+
+  outgoingEdges KnowledgeEdge[] @relation("SourceNode")
+  incomingEdges KnowledgeEdge[] @relation("TargetNode")
+
+  @@unique([entityType, entityId])
+}
+
+model KnowledgeEdge {
+  id             String            @id @default(cuid())
+  sourceId       String
+  targetId       String
+  relationType   GraphRelationType
+  weight         Float             @default(1.0)
+  confidence     Float             @default(1.0)
+  decayFactor    Float             @default(0.02)
+  lastObservedAt DateTime          @default(now())
+  version        Int               @default(1)
+  validFrom      DateTime          @default(now())
+  validTo        DateTime?
+  metadata       Json?             // E.g. sessionId, device, context
+
+  sourceNode KnowledgeNode @relation("SourceNode", fields: [sourceId], references: [id], onDelete: Cascade)
+  targetNode KnowledgeNode @relation("TargetNode", fields: [targetId], references: [id], onDelete: Cascade)
+
+  @@index([sourceId])
+  @@index([targetId])
+  @@index([relationType])
+  @@unique([sourceId, relationType, targetId, version])
 }

@@ -13,7 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, ShieldAlert, Fingerprint, AlertTriangle, CheckCircle, XCircle, Clock, Users, Mail, Smartphone, Monitor, Eye, EyeOff, RefreshCw, Settings, Download, MoreHorizontal, Copy, QrCode, Smartphone as PhoneIcon, Zap, Activity, Lock, ArrowRight } from "lucide-react";
+import { Shield, ShieldAlert, Fingerprint, AlertTriangle, CheckCircle, XCircle, Clock, Users, Mail, Smartphone, Monitor, Eye, EyeOff, RefreshCw, Settings, Download, MoreHorizontal, Copy, QrCode, Zap, Activity, Lock, ArrowRight } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -111,6 +111,16 @@ export default function AdvancedSecurity() {
     toast
   } = useToast();
   const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/security/policies/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
   const [activeTab, setActiveTab] = useState("policies");
   const [policyDialogOpen, setPolicyDialogOpen] = useState(false);
   const [twoFactorDialogOpen, setTwoFactorDialogOpen] = useState(false);

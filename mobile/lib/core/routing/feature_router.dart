@@ -1,426 +1,262 @@
+import 'package:reservatior/features/admin/dynamic/dynamic_admin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:reservatior/features/client/property/presentation/pages/search_and_filters_page.dart';
 
-import 'package:reservatior/features/admin/financial/expense_admin_page.dart';
-import 'package:reservatior/features/admin/financial/payout_admin_page.dart';
-import 'package:reservatior/features/client/agent/presentation/pages/agent_admin_page.dart';
-import 'package:reservatior/features/admin/roles/roles_admin_page.dart';
-import 'package:reservatior/features/admin/cloud/cloud_admin_page.dart';
-import 'package:reservatior/features/admin/company/company_admin_page.dart';
 
 // Batch 1: Financial
-import 'package:reservatior/features/admin/financial/escrow_management_screen.dart';
-import 'package:reservatior/features/admin/financial/commissions_screen.dart';
-import 'package:reservatior/features/admin/financial/commission_rules_screen.dart';
-import 'package:reservatior/features/admin/financial/invoices_screen.dart';
-import 'package:reservatior/features/admin/financial/tax_records_screen.dart';
 
-import 'package:reservatior/features/admin/financial/mortgages_screen.dart';
-import 'package:reservatior/features/admin/financial/financial_reports_screen.dart';
-import 'package:reservatior/features/admin/financial/extra_charges_screen.dart';
-import 'package:reservatior/features/admin/financial/transactions_screen.dart';
 
 // Batch 2: Security & Compliance
-import 'package:reservatior/features/admin/security/advanced_security_screen.dart';
-import 'package:reservatior/features/admin/compliance/compliance_dashboard_screen.dart';
 
 // Batch 3: AI
-import 'package:reservatior/features/admin/ai/fraud_detection_screen.dart';
-import 'package:reservatior/features/admin/ai/sentiment_analysis_screen.dart';
-import 'package:reservatior/features/admin/ai/predictive_maintenance_screen.dart';
 
 
 // Batch 4: Operational
-import 'package:reservatior/features/admin/agencies/agencies_management_screen.dart';
-import 'package:reservatior/features/admin/invoices/customer_invoices_screen.dart';
 
 import 'package:reservatior/features/admin/property/vacation_rentals_screen.dart';
 
 // Batch 5: Organization
-import 'package:reservatior/features/admin/organization/departments_screen.dart';
-import 'package:reservatior/features/admin/organization/teams_screen.dart';
-import 'package:reservatior/features/admin/organization/subscription_screen.dart';
-import 'package:reservatior/features/admin/membership/membership_screen.dart';
-import 'package:reservatior/features/admin/billing/billing_screen.dart';
 
 // Batch 6: System
-import 'package:reservatior/features/admin/system/system_monitoring_screen.dart';
-import 'package:reservatior/features/admin/integrations/mls_integration_screen.dart';
-import 'package:reservatior/features/admin/integrations/export_jobs_screen.dart';
-import 'package:reservatior/features/admin/communication/comm_templates_screen.dart';
 
 // Generated Missing Features
 import 'package:reservatior/features/admin/account/account_management_screen.dart';
-import 'package:reservatior/features/admin/achievement/achievement_management_screen.dart';
-import 'package:reservatior/features/admin/ambassador_contract/ambassador_contract_management_screen.dart';
-import 'package:reservatior/features/admin/amenity/amenity_management_screen.dart';
-import 'package:reservatior/features/admin/analysis_job/analysis_job_management_screen.dart';
-import 'package:reservatior/features/admin/analytics/analytics_management_screen.dart';
-import 'package:reservatior/features/admin/api_integration/api_integration_management_screen.dart';
-import 'package:reservatior/features/admin/api_key/api_key_management_screen.dart';
-import 'package:reservatior/features/admin/appointment/appointment_management_screen.dart';
-import 'package:reservatior/features/admin/attachment/attachment_management_screen.dart';
-import 'package:reservatior/features/admin/attorney_management/attorney_management_management_screen.dart';
-import 'package:reservatior/features/admin/automation_execution/automation_execution_management_screen.dart';
-import 'package:reservatior/features/admin/automation_rule/automation_rule_management_screen.dart';
-import 'package:reservatior/features/admin/brand_ambassador/brand_ambassador_management_screen.dart';
-import 'package:reservatior/features/admin/calendar_event/calendar_event_management_screen.dart';
-import 'package:reservatior/features/admin/channel/channel_management_screen.dart';
-import 'package:reservatior/features/admin/client_relationship/client_relationship_management_screen.dart';
-import 'package:reservatior/features/admin/contract_version/contract_version_management_screen.dart';
-import 'package:reservatior/features/admin/coupons/coupons_management_screen.dart';
-import 'package:reservatior/features/admin/currency/currency_management_screen.dart';
 import 'package:reservatior/features/admin/dashboard/dashboard_management_screen.dart';
-import 'package:reservatior/features/admin/dashboard_configuration/dashboard_configuration_management_screen.dart';
-import 'package:reservatior/features/admin/dashboard_widget/dashboard_widget_management_screen.dart';
-import 'package:reservatior/features/admin/deposit_protection/deposit_protection_management_screen.dart';
-import 'package:reservatior/features/admin/discount/discount_management_screen.dart';
-import 'package:reservatior/features/admin/earning/earning_management_screen.dart';
-import 'package:reservatior/features/admin/event/event_management_screen.dart';
-import 'package:reservatior/features/admin/event_attendee/event_attendee_management_screen.dart';
-import 'package:reservatior/features/admin/exchange_rate/exchange_rate_management_screen.dart';
-import 'package:reservatior/features/admin/export_file/export_file_management_screen.dart';
-import 'package:reservatior/features/admin/export_job/export_job_management_screen.dart';
-import 'package:reservatior/features/admin/external_rental_listing/external_rental_listing_management_screen.dart';
-import 'package:reservatior/features/admin/extra_charge/extra_charge_management_screen.dart';
 import 'package:reservatior/features/admin/favorite/favorite_management_screen.dart';
-import 'package:reservatior/features/admin/filters/filters_management_screen.dart';
-import 'package:reservatior/features/admin/floor_plan/floor_plan_management_screen.dart';
-import 'package:reservatior/features/admin/gift_card/gift_card_management_screen.dart';
-import 'package:reservatior/features/admin/government_integration/government_integration_management_screen.dart';
 import 'package:reservatior/features/admin/guest/guest_management_screen.dart';
 import 'package:reservatior/features/admin/guest_profile/guest_profile_management_screen.dart';
-import 'package:reservatior/features/admin/guest_review/guest_review_management_screen.dart';
-import 'package:reservatior/features/admin/hashtag/hashtag_management_screen.dart';
-import 'package:reservatior/features/admin/health_check/health_check_management_screen.dart';
 import 'package:reservatior/features/admin/home/home_management_screen.dart';
-import 'package:reservatior/features/admin/home_information_pack/home_information_pack_management_screen.dart';
-import 'package:reservatior/features/admin/immigration_status_check/immigration_status_check_management_screen.dart';
-import 'package:reservatior/features/admin/included_service/included_service_management_screen.dart';
-import 'package:reservatior/features/admin/increase/increase_management_screen.dart';
-import 'package:reservatior/features/admin/integration_log/integration_log_management_screen.dart';
-import 'package:reservatior/features/admin/investor_portfolio/investor_portfolio_management_screen.dart';
-import 'package:reservatior/features/admin/job/job_management_screen.dart';
-import 'package:reservatior/features/admin/key_management/key_management_management_screen.dart';
-import 'package:reservatior/features/admin/lead_source/lead_source_management_screen.dart';
-import 'package:reservatior/features/admin/ledger_entry/ledger_entry_management_screen.dart';
 import 'package:reservatior/features/admin/listing/listing_management_screen.dart';
-import 'package:reservatior/features/admin/listing_channel/listing_channel_management_screen.dart';
-import 'package:reservatior/features/admin/listing_status_history/listing_status_history_management_screen.dart';
-import 'package:reservatior/features/admin/listing_tag/listing_tag_management_screen.dart';
 import 'package:reservatior/features/admin/location/location_management_screen.dart';
-import 'package:reservatior/features/admin/loyalty_account/loyalty_account_management_screen.dart';
-import 'package:reservatior/features/admin/map_data/map_data_management_screen.dart';
-import 'package:reservatior/features/admin/map_layer/map_layer_management_screen.dart';
 import 'package:reservatior/features/admin/marketplace/marketplace_management_screen.dart';
-import 'package:reservatior/features/admin/mention/mention_management_screen.dart';
 import 'package:reservatior/features/admin/message/message_management_screen.dart';
-import 'package:reservatior/features/admin/ml_configuration/ml_configuration_management_screen.dart';
-import 'package:reservatior/features/admin/ml_model/ml_model_management_screen.dart';
-import 'package:reservatior/features/admin/mls_connection/mls_connection_management_screen.dart';
-import 'package:reservatior/features/admin/mls_data_mapping/mls_data_mapping_management_screen.dart';
-import 'package:reservatior/features/admin/mls_external_listing/mls_external_listing_management_screen.dart';
-import 'package:reservatior/features/admin/mls_listing_enhancement/mls_listing_enhancement_management_screen.dart';
-import 'package:reservatior/features/admin/mls_sync_job/mls_sync_job_management_screen.dart';
-import 'package:reservatior/features/admin/mobile_device/mobile_device_management_screen.dart';
-import 'package:reservatior/features/admin/more/more_management_screen.dart';
-import 'package:reservatior/features/admin/negotiation_offer/negotiation_offer_management_screen.dart';
-import 'package:reservatior/features/admin/neighborhood/neighborhood_management_screen.dart';
 import 'package:reservatior/features/admin/notification/notification_management_screen.dart';
-import 'package:reservatior/features/admin/offer/offer_management_screen.dart';
-import 'package:reservatior/features/admin/offline_sync_queue/offline_sync_queue_management_screen.dart';
-import 'package:reservatior/features/admin/org_subscription/org_subscription_management_screen.dart';
-import 'package:reservatior/features/admin/performance_alert/performance_alert_management_screen.dart';
-import 'package:reservatior/features/admin/permission/permission_management_screen.dart';
 import 'package:reservatior/features/admin/photo/photo_management_screen.dart';
-import 'package:reservatior/features/admin/plan/plan_management_screen.dart';
-import 'package:reservatior/features/admin/post/post_management_screen.dart';
-import 'package:reservatior/features/admin/predictive_model/predictive_model_management_screen.dart';
-import 'package:reservatior/features/admin/pricing_rule/pricing_rule_management_screen.dart';
-import 'package:reservatior/features/admin/project_alert/project_alert_management_screen.dart';
-import 'package:reservatior/features/admin/project_analytics/project_analytics_management_screen.dart';
-import 'package:reservatior/features/admin/project_report/project_report_management_screen.dart';
-import 'package:reservatior/features/admin/queue_configuration/queue_configuration_management_screen.dart';
-import 'package:reservatior/features/admin/queue_message/queue_message_management_screen.dart';
-import 'package:reservatior/features/admin/quote/quote_management_screen.dart';
-import 'package:reservatior/features/admin/recommendation_result/recommendation_result_management_screen.dart';
-import 'package:reservatior/features/admin/reference_source/reference_source_management_screen.dart';
-import 'package:reservatior/features/admin/referral/referral_management_screen.dart';
-import 'package:reservatior/features/admin/rent_arrears/rent_arrears_management_screen.dart';
-import 'package:reservatior/features/admin/rent_schedule/rent_schedule_management_screen.dart';
-import 'package:reservatior/features/admin/rental_sync_job/rental_sync_job_management_screen.dart';
-import 'package:reservatior/features/admin/report/report_management_screen.dart';
-import 'package:reservatior/features/admin/report_execution/report_execution_management_screen.dart';
 import 'package:reservatior/features/admin/review/review_management_screen.dart';
-import 'package:reservatior/features/admin/right_to_rent_check/right_to_rent_check_management_screen.dart';
-import 'package:reservatior/features/admin/route/route_management_screen.dart';
-import 'package:reservatior/features/admin/scraping_job/scraping_job_management_screen.dart';
-import 'package:reservatior/features/admin/session/session_management_screen.dart';
-import 'package:reservatior/features/admin/shared_amenity/shared_amenity_management_screen.dart';
-import 'package:reservatior/features/admin/signature_request/signature_request_management_screen.dart';
-import 'package:reservatior/features/admin/signature_signer/signature_signer_management_screen.dart';
-import 'package:reservatior/features/admin/social_impact_counter/social_impact_counter_management_screen.dart';
-import 'package:reservatior/features/admin/social_impact_record/social_impact_record_management_screen.dart';
-import 'package:reservatior/features/admin/tag/tag_management_screen.dart';
-import 'package:reservatior/features/admin/ticket/ticket_management_screen.dart';
 import 'package:reservatior/features/admin/user/user_management_screen.dart';
-import 'package:reservatior/features/admin/user_activity_log/user_activity_log_management_screen.dart';
-import 'package:reservatior/features/admin/user_preference/user_preference_management_screen.dart';
-import 'package:reservatior/features/admin/vacation_rental/vacation_rental_management_screen.dart';
-import 'package:reservatior/features/admin/vacation_rental_platform/vacation_rental_platform_management_screen.dart';
-import 'package:reservatior/features/admin/verification/verification_management_screen.dart';
 import 'package:reservatior/features/admin/video_content/video_content_management_screen.dart';
-import 'package:reservatior/features/admin/virtual_tour/virtual_tour_management_screen.dart';
-import 'package:reservatior/features/admin/webhook/webhook_management_screen.dart';
-import 'package:reservatior/features/admin/webhook_delivery/webhook_delivery_management_screen.dart';
-import 'package:reservatior/features/admin/welcome/welcome_management_screen.dart';
 
 import 'package:reservatior/features/admin/property/property_management_screen.dart';
 import 'package:reservatior/features/admin/reservation/reservation_management_screen.dart';
-import 'package:reservatior/features/admin/contract/contract_management_screen.dart';
 import 'package:reservatior/features/admin/payment/payment_management_screen.dart';
-import 'package:reservatior/features/admin/financial/financial_management_screen.dart';
 
-import 'package:reservatior/features/admin/ai_model/ai_model_management_screen.dart';
-import 'package:reservatior/features/admin/audit_log/audit_log_management_screen.dart';
-import 'package:reservatior/features/admin/organization/organization_management_screen.dart';
-import 'package:reservatior/features/admin/system_metrics/system_metrics_management_screen.dart';
 // Note: api_key is already imported, but we make sure the screen exists in our folder structure.
 
-import 'package:reservatior/features/admin/marketing_campaign/marketing_campaign_management_screen.dart';
-import 'package:reservatior/features/admin/task/task_management_screen.dart';
-import 'package:reservatior/features/admin/document/document_management_screen.dart';
-import 'package:reservatior/features/admin/agent_team/agent_team_management_screen.dart';
-import 'package:reservatior/features/admin/facility/facility_management_screen.dart';
 
-import 'package:reservatior/features/admin/solicitor/solicitor_management_screen.dart';
-import 'package:reservatior/features/admin/maintenance/maintenance_work_order_management_screen.dart';
 
-import 'package:reservatior/features/admin/lead/lead_management_screen.dart';
-import 'package:reservatior/features/admin/project/project_management_screen.dart';
-import 'package:reservatior/features/admin/deal/deal_management_screen.dart';
-import 'package:reservatior/features/admin/solicitor/solicitor_management_screen.dart';
-import 'package:reservatior/features/admin/maintenance/maintenance_work_order_management_screen.dart';
 
-import 'package:reservatior/features/admin/agency/agency_management_screen.dart';
-import 'package:reservatior/features/admin/tenants/tenant_management_screen.dart';
-import 'package:reservatior/features/admin/leases/lease_management_screen.dart';
-import 'package:reservatior/features/admin/vendors/vendor_profile_management_screen.dart';
-import 'package:reservatior/features/admin/contacts/contact_management_screen.dart';
 
 class FeatureRouter {
   static final Map<String, Widget Function()> adminPages = {
-    'properties': () => const PropertyManagementScreen(),
-    'budgets': () => Container(),
-    'expenses': () => const ExpenseAdminPage(),
-    'payouts': () => const PayoutAdminPage(),
-    'agencies': () => const AgencyManagementScreen(),
-    'tasks': () => const TaskManagementScreen(),
-    'roles': () => const RolesAdminPage(),
-    'documents': () => const DocumentManagementScreen(),
-    'tenants': () => const TenantManagementScreen(),
-    'leases': () => const LeaseManagementScreen(),
-    'vendors': () => const VendorProfileManagementScreen(),
-    'contacts': () => const ContactManagementScreen(),
-    'maintenance': () => const MaintenanceWorkOrderManagementScreen(),
-    'marketing': () => const MarketingCampaignManagementScreen(),
-    'cloud': () => const CloudAdminPage(),
-    'company': () => const CompanyAdminPage(),
+    'properties': () => DynamicAdminScreen(modelName: 'Property'),
+    'budgets': () => DynamicAdminScreen(modelName: 'Container'),
+    'expenses': () => DynamicAdminScreen(modelName: 'Expense'),
+    'payouts': () => DynamicAdminScreen(modelName: 'Payout'),
+    'agencies': () => DynamicAdminScreen(modelName: 'Agency'),
+    'tasks': () => DynamicAdminScreen(modelName: 'Task'),
+    'roles': () => DynamicAdminScreen(modelName: 'Roles'),
+    'documents': () => DynamicAdminScreen(modelName: 'Document'),
+    'tenants': () => DynamicAdminScreen(modelName: 'Tenant'),
+    'leases': () => DynamicAdminScreen(modelName: 'Lease'),
+    'vendors': () => DynamicAdminScreen(modelName: 'VendorProfile'),
+    'contacts': () => DynamicAdminScreen(modelName: 'Contact'),
+    'maintenance': () => DynamicAdminScreen(modelName: 'MaintenanceWorkOrder'),
+    'marketing': () => DynamicAdminScreen(modelName: 'MarketingCampaign'),
+    'cloud': () => DynamicAdminScreen(modelName: 'Cloud'),
+    'company': () => DynamicAdminScreen(modelName: 'Company'),
 
     // Financial Additions
-    'escrow_screen': () => const EscrowManagementScreen(),
-    'commissions': () => const CommissionsScreen(),
-    'commission_rules': () => const CommissionRulesScreen(),
-    'invoices': () => const InvoicesScreen(),
-    'tax_records': () => const TaxRecordsScreen(),
-    'global_tax': () => Container(),
-    'mortgages': () => const MortgagesScreen(),
-    'financial_reports': () => const FinancialReportsScreen(),
-    'extra_charges': () => const ExtraChargesScreen(),
-    'transactions': () => const TransactionsScreen(),
-    'payments': () => const PaymentManagementScreen(),
+    'escrow_screen': () => DynamicAdminScreen(modelName: 'Escrow'),
+    'commissions': () => DynamicAdminScreen(modelName: 'Commissions'),
+    'commission_rules': () => DynamicAdminScreen(modelName: 'CommissionRules'),
+    'invoices': () => DynamicAdminScreen(modelName: 'Invoices'),
+    'tax_records': () => DynamicAdminScreen(modelName: 'TaxRecords'),
+    'global_tax': () => DynamicAdminScreen(modelName: 'Container'),
+    'mortgages': () => DynamicAdminScreen(modelName: 'Mortgages'),
+    'financial_reports': () => DynamicAdminScreen(modelName: 'FinancialReports'),
+    'extra_charges': () => DynamicAdminScreen(modelName: 'ExtraCharges'),
+    'transactions': () => DynamicAdminScreen(modelName: 'Transactions'),
+    'payments': () => DynamicAdminScreen(modelName: 'Payment'),
 
     // Security
-    'audit_logs': () => const AuditLogManagementScreen(),
-    'advanced_security': () => const AdvancedSecurityScreen(),
-    'api_tokens': () => const ApiKeyManagementScreen(),
-    'compliance': () => const ComplianceDashboardScreen(),
+    'audit_logs': () => DynamicAdminScreen(modelName: 'AuditLog'),
+    'advanced_security': () => DynamicAdminScreen(modelName: 'AdvancedSecurity'),
+    'api_tokens': () => DynamicAdminScreen(modelName: 'ApiKey'),
+    'compliance': () => DynamicAdminScreen(modelName: 'ComplianceDashboard'),
 
     // AI
-    'ai_config': () => const AiModelManagementScreen(),
-    'fraud_detection': () => const FraudDetectionScreen(),
-    'sentiment_analysis': () => const SentimentAnalysisScreen(),
-    'predictive_maintenance': () => const PredictiveMaintenanceScreen(),
-    'predictive_analytics': () => const Scaffold(body: Center(child: Text('Predictive Analytics'))),
+    'ai_config': () => DynamicAdminScreen(modelName: 'AiModel'),
+    'fraud_detection': () => DynamicAdminScreen(modelName: 'FraudDetection'),
+    'sentiment_analysis': () => DynamicAdminScreen(modelName: 'SentimentAnalysis'),
+    'predictive_maintenance': () => DynamicAdminScreen(modelName: 'PredictiveMaintenance'),
 
     // Operational
-    'agencies_manage': () => const AgenciesManagementScreen(),
-    'customer_invoices': () => const CustomerInvoicesScreen(),
-    'reservations': () => const ReservationManagementScreen(),
-    'tasks_manage': () => const TaskManagementScreen(),
-    'property_analytics': () => const Scaffold(body: Center(child: Text('Property Analytics'))),
-    'vacation_rentals': () => const VacationRentalsScreen(),
+    'agencies_manage': () => DynamicAdminScreen(modelName: 'Agencies'),
+    'customer_invoices': () => DynamicAdminScreen(modelName: 'CustomerInvoices'),
+    'reservations': () => DynamicAdminScreen(modelName: 'Reservation'),
+    'tasks_manage': () => DynamicAdminScreen(modelName: 'Task'),
+    'vacation_rentals': () => DynamicAdminScreen(modelName: 'VacationRentals'),
 
     // Organization
-    'facilities': () => const FacilityManagementScreen(),
-    'agents': () => const AgentTeamManagementScreen(),
-    'organizations': () => const OrganizationManagementScreen(),
-    'departments': () => const DepartmentsScreen(),
-    'teams': () => const TeamsScreen(),
-    'subscription': () => const SubscriptionScreen(),
-    'membership': () => const MembershipScreen(),
-    'billing': () => const BillingScreen(),
+    'facilities': () => DynamicAdminScreen(modelName: 'Facility'),
+    'agents': () => DynamicAdminScreen(modelName: 'AgentTeam'),
+    'organizations': () => DynamicAdminScreen(modelName: 'Organization'),
+    'departments': () => DynamicAdminScreen(modelName: 'Departments'),
+    'teams': () => DynamicAdminScreen(modelName: 'Teams'),
+    'subscription': () => DynamicAdminScreen(modelName: 'Subscription'),
+    'membership': () => DynamicAdminScreen(modelName: 'Membership'),
+    'billing': () => DynamicAdminScreen(modelName: 'Billing'),
 
     // System
-    'system_metrics': () => const SystemMetricsManagementScreen(),
-    'system_monitoring': () => const SystemMonitoringScreen(),
-    'mls_integration': () => const MlsIntegrationScreen(),
-    'export_jobs': () => const ExportJobsScreen(),
-    'comm_templates': () => const CommTemplatesScreen(),
-    'documents_manage': () => const DocumentManagementScreen(),
+    'system_metrics': () => DynamicAdminScreen(modelName: 'SystemMetrics'),
+    'system_monitoring': () => DynamicAdminScreen(modelName: 'SystemMonitoring'),
+    'mls_integration': () => DynamicAdminScreen(modelName: 'MlsIntegration'),
+    'export_jobs': () => DynamicAdminScreen(modelName: 'ExportJobs'),
+    'comm_templates': () => DynamicAdminScreen(modelName: 'CommTemplates'),
+    'documents_manage': () => DynamicAdminScreen(modelName: 'Document'),
 
-    'financial_record': () => const FinancialManagementScreen(),
+    'financial_record': () => DynamicAdminScreen(modelName: 'Financial'),
     // Generated Missing Features
-    'account': () => const AccountManagementScreen(),
-    'achievement': () => const AchievementManagementScreen(),
-    'ambassador_contract': () => const AmbassadorContractManagementScreen(),
-    'amenity': () => const AmenityManagementScreen(),
-    'analysis_job': () => const AnalysisJobManagementScreen(),
-    'analytics': () => const AnalyticsManagementScreen(),
-    'api_integration': () => const ApiIntegrationManagementScreen(),
-    'api_key': () => const ApiKeyManagementScreen(),
-    'appointment': () => const AppointmentManagementScreen(),
-    'attachment': () => const AttachmentManagementScreen(),
-    'attorney_management': () => const AttorneyManagementManagementScreen(),
-    'automation_execution': () => const AutomationExecutionManagementScreen(),
-    'automation_rule': () => const AutomationRuleManagementScreen(),
-    'booking': () => const ReservationManagementScreen(),
-    'brand_ambassador': () => const BrandAmbassadorManagementScreen(),
-    'calendar_event': () => const CalendarEventManagementScreen(),
-    'channel': () => const ChannelManagementScreen(),
-    'client_relationship': () => const ClientRelationshipManagementScreen(),
-    'contract': () => const ContractManagementScreen(),
-    'contract_version': () => const ContractVersionManagementScreen(),
-    'coupons': () => const CouponsManagementScreen(),
-    'currency': () => const CurrencyManagementScreen(),
-    'dashboard': () => const DashboardManagementScreen(),
+    'account': () => DynamicAdminScreen(modelName: 'Account'),
+    'achievement': () => DynamicAdminScreen(modelName: 'Achievement'),
+    'ambassador_contract': () => DynamicAdminScreen(modelName: 'AmbassadorContract'),
+    'amenity': () => DynamicAdminScreen(modelName: 'Amenity'),
+    'analysis_job': () => DynamicAdminScreen(modelName: 'AnalysisJob'),
+    'analytics': () => DynamicAdminScreen(modelName: 'Analytics'),
+    'api_integration': () => DynamicAdminScreen(modelName: 'ApiIntegration'),
+    'api_key': () => DynamicAdminScreen(modelName: 'ApiKey'),
+    'appointment': () => DynamicAdminScreen(modelName: 'Appointment'),
+    'attachment': () => DynamicAdminScreen(modelName: 'Attachment'),
+    'attorney_management': () => DynamicAdminScreen(modelName: 'AttorneyManagement'),
+    'automation_execution': () => DynamicAdminScreen(modelName: 'AutomationExecution'),
+    'automation_rule': () => DynamicAdminScreen(modelName: 'AutomationRule'),
+    'booking': () => DynamicAdminScreen(modelName: 'Reservation'),
+    'brand_ambassador': () => DynamicAdminScreen(modelName: 'BrandAmbassador'),
+    'calendar_event': () => DynamicAdminScreen(modelName: 'CalendarEvent'),
+    'channel': () => DynamicAdminScreen(modelName: 'Channel'),
+    'client_relationship': () => DynamicAdminScreen(modelName: 'ClientRelationship'),
+    'contract': () => DynamicAdminScreen(modelName: 'Contract'),
+    'contract_version': () => DynamicAdminScreen(modelName: 'ContractVersion'),
+    'coupons': () => DynamicAdminScreen(modelName: 'Coupons'),
+    'currency': () => DynamicAdminScreen(modelName: 'Currency'),
+    'dashboard': () => DynamicAdminScreen(modelName: 'Dashboard'),
     'dashboard_configuration': () =>
-        const DashboardConfigurationManagementScreen(),
-    'dashboard_widget': () => const DashboardWidgetManagementScreen(),
-    'deal': () => const DealManagementScreen(),
-    'deposit_protection': () => const DepositProtectionManagementScreen(),
-    'discount': () => const DiscountManagementScreen(),
-    'earning': () => const EarningManagementScreen(),
-    'event': () => const EventManagementScreen(),
-    'event_attendee': () => const EventAttendeeManagementScreen(),
-    'exchange_rate': () => const ExchangeRateManagementScreen(),
-    'export_file': () => const ExportFileManagementScreen(),
-    'export_job': () => const ExportJobManagementScreen(),
+        DynamicAdminScreen(modelName: 'DashboardConfiguration'),
+    'dashboard_widget': () => DynamicAdminScreen(modelName: 'DashboardWidget'),
+    'deal': () => DynamicAdminScreen(modelName: 'Deal'),
+    'deposit_protection': () => DynamicAdminScreen(modelName: 'DepositProtection'),
+    'discount': () => DynamicAdminScreen(modelName: 'Discount'),
+    'earning': () => DynamicAdminScreen(modelName: 'Earning'),
+    'event': () => DynamicAdminScreen(modelName: 'Event'),
+    'event_attendee': () => DynamicAdminScreen(modelName: 'EventAttendee'),
+    'exchange_rate': () => DynamicAdminScreen(modelName: 'ExchangeRate'),
+    'export_file': () => DynamicAdminScreen(modelName: 'ExportFile'),
+    'export_job': () => DynamicAdminScreen(modelName: 'ExportJob'),
     'external_rental_listing': () =>
-        const ExternalRentalListingManagementScreen(),
-    'extra_charge': () => const ExtraChargeManagementScreen(),
-    'favorite': () => const FavoriteManagementScreen(),
-    'filters': () => const FiltersManagementScreen(),
-    'floor_plan': () => const FloorPlanManagementScreen(),
-    'gift_card': () => const GiftCardManagementScreen(),
+        DynamicAdminScreen(modelName: 'ExternalRentalListing'),
+    'extra_charge': () => DynamicAdminScreen(modelName: 'ExtraCharge'),
+    'favorite': () => DynamicAdminScreen(modelName: 'Favorite'),
+    'filters': () => DynamicAdminScreen(modelName: 'Filters'),
+    'floor_plan': () => DynamicAdminScreen(modelName: 'FloorPlan'),
+    'gift_card': () => DynamicAdminScreen(modelName: 'GiftCard'),
     'government_integration': () =>
-        const GovernmentIntegrationManagementScreen(),
-    'guest': () => const GuestManagementScreen(),
-    'guest_profile': () => const GuestProfileManagementScreen(),
-    'guest_review': () => const GuestReviewManagementScreen(),
-    'hashtag': () => const HashtagManagementScreen(),
-    'health_check': () => const HealthCheckManagementScreen(),
-    'home': () => const HomeManagementScreen(),
-    'home_information_pack': () => const HomeInformationPackManagementScreen(),
+        DynamicAdminScreen(modelName: 'GovernmentIntegration'),
+    'guest': () => DynamicAdminScreen(modelName: 'Guest'),
+    'guest_profile': () => DynamicAdminScreen(modelName: 'GuestProfile'),
+    'guest_review': () => DynamicAdminScreen(modelName: 'GuestReview'),
+    'hashtag': () => DynamicAdminScreen(modelName: 'Hashtag'),
+    'health_check': () => DynamicAdminScreen(modelName: 'HealthCheck'),
+    'home': () => DynamicAdminScreen(modelName: 'Home'),
+    'home_information_pack': () => DynamicAdminScreen(modelName: 'HomeInformationPack'),
     'immigration_status_check': () =>
-        const ImmigrationStatusCheckManagementScreen(),
-    'included_service': () => const IncludedServiceManagementScreen(),
-    'increase': () => const IncreaseManagementScreen(),
-    'integration_log': () => const IntegrationLogManagementScreen(),
-    'investor_portfolio': () => const InvestorPortfolioManagementScreen(),
-    'job': () => const JobManagementScreen(),
-    'key_management': () => const KeyManagementManagementScreen(),
-    'lead': () => const LeadManagementScreen(),
-    'lead_source': () => const LeadSourceManagementScreen(),
-    'ledger_entry': () => const LedgerEntryManagementScreen(),
-    'listing': () => const ListingManagementScreen(),
-    'listing_channel': () => const ListingChannelManagementScreen(),
+        DynamicAdminScreen(modelName: 'ImmigrationStatusCheck'),
+    'included_service': () => DynamicAdminScreen(modelName: 'IncludedService'),
+    'increase': () => DynamicAdminScreen(modelName: 'Increase'),
+    'integration_log': () => DynamicAdminScreen(modelName: 'IntegrationLog'),
+    'investor_portfolio': () => DynamicAdminScreen(modelName: 'InvestorPortfolio'),
+    'job': () => DynamicAdminScreen(modelName: 'Job'),
+    'key_management': () => DynamicAdminScreen(modelName: 'KeyManagement'),
+    'lead': () => DynamicAdminScreen(modelName: 'Lead'),
+    'lead_source': () => DynamicAdminScreen(modelName: 'LeadSource'),
+    'ledger_entry': () => DynamicAdminScreen(modelName: 'LedgerEntry'),
+    'listing': () => DynamicAdminScreen(modelName: 'Listing'),
+    'listing_channel': () => DynamicAdminScreen(modelName: 'ListingChannel'),
     'listing_status_history': () =>
-        const ListingStatusHistoryManagementScreen(),
-    'listing_tag': () => const ListingTagManagementScreen(),
-    'location': () => const LocationManagementScreen(),
-    'loyalty_account': () => const LoyaltyAccountManagementScreen(),
-    'map_data': () => const MapDataManagementScreen(),
-    'map_layer': () => const MapLayerManagementScreen(),
-    'marketplace': () => const MarketplaceManagementScreen(),
-    'mention': () => const MentionManagementScreen(),
-    'message': () => const MessageManagementScreen(),
-    'ml_configuration': () => const MlConfigurationManagementScreen(),
-    'ml_model': () => const MlModelManagementScreen(),
-    'mls_connection': () => const MlsConnectionManagementScreen(),
-    'mls_data_mapping': () => const MlsDataMappingManagementScreen(),
-    'mls_external_listing': () => const MlsExternalListingManagementScreen(),
+        DynamicAdminScreen(modelName: 'ListingStatusHistory'),
+    'listing_tag': () => DynamicAdminScreen(modelName: 'ListingTag'),
+    'location': () => DynamicAdminScreen(modelName: 'Location'),
+    'loyalty_account': () => DynamicAdminScreen(modelName: 'LoyaltyAccount'),
+    'map_data': () => DynamicAdminScreen(modelName: 'MapData'),
+    'map_layer': () => DynamicAdminScreen(modelName: 'MapLayer'),
+    'marketplace': () => DynamicAdminScreen(modelName: 'Marketplace'),
+    'mention': () => DynamicAdminScreen(modelName: 'Mention'),
+    'message': () => DynamicAdminScreen(modelName: 'Message'),
+    'ml_configuration': () => DynamicAdminScreen(modelName: 'MlConfiguration'),
+    'ml_model': () => DynamicAdminScreen(modelName: 'MlModel'),
+    'mls_connection': () => DynamicAdminScreen(modelName: 'MlsConnection'),
+    'mls_data_mapping': () => DynamicAdminScreen(modelName: 'MlsDataMapping'),
+    'mls_external_listing': () => DynamicAdminScreen(modelName: 'MlsExternalListing'),
     'mls_listing_enhancement': () =>
-        const MlsListingEnhancementManagementScreen(),
-    'mls_sync_job': () => const MlsSyncJobManagementScreen(),
-    'mobile_device': () => const MobileDeviceManagementScreen(),
-    'more': () => const MoreManagementScreen(),
-    'negotiation_offer': () => const NegotiationOfferManagementScreen(),
-    'neighborhood': () => const NeighborhoodManagementScreen(),
-    'notification': () => const NotificationManagementScreen(),
-    'offer': () => const OfferManagementScreen(),
-    'offline_sync_queue': () => const OfflineSyncQueueManagementScreen(),
-    'org_subscription': () => const OrgSubscriptionManagementScreen(),
-    'performance_alert': () => const PerformanceAlertManagementScreen(),
-    'permission': () => const PermissionManagementScreen(),
-    'photo': () => const PhotoManagementScreen(),
-    'plan': () => const PlanManagementScreen(),
-    'post': () => const PostManagementScreen(),
-    'predictive_model': () => const PredictiveModelManagementScreen(),
-    'pricing_rule': () => const PricingRuleManagementScreen(),
-    'project': () => const ProjectManagementScreen(),
-    'project_alert': () => const ProjectAlertManagementScreen(),
-    'project_analytics': () => const ProjectAnalyticsManagementScreen(),
-    'project_report': () => const ProjectReportManagementScreen(),
-    'queue_configuration': () => const QueueConfigurationManagementScreen(),
-    'queue_message': () => const QueueMessageManagementScreen(),
-    'quote': () => const QuoteManagementScreen(),
-    'recommendation_result': () => const RecommendationResultManagementScreen(),
-    'reference_source': () => const ReferenceSourceManagementScreen(),
-    'referral': () => const ReferralManagementScreen(),
-    'rent_arrears': () => const RentArrearsManagementScreen(),
-    'rent_schedule': () => const RentScheduleManagementScreen(),
-    'rental_sync_job': () => const RentalSyncJobManagementScreen(),
-    'report': () => const ReportManagementScreen(),
-    'report_execution': () => const ReportExecutionManagementScreen(),
-    'review': () => const ReviewManagementScreen(),
-    'right_to_rent_check': () => const RightToRentCheckManagementScreen(),
-    'route': () => const RouteManagementScreen(),
-    'scraping_job': () => const ScrapingJobManagementScreen(),
-    'session': () => const SessionManagementScreen(),
-    'shared_amenity': () => const SharedAmenityManagementScreen(),
-    'signature_request': () => const SignatureRequestManagementScreen(),
-    'signature_signer': () => const SignatureSignerManagementScreen(),
-    'social_impact_counter': () => const SocialImpactCounterManagementScreen(),
-    'social_impact_record': () => const SocialImpactRecordManagementScreen(),
-    'solicitor_management': () => const SolicitorManagementScreen(),
-    'tag': () => const TagManagementScreen(),
-    'ticket': () => const TicketManagementScreen(),
-    'user': () => const UserManagementScreen(),
-    'user_activity_log': () => const UserActivityLogManagementScreen(),
-    'user_preference': () => const UserPreferenceManagementScreen(),
-    'vacation_rental': () => const VacationRentalManagementScreen(),
+        DynamicAdminScreen(modelName: 'MlsListingEnhancement'),
+    'mls_sync_job': () => DynamicAdminScreen(modelName: 'MlsSyncJob'),
+    'mobile_device': () => DynamicAdminScreen(modelName: 'MobileDevice'),
+    'more': () => DynamicAdminScreen(modelName: 'More'),
+    'negotiation_offer': () => DynamicAdminScreen(modelName: 'NegotiationOffer'),
+    'neighborhood': () => DynamicAdminScreen(modelName: 'Neighborhood'),
+    'notification': () => DynamicAdminScreen(modelName: 'Notification'),
+    'offer': () => DynamicAdminScreen(modelName: 'Offer'),
+    'offline_sync_queue': () => DynamicAdminScreen(modelName: 'OfflineSyncQueue'),
+    'org_subscription': () => DynamicAdminScreen(modelName: 'OrgSubscription'),
+    'performance_alert': () => DynamicAdminScreen(modelName: 'PerformanceAlert'),
+    'permission': () => DynamicAdminScreen(modelName: 'Permission'),
+    'photo': () => DynamicAdminScreen(modelName: 'Photo'),
+    'plan': () => DynamicAdminScreen(modelName: 'Plan'),
+    'post': () => DynamicAdminScreen(modelName: 'Post'),
+    'predictive_model': () => DynamicAdminScreen(modelName: 'PredictiveModel'),
+    'pricing_rule': () => DynamicAdminScreen(modelName: 'PricingRule'),
+    'project': () => DynamicAdminScreen(modelName: 'Project'),
+    'project_alert': () => DynamicAdminScreen(modelName: 'ProjectAlert'),
+    'project_analytics': () => DynamicAdminScreen(modelName: 'ProjectAnalytics'),
+    'project_report': () => DynamicAdminScreen(modelName: 'ProjectReport'),
+    'queue_configuration': () => DynamicAdminScreen(modelName: 'QueueConfiguration'),
+    'queue_message': () => DynamicAdminScreen(modelName: 'QueueMessage'),
+    'quote': () => DynamicAdminScreen(modelName: 'Quote'),
+    'recommendation_result': () => DynamicAdminScreen(modelName: 'RecommendationResult'),
+    'reference_source': () => DynamicAdminScreen(modelName: 'ReferenceSource'),
+    'referral': () => DynamicAdminScreen(modelName: 'Referral'),
+    'rent_arrears': () => DynamicAdminScreen(modelName: 'RentArrears'),
+    'rent_schedule': () => DynamicAdminScreen(modelName: 'RentSchedule'),
+    'rental_sync_job': () => DynamicAdminScreen(modelName: 'RentalSyncJob'),
+    'report': () => DynamicAdminScreen(modelName: 'Report'),
+    'report_execution': () => DynamicAdminScreen(modelName: 'ReportExecution'),
+    'review': () => DynamicAdminScreen(modelName: 'Review'),
+    'right_to_rent_check': () => DynamicAdminScreen(modelName: 'RightToRentCheck'),
+    'route': () => DynamicAdminScreen(modelName: 'Route'),
+    'scraping_job': () => DynamicAdminScreen(modelName: 'ScrapingJob'),
+    'session': () => DynamicAdminScreen(modelName: 'Session'),
+    'shared_amenity': () => DynamicAdminScreen(modelName: 'SharedAmenity'),
+    'signature_request': () => DynamicAdminScreen(modelName: 'SignatureRequest'),
+    'signature_signer': () => DynamicAdminScreen(modelName: 'SignatureSigner'),
+    'social_impact_counter': () => DynamicAdminScreen(modelName: 'SocialImpactCounter'),
+    'social_impact_record': () => DynamicAdminScreen(modelName: 'SocialImpactRecord'),
+    'solicitor_management': () => DynamicAdminScreen(modelName: 'Solicitor'),
+    'tag': () => DynamicAdminScreen(modelName: 'Tag'),
+    'ticket': () => DynamicAdminScreen(modelName: 'Ticket'),
+    'user': () => DynamicAdminScreen(modelName: 'User'),
+    'user_activity_log': () => DynamicAdminScreen(modelName: 'UserActivityLog'),
+    'user_preference': () => DynamicAdminScreen(modelName: 'UserPreference'),
+    'vacation_rental': () => DynamicAdminScreen(modelName: 'VacationRental'),
     'vacation_rental_platform': () =>
-        const VacationRentalPlatformManagementScreen(),
-    'verification': () => const VerificationManagementScreen(),
-    'video_content': () => const VideoContentManagementScreen(),
-    'virtual_tour': () => const VirtualTourManagementScreen(),
-    'webhook': () => const WebhookManagementScreen(),
-    'webhook_delivery': () => const WebhookDeliveryManagementScreen(),
-    'welcome': () => const WelcomeManagementScreen(),
+        DynamicAdminScreen(modelName: 'VacationRentalPlatform'),
+    'verification': () => DynamicAdminScreen(modelName: 'Verification'),
+    'video_content': () => DynamicAdminScreen(modelName: 'VideoContent'),
+    'virtual_tour': () => DynamicAdminScreen(modelName: 'VirtualTour'),
+    'webhook': () => DynamicAdminScreen(modelName: 'Webhook'),
+    'webhook_delivery': () => DynamicAdminScreen(modelName: 'WebhookDelivery'),
+    'welcome': () => DynamicAdminScreen(modelName: 'Welcome'),
   };
   static final Map<String, Widget Function()> clientPages = {
-    'property_search': () => const SearchAndFiltersPage(),
+    'property_search': () => DynamicAdminScreen(modelName: 'SearchAndFiltersPage'),
   };
 
   static Widget getAdminPage(String feature) {

@@ -1,187 +1,266 @@
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Sparkles, Settings, Activity, Cpu, Network, ShieldCheck, Zap, BarChart3, Bot } from "lucide-react";
+import { Brain, Settings, Activity, Cpu, ShieldCheck, Zap, Bot, Sparkles, BarChart3, Network } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api/client";
+import { cn } from "@/lib/utils";
+
+interface AIStatus {
+  status: string;
+  uptime: number;
+  metrics: {
+    totalSessions: number;
+    activeSessions: number;
+    totalValuations: number;
+    pendingTasks: number;
+  };
+  models: {
+    valuation: string;
+    chatbot: string;
+    recommendation: string;
+  };
+  lastHeartbeat: string;
+}
+
+interface AIModel {
+  id: string;
+  modelName: string;
+  modelVersion: string;
+  modelType: string;
+  provider: string;
+  status: string;
+  accuracy: number | null;
+  createdAt: string;
+}
+
 export default function AIDashboard() {
-  const {
-    t
-  } = useTranslation();
-  const models = [{
-    name: "Property Valuation V4",
-    type: "Regression",
-    status: "Active",
-    accuracy: "98.2%",
-    latency: "145ms"
-  }, {
-    name: "Sentiment Analysis Llama-3",
-    type: "NLP",
-    status: "Active",
-    accuracy: "94.5%",
-    latency: "450ms"
-  }, {
-    name: "Image Enhancement Gen-2",
-    type: "Diffusion",
-    status: "Active",
-    accuracy: "N/A",
-    latency: "1.2s"
-  }, {
-    name: "Fraud Detection Guard",
-    type: "Classification",
-    status: "Monitoring",
-    accuracy: "99.9%",
-    latency: "85ms"
-  }];
-  return <div className="p-6 space-y-6 bg-background min-h-screen text-foreground font-sans">
-      <div className="flex justify-between items-center bg-blue-600/5 p-6 rounded-2xl border border-blue-600/10 backdrop-blur-md">
+  const { t } = useTranslation();
+
+  const { data: statusData } = useQuery({
+    queryKey: ['ai-status'],
+    queryFn: async () => {
+      const res: any = await apiClient.get('/ai/status');
+      return res as AIStatus;
+    },
+    refetchInterval: 30000,
+  });
+
+  const { data: modelsData } = useQuery({
+    queryKey: ['ai-models'],
+    queryFn: async () => {
+      const res: any = await apiClient.get('/ai/models');
+      return (res?.data || []) as AIModel[];
+    },
+  });
+
+  const status = statusData as AIStatus | undefined;
+  const models = (modelsData || []) as AIModel[];
+
+  return (
+    <div className="p-6 space-y-6 min-h-screen">
+      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
-            <Brain className="w-8 h-8 text-foreground" />
+            <Brain className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">{t("admin.ai.ai_central_intelligence")}</h1>
-            <p className="text-muted-foreground">{t("admin.ai.monitoring_and_managing_reservatior")}</p>
+            <h1 className="text-3xl font-bold tracking-tight text-white">
+              {t("admin.ai.ai_central_intelligence", "AI Central Intelligence")}
+            </h1>
+            <p className="text-slate-400">
+              {t("admin.ai.monitoring_and_managing_reservatior", "Monitoring and managing Reservatior AI infrastructure")}
+            </p>
           </div>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" className="gap-2 bg-card border-border hover:bg-muted">
-            <Settings className="w-4 h-4" />{t("admin.ai.global_config")}</Button>
-          <Button className="gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20">
-            <Zap className="w-4 h-4" />{t("admin.ai.retrain_models")}</Button>
+          <Button variant="outline" className="gap-2 bg-white/5 border-white/10 hover:bg-white/10 text-white">
+            <Settings className="w-4 h-4" />
+            {t("admin.ai.global_config", "Global Config")}
+          </Button>
+          <Button className="gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20 text-white">
+            <Zap className="w-4 h-4" />
+            {t("admin.ai.retrain_models", "Retrain Models")}
+          </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-card/50 border-border shadow-xl">
+        <Card className="bg-white/5 border-white/10">
           <CardHeader>
-            <CardTitle className="text-foreground flex items-center gap-2">
-              <Cpu className="w-4 h-4 text-purple-400" />{t("admin.ai.infrastructure_health")}</CardTitle>
+            <CardTitle className="text-white flex items-center gap-2">
+              <Cpu className="w-4 h-4 text-purple-400" />
+              {t("admin.ai.infrastructure_health", "Infrastructure Health")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex justify-between items-center text-sm p-3 bg-muted/50 rounded-lg">
-              <span className="text-muted-foreground">{t("admin.ai.gpu_clusters_h100")}</span>
-              <Badge className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">{t("admin.ai.operational")}</Badge>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.system_status", "System Status")}</span>
+              <Badge className={cn(
+                "border-0",
+                status?.status === "online" ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400"
+              )}>
+                {status?.status || "checking..."}
+              </Badge>
             </div>
-            <div className="flex justify-between items-center text-sm p-3 bg-muted/50 rounded-lg">
-              <span className="text-muted-foreground">{t("admin.ai.vector_storage_pinecone")}</span>
-              <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/20">{t("admin.ai.9999_up")}</Badge>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.active_sessions", "Active Sessions")}</span>
+              <span className="font-bold text-white">{status?.metrics?.activeSessions ?? "—"}</span>
+            </div>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.pending_tasks", "Pending Tasks")}</span>
+              <span className="font-bold text-white">{status?.metrics?.pendingTasks ?? "—"}</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50 border-border shadow-xl">
+        <Card className="bg-white/5 border-white/10">
           <CardHeader>
-            <CardTitle className="text-foreground flex items-center gap-2">
-              <Activity className="w-4 h-4 text-blue-400" />{t("admin.ai.usage_metrics")}</CardTitle>
+            <CardTitle className="text-white flex items-center gap-2">
+              <Activity className="w-4 h-4 text-blue-400" />
+              {t("admin.ai.usage_metrics", "Usage Metrics")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex justify-between items-center text-sm p-3 bg-muted/50 rounded-lg">
-              <span className="text-muted-foreground">{t("admin.ai.tokens_generated_24h")}</span>
-              <span className="font-bold text-foreground">{t("admin.ai.42m")}</span>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.total_sessions", "Total Sessions")}</span>
+              <span className="font-bold text-white">{status?.metrics?.totalSessions ?? "—"}</span>
             </div>
-            <div className="flex justify-between items-center text-sm p-3 bg-muted/50 rounded-lg">
-              <span className="text-muted-foreground">{t("admin.ai.api_requests_24h")}</span>
-              <span className="font-bold text-foreground">142,400</span>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.total_valuations", "Total Valuations")}</span>
+              <span className="font-bold text-white">{status?.metrics?.totalValuations ?? "—"}</span>
+            </div>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.uptime", "Uptime")}</span>
+              <span className="font-bold text-white">
+                {status?.uptime ? `${Math.floor(status.uptime / 60)}m` : "—"}
+              </span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50 border-border shadow-xl">
+        <Card className="bg-white/5 border-white/10">
           <CardHeader>
-            <CardTitle className="text-foreground flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />{t("admin.ai.ai_governance")}</CardTitle>
+            <CardTitle className="text-white flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              {t("admin.ai.active_models", "Active Models")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex justify-between items-center text-sm p-3 bg-muted/50 rounded-lg">
-              <span className="text-muted-foreground">{t("admin.ai.pii_redaction_rate")}</span>
-              <span className="font-bold text-foreground">100%</span>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.valuation_model", "Valuation")}</span>
+              <span className="font-medium text-white">{status?.models?.valuation ?? "—"}</span>
             </div>
-            <div className="flex justify-between items-center text-sm p-3 bg-muted/50 rounded-lg">
-              <span className="text-muted-foreground">{t("admin.ai.hallucination_delta")}</span>
-              <span className="font-bold text-emerald-600 dark:text-emerald-400">&lt; 0.12%</span>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.chatbot_model", "Chatbot")}</span>
+              <span className="font-medium text-white">{status?.models?.chatbot ?? "—"}</span>
+            </div>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.recommendation_model", "Recommendation")}</span>
+              <span className="font-medium text-white">{status?.models?.recommendation ?? "—"}</span>
             </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-card/50 border-border shadow-xl overflow-hidden">
-          <CardHeader className="bg-muted/30">
-            <div className="flex justify-between items-center">
-              <CardTitle className="flex items-center gap-2">
-                 <Bot className="w-5 h-5 text-indigo-400" />{t("admin.ai.model_fleet_status")}</CardTitle>
-              <Button variant="ghost" className="text-xs text-blue-400">{t("admin.ai.scale_clusters")}</Button>
-            </div>
+        <Card className="bg-white/5 border-white/10 overflow-hidden">
+          <CardHeader className="bg-white/5">
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Bot className="w-5 h-5 text-indigo-400" />
+              {t("admin.ai.model_fleet_status", "Model Fleet Status")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-border bg-muted/20">
-                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-muted-foreground">{t("admin.ai.model_name")}</th>
-                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-muted-foreground">{t("admin.ai.status")}</th>
-                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-muted-foreground">{t("admin.ai.metrics")}</th>
+                <tr className="border-b border-white/10 bg-white/5">
+                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-400">
+                    {t("admin.ai.model_name", "Model Name")}
+                  </th>
+                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-400">
+                    {t("admin.ai.type", "Type")}
+                  </th>
+                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-400">
+                    {t("admin.ai.status", "Status")}
+                  </th>
+                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-400">
+                    {t("admin.ai.accuracy", "Accuracy")}
+                  </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
-                {models.map((model, i) => <tr key={i} className="hover:bg-muted/50 transition-colors">
+              <tbody className="divide-y divide-white/10">
+                {models.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-8 text-center text-slate-500 text-sm">
+                      {t("admin.ai.no_models", "No models found")}
+                    </td>
+                  </tr>
+                ) : models.slice(0, 10).map((model) => (
+                  <tr key={model.id} className="hover:bg-white/5 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-muted-foreground">{model.name}</span>
-                        <span className="text-xs text-muted-foreground">{model.type}</span>
+                        <span className="text-sm font-medium text-white">{model.modelName}</span>
+                        <span className="text-xs text-slate-400">v{model.modelVersion}</span>
                       </div>
                     </td>
+                    <td className="px-6 py-4 text-sm text-slate-300">{model.modelType}</td>
                     <td className="px-6 py-4">
-                      <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 text-[10px]">{model.status}</Badge>
+                      <Badge className={cn(
+                        "border-0 text-[10px]",
+                        model.status === "ACTIVE" || model.status === "Active"
+                          ? "bg-emerald-500/20 text-emerald-400"
+                          : model.status === "TRAINING" || model.status === "Training"
+                          ? "bg-blue-500/20 text-blue-400"
+                          : "bg-slate-500/20 text-slate-400"
+                      )}>
+                        {model.status}
+                      </Badge>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col text-xs space-y-1">
-                        <span className="text-muted-foreground">{t("admin.ai.acc")}<span className="text-muted-foreground">{model.accuracy}</span></span>
-                        <span className="text-muted-foreground">{t("admin.ai.latency")}<span className="text-blue-400">{model.latency}</span></span>
-                      </div>
+                    <td className="px-6 py-4 text-sm text-white">
+                      {model.accuracy != null ? `${(model.accuracy * 100).toFixed(1)}%` : "—"}
                     </td>
-                  </tr>)}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50 border-border shadow-xl">
+        <Card className="bg-white/5 border-white/10">
           <CardHeader>
-            <CardTitle className="text-foreground flex items-center gap-2">
-              <Zap className="w-5 h-5 text-amber-400" />{t("admin.ai.realtime_execution_stream")}</CardTitle>
+            <CardTitle className="text-white flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-amber-400" />
+              {t("admin.ai.model_breakdown", "Model Breakdown")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-             <div className="space-y-4 font-mono text-[11px]">
-                {[{
-              time: '10:01:42',
-              event: '[Property-Analyzer] Image processing completed for listing #4829',
-              status: 'success'
-            }, {
-              time: '10:01:45',
-              event: '[Lead-Score] New lead qualified. Score: 87/100',
-              status: 'info'
-            }, {
-              time: '10:01:52',
-              event: '[Sentiment-Guardian] Review #9401 processed. Sentiment: Positive',
-              status: 'success'
-            }, {
-              time: '10:02:01',
-              event: '[Valuation-Engine] Weekly market delta calculated for London SE1',
-              status: 'info'
-            }, {
-              time: '10:02:15',
-              event: '[Security-AI] Anomaly detected in login pattern - session flagged',
-              status: 'warning'
-            }].map((item, i) => <div key={i} className="flex gap-4 p-2 bg-muted/20 rounded border-l-2 border-border hover:border-blue-500 transition-colors">
-                    <span className="text-muted-foreground">{item.time}</span>
-                    <span className={cn(item.status === 'success' ? 'text-emerald-600 dark:text-emerald-400' : item.status === 'warning' ? 'text-rose-600 dark:text-rose-400' : 'text-blue-600 dark:text-blue-400')}>{item.event}</span>
-                  </div>)}
-             </div>
+            <div className="space-y-4">
+              {[
+                { label: t("admin.ai.regression", "Regression"), count: models.filter(m => m.modelType === "Regression").length, color: "bg-blue-500" },
+                { label: t("admin.ai.nlp", "NLP"), count: models.filter(m => m.modelType === "NLP").length, color: "bg-purple-500" },
+                { label: t("admin.ai.classification", "Classification"), count: models.filter(m => m.modelType === "Classification").length, color: "bg-emerald-500" },
+                { label: t("admin.ai.diffusion", "Diffusion"), count: models.filter(m => m.modelType === "Diffusion").length, color: "bg-amber-500" },
+                { label: t("admin.ai.other", "Other"), count: models.filter(m => !["Regression", "NLP", "Classification", "Diffusion"].includes(m.modelType)).length, color: "bg-slate-500" },
+              ].filter(g => g.count > 0).map((group) => (
+                <div key={group.label} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className={cn("w-3 h-3 rounded-full", group.color)} />
+                    <span className="text-sm text-slate-300">{group.label}</span>
+                  </div>
+                  <span className="text-sm font-bold text-white">{group.count}</span>
+                </div>
+              ))}
+              {models.length === 0 && (
+                <p className="text-center text-slate-500 text-sm py-8">
+                  {t("admin.ai.no_models_data", "No model data available")}
+                </p>
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>
-    </div>;
-}
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(' ');
+    </div>
+  );
 }

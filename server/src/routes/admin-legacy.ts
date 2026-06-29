@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia";
 import { authMiddleware, hasPermission } from "../middleware/auth";
 import { prisma } from "../lib/prisma";
 
-export const adminRoutes = new Elysia({ prefix: "/admin" })
+export const adminLegacyRoutes = new Elysia({ prefix: "/admin" })
   .use(authMiddleware)
   .onBeforeHandle(hasPermission("admin.access"))
 

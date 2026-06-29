@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { PageShell } from "../../client/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,82 +11,26 @@ import { Wallet, TrendingUp, Users, Building, Percent, RefreshCw, Banknote, Arro
 import { useQuery } from "@tanstack/react-query";
 import { adminNeuralApi, CommissionSummary } from "@/lib/api/admin-neural";
 
-// Mock Data for multi-tier commission splits
-const SPLIT_DATA = [{
-  name: "Platform Fee",
-  value: 10,
-  color: "#8b5cf6"
-}, {
-  name: "Master Agency",
-  value: 30,
-  color: "#3b82f6"
-}, {
-  name: "Agent (Direct)",
-  value: 60,
-  color: "#10b981"
-}];
 const COMMISSION_TRANSACTIONS = [{
-  id: "TRX-8291",
-  deal: "Villa Azura - 14 Days",
-  gross: 12500,
-  platform: 1250,
-  agency: "Luxury Homes Co",
-  agencyCut: 3375,
-  agent: "Sarah J.",
-  agentCut: 7875,
-  status: "PENDING"
+  id: "TRX-8291", deal: "Villa Azura - 14 Days", gross: 12500, platform: 1250, agency: "Luxury Homes Co", agencyCut: 3375, agent: "Sarah J.", agentCut: 7875, status: "PENDING"
 }, {
-  id: "TRX-8292",
-  deal: "Sunset Apt - 7 Days",
-  gross: 3200,
-  platform: 320,
-  agency: "Coastal Estates",
-  agencyCut: 864,
-  agent: "Mike D.",
-  agentCut: 2016,
-  status: "CLEARED"
+  id: "TRX-8292", deal: "Sunset Apt - 7 Days", gross: 3200, platform: 320, agency: "Coastal Estates", agencyCut: 864, agent: "Mike D.", agentCut: 2016, status: "CLEARED"
 }, {
-  id: "TRX-8293",
-  deal: "Downtown Loft - 30 Days",
-  gross: 8500,
-  platform: 850,
-  agency: "Urban Living",
-  agencyCut: 2295,
-  agent: "Elena R.",
-  agentCut: 5355,
-  status: "CLEARED"
+  id: "TRX-8293", deal: "Downtown Loft - 30 Days", gross: 8500, platform: 850, agency: "Urban Living", agencyCut: 2295, agent: "Elena R.", agentCut: 5355, status: "CLEARED"
 }, {
-  id: "TRX-8294",
-  deal: "Marina Villa - Project Sale",
-  gross: 450000,
-  platform: 9000,
-  agency: "Platinum Real Estate",
-  agencyCut: 22000,
-  agent: "David T.",
-  agentCut: 14000,
-  status: "ESCROW"
+  id: "TRX-8294", deal: "Marina Villa - Project Sale", gross: 450000, platform: 9000, agency: "Platinum Real Estate", agencyCut: 22000, agent: "David T.", agentCut: 14000, status: "ESCROW"
 }];
 const PERFORMANCE_DATA = [{
-  month: "Jan",
-  agency: 45000,
-  agent: 120000
+  month: "Jan", agency: 45000, agent: 120000
 }, {
-  month: "Feb",
-  agency: 52000,
-  agent: 145000
+  month: "Feb", agency: 52000, agent: 145000
 }, {
-  month: "Mar",
-  agency: 48000,
-  agent: 132000
+  month: "Mar", agency: 48000, agent: 132000
 }, {
-  month: "Apr",
-  agency: 61000,
-  agent: 168000
+  month: "Apr", agency: 61000, agent: 168000
 }];
 export default function CommissionDistribution() {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
   const [filter, setFilter] = useState("all");
   const { data: statsData, isLoading: loading, refetch } = useQuery({
     queryKey: ['commissionSummary'],
@@ -96,104 +39,105 @@ export default function CommissionDistribution() {
       return response as any;
     }
   });
-
   const stats: CommissionSummary | null = statsData || null;
   if (loading) {
-    return <PageShell title={t("admin.sales.sales_commission_distribution")} description={t("admin.sales.loading_financial_data")}>
+    return <div className="min-h-screen bg-background p-6">
+        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+          <h1 className="text-xl font-bold text-white">{t("admin.sales.sales_commission_distribution")}</h1>
+        </div>
         <div className="flex h-[400px] items-center justify-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary" />
         </div>
-      </PageShell>;
+      </div>;
   }
   const splitModel = [{
-    name: "Platform",
-    value: stats?.platformShare || 10,
-    color: "#8b5cf6"
+    name: "Platform", value: stats?.platformShare || 10, color: "#8b5cf6"
   }, {
-    name: "Agency",
-    value: stats?.agencyShare || 30,
-    color: "#3b82f6"
+    name: "Agency", value: stats?.agencyShare || 30, color: "#3b82f6"
   }, {
-    name: "Agent",
-    value: stats?.agentShare || 60,
-    color: "#10b981"
+    name: "Agent", value: stats?.agentShare || 60, color: "#10b981"
   }];
-  return <PageShell title={t("admin.sales.sales_commission_distribution")} description={t("admin.sales.manage_hierarchical_commission_splits")}>
-      <div className="space-y-6">
-        {/* Global Controls */}
-        <div className="flex justify-between items-center bg-card p-4 rounded-xl border border-border shadow-sm">
+  return <div className="min-h-screen bg-background">
+      <div className="p-6 space-y-6">
+        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+          <h1 className="text-xl font-bold text-white">{t("admin.sales.sales_commission_distribution")}</h1>
+          <p className="text-sm text-slate-400 mt-1">{t("admin.sales.manage_hierarchical_commission_splits")}</p>
+        </div>
+
+        <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10 shadow-sm">
           <div className="flex gap-4 items-center">
             <Select value={filter} onValueChange={setFilter}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-white">
                 <SelectValue placeholder={t("admin.sales.transaction_type")} />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-[#14151a] border-white/10 text-white">
                 <SelectItem value="all">{t("admin.sales.all_deals")}</SelectItem>
                 <SelectItem value="vacation">{t("admin.sales.vacation_rentals")}</SelectItem>
                 <SelectItem value="projects">{t("admin.sales.project_sales")}</SelectItem>
               </SelectContent>
             </Select>
             <div className="relative">
-              <Input placeholder={t("admin.sales.search_agency_or_agent")} className="w-[300px]" />
+              <Input placeholder={t("admin.sales.search_agency_or_agent")} className="w-[300px] bg-white/5 border-white/10 text-white placeholder:text-slate-500" />
             </div>
           </div>
-          <Button variant="outline" onClick={() => refetch()}><RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin.sales.recalculate_splits")}</Button>
+          <Button variant="outline" className="border-white/10 text-white bg-white/5" onClick={() => refetch()}>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin.sales.recalculate_splits")}
+          </Button>
         </div>
 
-        {/* Top KPIs */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-card border-border text-foreground">
+          <Card className="bg-white/5 border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.sales.total_net_earnings")}</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.total_net_earnings")}</CardTitle>
               <TrendingUp className="w-4 h-4 text-emerald-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">${stats?.totalEarnings?.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground mt-1">{t("admin.sales.platform_revenue_share")}</p>
+              <div className="text-3xl font-bold text-white">${stats?.totalEarnings?.toLocaleString()}</div>
+              <p className="text-xs text-slate-400 mt-1">{t("admin.sales.platform_revenue_share")}</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white/5 border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.sales.pending_payouts")}</CardTitle>
-              <Wallet className="w-4 h-4 text-purple-600" />
+              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.pending_payouts")}</CardTitle>
+              <Wallet className="w-4 h-4 text-purple-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-purple-700">${stats?.pendingPayouts?.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground mt-1">{t("admin.sales.across_all_entities")}</p>
+              <div className="text-3xl font-bold text-purple-400">${stats?.pendingPayouts?.toLocaleString()}</div>
+              <p className="text-xs text-slate-400 mt-1">{t("admin.sales.across_all_entities")}</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white/5 border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.sales.agency_weight")}</CardTitle>
-              <Building className="w-4 h-4 text-blue-600" />
+              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.agency_weight")}</CardTitle>
+              <Building className="w-4 h-4 text-blue-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-700">{stats?.agencyShare}%</div>
-              <p className="text-xs text-muted-foreground mt-1">{t("admin.sales.default_platform_rate")}</p>
+              <div className="text-3xl font-bold text-blue-400">{stats?.agencyShare}%</div>
+              <p className="text-xs text-slate-400 mt-1">{t("admin.sales.default_platform_rate")}</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white/5 border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.sales.agent_weight")}</CardTitle>
-              <Users className="w-4 h-4 text-emerald-600" />
+              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.agent_weight")}</CardTitle>
+              <Users className="w-4 h-4 text-emerald-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-emerald-700">{stats?.agentShare}%</div>
-              <p className="text-xs text-muted-foreground mt-1">{t("admin.sales.default_platform_rate")}</p>
+              <div className="text-3xl font-bold text-emerald-400">{stats?.agentShare}%</div>
+              <p className="text-xs text-slate-400 mt-1">{t("admin.sales.default_platform_rate")}</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-1">
+          <Card className="lg:col-span-1 bg-white/5 border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Percent className="w-5 h-5 text-indigo-500" />{t("admin.sales.global_split_model")}</CardTitle>
-              <CardDescription>{t("admin.sales.default_hierarchical_distribution_weight")}</CardDescription>
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Percent className="w-5 h-5 text-indigo-400" />{t("admin.sales.global_split_model")}
+              </CardTitle>
+              <CardDescription className="text-slate-400">{t("admin.sales.default_hierarchical_distribution_weight")}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center">
               <div className="h-[250px] w-full">
@@ -202,38 +146,30 @@ export default function CommissionDistribution() {
                     <Pie data={splitModel} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
                       {splitModel.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
                     </Pie>
-                    <Tooltip contentStyle={{
-                    borderRadius: '8px'
-                  }} />
-                    <Legend verticalAlign="bottom" height={36} />
+                    <Tooltip contentStyle={{ borderRadius: '8px', background: '#1a1b1e', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }} />
+                    <Legend wrapperStyle={{ color: '#94a3b8' }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="lg:col-span-2">
+          <Card className="lg:col-span-2 bg-white/5 border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Banknote className="w-5 h-5 text-emerald-500" />{t("admin.sales.payout_trending_agency_vs")}</CardTitle>
-              <CardDescription>{t("admin.sales.monthly_cleared_commissions_routed")}</CardDescription>
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Banknote className="w-5 h-5 text-emerald-400" />{t("admin.sales.payout_trending_agency_vs")}
+              </CardTitle>
+              <CardDescription className="text-slate-400">{t("admin.sales.monthly_cleared_commissions_routed")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[250px] w-full">
                 <ResponsiveContainer width="100%" height={300} minWidth={0}>
-                  <BarChart data={stats?.payoutTrends} margin={{
-                  top: 10,
-                  right: 10,
-                  left: -20,
-                  bottom: 0
-                }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <BarChart data={stats?.payoutTrends} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
                     <XAxis dataKey="month" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
                     <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={v => `$${v / 1000}k`} />
-                    <Tooltip cursor={{
-                    fill: '#f1f5f9'
-                  }} />
-                    <Legend />
+                    <Tooltip cursor={{ fill: '#1a1b1e' }} contentStyle={{ background: '#1a1b1e', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }} />
+                    <Legend wrapperStyle={{ color: '#94a3b8' }} />
                     <Bar dataKey="amount" name="Total Commissions" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -242,49 +178,50 @@ export default function CommissionDistribution() {
           </Card>
         </div>
 
-        {/* Transaction Split Table */}
-        <Card>
+        <Card className="bg-white/5 border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ArrowRightLeft className="w-5 h-5 text-muted-foreground" />{t("admin.sales.recent_deal_splits")}</CardTitle>
-            <CardDescription>{t("admin.sales.realtime_viewing_of_how")}</CardDescription>
+            <CardTitle className="flex items-center gap-2 text-white">
+              <ArrowRightLeft className="w-5 h-5 text-slate-400" />{t("admin.sales.recent_deal_splits")}
+            </CardTitle>
+            <CardDescription className="text-slate-400">{t("admin.sales.realtime_viewing_of_how")}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="rounded-xl border border-border overflow-hidden">
+            <div className="rounded-xl border border-white/10 overflow-hidden">
               <Table>
-                <TableHeader className="bg-muted/50">
-                  <TableRow>
-                     <TableHead>{t("admin.sales.deal_info")}</TableHead>
-                    <TableHead>{t("admin.sales.gross_revenue")}</TableHead>
-                    <TableHead className="bg-red-50/50">{t("admin.sales.tax_deducted")}</TableHead>
-                    <TableHead className="bg-purple-50/50">{t("admin.sales.platform_10")}</TableHead>
-                    <TableHead className="bg-blue-50/50">{t("admin.sales.agency_split")}</TableHead>
-                    <TableHead className="bg-emerald-50/50">{t("admin.sales.agent_split")}</TableHead>
-                    <TableHead className="text-right">{t("admin.sales.status")}</TableHead>
+                <TableHeader className="bg-white/5">
+                  <TableRow className="border-white/10">
+                    <TableHead className="text-slate-400">{t("admin.sales.deal_info")}</TableHead>
+                    <TableHead className="text-slate-400">{t("admin.sales.gross_revenue")}</TableHead>
+                    <TableHead className="bg-red-500/5 text-slate-400">{t("admin.sales.tax_deducted")}</TableHead>
+                    <TableHead className="bg-purple-500/5 text-slate-400">{t("admin.sales.platform_10")}</TableHead>
+                    <TableHead className="bg-blue-500/5 text-slate-400">{t("admin.sales.agency_split")}</TableHead>
+                    <TableHead className="bg-emerald-500/5 text-slate-400">{t("admin.sales.agent_split")}</TableHead>
+                    <TableHead className="text-right text-slate-400">{t("admin.sales.status")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {stats?.distributions?.map(trx => <TableRow key={trx.id}>
+                  {stats?.distributions?.map(trx => <TableRow key={trx.id} className="border-white/10">
                       <TableCell>
-                        <div className="font-medium text-foreground">{trx.entity}</div>
-                        <div className="text-xs text-muted-foreground font-mono mt-0.5">{trx.id}</div>
+                        <div className="font-medium text-white">{trx.entity}</div>
+                        <div className="text-xs text-slate-400 font-mono mt-0.5">{trx.id}</div>
                       </TableCell>
-                      <TableCell className="font-bold text-foreground">${trx.amount.toLocaleString()}</TableCell>
+                      <TableCell className="font-bold text-white">${trx.amount.toLocaleString()}</TableCell>
                       <TableCell className="font-semibold text-red-400 bg-red-500/5">
                         ${(trx.amount * 0.18).toLocaleString()} <span className="text-[10px] opacity-70">{t("admin.sales.18_avg")}</span>
                       </TableCell>
                       <TableCell className="font-semibold text-purple-400 bg-purple-500/5">
-                        {trx.shares[0]?.value}{t("admin.sales.platform")}</TableCell>
+                        {trx.shares[0]?.value}{t("admin.sales.platform")}
+                      </TableCell>
                       <TableCell className="bg-blue-500/5">
                         <div className="font-semibold text-blue-400">{trx.type}</div>
-                        <div className="text-xs text-muted-foreground">{t("admin.sales.entity_type")}</div>
+                        <div className="text-xs text-slate-400">{t("admin.sales.entity_type")}</div>
                       </TableCell>
                       <TableCell className="bg-emerald-500/5">
                         <div className="font-semibold text-emerald-400">{t("admin.sales.detailed")}</div>
-                        <div className="text-xs text-muted-foreground">{t("admin.sales.split_breakdown")}</div>
+                        <div className="text-xs text-slate-400">{t("admin.sales.split_breakdown")}</div>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Badge variant={trx.status === 'Cleared' ? 'default' : trx.status === 'Escrow' ? 'secondary' : 'outline'} className={trx.status === 'Cleared' ? 'bg-emerald-600 hover:bg-emerald-700 text-foreground' : ''}>
+                        <Badge variant={trx.status === 'Cleared' ? 'default' : trx.status === 'Escrow' ? 'secondary' : 'outline'} className={trx.status === 'Cleared' ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : ''}>
                           {trx.status}
                         </Badge>
                       </TableCell>
@@ -295,5 +232,5 @@ export default function CommissionDistribution() {
           </CardContent>
         </Card>
       </div>
-    </PageShell>;
+    </div>;
 }

@@ -1,3 +1,4 @@
+import DynamicAdminPage from "@/pages/admin/dynamic/DynamicAdminPage";
 import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
 import { AppLayout } from "@/pages/client/layout/AppLayout";
@@ -23,8 +24,9 @@ import NotFound from "@/pages/client/NotFound";
 
 const AddPropertyWizard = lazy(() => import("@/pages/host/AddPropertyWizard"));
 
-// ─── Existing pages ───────────────────────────────────────────────────────────
 import Home from "@/pages/client/Home";
+import HomeChat from "@/pages/client/HomeChat";
+import ROICalculator from "@/pages/marketing/ROICalculator";
 import Explore from "@/pages/client/Explore";
 import Videos from "@/pages/client/Videos";
 import LeaseCare from "@/pages/client/LeaseCare";
@@ -46,6 +48,7 @@ import Subscriptions from "@/pages/client/membership/Subscriptions";
 import ApiKeys from "@/pages/client/integrations/ApiKeys";
 import MobileDevices from "@/pages/client/mobile/MobileDevices";
 import AIStudio from "@/pages/client/ai/AIStudio";
+const AISearchResults = lazy(() => import("@/pages/client/ai/AISearchResults"));
 import Contacts from "@/pages/client/contacts/Contacts";
 import Leads from "@/pages/client/crm/Leads";
 import Tasks from "@/pages/client/tasks/Tasks";
@@ -239,6 +242,7 @@ import {
 } from "@/pages/admin";
 
 import FacilitiesManagement from "@/pages/admin/facilities/FacilitiesManagement";
+import { PartnerAgreements } from "@/pages/admin/agencies/PartnerAgreements";
 
 import DigitalTwinDashboard from "@/pages/admin/projects/DigitalTwin";
 
@@ -280,6 +284,31 @@ const AdminLayoutWrapper = () => {
   );
 };
 
+import { AgentLayout } from "@/pages/agent_os/layout/AgentLayout";
+import AgentDashboard from "@/pages/agent_os/Dashboard";
+import { FinanceLayout } from "@/pages/finance_os/layout/FinanceLayout";
+import FinanceDashboard from "@/pages/finance_os/Dashboard";
+
+const AgentLayoutWrapper = () => {
+  return (
+    <AgentLayout>
+      <Suspense fallback={<LoadingFallback />}>
+        <Outlet />
+      </Suspense>
+    </AgentLayout>
+  );
+};
+
+const FinanceLayoutWrapper = () => {
+  return (
+    <FinanceLayout>
+      <Suspense fallback={<LoadingFallback />}>
+        <Outlet />
+      </Suspense>
+    </FinanceLayout>
+  );
+};
+
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode, allowedRoles?: string[] }) => {
   const { user, loading } = useAuth();
   if (loading) return <LoadingFallback />;
@@ -318,6 +347,7 @@ export const router = createBrowserRouter([
     element: <PublicLayout />,
     children: [
       { path: "/",                       element: <Home /> },
+      { path: "/ai-search",              element: <HomeChat /> },
       { path: "/trust",                  element: <TrustCenter /> },
       { path: "/hospitality-standards",  element: <HospitalityStandards /> },
       { path: "/short-term-rental-safety", element: <ShortTermRentalSafety /> },
@@ -333,6 +363,8 @@ export const router = createBrowserRouter([
       { path: "/properties/:id",         element: <PropertyDetail /> },
       { path: "/icny27",                 element: <InmanConnect /> },
       { path: "/inman",                  element: <InmanConnect /> },
+      { path: "/roi",                    element: <ROICalculator /> },
+      { path: "/ai-results",              element: <React.Suspense fallback={<LoadingFallback />}><AISearchResults /></React.Suspense> },
     ]
   },
 
@@ -573,6 +605,28 @@ export const router = createBrowserRouter([
   },
 
   {
+    element: <ProtectedRoute><AgentLayoutWrapper /></ProtectedRoute>,
+    children: [
+      { path: "/agent-os/dashboard", element: <AgentDashboard /> },
+      { path: "/agent-os/leads", element: <AgentDashboard /> },
+      { path: "/agent-os/performance", element: <AgentDashboard /> },
+      { path: "/agent-os/clients", element: <AgentDashboard /> },
+      { path: "/agent-os", element: <Navigate to="/agent-os/dashboard" replace /> }
+    ]
+  },
+
+  {
+    element: <ProtectedRoute><FinanceLayoutWrapper /></ProtectedRoute>,
+    children: [
+      { path: "/finance-os/dashboard", element: <FinanceDashboard /> },
+      { path: "/finance-os/ledger", element: <FinanceDashboard /> },
+      { path: "/finance-os/escrow", element: <FinanceDashboard /> },
+      { path: "/finance-os/revenue", element: <FinanceDashboard /> },
+      { path: "/finance-os", element: <Navigate to="/finance-os/dashboard" replace /> }
+    ]
+  },
+
+  {
     element: <ProtectedRoute allowedRoles={["ADMIN", "SUPER_ADMIN", "ORG_ADMIN", "OWNER", "AGENCY_ADMIN", "VENDOR_MANAGER", "ACCOUNTANT", "MAINTENANCE"]}><AdminLayoutWrapper /></ProtectedRoute>,
     children: [
       {
@@ -596,6 +650,7 @@ export const router = createBrowserRouter([
           { path: "reports",       element: <AdminReports /> },
           
           // Additional Admin Pages
+          { path: "dynamic/:model", element: <DynamicAdminPage /> },
           { path: "exports",       element: <Exports /> },
           { path: "projects",      element: <ProjectDashboard /> },
           { path: "digital-twin",  element: <DigitalTwinDashboard /> },
@@ -655,6 +710,7 @@ export const router = createBrowserRouter([
           
           // Domain Specific Admin
           { path: "agencies",      element: <AgenciesManagement /> },
+          { path: "agencies/contracts", element: <PartnerAgreements /> },
           { path: "agents",        element: <AgentsManagement /> },
           { path: "vendors",       element: <VendorsManagement /> },
           { path: "contacts",      element: <ContactsManagement /> },

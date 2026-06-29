@@ -10,7 +10,6 @@ import 'package:reservatior/features/client/property/presentation/widgets/search
 import 'package:reservatior/features/client/property/presentation/widgets/ai_upsell_banner_widget.dart';
 import 'package:reservatior/core/network/api_endpoints.dart';
 import 'package:dio/dio.dart';
-import 'package:reservatior/features/client/hotel/presentation/widgets/hotel_alternatives_widget.dart';
 import 'property_search_map_page.dart';
 
 class PropertySearchPage extends ConsumerStatefulWidget {
@@ -121,12 +120,7 @@ class _PropertySearchPageState extends ConsumerState<PropertySearchPage> {
                             final now = DateTime.now();
                             final checkIn = now.toIso8601String().split('T')[0];
                             final checkOut = now.add(const Duration(days: 5)).toIso8601String().split('T')[0];
-                            return HotelAlternativesWidget(
-                              destination: _searchController.text,
-                              checkIn: checkIn,
-                              checkOut: checkOut,
-                              guests: 2,
-                            );
+                            return const SizedBox.shrink();
                           }
                           return const SizedBox.shrink();
                         }

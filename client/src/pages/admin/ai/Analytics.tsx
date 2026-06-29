@@ -154,18 +154,18 @@ export default function AIAnalytics() {
     t
   } = useTranslation();
   const [activeTab, setActiveTab] = useState("overview");
-  return <div className="p-4 md:p-8 space-y-8 max-w-(--breakpoint-2xl) mx-auto">
+  return <div className="p-4 md:p-8 space-y-8 max-w-(--breakpoint-2xl) mx-auto min-h-screen">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3 text-white">
             <div className="p-2 rounded-xl bg-primary/10">
               <Brain className="w-7 h-7 text-primary" />
             </div>{t("admin.ai.ai_analytics")}</h1>
-          <p className="text-muted-foreground mt-1">{t("admin.ai.deep_insights_from_artificial")}</p>
+          <p className="text-slate-400 mt-1">{t("admin.ai.deep_insights_from_artificial")}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" className="border-border">
+          <Button variant="outline" className="border-white/10 text-slate-400">
             <RefreshCw className="w-4 h-4 mr-2" />{t("admin.ai.refresh")}</Button>
           <Button className="bg-primary shadow-lg shadow-primary/20">
             <Sparkles className="w-4 h-4 mr-2" />{t("admin.ai.run_analysis")}</Button>
@@ -183,7 +183,7 @@ export default function AIAnalytics() {
       }} transition={{
         delay: idx * 0.08
       }}>
-            <Card className="border-border bg-secondary/20 backdrop-blur-xl hover:bg-secondary/30 transition-all group rounded-2xl">
+            <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all group rounded-2xl">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div className={`p-3 rounded-xl ${kpi.bg} ${kpi.color} group-hover:scale-110 transition-transform`}>
@@ -194,28 +194,28 @@ export default function AIAnalytics() {
                     {kpi.change}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground font-medium">{kpi.label}</p>
-                <h3 className="text-2xl font-bold mt-1">{kpi.value}</h3>
+                <p className="text-sm text-slate-400 font-medium">{kpi.label}</p>
+                <h3 className="text-2xl font-bold mt-1 text-white">{kpi.value}</h3>
               </CardContent>
             </Card>
           </motion.div>)}
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="bg-secondary/30 border border-border p-1">
-          <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-foreground rounded-lg">{t("admin.ai.overview")}</TabsTrigger>
-          <TabsTrigger value="models" className="data-[state=active]:bg-primary data-[state=active]:text-foreground rounded-lg">{t("admin.ai.models")}</TabsTrigger>
-          <TabsTrigger value="insights" className="data-[state=active]:bg-primary data-[state=active]:text-foreground rounded-lg">{t("admin.ai.insights")}</TabsTrigger>
+        <TabsList className="bg-white/5 border border-white/10 p-1">
+          <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-white text-slate-400 rounded-lg">{t("admin.ai.overview")}</TabsTrigger>
+          <TabsTrigger value="models" className="data-[state=active]:bg-primary data-[state=active]:text-white text-slate-400 rounded-lg">{t("admin.ai.models")}</TabsTrigger>
+          <TabsTrigger value="insights" className="data-[state=active]:bg-primary data-[state=active]:text-white text-slate-400 rounded-lg">{t("admin.ai.insights")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-8 mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Accuracy Trend */}
-            <Card className="lg:col-span-2 border-border bg-secondary/10 rounded-2xl overflow-hidden">
+            <Card className="lg:col-span-2 bg-white/5 border-white/10 rounded-2xl overflow-hidden">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-white">
                   <Activity className="w-5 h-5 text-primary" />{t("admin.ai.model_accuracy_trend")}</CardTitle>
-                <CardDescription>{t("admin.ai.weekly_accuracy_performance_across")}</CardDescription>
+                <CardDescription className="text-slate-400">{t("admin.ai.weekly_accuracy_performance_across")}</CardDescription>
               </CardHeader>
               <CardContent className="h-72 pl-0">
                 <ResponsiveContainer width="100%" height={288} minWidth={0}>
@@ -247,9 +247,9 @@ export default function AIAnalytics() {
             </Card>
 
             {/* Request Volume */}
-            <Card className="border-border bg-secondary/10 rounded-2xl">
+            <Card className="bg-white/5 border-white/10 rounded-2xl">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-white">
                   <Database className="w-5 h-5 text-primary" />{t("admin.ai.request_volume")}</CardTitle>
               </CardHeader>
               <CardContent className="h-64">
@@ -285,7 +285,7 @@ export default function AIAnalytics() {
           }} transition={{
             delay: idx * 0.06
           }}>
-                <Card className="border-border bg-secondary/10 rounded-2xl hover:border-primary/20 transition-all">
+                <Card className="bg-white/5 border-white/10 rounded-2xl hover:border-primary/20 transition-all">
                   <CardContent className="p-6 space-y-4">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
@@ -293,8 +293,8 @@ export default function AIAnalytics() {
                           <Cpu className={`w-5 h-5 ${model.status === "active" ? "text-emerald-400" : "text-amber-400"}`} />
                         </div>
                         <div>
-                          <h3 className="font-semibold">{model.name}</h3>
-                          <p className="text-xs text-muted-foreground">{model.version}</p>
+                          <h3 className="font-semibold text-white">{model.name}</h3>
+                          <p className="text-xs text-slate-400">{model.version}</p>
                         </div>
                       </div>
                       <Badge className={`text-[10px] ${model.status === "active" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20"}`}>
@@ -304,23 +304,23 @@ export default function AIAnalytics() {
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">{t("admin.ai.accuracy")}</span>
-                        <span className="font-bold">{model.accuracy}%</span>
+                        <span className="text-slate-400">{t("admin.ai.accuracy")}</span>
+                        <span className="font-bold text-white">{model.accuracy}%</span>
                       </div>
                       <Progress value={model.accuracy} className="h-2" />
                     </div>
                     <div className="grid grid-cols-3 gap-3 text-center">
-                      <div className="p-2 rounded-lg bg-background/30">
-                        <p className="text-xs text-muted-foreground">{t("admin.ai.requests")}</p>
-                        <p className="text-sm font-bold">{(model.requests / 1000).toFixed(1)}K</p>
+                      <div className="p-2 rounded-lg bg-white/5">
+                        <p className="text-xs text-slate-400">{t("admin.ai.requests")}</p>
+                        <p className="text-sm font-bold text-white">{(model.requests / 1000).toFixed(1)}K</p>
                       </div>
-                      <div className="p-2 rounded-lg bg-background/30">
-                        <p className="text-xs text-muted-foreground">{t("admin.ai.latency")}</p>
-                        <p className="text-sm font-bold">{model.latency}</p>
+                      <div className="p-2 rounded-lg bg-white/5">
+                        <p className="text-xs text-slate-400">{t("admin.ai.latency")}</p>
+                        <p className="text-sm font-bold text-white">{model.latency}</p>
                       </div>
-                      <div className="p-2 rounded-lg bg-background/30">
-                        <p className="text-xs text-muted-foreground">{t("admin.ai.last_train")}</p>
-                        <p className="text-sm font-bold truncate">{model.lastTrained}</p>
+                      <div className="p-2 rounded-lg bg-white/5">
+                        <p className="text-xs text-slate-400">{t("admin.ai.last_train")}</p>
+                        <p className="text-sm font-bold truncate text-white">{model.lastTrained}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -330,11 +330,11 @@ export default function AIAnalytics() {
         </TabsContent>
 
         <TabsContent value="insights" className="space-y-6 mt-6">
-          <Card className="border-border bg-secondary/10 rounded-2xl">
+          <Card className="bg-white/5 border-white/10 rounded-2xl">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <Sparkles className="w-5 h-5 text-primary" />{t("admin.ai.aigenerated_insights")}</CardTitle>
-              <CardDescription>{t("admin.ai.automated_analysis_and_recommendations")}</CardDescription>
+              <CardDescription className="text-slate-400">{t("admin.ai.automated_analysis_and_recommendations")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {insights.map((insight, idx) => <motion.div key={idx} initial={{
@@ -345,18 +345,18 @@ export default function AIAnalytics() {
               x: 0
             }} transition={{
               delay: idx * 0.06
-            }} className={`p-4 rounded-xl border transition-all hover:border-primary/20 ${insight.impact === "high" ? "border-l-4 border-l-amber-500 bg-amber-500/5 border-border" : "border-l-4 border-l-blue-500 bg-blue-500/5 border-border"}`}>
+            }} className={`p-4 rounded-xl border transition-all hover:border-primary/20 ${insight.impact === "high" ? "border-l-4 border-l-amber-500 bg-amber-500/5 border-white/10" : "border-l-4 border-l-blue-500 bg-blue-500/5 border-white/10"}`}>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         {insight.impact === "high" ? <AlertTriangle className="w-4 h-4 text-amber-400" /> : <TrendingUp className="w-4 h-4 text-blue-400" />}
-                        <Badge variant="outline" className="text-[10px]">{insight.category}</Badge>
+                        <Badge variant="outline" className="text-[10px] text-slate-400">{insight.category}</Badge>
                       </div>
-                      <p className="font-medium">{insight.title}</p>
+                      <p className="font-medium text-white">{insight.title}</p>
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-sm font-bold text-primary">{insight.confidence}%</p>
-                      <p className="text-[10px] text-muted-foreground">{t("admin.ai.confidence")}</p>
+                      <p className="text-[10px] text-slate-400">{t("admin.ai.confidence")}</p>
                     </div>
                   </div>
                 </motion.div>)}

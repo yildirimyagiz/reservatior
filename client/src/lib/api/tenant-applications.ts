@@ -32,6 +32,9 @@ export interface TenantApplication {
   leaseDuration?: number;
   pets?: boolean;
   smoking?: boolean;
+  bbq?: boolean;
+  guestCount?: number;
+  guestDetails?: string;
   // Lead scoring
   leadScore?: number;
   engagementLevel?: 'LOW' | 'MEDIUM' | 'HIGH';
@@ -70,6 +73,9 @@ export interface CreateTenantApplicationRequest {
   leaseDuration?: number;
   pets?: boolean;
   smoking?: boolean;
+  bbq?: boolean;
+  guestCount?: number;
+  guestDetails?: string;
 }
 
 export const tenantApplicationsApi = {

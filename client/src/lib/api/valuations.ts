@@ -201,10 +201,10 @@ export const valuationsApi = {
     agentId?: string;
     status?: ValuationStatus;
     valuationType?: ValuationType;
-  }) => apiClient.get<ValuationsResponse>("/valuations", params),
+  }) => apiClient.get<ValuationsResponse>("/property-valuation", params),
 
   getValuationById: (id: string) => 
-    apiClient.get<{ data: PropertyValuation }>(`/valuations/${id}`),
+    apiClient.get<{ data: PropertyValuation }>(`/property-valuation/${id}`),
 
   createValuation: (data: {
     propertyId: string;
@@ -219,7 +219,7 @@ export const valuationsApi = {
     data: PropertyValuation;
     request: ValuationRequest;
     message: string;
-  }>("/valuations", data),
+  }>("/property-valuation", data),
 
   updateValuation: (id: string, data: {
     value?: number;
@@ -233,21 +233,21 @@ export const valuationsApi = {
     videoAnalysis?: any;
     userBehavior?: any;
     recommendations?: string[];
-  }) => apiClient.patch<{ data: PropertyValuation }>(`/valuations/${id}`, data),
+  }) => apiClient.patch<{ data: PropertyValuation }>(`/property-valuation/${id}`, data),
 
   deleteValuation: (id: string) => 
-    apiClient.delete(`/valuations/${id}`),
+    apiClient.delete(`/property-valuation/${id}`),
 
   // Valuation Processing
   processValuation: (id: string) => 
     apiClient.post<{ 
       valuation: PropertyValuation;
       message: string;
-    }>(`/valuations/${id}/process`),
+    }>(`/property-valuation/${id}/process`),
 
   // Valuation Analytics
   getValuationAnalytics: (id: string) => 
-    apiClient.get<ValuationAnalytics>(`/valuations/${id}/analytics`),
+    apiClient.get<ValuationAnalytics>(`/property-valuation/${id}/analytics`),
 
   // Valuation Reports
   createValuationReport: (id: string, data: {
@@ -262,17 +262,17 @@ export const valuationsApi = {
   }) => apiClient.post<{ 
     report: ValuationReport;
     message: string;
-  }>(`/valuations/${id}/reports`, data),
+  }>(`/property-valuation/${id}/reports`, data),
 
   getValuationReports: (id: string) => 
-    apiClient.get<{ data: ValuationReport[] }>(`/valuations/${id}/reports`),
+    apiClient.get<{ data: ValuationReport[] }>(`/property-valuation/${id}/reports`),
 
   getPublicReport: (shareToken: string) => 
-    apiClient.get<{ data: ValuationReport }>(`/valuations/public/${shareToken}`),
+    apiClient.get<{ data: ValuationReport }>(`/property-valuation/public/${shareToken}`),
 
   // Bulk Operations
   bulkUpdateValuations: (ids: string[], data: Partial<PropertyValuation>) => 
-    apiClient.patch<{ data: PropertyValuation[] }>("/valuations/bulk", { ids, data }),
+    apiClient.patch<{ data: PropertyValuation[] }>("/property-valuation/bulk", { ids, data }),
 
   exportValuations: (params?: {
     format?: 'csv' | 'excel' | 'pdf';
@@ -280,7 +280,7 @@ export const valuationsApi = {
     status?: ValuationStatus;
     dateFrom?: string;
     dateTo?: string;
-  }) => apiClient.get<Blob>("/valuations/export", params),
+  }) => apiClient.get<Blob>("/property-valuation/export", params),
 
   // Search and Filter
   searchValuations: (query: string, filters?: {
@@ -289,7 +289,7 @@ export const valuationsApi = {
     valuationType?: ValuationType;
     dateFrom?: string;
     dateTo?: string;
-  }) => apiClient.get<ValuationsResponse>("/valuations/search", { query, ...filters }),
+  }) => apiClient.get<ValuationsResponse>("/property-valuation/search", { query, ...filters }),
 
   // Statistics
   getValuationStats: (params?: {
@@ -305,5 +305,5 @@ export const valuationsApi = {
     averageProcessingTime: number;
     valuationTypeBreakdown: Record<ValuationType, number>;
     statusBreakdown: Record<ValuationStatus, number>;
-  }>("/valuations/stats", params),
+  }>("/property-valuation/stats", params),
 };

@@ -9,12 +9,16 @@ import { useToast } from "@/hooks/use-toast";
 import { FileText, Download, Send, Clock, CheckCircle, AlertCircle, MoreHorizontal, Loader2, RefreshCw, Search, Plus, Activity, Zap, Maximize2, Trash2 } from "lucide-react";
 import { financialsApi, type FinancialRecord } from "@/lib/api/financials";
 import { propertiesApi, type Property } from "@/lib/api/properties";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 const STATUS_CONFIG: Record<string, {
   label: string;
   cls: string;
@@ -42,12 +46,50 @@ const STATUS_CONFIG: Record<string, {
   }
 };
 export default function FinancialInvoices() {
-  const {
-    t
-  } = useTranslation();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
+  const { t } = useTranslation();
+  const [isAddOpen, setIsAddOpen] = useState(false);
+
+          const [newInvoice, setNewInvoice] = useState({
+            customerId: '',
+            customerName: '',
+            customerEmail: '',
+            amount: '',
+            currency: 'USD',
+            dueDate: '',
+            status: 'DRAFT'
+          });
+
+          const createMutation = useMutation({
+            mutationFn: async (data: any) => {
+              return financialsApi.createInvoice({
+                ...data,
+                amount: parseFloat(data.amount),
+                items: [{ description: "General Services", quantity: 1, unitPrice: parseFloat(data.amount), totalPrice: parseFloat(data.amount), itemType: "SERVICE" }]
+              });
+            },
+            onSuccess: () => {
+              setIsAddOpen(false);
+              refetchRecords();
+              toast({ title: "Success", description: "Invoice created successfully" });
+            },
+            onError: (err: any) => {
+              toast({ title: "Error", description: err.message || "Failed to create invoice", variant: "destructive" });
+            }
+          });
+        
+
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const { data: recordsData, isLoading: loadingRecords, refetch: refetchRecords } = useQuery({
@@ -197,11 +239,76 @@ export default function FinancialInvoices() {
              <Button variant="ghost" onClick={fetchData} className="h-12 w-12 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all flex items-center justify-center p-0">
                <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
              </Button>
-             <Button onClick={() => toast({
-            title: t("admin.financial.coming_soon"),
-            description: t("admin.financial.manual_invoice_creation_is")
-          })} className="bg-primary hover:bg-primary/90 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] gap-3 shadow-xl shadow-primary/20">
-                <Plus className="w-4 h-4" />{t("admin.financial.createinvoice")}</Button>
+             
+                            <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+                              <DialogTrigger asChild>
+                                <Button className="bg-primary hover:bg-primary/90 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] gap-3 shadow-xl shadow-primary/20">
+                                  <Plus className="w-4 h-4" />{t("admin.financial.createinvoice")}</Button>
+                              </DialogTrigger>
+                              
+                      <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
+                        <DialogHeader>
+                          <DialogTitle>Create New Invoice</DialogTitle>
+                          <DialogDescription>
+                            Fill in the invoice details mapped to the backend.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="customerName" className="text-right text-xs">Customer Name</Label>
+                            <Input id="customerName" className="col-span-3 h-10" value={newInvoice.customerName} onChange={e => setNewInvoice({...newInvoice, customerName: e.target.value})} placeholder="John Doe" />
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="customerEmail" className="text-right text-xs">Email</Label>
+                            <Input id="customerEmail" type="email" className="col-span-3 h-10" value={newInvoice.customerEmail} onChange={e => setNewInvoice({...newInvoice, customerEmail: e.target.value})} placeholder="john@example.com" />
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="customerId" className="text-right text-xs">Customer ID</Label>
+                            <Input id="customerId" className="col-span-3 h-10" value={newInvoice.customerId} onChange={e => setNewInvoice({...newInvoice, customerId: e.target.value})} placeholder="CUST-123" />
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="amount" className="text-right text-xs">Amount</Label>
+                            <Input id="amount" type="number" className="col-span-3 h-10" value={newInvoice.amount} onChange={e => setNewInvoice({...newInvoice, amount: e.target.value})} placeholder="1000" />
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="currency" className="text-right text-xs">Currency</Label>
+                            <Select value={newInvoice.currency} onValueChange={(v) => setNewInvoice({...newInvoice, currency: v})}>
+                              <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Currency" /></SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="USD">USD ($)</SelectItem>
+                                <SelectItem value="EUR">EUR (€)</SelectItem>
+                                <SelectItem value="TRY">TRY (₺)</SelectItem>
+                                <SelectItem value="GBP">GBP (£)</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="dueDate" className="text-right text-xs">Due Date</Label>
+                            <Input id="dueDate" type="date" className="col-span-3 h-10" value={newInvoice.dueDate} onChange={e => setNewInvoice({...newInvoice, dueDate: e.target.value})} />
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="status" className="text-right text-xs">Status</Label>
+                            <Select value={newInvoice.status} onValueChange={(v) => setNewInvoice({...newInvoice, status: v})}>
+                              <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Status" /></SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="DRAFT">Draft</SelectItem>
+                                <SelectItem value="SENT">Sent</SelectItem>
+                                <SelectItem value="PAID">Paid</SelectItem>
+                                <SelectItem value="OVERDUE">Overdue</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+                          <Button onClick={() => createMutation.mutate(newInvoice)} disabled={createMutation.isPending}>
+                            {createMutation.isPending ? "Saving..." : "Create Invoice"}
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                            
+                            </Dialog>
+                          
           </div>
         </div>
 

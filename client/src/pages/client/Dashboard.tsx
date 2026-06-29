@@ -12,6 +12,7 @@ import { AIWidget } from "@/components/dashboard/AIWidget";
 import { ComplianceWidget } from "@/components/dashboard/ComplianceWidget";
 import { SmartAccessWidget } from "@/components/dashboard/SmartAccessWidget";
 import { AIOperationsWidget } from "@/components/dashboard/AIOperationsWidget";
+import { NetworkDashboard } from "@/pages/agent_os/NetworkDashboard";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { apiClient } from "@/lib/api/client";
@@ -296,6 +297,7 @@ export default function Dashboard() {
 
         {/* AI Hub Widgets */}
         <div className="space-y-10 lg:col-span-3">
+          <NetworkDashboard />
           <AIOperationsWidget />
         </div>
 

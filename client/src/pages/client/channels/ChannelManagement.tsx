@@ -13,7 +13,7 @@ export default function ChannelManagement() {
   const {
     t
   } = useTranslation();
-  const { data: channels = [], isLoading: channelsLoading } = useQuery({
+  const { data: channels, isLoading: channelsLoading } = useQuery({
     queryKey: ['channel-management', 'channels'],
     queryFn: async () => {
       const response = await channelManagementApi.getChannels();
@@ -21,7 +21,7 @@ export default function ChannelManagement() {
     }
   });
 
-  const { data: listings = [], isLoading: listingsLoading } = useQuery({
+  const { data: listings, isLoading: listingsLoading } = useQuery({
     queryKey: ['channel-management', 'listings'],
     queryFn: async () => {
       const response = await channelManagementApi.getListings();
@@ -51,7 +51,7 @@ export default function ChannelManagement() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    let filtered = [...channels];
+    let filtered = [...(channels || [])];
     if (filter.status) {
       filtered = filtered.filter(c => c.status === filter.status);
     }
@@ -63,7 +63,7 @@ export default function ChannelManagement() {
     }
     setFilteredChannels(filtered);
 
-    let filteredList = [...listings];
+    let filteredList = [...(listings || [])];
     if (filter.search) {
       filteredList = filteredList.filter(l => l.propertyName.toLowerCase().includes(filter.search!.toLowerCase()) || l.channelName.toLowerCase().includes(filter.search!.toLowerCase()) || l.channelListingId.toLowerCase().includes(filter.search!.toLowerCase()));
     }
@@ -118,7 +118,7 @@ export default function ChannelManagement() {
     }).format(amount);
   };
   const exportChannels = () => {
-    const csv = ['Channel Name,Type,Status,Listings,Bookings,Revenue,Rating,Last Sync', ...filteredChannels.map(c => `${c.name},${c.type},${c.status},${c.listings.total},${c.performance ? c.performance.bookings : 'N/A'},${c.performance ? formatCurrency(c.performance.revenue, 'USD') : 'N/A'},${c.performance ? c.performance.averageRating : 'N/A'},${c.integration ? c.integration.lastSync.toLocaleString() : 'N/A'}`)].join('\n');
+    const csv = ['Channel Name,Type,Status,Listings,Bookings,Revenue,Rating,Last Sync', ...filteredChannels.map(c => `${c.name},${c.type},${c.status},${c.listings?.total || 'N/A'},${c.performance ? c.performance.bookings : 'N/A'},${c.performance ? formatCurrency(c.performance.revenue, 'USD') : 'N/A'},${c.performance ? c.performance.averageRating : 'N/A'},${c.integration ? new Date(c.integration.lastSync).toLocaleString() : 'N/A'}`)].join('\n');
     const blob = new Blob([csv], {
       type: 'text/csv'
     });
@@ -494,7 +494,7 @@ export default function ChannelManagement() {
                         <div className="flex items-center gap-2">
                           <div className="w-32 bg-muted rounded-full h-2">
                             <div className="bg-primary h-2 rounded-full" style={{
-                          width: `${channel.listings && channel.listings.total ? channel.listings.total / Math.max(...channels.map((c: any) => c.listings?.total || 0)) * 100 : 0}%`
+                          width: `${channel.listings && channel.listings.total ? channel.listings.total / Math.max(...(channels || []).map((c: any) => c.listings?.total || 0)) * 100 : 0}%`
                         }} />
                           </div>
                           <span className="text-sm font-medium w-8">{channel.listings ? channel.listings.total : 'N/A'}</span>

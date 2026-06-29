@@ -12,7 +12,11 @@ export class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`;
+    let finalEndpoint = endpoint;
+    if (finalEndpoint.startsWith('/admin/') || finalEndpoint.startsWith('/system/')) {
+      finalEndpoint = `/api/v1${finalEndpoint}`;
+    }
+    const url = `${this.baseURL}${finalEndpoint}`;
     
     const isFormData = options.body instanceof FormData;
     
@@ -44,7 +48,18 @@ export class ApiClient {
     }
 
     // Add auth token if available
-    const token = localStorage.getItem('auth_token');
+    let token = localStorage.getItem('auth_token');
+    if (!token) {
+      const storedData = localStorage.getItem("user-storage");
+      if (storedData) {
+        try {
+          const parsed = JSON.parse(storedData);
+          token = parsed.state?.token;
+        } catch (e) {
+          console.error("Failed to parse user-storage", e);
+        }
+      }
+    }
     if (token) {
       config.headers = {
         ...config.headers,

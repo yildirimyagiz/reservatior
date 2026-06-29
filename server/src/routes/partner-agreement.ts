@@ -20,6 +20,54 @@ export const partnerAgreementRoutes = new Elysia({ prefix: "/partner-agreement" 
   })
 
   /**
+   * GET /partner-agreement/admin/all
+   * [ADMIN/SUPERADMIN] Retrieves all partner agreements across all tenants.
+   */
+  .get("/admin/all", async ({ role, permissions, set }) => {
+    const isSuper = role === "SUPERADMIN" || role === "ADMIN";
+    const canViewPrivate = permissions?.includes("VIEW_PRIVATE_AGREEMENT") || isSuper;
+
+    if (!isSuper && !canViewPrivate) {
+      set.status = 403;
+      return { error: "Forbidden: Admin access required." };
+    }
+
+    const { prismaManager } = await import("../lib/prisma");
+    const prisma = prismaManager.getClient() as any;
+
+    const agreements = await prisma.partnerAgreement.findMany({
+      orderBy: { createdAt: "desc" }
+    });
+
+    const mapped = agreements.map((agr: any) => {
+      let terms = null;
+      try {
+        terms = partnerAgreementService.decryptTerms(agr.encryptedTerms);
+      } catch (e) {
+        // Obfuscate or handle failure
+      }
+
+      return {
+        id: agr.id,
+        tenantId: agr.tenantId,
+        status: agr.status,
+        createdAt: agr.createdAt,
+        updatedAt: agr.updatedAt,
+        baseCommission: terms?.baseCommission ?? 0,
+        loyaltyYield: terms?.loyaltyYield ?? 0,
+        portfolioHealthScore: terms?.portfolioHealthScore ?? 0,
+        currentMultiplier: terms?.currentMultiplier ?? 1.0,
+        terms: canViewPrivate ? terms : "[PROTECTED]"
+      };
+    });
+
+    return {
+      status: "success",
+      data: mapped
+    };
+  })
+
+  /**
    * GET /partner-agreement/stream
    * Stream partner agreement events and triggers (SSE).
    */

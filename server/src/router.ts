@@ -2,10 +2,14 @@ import { Elysia } from "elysia";
 import { dashboardSummaryRoutes } from "./routes/dashboard-summary";
 import { authRoutes } from "./routes/auth";
 import { adminRoutes } from "./routes/admin";
+import { dynamicAdminRoutes } from "./routes/dynamic_admin";
 import { configRoutes } from "./routes/config";
 import { systemRoutes } from "./routes/system";
 import { feedRoutes } from "./routes/feed";
 import { aiRoutes } from "./routes/ai";
+import { aiSearchRoutes } from "./routes/ai-search";
+import { aiSearchStreamRoutes } from "./routes/ai-search-stream";
+import { aiCreditRoutes } from "./routes/ai-credits";
 import { hoaRoutes } from "./routes/hoa";
 import { userRoutes } from "./routes/user";
 import { chatProxyRoutes } from "./routes/chat-proxy";
@@ -288,6 +292,7 @@ import { aiCrmRoutes } from "./routes/ai-crm-api";
 import { mlsSyncRoutes } from "./routes/mls-sync";
 import { channelManagerRoutes } from "./routes/channel-manager";
 import { listingTagsRoutes } from "./routes/listing-tags";
+import { telemetryRoutes } from "./routes/telemetry";
 
 import { experiencesRoutes } from "./routes/experiences";
 import { transfersRoutes } from "./routes/transfers";
@@ -304,6 +309,18 @@ import { invoiceRoutes } from "./routes/invoice";
 import { mediaServeRoutes } from "./routes/media-serve";
 import { realtimeRoutes } from "./routes/realtime";
 import { triggerRoutes } from "./routes/triggers";
+import { adminLegacyRoutes } from "./routes/admin-legacy";
+import { aichatHandoffRoutes } from "./routes/aichat-handoff";
+import { turkeyRoutes } from "./routes/turkey";
+import { marketAnalysisRoutes } from "./routes/market-analysis";
+import { securityRoutes } from "./routes/security";
+import { strRoutes } from "./routes/str";
+import { cloudRoutes } from "./routes/cloud";
+import { orchestrationRoutes } from "./routes/orchestration";
+import { salesProcessRoutes } from "./routes/sales-process";
+import { identityComplianceRoutes } from "./routes/identity-compliance";
+import { tax1099Routes } from "./routes/tax-1099";
+import { financeOSRoutes } from "./routes/finance-os";
 
 // Route Clusters to optimize TypeScript instantiation depth
 const cluster1 = new Elysia()
@@ -319,6 +336,9 @@ const cluster1 = new Elysia()
   .use(contactRoutes)
   .use(vendorProfileRoutes)
   .use(agentAssignmentRoutes)
+  .use(aiSearchRoutes)
+  .use(aiSearchStreamRoutes)
+  .use(aiCreditRoutes)
   .use(propertyRoutes)
   .use(listingRoutes)
   .use(listingStatusHistoryRoutes)
@@ -618,10 +638,12 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(marketplaceRoutes)
   .use(hotelBookingSyncRoutes)
   .use(adminRoutes)
+  .use(dynamicAdminRoutes)
   .use(configRoutes)
   .use(systemRoutes)
   .use(feedRoutes)
   .use(aiRoutes)
+  .use(aiArbitrageRoutes)
   .use(aiBlogCronRoutes)
   .use(aiMarketingCronRoutes)
   .use(systemCronRoutes)
@@ -653,4 +675,16 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(mlsSyncRoutes)
   .use(channelManagerRoutes)
   .use(listingTagsRoutes)
+  .use(telemetryRoutes)
+  .use(adminLegacyRoutes)
+  .use(aichatHandoffRoutes)
+  .use(turkeyRoutes)
+  .use(marketAnalysisRoutes)
+  .use(securityRoutes)
+  .use(strRoutes)
+  .use(cloudRoutes)
+  .use(orchestrationRoutes)
+  .use(salesProcessRoutes)
+  .use(tax1099Routes)
+  .use(financeOSRoutes)
 ;

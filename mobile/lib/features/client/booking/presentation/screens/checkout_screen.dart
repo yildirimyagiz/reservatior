@@ -103,7 +103,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.property.type ?? 'PROPERTY',
+                          widget.property.type?.toString() ?? 'PROPERTY',
                           style: GoogleFonts.outfit(
                             color: const Color(0xFF10B981),
                             fontSize: 10,

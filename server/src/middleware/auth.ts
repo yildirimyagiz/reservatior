@@ -48,6 +48,30 @@ export const authMiddleware = new Elysia({ name: "auth-middleware" })
     }
   });
 
+export const optionalAuthMiddleware = new Elysia({ name: "optional-auth-middleware" })
+  .use(bearer())
+  .derive({ as: "scoped" }, async ({ bearer }) => {
+    if (!bearer) {
+      return { userId: null, orgId: null, user: null, role: null, permissions: [] };
+    }
+    try {
+      const { payload } = await jwtVerify(bearer, ENCODED_SECRET);
+      const user = await prisma.user.findUnique({
+        where: { id: payload.sub as string },
+        select: { id: true, email: true, name: true }
+      });
+      return { 
+        userId: payload.sub as string, 
+        orgId: payload.orgId as string | undefined,
+        user,
+        role: payload.role as string,
+        permissions: (payload.permissions as string[]) || []
+      };
+    } catch (e) {
+      return { userId: null, orgId: null, user: null, role: null, permissions: [] };
+    }
+  });
+
 export const hasPermission = (permission: string) => ({ permissions, set, user }: any) => {
   const hasAccess = permissions?.includes("*") || 
                     permissions?.includes(permission) ||

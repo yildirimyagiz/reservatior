@@ -13,8 +13,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Pie, PieChart } from "recharts";
 import { MoreHorizontal, Download, Play, Clock, CheckCircle2, AlertCircle, XCircle, FileBarChart, TrendingUp, Users, DollarSign, Calendar, Plus, RefreshCw, Building, Wrench, Search, Zap, Activity, ArrowUpRight, Shield, Layers, PieChart as PieChartIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api/client";
 import { reportsApi, ReportStatus, ReportExecutionStatus, type Report } from "@/lib/api/reports";
-import { PageShell } from "../../client/layout/PageShell";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 enum ReportType {
@@ -86,7 +87,7 @@ const STATUS_CONFIG = {
   },
   DRAFT: {
     label: t("admin.reports.beta_draft"),
-    color: "bg-slate-500/10 text-muted-foreground"
+    color: "bg-slate-500/10 text-slate-400"
   }
 };
 const EXECUTION_STATUS_CONFIG = {
@@ -112,12 +113,25 @@ const EXECUTION_STATUS_CONFIG = {
   }
 };
 export default function Reports() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [editingId, setEditingId] = React.useState<string | null>(null);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/reports/${data.id}`, data),
+    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/reports/${id}`),
+    onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
   const {
     t
   } = useTranslation();
-  const {
-    toast
-  } = useToast();
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -177,50 +191,50 @@ export default function Reports() {
       });
     }
   };
-  return <PageShell title={t("admin.reports.neural_data_nexus")} description={t("admin.reports.advanced_reporting_matrices_and")}>
+  return <div className="p-6 space-y-6 min-h-screen">
       <div className="space-y-10 pb-20">
         
         {/* KPI Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
+          <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-white/5">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
                <FileBarChart className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.reports.matrix_capacity")}</p>
-              <h3 className="text-xl font-bold text-foreground leading-none">{stats.total}</h3>
+              <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.reports.matrix_capacity")}</p>
+              <h3 className="text-xl font-bold text-white leading-none">{stats.total}</h3>
               <p className="text-[10px] font-bold text-blue-400 mt-4">{t("admin.reports.total_report_nodes")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
+          <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-white/5 font-medium">
              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
                <CheckCircle2 className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.reports.active_signals")}</p>
+              <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.reports.active_signals")}</p>
               <h3 className="text-xl font-bold text-emerald-400 leading-none">{stats.active}</h3>
               <p className="text-[10px] font-bold text-emerald-500/60 mt-4">{t("admin.reports.synchronized_modules")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
+          <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-white/5">
              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-orange-500">
                <Zap className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.reports.total_success_runs")}</p>
+              <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.reports.total_success_runs")}</p>
               <h3 className="text-xl font-bold text-orange-400 leading-none">{stats.successfulRuns}</h3>
               <p className="text-[10px] font-bold text-orange-400/60 mt-4">{t("admin.reports.verified_cycles")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
+          <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-white/5">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-red-500">
                <AlertCircle className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.reports.sync_failures")}</p>
+              <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.reports.sync_failures")}</p>
               <h3 className="text-xl font-bold text-red-500 leading-none">{stats.failedRuns}</h3>
               <p className="text-[10px] font-bold text-red-500/60 mt-4">{t("admin.reports.action_required")}</p>
             </CardContent>
@@ -229,12 +243,12 @@ export default function Reports() {
 
         {/* Tactical Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-2 bg-card border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
+          <Card className="lg:col-span-2 bg-white/5 border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
              <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
-             <CardHeader className="p-8 border-b border-border bg-muted/50">
-                <CardTitle className="text-xl font-bold text-foreground flex items-center gap-3">
+             <CardHeader className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
                   <Activity className="w-5 h-5 text-blue-500" />{t("admin.reports.temporal_run_distribution")}</CardTitle>
-                <CardDescription className="text-[10px] font-bold text-muted-foreground">{t("admin.reports.monitoring_data_sequence_integrity")}</CardDescription>
+                <CardDescription className="text-[10px] font-bold text-slate-400">{t("admin.reports.monitoring_data_sequence_integrity")}</CardDescription>
              </CardHeader>
              <CardContent className="p-10">
                 <div className="h-[300px] w-full">
@@ -265,12 +279,12 @@ export default function Reports() {
              </CardContent>
           </Card>
 
-          <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
+          <Card className="bg-white/5 border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
              <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-violet-600 via-transparent to-transparent opacity-50"></div>
-             <CardHeader className="p-8 border-b border-border bg-muted/50">
-                <CardTitle className="text-xl font-bold text-foreground flex items-center gap-3">
+             <CardHeader className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
                   <PieChartIcon className="w-5 h-5 text-violet-500" />{t("admin.reports.sector_allocation")}</CardTitle>
-                <CardDescription className="text-[10px] font-bold text-muted-foreground">{t("admin.reports.global_report_type_distribution")}</CardDescription>
+                <CardDescription className="text-[10px] font-bold text-slate-400">{t("admin.reports.global_report_type_distribution")}</CardDescription>
              </CardHeader>
              <CardContent className="p-10 flex items-center justify-center">
                 <div className="h-[300px] w-full">
@@ -301,52 +315,52 @@ export default function Reports() {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 px-4">
            <div className="flex flex-wrap items-center gap-3 flex-1">
               <div className="relative group min-w-[320px]">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-blue-500 transition-colors" />
-                <Input placeholder={t("admin.reports.filter_reporting_nodes")} value={search} onChange={e => setSearch(e.target.value)} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-blue-500/20 focus:border-blue-500/40 transition-all font-medium border-l border-t" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+                <Input placeholder={t("admin.reports.filter_reporting_nodes")} value={search} onChange={e => setSearch(e.target.value)} className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-blue-500/20 focus:border-blue-500/40 transition-all font-medium border-l border-t" />
               </div>
               <Select value={filterType} onValueChange={setFilterType}>
-                <SelectTrigger className="w-44 bg-card border-border rounded-2xl h-14 text-foreground font-bold text-[10px] border-l border-t">
+                <SelectTrigger className="w-44 bg-white/5 border-white/10 rounded-2xl h-14 text-white font-bold text-[10px] border-l border-t">
                   <SelectValue placeholder={t("admin.reports.report_type")} />
                 </SelectTrigger>
-                <SelectContent className="bg-[#14151a] border-border rounded-2xl text-muted-foreground">
+                <SelectContent className="bg-[#14151a] border-white/10 rounded-2xl text-slate-400">
                   <SelectItem value="all">{t("admin.reports.all_types")}</SelectItem>
                   {Object.values(ReportType).map(type => <SelectItem key={type} value={type}>{REPORT_TYPE_CONFIG[type]?.label}</SelectItem>)}
                 </SelectContent>
               </Select>
            </div>
-           <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-foreground font-bold text-xs shadow-xl shadow-blue-600/30 gap-3">
+           <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-xl shadow-blue-600/30 gap-3">
               <Plus className="w-5 h-5" />{t("admin.reports.initialize_report_node")}</Button>
         </div>
 
         {/* Data Matrix Table */}
-        <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
+        <Card className="bg-white/5 border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
             <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-emerald-600 via-transparent to-transparent opacity-50"></div>
             <CardContent className="p-0">
                <Table>
-                 <TableHeader className="bg-muted/50 border-b border-border">
+                 <TableHeader className="bg-white/5 border-b border-white/10">
                     <TableRow className="border-none hover:bg-transparent">
-                      <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8">{t("admin.reports.node_identity")}</TableHead>
-                      <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.reports.classification")}</TableHead>
-                      <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.reports.sync_arc")}</TableHead>
-                      <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin.reports.temporal_sequence")}</TableHead>
-                      <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin.reports.action")}</TableHead>
+                      <TableHead className="text-[10px] font-bold text-slate-400 py-6 px-8">{t("admin.reports.node_identity")}</TableHead>
+                      <TableHead className="text-[10px] font-bold text-slate-400 px-8">{t("admin.reports.classification")}</TableHead>
+                      <TableHead className="text-[10px] font-bold text-slate-400 px-8">{t("admin.reports.sync_arc")}</TableHead>
+                      <TableHead className="text-[10px] font-bold text-slate-400 px-8 text-right">{t("admin.reports.temporal_sequence")}</TableHead>
+                      <TableHead className="text-[10px] font-bold text-slate-400 px-8 text-right">{t("admin.reports.action")}</TableHead>
                     </TableRow>
                  </TableHeader>
                  <TableBody>
                     {loading ? <TableRow>
                         <TableCell colSpan={5} className="py-24 text-center">
                           <Activity className="w-10 h-10 text-blue-500 animate-spin mx-auto mb-4 opacity-50" />
-                          <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin.reports.synchronizing_global_matrix")}</p>
+                          <p className="text-[10px] font-bold text-slate-400 animate-pulse">{t("admin.reports.synchronizing_global_matrix")}</p>
                         </TableCell>
-                      </TableRow> : filteredReports.map(report => <TableRow key={report.id} className="border-b border-border hover:bg-muted/50 transition-all group">
+                      </TableRow> : filteredReports.map(report => <TableRow key={report.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
                            <TableCell className="py-8 px-8">
                              <div className="flex items-center gap-5">
-                               <div className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center group-hover:scale-110 transition-all">
-                                  <FileBarChart className="w-6 h-6 text-muted-foreground" />
+                               <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-all">
+                                  <FileBarChart className="w-6 h-6 text-slate-400" />
                                </div>
                                <div>
-                                 <div className="text-lg font-bold text-foreground leading-tight">{report.name}</div>
-                                 <div className="text-[10px] font-bold text-muted-foreground max-w-xs truncate">{report.description}</div>
+                                 <div className="text-lg font-bold text-white leading-tight">{report.name}</div>
+                                 <div className="text-[10px] font-bold text-slate-400 max-w-xs truncate">{report.description}</div>
                                </div>
                              </div>
                            </TableCell>
@@ -358,28 +372,28 @@ export default function Reports() {
                            <TableCell className="px-8 font-medium">
                               <div className="flex items-center gap-2">
                                 <div className={cn("w-2 h-2 rounded-full", report.status === 'ACTIVE' ? "bg-emerald-500 shadow-[0_0_10px_#10b981]" : "bg-slate-700")}></div>
-                                <span className={cn("text-[10px] font-bold   ", report.status === 'ACTIVE' ? "text-emerald-400" : "text-muted-foreground")}>
+                                <span className={cn("text-[10px] font-bold   ", report.status === 'ACTIVE' ? "text-emerald-400" : "text-slate-400")}>
                                   {STATUS_CONFIG[report.status].label}
                                 </span>
                               </div>
                            </TableCell>
                            <TableCell className="px-8 text-right">
                               <div className="flex flex-col items-end">
-                                <div className="text-sm font-bold text-foreground font-mono">{report.lastRunAt ? new Date(report.lastRunAt).toLocaleDateString() : t("admin.reports.never_synced", "HİÇ SENKRONİZE EDİLMEDİ")}</div>
-                                <div className="text-[9px] font-bold text-muted-foreground leading-none mt-1">{t("admin.reports.nextsync")}{report.nextRunAt ? new Date(report.nextRunAt).toLocaleDateString() : t("admin.reports.manual_only", "SADECE MANUEL")}</div>
+                                <div className="text-sm font-bold text-white font-mono">{report.lastRunAt ? new Date(report.lastRunAt).toLocaleDateString() : t("admin.reports.never_synced", "HİÇ SENKRONİZE EDİLMEDİ")}</div>
+                                <div className="text-[9px] font-bold text-slate-400 leading-none mt-1">{t("admin.reports.nextsync")}{report.nextRunAt ? new Date(report.nextRunAt).toLocaleDateString() : t("admin.reports.manual_only", "SADECE MANUEL")}</div>
                               </div>
                            </TableCell>
                            <TableCell className="px-8 text-right">
                               <div className="flex items-center justify-end gap-2">
-                                 <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-emerald-500 shadow-xl" onClick={() => handleRunReport(report.id)}>
+                                 <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-white/5 text-emerald-500 shadow-xl" onClick={() => handleRunReport(report.id)}>
                                     <Play className="w-4 h-4" />
                                  </Button>
-                                 <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground">
+                                 <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-white/5 text-slate-400">
                                     <MoreHorizontal className="w-4 h-4" />
                                  </Button>
                               </div>
-                           </TableCell>
-                        </TableRow>)}
+                            </TableCell>
+                         </TableRow>)}
                  </TableBody>
                </Table>
             </CardContent>
@@ -388,38 +402,38 @@ export default function Reports() {
 
       {/* Modernized Create Report Dialog */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="max-w-2xl bg-[#14151a] border-border text-foreground rounded-4xl p-0 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+        <DialogContent className="max-w-2xl bg-[#14151a] border-white/10 text-white rounded-4xl p-0 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-600 via-transparent to-transparent"></div>
-           <DialogHeader className="p-8 border-b border-border bg-muted/50">
-              <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-foreground">
+           <DialogHeader className="p-8 border-b border-white/10 bg-white/5">
+              <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-white">
                 <Layers className="w-6 h-6 text-blue-500" />{t("admin.reports.initialize_neural_node")}</DialogTitle>
-              <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin.reports.configure_automated_reporting_parameters")}</DialogDescription>
+              <DialogDescription className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.reports.configure_automated_reporting_parameters")}</DialogDescription>
            </DialogHeader>
            
            <div className="p-10 space-y-8">
               <div className="grid grid-cols-2 gap-8">
                 <div className="col-span-2 space-y-3">
-                   <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin.reports.node_designation")}</Label>
-                   <Input placeholder={t("admin.reports.designationid")} className="bg-card border-border rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-blue-500/20 shadow-inner" />
+                   <Label className="text-[10px] font-bold text-slate-400 ml-3">{t("admin.reports.node_designation")}</Label>
+                   <Input placeholder={t("admin.reports.designationid")} className="bg-white/5 border-white/10 rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-blue-500/20 shadow-inner" />
                 </div>
                 <div className="space-y-3">
-                   <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin.reports.report_category")}</Label>
+                   <Label className="text-[10px] font-bold text-slate-400 ml-3">{t("admin.reports.report_category")}</Label>
                    <Select>
-                      <SelectTrigger className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
+                      <SelectTrigger className="bg-white/5 border-white/10 rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
                         <SelectValue placeholder={t("admin.reports.category")} />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#14151a] border-border text-foreground rounded-2xl font-bold">
+                      <SelectContent className="bg-[#14151a] border-white/10 text-white rounded-2xl font-bold">
                         {Object.values(ReportType).map(type => <SelectItem key={type} value={type} className="text-[11px] py-3">{REPORT_TYPE_CONFIG[type]?.label}</SelectItem>)}
                       </SelectContent>
                    </Select>
                 </div>
                 <div className="space-y-3">
-                   <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin.reports.temporal_frequency")}</Label>
+                   <Label className="text-[10px] font-bold text-slate-400 ml-3">{t("admin.reports.temporal_frequency")}</Label>
                    <Select>
-                      <SelectTrigger className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
+                      <SelectTrigger className="bg-white/5 border-white/10 rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
                         <SelectValue placeholder={t("admin.reports.frequency")} />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#14151a] border-border text-foreground rounded-2xl">
+                      <SelectContent className="bg-[#14151a] border-white/10 text-white rounded-2xl">
                          <SelectItem value="DAILY" className="font-bold">{t("admin.reports.dailysync")}</SelectItem>
                          <SelectItem value="WEEKLY" className="font-bold">{t("admin.reports.weeklypulse")}</SelectItem>
                          <SelectItem value="MONTHLY" className="font-bold">{t("admin.reports.monthlyarc")}</SelectItem>
@@ -429,11 +443,11 @@ export default function Reports() {
               </div>
            </div>
 
-           <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
-              <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setCreateOpen(false)}>{t("admin.reports.abortmod")}</Button>
-              <Button className="flex-2 h-16 rounded-2xl bg-blue-600 hover:bg-blue-500 text-foreground font-bold text-[10px] shadow-xl shadow-blue-600/30">{t("admin.reports.initializesequence")}</Button>
+           <DialogFooter className="p-8 bg-white/5 border-t border-white/10 flex gap-4">
+              <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-slate-400 hover:text-white transition-all" onClick={() => setCreateOpen(false)}>{t("admin.reports.abortmod")}</Button>
+              <Button className="flex-2 h-16 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-[10px] shadow-xl shadow-blue-600/30">{t("admin.reports.initializesequence")}</Button>
            </DialogFooter>
         </DialogContent>
       </Dialog>
-    </PageShell>;
+    </div>;
 }

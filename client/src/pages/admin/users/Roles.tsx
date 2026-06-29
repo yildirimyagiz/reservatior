@@ -90,6 +90,16 @@ export default function Roles() {
   const [roleDescription, setRoleDescription] = useState("");
   const [selectedPermissionIds, setSelectedPermissionIds] = useState<string[]>([]);
   const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/role/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
 
   const { data: rolesData, isLoading: loadingRoles } = useQuery<Role[]>({
     queryKey: ['adminRoles'],

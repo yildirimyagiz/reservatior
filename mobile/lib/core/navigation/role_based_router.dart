@@ -1,6 +1,5 @@
-import 'package:reservatior/features/client/neighborhood/presentation/pages/neighborhood_page.dart';
+import 'package:reservatior/features/admin/dynamic/dynamic_admin_screen.dart';
 
-import 'package:reservatior/features/client/presentation/screens/client_dashboard_screen.dart';
 import 'package:reservatior/core/routing/feature_router.dart';
 import 'package:reservatior/shared/enums/member_role_key.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -208,11 +207,11 @@ class RoleBasedRouter {
     if (feature == 'dashboard') {
       return isAdminRole(role)
           ? Container()
-          : const ClientDashboardScreen();
+          : DynamicAdminScreen(modelName: 'ClientDashboard');
     }
 
     if (feature == 'neighborhood_dna' && isClientRole(role)) {
-      return const NeighborhoodPage();
+      return DynamicAdminScreen(modelName: 'Neighborhood');
     }
 
     if (isAdminRole(role) && getAdminFeatures().contains(feature)) {

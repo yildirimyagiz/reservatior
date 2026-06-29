@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:reservatior/core/network/dio_client.dart';
-import 'package:get_it/get_it.dart';
 
 class MarketplaceManagementScreen extends StatefulWidget {
   const MarketplaceManagementScreen({super.key});
@@ -26,8 +25,8 @@ class _MarketplaceManagementScreenState extends State<MarketplaceManagementScree
 
   Future<void> _fetchDashboard() async {
     try {
-      final dio = GetIt.I<DioClient>().dio;
-      final response = await dio.get('/marketplace/dashboard');
+
+      
       if (response.data['success'] == true) {
         setState(() {
           _dashboardData = response.data['data'];

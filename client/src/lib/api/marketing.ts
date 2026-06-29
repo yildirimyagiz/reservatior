@@ -21,11 +21,11 @@ export interface MarketingCampaign {
 export const marketingApi = {
   // Campaigns
   getCampaigns: (params?: { orgId?: string; status?: string; type?: string }) =>
-    apiClient.get("/marketing/campaigns", params),
-  getCampaignById: (id: string) => apiClient.get(`/marketing/campaigns/${id}`),
-  createCampaign: (data: Partial<MarketingCampaign>) => apiClient.post("/marketing/campaigns", data),
-  updateCampaign: (id: string, data: Partial<MarketingCampaign>) => apiClient.patch(`/marketing/campaigns/${id}`, data),
-  deleteCampaign: (id: string) => apiClient.delete(`/marketing/campaigns/${id}`),
+    apiClient.get("/marketing-campaigns", params),
+  getCampaignById: (id: string) => apiClient.get(`/marketing-campaigns/${id}`),
+  createCampaign: (data: Partial<MarketingCampaign>) => apiClient.post("/marketing-campaigns", data),
+  updateCampaign: (id: string, data: Partial<MarketingCampaign>) => apiClient.patch(`/marketing-campaigns/${id}`, data),
+  deleteCampaign: (id: string) => apiClient.delete(`/marketing-campaigns/${id}`),
 
   // Lead Sources
   getLeadSources: (params?: { orgId?: string }) =>

@@ -1,7 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { SystemEventType, EventSeverity } from "@prisma/client";
 
-type ActionType = "CREATE_TASK" | "SEND_NOTIFICATION" | "SEND_EMAIL" | "SEND_SMS" | "CALL_WEBHOOK" | "UPDATE_ENTITY" | "CREATE_LEAD" | "NOTIFY_AGENT" | "CHAIN_RULE" | "CUSTOM";
+type ActionType = "CREATE_TASK" | "SEND_NOTIFICATION" | "SEND_EMAIL" | "SEND_SMS" | "CALL_WEBHOOK" | "UPDATE_ENTITY" | "CREATE_LEAD" | "NOTIFY_AGENT" | "CHAIN_RULE" | "CUSTOM" | "RELEASE_ESCROW";
 
 interface ActionConfig {
   type: ActionType;
@@ -225,6 +225,9 @@ export class TriggerEngine {
       case "CREATE_LEAD":
         return this.actionCreateLead(rule, action.config, payload);
 
+      case "RELEASE_ESCROW":
+        return this.actionReleaseEscrow(rule, action.config, payload);
+
       case "CUSTOM":
         return { type: "CUSTOM", config: action.config };
 
@@ -403,6 +406,28 @@ export class TriggerEngine {
       },
     });
     return { type: "CREATE_LEAD", leadId: lead.id };
+  }
+
+  private async actionReleaseEscrow(
+    rule: { orgId: string },
+    config: Record<string, unknown>,
+    payload: Record<string, unknown>
+  ) {
+    const escrowId = (config.escrowId as string) || (payload.escrowId as string);
+    const triggerEvent = (config.triggerEvent as string) || (payload.triggerEvent as string);
+    
+    if (!escrowId || !triggerEvent) {
+      return { type: "RELEASE_ESCROW", skipped: true, reason: "missing_escrow_or_event" };
+    }
+
+    const { AdvancedEscrowRouter } = await import("./financial/advanced-escrow-router");
+    
+    try {
+      const result = await AdvancedEscrowRouter.routeFundsOnTrigger(escrowId, triggerEvent as any);
+      return { type: "RELEASE_ESCROW", status: result?.status || "SUCCESS" };
+    } catch (e: any) {
+      return { type: "RELEASE_ESCROW", error: e.message };
+    }
   }
 
   private interpolate(template: string | null, payload: Record<string, unknown>): string {

@@ -54,7 +54,7 @@ export function AIOperationsWidget() {
     const interval = setInterval(fetchTasks, 8000); // DB fallback polling
 
     // Connect to SSE Stream
-    const baseURL = apiClient.defaults.baseURL?.replace('/api/v1', '') || 'http://localhost:3000';
+    const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
     const sse = new EventSource(`${baseURL}/api/v1/system/trigger-stream`);
 
     sse.onopen = () => setIsConnected(true);

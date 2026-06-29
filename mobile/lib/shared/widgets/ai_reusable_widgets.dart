@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:reservatior/shared/providers/theme_provider.dart';
-import 'package:reservatior/features/client/ai_model/presentation/providers/ai_hub_provider.dart';
 
 class AiMagicWandButton extends ConsumerWidget {
   final TextEditingController controller;
@@ -21,7 +20,7 @@ class AiMagicWandButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = ref.watch(themeAwareColorsProvider);
-    final aiState = ref.watch(aiHubControllerProvider);
+    final aiState = null;
 
     return InkWell(
       onTap: aiState.isLoading
@@ -38,7 +37,7 @@ class AiMagicWandButton extends ConsumerWidget {
               };
               
               final result = await ref
-                  .read(aiHubControllerProvider.notifier)
+
                   .generateDescription(payload);
 
               if (result != null && result['generatedDescription'] != null) {

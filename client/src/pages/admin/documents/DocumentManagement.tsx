@@ -156,13 +156,24 @@ const MOCK_FOLDERS: DocumentFolder[] = [{
   isPublic: true
 }];
 export default function DocumentManagement() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    onSuccess: () => {
+      toast({ title: "Deleted", description: "Record deleted successfully" });
+      queryClient.invalidateQueries();
+    },
+    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+  });
+  
+
+  
+  
+    
   const {
     t
   } = useTranslation();
-  const {
-    toast
-  } = useToast();
-  const queryClient = useQueryClient();
   const [folders] = useState<DocumentFolder[]>(MOCK_FOLDERS);
   const [activeTab, setActiveTab] = useState("documents");
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);

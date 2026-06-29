@@ -7,6 +7,11 @@ import { NotificationDispatcher } from "../services/notification-dispatcher";
 import { rabbitMQService } from "../services/rabbitmq-service";
 import { AISocialParser } from "../services/ai/ai-social-parser";
 import { SmartMatcher } from "../services/matchmaking/smart-matcher";
+import { SmartPricingUpdater } from "../workers/handlers/smart-pricing-updater";
+import { AIArbitrageScanner } from "../workers/handlers/ai-arbitrage-scanner";
+import { AutoPayoutDispatcher } from "../workers/handlers/auto-payout-dispatcher";
+import { GuestCommunicationBot } from "../workers/handlers/guest-communication-bot";
+import { ReviewSentimentTracker } from "../workers/handlers/review-sentiment-tracker";
 
 export const systemCronRoutes = new Elysia({ prefix: "/system-cron" })
   .use(
@@ -417,6 +422,51 @@ export const systemCronRoutes = new Elysia({ prefix: "/system-cron" })
             console.error(`[CRON] Failed to connect or query region [${region}]:`, regionErr.message);
           }
         }
+      }
+    })
+  )
+  .use(
+    cron({
+      name: 'daily-smart-pricing',
+      pattern: '0 3 * * *', // Every night at 3:00 AM
+      async run() {
+        await SmartPricingUpdater.executeDailyUpdate();
+      }
+    })
+  )
+  .use(
+    cron({
+      name: 'hourly-arbitrage-scanner',
+      pattern: '0 * * * *', // Every hour
+      async run() {
+        await AIArbitrageScanner.executeHourlyScan();
+      }
+    })
+  )
+  .use(
+    cron({
+      name: 'nightly-payout-dispatcher',
+      pattern: '30 2 * * *', // Every night at 2:30 AM
+      async run() {
+        await AutoPayoutDispatcher.executeNightlyPayouts();
+      }
+    })
+  )
+  .use(
+    cron({
+      name: 'hourly-guest-communication',
+      pattern: '15 * * * *', // Every hour at :15
+      async run() {
+        await GuestCommunicationBot.executeHourlyComms();
+      }
+    })
+  )
+  .use(
+    cron({
+      name: 'frequent-review-scanner',
+      pattern: '*/10 * * * *', // Every 10 minutes
+      async run() {
+        await ReviewSentimentTracker.executeFrequentReviewScan();
       }
     })
   );

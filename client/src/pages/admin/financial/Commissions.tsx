@@ -1,167 +1,269 @@
+import React from 'react';
 import { useTranslation } from "react-i18next";
-import { useState, useEffect } from "react";
-import { PageShell } from "../../client/layout/PageShell";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { financialsApi, type CommissionRule } from "@/lib/api/financials";
-import { Percent, DollarSign, TrendingUp, ShieldCheck, Plus, RefreshCw, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { DollarSign, TrendingUp, ShieldCheck, Plus, Edit, Trash2, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+
+interface Commission {
+  id: string;
+  orgId: string;
+  agentId?: string;
+  agencyId?: string;
+  transactionId?: string;
+  reservationId?: string;
+  commissionAmount: number;
+  commissionRate: number;
+  amountBase: number;
+  currency: string;
+  status: string;
+  createdAt: string;
+}
+
+const statusConfig: Record<string, { label: string; class: string }> = {
+  PENDING: { label: "Pending", class: "bg-amber-500/20 text-amber-400" },
+  APPROVED: { label: "Approved", class: "bg-blue-500/20 text-blue-400" },
+  PAID: { label: "Paid", class: "bg-emerald-500/20 text-emerald-400" },
+  CANCELLED: { label: "Cancelled", class: "bg-slate-500/20 text-slate-400" },
+  OVERDUE: { label: "Overdue", class: "bg-red-500/20 text-red-400" },
+  DISPUTED: { label: "Disputed", class: "bg-purple-500/20 text-purple-400" },
+};
+
 export default function Commissions() {
-  const {
-    t
-  } = useTranslation();
-  const [rules, setRules] = useState<CommissionRule[]>([]);
-  const [loading, setLoading] = useState(true);
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const res = await financialsApi.getCommissionRules();
-      setRules((res as any)?.data || [{
-        id: "cm1",
-        providerId: "p1",
-        ruleType: "PERCENTAGE",
-        commission: 15,
-        createdAt: new Date().toISOString()
-      }, {
-        id: "cm2",
-        providerId: "p2",
-        ruleType: "FLAT",
-        commission: 500,
-        minVolume: 10000,
-        createdAt: new Date().toISOString()
-      }, {
-        id: "cm3",
-        providerId: "p3",
-        ruleType: "TIERED",
-        commission: 10,
-        conditions: {
-          tier: "Gold"
-        },
-        createdAt: new Date().toISOString()
-      }]);
-    } catch (error) {
-      // Fallback to mock data if API fails to show UI
-      setRules([{
-        id: "cm1",
-        providerId: "Airbnb",
-        ruleType: "PERCENTAGE",
-        commission: 15,
-        createdAt: new Date().toISOString()
-      }, {
-        id: "cm2",
-        providerId: "Booking.com",
-        ruleType: "PERCENTAGE",
-        commission: 12,
-        createdAt: new Date().toISOString()
-      }, {
-        id: "cm3",
-        providerId: "Direct Sales",
-        ruleType: "FLAT",
-        commission: 200,
-        createdAt: new Date().toISOString()
-      }]);
-      console.error("API error, using mock data");
-    } finally {
-      setLoading(false);
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [editingCommission, setEditingCommission] = useState<Commission | null>(null);
+  const [formData, setFormData] = useState({ agentId: "", amountBase: 0, commissionRate: 0, currency: "USD", status: "PENDING" });
+
+  const { data: commissionsData, isLoading } = useQuery({
+    queryKey: ['commissions'],
+    queryFn: async () => {
+      const res: any = await apiClient.get('/commission');
+      return (res?.data || []) as Commission[];
+    },
+  });
+
+  const commissions = (commissionsData || []) as Commission[];
+
+  const createMutation = useMutation({
+    mutationFn: async (data: typeof formData) => {
+      return apiClient.post('/commission', {
+        commissionAmount: data.amountBase * (data.commissionRate / 100),
+        commissionRate: data.commissionRate,
+        amountBase: data.amountBase,
+        currency: data.currency,
+        status: data.status,
+        orgId: "org_1",
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['commissions'] });
+      setIsAddOpen(false);
+      setFormData({ agentId: "", amountBase: 0, commissionRate: 0, currency: "USD", status: "PENDING" });
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: any }) => {
+      return apiClient.patch(`/commission/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['commissions'] });
+      setEditingCommission(null);
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return apiClient.delete(`/commission/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['commissions'] });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingCommission) {
+      updateMutation.mutate({ id: editingCommission.id, data: { status: formData.status } });
+    } else {
+      createMutation.mutate(formData);
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
-  return <PageShell title={t("admin.financial.commission_management")} description={t("admin.financial.define_and_track_commission")} actions={<div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin.financial.refresh")}</Button>
-          <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-            <Plus className="w-4 h-4 mr-2" />{t("admin.financial.new_rule")}</Button>
-        </div>}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-primary/5 border-primary/10 shadow-sm overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-3 opacity-10">
-            <Percent className="w-16 h-16" />
-          </div>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-bold tracking-wider text-muted-foreground">{t("admin.financial.avg_commission")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">12.4%</div>
-            <p className="text-xs text-green-600 mt-1 flex items-center font-medium">
-              <TrendingUp className="w-3 h-3 mr-1" />{t("admin.financial.08_from_last_month")}</p>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-blue-50/50 border-blue-100 shadow-sm overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-3 opacity-10 text-blue-600">
-            <DollarSign className="w-16 h-16" />
-          </div>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-bold tracking-wider text-muted-foreground">{t("admin.financial.total_payouts")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">$42,850</div>
-            <p className="text-xs text-muted-foreground mt-1">{t("admin.financial.pending_approval_3200")}</p>
-          </CardContent>
-        </Card>
 
-        <Card className="bg-green-50/50 border-green-100 shadow-sm overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-3 opacity-10 text-green-600">
-            <ShieldCheck className="w-16 h-16" />
+  const openEdit = (c: Commission) => {
+    setEditingCommission(c);
+    setFormData({ agentId: c.agentId || "", amountBase: c.amountBase, commissionRate: c.commissionRate, currency: c.currency, status: c.status });
+  };
+
+  const totalPaid = commissions.filter(c => c.status === "PAID").reduce((s, c) => s + c.commissionAmount, 0);
+  const totalPending = commissions.filter(c => c.status === "PENDING").reduce((s, c) => s + c.commissionAmount, 0);
+
+  return (
+    <div className="p-6 space-y-6 min-h-screen">
+      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+            <DollarSign className="w-8 h-8 text-white" />
           </div>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-bold tracking-wider text-muted-foreground">{t("admin.financial.active_rules")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{rules.length}</div>
-            <p className="text-xs text-muted-foreground mt-1">{t("admin.financial.spanning_5_platforms")}</p>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-white">
+              {t("admin.financial.commission_management", "Commission Management")}
+            </h1>
+            <p className="text-slate-400">
+              {t("admin.financial.define_and_track_commission", "Track and manage commissions")}
+            </p>
+          </div>
+        </div>
+        <Dialog open={isAddOpen || !!editingCommission} onOpenChange={(open) => { if (!open) { setIsAddOpen(false); setEditingCommission(null); } }}>
+          <DialogTrigger asChild>
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20" onClick={() => { setIsAddOpen(true); setFormData({ agentId: "", amountBase: 0, commissionRate: 0, currency: "USD", status: "PENDING" }); }}>
+              <Plus className="w-4 h-4 mr-2" />
+              {t("admin.financial.new_commission", "New Commission")}
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+            <DialogHeader>
+              <DialogTitle>
+                {editingCommission ? t("admin.financial.edit_commission", "Edit Commission") : t("admin.financial.new_commission", "New Commission")}
+              </DialogTitle>
+              <DialogDescription className="text-slate-400">
+                {editingCommission ? t("admin.financial.edit_commission_desc", "Update the commission status") : t("admin.financial.new_commission_desc", "Enter the commission details")}
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+              {!editingCommission && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="agentId">{t("admin.financial.agent_id", "Agent ID")}</Label>
+                    <Input id="agentId" className="bg-white/5 border-white/10 text-white" value={formData.agentId} onChange={e => setFormData({ ...formData, agentId: e.target.value })} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="amountBase">{t("admin.financial.base_amount", "Base Amount")}</Label>
+                    <Input id="amountBase" type="number" className="bg-white/5 border-white/10 text-white" value={formData.amountBase} onChange={e => setFormData({ ...formData, amountBase: Number(e.target.value) })} required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="commissionRate">{t("admin.financial.commission_rate", "Rate (%)")}</Label>
+                    <Input id="commissionRate" type="number" className="bg-white/5 border-white/10 text-white" value={formData.commissionRate} onChange={e => setFormData({ ...formData, commissionRate: Number(e.target.value) })} required />
+                  </div>
+                </>
+              )}
+              <div className="space-y-2">
+                <Label htmlFor="status">{t("admin.financial.status", "Status")}</Label>
+                <Select value={formData.status} onValueChange={(v: string) => setFormData({ ...formData, status: v })}>
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-slate-900 border-white/10 text-white">
+                    {Object.keys(statusConfig).map(s => (
+                      <SelectItem key={s} value={s}>{s}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <DialogFooter>
+                <Button type="button" variant="ghost" onClick={() => { setIsAddOpen(false); setEditingCommission(null); }} className="text-slate-300">{t("common.cancel", "Cancel")}</Button>
+                <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={createMutation.isPending || updateMutation.isPending}>
+                  {(createMutation.isPending || updateMutation.isPending) ? t("common.saving", "Saving...") : (editingCommission ? t("common.update", "Update") : t("common.create", "Create"))}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="bg-white/5 border-white/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-slate-400">{t("admin.financial.total_commissions", "Total Commissions")}</p>
+                <h3 className="text-2xl font-bold text-white mt-1">{commissions.length}</h3>
+              </div>
+              <div className="p-3 bg-blue-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-blue-400" /></div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-white/5 border-white/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-slate-400">{t("admin.financial.total_paid", "Total Paid")}</p>
+                <h3 className="text-2xl font-bold text-white mt-1">${totalPaid.toLocaleString()}</h3>
+              </div>
+              <div className="p-3 bg-emerald-500/20 rounded-lg"><TrendingUp className="w-5 h-5 text-emerald-400" /></div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-white/5 border-white/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-slate-400">{t("admin.financial.pending_amount", "Pending")}</p>
+                <h3 className="text-2xl font-bold text-white mt-1">${totalPending.toLocaleString()}</h3>
+              </div>
+              <div className="p-3 bg-amber-500/20 rounded-lg"><ShieldCheck className="w-5 h-5 text-amber-400" /></div>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
-        <Table>
-          <TableHeader className="bg-muted/30">
-            <TableRow>
-              <TableHead className="font-bold text-xs">{t("admin.financial.provider_source")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.rule_type")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.commission")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.min_volume")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.status")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.created")}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {loading ? <TableRow>
-                <TableCell colSpan={6} className="h-64 text-center">
-                  <div className="flex flex-col items-center justify-center gap-2">
-                    <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                    <span className="text-sm text-muted-foreground">{t("admin.financial.loading_commission_matrix")}</span>
-                  </div>
-                </TableCell>
-              </TableRow> : rules.map(rule => <TableRow key={rule.id} className="hover:bg-muted/40 transition-colors">
-                <TableCell className="font-semibold text-sm">{rule.providerId}</TableCell>
-                <TableCell>
-                  <Badge variant="secondary" className="text-[10px] font-bold ring-1 ring-border shadow-xs">
-                    {rule.ruleType}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-sm font-medium">
-                  {rule.ruleType === "PERCENTAGE" ? `${rule.commission}%` : `$${rule.commission.toLocaleString()}`}
-                </TableCell>
-                <TableCell className="text-sm text-muted-foreground">
-                  {rule.minVolume ? `$${rule.minVolume.toLocaleString()}+` : "No limit"}
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-sm shadow-green-200"></div>
-                    <span className="text-xs font-medium">{t("admin.financial.active")}</span>
-                  </div>
-                </TableCell>
-                <TableCell className="text-xs text-muted-foreground font-mono">
-                  {new Date(rule.createdAt).toLocaleDateString()}
-                </TableCell>
-              </TableRow>)}
-          </TableBody>
-        </Table>
-      </div>
-    </PageShell>;
+      <Card className="bg-white/5 border-white/10 overflow-hidden">
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader className="bg-white/5 border-b border-white/10">
+              <TableRow className="hover:bg-transparent border-none">
+                <TableHead className="text-xs font-medium text-slate-400 py-4 px-6">{t("admin.financial.id", "ID")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.financial.amount", "Amount")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.financial.rate", "Rate")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.financial.base", "Base")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.financial.status", "Status")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.financial.created", "Created")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.financial.actions", "Actions")}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow>
+              ) : commissions.length === 0 ? (
+                <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin.financial.no_commissions", "No commissions found")}</TableCell></TableRow>
+              ) : commissions.map(c => {
+                const cfg = statusConfig[c.status] || statusConfig.PENDING;
+                return (
+                  <TableRow key={c.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                    <TableCell className="py-4 px-6 font-mono text-xs text-slate-400">{c.id.slice(0, 8)}...</TableCell>
+                    <TableCell className="px-6 font-bold text-white">${c.commissionAmount.toLocaleString()}</TableCell>
+                    <TableCell className="px-6 text-sm text-slate-300">{c.commissionRate}%</TableCell>
+                    <TableCell className="px-6 text-sm text-slate-400">${c.amountBase.toLocaleString()}</TableCell>
+                    <TableCell className="px-6">
+                      <Badge className={cn("border-0", cfg.class)}>{cfg.label}</Badge>
+                    </TableCell>
+                    <TableCell className="px-6 text-xs text-slate-400 font-mono">{new Date(c.createdAt).toLocaleDateString()}</TableCell>
+                    <TableCell className="px-6">
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white" onClick={() => openEdit(c)}>
+                          <Edit className="w-3 h-3" />
+                        </Button>
+                        <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-300" onClick={() => deleteMutation.mutate(c.id)}>
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

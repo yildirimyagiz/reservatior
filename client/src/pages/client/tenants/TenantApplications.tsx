@@ -269,6 +269,20 @@ export default function TenantApplications() {
                 </div>
                 
                 <div className="space-y-3">
+                  <h3 className="font-bold border-b pb-2 flex items-center gap-2"><Users className="w-4 h-4" /> Accommodation Details</h3>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm bg-muted/50 p-4 rounded-lg">
+                    <span className="text-muted-foreground">Guest Count</span>
+                    <span className="font-medium">{selectedApp.guestCount || selectedApp.applicationData?.guestCount || "Not specified"}</span>
+                    <span className="text-muted-foreground">Smoking Allowed</span>
+                    <span className="font-medium">{selectedApp.smoking || selectedApp.applicationData?.smoking ? "Yes" : "No"}</span>
+                    <span className="text-muted-foreground">BBQ Preference</span>
+                    <span className="font-medium">{selectedApp.bbq || selectedApp.applicationData?.bbq ? "Yes" : "No"}</span>
+                    <span className="text-muted-foreground">Guest Details</span>
+                    <span className="font-medium">{selectedApp.guestDetails || selectedApp.applicationData?.guestDetails || "None"}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
                   <h3 className="font-bold border-b pb-2">{t("client.src.proposed_movein_notes")}</h3>
                   <div className="bg-muted p-4 rounded-lg space-y-2">
                     <div className="text-sm"><span className="text-muted-foreground mr-2">{t("client.src.property")}</span> {selectedApp.propertyName || "Unknown"}</div>
