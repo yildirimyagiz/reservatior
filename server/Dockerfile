@@ -15,8 +15,8 @@ RUN bun install --frozen-lockfile
 # ── Build ───────────────────────────────────────────────────────────────────
 FROM deps AS builder
 COPY . .
-# Generate Prisma client and prismabox schemas during build
-RUN bun run db:generate
+# Skip Prisma generate during build - do it at runtime instead
+# This prevents build timeouts with large schemas
 
 # ── Production runner ────────────────────────────────────────────────────────
 FROM oven/bun:1-alpine AS runner
@@ -32,8 +32,12 @@ ENV NODE_ENV=production
 COPY --from=builder --chown=elysia:elysia /app/node_modules ./node_modules
 COPY --from=builder --chown=elysia:elysia /app/prisma      ./prisma
 COPY --from=builder --chown=elysia:elysia /app/src         ./src
-COPY --from=builder --chown=elysia:elysia /app/generated   ./generated
+COPY --from=builder --chown=elysia:elysia /app/scripts     ./scripts
 COPY --from=builder --chown=elysia:elysia /app/package.json ./
+
+# Switch to root to create the generated folder and give ownership
+USER root
+RUN mkdir -p /app/generated && chown -R elysia:elysia /app/generated
 
 # Switch to non-root user
 USER elysia
@@ -41,4 +45,4 @@ USER elysia
 # Default: run the API gateway (monolith).
 # Override CMD in docker-compose for individual microservices.
 EXPOSE 3000
-CMD ["bun", "run", "src/index.ts"]
+CMD ["sh", "-c", "bun run db:generate && bun run src/index.ts"]
