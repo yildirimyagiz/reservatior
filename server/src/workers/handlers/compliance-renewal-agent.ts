@@ -23,21 +23,27 @@ export async function handleComplianceRenewal(data: any) {
     const currency = compliance?.property?.org?.defaultCurrency || "USD";
     const propertyId = compliance?.propertyId || "mock-property";
 
-    // Log compliance renewal started
-    await prisma.userActivityLog.create({
-      data: {
-        userId: compliance?.property?.orgId || "system",
-        orgId,
-        action: "COMPLIANCE_RENEWAL_STARTED",
-        entityType: "PROPERTY",
-        entityId: propertyId,
-        metadata: {
-          complianceId,
-          complianceType: compliance?.type || "GAS_SAFETY",
-          locale
-        }
+    // Log compliance renewal started (only if compliance exists)
+    if (compliance) {
+      try {
+        await prisma.userActivityLog.create({
+          data: {
+            userId: compliance?.property?.orgId || "system",
+            orgId,
+            action: "COMPLIANCE_RENEWAL_STARTED",
+            entityType: "PROPERTY",
+            entityId: propertyId,
+            metadata: {
+              complianceId,
+              complianceType: compliance?.type || "GAS_SAFETY",
+              locale
+            }
+          }
+        });
+      } catch (logError) {
+        console.log(`[Worker: ComplianceRenewalAgent] Could not log activity (user may not exist):`, logError);
       }
-    });
+    }
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -45,22 +51,29 @@ export async function handleComplianceRenewal(data: any) {
     const inspectorBooked = true;
     const appointmentDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(); // 14 days from now
 
-    await prisma.userActivityLog.create({
-      data: {
-        userId: compliance?.property?.orgId || "system",
-        orgId,
-        action: "COMPLIANCE_INSPECTOR_BOOKED",
-        entityType: "PROPERTY",
-        entityId: propertyId,
-        metadata: {
-          complianceId,
-          inspectorBooked,
-          appointmentDate,
-          inspectorName: "SafeCheck Ltd.",
-          locale
-        }
+    // Log inspector booking (only if compliance exists)
+    if (compliance) {
+      try {
+        await prisma.userActivityLog.create({
+          data: {
+            userId: compliance?.property?.orgId || "system",
+            orgId,
+            action: "COMPLIANCE_INSPECTOR_BOOKED",
+            entityType: "PROPERTY",
+            entityId: propertyId,
+            metadata: {
+              complianceId,
+              inspectorBooked,
+              appointmentDate,
+              inspectorName: "SafeCheck Ltd.",
+              locale
+            }
+          }
+        });
+      } catch (logError) {
+        console.log(`[Worker: ComplianceRenewalAgent] Could not log activity (user may not exist):`, logError);
       }
-    });
+    }
 
     console.log(`[Worker: ComplianceRenewalAgent] Inspector booked for compliance ${complianceId}. Appointment: ${appointmentDate} | locale: ${locale}`);
   } catch (error) {

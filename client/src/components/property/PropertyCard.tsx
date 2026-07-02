@@ -70,7 +70,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
     : [p.image || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80"];
 
   return (
-    <motion.div 
+    <motion.article 
       initial={{ opacity: 0, y: 20 }} 
       animate={{ opacity: 1, y: 0 }} 
       transition={{ delay: index * 0.05, duration: 0.4, ease: "easeOut" }} 
@@ -90,7 +90,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
                   <Link to={`/properties/${p.id}`} className="block w-full h-full">
                     <img 
                       src={img} 
-                      alt={`${p.name} - ${idx + 1}`} 
+                      alt={`Optimized rental listing staging by Reservatior - ${p.name || 'Property'} - View ${idx + 1}`} 
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                     />
                   </Link>
@@ -110,7 +110,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
           <Link to={`/properties/${p.id}`} className="block w-full h-full">
             <img 
               src={displayImages[0]} 
-              alt={p.name} 
+              alt={`Optimized rental listing staging by Reservatior - ${p.name || 'Property'}`} 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
             />
           </Link>
@@ -148,9 +148,9 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
                 {formattedPrice || 'Price on Request'}
                 {isRent && formattedPrice && <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem', fontWeight: 500, marginLeft: '4px' }}>/mo</span>}
               </span>
-              <h3 style={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, fontSize: '0.875rem', lineHeight: '1.25', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }} className="line-clamp-1">
+              <h2 style={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, fontSize: '0.875rem', lineHeight: '1.25', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }} className="line-clamp-1">
                 {p.name}
-              </h3>
+              </h2>
             </div>
             
             <div className="shrink-0">
@@ -211,6 +211,6 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
           </div>
         )}
       </Link>
-    </motion.div>
+    </motion.article>
   );
 }

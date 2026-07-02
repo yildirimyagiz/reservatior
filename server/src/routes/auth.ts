@@ -5,6 +5,8 @@ import { ENCODED_SECRET } from "../lib/jwt";
 import { authMiddleware } from "../middleware/auth";
 import { userSyncService } from "../services/user-sync";
 const CURRENT_REGION = process.env.REGION || "US";
+const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000";
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3001";
 import crypto from "crypto";
 
 const SALT_ROUNDS = 10;
@@ -51,22 +53,33 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       if (accountType === 'CORPORATE' && organizationName) {
         let mappedType: any = "OWNER_PORTFOLIO";
         if (corporateType === "AGENCY") mappedType = "AGENCY";
-        
+
+        // Map CURRENT_REGION string to valid Region enum
+        const regionMap: Record<string, any> = {
+          "US": "USA",
+          "TR": "TR",
+          "AE": "UAE",
+          "GB": "UK",
+          "RU": "RU",
+          "CN": "CN",
+          "GLOBAL": "GLOBAL",
+          "FR": "FR"
+        };
+        const validRegion = regionMap[CURRENT_REGION] || "GLOBAL";
+
         const org = await prisma.organization.create({
           data: {
             name: organizationName,
             type: mappedType,
-            status: "ACTIVE",
-            subscriptionStatus: "TRIAL",
+            region: validRegion,
           }
         });
-        
+
         const newRole = await prisma.role.create({
           data: {
             name: "Owner",
             key: "OWNER",
             orgId: org.id,
-            description: "Organization Owner"
           }
         });
 
@@ -193,6 +206,9 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
         name: t.Optional(t.String()),
         phone: t.Optional(t.String()),
         promoCode: t.Optional(t.String()),
+        accountType: t.Optional(t.Union([t.Literal("INDIVIDUAL"), t.Literal("CORPORATE")])),
+        corporateType: t.Optional(t.String()),
+        organizationName: t.Optional(t.String()),
       }),
     }
   )
@@ -359,7 +375,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   .get("/facebook", ({ redirect }) => {
     const params = new URLSearchParams({
       client_id: process.env.FACEBOOK_APP_ID || "",
-      redirect_uri: "http://localhost:3000/api/v1/auth/facebook/callback",
+      redirect_uri: `${SERVER_URL}/api/v1/auth/facebook/callback`,
       response_type: "code",
       scope: "email public_profile",
     });
@@ -370,13 +386,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   .get("/facebook/callback", async ({ query, redirect }) => {
     const code = query.code as string;
     if (!code) {
-      return redirect("http://localhost:3001/auth/callback?error=NoCode");
+      return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
     }
 
     try {
       const clientId = process.env.FACEBOOK_APP_ID!;
       const clientSecret = process.env.FACEBOOK_APP_SECRET!;
-      const redirectUri = "http://localhost:3000/api/v1/auth/facebook/callback";
+      const redirectUri = `${SERVER_URL}/api/v1/auth/facebook/callback`;
 
       const tokenRes = await fetch(`https://graph.facebook.com/v18.0/oauth/access_token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}&redirect_uri=${redirectUri}`, {
         method: "GET",
@@ -439,7 +455,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
         },
       });
 
-      return redirect(`http://localhost:3001/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
         id: user.id,
         email: user.email,
         name: user.name,
@@ -451,7 +467,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       }))}`);
     } catch (e) {
       console.error("Facebook auth callback error:", e);
-      return redirect("http://localhost:3001/auth/login?error=FacebookAuthFailed");
+      return redirect(`${CLIENT_URL}/auth/login?error=FacebookAuthFailed`);
     }
   })
 
@@ -459,7 +475,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   .get("/twitter", ({ redirect }) => {
     const params = new URLSearchParams({
       client_id: process.env.TWITTER_API_KEY || "",
-      redirect_uri: "http://localhost:3000/api/v1/auth/twitter/callback",
+      redirect_uri: `${SERVER_URL}/api/v1/auth/twitter/callback`,
       response_type: "code",
       scope: "tweet.read users.read email.read",
       state: Math.random().toString(36).substring(7),
@@ -472,13 +488,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
     const code = query.code as string;
     const state = query.state as string;
     if (!code) {
-      return redirect("http://localhost:3001/auth/callback?error=NoCode");
+      return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
     }
 
     try {
       const clientId = process.env.TWITTER_API_KEY!;
       const clientSecret = process.env.TWITTER_API_SECRET!;
-      const redirectUri = "http://localhost:3000/api/v1/auth/twitter/callback";
+      const redirectUri = `${SERVER_URL}/api/v1/auth/twitter/callback`;
 
       const tokenRes = await fetch("https://api.twitter.com/2/oauth2/token", {
         method: "POST",
@@ -564,7 +580,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
         },
       });
 
-      return redirect(`http://localhost:3001/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
         id: user.id,
         email: user.email,
         name: user.name,
@@ -576,7 +592,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       }))}`);
     } catch (e) {
       console.error("Twitter auth callback error:", e);
-      return redirect("http://localhost:3001/auth/login?error=TwitterAuthFailed");
+      return redirect(`${CLIENT_URL}/auth/login?error=TwitterAuthFailed`);
     }
   })
 
@@ -584,7 +600,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   .get("/google", ({ redirect }) => {
     const params = new URLSearchParams({
       client_id: process.env.AUTH_GOOGLE_ID || "",
-      redirect_uri: "http://localhost:3000/api/v1/auth/google/callback",
+      redirect_uri: `${SERVER_URL}/api/v1/auth/google/callback`,
       response_type: "code",
       scope: "email profile",
     });
@@ -595,13 +611,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   .get("/google/callback", async ({ query, redirect }) => {
     const code = query.code as string;
     if (!code) {
-      return redirect("http://localhost:3001/auth/callback?error=NoCode");
+      return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
     }
 
     try {
       const clientId = process.env.AUTH_GOOGLE_ID!;
       const clientSecret = process.env.AUTH_GOOGLE_SECRET!;
-      const redirectUri = "http://localhost:3000/api/v1/auth/google/callback";
+      const redirectUri = `${SERVER_URL}/api/v1/auth/google/callback`;
 
       const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
         method: "POST",
@@ -677,7 +693,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       });
 
       // Frontend is running on port 3001 based on Vite console output
-      return redirect(`http://localhost:3001/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
         id: user.id,
         email: user.email,
         name: user.name,
@@ -689,7 +705,129 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       }))}`);
     } catch (e) {
       console.error("Google auth callback error:", e);
-      return redirect("http://localhost:3001/auth/login?error=GoogleAuthFailed");
+      return redirect(`${CLIENT_URL}/auth/login?error=GoogleAuthFailed`);
+    }
+  })
+
+  // GET /auth/linkedin — redirect to LinkedIn OAuth
+  .get("/linkedin", ({ redirect }) => {
+    const params = new URLSearchParams({
+      client_id: process.env.AUTH_LINKEDIN_ID || "",
+      redirect_uri: `${SERVER_URL}/api/v1/auth/linkedin/callback`,
+      response_type: "code",
+      scope: "openid profile email w_member_social w_organization_social rw_organization_admin",
+    });
+    return redirect(`https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`);
+  })
+
+  // GET /auth/linkedin/callback
+  .get("/linkedin/callback", async ({ query, redirect }) => {
+    const code = query.code as string;
+    if (!code) return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
+
+    try {
+      const clientId = process.env.AUTH_LINKEDIN_ID!;
+      const clientSecret = process.env.AUTH_LINKEDIN_SECRET!;
+      const redirectUri = `${SERVER_URL}/api/v1/auth/linkedin/callback`;
+
+      const tokenRes = await fetch("https://www.linkedin.com/oauth/v2/accessToken", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: clientId, client_secret: clientSecret, code,
+          grant_type: "authorization_code", redirect_uri: redirectUri,
+        }),
+      });
+      const tokenData = await tokenRes.json();
+      if (!tokenData.access_token) throw new Error("No access token");
+
+      const userRes = await fetch("https://api.linkedin.com/v2/userinfo", {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+      });
+      const linkedinUser = await userRes.json();
+      if (!linkedinUser.email) throw new Error("No email in linkedin profile");
+
+      let user = await prisma.user.findUnique({ where: { email: linkedinUser.email } });
+      if (!user) {
+        const cloned = await userSyncService.cloneUserIfNeeded(linkedinUser.email, CURRENT_REGION);
+        if (cloned) user = await prisma.user.findUnique({ where: { email: linkedinUser.email } });
+      }
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            email: linkedinUser.email,
+            name: linkedinUser.name || linkedinUser.given_name || "",
+            imageUrl: linkedinUser.picture || null,
+          },
+        });
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            type: "OAUTH",
+            providerId: "linkedin",
+            accountId: linkedinUser.sub,
+            accessToken: tokenData.access_token,
+          },
+        });
+      }
+
+      let role = "USER";
+      let permissions = ["PROPERTIES_VIEW_ALL"];
+      let orgId: string | null = null;
+
+      const dbUser = await prisma.user.findUnique({
+        where: { id: user.id },
+        include: {
+          memberships: {
+            include: {
+              role: { include: { permissions: { include: { permission: true } } } },
+            },
+          },
+        },
+      });
+
+      if (dbUser?.memberships && dbUser.memberships.length > 0) {
+        const primaryMember = dbUser.memberships[0];
+        role = primaryMember.role.key;
+        orgId = primaryMember.orgId;
+        permissions = primaryMember.role.permissions.map(rp => rp.permission.key);
+      }
+
+      const SUPER_ADMIN_EMAILS = (process.env.SUPER_ADMIN_EMAILS || "").split(",").map(e => e.trim()).filter(Boolean);
+      if (SUPER_ADMIN_EMAILS.includes(user.email)) {
+        role = "OWNER";
+        permissions = ["*"];
+      }
+
+      const token = await new SignJWT({
+        sub: user.id, email: user.email, role, permissions, orgId,
+      })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('7d')
+        .sign(ENCODED_SECRET);
+
+      await prisma.session.create({
+        data: {
+          userId: user.id,
+          tokenHash: token.split(".").pop() ?? token,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
+
+      return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        imageUrl: user.imageUrl,
+        role,
+        permissions,
+        organizationId: orgId,
+        originRegion: user.originRegion,
+      }))}`);
+    } catch (e) {
+      console.error("LinkedIn auth callback error:", e);
+      return redirect(`${CLIENT_URL}/auth/login?error=LinkedInAuthFailed`);
     }
   })
 

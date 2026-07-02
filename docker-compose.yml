@@ -6,26 +6,49 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=reservatior
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - reservatior-db-net
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
 
   server:
     build:
       context: .
       dockerfile: Dockerfile.api
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     env_file:
       - .env
     environment:
-      # Base / Default
+      - RATE_LIMIT_API=${RATE_LIMIT_API:-200}
+      - RATE_LIMIT_READ=${RATE_LIMIT_READ:-500}
+      - RATE_LIMIT_AUTH=${RATE_LIMIT_AUTH:-10}
+      - RATE_LIMIT_HEAVY=${RATE_LIMIT_HEAVY:-30}
+      - REDIS_URL=${REDIS_URL:-}
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/realestate_us
-      # USA
       - DATABASE_URL_US=postgresql://postgres:postgres@db:5432/realestate_us
-      # Europe
       - DATABASE_URL_UK=postgresql://postgres:postgres@db:5432/realestate_uk
       - DATABASE_URL_TR=postgresql://postgres:postgres@db:5432/realestate_tr
       - DATABASE_URL_DE=postgresql://postgres:postgres@db:5432/realestate_de
@@ -33,12 +56,10 @@ services:
       - DATABASE_URL_ES=postgresql://postgres:postgres@db:5432/realestate_es
       - DATABASE_URL_IT=postgresql://postgres:postgres@db:5432/realestate_it
       - DATABASE_URL_NL=postgresql://postgres:postgres@db:5432/realestate_nl
-      # Americas
       - DATABASE_URL_CA=postgresql://postgres:postgres@db:5432/realestate_ca
       - DATABASE_URL_MX=postgresql://postgres:postgres@db:5432/realestate_mx
       - DATABASE_URL_BR=postgresql://postgres:postgres@db:5432/realestate_br
       - DATABASE_URL_AR=postgresql://postgres:postgres@db:5432/realestate_ar
-      # Asia-Pacific
       - DATABASE_URL_AU=postgresql://postgres:postgres@db:5432/realestate_au
       - DATABASE_URL_NZ=postgresql://postgres:postgres@db:5432/realestate_nz
       - DATABASE_URL_JP=postgresql://postgres:postgres@db:5432/realestate_jp
@@ -48,22 +69,114 @@ services:
       - DATABASE_URL_SG=postgresql://postgres:postgres@db:5432/realestate_sg
       - DATABASE_URL_MY=postgresql://postgres:postgres@db:5432/realestate_my
       - DATABASE_URL_TH=postgresql://postgres:postgres@db:5432/realestate_th
-      # Middle East
       - DATABASE_URL_AE=postgresql://postgres:postgres@db:5432/realestate_ae
       - DATABASE_URL_SA=postgresql://postgres:postgres@db:5432/realestate_sa
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    stop_grace_period: 30s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    networks:
+      - reservatior-db-net
+      - reservatior-api-net
 
   client:
     build:
       context: .
       dockerfile: Dockerfile.frontend
     ports:
-      - "8081:8080"
+      - "127.0.0.1:8081:8080"
     restart: unless-stopped
     depends_on:
       - server
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    networks:
+      - reservatior-api-net
+      - reservatior-frontend-net
+
+  nginx-ssl:
+    profiles: ["ssl"]
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./ssl/nginx-ssl.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - client
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+      - NET_RAW
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 256M
+    networks:
+      - reservatior-frontend-net
+
+  certbot:
+    profiles: ["ssl"]
+    image: certbot/certbot:latest
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/log/letsencrypt:/var/log/letsencrypt
+    entrypoint: >
+      sh -c "
+        trap exit TERM;
+        while true; do
+          certbot renew --quiet --no-self-upgrade;
+          sleep 43200;
+        done
+      "
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+
+networks:
+  reservatior-db-net:
+    driver: bridge
+    internal: true
+  reservatior-api-net:
+    driver: bridge
+  reservatior-frontend-net:
+    driver: bridge
 
 volumes:
   pgdata:

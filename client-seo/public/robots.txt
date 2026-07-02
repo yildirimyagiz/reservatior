@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://reservatior.com/sitemap.xml
+
+# Crawl rules
+Crawl-Delay: 1
+
+# Disallow admin and authenticated-only pages
+Disallow: /admin/
+Disallow: /client/dashboard
+Disallow: /client/bookings
+Disallow: /client/messages
+Disallow: /client/calendar
+Disallow: /client/contacts
+Disallow: /client/files
+Disallow: /client/activity-tracking
+
+Disallow: /client/profile/
+Disallow: /client/agents/
+Disallow: /client/financial/
+Disallow: /client/property/
+Disallow: /automation

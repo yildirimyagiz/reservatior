@@ -1,6 +1,11 @@
 import { cron } from "@elysiajs/cron";
 import Elysia from "elysia";
 import { EventDispatcher } from "../core/events/event-dispatcher";
+import { runReputationDecayCron } from "./reputation-decay-cron";
+import { escrowService } from "../services/escrow";
+import { disputeResolver } from "../core/dispute/resolver";
+import { distributionEngine } from "../services/distribution/distribution-engine";
+import { demandGenerator } from "../services/demand/demand-generator";
 
 export const cronScheduler = new Elysia({ name: "cron-scheduler" })
   // 1. LEASE_EXPIRY_APPROACHING (Runs daily at 02:00 AM)
@@ -66,6 +71,84 @@ export const cronScheduler = new Elysia({ name: "cron-scheduler" })
         EventDispatcher.emit("DOCUMENT_EXPIRED", { orgId: "us_seattle_org", entityType: "LICENSE", entityId: "mock-license-id" });
       }
     })
+  )
+
+  // 6. REPUTATION DECAY (Runs daily at 04:00 AM)
+  .use(
+    cron({
+      name: "reputation-decay",
+      pattern: process.env.NODE_ENV === "production" ? "0 4 * * *" : "*/15 * * * *",
+      async run() {
+        console.log("[Cron] Running REPUTATION_DECAY check...");
+        await runReputationDecayCron().catch(console.error);
+      }
+    })
+  )
+
+  // 7. ESCROW RELEASE SCHEDULER (Runs daily at 05:00 AM)
+  .use(
+    cron({
+      name: "escrow-release-scheduler",
+      pattern: process.env.NODE_ENV === "production" ? "0 5 * * *" : "*/10 * * * *",
+      async run() {
+        console.log("[Cron] Running ESCROW_RELEASE_SCHEDULER...");
+        const regions = ["US", "TR", "UK", "DE", "FR", "AE", "SA"];
+        for (const region of regions) {
+          await escrowService.releaseScheduledCommissions(region).catch(console.error);
+        }
+      }
+    })
+  )
+
+  // 8. DISPUTE DEADLINE CHECK (Runs daily at 06:00 AM)
+  .use(
+    cron({
+      name: "dispute-deadline-check",
+      pattern: process.env.NODE_ENV === "production" ? "0 6 * * *" : "*/12 * * * *",
+      async run() {
+        console.log("[Cron] Running DISPUTE_DEADLINE_CHECK...");
+        const regions = ["US", "TR", "UK", "DE", "FR", "AE", "SA"];
+        for (const region of regions) {
+          const result = await disputeResolver.withRegion(region).checkDeadlines(region).catch(() => ({ escalated: 0 }));
+          if (result.escalated > 0) {
+            console.log(`[Cron] Escalated ${result.escalated} overdue disputes in ${region}`);
+          }
+        }
+      }
+    })
+  )
+
+  // 9. LISTING DISTRIBUTION REFRESH (Runs daily at 07:00 AM)
+  .use(
+    cron({
+      name: "listing-distribution-refresh",
+      pattern: process.env.NODE_ENV === "production" ? "0 7 * * *" : "*/20 * * * *",
+      async run() {
+        console.log("[Cron] Running LISTING_DISTRIBUTION_REFRESH...");
+        const regions = ["US", "TR", "UK"];
+        for (const region of regions) {
+          await distributionEngine.distributeAllActiveListings(region).catch(console.error);
+        }
+      }
+    })
+  )
+
+  // 10. DEMAND GENERATION (Runs daily at 09:00 AM)
+  .use(
+    cron({
+      name: "demand-generation",
+      pattern: process.env.NODE_ENV === "production" ? "0 9 * * *" : "*/25 * * * *",
+      async run() {
+        console.log("[Cron] Running DEMAND_GENERATION...");
+        const regions = ["US", "TR", "UK", "DE", "FR"];
+        for (const region of regions) {
+          const recommendations = await demandGenerator.generateDemandForRegion(region, 20).catch(() => []);
+          if (recommendations.length > 0) {
+            console.log(`[Cron] Generated ${recommendations.length} demand recommendations for ${region}`);
+          }
+        }
+      }
+    })
   );
 
-console.log("[CronScheduler] Registered background cron jobs.");
+console.log("[CronScheduler] Registered 10 background cron jobs (5 new).");

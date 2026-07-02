@@ -1,0 +1,13 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F172A"/>
+      <stop offset="50%" style="stop-color:#1E1B4B"/>
+      <stop offset="100%" style="stop-color:#0F172A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="600" y="280" font-family="system-ui, sans-serif" font-size="72" font-weight="800" fill="white" text-anchor="middle" letter-spacing="-1">Reservatior</text>
+  <text x="600" y="360" font-family="system-ui, sans-serif" font-size="28" font-weight="500" fill="#A78BFA" text-anchor="middle">Premium Real Estate Platform with AI</text>
+  <rect x="480" y="400" width="240" height="4" rx="2" fill="#8B5CF6"/>
+</svg>

@@ -275,6 +275,119 @@ const AGENCY_PLANS: PricingPlan[] = [{
   ctaLabel: "Contact Sales"
 }];
 
+const HOTEL_PLANS: PricingPlan[] = [{
+  id: "hotel-standard",
+  name: "Hotel Operations",
+  description: "High volume booking & channel management for boutique hotels",
+  priceMonthly: 599,
+  priceYearly: 5990,
+  currency: "$",
+  limits: {
+    properties: "10 Properties",
+    listings: "Unlimited Rooms",
+    aiProcessing: "Dynamic Daily Pricing AI",
+    gpuPriority: "Ultra"
+  },
+  features: {
+    ml_services: [{
+      label: "Occupancy Predictive AI",
+      included: true,
+      icon: <Sparkles className="w-3 h-3 text-emerald-400" />
+    }, {
+      label: "Real-time Competitor Pricing",
+      included: true,
+      icon: <BarChart4 className="w-3 h-3 text-blue-400" />
+    }, {
+      label: "Smart Guest Support Chatbot",
+      included: true,
+      icon: <BrainCircuit className="w-3 h-3 text-orange-400" />
+    }],
+    video_editing: [{
+      label: "Virtual Room Walkthroughs",
+      included: true
+    }, {
+      label: "Multi-language Welcome Videos",
+      included: true
+    }, {
+      label: "AI Neighborhood Guides",
+      included: true
+    }],
+    marketing: [{
+      label: "Booking.com & Airbnb Sync",
+      included: true,
+      icon: <RefreshCw className="w-3 h-3 text-emerald-400" />
+    }, {
+      label: "Automated Review Replies",
+      included: true
+    }],
+    analytics: [{
+      label: "RevPAR & ADR Forecasting",
+      included: true
+    }, {
+      label: "Guest Sentiment Analysis",
+      included: true
+    }]
+  },
+  ctaLabel: "Start Hotel Plan"
+}];
+
+const APARTMENT_PLANS: PricingPlan[] = [{
+  id: "apartment-portfolio",
+  name: "Apartment Portfolio",
+  description: "Comprehensive lease & maintenance AI for property managers",
+  priceMonthly: 899,
+  priceYearly: 8990,
+  currency: "$",
+  badge: "ENTERPRISE",
+  limits: {
+    properties: "Unlimited Units",
+    listings: "Unlimited",
+    aiProcessing: "Predictive Maintenance AI",
+    gpuPriority: "Dedicated"
+  },
+  features: {
+    ml_services: [{
+      label: "AI Tenant Background Check",
+      included: true,
+      icon: <Shield className="w-3 h-3 text-emerald-400" />
+    }, {
+      label: "Predictive Maintenance Alerts",
+      included: true,
+      icon: <Zap className="w-3 h-3 text-orange-400" />
+    }, {
+      label: "Automated Lease Parsing",
+      included: true
+    }],
+    video_editing: [{
+      label: "Move-in/Move-out Video Analysis",
+      included: true,
+      icon: <Film className="w-3 h-3 text-blue-400" />
+    }, {
+      label: "Damage Detection AI",
+      included: true
+    }, {
+      label: "Property Promotion Reels",
+      included: true
+    }],
+    marketing: [{
+      label: "Vacancy Fill Optimization",
+      included: true
+    }, {
+      label: "Automated Listing Syndication",
+      included: true
+    }],
+    analytics: [{
+      label: "Long-term Yield Projection",
+      included: true,
+      icon: <TrendingUp className="w-3 h-3 text-emerald-400" />
+    }, {
+      label: "Maintenance Cost Forecasting",
+      included: true
+    }]
+  },
+  ctaLabel: "Contact Sales"
+}];
+
 interface PrivateYieldDashboardProps {
   agreement: {
     id: string;
@@ -621,8 +734,12 @@ export default function SubscriptionsPage() {
   const isVipPromo = searchParams.get("promo") === "VIPTR";
 
   const [isAnnual, setIsAnnual] = useState(false);
-  const [activeTab, setActiveTab] = useState<"individual" | "agency">("individual");
-  const basePlans = activeTab === "individual" ? INDIVIDUAL_PLANS : AGENCY_PLANS;
+  const [activeTab, setActiveTab] = useState<"individual" | "agency" | "hotel" | "apartment">("individual");
+  
+  let basePlans = INDIVIDUAL_PLANS;
+  if (activeTab === "agency") basePlans = AGENCY_PLANS;
+  else if (activeTab === "hotel") basePlans = HOTEL_PLANS;
+  else if (activeTab === "apartment") basePlans = APARTMENT_PLANS;
   
   // Eğer VIP promosyonu varsa fiyatları %50 düşür ve butonları değiştir
   const plans = basePlans.map(plan => {
@@ -684,8 +801,10 @@ export default function SubscriptionsPage() {
           <div className="pt-4 flex flex-col items-center gap-8">
             <Tabs value={activeTab} onValueChange={v => setActiveTab(v as any)} className="bg-[#14151a]/60 backdrop-blur-xl border border-white/5 p-1 rounded-2xl">
               <TabsList className="bg-transparent gap-2 h-14">
-                <TabsTrigger value="individual" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-10">{t("client.src.solo_agent")}</TabsTrigger>
-                <TabsTrigger value="agency" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-10">{t("client.src.global_agency")}</TabsTrigger>
+                <TabsTrigger value="individual" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8">{t("client.src.solo_agent")}</TabsTrigger>
+                <TabsTrigger value="agency" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8">{t("client.src.global_agency")}</TabsTrigger>
+                <TabsTrigger value="hotel" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8">OTEL YÖNETİMİ</TabsTrigger>
+                <TabsTrigger value="apartment" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8">DAİRE PORTFÖYÜ</TabsTrigger>
               </TabsList>
             </Tabs>
 

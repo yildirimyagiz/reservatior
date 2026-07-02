@@ -12,8 +12,10 @@ export class AISearchEngine {
   static async processSearch(query: string, user: any = null, clientIp: string = "unknown") {
     try {
       // 1. INTENT ANALYSIS
-      const intentResponse = await genAI.getGenerativeModel({ model: "gemini-2.5-flash" }).generateContent({
-        contents: [{ role: "user", parts: [{ text: `
+      let cleanJson = "{}";
+      try {
+        const intentResponse = await genAI.getGenerativeModel({ model: "gemini-2.5-flash" }).generateContent({
+          contents: [{ role: "user", parts: [{ text: `
           You are a highly intelligent assistant for "Reservatior", a premium real estate platform.
           The user asking is: ${user ? "LOGGED IN" : "ANONYMOUS"}
           
@@ -33,9 +35,19 @@ export class AISearchEngine {
             "bbq": (boolean or null),
             "guestDetails": (string or null)
           }`}]}]
-      });
-
-      const cleanJson = (intentResponse.response.text() || "{}").replace(/```json/g, '').replace(/```/g, '').trim();
+        });
+        cleanJson = (intentResponse.response.text() || "{}").replace(/```json/g, '').replace(/```/g, '').trim();
+      } catch (apiError: any) {
+        console.warn("AI Intent API failed, using smart fallback:", apiError.message);
+        // Fallback regex parser to keep the app working
+        const locationMatch = query.match(/(istanbul|ankara|izmir|antalya|bodrum|fethiye)/i);
+        cleanJson = JSON.stringify({
+          location: locationMatch ? locationMatch[0] : null,
+          isCompare: /karşılaştır|kıyasla|compare/i.test(query),
+          includePOI: /yakın|merkez|near/i.test(query),
+          isValuation: /fiyat|değer|value/i.test(query)
+        });
+      }
       let filters: any = {};
       try { filters = JSON.parse(cleanJson); } catch (e) {}
 
@@ -120,15 +132,23 @@ export class AISearchEngine {
             properties.forEach(p => { if (p.aiSummary) responseText += `- ${p.name}: ${p.aiSummary}\n`; });
           }
         } else if (route === "LIGHT_AI") {
-           const chatResponse = await genAI.getGenerativeModel({ model: "gemini-2.5-flash" }).generateContent({
-             contents: [{ role: "user", parts: [{ text: `Query: "${query}". User Preferences: ${JSON.stringify(filters)}. There are ${properties.length} properties in the database. Give a short and friendly response acknowledging their specific needs (like guest count, smoking, bbq, etc) if mentioned.` }] }]
-           });
-           responseText = chatResponse.response.text() || "Detailed analysis completed.";
+           try {
+             const chatResponse = await genAI.getGenerativeModel({ model: "gemini-2.5-flash" }).generateContent({
+               contents: [{ role: "user", parts: [{ text: `Query: "${query}". User Preferences: ${JSON.stringify(filters)}. There are ${properties.length} properties in the database. Give a short and friendly response acknowledging their specific needs (like guest count, smoking, bbq, etc) if mentioned.` }] }]
+             });
+             responseText = chatResponse.response.text() || "Detailed analysis completed.";
+           } catch (apiError: any) {
+             responseText = `[API YANITI SİMÜLASYONU] Kriterlerinize uyan ${properties.length} ilan buldum. Gerçek Gemini API anahtarı eklediğinizde size burada detaylı bir analiz sunacağım.`;
+           }
         } else if (route === "FULL_AI" || route === "PREMIUM_AI") {
-           const chatResponse = await genAI.getGenerativeModel({ model: "gemini-2.5-pro" }).generateContent({
-             contents: [{ role: "user", parts: [{ text: `Comprehensive Analysis Request: "${query}". User Preferences: ${JSON.stringify(filters)}. Properties: ${JSON.stringify(properties)}. Compare these properties, perform an investment analysis, evaluate POIs, and factor in their specific needs (like guest count, smoking, bbq, etc).` }] }]
-           });
-           responseText = chatResponse.response.text() || "Comprehensive market and investment analysis completed.";
+           try {
+             const chatResponse = await genAI.getGenerativeModel({ model: "gemini-2.5-pro" }).generateContent({
+               contents: [{ role: "user", parts: [{ text: `Comprehensive Analysis Request: "${query}". User Preferences: ${JSON.stringify(filters)}. Properties: ${JSON.stringify(properties)}. Compare these properties, perform an investment analysis, evaluate POIs, and factor in their specific needs (like guest count, smoking, bbq, etc).` }] }]
+             });
+             responseText = chatResponse.response.text() || "Comprehensive market and investment analysis completed.";
+           } catch (apiError: any) {
+             responseText = `[PREMIUM YANITI SİMÜLASYONU] Bu bölge için (${properties.length} ilan üzerinden) hazırlanan derinlemesine yatırım analizi raporu için lütfen geçerli bir Gemini API anahtarı yapılandırın.`;
+           }
         }
 
         let creditsRemaining: number | undefined;

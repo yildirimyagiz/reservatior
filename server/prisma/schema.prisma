@@ -373,6 +373,7 @@ model Organization {
   transferServices   TransferService[]
   transferBookings   TransferBooking[]
   conciergeRequests  ConciergeRequest[]
+  listingDistributions ListingDistribution[]
 }
 
 model ConciergeRequest {
@@ -1192,6 +1193,7 @@ model Listing {
   ledgerEntries         LedgerEntry[]
   commissions           Commission[]
   recommendationResults RecommendationResult[]
+  listingDistributions   ListingDistribution[]
 
   @@index([orgId])
   @@index([propertyId])
@@ -3080,6 +3082,7 @@ model Contract {
   tasks             Task[]
   agencies          Agency[]           @relation("AgencyToContract")
   tenants           Tenant[]           @relation("ContractToTenant")
+  contractTransitions ContractTransition[]
 
   @@index([orgId])
   @@index([status])
@@ -5885,6 +5888,7 @@ model Agent {
   Task                    Task[]                   @relation("AgentToTask")
   escrowWallet            AgentEscrowWallet?
   escrowSplitConfigs      EscrowSplitConfig[]
+  listingDistributions    ListingDistribution[]
 
   @@unique([name, agencyId])
   @@index([deletedAt])
@@ -8516,6 +8520,97 @@ enum BookingStatus {
   CHECKED_OUT
   CANCELLED
   NO_SHOW
+}
+
+model ContractTransition {
+  id              String   @id @default(cuid())
+  contractId      String
+  fromState       String
+  toState         String
+  triggerEvent    String
+  metadata        Json?
+  region          String   @default("US")
+  transitionedAt  DateTime @default(now())
+  createdAt       DateTime @default(now())
+  contract        Contract @relation(fields: [contractId], references: [id])
+
+  @@index([contractId])
+  @@index([transitionedAt])
+  @@index([region])
+}
+
+model ListingDistribution {
+  id                  String    @id @default(cuid())
+  listingId           String    @unique
+  agentId             String
+  orgId               String
+  distributionScore   Float
+  priority            String    @default("MEDIUM")
+  estimatedConversion Float?
+  calculatedAt        DateTime  @default(now())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  listing             Listing   @relation(fields: [listingId], references: [id])
+  agent               Agent     @relation(fields: [agentId], references: [id])
+  organization        Organization @relation(fields: [orgId], references: [id])
+
+  @@index([listingId])
+  @@index([priority])
+  @@index([agentId])
+}
+
+model ReputationDecayLog {
+  id            String   @id @default(cuid())
+  entityId      String
+  entityType    String
+  region        String   @default("US")
+  previousScore Float
+  newScore      Float
+  decayAmount   Float
+  reason        String
+  appliedAt     DateTime @default(now())
+  createdAt     DateTime @default(now())
+
+  @@index([entityId])
+  @@index([entityType])
+  @@index([appliedAt])
+  @@index([region])
+}
+
+model CrossPartyReview {
+  id               String   @id @default(cuid())
+  transactionId    String
+  reviewerType     String
+  reviewerId       String
+  subjectId        String
+  subjectType      String
+  score            Float
+  comment          String?
+  role             String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([subjectId, subjectType])
+  @@index([reviewerId])
+  @@index([transactionId])
+}
+
+model DemandGenerationLog {
+  id              String   @id @default(cuid())
+  sourceType      String
+  sourceId        String?
+  listingId       String?
+  tenantId        String?
+  agentId         String?
+  region          String   @default("US")
+  matchScore      Float?
+  recommendation  Json?
+  converted       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  @@index([sourceType, sourceId])
+  @@index([tenantId])
+  @@index([region])
 }
 
 enum MaintenanceBlockType {

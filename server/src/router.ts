@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+import { escrowGuardMiddleware } from "./middleware/escrow-guard";
 import { dashboardSummaryRoutes } from "./routes/dashboard-summary";
 import { authRoutes } from "./routes/auth";
 import { adminRoutes } from "./routes/admin";
@@ -321,6 +322,7 @@ import { salesProcessRoutes } from "./routes/sales-process";
 import { identityComplianceRoutes } from "./routes/identity-compliance";
 import { tax1099Routes } from "./routes/tax-1099";
 import { financeOSRoutes } from "./routes/finance-os";
+import { reputationRoutes } from "./routes/reputation";
 
 // Route Clusters to optimize TypeScript instantiation depth
 const cluster1 = new Elysia()
@@ -629,6 +631,7 @@ const cluster11 = new Elysia()
 ;
 
 export const router = new Elysia({ prefix: "/api/v1" })
+  .use(escrowGuardMiddleware)
   .use(dashboardSummaryRoutes)
   .use(authRoutes)
   .use(searchRoutes)
@@ -687,4 +690,5 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(salesProcessRoutes)
   .use(tax1099Routes)
   .use(financeOSRoutes)
+  .use(reputationRoutes)
 ;

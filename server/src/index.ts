@@ -4,9 +4,13 @@ import { staticPlugin } from "@elysiajs/static";
 import { cors } from "@elysiajs/cors";
 import { router } from "./router";
 import { prisma } from "./lib/prisma";
-import { SignJWT } from "jose";
+import { SignJWT, jwtVerify } from "jose";
 import { ENCODED_SECRET } from "./lib/jwt";
 import { cronScheduler } from "./cron/cron-scheduler";
+import { rateLimitMiddleware } from "./middleware/rate-limit";
+import { csrfMiddleware } from "./middleware/csrf";
+import { auditLogMiddleware } from "./middleware/audit-log";
+import { shareToLinkedInCompany } from "./services/linkedin";
 
 // ── Environment-based configuration ─────────────────────────────────────────
 const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000";
@@ -108,6 +112,9 @@ const app = new Elysia()
     },
     path: "/docs",
   }))
+  .use(rateLimitMiddleware)
+  .use(csrfMiddleware)
+  .use(auditLogMiddleware)
   .use(cors({
     origin: CORS_ORIGINS,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -371,6 +378,178 @@ const app = new Elysia()
     }
   })
 
+  // GET /api/auth/linkedin — redirect to LinkedIn OAuth
+  .get("/api/auth/linkedin", ({ redirect, cookie: { state } }) => {
+    const csrfState = Math.random().toString(36).substring(7);
+    state?.set({ value: csrfState, path: "/api/auth/linkedin/callback", httpOnly: true, sameSite: "lax", maxAge: 300 });
+
+    const params = new URLSearchParams({
+      client_id: process.env.AUTH_LINKEDIN_ID || "",
+      redirect_uri: `${SERVER_URL}/api/auth/linkedin/callback`,
+      response_type: "code",
+      scope: "openid profile email w_member_social w_organization_social rw_organization_admin",
+      state: csrfState,
+    });
+    return redirect(`https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`);
+  })
+
+  // GET /api/auth/linkedin/callback — handle LinkedIn OAuth callback
+  .get("/api/auth/linkedin/callback", async ({ query, redirect }) => {
+    const code = query.code as string;
+    if (!code) return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
+
+    try {
+      const clientId = process.env.AUTH_LINKEDIN_ID!;
+      const clientSecret = process.env.AUTH_LINKEDIN_SECRET!;
+      const redirectUri = `${SERVER_URL}/api/auth/linkedin/callback`;
+
+      const tokenRes = await fetch("https://www.linkedin.com/oauth/v2/accessToken", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: clientId, client_secret: clientSecret, code,
+          grant_type: "authorization_code", redirect_uri: redirectUri,
+        }),
+      });
+      const tokenData = await tokenRes.json();
+      if (!tokenData.access_token) throw new Error("No access token");
+
+      const userRes = await fetch("https://api.linkedin.com/v2/userinfo", {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+      });
+      const linkedinUser = await userRes.json();
+      if (!linkedinUser.email) throw new Error("No email in linkedin profile");
+
+      const userEmail = linkedinUser.email;
+      let user = await prisma.user.findUnique({ where: { email: userEmail } });
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            email: userEmail,
+            name: linkedinUser.name || linkedinUser.given_name || "",
+            imageUrl: linkedinUser.picture || null,
+          },
+        });
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            type: "OAUTH",
+            providerId: "linkedin",
+            accountId: linkedinUser.sub,
+            accessToken: tokenData.access_token,
+          },
+        });
+      }
+
+      const { token, userData } = await createAuthSessionAndRedirect(user, "linkedin");
+      return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(userData)}`);
+    } catch (e) {
+      console.error("LinkedIn auth callback error:", e);
+      return redirect(`${CLIENT_URL}/auth/login?error=LinkedInAuthFailed`);
+    }
+  })
+
+  // POST /api/auth/linkedin/native — For Mobile native SDK login
+  .post("/api/auth/linkedin/native", async ({ body, set }) => {
+    try {
+      const { accessToken } = body as { accessToken: string };
+      if (!accessToken) throw new Error("Missing access token");
+
+      const userRes = await fetch("https://api.linkedin.com/v2/userinfo", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const linkedinUser = await userRes.json();
+      if (!linkedinUser.email) throw new Error("No email in linkedin profile");
+
+      const email = linkedinUser.email;
+      let user = await prisma.user.findUnique({ where: { email } });
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            email,
+            name: linkedinUser.name || linkedinUser.given_name || "",
+            imageUrl: linkedinUser.picture || null,
+          },
+        });
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            type: "OAUTH",
+            providerId: "linkedin",
+            accountId: linkedinUser.sub,
+            accessToken: accessToken,
+          },
+        });
+      }
+
+      let role = "USER";
+      let permissions = ["PROPERTIES_VIEW_ALL"];
+      let orgId = null;
+
+      const token = await new SignJWT({ sub: user.id, email: user.email, role, permissions, orgId })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('7d')
+        .sign(ENCODED_SECRET);
+
+      return { accessToken: token, user };
+    } catch (e: any) {
+      set.status = 401;
+      return { error: e.message || "LinkedIn native auth failed" };
+    }
+  })
+
+  // POST /api/linkedin/share — Share a post to LinkedIn
+  .post("/api/linkedin/share", async ({ body, set }) => {
+    try {
+      const { accessToken, companyId, text } = body as { accessToken: string; companyId?: string; text: string };
+      if (!accessToken || !text) {
+        set.status = 400;
+        return { error: "Missing required fields: accessToken, text" };
+      }
+
+      const result = await shareToLinkedInCompany(accessToken, text);
+      if (!result.success) {
+        set.status = 400;
+        return { error: result.error };
+      }
+
+      return { success: true, postId: result.postId };
+    } catch (e: any) {
+      set.status = 500;
+      return { error: e.message || "LinkedIn share failed" };
+    }
+  })
+
+  // GET /api/auth/linkedin/account — Get LinkedIn account info for the authenticated user
+  .get("/api/auth/linkedin/account", async ({ headers, set }) => {
+    try {
+      const authHeader = headers.authorization;
+      if (!authHeader?.startsWith("Bearer ")) {
+        set.status = 401;
+        return { error: "Unauthorized" };
+      }
+
+      const token = authHeader.slice(7);
+      const { payload } = await jwtVerify(token, ENCODED_SECRET) as any;
+
+      const account = await prisma.account.findFirst({
+        where: { userId: payload.sub, providerId: "linkedin" },
+        select: { accountId: true, accessToken: true },
+      });
+
+      if (!account) {
+        set.status = 404;
+        return { error: "No LinkedIn account linked" };
+      }
+
+      return { authorId: account.accountId, accessToken: account.accessToken };
+    } catch (e: any) {
+      set.status = 401;
+      return { error: "Invalid token" };
+    }
+  })
+
   .use(router)
   .use(cronScheduler)
   .listen({ 
@@ -393,6 +572,10 @@ initMlsConsumer().catch(console.error);
 // Initialize Autonomous Event-Driven Worker Pool
 import { startWorkerPool } from "./workers/worker-pool";
 startWorkerPool().catch(console.error);
+
+// Initialize LinkedIn Auto-Poster
+import { startLinkedInAutoPoster } from "./services/linkedin-auto-poster";
+startLinkedInAutoPoster();
 
 export type App = typeof app;
 export default app;

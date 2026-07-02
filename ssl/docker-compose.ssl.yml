@@ -1,0 +1,53 @@
+# ── Docker Compose SSL Override ─────────────────────────────────────────────
+# Adds an SSL-terminating nginx reverse proxy + certbot sidecar
+# Usage: docker compose -f docker-compose.yml -f ssl/docker-compose.ssl.yml up -d
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+  # ── SSL Termination Proxy ──────────────────────────────────────────────
+  nginx-ssl:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./ssl/nginx-ssl.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/log/nginx/ssl-access.log:/var/log/nginx/access.log
+      - /var/log/nginx/ssl-error.log:/var/log/nginx/error.log
+    depends_on:
+      - client
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+      - NET_RAW
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 256M
+
+  # ── Certbot (one-shot, then exits) ─────────────────────────────────────
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/log/letsencrypt:/var/log/letsencrypt
+    entrypoint: >
+      sh -c "
+        trap exit TERM;
+        while true; do
+          certbot renew --quiet --no-self-upgrade;
+          sleep 43200;  # 12 hours
+        done
+      "
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M

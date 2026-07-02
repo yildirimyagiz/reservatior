@@ -1,10 +1,9 @@
 import { prismaManager } from "../lib/prisma";
+import { isExecutionLocked } from "../lib/config/execution-lock";
+import { EventDispatcher } from "../core/events/event-dispatcher";
+import { contractMutator } from "./contract-mutator";
 
 export class EscrowService {
-  /**
-   * Configures the commission and escrow split rules for a property.
-   * By default: 3.0% commission to agent, 4.0% fee to Reservatior.
-   */
   async configurePropertyEscrowSplit(
     region: string,
     propertyId: string,
@@ -15,7 +14,6 @@ export class EscrowService {
   ) {
     const prisma = prismaManager.getClient(region);
 
-    // Verify property and agent exist
     const property = await prisma.property.findUnique({
       where: { id: propertyId }
     });
@@ -26,7 +24,6 @@ export class EscrowService {
     });
     if (!agent) throw new Error("Agent not found");
 
-    // Upsert the split configuration
     const config = await prisma.escrowSplitConfig.upsert({
       where: { propertyId },
       update: {
@@ -46,21 +43,15 @@ export class EscrowService {
       }
     });
 
-    console.log(`✅ Configured Escrow Split for Property ${propertyId}: Agent ${agentId} (${agentPayoutRate}%), Reservatior (${reservatiorFeeRate}%), Blockage: ${blockageDays} days.`);
     return config;
   }
 
-  /**
-   * Processes a rent payment, creating the EscrowAccount and allocating the 3% / 4% split.
-   * Puts the agent's portion into a PENDING/BLOCKED state in their wallet.
-   */
   async processRentPayment(region: string, paymentId: string) {
     const prisma = prismaManager.getClient(region);
 
-    // Find the payment
     const payment = await prisma.payment.findUnique({
       where: { id: paymentId },
-      include: { Property: true }
+      include: { Property: true, Lease: true, Reservation: true }
     });
 
     if (!payment) throw new Error("Payment not found");
@@ -71,27 +62,27 @@ export class EscrowService {
     const propertyId = payment.propertyId;
     if (!propertyId) throw new Error("Payment is not associated with a property");
 
-    // Get the split configuration for this property
+    const forceEscrow = isExecutionLocked(region, "forcePaymentThroughEscrow");
+
     const splitConfig = await prisma.escrowSplitConfig.findUnique({
       where: { propertyId },
       include: { agent: true }
     });
 
-    // If there is no split config, this property doesn't participate in the affiliate broker model
     if (!splitConfig || !splitConfig.isActive) {
-      console.log(`ℹ️ Property ${propertyId} has no active escrow split config. Skipping agent payout.`);
+      if (forceEscrow) {
+        throw new Error(`EXECUTION_LOCK: Escrow split config required for property ${propertyId} in region ${region}. Configure escrow before processing payments.`);
+      }
       return { success: true, reason: "No active split configuration" };
     }
 
     const { agentId, agentPayoutRate, reservatiorFeeRate, blockageDays } = splitConfig;
 
-    // Calculate split amounts
     const totalAmount = payment.amount;
     const agentAmount = (totalAmount * agentPayoutRate) / 100;
     const reservatiorAmount = (totalAmount * reservatiorFeeRate) / 100;
     const landlordAmount = totalAmount - agentAmount - reservatiorAmount;
 
-    // Ensure the agent has an escrow wallet initialized
     let wallet = await prisma.agentEscrowWallet.findUnique({
       where: { agentId }
     });
@@ -105,45 +96,75 @@ export class EscrowService {
       });
     }
 
-    // Determine release date (Today + blockageDays)
     const releaseDate = new Date();
     releaseDate.setDate(releaseDate.getDate() + blockageDays);
 
-    // Create the EscrowAccount in the database to lock the entire transaction
-    const escrow = await prisma.escrowAccount.create({
-      data: {
+    const reservationId = payment.reservationId || `res_mock_${paymentId}`;
+
+    const escrow = await prisma.escrowAccount.upsert({
+      where: { reservationId },
+      create: {
         orgId: payment.Property?.orgId || "tr_residence_org",
-        reservationId: payment.reservationId || `res_mock_${paymentId}`,
-        totalAmount: totalAmount,
-        depositAmount: 0.00, // Monthly rent has no security deposit
+        reservationId,
+        totalAmount,
+        depositAmount: 0.00,
         currency: payment.currencyId || "USD",
+        status: "HOLDING"
+      },
+      update: {
+        totalAmount,
         status: "HOLDING"
       }
     });
 
-    // Log the transaction in the agent's wallet as BLOCKED/PENDING
-    const agentTx = await prisma.agentEscrowTransaction.create({
-      data: {
-        walletId: wallet.id,
-        amount: agentAmount,
-        currency: payment.currencyId || "USD",
-        type: "COMMISSION_EARNED",
-        status: "BLOCKED",
-        escrowAccountId: escrow.id,
-        releaseDate,
-        reference: `Rent Payment split for ${payment.id}. Total rent: ${totalAmount}. Agent split: ${agentPayoutRate}%.`
-      }
+    const existingTx = await prisma.agentEscrowTransaction.findFirst({
+      where: { escrowAccountId: escrow.id, type: "COMMISSION_EARNED", walletId: wallet.id }
     });
 
-    // Update wallet pending balance
-    await prisma.agentEscrowWallet.update({
-      where: { id: wallet.id },
-      data: {
-        pendingBalance: { increment: agentAmount }
-      }
-    });
+    if (!existingTx) {
+      await prisma.agentEscrowTransaction.create({
+        data: {
+          walletId: wallet.id,
+          amount: agentAmount,
+          currency: payment.currencyId || "USD",
+          type: "COMMISSION_EARNED",
+          status: "BLOCKED",
+          escrowAccountId: escrow.id,
+          releaseDate,
+          reference: `Rent Payment split for ${payment.id}. Total rent: ${totalAmount}. Agent split: ${agentPayoutRate}%.`
+        }
+      });
 
-    console.log(`💰 Processed rent payment split of $${agentAmount} (pending) for Agent ${agentId} from Rent: $${totalAmount}. Release scheduled at: ${releaseDate.toDateString()}`);
+      await prisma.agentEscrowWallet.update({
+        where: { id: wallet.id },
+        data: {
+          pendingBalance: { increment: agentAmount }
+        }
+      });
+    }
+
+    if (escrow.status === "HOLDING" && forceEscrow && payment.Lease) {
+      const leaseContract = await prisma.contract.findFirst({
+        where: { leaseId: payment.Lease.id }
+      });
+      if (leaseContract && leaseContract.status === "SIGNING") {
+        await contractMutator.withRegion(region).transition(
+          leaseContract.id,
+          "ACTIVE",
+          "ESCROW_HOLDING_CONFIRMED"
+        ).catch(() => {});
+      }
+    }
+
+    EventDispatcher.emit("ESCROW_HOLDING_ESTABLISHED" as any, {
+      escrowId: escrow.id,
+      paymentId,
+      region,
+      totalAmount,
+      agentAmount,
+      reservatiorAmount,
+      landlordAmount,
+    });
 
     return {
       success: true,
@@ -155,17 +176,41 @@ export class EscrowService {
     };
   }
 
-  /**
-   * Cron/Scheduled Task: Releases scheduled blocked commissions that have completed their valör (blockage) period.
-   * Transfers funds from pendingBalance to cleared balance.
-   */
+  async createEscrowFromContract(region: string, contractId: string, totalAmount: number, currency: string = "USD") {
+    const prisma = prismaManager.getClient(region);
+    const contract = await prisma.contract.findUnique({
+      where: { id: contractId },
+      include: { lease: true, booking: true }
+    });
+    if (!contract) throw new Error("Contract not found");
+
+    const reservationId = contract.leaseId || contract.bookingId || contractId;
+
+    const escrow = await prisma.escrowAccount.create({
+      data: {
+        orgId: contract.orgId,
+        reservationId,
+        totalAmount,
+        depositAmount: 0.00,
+        currency,
+        status: "HOLDING"
+      }
+    });
+
+    EventDispatcher.emit("ESCROW_HOLDING_ESTABLISHED" as any, {
+      escrowId: escrow.id,
+      contractId,
+      region,
+      totalAmount,
+    });
+
+    return escrow;
+  }
+
   async releaseScheduledCommissions(region: string) {
     const prisma = prismaManager.getClient(region);
     const now = new Date();
 
-    console.log(`⏰ Running Escrow Release Scheduler for Region [${region}]...`);
-
-    // Find all blocked transactions whose releaseDate has passed
     const pendingTxs = await prisma.agentEscrowTransaction.findMany({
       where: {
         status: "BLOCKED",
@@ -176,21 +221,24 @@ export class EscrowService {
       }
     });
 
-    console.log(`🔍 Found ${pendingTxs.length} agent transactions ready for release.`);
-
     let successCount = 0;
 
     for (const tx of pendingTxs) {
       try {
-        // Run as a transaction to guarantee data integrity
         await prisma.$transaction(async (txPrisma) => {
-          // 1. Mark transaction as SUCCEEDED
+          const activeDispute = tx.escrowAccountId ? await txPrisma.escrowDispute.findFirst({
+            where: { escrowAccountId: tx.escrowAccountId, status: { in: ["OPEN", "EVIDENCE_COLLECTION", "UNDER_REVIEW"] } }
+          }) : null;
+
+          if (activeDispute) {
+            throw new Error("Active dispute exists on escrow account. Release blocked.");
+          }
+
           await txPrisma.agentEscrowTransaction.update({
             where: { id: tx.id },
             data: { status: "SUCCEEDED" }
           });
 
-          // 2. Transfer from pending to cleared balance
           await txPrisma.agentEscrowWallet.update({
             where: { id: tx.walletId },
             data: {
@@ -199,31 +247,43 @@ export class EscrowService {
             }
           });
 
-          // 3. Mark the master escrow account as released if all splits are resolved
           if (tx.escrowAccountId) {
-            await txPrisma.escrowAccount.update({
-              where: { id: tx.escrowAccountId },
-              data: {
-                status: "FULLY_RELEASED",
-                releasedAt: now
-              }
+            const remainingBlocked = await txPrisma.agentEscrowTransaction.count({
+              where: { escrowAccountId: tx.escrowAccountId, status: "BLOCKED" }
             });
+
+            if (remainingBlocked === 0) {
+              await txPrisma.escrowAccount.update({
+                where: { id: tx.escrowAccountId },
+                data: {
+                  status: "FULLY_RELEASED",
+                  releasedAt: now
+                }
+              });
+
+              const contractWithEscrow = await txPrisma.contract.findFirst({
+                where: { lease: { payments: { some: { reservation: { escrowAccount: { id: tx.escrowAccountId } } } } } }
+              });
+              if (contractWithEscrow && contractWithEscrow.status === "ACTIVE") {
+                await contractMutator.withRegion(region).transition(
+                  contractWithEscrow.id,
+                  "EXPIRING",
+                  "ALL_ESCROW_RELEASED"
+                ).catch(() => {});
+              }
+            }
           }
         });
 
-        console.log(`✅ Released commission of $${tx.amount} to wallet ${tx.walletId}`);
         successCount++;
       } catch (err) {
-        console.error(`❌ Failed to release transaction ${tx.id}:`, err);
+        console.error(`Failed to release transaction ${tx.id}:`, err);
       }
     }
 
     return { totalChecked: pendingTxs.length, releasedCount: successCount };
   }
 
-  /**
-   * Allows an independent agent to request a withdrawal from their cleared balance.
-   */
   async withdrawCommissions(region: string, agentId: string, amount: number) {
     const prisma = prismaManager.getClient(region);
 
@@ -240,9 +300,7 @@ export class EscrowService {
       throw new Error(`Insufficient cleared balance. Available: $${availableBalance}, Requested: $${amount}`);
     }
 
-    // Run transaction
     const withdrawalTx = await prisma.$transaction(async (txPrisma) => {
-      // 1. Deduct from cleared balance, add to paidBalance
       const updatedWallet = await txPrisma.agentEscrowWallet.update({
         where: { id: wallet.id },
         data: {
@@ -251,7 +309,6 @@ export class EscrowService {
         }
       });
 
-      // 2. Log withdrawal transaction
       const txLog = await txPrisma.agentEscrowTransaction.create({
         data: {
           walletId: wallet.id,
@@ -266,8 +323,6 @@ export class EscrowService {
       return { updatedWallet, txLog };
     });
 
-    console.log(`🏦 Withdrawal processed for Agent ${agentId}: $${amount}. Remaining balance: $${withdrawalTx.updatedWallet.balance}`);
-
     return {
       success: true,
       amount,
@@ -276,9 +331,6 @@ export class EscrowService {
     };
   }
 
-  /**
-   * Fetch wallet and transactions details for an agent
-   */
   async getAgentWallet(region: string, agentId: string) {
     const prisma = prismaManager.getClient(region);
 
@@ -293,7 +345,6 @@ export class EscrowService {
     });
 
     if (!wallet) {
-      // Lazy init wallet
       wallet = await prisma.agentEscrowWallet.create({
         data: {
           agentId,
@@ -308,9 +359,6 @@ export class EscrowService {
     return wallet;
   }
 
-  /**
-   * Legacy cross-border method (preserved for compatibility)
-   */
   async createCrossBorderEscrow(
     buyerEmail: string,
     buyerRegion: string,
@@ -355,14 +403,10 @@ export class EscrowService {
       };
 
     } catch (sellerError) {
-      console.error("[EscrowService] Seller DB Commit failed. Rolling back buyer funds.", sellerError);
       throw new Error("Cross-border transaction failed. Funds have been securely rolled back.");
     }
   }
 
-  /**
-   * Legacy release method (preserved for compatibility)
-   */
   async releaseEscrow(
     escrowId: string,
     sellerEmail: string,

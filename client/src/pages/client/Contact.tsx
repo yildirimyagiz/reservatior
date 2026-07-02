@@ -31,7 +31,7 @@ export default function Contact() {
   const contactNodes = [{
     icon: Mail,
     label: t('contactNodeslistEmailLabel'),
-    value: "support@reservatior.ai",
+    value: "info@reservatior.com",
     sub: t('contactNodeslistEmailSub'),
     color: "text-blue-400"
   }, {
@@ -43,7 +43,7 @@ export default function Contact() {
   }, {
     icon: MapPin,
     label: t('contactNodeslistAddressLabel'),
-    value: "SILICON SECTOR 7",
+    value: "Akar Cad. No 3 22-155 Şişli, Istanbul, Türkiye",
     sub: t('contactNodeslistAddressSub'),
     color: "text-purple-400"
   }];

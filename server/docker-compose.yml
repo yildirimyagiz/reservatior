@@ -26,6 +26,15 @@ x-service-defaults: &service-defaults
       condition: service_healthy
   environment:
     <<: *common-env
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  cap_add:
+    - NET_BIND_SERVICE
+  stop_grace_period: 30s
+  mem_limit: 512M
+  memswap_limit: 768M
 
 services:
   # ── Database ───────────────────────────────────────────────────────────────

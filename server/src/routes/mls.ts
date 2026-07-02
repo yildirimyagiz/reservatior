@@ -46,6 +46,43 @@ export const mlsRoutes = new Elysia({ prefix: "/mls" })
     })
   })
 
+  // PATCH /mls/connections/:id
+  .patch("/connections/:id", async ({ params, body, set }) => {
+    try {
+      const connection = await prisma.mLSConnection.update({
+        where: { id: params.id },
+        data: body as any
+      });
+      return { success: true, data: connection };
+    } catch (e) {
+      set.status = 404;
+      return { success: false, error: "MLS Connection not found or update failed" };
+    }
+  }, {
+    params: t.Object({ id: t.String() }),
+    body: t.Partial(t.Object({
+      name: t.Optional(t.String()),
+      baseUrl: t.Optional(t.String()),
+      isEnabled: t.Optional(t.Boolean()),
+      credentials: t.Optional(t.Any())
+    }))
+  })
+
+  // DELETE /mls/connections/:id
+  .delete("/connections/:id", async ({ params, set }) => {
+    try {
+      await prisma.mLSConnection.delete({
+        where: { id: params.id }
+      });
+      return { success: true, message: "MLS Connection deleted successfully" };
+    } catch (e) {
+      set.status = 404;
+      return { success: false, error: "MLS Connection not found or already deleted" };
+    }
+  }, {
+    params: t.Object({ id: t.String() })
+  })
+
   // POST /mls/connections/:id/sync
   .post("/connections/:id/sync", async ({ orgId: contextOrgId, db, params, body }) => {
     const { id } = params;

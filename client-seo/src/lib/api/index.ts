@@ -1,0 +1,60 @@
+// Re-export all API modules for easier imports
+import { edenClient } from '../eden-client';
+
+// ===== PROJECT API CLIENT (Main) =====
+export { edenClient };
+
+// ===== LEGACY APIS (DEPRECATED) =====
+// Note: Many of these can now be handled directly by the typed Eden Client
+export * from "./client";
+export * from "./dashboard-widgets";
+export * from "./routes";
+export { propertiesApi, type Property } from "./properties";
+export * from "./properties-eden";
+export { propertyApi } from "./property";
+export * from "./contacts";
+export * from "./leads";
+export * from "./tasks";
+export * from "./deals";
+export * from "./tags";
+export * from "./compliance";
+export * from "./inventory";
+export * from "./video";
+export * from "./projects";
+export * from "./subscriptions";
+export * from "./payments";
+export * from "./templates";
+export * from "./analytics";
+export * from "./mobile-devices";
+export * from "./api-keys";
+export * from "./auth";
+export * from "./tenants";
+export * from "./channel-management";
+export * from "./reports";
+export * from "./financial-reports";
+export * from "./ai";
+export * from "./admin";
+export * from "./tenant-applications";
+export * from "./signatures";
+export * from "./financials";
+export * from "./escrow";
+export * from "./included-services";
+export * from "./extra-charges";
+export * from "./facilities";
+export * from "./organizations";
+export * from "./documents";
+export * from "./events";
+export * from "./bookings";
+export * from "./listings";
+export * from "./leases";
+export * from "./messages";
+export * from "./notifications";
+export * from "./tickets";
+export * from "./ai-chat";
+export * from "./social";
+export { availabilityApi } from "./availability-enhanced";
+export * from "./categories";
+export * from "./global-tax-regulation";
+export * from "./admin-neural";
+export * from "./ai-migration";
+export * from "./mls";
