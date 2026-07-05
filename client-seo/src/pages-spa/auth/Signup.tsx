@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate, useSearchParams } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Eye, EyeOff, AlertCircle, Check, Zap, ChevronRight, Facebook, Twitter, Building2, User } from "lucide-react";
+import { Mail, Eye, EyeOff, AlertCircle, Check, Zap, ChevronRight, Facebook, Twitter, Building2, User, Linkedin } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/lib/auth/hooks";
 import { AuthUtils } from "@/lib/auth/utils";
@@ -117,11 +117,7 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("handleSubmit called", formData);
-    console.log("accountType:", accountType);
-    console.log("agreedToTerms:", agreedToTerms);
     const validationError = validateForm();
-    console.log("validationError:", validationError);
     if (validationError) {
       toast.error(validationError);
       return;
@@ -129,7 +125,6 @@ export default function Signup() {
 
     setIsLoading(true);
     try {
-      console.log("Calling register API...");
       await register(
         formData.email,
         formData.password,
@@ -140,15 +135,12 @@ export default function Signup() {
         accountType === "CORPORATE" ? formData.corporateType : undefined,
         accountType === "CORPORATE" ? formData.organizationName : undefined
       );
-      console.log("Register successful");
       toast.success("Hesabınız başarıyla oluşturuldu!");
       localStorage.removeItem("signupFormData");
       localStorage.removeItem("signupAccountType");
       localStorage.removeItem("signupAgreedToTerms");
       navigate("/dashboard");
     } catch (err: any) {
-      console.error("Register error:", err);
-      // Handled by auth hook, but we can toast
       toast.error(err?.message || "Kayıt olurken bir hata oluştu");
     } finally {
       setIsLoading(false);
@@ -166,26 +158,33 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] flex flex-col font-sans selection:bg-blue-500/30">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col font-sans selection:bg-primary/30">
+      
+      {/* Background Blobs for modern aesthetic */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
+
       <div className="flex-1 flex justify-center items-center p-4 sm:p-8 pt-16">
         
-        <div className="w-full max-w-xl bg-[#0a0a0c] border border-[#24262f] rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+        <div className="w-full max-w-xl bg-card/90 backdrop-blur-xl border border-border rounded-[2rem] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
             <div className="mb-8 text-center">
-              <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/10 mb-6 hover:bg-blue-500/20 transition-colors">
-                 <Building2 className="w-6 h-6 text-blue-500" />
+              <Link href="/" className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-6 hover:bg-primary/20 transition-colors">
+                 <Building2 className="w-6 h-6 text-primary" />
               </Link>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 tracking-tight">
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 tracking-tight">
                 Create Account
               </h2>
-              <p className="text-slate-400 text-sm sm:text-base">
-                Join us today and
+              <p className="text-muted-foreground text-sm sm:text-base">
+                Join us today
               </p>
             </div>
 
@@ -193,15 +192,15 @@ export default function Signup() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-500/15 to-indigo-500/15 border border-blue-500/25 backdrop-blur-md"
+                className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20 backdrop-blur-md"
               >
                 <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/25 flex items-center justify-center shrink-0">
-                    <Zap className="text-blue-400 w-5 h-5 animate-pulse" />
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center shrink-0">
+                    <Zap className="text-blue-500 w-5 h-5 animate-pulse" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-sm tracking-wide">💼 Eşleşen Müşteri Talebiniz Hazır!</h4>
-                    <p className="text-slate-300 text-xs mt-1.5 leading-relaxed">
+                    <h4 className="text-foreground font-bold text-sm tracking-wide">💼 Eşleşen Müşteri Talebiniz Hazır!</h4>
+                    <p className="text-muted-foreground text-xs mt-1.5 leading-relaxed">
                       Kayıt işleminizi tamamlayarak hazır müşterinizle <b>Taksitli Depozito</b> vb. avantajlarla güvenli sözleşme sürecini hemen başlatabilirsiniz.
                     </p>
                   </div>
@@ -210,27 +209,27 @@ export default function Signup() {
             )}
 
             <Tabs 
-              defaultValue="INDIVIDUAL" 
+              defaultValue={accountType} 
               className="w-full mb-8"
               onValueChange={(val) => setAccountType(val as any)}
             >
-              <TabsList className="grid w-full grid-cols-2 h-14 bg-[#14151a] border border-[#24262f] rounded-2xl p-1 mb-2">
+              <TabsList className="grid w-full grid-cols-2 h-14 bg-background border border-border rounded-2xl p-1 mb-2">
                 <TabsTrigger 
                   value="INDIVIDUAL" 
-                  className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-400 transition-all"
+                  className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-muted-foreground transition-all"
                 >
                   <User className="w-4 h-4 mr-2" />
                   Bireysel
                 </TabsTrigger>
                 <TabsTrigger 
                   value="CORPORATE" 
-                  className="rounded-xl data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-400 transition-all"
+                  className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-muted-foreground transition-all"
                 >
                   <Building2 className="w-4 h-4 mr-2" />
                   Kurumsal
                 </TabsTrigger>
               </TabsList>
-              <p className="text-center text-xs text-slate-500 mt-2">
+              <p className="text-center text-xs text-muted-foreground mt-2">
                 {accountType === "INDIVIDUAL" ? "Kiracı veya bireysel kullanıcılar için" : "Ev sahipleri, emlak ofisleri ve işletmeler için"}
               </p>
             </Tabs>
@@ -246,16 +245,16 @@ export default function Signup() {
                     className="space-y-5 overflow-hidden"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
-                      <div className="space-y-2">
-                        <Label className="text-slate-300 font-medium ml-1">Kurum Tipi</Label>
+                      <div className="space-y-2.5">
+                        <Label className="text-foreground font-medium ml-1">Kurum Tipi</Label>
                         <Select 
                           value={formData.corporateType} 
                           onValueChange={(val) => handleInputChange("corporateType", val)}
                         >
-                          <SelectTrigger className="bg-[#14151a] border-[#24262f] h-12 rounded-xl text-slate-200">
+                          <SelectTrigger className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 rounded-xl text-foreground">
                             <SelectValue placeholder="Kurum Tipi Seçin" />
                           </SelectTrigger>
-                          <SelectContent className="bg-[#14151a] border-[#24262f] text-white">
+                          <SelectContent className="bg-popover border-border text-popover-foreground">
                             <SelectItem value="OWNER_PORTFOLIO">Şirket / Ev Sahibi</SelectItem>
                             <SelectItem value="AGENCY">Emlak Ofisi</SelectItem>
                             <SelectItem value="HOTEL">Otel / Tesis</SelectItem>
@@ -263,14 +262,14 @@ export default function Signup() {
                           </SelectContent>
                         </Select>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="organizationName" className="text-slate-300 font-medium ml-1">Kurum / Şirket Adı <span className="text-red-500">*</span></Label>
+                      <div className="space-y-2.5">
+                        <Label htmlFor="organizationName" className="text-foreground font-medium ml-1">Kurum / Şirket Adı <span className="text-destructive">*</span></Label>
                         <Input
                           id="organizationName"
                           placeholder="Örn: Vizyon Gayrimenkul"
                           value={formData.organizationName}
                           onChange={(e) => handleInputChange("organizationName", e.target.value)}
-                          className="bg-[#14151a] border-[#24262f] hover:border-slate-700 focus:border-blue-500 h-12 text-slate-200 placeholder:text-slate-600 rounded-xl"
+                          className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 text-foreground placeholder:text-muted-foreground rounded-xl"
                           required={accountType === "CORPORATE"}
                         />
                       </div>
@@ -280,46 +279,46 @@ export default function Signup() {
               </AnimatePresence>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-slate-300 font-medium ml-1">Full Name</Label>
+                <div className="space-y-2.5">
+                  <Label htmlFor="name" className="text-foreground font-medium ml-1">Full Name</Label>
                   <Input
                     id="name"
                     placeholder="e.g. John Doe"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
-                    className="bg-[#14151a] border-[#24262f] hover:border-slate-700 focus:border-blue-500 h-12 text-slate-200 rounded-xl"
+                    className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 text-foreground placeholder:text-muted-foreground rounded-xl"
                     required
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-slate-300 font-medium ml-1">Phone Number</Label>
+                <div className="space-y-2.5">
+                  <Label htmlFor="phone" className="text-foreground font-medium ml-1">Phone Number</Label>
                   <Input
                     id="phone"
                     type="tel"
                     placeholder="+1 (555) 000 00 00"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
-                    className="bg-[#14151a] border-[#24262f] hover:border-slate-700 focus:border-blue-500 h-12 text-slate-200 rounded-xl"
+                    className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 text-foreground placeholder:text-muted-foreground rounded-xl"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-slate-300 font-medium ml-1">Email Address</Label>
+              <div className="space-y-2.5">
+                <Label htmlFor="email" className="text-foreground font-medium ml-1">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="john@example.com"
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
-                  className="bg-[#14151a] border-[#24262f] hover:border-slate-700 focus:border-blue-500 h-12 text-slate-200 rounded-xl"
+                  className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 text-foreground placeholder:text-muted-foreground rounded-xl"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="space-y-2 relative">
-                  <Label htmlFor="password" className="text-slate-300 font-medium ml-1">Password</Label>
+                <div className="space-y-2.5 relative">
+                  <Label htmlFor="password" className="text-foreground font-medium ml-1">Password</Label>
                   <div className="relative">
                     <Input
                       id="password"
@@ -327,20 +326,20 @@ export default function Signup() {
                       placeholder="••••••••"
                       value={formData.password}
                       onChange={(e) => handleInputChange("password", e.target.value)}
-                      className="bg-[#14151a] border-[#24262f] hover:border-slate-700 focus:border-blue-500 h-12 pr-11 text-slate-200 rounded-xl"
+                      className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 pr-12 text-foreground placeholder:text-muted-foreground rounded-xl"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                      className="absolute right-1 top-1 h-10 w-10 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
                     >
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   </div>
                 </div>
-                <div className="space-y-2 relative">
-                  <Label htmlFor="confirmPassword" className="text-slate-300 font-medium ml-1">Confirm Password</Label>
+                <div className="space-y-2.5 relative">
+                  <Label htmlFor="confirmPassword" className="text-foreground font-medium ml-1">Confirm Password</Label>
                   <div className="relative">
                     <Input
                       id="confirmPassword"
@@ -348,13 +347,13 @@ export default function Signup() {
                       placeholder="••••••••"
                       value={formData.confirmPassword}
                       onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                      className="bg-[#14151a] border-[#24262f] hover:border-slate-700 focus:border-blue-500 h-12 pr-11 text-slate-200 rounded-xl"
+                      className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 pr-12 text-foreground placeholder:text-muted-foreground rounded-xl"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                      className="absolute right-1 top-1 h-10 w-10 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
                     >
                       {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
@@ -369,27 +368,27 @@ export default function Signup() {
                     id="terms"
                     checked={agreedToTerms}
                     onChange={(e) => setAgreedToTerms(e.target.checked)}
-                    className="w-4.5 h-4.5 rounded text-blue-600 bg-[#14151a] border-[#24262f] focus:ring-blue-500/20 cursor-pointer"
+                    className="w-4.5 h-4.5 rounded text-primary bg-background border-input focus:ring-primary/50 cursor-pointer"
                   />
                 </div>
-                <Label htmlFor="terms" className="text-sm text-slate-400 leading-tight select-none cursor-pointer">
+                <Label htmlFor="terms" className="text-sm text-muted-foreground leading-tight select-none cursor-pointer">
                   I have read and
-                  <Link to="/terms" className="text-blue-400 hover:text-blue-300 transition-colors mx-1 font-medium">Terms of Use</Link>
+                  <Link to="/terms" className="text-primary hover:text-primary/80 transition-colors mx-1 font-medium">Terms of Use</Link>
                   and
-                  <Link to="/privacy" className="text-blue-400 hover:text-blue-300 transition-colors ml-1 font-medium">Privacy Policy</Link>.
+                  <Link to="/privacy" className="text-primary hover:text-primary/80 transition-colors ml-1 font-medium">Privacy Policy</Link>.
                 </Label>
               </div>
 
               {error && (
-                <Alert variant="destructive" className="bg-red-500/10 border-red-500/20 rounded-xl">
-                  <AlertCircle className="h-4 w-4 text-red-400" />
-                  <AlertDescription className="text-red-400 text-sm font-medium">{error}</AlertDescription>
+                <Alert variant="destructive" className="bg-destructive/10 border-destructive/20 rounded-xl">
+                  <AlertCircle className="h-4 w-4 text-destructive" />
+                  <AlertDescription className="text-destructive text-sm font-medium">{error}</AlertDescription>
                 </Alert>
               )}
 
               <Button
                 type="submit"
-                className="w-full h-14 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-base rounded-xl transition-all shadow-xl shadow-blue-600/20 group relative overflow-hidden mt-4"
+                className="w-full h-14 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-base rounded-xl transition-all shadow-xl shadow-blue-600/20 group relative overflow-hidden mt-4"
                 disabled={loading || isLoading}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
@@ -403,28 +402,31 @@ export default function Signup() {
 
             <div className="relative my-8 py-2">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-[#24262f]"></div>
+                <div className="w-full border-t border-border"></div>
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="bg-[#0a0a0c] px-4 text-slate-500 font-bold tracking-widest">OR CONTINUE WITH</span>
+                <span className="bg-card px-4 text-muted-foreground font-bold tracking-widest uppercase">OR CONTINUE WITH</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
-              <Button type="button" variant="outline" className="h-12 bg-[#14151a] border-[#24262f] hover:bg-slate-800/40 text-slate-300 rounded-xl transition-all group px-0" onClick={() => handleSocialLogin("google")}>
-                <GoogleIcon className="h-5 w-5 group-hover:text-white transition-colors" />
+            <div className="grid grid-cols-4 gap-3">
+              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("google")}>
+                <GoogleIcon className="h-5 w-5" />
               </Button>
-              <Button type="button" variant="outline" className="h-12 bg-[#14151a] border-[#24262f] hover:bg-slate-800/40 text-slate-300 rounded-xl transition-all group px-0" onClick={() => handleSocialLogin("facebook")}>
-                <Facebook className="h-5 w-5 group-hover:text-white transition-colors" />
+              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("facebook")}>
+                <Facebook className="h-5 w-5" />
               </Button>
-              <Button type="button" variant="outline" className="h-12 bg-[#14151a] border-[#24262f] hover:bg-slate-800/40 text-slate-300 rounded-xl transition-all group px-0" onClick={() => handleSocialLogin("twitter")}>
-                <Twitter className="h-5 w-5 group-hover:text-white transition-colors" />
+              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("twitter")}>
+                <Twitter className="h-5 w-5" />
+              </Button>
+              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("linkedin")}>
+                <Linkedin className="h-5 w-5" />
               </Button>
             </div>
 
-            <p className="text-center text-slate-400 mt-8">
+            <p className="text-center text-muted-foreground mt-8">
               Already have an account?{" "}
-              <Link to="/client/login" className="text-white hover:text-blue-400 transition-all font-bold underline underline-offset-4 decoration-slate-700 hover:decoration-blue-500">Log in</Link>
+              <Link to="/client/login" className="text-foreground hover:text-primary transition-all font-bold underline underline-offset-4 decoration-border hover:decoration-primary">Log in</Link>
             </p>
           </motion.div>
         </div>

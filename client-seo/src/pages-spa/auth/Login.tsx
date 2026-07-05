@@ -10,7 +10,6 @@ import { motion } from "framer-motion";
 import { Mail, Eye, EyeOff, AlertCircle, Facebook, Twitter, Linkedin } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AppHeader } from "@/components/layout/AppHeader";
 import { toast } from "sonner";
 
 const GoogleIcon = ({ className }: { className?: string }) => (
@@ -23,24 +22,20 @@ const GoogleIcon = ({ className }: { className?: string }) => (
 );
 
 export default function Login() {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-  const {
-    login,
-    loading,
-    error
-  } = useAuth();
+  const { login, loading, error } = useAuth();
   const navigate = useNavigate();
+
   const isFormValid = useMemo(() => {
     return email.trim() !== "" && password.trim() !== "";
   }, [email, password]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -51,9 +46,7 @@ export default function Login() {
       } else {
         localStorage.removeItem("remembered_email");
       }
-      const {
-        useUserStore
-      } = await import("@/lib/store/user-store");
+      const { useUserStore } = await import("@/lib/store/user-store");
       const user = useUserStore.getState().user;
       const adminRoles = ['OWNER', 'ORG_ADMIN', 'ADMIN', 'SUPER_ADMIN', 'AGENCY_ADMIN', 'VENDOR_MANAGER', 'ACCOUNTANT'];
       if (user && adminRoles.includes(user.role)) {
@@ -69,98 +62,140 @@ export default function Login() {
       setIsLoading(false);
     }
   };
+
   const handleSocialLogin = (provider: string) => {
     window.location.href = `${API_BASE}/api/auth/${provider}`;
   };
-  return <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
-      <AppHeader />
-      {/* Background Blobs */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+
+  return (
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col font-sans">
+      
+      {/* Background Blobs for modern aesthetic */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-4 pt-16">
-        <motion.div initial={{
-        opacity: 0,
-        scale: 0.95
-      }} animate={{
-        opacity: 1,
-        scale: 1
-      }} className="w-full max-w-md bg-[#14151a]/80 backdrop-blur-xl border border-slate-800/50 p-8 rounded-3xl shadow-2xl relative">
+      <div className="flex-1 flex items-center justify-center p-4 pt-20 pb-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="w-full max-w-md bg-card/80 backdrop-blur-xl border border-border p-8 rounded-[2rem] shadow-2xl relative"
+        >
           {/* Spotlight Effect */}
           <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
           
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-display font-bold mb-2 text-white tracking-tight">{t("client.src.welcome_to_reservatior")}</h1>
-            <p className="text-slate-400 font-medium">{t("client.src.intelligence_in_real_estate")}</p>
+            <h1 className="text-3xl font-display font-bold mb-2 text-foreground tracking-tight">{t("client.src.welcome_to_reservatior")}</h1>
+            <p className="text-muted-foreground font-medium text-sm">{t("client.src.intelligence_in_real_estate")}</p>
           </div>
 
-          {error && <Alert variant="destructive" className="mb-6">
+          {error && (
+            <Alert variant="destructive" className="mb-6">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>{error}</AlertDescription>
-            </Alert>}
+            </Alert>
+          )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">{t("client.src.email_address")}</Label>
-              <Input id="email" type="email" placeholder={t("client.src.agentexamplecom")} value={email} onChange={e => setEmail(e.target.value)} className="bg-[#1b1c22] border-slate-800 focus:ring-blue-500/50 h-11 lowercase text-slate-200 placeholder:text-slate-500 rounded-xl transition-all" style={{
-              textTransform: 'none'
-            }} required disabled={loading || isLoading} />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2.5">
+              <Label htmlFor="email" className="text-foreground font-medium ml-1">{t("client.src.email_address")}</Label>
+              <Input 
+                id="email" 
+                type="email" 
+                placeholder={t("client.src.agentexamplecom")} 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 lowercase text-foreground placeholder:text-muted-foreground rounded-xl transition-all" 
+                style={{ textTransform: 'none' }} 
+                required 
+                disabled={loading || isLoading} 
+              />
             </div>
 
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <Label htmlFor="password">{t("client.src.password")}</Label>
-                <Link to="/client/forgot-password" className="text-xs text-blue-400 hover:text-blue-300 hover:underline transition-colors">{t("client.src.forgot_password")}</Link>
+            <div className="space-y-2.5">
+              <div className="flex justify-between items-center px-1">
+                <Label htmlFor="password" className="text-foreground font-medium">{t("client.src.password")}</Label>
+                <Link to="/client/forgot-password" className="text-xs text-primary hover:text-primary/80 hover:underline transition-colors">{t("client.src.forgot_password")}</Link>
               </div>
               <div className="relative">
-                <Input id="password" type={showPassword ? "text" : "password"} placeholder={t("client.src.enter_your_password")} value={password} onChange={e => setPassword(e.target.value)} className="bg-[#1b1c22] border-slate-800 focus:ring-blue-500/50 h-11 pr-10 text-slate-200 placeholder:text-slate-500 rounded-xl transition-all" style={{
-                textTransform: 'none'
-              }} required disabled={loading || isLoading} />
-                <Button type="button" variant="ghost" size="sm" className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent" onClick={() => setShowPassword(!showPassword)} disabled={loading || isLoading}>
-                  {showPassword ? <EyeOff className="h-4 w-4 text-slate-400" /> : <Eye className="h-4 w-4 text-slate-400" />}
+                <Input 
+                  id="password" 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder={t("client.src.enter_your_password")} 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  className="bg-background border-input focus:ring-primary/50 focus:border-primary h-12 pr-12 text-foreground placeholder:text-muted-foreground rounded-xl transition-all" 
+                  style={{ textTransform: 'none' }} 
+                  required 
+                  disabled={loading || isLoading} 
+                />
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="icon" 
+                  className="absolute right-1 top-1 h-10 w-10 hover:bg-accent rounded-lg text-muted-foreground hover:text-foreground" 
+                  onClick={() => setShowPassword(!showPassword)} 
+                  disabled={loading || isLoading}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </Button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between px-1">
               <div className="flex items-center space-x-2">
-                <input type="checkbox" id="remember" checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} className="w-4 h-4 rounded border-slate-800 bg-[#1b1c22] text-blue-600 focus:ring-blue-500/50" />
-                <Label htmlFor="remember" className="text-sm text-slate-400 cursor-pointer">{t("client.src.remember_my_password")}</Label>
+                <input 
+                  type="checkbox" 
+                  id="remember" 
+                  checked={rememberMe} 
+                  onChange={e => setRememberMe(e.target.checked)} 
+                  className="w-4 h-4 rounded border-input bg-background text-primary focus:ring-primary/50 cursor-pointer" 
+                />
+                <Label htmlFor="remember" className="text-sm text-muted-foreground cursor-pointer select-none">{t("client.src.remember_my_password")}</Label>
               </div>
             </div>
 
-            <Button type="submit" className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium mt-2 rounded-xl transition-all shadow-lg shadow-blue-600/20" disabled={!isFormValid || loading || isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base mt-2 rounded-xl transition-all shadow-lg shadow-primary/25" 
+              disabled={!isFormValid || loading || isLoading}
+            >
               {loading || isLoading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
 
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-800/50"></div>
+              <div className="w-full border-t border-border"></div>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-[#14151a] px-2 text-slate-500 tracking-wider font-semibold">{t("client.src.or_continue_with")}</span>
+              <span className="bg-card px-3 text-muted-foreground uppercase tracking-widest font-semibold">{t("client.src.or_continue_with")}</span>
             </div>
           </div>
 
           <div className="grid grid-cols-4 gap-3">
-            <Button variant="outline" className="h-11 bg-[#1b1c22] border-slate-800 hover:bg-slate-800 text-slate-300 rounded-xl transition-all px-0" onClick={() => handleSocialLogin("google")} disabled={loading || isLoading}>
-              <GoogleIcon className="h-4 w-4" /></Button>
-            <Button variant="outline" className="h-11 bg-[#1b1c22] border-slate-800 hover:bg-slate-800 text-slate-300 rounded-xl transition-all px-0" onClick={() => handleSocialLogin("facebook")} disabled={loading || isLoading}>
-              <Facebook className="h-4 w-4" /></Button>
-            <Button variant="outline" className="h-11 bg-[#1b1c22] border-slate-800 hover:bg-slate-800 text-slate-300 rounded-xl transition-all px-0" onClick={() => handleSocialLogin("twitter")} disabled={loading || isLoading}>
-              <Twitter className="h-4 w-4" /></Button>
-            <Button variant="outline" className="h-11 bg-[#1b1c22] border-slate-800 hover:bg-slate-800 text-slate-300 rounded-xl transition-all px-0" onClick={() => handleSocialLogin("linkedin")} disabled={loading || isLoading}>
-              <Linkedin className="h-4 w-4" /></Button>
+            <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("google")} disabled={loading || isLoading}>
+              <GoogleIcon className="h-5 w-5" />
+            </Button>
+            <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("facebook")} disabled={loading || isLoading}>
+              <Facebook className="h-5 w-5" />
+            </Button>
+            <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("twitter")} disabled={loading || isLoading}>
+              <Twitter className="h-5 w-5" />
+            </Button>
+            <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("linkedin")} disabled={loading || isLoading}>
+              <Linkedin className="h-5 w-5" />
+            </Button>
           </div>
 
-          <p className="text-center text-sm text-slate-400 mt-8">{t("client.src.dont_have_an_account")}{" "}
-            <Link to="/client/signup" className="text-blue-400 hover:text-blue-300 hover:underline transition-colors font-medium">{t("client.src.sign_up_now")}</Link>
+          <p className="text-center text-sm text-muted-foreground mt-8">{t("client.src.dont_have_an_account")}{" "}
+            <Link to="/client/signup" className="text-primary hover:text-primary/80 hover:underline transition-colors font-semibold">{t("client.src.sign_up_now")}</Link>
           </p>
         </motion.div>
       </div>
 
-    </div>;
+    </div>
+  );
 }

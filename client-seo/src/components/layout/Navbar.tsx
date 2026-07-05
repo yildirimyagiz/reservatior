@@ -76,6 +76,20 @@ export function Navbar() {
             </Link>
             <Link href="/videos" suppressHydrationWarning className={`text-sm font-medium flex items-center gap-1 transition-colors ${isActive("/videos") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
               <Video className="w-3 h-3" />{t("nav.videos")}</Link>
+            
+            {/* ONLY FOR LOGGED IN USERS */}
+            {isAuthenticated && (
+              <>
+                <Link href="/client/lease-care" suppressHydrationWarning className={`text-sm font-medium transition-colors ${isActive("/client/lease-care") ? "text-primary" : "text-muted-foreground hover:text-primary"} flex items-center gap-1`}>
+                  LeaseCare+
+                  <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold border border-emerald-500/20">PRO</span>
+                </Link>
+                <Link href="/client/property/new" className={`text-sm font-medium transition-colors ${isActive("/client/property/new") ? "text-primary" : "text-muted-foreground hover:text-primary"} flex items-center gap-1 uppercase tracking-wide`}>
+                  <Plus className="w-3 h-3" />
+                  İlan Ekle
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -163,6 +177,24 @@ export function Navbar() {
           <Link href="/videos" suppressHydrationWarning>
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>{t("nav.videos")}</span>
           </Link>
+          
+          {/* ONLY FOR LOGGED IN USERS */}
+          {isAuthenticated && (
+            <>
+              <Link href="/client/lease-care" suppressHydrationWarning>
+                <span className="text-lg font-medium cursor-pointer flex items-center gap-2" onClick={() => setIsOpen(false)}>
+                  LeaseCare+
+                  <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold border border-emerald-500/20">PRO</span>
+                </span>
+              </Link>
+              <Link href="/client/property/new">
+                <span className="text-lg font-medium cursor-pointer flex items-center gap-2 uppercase" onClick={() => setIsOpen(false)}>
+                  <Plus className="w-4 h-4" />
+                  İlan Ekle
+                </span>
+              </Link>
+            </>
+          )}
           <div className="h-px bg-border my-2" />
 
           {/* Auth Section */}

@@ -2,7 +2,6 @@
 
 import { Shield, ShieldCheck, Zap, Award, Crown, TrendingUp, Lock, CheckCircle, Star, ArrowRight, User, CreditCard, Phone, Mail, FileText, Building2, Calendar, Users, Clock, Gift, Sparkles, ChevronRight, BadgeCheck, Target, Gem, Heart, Globe, MapPin, Key, Home, Briefcase, Plane, Baby, GraduationCap, CalendarDays } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Header } from "@/components/home/Header";
 import { CTA } from "@/components/home/CTA";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -226,7 +225,7 @@ export default function TenantVerification() {
           url: window.location.href
         }}
       />
-      <Header />
+      
 
       <main className="max-w-[1400px] mx-auto px-8 lg:px-12 py-24 space-y-32">
 

@@ -2,7 +2,6 @@
 
 import { Shield, ShieldCheck, Gavel, Lock, CheckCircle, Globe, Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Header } from "@/components/home/Header";
 import { CTA } from "@/components/home/CTA";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
@@ -34,7 +33,7 @@ export default function TrustCenter() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0c] selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
-      <Header />
+      
 
       <main className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 space-y-32">
         <div className="text-center relative">

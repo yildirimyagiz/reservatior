@@ -2,7 +2,6 @@
 
 import { Shield, ShieldCheck, Clock, DollarSign, Users, Building2, Scale, AlertTriangle, CheckCircle, Sparkles, Star, Lock, Eye, BadgeCheck, ArrowRight, Hotel, Key, UserCheck, Gavel, Ban, FileText, Camera, Bell, MapPin, Calendar, CreditCard, Phone, Mail, Home, Award, TrendingUp, Zap, Target, Crown, Gem } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Header } from "@/components/home/Header";
 import { CTA } from "@/components/home/CTA";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -153,7 +152,7 @@ export default function ShortTermRentalSafety() {
           url: window.location.href
         }}
       />
-      <Header />
+      
 
       <main className="max-w-[1400px] mx-auto px-8 lg:px-12 py-24 space-y-32">
 

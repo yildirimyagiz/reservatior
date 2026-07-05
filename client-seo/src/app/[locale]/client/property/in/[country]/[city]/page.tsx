@@ -1,6 +1,5 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { propertiesApi } from "@/lib/api/properties-eden";
-import { PropertySearchContent } from "../../../../property-search/PropertySearchContent";
 import { notFound } from "next/navigation";
 import { OrganizationSchema } from "@/components/seo/SchemaScript";
 
@@ -68,9 +67,21 @@ export default async function LocationPropertiesPage({ params }: Props) {
         </p>
       </div>
       
-      {/* Reuse the PropertySearchContent but pass the location pre-filtered data */}
-      <div className="-mt-8">
-        <PropertySearchContent initialProperties={properties} />
+      {/* Properties List */}
+      <div className="max-w-7xl mx-auto py-12 px-4">
+        {properties.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {properties.map((p: any) => (
+              <div key={p.id} className="p-4 border rounded-xl bg-card text-card-foreground">
+                <h3 className="font-bold">{p.name}</h3>
+                <p className="text-sm text-slate-500">{p.addressLine1}</p>
+                <div className="mt-4 font-bold text-emerald-500">${p.listingPrice}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-slate-500 py-12">No properties found in this location.</div>
+        )}
       </div>
     </div>
   );

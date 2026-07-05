@@ -10,7 +10,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion } from "framer-motion";
 import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
 import { apiClient } from "@/lib/api/client";
-import { Header } from "@/components/home/Header";
 export default function ForgotPassword() {
   const {
     t
@@ -37,7 +36,7 @@ export default function ForgotPassword() {
   };
   if (isSubmitted) {
     return <div className="min-h-screen bg-background flex flex-col">
-        <Header />
+        
         <div className="flex-1 flex items-center justify-center p-4">
           <motion.div initial={{
           opacity: 0,
@@ -65,7 +64,7 @@ export default function ForgotPassword() {
       </div>;
   }
   return <div className="min-h-screen bg-background flex flex-col">
-      <Header />
+      
       {/* Background Blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />

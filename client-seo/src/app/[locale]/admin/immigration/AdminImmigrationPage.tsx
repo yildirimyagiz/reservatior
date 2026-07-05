@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  Passport,
   Search,
   Plus,
   Globe,
@@ -15,6 +14,7 @@ import {
   Edit,
   Trash2,
   FileText,
+  CreditCard as Passport,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";

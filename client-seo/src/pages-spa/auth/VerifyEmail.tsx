@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { apiClient } from "@/lib/api/client";
-import { Header } from "@/components/home/Header";
 export default function VerifyEmail() {
   const {
     t
@@ -34,7 +33,7 @@ export default function VerifyEmail() {
     verify();
   }, [token]);
   return <div className="min-h-screen bg-background flex flex-col">
-      <Header />
+      
       <div className="flex-1 flex items-center justify-center p-4">
         <motion.div initial={{
         opacity: 0,

@@ -125,31 +125,6 @@ const MOCK_DOCUMENTS: Document[] = [{
   url: "/docs/financial-report.xlsx",
   tags: ["financial", "report", "q1"],
   isPublic: false,
-  isEncrypted: true,
-  uploadedBy: "finance-team",
-  uploadedAt: "2024-03-28",
-  lastModified: "2024-03-28",
-  downloadCount: 8,
-  version: 1
-}];
-const MOCK_FOLDERS: DocumentFolder[] = [{
-  id: "folder-1",
-  name: "Legal Documents",
-  path: "/Legal Documents",
-  documentCount: 12,
-  size: 2048000,
-  createdAt: "2024-03-10",
-  isPublic: false
-}, {
-  id: "folder-2",
-  name: "Media Files",
-  path: "/Media Files",
-  documentCount: 34,
-  size: 52428800,
-  createdAt: "2024-03-12",
-  isPublic: true
-}, {
-  id: "folder-3",
   name: "Templates",
   path: "/Templates",
   documentCount: 8,
@@ -160,7 +135,6 @@ const MOCK_FOLDERS: DocumentFolder[] = [{
 export default function DocumentManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { t } = useTranslation();
   
   const deleteMutation = useMutation({
     mutationFn: (id: string) => documentsApi.deleteDocument(id),
@@ -178,7 +152,7 @@ export default function DocumentManagement() {
   const {
     t
   } = useTranslation();
-  const [folders] = useState<DocumentFolder[]>(MOCK_FOLDERS);
+  const folders: DocumentFolder[] = []; // Future API integration
   const [activeTab, setActiveTab] = useState("documents");
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [folderDialogOpen, setFolderDialogOpen] = useState(false);
@@ -216,7 +190,7 @@ export default function DocumentManagement() {
     }
   });
 
-  const documents = documentsData && documentsData.length > 0 ? documentsData : MOCK_DOCUMENTS;
+  const documents = documentsData || [];
 
   const deleteDocumentMutation = useMutation({
     mutationFn: async (id: string) => {
