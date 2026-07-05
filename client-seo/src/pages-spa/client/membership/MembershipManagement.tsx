@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -11,7 +13,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { Crown, Star, CheckCircle, XCircle, AlertCircle, TrendingUp, DollarSign, MoreHorizontal, Edit, Rocket, Shield, Building, RefreshCw } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { LocalComplianceWidget } from "@/components/legal/LocalComplianceWidget";
 import { SmartLockWidget } from "@/components/iot/SmartLockWidget";
 import { Scale, Globe, FileText, Smartphone } from "lucide-react";

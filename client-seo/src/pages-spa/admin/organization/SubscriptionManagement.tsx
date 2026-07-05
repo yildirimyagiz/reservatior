@@ -1,3 +1,7 @@
+"use client";
+import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -13,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { CreditCard, Users, Plus, MoreHorizontal, Edit, Trash2, Activity, Search, Eye, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface Plan {
   id: string;
   key: string;
@@ -67,13 +71,13 @@ export default function SubscriptionManagement() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/subscriptionmanagement/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/subscriptionmanagement/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/subscriptionmanagement/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/subscriptionmanagement/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -239,7 +243,7 @@ export default function SubscriptionManagement() {
   return <PageShell title={t("admin.organization.subscription_management")}>
       <div className="space-y-6">
         {/* Opaque Financial Matrix Banner */}
-        <Card className="bg-gradient-to-r from-orange-600/10 to-blue-600/5 border-orange-500/20 rounded-2xl p-6 relative overflow-hidden">
+        <Card className="bg-gradient-to-r from-orange-600/10 to-slate-600/5 border-orange-500/20 rounded-2xl p-6 relative overflow-hidden">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -291,7 +295,7 @@ export default function SubscriptionManagement() {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-slate-600">
                 ${(totalRevenue / 100).toLocaleString()}
               </div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.from_active_subscriptions")}</p>
@@ -304,7 +308,7 @@ export default function SubscriptionManagement() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{totalUsers}</div>
+              <div className="text-2xl font-bold text-slate-600">{totalUsers}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.individual_subscriptions")}</p>
             </CardContent>
           </Card>
@@ -531,7 +535,7 @@ export default function SubscriptionManagement() {
                     </div>
                     {plan.limits && <div className="mt-2 text-sm">
                         <p className="font-medium">{t("admin.organization.features_limits")}</p>
-                        <pre className="text-xs text-muted-foreground bg-gray-50 p-2 rounded">
+                        <pre className="text-xs text-muted-foreground bg-white/5 p-2 rounded-lg">
                           {JSON.stringify(plan.limits, null, 2)}
                         </pre>
                       </div>}

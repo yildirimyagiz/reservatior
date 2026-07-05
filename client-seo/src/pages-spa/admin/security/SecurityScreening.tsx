@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -34,10 +36,10 @@ export default function SecurityScreening() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-           {[{ label: t("admin.security.total_screened"), val: screenings.length, icon: Shield, color: "text-blue-400" },
-             { label: t("admin.security.critical_flags"), val: screenings.filter(s => s.riskLevel === 'HIGH').length, icon: ShieldAlert, color: "text-rose-500" },
-             { label: t("admin.security.manual_reviews"), val: screenings.filter(s => s.manualReviewRequired).length, icon: Clock, color: "text-orange-400" },
-             { label: t("admin.security.safe_entities"), val: screenings.filter(s => s.riskLevel === 'LOW').length, icon: ShieldCheck, color: "text-emerald-400" }
+           {[{ label: t("admin.security.total_screened"), val: screenings.length, icon: Shield, color: "text-slate-400" },
+             { label: t("admin.security.critical_flags"), val: screenings.filter((s: any) => s.riskLevel === 'HIGH').length, icon: ShieldAlert, color: "text-rose-500" },
+             { label: t("admin.security.manual_reviews"), val: screenings.filter((s: any) => s.manualReviewRequired).length, icon: Clock, color: "text-orange-400" },
+             { label: t("admin.security.safe_entities"), val: screenings.filter((s: any) => s.riskLevel === 'LOW').length, icon: ShieldCheck, color: "text-emerald-400" }
            ].map((stat, i) => <Card key={i} className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
                  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
                     <stat.icon className="w-12 h-12" />
@@ -75,9 +77,9 @@ export default function SecurityScreening() {
                    </TableRow>
                  </TableHeader>
                  <TableBody>
-                   {screenings.map(s => <TableRow key={s.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
+                   {screenings.map((s: any) => <TableRow key={s.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
                        <TableCell className="py-8 px-8">
-                         <div className="font-bold text-blue-400 text-[9px] mb-2">{s.booking?.id?.slice(0, 8) || 'PRE-BOOKING'}</div>
+                         <div className="font-bold text-slate-400 text-[9px] mb-2">{s.booking?.id?.slice(0, 8) || 'PRE-BOOKING'}</div>
                          <div className="text-sm font-bold text-white leading-none">{s.contact?.fullName}</div>
                          <div className="text-[10px] font-bold text-slate-400 mt-1">{s.contact?.email}</div>
                        </TableCell>

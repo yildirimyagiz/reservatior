@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
@@ -14,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface Attachment {
   id: string;
   orgId: string;
@@ -81,17 +83,17 @@ const FILE_TYPE_CONFIG = {
   'video/mp4': {
     label: t("admin.system.mp4"),
     icon: Video,
-    color: 'bg-purple-100 text-purple-700'
+    color: 'bg-slate-100 text-slate-700'
   },
   'video/avi': {
     label: t("admin.system.avi"),
     icon: Video,
-    color: 'bg-purple-100 text-purple-700'
+    color: 'bg-slate-100 text-slate-700'
   },
   'video/mov': {
     label: t("admin.system.mov"),
     icon: Video,
-    color: 'bg-purple-100 text-purple-700'
+    color: 'bg-slate-100 text-slate-700'
   },
   'application/pdf': {
     label: t("admin.system.pdf"),
@@ -101,12 +103,12 @@ const FILE_TYPE_CONFIG = {
   'application/msword': {
     label: t("admin.system.doc"),
     icon: FileText,
-    color: 'bg-blue-100 text-blue-700'
+    color: 'bg-slate-100 text-slate-700'
   },
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
     label: t("admin.system.docx"),
     icon: FileText,
-    color: 'bg-blue-100 text-blue-700'
+    color: 'bg-slate-100 text-slate-700'
   },
   'application/vnd.ms-excel': {
     label: t("admin.system.xls"),
@@ -121,7 +123,7 @@ const FILE_TYPE_CONFIG = {
   'text/plain': {
     label: t("admin.system.txt"),
     icon: FileText,
-    color: 'bg-gray-100 text-gray-700'
+    color: 'bg-white/5 text-slate-300'
   },
   'application/zip': {
     label: t("admin.system.zip"),
@@ -138,7 +140,7 @@ const ENTITY_CONFIG = {
   property: {
     label: t("admin.system.property"),
     icon: Home,
-    color: 'bg-blue-100 text-blue-700'
+    color: 'bg-slate-100 text-slate-700'
   },
   listing: {
     label: t("admin.system.listing"),
@@ -148,7 +150,7 @@ const ENTITY_CONFIG = {
   contract: {
     label: t("admin.system.contract"),
     icon: FileSignature,
-    color: 'bg-purple-100 text-purple-700'
+    color: 'bg-slate-100 text-slate-700'
   },
   task: {
     label: t("admin.system.task"),
@@ -163,7 +165,7 @@ const ENTITY_CONFIG = {
   user: {
     label: t("admin.system.user"),
     icon: User,
-    color: 'bg-gray-100 text-gray-700'
+    color: 'bg-white/5 text-slate-300'
   }
 };
 export default function Attachments() {
@@ -335,7 +337,7 @@ export default function Attachments() {
     return config || {
       label: t("admin.system.unknown"),
       icon: File,
-      color: 'bg-gray-100 text-gray-700'
+      color: 'bg-white/5 text-slate-300'
     };
   };
   const getEntityInfo = (attachment: Attachment) => {
@@ -404,7 +406,7 @@ export default function Attachments() {
               <File className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{formatFileSize(totalSize)}</div>
+              <div className="text-2xl font-bold text-slate-600">{formatFileSize(totalSize)}</div>
               <p className="text-xs text-muted-foreground">{t("admin.system.storage_used")}</p>
             </CardContent>
           </Card>
@@ -414,7 +416,7 @@ export default function Attachments() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
               <Input placeholder={t("admin.system.search_files")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
@@ -487,10 +489,10 @@ export default function Attachments() {
                 return <TableRow key={attachment.id}>
                           <TableCell>
                             <div className="flex items-center space-x-3">
-                              <FileTypeIcon className="h-8 w-8 text-gray-400" />
+                              <FileTypeIcon className="h-8 w-8 text-slate-400" />
                               <div>
                                 <div className="font-medium">{attachment.originalName}</div>
-                                <div className="text-sm text-gray-500">{attachment.fileName}</div>
+                                <div className="text-sm text-slate-400">{attachment.fileName}</div>
                               </div>
                             </div>
                           </TableCell>
@@ -509,9 +511,9 @@ export default function Attachments() {
                       })}
                                 <div>
                                   <div className="font-medium">{(entityInfo.item as any).name || (entityInfo.item as any).title}</div>
-                                  <div className="text-sm text-gray-500">{ENTITY_CONFIG[entityInfo.type as keyof typeof ENTITY_CONFIG].label}</div>
+                                  <div className="text-sm text-slate-400">{ENTITY_CONFIG[entityInfo.type as keyof typeof ENTITY_CONFIG].label}</div>
                                 </div>
-                              </div> : <div className="text-sm text-gray-500">{t("admin.system.no_entity")}</div>}
+                              </div> : <div className="text-sm text-slate-400">{t("admin.system.no_entity")}</div>}
                           </TableCell>
                           <TableCell>
                             <Badge className={attachment.isPublic ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"}>
@@ -524,7 +526,7 @@ export default function Attachments() {
                           <TableCell>
                             <div>
                               <div className="text-sm">{formatDate(attachment.createdAt)}</div>
-                              <div className="text-xs text-gray-500">{attachment.user?.name}</div>
+                              <div className="text-xs text-slate-400">{attachment.user?.name}</div>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -579,7 +581,7 @@ export default function Attachments() {
               {uploading && <div>
                   <Label>{t("admin.system.upload_progress")}</Label>
                   <Progress value={uploadProgress} className="w-full" />
-                  <div className="text-sm text-gray-500 mt-1">{uploadProgress}%</div>
+                  <div className="text-sm text-slate-400 mt-1">{uploadProgress}%</div>
                 </div>}
             </div>
             <DialogFooter>
@@ -599,7 +601,7 @@ export default function Attachments() {
                   <div>
                     <Label>{t("admin.system.file_name")}</Label>
                     <div className="font-medium">{selectedAttachment.originalName}</div>
-                    <div className="text-sm text-gray-500">{selectedAttachment.fileName}</div>
+                    <div className="text-sm text-slate-400">{selectedAttachment.fileName}</div>
                   </div>
                   <div>
                     <Label>{t("admin.system.file_type")}</Label>
@@ -625,7 +627,7 @@ export default function Attachments() {
                     <Label>{t("admin.system.uploaded_by")}</Label>
                     <div>
                       <div className="font-medium">{selectedAttachment.user?.name}</div>
-                      <div className="text-sm text-gray-500">{selectedAttachment.user?.email}</div>
+                      <div className="text-sm text-slate-400">{selectedAttachment.user?.email}</div>
                     </div>
                   </div>
                   <div>
@@ -641,7 +643,7 @@ export default function Attachments() {
                 })}
                       <div>
                         <div className="font-medium">{(getEntityInfo(selectedAttachment)!.item as any).name || (getEntityInfo(selectedAttachment)!.item as any).title}</div>
-                        <div className="text-sm text-gray-500">{ENTITY_CONFIG[getEntityInfo(selectedAttachment)!.type as keyof typeof ENTITY_CONFIG].label}</div>
+                        <div className="text-sm text-slate-400">{ENTITY_CONFIG[getEntityInfo(selectedAttachment)!.type as keyof typeof ENTITY_CONFIG].label}</div>
                       </div>
                     </div>
                   </div>}
@@ -657,11 +659,11 @@ export default function Attachments() {
                 </div>
                 <div>
                   <Label>{t("admin.system.file_path")}</Label>
-                  <div className="text-sm font-mono text-gray-600 break-all">{selectedAttachment.filePath}</div>
+                  <div className="text-sm font-mono text-slate-400 break-all">{selectedAttachment.filePath}</div>
                 </div>
                 <div>
                   <Label>{t("admin.system.checksum")}</Label>
-                  <div className="text-sm font-mono text-gray-600">{selectedAttachment.checksum}</div>
+                  <div className="text-sm font-mono text-slate-400">{selectedAttachment.checksum}</div>
                 </div>
               </div>}
             <DialogFooter>

@@ -12,6 +12,7 @@ import {
   Download
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const reportMetrics = [
   {
@@ -52,6 +53,7 @@ const recentReports = [
 ];
 
 export default function FinancialReportsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -64,16 +66,16 @@ export default function FinancialReportsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Financial Reports</h1>
-              <p className="text-gray-400">View and generate financial reports</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("reports.financialreportspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("reports.financialreportspage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("reports.financialreportspage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -108,8 +110,8 @@ export default function FinancialReportsPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <BarChart3 className="w-5 h-5" />
-                Recent Reports
-              </CardTitle>
+                {t("reports.financialreportspage.auto_ext_4")}
+                                            </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">

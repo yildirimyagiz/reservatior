@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { PageShell } from "@/pages-spa/client/layout/PageShell";
 import { Card } from "@/components/ui/card";
@@ -5,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Zap, CreditCard, Shield, RotateCw, Activity, ArrowRight, TrendingUp, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 
 export default function MarketplaceBrain() {
   const [loading, setLoading] = useState(false);

@@ -104,7 +104,7 @@ export class DisputeResolver {
       return {
         recommendedAction: "RELEASE_TO_LANDLORD",
         splitRatio: 1.0,
-        confidence: 0.85,
+        confidence: 0.95,
         reasoning: "Sufficient evidence supports landlord claim. Damage documented with photos and receipts.",
         evidenceGaps: [],
       };
@@ -177,7 +177,7 @@ export class DisputeResolver {
       return {
         recommendedAction: "REFUND_TO_TENANT",
         splitRatio: 0,
-        confidence: 0.8,
+        confidence: 0.92,
         reasoning: "Listing mismatch confirmed with photographic evidence. Full refund recommended.",
         evidenceGaps: [],
       };

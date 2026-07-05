@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
@@ -12,7 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { Trash2, MoreHorizontal, Search, Download, Eye, RefreshCw, FileText, Database, Users, Building2, Clock, CheckCircle, XCircle, AlertTriangle, FileDown, Settings } from "lucide-react";
 interface Export {
   id: string;
@@ -82,12 +84,12 @@ const EXPORT_TYPE_CONFIG = {
   LISTINGS: {
     label: t("admin.integrations.listings"),
     icon: Building2,
-    color: "bg-blue-100 text-blue-700"
+    color: "bg-slate-100 text-slate-700"
   },
   TENANTS: {
     label: t("admin.integrations.tenants"),
     icon: Users,
-    color: "bg-purple-100 text-purple-700"
+    color: "bg-slate-100 text-slate-700"
   },
   CONTRACTS: {
     label: t("admin.integrations.contracts"),
@@ -107,12 +109,12 @@ const EXPORT_TYPE_CONFIG = {
   REPORTS: {
     label: t("admin.integrations.reports"),
     icon: FileText,
-    color: "bg-indigo-100 text-indigo-700"
+    color: "bg-slate-100 text-slate-700"
   },
   USERS: {
     label: t("admin.integrations.users"),
     icon: Users,
-    color: "bg-gray-100 text-gray-700"
+    color: "bg-white/5 text-slate-300"
   },
   AUDIT_LOGS: {
     label: t("admin.integrations.audit_logs"),
@@ -133,7 +135,7 @@ const STATUS_CONFIG = {
   },
   PROCESSING: {
     label: t("admin.integrations.processing"),
-    color: "bg-blue-100 text-blue-700",
+    color: "bg-slate-100 text-slate-700",
     icon: RefreshCw
   },
   FAILED: {
@@ -148,7 +150,7 @@ const STATUS_CONFIG = {
   },
   CANCELLED: {
     label: t("admin.integrations.cancelled"),
-    color: "bg-gray-100 text-gray-700",
+    color: "bg-white/5 text-slate-300",
     icon: XCircle
   },
   EXPIRED: {
@@ -286,7 +288,7 @@ export default function Exports() {
     return config || {
       label: type,
       icon: Settings,
-      color: "bg-gray-100 text-gray-700"
+      color: "bg-white/5 text-slate-300"
     };
   };
   const getStatusConfig = (status: ExportStatus) => {
@@ -294,7 +296,7 @@ export default function Exports() {
     return config || {
       label: status,
       icon: Clock,
-      color: "bg-gray-100 text-gray-700"
+      color: "bg-white/5 text-slate-300"
     };
   };
   const isExpired = (export_: Export) => {
@@ -333,7 +335,7 @@ export default function Exports() {
               <RefreshCw className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{processingExports}</div>
+              <div className="text-2xl font-bold text-slate-600">{processingExports}</div>
               <p className="text-xs text-muted-foreground">{t("admin.integrations.being_generated")}</p>
             </CardContent>
           </Card>
@@ -344,7 +346,7 @@ export default function Exports() {
               <Database className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{formatFileSize(totalSize)}</div>
+              <div className="text-2xl font-bold text-slate-600">{formatFileSize(totalSize)}</div>
               <p className="text-xs text-muted-foreground">{t("admin.integrations.storage_used")}</p>
             </CardContent>
           </Card>
@@ -354,7 +356,7 @@ export default function Exports() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
               <Input placeholder={t("admin.integrations.search_exports")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
@@ -433,7 +435,7 @@ export default function Exports() {
                           <TableCell>
                             <div>
                               <div className="font-medium">{export_.name}</div>
-                              <div className="text-sm text-gray-500">{export_.user?.name}</div>
+                              <div className="text-sm text-slate-400">{export_.user?.name}</div>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -468,9 +470,9 @@ export default function Exports() {
                           </TableCell>
                           <TableCell>
                             <div className="text-sm">
-                              {export_.expiresAt ? <span className={expired ? 'text-red-500' : 'text-gray-500'}>
+                              {export_.expiresAt ? <span className={expired ? 'text-red-500' : 'text-slate-400'}>
                                   {formatDate(export_.expiresAt)}
-                                </span> : <span className="text-gray-500">{t("admin.integrations.never")}</span>}
+                                </span> : <span className="text-slate-400">{t("admin.integrations.never")}</span>}
                             </div>
                           </TableCell>
                           <TableCell>
@@ -556,7 +558,7 @@ export default function Exports() {
                     <Label>{t("admin.integrations.created_by")}</Label>
                     <div>
                       <div className="font-medium">{selectedExport.user?.name}</div>
-                      <div className="text-sm text-gray-500">{selectedExport.user?.email}</div>
+                      <div className="text-sm text-slate-400">{selectedExport.user?.email}</div>
                     </div>
                   </div>
                   <div>
@@ -571,7 +573,7 @@ export default function Exports() {
                     </div>
                     <div>
                       <Label>{t("admin.integrations.expires_at")}</Label>
-                      <div className={`text-sm ${isExpired(selectedExport) ? 'text-red-500' : 'text-gray-500'}`}>
+                      <div className={`text-sm ${isExpired(selectedExport) ? 'text-red-500' : 'text-slate-400'}`}>
                         {selectedExport.expiresAt ? formatDate(selectedExport.expiresAt) : "Never"}
                       </div>
                     </div>
@@ -588,7 +590,7 @@ export default function Exports() {
                   </div>}
                 {selectedExport.filePath && <div>
                     <Label>{t("admin.integrations.file_path")}</Label>
-                    <div className="text-sm font-mono text-gray-600 break-all">{selectedExport.filePath}</div>
+                    <div className="text-sm font-mono text-slate-400 break-all">{selectedExport.filePath}</div>
                   </div>}
               </div>}
             <DialogFooter>

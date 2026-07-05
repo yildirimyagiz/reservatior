@@ -1,10 +1,12 @@
+"use client";
+
 import { t } from "i18next";
 import { motion } from "framer-motion";
 import { Brain, Sparkles, Video, ShieldCheck, Banknote, LayoutDashboard, Zap, Globe, Clock, Scale, Building2, BarChart3, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import { useEffect, useState } from "react";
 import { adminNeuralApi, AIServiceStats } from "@/lib/api/admin-neural";
 import { useTranslation } from "react-i18next";

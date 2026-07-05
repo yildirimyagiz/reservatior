@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api/client";
@@ -61,7 +63,7 @@ export default function FinancialReports() {
   ];
 
   return (
-    <div className="p-6 space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
       <div className="flex items-center justify-between bg-white/5 p-6 rounded-2xl border border-white/10">
         <div>
           <h1 className="text-3xl font-bold text-white">{t("admin.financial.financial_reports")}</h1>
@@ -136,7 +138,7 @@ export default function FinancialReports() {
                         </div>
                       </div>
                       <div className="w-full bg-white/5 rounded-full h-2">
-                        <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${item.percentage}%` }} />
+                        <div className="bg-slate-600 h-2 rounded-full" style={{ width: `${item.percentage}%` }} />
                       </div>
                     </div>
                   ))}

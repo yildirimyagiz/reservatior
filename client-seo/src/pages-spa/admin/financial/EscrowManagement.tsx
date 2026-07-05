@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,8 +12,10 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
-import { DollarSign, Shield, AlertTriangle, Clock, Plus, Search, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { DollarSign, Shield, AlertTriangle, Clock, Plus, Search, Loader2, MoreHorizontal, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -153,7 +157,7 @@ export default function EscrowManagement() {
 
   const statusColor = (status: string) => {
     const map: Record<string, string> = {
-      PENDING: 'bg-amber-500', FUNDED: 'bg-blue-500', RELEASED: 'bg-emerald-500',
+      PENDING: 'bg-amber-500', FUNDED: 'bg-slate-500', RELEASED: 'bg-emerald-500',
       DISPUTED: 'bg-red-500', CLOSED: 'bg-slate-500', OPEN: 'bg-red-500',
       INVESTIGATING: 'bg-orange-500', RESOLVED: 'bg-emerald-500',
       APPROVED: 'bg-emerald-600', REJECTED: 'bg-red-600', COMPLETED: 'bg-emerald-500',
@@ -163,7 +167,7 @@ export default function EscrowManagement() {
 
   if (loading) {
     return (
-      <div className="p-6 min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center space-y-6">
         <Loader2 className="w-8 h-8 animate-spin text-slate-400" />
       </div>
     );
@@ -173,7 +177,7 @@ export default function EscrowManagement() {
     <div className="p-6 space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <Shield className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -187,7 +191,7 @@ export default function EscrowManagement() {
         </div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
+            <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
               <Plus className="w-4 h-4 mr-2" />
               {t("admin.financial.new_escrow", "New Escrow")}
             </Button>
@@ -212,7 +216,7 @@ export default function EscrowManagement() {
               </div>
               <DialogFooter>
                 <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-slate-300">{t("common.cancel", "Cancel")}</Button>
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={createMutation.isPending}>
+                <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
                   {createMutation.isPending ? t("common.saving", "Saving...") : t("common.create", "Create")}
                 </Button>
               </DialogFooter>
@@ -229,7 +233,7 @@ export default function EscrowManagement() {
                 <p className="text-xs font-medium text-slate-400">{t("admin.financial.total", "Total")}</p>
                 <h3 className="text-2xl font-bold text-white mt-1">${totalEscrowAmount.toLocaleString()}</h3>
               </div>
-              <div className="p-3 bg-blue-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-blue-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-slate-400" /></div>
             </div>
             <p className="text-xs text-slate-500 mt-2">{accounts.length} {t("admin.financial.active_accounts", "accounts")}</p>
           </CardContent>
@@ -274,13 +278,13 @@ export default function EscrowManagement() {
 
       <Tabs defaultValue="accounts" className="space-y-6">
         <TabsList className="bg-white/5 border border-white/10">
-          <TabsTrigger value="accounts" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsTrigger value="accounts" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
             {t("admin.financial.accounts", "Accounts")}
           </TabsTrigger>
-          <TabsTrigger value="releases" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsTrigger value="releases" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
             {t("admin.financial.releases", "Releases")}
           </TabsTrigger>
-          <TabsTrigger value="disputes" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsTrigger value="disputes" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
             {t("admin.financial.disputes", "Disputes")}
           </TabsTrigger>
         </TabsList>
@@ -480,7 +484,7 @@ export default function EscrowManagement() {
             </div>
             <DialogFooter>
               <Button variant="ghost" onClick={() => setEditingId(null)}>Cancel</Button>
-              <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => updateMutation.mutate({ id: editingId, ...editingAccount })}>Save</Button>
+              <Button className="bg-slate-600 hover:bg-slate-700" onClick={() => updateMutation.mutate({ id: editingId, ...editingAccount })}>Save</Button>
             </DialogFooter>
           </div>
         </DialogContent>

@@ -1,16 +1,19 @@
+"use client";
+
 import React from 'react';
 import { apiClient } from "@/lib/api/client";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { inventoryApi } from "@/lib/api/inventory";
-import { Search, Plus, AlertCircle, Camera, Activity, Zap, Box, Eye } from "lucide-react";
+import { propertiesApi } from "@/lib/api/properties";
+import { Search, Plus, AlertCircle, Camera, Activity, Zap, Box, Eye, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
@@ -53,7 +56,7 @@ export default function PropertyInventoryManagement() {
         return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
       case "good":
       case "fair":
-        return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+        return "bg-slate-500/10 text-slate-400 border-slate-500/20";
       case "poor":
       case "damaged":
         return "bg-rose-500/10 text-rose-400 border-rose-500/20";
@@ -84,35 +87,35 @@ export default function PropertyInventoryManagement() {
     return map[condition.toLowerCase()] || condition;
   };
 
-  const filteredInventories = inventories.filter(item =>
+  const filteredInventories = inventories.filter((item: any) =>
     item.propertyId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.inventoryType?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       {/* KPI GRID */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[{
           label: t("admin.inventory.total_assets"),
           val: inventories.length,
           icon: Box,
-          color: "text-blue-400"
+          color: "text-slate-400"
         }, {
           label: t("admin.inventory.anomalies"),
-          val: inventories.filter(i => i.cleaningRequired).length,
+          val: inventories.filter((i: any) => i.cleaningRequired).length,
           icon: AlertCircle,
           color: "text-rose-500"
         }, {
           label: t("admin.inventory.excellent_condition"),
-          val: inventories.filter(i => i.overallCondition?.toLowerCase() === 'excellent' || i.overallCondition?.toLowerCase() === 'new').length,
+          val: inventories.filter((i: any) => i.overallCondition?.toLowerCase() === 'excellent' || i.overallCondition?.toLowerCase() === 'new').length,
           icon: Zap,
           color: "text-emerald-400"
         }, {
           label: t("admin.inventory.sync_status"),
           val: t("admin.inventory.optimal", "Optimal"),
           icon: Activity,
-          color: "text-purple-400"
+          color: "text-slate-400"
         }].map((stat, i) => (
           <Card key={i} className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
             <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
@@ -129,10 +132,10 @@ export default function PropertyInventoryManagement() {
       {/* TACTICAL FILTERS */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
         <div className="relative flex-1 max-w-md group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-slate-500 transition-colors" />
           <Input
             placeholder={t("admin.inventory.search_inventory_cluster")}
-            className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-blue-500/20 transition-all font-medium"
+            className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-slate-500/20 transition-all font-medium"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
@@ -140,7 +143,7 @@ export default function PropertyInventoryManagement() {
 
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
-            <Button className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-[10px] gap-2 shadow-xl shadow-blue-600/20">
+            <Button className="h-14 px-8 rounded-2xl bg-slate-600 hover:bg-slate-500 text-white font-bold text-[10px] gap-2 shadow-xl shadow-slate-600/20">
               <Plus className="w-4 h-4" />{t("admin.inventory.initialize_inventory")}
             </Button>
           </DialogTrigger>
@@ -210,16 +213,16 @@ export default function PropertyInventoryManagement() {
               {isLoading ? (
                 <TableRow>
                   <TableCell colSpan={5} className="py-20 text-center">
-                    <Activity className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-4 opacity-50" />
+                    <Activity className="w-8 h-8 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
                     <p className="text-xs font-bold text-slate-400 animate-pulse">{t("admin.inventory.syncing_inventory_matrix")}</p>
                   </TableCell>
                 </TableRow>
-              ) : filteredInventories.map(inventory => (
+              ) : filteredInventories.map((inventory: any) => (
                 <TableRow key={inventory.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
                   <TableCell className="py-8 px-8">
                     <div className="flex items-center gap-6">
                       <div className="p-3 bg-white/5 border border-white/10 rounded-2xl group-hover:rotate-12 transition-all">
-                        <Box className="w-5 h-5 text-blue-400" />
+                        <Box className="w-5 h-5 text-slate-400" />
                       </div>
                       <div>
                         <h6 className="text-sm font-bold text-white leading-none">{t("admin.inventory.ref")}{inventory.propertyId?.substring(0, 8)}</h6>
@@ -251,6 +254,16 @@ export default function PropertyInventoryManagement() {
                     <div className="flex justify-end gap-2">
                       <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}/scan`)} className="h-12 w-12 rounded-2xl hover:bg-white/5 text-slate-400 hover:text-white" title={t("admin.inventory.spatial_scan")}>
                         <Camera className="w-5 h-5" />
+                      </Button>
+                      <Button variant="ghost" onClick={() => {
+                        toast({ title: t("admin.inventory.ai_staging_started", "AI Staging Started"), description: t("admin.inventory.ai_processing", "Visuals are being processed by AI models.") });
+                        propertiesApi.runAIStaging(inventory.propertyId).then(() => {
+                          toast({ title: t("admin.inventory.ai_staging_complete", "AI Staging Complete"), description: t("admin.inventory.ai_staging_success", "Images have been successfully staged.") });
+                        }).catch((err: any) => {
+                          toast({ title: "Error", description: err.message, variant: "destructive" });
+                        });
+                      }} className="h-12 w-12 rounded-2xl hover:bg-white/5 text-slate-400 hover:text-indigo-400" title={t("admin.inventory.run_ai_staging", "Run AI Staging")}>
+                        <Sparkles className="w-5 h-5 text-indigo-400" />
                       </Button>
                       <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}`)} className="h-12 w-12 rounded-2xl hover:bg-white/5 text-slate-400 hover:text-white">
                         <Eye className="w-5 h-5" />

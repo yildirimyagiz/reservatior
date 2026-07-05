@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
@@ -43,13 +45,13 @@ export default function SecurityEvents() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/securityevents/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/securityevents/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/securityevents/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/securityevents/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -108,7 +110,7 @@ export default function SecurityEvents() {
           label: t("admin.security.total_incidents"),
           val: events.length,
           icon: Shield,
-          color: "text-blue-400"
+          color: "text-slate-400"
         }, {
           label: t("admin.security.critical_priority"),
           val: events.filter(e => e.severity === "CRITICAL").length,
@@ -138,8 +140,8 @@ export default function SecurityEvents() {
         {/* TACTICAL FILTERS */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
            <div className="relative flex-1 max-w-md group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
-              <Input placeholder={t("admin.security.search_audit_trail")} className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-blue-500/20 transition-all" value={search} onChange={e => setSearch(e.target.value)} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-slate-500 transition-colors" />
+              <Input placeholder={t("admin.security.search_audit_trail")} className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-slate-500/20 transition-all" value={search} onChange={e => setSearch(e.target.value)} />
            </div>
            <div className="flex flex-wrap gap-3">
               <Select value={filterType} onValueChange={setFilterType}>
@@ -183,14 +185,14 @@ export default function SecurityEvents() {
                  <TableBody>
                     {loading ? <TableRow>
                           <TableCell colSpan={5} className="py-20 text-center">
-                             <Activity className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-4 opacity-50" />
+                             <Activity className="w-8 h-8 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
                              <p className="text-xs font-bold text-slate-400 animate-pulse">{t("admin.security.syncing_event_matrix")}</p>
                           </TableCell>
                         </TableRow> : filteredEvents.map(event => <TableRow key={event.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
                            <TableCell className="py-8 px-8">
                               <div className="flex items-center gap-6">
                                  <div className="p-3 bg-white/5 border border-white/10 rounded-2xl group-hover:scale-105 transition-all">
-                                    <Shield className="w-5 h-5 text-blue-400" />
+                                    <Shield className="w-5 h-5 text-slate-400" />
                                  </div>
                                  <div>
                                     <h6 className="text-sm font-bold text-white leading-none">{event.type.replace('_', ' ')}</h6>

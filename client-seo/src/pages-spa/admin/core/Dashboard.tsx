@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -123,8 +125,8 @@ export default function Dashboard() {
 
   if (isLoading || !dashboardData) {
     return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+      <div className="flex items-center justify-center h-[60vh] space-y-6">
+        <div className="w-12 h-12 border-4 border-slate-600/20 border-t-slate-600 rounded-full animate-spin" />
       </div>
     );
   }
@@ -134,8 +136,8 @@ export default function Dashboard() {
       {/* Superior Header Control */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/5 p-6 rounded-[2.5rem] border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-blue-600/20 flex items-center justify-center border border-blue-500/30">
-            <Activity className="w-6 h-6 text-blue-400 animate-pulse" />
+          <div className="w-12 h-12 rounded-2xl bg-slate-600/20 flex items-center justify-center border border-slate-500/30">
+            <Activity className="w-6 h-6 text-slate-400 animate-pulse" />
           </div>
           <div>
             <h2 className="text-lg font-bold text-white">{t('dashboard.statsHub')}</h2>
@@ -154,7 +156,7 @@ export default function Dashboard() {
               <SelectItem value="1y">{t('dashboard.periods.1y')}</SelectItem>
             </SelectContent>
           </Select>
-          <div className="h-12 w-12 rounded-2xl bg-blue-600 hover:bg-blue-500 transition-colors flex items-center justify-center cursor-pointer shadow-lg shadow-blue-600/20">
+          <div className="h-12 w-12 rounded-2xl bg-slate-600 hover:bg-slate-500 transition-colors flex items-center justify-center cursor-pointer shadow-lg shadow-slate-600/20">
             <ArrowUpRight className="w-5 h-5 text-white" />
           </div>
         </div>
@@ -162,8 +164,8 @@ export default function Dashboard() {
 
       {/* Global KPI Matrix */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <KPICard title={t('totalRevenue')} value={`$${(metrics.totalRevenue / 1000000).toFixed(2)}M`} trend="+12.5%" trendType="up" icon={DollarSign} color="blue" />
-        <KPICard title={t('totalProperties')} value={metrics.totalProperties.toString()} trend="+48" trendType="up" icon={Building} color="purple" />
+        <KPICard title={t('totalRevenue')} value={`$${(metrics.totalRevenue / 1000000).toFixed(2)}M`} trend="+12.5%" trendType="up" icon={DollarSign} color="slate" />
+        <KPICard title={t('totalProperties')} value={metrics.totalProperties.toString()} trend="+48" trendType="up" icon={Building} color="slate" />
         <KPICard title={t('totalMembers')} value={metrics.totalUsers.toString()} trend="-2.4%" trendType="down" icon={Users} color="emerald" />
         <KPICard title={t('aiAnalytics')} value={`${metrics.occupancyRate}%`} trend="+4.2%" trendType="up" icon={Sparkles} color="amber" />
       </div>
@@ -177,11 +179,11 @@ export default function Dashboard() {
               <p className="text-xs font-medium text-slate-400 tracking-wider">{t('statistics')}</p>
             </div>
             <div className="flex items-center gap-4 text-xs font-medium tracking-wider">
-              <div className="flex items-center gap-2 text-blue-500">
-                <div className="w-2 h-2 rounded-full bg-blue-500" /> {t('invoicesAmount')}
+              <div className="flex items-center gap-2 text-slate-500">
+                <div className="w-2 h-2 rounded-full bg-slate-500" /> {t('invoicesAmount')}
               </div>
-              <div className="flex items-center gap-2 text-purple-500">
-                <div className="w-2 h-2 rounded-full bg-purple-500" /> {t('avgMemberValue')}
+              <div className="flex items-center gap-2 text-slate-500">
+                <div className="w-2 h-2 rounded-full bg-slate-500" /> {t('avgMemberValue')}
               </div>
             </div>
           </CardHeader>
@@ -264,8 +266,8 @@ export default function Dashboard() {
               <CardTitle className="text-lg font-bold text-white">{t('dashboard.topAgents')}</CardTitle>
               <p className="text-xs font-medium text-slate-400 tracking-wider">{t('dashboard.fieldOperativesMatrix')}</p>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center">
-              <Users className="w-5 h-5 text-blue-400" />
+            <div className="w-10 h-10 rounded-xl bg-slate-600/10 border border-slate-500/20 flex items-center justify-center">
+              <Users className="w-5 h-5 text-slate-400" />
             </div>
           </CardHeader>
           <CardContent className="p-0 space-y-4">
@@ -273,7 +275,7 @@ export default function Dashboard() {
               <div key={agent.id} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all cursor-pointer group">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-9 w-9 rounded-lg border border-white/10">
-                    <AvatarFallback className="bg-blue-500/10 text-blue-500 text-xs font-semibold">{agent.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                    <AvatarFallback className="bg-slate-500/10 text-slate-500 text-xs font-semibold">{agent.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                   </Avatar>
                   <div>
                     <h4 className="text-sm font-semibold text-white">{agent.name}</h4>
@@ -309,7 +311,7 @@ export default function Dashboard() {
                     <Icon className="w-16 h-16 text-primary" />
                   </div>
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="p-1.5 rounded-md bg-primary/10 text-primary">
+                    <div className="p-1.5 rounded-xl bg-primary/10 text-primary">
                       <Icon className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-semibold text-primary tracking-wider">{activity.type}</span>
@@ -332,8 +334,8 @@ export default function Dashboard() {
 
 function KPICard({ title, value, trend, trendType, icon: Icon, color }: any) {
   const colorMap: any = {
-    blue: "text-blue-400 bg-blue-950/20 border-blue-500/20",
-    purple: "text-purple-400 bg-purple-950/20 border-purple-500/20",
+    slate: "text-slate-400 bg-slate-950/20 border-slate-500/20",
+    slate: "text-slate-400 bg-slate-950/20 border-slate-500/20",
     emerald: "text-emerald-400 bg-emerald-950/20 border-emerald-500/20",
     amber: "text-amber-400 bg-amber-950/20 border-amber-500/20"
   };

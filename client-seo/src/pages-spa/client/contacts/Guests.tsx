@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -13,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, MoreHorizontal, Loader2 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { guestsApi } from "@/lib/api/guests";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 
 const EMPTY_FORM = {
   name: "",
@@ -40,7 +42,7 @@ export default function Guests() {
   const { data: rawData, isLoading } = useQuery({
     queryKey: ['guests-contacts'],
     queryFn: async () => {
-      const response = await guestsApi.getGuests() as any;
+      const response = await guestsApi.getAll() as any;
       return (response.data || []) as any[];
     }
   });

@@ -85,7 +85,7 @@ export function IoTContent() {
               </div>
               <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
                 <span className="text-sm text-slate-400 uppercase font-black">{t("client.iot.temp", { defaultValue: "Temp" })}</span>
-                <span className="font-black text-2xl">21.5°C</span>
+                <span className="font-black text-2xl">{t("smart_devices.iotcontent.auto_ext_1")}</span>
               </div>
             </motion.div>
 

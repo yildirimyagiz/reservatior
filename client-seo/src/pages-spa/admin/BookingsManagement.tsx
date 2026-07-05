@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState } from "react";
 import { PageShell } from "../client/layout/PageShell";
@@ -67,7 +69,7 @@ const STATUS_CONFIG = (t: any) => {
     },
     CONFIRMED: {
       label: t("confirmed"),
-      color: "bg-blue-500/10 text-blue-400 border-blue-500/20"
+      color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
     },
     CANCELLED: {
       label: t("admin.bookings.status.cancelled"),
@@ -232,7 +234,7 @@ export default function BookingsManagement() {
   } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -379,12 +381,12 @@ export default function BookingsManagement() {
           </Card>
 
           <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
               <CheckCircle className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.bookings.stats.confirmedNodes")}</p>
-              <h3 className="text-3xl font-bold text-blue-400 leading-none">{stats.confirmed}</h3>
+              <h3 className="text-3xl font-bold text-slate-400 leading-none">{stats.confirmed}</h3>
             </CardContent>
           </Card>
 
@@ -451,7 +453,7 @@ export default function BookingsManagement() {
         </div>
 
         {viewMode === "table" ? <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent opacity-50"></div>
             <CardContent className="p-0">
               <Table>
                 <TableHeader className="bg-muted/50 border-b border-border">
@@ -552,7 +554,7 @@ export default function BookingsManagement() {
       {/* Booking Details Dialog */}
       <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
         <DialogContent className="max-w-4xl bg-[#14151a] border-border text-foreground rounded-3xl overflow-hidden p-0 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent"></div>
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent"></div>
           {selectedBooking && <div className="flex flex-col h-full max-h-[90vh]">
               <DialogHeader className="p-8 border-b border-border bg-muted/50">
                 <div className="flex items-center justify-between">
@@ -578,7 +580,7 @@ export default function BookingsManagement() {
                   <Card className="bg-card border-border rounded-2xl overflow-hidden">
                     <CardHeader className="p-6 border-b border-border bg-muted/50">
                       <h4 className="text-[10px] font-bold text-muted-foreground flex items-center gap-2">
-                        <UserIcon className="w-3 h-3 text-blue-500" /> {t("admin.bookings.intel.guestIdentity")}
+                        <UserIcon className="w-3 h-3 text-slate-500" /> {t("admin.bookings.intel.guestIdentity")}
                       </h4>
                     </CardHeader>
                     <CardContent className="p-6 space-y-4">
@@ -599,7 +601,7 @@ export default function BookingsManagement() {
                       {selectedBooking.specialRequests && selectedBooking.specialRequests.length > 0 && <div className="pt-4 border-t border-border">
                           <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin.bookingsmanagement.tactical_requirements")}</p>
                           <div className="flex flex-wrap gap-2">
-                            {selectedBooking.specialRequests.map((request, index) => <Badge key={index} variant="outline" className="bg-muted/50 border-border text-muted-foreground text-[8px] font-bold rounded-md">
+                            {selectedBooking.specialRequests.map((request, index) => <Badge key={index} variant="outline" className="bg-muted/50 border-border text-muted-foreground text-[8px] font-bold rounded-xl">
                                 {request}
                               </Badge>)}
                           </div>
@@ -625,7 +627,7 @@ export default function BookingsManagement() {
                       <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
                         <div className="space-y-1">
                           <p className="text-[10px] font-bold text-muted-foreground">{t("admin.bookingsmanagement.checkin_sequence")}</p>
-                          <p className="text-sm font-bold text-blue-400 font-mono">{new Date(selectedBooking.startDate).toLocaleDateString()}</p>
+                          <p className="text-sm font-bold text-slate-400 font-mono">{new Date(selectedBooking.startDate).toLocaleDateString()}</p>
                         </div>
                         <div className="space-y-1">
                           <p className="text-[10px] font-bold text-muted-foreground">{t("admin.bookingsmanagement.departure_sync")}</p>
@@ -658,7 +660,7 @@ export default function BookingsManagement() {
                     <div className="text-xl font-bold text-foreground font-mono">
                       ${selectedBooking.totalPrice?.toLocaleString()}
                     </div>
-                    <div className="text-[9px] font-bold text-blue-400/60 mt-1">{t("admin.bookingsmanagement.confirmed_revenue")}</div>
+                    <div className="text-[9px] font-bold text-slate-400/60 mt-1">{t("admin.bookingsmanagement.confirmed_revenue")}</div>
                   </Card>
                 </div>
 
@@ -705,7 +707,7 @@ export default function BookingsManagement() {
 
               <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
                 <Button variant="ghost" className="flex-1 h-14 rounded-2xl font-bold text-[10px] hover:bg-muted/50 transition-all text-muted-foreground hover:text-foreground" onClick={() => setDetailsOpen(false)}>{t("admin.bookingsmanagement.close_intel")}</Button>
-                {selectedBooking && selectedBooking.status === "PENDING" && <Button className="flex-2 h-14 rounded-2xl bg-blue-600 hover:bg-blue-500 text-foreground font-bold text-[10px] shadow-xl shadow-blue-600/30 gap-2" onClick={() => {
+                {selectedBooking && selectedBooking.status === "PENDING" && <Button className="flex-2 h-14 rounded-2xl bg-slate-600 hover:bg-slate-500 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30 gap-2" onClick={() => {
               handleStatusChange(selectedBooking.id, "CONFIRMED");
               setDetailsOpen(false);
             }}>{t("admin.bookingsmanagement.confirm_synchronization")}<ArrowUpRight className="w-3 h-3" />

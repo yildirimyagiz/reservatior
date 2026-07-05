@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "@/lib/react-router-shim";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api/client";
 import { Button } from "@/components/ui/button";
@@ -21,7 +23,7 @@ export default function DynamicAdminPage() {
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const res = await apiClient.post('/api/v1/dynamic', data);
+      const res = await apiClient.post('/dynamic', data);
       return res;
     },
     onSuccess: () => {
@@ -69,7 +71,7 @@ export default function DynamicAdminPage() {
     }
   });
 
-  if (schemaLoading) return <div className="p-8 flex justify-center"><Loader2 className="animate-spin w-8 h-8 text-blue-500" /></div>;
+  if (schemaLoading) return <div className="p-8 flex justify-center"><Loader2 className="animate-spin w-8 h-8 text-slate-500" /></div>;
   if (!schema) return <div className="p-8 text-red-500">Model schema not found.</div>;
 
   const displayFields = schema.fields.filter((f: any) =>
@@ -77,7 +79,7 @@ export default function DynamicAdminPage() {
   ).slice(0, 7);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex justify-between items-center">
           <div>
@@ -145,7 +147,7 @@ export default function DynamicAdminPage() {
           </TableHeader>
           <TableBody>
             {dataLoading ? (
-              <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8"><Loader2 className="animate-spin w-6 h-6 mx-auto text-blue-500" /></TableCell></TableRow>
+              <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8"><Loader2 className="animate-spin w-6 h-6 mx-auto text-slate-500" /></TableCell></TableRow>
             ) : (records as any)?.data?.length === 0 ? (
               <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8 text-slate-500">No records found</TableCell></TableRow>
             ) : (

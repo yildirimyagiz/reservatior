@@ -4,7 +4,7 @@ import { ArrowRight, Play, Star, CheckCircle, PlusCircle, Sparkles } from "lucid
 import { useState } from "react";
 import { ListingManagementDialog } from "./ListingManagementDialog";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 export default function Hero() {
   const {
     t
@@ -55,7 +55,7 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <Link to="/auth/signup" className="contents">
+              <Link to="/client/signup" className="contents">
                 <Button size="lg" className="h-12 px-8 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-600/20 font-bold uppercase italic tracking-widest text-[10px]">
                   {t('getStarted')}
                   <ArrowRight className="w-5 h-5 ml-2" />

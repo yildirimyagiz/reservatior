@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface Trigger {
   id: string;
@@ -117,6 +118,7 @@ const triggerTypeConfig: Record<string, { label: string; icon: React.ComponentTy
 };
 
 export default function AutomationPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("automations");
   const [automations, setAutomations] = useState(mockAutomations);
@@ -162,16 +164,16 @@ export default function AutomationPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Automation Dashboard</h1>
-              <p className="text-gray-400">Manage triggers and automated workflows with AI-powered insights</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("automation.automationpage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("automation.automationpage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("automation.automationpage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -186,7 +188,7 @@ export default function AutomationPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Active Automations</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("automation.automationpage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{activeAutomations}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-green-500/10">
@@ -206,7 +208,7 @@ export default function AutomationPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Total Runs</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("automation.automationpage.auto_ext_5")}</div>
                     <div className="text-2xl font-bold text-white">{totalRuns}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-blue-500/10">
@@ -226,7 +228,7 @@ export default function AutomationPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Success Rate</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("automation.automationpage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-white">{avgSuccessRate.toFixed(0)}%</div>
                   </div>
                   <div className="p-3 rounded-lg bg-purple-500/10">
@@ -246,7 +248,7 @@ export default function AutomationPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Triggers</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("automation.automationpage.auto_ext_7")}</div>
                     <div className="text-2xl font-bold text-white">{automations.reduce((sum, a) => sum + a.triggers.length, 0)}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-yellow-500/10">
@@ -261,9 +263,9 @@ export default function AutomationPage() {
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-white/5 border-purple-500/20">
-            <TabsTrigger value="automations" className="data-[state=active]:bg-purple-600">Automations</TabsTrigger>
-            <TabsTrigger value="triggers" className="data-[state=active]:bg-purple-600">Triggers</TabsTrigger>
-            <TabsTrigger value="logs" className="data-[state=active]:bg-purple-600">Logs</TabsTrigger>
+            <TabsTrigger value="automations" className="data-[state=active]:bg-purple-600">{t("automation.automationpage.auto_ext_8")}</TabsTrigger>
+            <TabsTrigger value="triggers" className="data-[state=active]:bg-purple-600">{t("automation.automationpage.auto_ext_9")}</TabsTrigger>
+            <TabsTrigger value="logs" className="data-[state=active]:bg-purple-600">{t("automation.automationpage.auto_ext_10")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="automations">
@@ -272,11 +274,11 @@ export default function AutomationPage() {
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-white">Active Automations</h2>
+                <h2 className="text-xl font-bold text-white">{t("automation.automationpage.auto_ext_11")}</h2>
                 <Button className="bg-purple-600 hover:bg-purple-700">
                   <Plus className="w-4 h-4 mr-2" />
-                  New Automation
-                </Button>
+                  {t("automation.automationpage.auto_ext_12")}
+                                                  </Button>
               </div>
 
               <div className="space-y-4">
@@ -320,8 +322,9 @@ export default function AutomationPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
-                        <div className="text-sm text-gray-400 mb-2">Triggers</div>
+                        <div className="text-sm text-gray-400 mb-2">{t("automation.automationpage.auto_ext_13")}</div>
                         {automation.triggers.map((trigger) => {
+                            const { t } = useTranslation();
                           const config = triggerTypeConfig[trigger.type];
                           const Icon = config?.icon;
                           return (
@@ -339,7 +342,7 @@ export default function AutomationPage() {
                               <div className="flex items-center gap-4">
                                 <div className="text-right">
                                   <div className="text-white text-sm">{trigger.successRate}%</div>
-                                  <div className="text-gray-400 text-xs">Success</div>
+                                  <div className="text-gray-400 text-xs">{t("automation.automationpage.auto_ext_14")}</div>
                                 </div>
                                 <Switch
                                   checked={trigger.enabled}
@@ -351,8 +354,8 @@ export default function AutomationPage() {
                         })}
                       </div>
                       <div className="flex items-center justify-between mt-4 pt-4 border-t border-purple-500/20 text-sm">
-                        <span className="text-gray-400">Total Runs: {automation.runs}</span>
-                        <span className="text-gray-400">Last Run: {new Date(automation.lastRun).toLocaleDateString()}</span>
+                        <span className="text-gray-400">{t("automation.automationpage.auto_ext_15")} {automation.runs}</span>
+                        <span className="text-gray-400">{t("automation.automationpage.auto_ext_16")} {new Date(automation.lastRun).toLocaleDateString()}</span>
                       </div>
                     </CardContent>
                   </Card>
@@ -368,12 +371,12 @@ export default function AutomationPage() {
             >
               <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
                 <CardHeader>
-                  <CardTitle className="text-white">Trigger Management</CardTitle>
+                  <CardTitle className="text-white">{t("automation.automationpage.auto_ext_17")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12 text-gray-400">
                     <Bell className="w-12 h-12 mx-auto mb-4 text-purple-400" />
-                    <p>Detailed trigger configuration coming soon</p>
+                    <p>{t("automation.automationpage.auto_ext_18")}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -387,12 +390,12 @@ export default function AutomationPage() {
             >
               <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
                 <CardHeader>
-                  <CardTitle className="text-white">Execution Logs</CardTitle>
+                  <CardTitle className="text-white">{t("automation.automationpage.auto_ext_19")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12 text-gray-400">
                     <MessageSquare className="w-12 h-12 mx-auto mb-4 text-purple-400" />
-                    <p>Automation execution logs coming soon</p>
+                    <p>{t("automation.automationpage.auto_ext_20")}</p>
                   </div>
                 </CardContent>
               </Card>

@@ -6,6 +6,7 @@ import { escrowService } from "../services/escrow";
 import { disputeResolver } from "../core/dispute/resolver";
 import { distributionEngine } from "../services/distribution/distribution-engine";
 import { demandGenerator } from "../services/demand/demand-generator";
+import prismaManager from "@/lib/prisma";
 
 export const cronScheduler = new Elysia({ name: "cron-scheduler" })
   // 1. LEASE_EXPIRY_APPROACHING (Runs daily at 02:00 AM)
@@ -73,11 +74,11 @@ export const cronScheduler = new Elysia({ name: "cron-scheduler" })
     })
   )
 
-  // 6. REPUTATION DECAY (Runs daily at 04:00 AM)
+  // 6. REPUTATION DECAY (Runs hourly, checks local time inside)
   .use(
     cron({
       name: "reputation-decay",
-      pattern: process.env.NODE_ENV === "production" ? "0 4 * * *" : "*/15 * * * *",
+      pattern: process.env.NODE_ENV === "production" ? "0 * * * *" : "*/15 * * * *",
       async run() {
         console.log("[Cron] Running REPUTATION_DECAY check...");
         await runReputationDecayCron().catch(console.error);
@@ -92,7 +93,7 @@ export const cronScheduler = new Elysia({ name: "cron-scheduler" })
       pattern: process.env.NODE_ENV === "production" ? "0 5 * * *" : "*/10 * * * *",
       async run() {
         console.log("[Cron] Running ESCROW_RELEASE_SCHEDULER...");
-        const regions = ["US", "TR", "UK", "DE", "FR", "AE", "SA"];
+        const regions = ["US","TR","UK","DE","FR","ES","IT","NL","AE","SA","CA","MX","BR","AR","AU","NZ","JP","KR","CN","IN","SG","MY","TH"];
         for (const region of regions) {
           await escrowService.releaseScheduledCommissions(region).catch(console.error);
         }
@@ -107,8 +108,11 @@ export const cronScheduler = new Elysia({ name: "cron-scheduler" })
       pattern: process.env.NODE_ENV === "production" ? "0 6 * * *" : "*/12 * * * *",
       async run() {
         console.log("[Cron] Running DISPUTE_DEADLINE_CHECK...");
-        const regions = ["US", "TR", "UK", "DE", "FR", "AE", "SA"];
-        for (const region of regions) {
+        // Sadece aktif (gerektiğinde bağlanılmış) bölgeler için çalıştır
+        const activeRegions = prismaManager.getActiveRegions();
+        if (activeRegions.length === 0) return;
+        
+        for (const region of activeRegions) {
           const result = await disputeResolver.withRegion(region).checkDeadlines(region).catch(() => ({ escalated: 0 }));
           if (result.escalated > 0) {
             console.log(`[Cron] Escalated ${result.escalated} overdue disputes in ${region}`);
@@ -125,8 +129,11 @@ export const cronScheduler = new Elysia({ name: "cron-scheduler" })
       pattern: process.env.NODE_ENV === "production" ? "0 7 * * *" : "*/20 * * * *",
       async run() {
         console.log("[Cron] Running LISTING_DISTRIBUTION_REFRESH...");
-        const regions = ["US", "TR", "UK"];
-        for (const region of regions) {
+        // Sadece 'gerektiğinde' (kullanıcı isteğiyle) bağlanmış aktif bölgeler için çalıştır
+        const activeRegions = prismaManager.getActiveRegions();
+        if (activeRegions.length === 0) return;
+        
+        for (const region of activeRegions) {
           await distributionEngine.distributeAllActiveListings(region).catch(console.error);
         }
       }
@@ -140,7 +147,7 @@ export const cronScheduler = new Elysia({ name: "cron-scheduler" })
       pattern: process.env.NODE_ENV === "production" ? "0 9 * * *" : "*/25 * * * *",
       async run() {
         console.log("[Cron] Running DEMAND_GENERATION...");
-        const regions = ["US", "TR", "UK", "DE", "FR"];
+        const regions = ["US","TR","UK","DE","FR","ES","IT","NL","AE","SA","CA","MX","BR","AR","AU","NZ","JP","KR","CN","IN","SG","MY","TH"];
         for (const region of regions) {
           const recommendations = await demandGenerator.generateDemandForRegion(region, 20).catch(() => []);
           if (recommendations.length > 0) {

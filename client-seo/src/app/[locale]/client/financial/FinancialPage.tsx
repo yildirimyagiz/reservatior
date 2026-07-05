@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TrendingUp, TrendingDown, DollarSign, CreditCard, ArrowUpRight, Wallet, Receipt, PieChart } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface FinancialRecord {
   id: string;
@@ -29,6 +30,7 @@ const mockFinancials: FinancialRecord[] = [
 ];
 
 export default function FinancialPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -48,16 +50,16 @@ export default function FinancialPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Financial Overview</h1>
-              <p className="text-gray-400">Track your income, expenses, and financial performance</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("financial.financialpage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("financial.financialpage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("financial.financialpage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -72,7 +74,7 @@ export default function FinancialPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Total Income</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("financial.financialpage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">${totalIncome.toLocaleString()}</div>
                     <div className="flex items-center text-green-400 text-sm mt-1">
                       <TrendingUp className="w-4 h-4 mr-1" />
@@ -96,7 +98,7 @@ export default function FinancialPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Total Expenses</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("financial.financialpage.auto_ext_5")}</div>
                     <div className="text-2xl font-bold text-white">${totalExpenses.toLocaleString()}</div>
                     <div className="flex items-center text-red-400 text-sm mt-1">
                       <TrendingDown className="w-4 h-4 mr-1" />
@@ -120,7 +122,7 @@ export default function FinancialPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Net Profit</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("financial.financialpage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-white">${netProfit.toLocaleString()}</div>
                     <div className="flex items-center text-green-400 text-sm mt-1">
                       <TrendingUp className="w-4 h-4 mr-1" />
@@ -144,9 +146,9 @@ export default function FinancialPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Pending</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("financial.financialpage.auto_ext_7")}</div>
                     <div className="text-2xl font-bold text-white">${pendingAmount.toLocaleString()}</div>
-                    <div className="text-yellow-400 text-sm mt-1">Awaiting</div>
+                    <div className="text-yellow-400 text-sm mt-1">{t("financial.financialpage.auto_ext_8")}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-yellow-500/10">
                     <Receipt className="w-6 h-6 text-yellow-400" />
@@ -160,9 +162,9 @@ export default function FinancialPage() {
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-white/5 border-purple-500/20">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-purple-600">Overview</TabsTrigger>
-            <TabsTrigger value="transactions" className="data-[state=active]:bg-purple-600">Transactions</TabsTrigger>
-            <TabsTrigger value="reports" className="data-[state=active]:bg-purple-600">Reports</TabsTrigger>
+            <TabsTrigger value="overview" className="data-[state=active]:bg-purple-600">{t("financial.financialpage.auto_ext_9")}</TabsTrigger>
+            <TabsTrigger value="transactions" className="data-[state=active]:bg-purple-600">{t("financial.financialpage.auto_ext_10")}</TabsTrigger>
+            <TabsTrigger value="reports" className="data-[state=active]:bg-purple-600">{t("financial.financialpage.auto_ext_11")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -172,17 +174,17 @@ export default function FinancialPage() {
             >
               <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
                 <CardHeader>
-                  <CardTitle className="text-white">Recent Transactions</CardTitle>
+                  <CardTitle className="text-white">{t("financial.financialpage.auto_ext_12")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Table>
                     <TableHeader>
                       <TableRow className="border-purple-500/20">
-                        <TableHead className="text-gray-400">Description</TableHead>
-                        <TableHead className="text-gray-400">Category</TableHead>
-                        <TableHead className="text-gray-400">Date</TableHead>
-                        <TableHead className="text-gray-400">Status</TableHead>
-                        <TableHead className="text-gray-400 text-right">Amount</TableHead>
+                        <TableHead className="text-gray-400">{t("financial.financialpage.auto_ext_13")}</TableHead>
+                        <TableHead className="text-gray-400">{t("financial.financialpage.auto_ext_14")}</TableHead>
+                        <TableHead className="text-gray-400">{t("financial.financialpage.auto_ext_15")}</TableHead>
+                        <TableHead className="text-gray-400">{t("financial.financialpage.auto_ext_16")}</TableHead>
+                        <TableHead className="text-gray-400 text-right">{t("financial.financialpage.auto_ext_17")}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -222,12 +224,12 @@ export default function FinancialPage() {
             >
               <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
                 <CardHeader>
-                  <CardTitle className="text-white">All Transactions</CardTitle>
+                  <CardTitle className="text-white">{t("financial.financialpage.auto_ext_18")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12 text-gray-400">
                     <PieChart className="w-12 h-12 mx-auto mb-4 text-purple-400" />
-                    <p>Detailed transaction history coming soon</p>
+                    <p>{t("financial.financialpage.auto_ext_19")}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -241,12 +243,12 @@ export default function FinancialPage() {
             >
               <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
                 <CardHeader>
-                  <CardTitle className="text-white">Financial Reports</CardTitle>
+                  <CardTitle className="text-white">{t("financial.financialpage.auto_ext_20")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12 text-gray-400">
                     <Receipt className="w-12 h-12 mx-auto mb-4 text-purple-400" />
-                    <p>Financial reports and analytics coming soon</p>
+                    <p>{t("financial.financialpage.auto_ext_21")}</p>
                   </div>
                 </CardContent>
               </Card>

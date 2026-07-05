@@ -6,7 +6,7 @@ import { Globe, Check, ChevronDown } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
 import { userPreferencesApi } from "@/lib/api/user-preferences";
 import { useRegionsStore } from "@/lib/store/regions-store";
-import { LANGUAGES } from "@/lib/languages";
+import { LANGUAGES, useLanguage } from "@/lib/languages";
 const countries = [{
   code: "TR",
   name: "Turkey",
@@ -60,13 +60,22 @@ export default function GlobalPreferencesSelector() {
 
   // Load initial states from localStorage or user context
   const [selectedCountry, setSelectedCountry] = useState(() => {
-    return localStorage.getItem("reservatior_country") || "TR";
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("reservatior_country") || "TR";
+    }
+    return "TR";
   });
   const [selectedLanguage, setSelectedLanguage] = useState(() => {
-    return localStorage.getItem("reservatior_lang") || i18n.language || "tr";
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("reservatior_lang") || i18n.language || "en";
+    }
+    return "en";
   });
   const [selectedCurrency, setSelectedCurrency] = useState(() => {
-    return localStorage.getItem("reservatior_currency") || "TRY";
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("reservatior_currency") || "TRY";
+    }
+    return "TRY";
   });
   const [activeSection, setActiveSection] = useState<"country" | "language" | "currency">("country");
 
@@ -129,6 +138,7 @@ export default function GlobalPreferencesSelector() {
     setSelectedLanguage(code);
     localStorage.setItem("reservatior_lang", code);
     i18n.changeLanguage(code);
+    useLanguage.getState().setLanguage(code);
     if (user) {
       try {
         await userPreferencesApi.bulkUpdate(user.id, {

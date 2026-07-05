@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState, useEffect } from "react";
 import { Heart, Search, MapPin, Bed, Bath, Square, Play, ArrowLeft, Activity, Zap } from "lucide-react";
@@ -8,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { favoritesApi } from "@/lib/api/social";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/lib/react-router-shim";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -186,7 +188,7 @@ export default function Favorites() {
                         </div>
                       </div>
                       
-                      <Link to={`/properties/${property.id}`}>
+                      <Link to={`/property/${property.id}`}>
                         <Button variant="ghost" className="h-10 px-0 hover:bg-transparent text-blue-500 hover:text-blue-400 text-[10px] font-black italic tracking-widest flex items-center gap-2 group/btn">
                           {t('viewDetails')}
                           <div className="w-6 h-px bg-blue-500/40 group-hover/btn:w-10 transition-all" />
@@ -210,7 +212,7 @@ export default function Favorites() {
             <p className="text-[10px] font-black text-slate-500 tracking-widest italic max-w-sm mx-auto mb-10 leading-loose">
               {t('favoritesEmptyDesc')}
             </p>
-            <Link to="/properties">
+            <Link to="/property">
               <Button className="h-16 px-10 bg-white text-black hover:bg-slate-200 font-black italic text-xs tracking-widest rounded-2xl transition-all shadow-xl hover:scale-105 gap-3">
                 <Zap className="w-4 h-4" />
                 {t('explore')}

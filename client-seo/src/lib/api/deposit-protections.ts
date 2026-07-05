@@ -518,12 +518,11 @@ export const depositProtectionsApi = {
   },
 
   // Export deposit protections
-  export: async (orgId: string, options: {
-  }): Promise<Blob> => {
+  export: async (orgId: string, options: object): Promise<Blob> => {
     const response = await fetch(`${apiClient['baseURL']}/organizations/${orgId}/deposit-protections/export`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(options)

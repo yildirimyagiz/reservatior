@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,7 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, MoreHorizontal, Calendar, User, Building, Search, Plus, Activity, Zap, LayoutGrid, List, ArrowLeft, ChevronRight, Filter, DollarSign, Mail, Clock, CheckCircle2, XCircle, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,7 +63,7 @@ const EMPTY_FORM = {
   currency: "$",
   status: "PENDING"
 };
-export default function Reservations() {
+export default function Reservations({ propertyId }: { propertyId?: string }) {
   const {
     t
   } = useTranslation();
@@ -73,7 +75,7 @@ export default function Reservations() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [createOpen, setCreateOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [form, setForm] = useState<any>(EMPTY_FORM);
+  const [form, setForm] = useState<any>({ ...EMPTY_FORM, propertyId: propertyId || "" });
   const STATUS_MAP: Record<string, {
     label: string;
     cls: string;
@@ -100,7 +102,12 @@ export default function Reservations() {
       icon: XCircle
     }
   };
-  const filtered = MOCK.filter(row => (String(row.guestName ?? "").toLowerCase().includes(search.toLowerCase()) || String(row.propertyName ?? "").toLowerCase().includes(search.toLowerCase())) && (filterStatus === "all" || row.status === filterStatus));
+  const filtered = MOCK.filter(row => 
+    (String(row.guestName ?? "").toLowerCase().includes(search.toLowerCase()) || 
+     String(row.propertyName ?? "").toLowerCase().includes(search.toLowerCase())) && 
+    (filterStatus === "all" || row.status === filterStatus) &&
+    (!propertyId || row.propertyId === propertyId)
+  );
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
     setCreateOpen(false);

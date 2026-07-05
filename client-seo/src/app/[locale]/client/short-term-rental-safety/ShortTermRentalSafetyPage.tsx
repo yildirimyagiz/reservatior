@@ -12,6 +12,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const safetyFeatures = [
   {
@@ -41,6 +42,7 @@ const safetyFeatures = [
 ];
 
 export default function ShortTermRentalSafetyPage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -54,16 +56,16 @@ export default function ShortTermRentalSafetyPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Short-Term Rental Safety</h1>
-              <p className="text-gray-400">Comprehensive safety measures for short-term rentals</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("short_term_rental_safety.shorttermrentalsafetypage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("short_term_rental_safety.shorttermrentalsafetypage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("short_term_rental_safety.shorttermrentalsafetypage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 

@@ -1,7 +1,9 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ShieldX, Home, ArrowLeft, LogOut, Lock, Fingerprint } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { useAuth } from "@/lib/auth/hooks";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";

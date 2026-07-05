@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { ShieldCheck, ShieldAlert, FileText, Calendar, DollarSign, Search, Plus, ExternalLink, ArrowRightLeft } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageShell } from "../layout/PageShell";
+import { useEffect } from "react";
+import { apiClient } from "@/lib/api/client";
 interface DepositRecord {
   id: string;
   leaseId: string;
@@ -21,49 +25,32 @@ interface DepositRecord {
   protectedAt?: string;
   expiresAt?: string;
 }
-const MOCK_DEPOSITS: DepositRecord[] = [{
-  id: "dp1",
-  leaseId: "l1",
-  property: "Sunset Heights, Apt 402",
-  tenant: "John Doe",
-  amount: 1500,
-  currency: "GBP",
-  provider: "TDS",
-  scheme: "Custodial",
-  reference: "TDS-9921-XJ",
-  status: 'protected',
-  protectedAt: "2024-01-15",
-  expiresAt: "2025-01-15"
-}, {
-  id: "dp2",
-  leaseId: "l2",
-  property: "Green Valley Villa",
-  tenant: "Sarah Smith",
-  amount: 3200,
-  currency: "GBP",
-  provider: "DPS",
-  scheme: "Insured",
-  reference: "DPS-7712-BK",
-  status: 'pending'
-}, {
-  id: "dp3",
-  leaseId: "l3",
-  property: "Harbor View, Suite 12",
-  tenant: "Robert Brown",
-  amount: 2100,
-  currency: "GBP",
-  provider: "MyDeposits",
-  scheme: "Custodial",
-  reference: "MYD-4432-PQ",
-  status: 'claimed',
-  protectedAt: "2023-06-10"
-}];
 export default function DepositProtection() {
   const {
     t
   } = useTranslation();
-  const [deposits] = useState<DepositRecord[]>(MOCK_DEPOSITS);
+  const [deposits, setDeposits] = useState<DepositRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const fetchDeposits = async () => {
+      try {
+        setIsLoading(true);
+        const res: any = await apiClient.get('/legal/deposits').catch(() => null);
+        if (res && res.data) {
+          setDeposits(res.data);
+        } else {
+          setDeposits([]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch deposits:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDeposits();
+  }, []);
   const getStatusBadge = (status: DepositRecord['status']) => {
     switch (status) {
       case 'protected':
@@ -143,7 +130,11 @@ export default function DepositProtection() {
 
           <TabsContent value="all" className="mt-4">
             <div className="grid gap-4">
-              {deposits.map(deposit => <Card key={deposit.id} className="hover:shadow-md transition-all border-l-4 border-l-indigo-500 overflow-hidden">
+              {isLoading ? (
+                <p className="text-muted-foreground">Loading...</p>
+              ) : deposits.length === 0 ? (
+                <p className="text-muted-foreground">No deposits found.</p>
+              ) : deposits.map(deposit => <Card key={deposit.id} className="hover:shadow-md transition-all border-l-4 border-l-indigo-500 overflow-hidden">
                   <CardContent className="p-0">
                     <div className="flex flex-col md:flex-row">
                       <div className="p-6 flex-1">

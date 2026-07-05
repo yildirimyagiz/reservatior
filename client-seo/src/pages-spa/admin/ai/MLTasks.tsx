@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -43,7 +45,7 @@ export default function MLTasks() {
   const { data: tasks = [], isLoading } = useQuery({
     queryKey: ['ml-tasks'],
     queryFn: async () => {
-      const res = await apiClient.get('/api/v1/ai-service-task');
+      const res = await apiClient.get('/ai-service-task');
       return (res as any)?.data || [];
     },
     refetchInterval: 10000,
@@ -51,7 +53,7 @@ export default function MLTasks() {
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const res = await apiClient.post('/api/v1/ai-service-task', data);
+      const res = await apiClient.post('/ai-service-task', data);
       return res;
     },
     onSuccess: () => {
@@ -66,9 +68,9 @@ export default function MLTasks() {
   const getTaskIcon = (type: string) => {
     switch (type) {
       case "REELS_VIDEO_GEN":
-        return <Video className="w-4 h-4 text-purple-400" />;
+        return <Video className="w-4 h-4 text-slate-400" />;
       case "BROCHURE_GEN":
-        return <FileText className="w-4 h-4 text-blue-400" />;
+        return <FileText className="w-4 h-4 text-slate-400" />;
       case "SEO_DESCRIPTION":
         return <Search className="w-4 h-4 text-green-400" />;
       case "DOCUMENT_EXTRACT":
@@ -82,7 +84,7 @@ export default function MLTasks() {
       case "COMPLETED":
         return <Badge className="bg-green-500/20 text-green-500 border-green-500/50">{t("admin.ai.completed")}</Badge>;
       case "PROCESSING":
-        return <Badge className="bg-blue-500/20 text-blue-500 border-blue-500/50 animate-pulse">{t("admin.ai.processing")}</Badge>;
+        return <Badge className="bg-slate-500/20 text-slate-500 border-slate-500/50 animate-pulse">{t("admin.ai.processing")}</Badge>;
       case "FAILED":
         return <Badge className="bg-red-500/20 text-red-500 border-red-500/50">{t("admin.ai.failed")}</Badge>;
       default:
@@ -95,7 +97,7 @@ export default function MLTasks() {
           <Card className="bg-white/5 border-white/10">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.active_tasks")}</CardTitle>
-              <Clock className="h-4 w-4 text-blue-400" />
+              <Clock className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-white">{tasks.filter((t: AiServiceTask) => t.status === "PROCESSING").length}</div>

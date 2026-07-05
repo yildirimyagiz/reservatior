@@ -3,8 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, MessageSquare } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export function GuestsContent() {
+    const { t } = useTranslation();
   const guestModules = [
     {
       title: "All Guests",
@@ -25,8 +27,8 @@ export function GuestsContent() {
   return (
     <div className="container mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Guests</h1>
-        <p className="text-muted-foreground">Manage guests and guest relationships</p>
+        <h1 className="text-3xl font-bold">{t("guests.guestscontent.auto_ext_1")}</h1>
+        <p className="text-muted-foreground">{t("guests.guestscontent.auto_ext_2")}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

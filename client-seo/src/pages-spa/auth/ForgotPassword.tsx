@@ -1,13 +1,15 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/lib/react-router-shim";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion } from "framer-motion";
 import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { Header } from "@/components/home/Header";
 export default function ForgotPassword() {
   const {
@@ -112,7 +114,7 @@ export default function ForgotPassword() {
 
           <div className="mt-8 text-center">
             <p className="text-sm text-slate-400">{t("client.src.remember_your_password")}{" "}
-              <Link to="/login" className="text-blue-400 hover:text-blue-300 hover:underline transition-colors font-medium">{t("client.src.sign_in")}</Link>
+              <Link to="/client/login" className="text-blue-400 hover:text-blue-300 hover:underline transition-colors font-medium">{t("client.src.sign_in")}</Link>
             </p>
           </div>
         </motion.div>

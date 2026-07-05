@@ -23,6 +23,7 @@ class _VideoRecordingStudioPageState extends State<VideoRecordingStudioPage>
   bool _isHydrated = false;
   bool _isRecording = false;
   bool _isPaused = false;
+  bool _isProcessingML = false;
   int _recordingDuration = 0;
   String _currentChapter = 'exterior';
   List<String> _completedChapters = [];
@@ -165,11 +166,36 @@ class _VideoRecordingStudioPageState extends State<VideoRecordingStudioPage>
     });
   }
 
-  void handleSaveAndPublish() {
+  void handleSaveAndPublish() async {
     setState(() {
       _showSaveModal = false;
+      _isProcessingML = true;
     });
-    Navigator.of(context).pushNamed('/property-details');
+    
+    try {
+      // Simulate fetching the recorded file
+      // final File recordedVideo = await _cameraController.stopVideoRecording();
+      
+      // Simulate ML upload via our new mlApiService
+      // await mlApiService.uploadMediaForProcessing(recordedVideo, {'category': 'videos', 'processingType': 'walkthrough'});
+      
+      // Artificial delay for mock processing
+      await Future.delayed(const Duration(seconds: 2));
+      
+      if (mounted) {
+        setState(() {
+          _isProcessingML = false;
+        });
+        Navigator.of(context).pushNamed('/property-details');
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isProcessingML = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ML Processing failed: $e')));
+      }
+    }
   }
 
   void handleSaveDraft() {
@@ -237,6 +263,22 @@ class _VideoRecordingStudioPageState extends State<VideoRecordingStudioPage>
             },
           ),
           if (_showSaveModal) _buildSaveModal(),
+          if (_isProcessingML) 
+            Container(
+              color: Colors.black87,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(color: AppColors.gold),
+                    SizedBox(height: 16),
+                    Text('AI is processing and editing your video...',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );

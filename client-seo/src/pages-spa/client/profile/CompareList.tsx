@@ -1,10 +1,12 @@
+"use client";
+
 import { t } from "i18next";
 import { useState } from "react";
 import { X, Plus, MapPin, Bed, Bath, Square, Building2, Home, Check, ArrowLeft, Activity, Zap, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";

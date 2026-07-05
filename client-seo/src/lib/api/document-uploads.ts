@@ -112,7 +112,7 @@ export const documentUploadsApi = {
     const response = await fetch(`${apiClient['baseURL']}/documents/${id}/download?orgId=${orgId}`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
       },
     });
     

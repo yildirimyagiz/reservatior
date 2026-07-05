@@ -155,8 +155,8 @@ export function AIValuationContent() {
           setForm(EMPTY_FORM);
           setCreateOpen(true);
         }}>
-          Add AIValuation
-        </Button>
+          {t("valuation.aivaluationcontent.auto_ext_1")}
+                          </Button>
       </div>
 
       <div className="bg-card border border-border rounded-xl overflow-hidden">

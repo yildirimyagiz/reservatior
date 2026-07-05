@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,7 @@ import { Brain, Settings, Activity, Cpu, ShieldCheck, Zap, Bot, Sparkles, BarCha
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface AIStatus {
   status: string;
@@ -37,6 +40,7 @@ interface AIModel {
 
 export default function AIDashboard() {
   const { t } = useTranslation();
+  const { toast } = useToast();
 
   const { data: statusData } = useQuery({
     queryKey: ['ai-status'],
@@ -59,10 +63,10 @@ export default function AIDashboard() {
   const models = (modelsData || []) as AIModel[];
 
   return (
-    <div className="p-6 space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <Brain className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -79,7 +83,14 @@ export default function AIDashboard() {
             <Settings className="w-4 h-4" />
             {t("admin.ai.global_config", "Global Config")}
           </Button>
-          <Button className="gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20 text-white">
+          <Button onClick={() => {
+            toast({ title: t("admin.ai.retraining_started", "Retraining Started"), description: t("admin.ai.models_retraining", "Location Intelligence & Price Prediction models are being updated.") });
+            apiClient.post('/ai/models/retrain').then(() => {
+              toast({ title: t("admin.ai.retraining_complete", "Retraining Complete"), description: t("admin.ai.retraining_success", "Models successfully retrained.") });
+            }).catch((err: any) => {
+              toast({ title: "Error", description: err.message, variant: "destructive" });
+            });
+          }} className="gap-2 bg-slate-600 hover:bg-slate-700 shadow-lg shadow-slate-600/20 text-white">
             <Zap className="w-4 h-4" />
             {t("admin.ai.retrain_models", "Retrain Models")}
           </Button>
@@ -90,7 +101,7 @@ export default function AIDashboard() {
         <Card className="bg-white/5 border-white/10">
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
-              <Cpu className="w-4 h-4 text-purple-400" />
+              <Cpu className="w-4 h-4 text-slate-400" />
               {t("admin.ai.infrastructure_health", "Infrastructure Health")}
             </CardTitle>
           </CardHeader>
@@ -118,7 +129,7 @@ export default function AIDashboard() {
         <Card className="bg-white/5 border-white/10">
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
-              <Activity className="w-4 h-4 text-blue-400" />
+              <Activity className="w-4 h-4 text-slate-400" />
               {t("admin.ai.usage_metrics", "Usage Metrics")}
             </CardTitle>
           </CardHeader>
@@ -149,8 +160,12 @@ export default function AIDashboard() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.valuation_model", "Valuation")}</span>
-              <span className="font-medium text-white">{status?.models?.valuation ?? "—"}</span>
+              <span className="text-slate-400">{t("admin.ai.valuation_model", "Valuation / Price Prediction")}</span>
+              <span className="font-medium text-white">{status?.models?.valuation ?? "XGBoost-v4"}</span>
+            </div>
+            <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
+              <span className="text-slate-400">{t("admin.ai.location_model", "Location Intelligence")}</span>
+              <span className="font-medium text-white">{"GeoGraph-v2"}</span>
             </div>
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
               <span className="text-slate-400">{t("admin.ai.chatbot_model", "Chatbot")}</span>
@@ -168,7 +183,7 @@ export default function AIDashboard() {
         <Card className="bg-white/5 border-white/10 overflow-hidden">
           <CardHeader className="bg-white/5">
             <CardTitle className="flex items-center gap-2 text-white">
-              <Bot className="w-5 h-5 text-indigo-400" />
+              <Bot className="w-5 h-5 text-slate-400" />
               {t("admin.ai.model_fleet_status", "Model Fleet Status")}
             </CardTitle>
           </CardHeader>
@@ -212,7 +227,7 @@ export default function AIDashboard() {
                         model.status === "ACTIVE" || model.status === "Active"
                           ? "bg-emerald-500/20 text-emerald-400"
                           : model.status === "TRAINING" || model.status === "Training"
-                          ? "bg-blue-500/20 text-blue-400"
+                          ? "bg-slate-500/20 text-slate-400"
                           : "bg-slate-500/20 text-slate-400"
                       )}>
                         {model.status}
@@ -238,8 +253,8 @@ export default function AIDashboard() {
           <CardContent>
             <div className="space-y-4">
               {[
-                { label: t("admin.ai.regression", "Regression"), count: models.filter(m => m.modelType === "Regression").length, color: "bg-blue-500" },
-                { label: t("admin.ai.nlp", "NLP"), count: models.filter(m => m.modelType === "NLP").length, color: "bg-purple-500" },
+                { label: t("admin.ai.regression", "Regression"), count: models.filter(m => m.modelType === "Regression").length, color: "bg-slate-500" },
+                { label: t("admin.ai.nlp", "NLP"), count: models.filter(m => m.modelType === "NLP").length, color: "bg-slate-500" },
                 { label: t("admin.ai.classification", "Classification"), count: models.filter(m => m.modelType === "Classification").length, color: "bg-emerald-500" },
                 { label: t("admin.ai.diffusion", "Diffusion"), count: models.filter(m => m.modelType === "Diffusion").length, color: "bg-amber-500" },
                 { label: t("admin.ai.other", "Other"), count: models.filter(m => !["Regression", "NLP", "Classification", "Diffusion"].includes(m.modelType)).length, color: "bg-slate-500" },

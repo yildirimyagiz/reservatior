@@ -1,71 +1,54 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import HttpBackend from 'i18next-http-backend';
 
-import arTranslations from '../locales/ar.json';
-import daTranslations from '../locales/da.json';
-import deTranslations from '../locales/de.json';
-import enTranslations from '../locales/en.json';
-import esTranslations from '../locales/es.json';
-import fiTranslations from '../locales/fi.json';
-import frTranslations from '../locales/fr.json';
-import grTranslations from '../locales/gr.json';
-import hiTranslations from '../locales/hi.json';
-import itTranslations from '../locales/it.json';
-import jaTranslations from '../locales/ja.json';
-import koTranslations from '../locales/ko.json';
-import nlTranslations from '../locales/nl.json';
-import noTranslations from '../locales/no.json';
-import plTranslations from '../locales/pl.json';
-import ptTranslations from '../locales/pt.json';
-import ruTranslations from '../locales/ru.json';
-import seTranslations from '../locales/se.json';
-import trTranslations from '../locales/tr.json';
-import zhTranslations from '../locales/zh.json';
+// ──────────────────────────────────────────────────────────────────────────────
+// HTTP Backend kullanarak locale dosyalarını Webpack bundle'ından tamamen çıkarıyoruz.
+// Dynamic import() kullanmak Webpack'in tüm locales/*.json dosyalarını chunk
+// haritasına eklemesine neden olur → 1600+ modül, 7-10s derleme.
+// HTTP backend ile bu dosyalar /public/locales/ üzerinden servis edilir,
+// Webpack hiç görmez → 200-400 modül, <2s derleme.
+// ──────────────────────────────────────────────────────────────────────────────
 
-const resources = {
-  ar: { translation: arTranslations },
-  da: { translation: daTranslations },
-  de: { translation: deTranslations },
-  en: { translation: enTranslations },
-  es: { translation: esTranslations },
-  fi: { translation: fiTranslations },
-  fr: { translation: frTranslations },
-  gr: { translation: grTranslations },
-  hi: { translation: hiTranslations },
-  it: { translation: itTranslations },
-  ja: { translation: jaTranslations },
-  ko: { translation: koTranslations },
-  nl: { translation: nlTranslations },
-  no: { translation: noTranslations },
-  pl: { translation: plTranslations },
-  pt: { translation: ptTranslations },
-  ru: { translation: ruTranslations },
-  se: { translation: seTranslations },
-  tr: { translation: trTranslations },
-  'tr-TR': { translation: trTranslations },
-  zh: { translation: zhTranslations }
+const isBrowser = typeof window !== 'undefined';
+
+function getLocaleFromUrl(): string {
+  if (!isBrowser) return 'en';
+  const segments = window.location.pathname.split('/').filter(Boolean);
+  const first = segments[0] || 'en';
+  const SUPPORTED = new Set(['en','tr','ar','es','fr','de','ru','pt','zh','ja','ko','it','nl','pl','sv','da','fi','el','hi','id','gr','se','no']);
+  return SUPPORTED.has(first) ? first : 'en';
+}
+
+const FILE_MAP: Record<string, string> = {
+  el: 'gr',
+  sv: 'se',
 };
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources,
-    fallbackLng: 'en',
-    debug: false,
-    keySeparator: false,
-    nsSeparator: false,
-    
-    interpolation: {
-      escapeValue: false
-    },
-    
-    detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage']
-    }
-  });
+const lng = getLocaleFromUrl();
+
+if (!i18n.isInitialized) {
+  i18n
+    .use(HttpBackend)
+    .use(initReactI18next)
+    .init({
+      lng,
+      fallbackLng: 'en',
+      debug: false,
+      keySeparator: false,
+      nsSeparator: false,
+      interpolation: { escapeValue: false },
+      backend: {
+        loadPath: (lngs: string[]) => {
+          const lang = lngs[0];
+          const file = FILE_MAP[lang] ?? lang;
+          if (!isBrowser) {
+            return `http://localhost:3001/locales/${file}.json`;
+          }
+          return `/locales/${file}.json`;
+        },
+      },
+    });
+}
 
 export default i18n;
-

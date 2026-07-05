@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import FeatureComingSoon from "@/components/shared/FeatureComingSoon";
 import { FileText } from "lucide-react";

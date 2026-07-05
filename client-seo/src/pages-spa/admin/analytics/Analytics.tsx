@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -188,8 +190,8 @@ export default function Analytics() {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                <Home className="w-6 h-6 text-blue-600" />
+              <div className="p-2 bg-slate-100 dark:bg-slate-900/20 rounded-lg">
+                <Home className="w-6 h-6 text-slate-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-slate-400">{t("admin.analytics.total_properties")}</p>
@@ -220,8 +222,8 @@ export default function Analytics() {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                <Target className="w-6 h-6 text-purple-600" />
+              <div className="p-2 bg-slate-100 dark:bg-slate-900/20 rounded-lg">
+                <Target className="w-6 h-6 text-slate-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-slate-400">{t("admin.analytics.total_deals")}</p>
@@ -352,7 +354,7 @@ export default function Analytics() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400">
+              <div className="text-3xl font-bold text-slate-400">
                 {metrics.conversionRate.toFixed(1)}%
               </div>
               <p className="text-sm text-slate-400 mt-1">{t("admin.analytics.lead_to_deal_conversion")}</p>
@@ -364,7 +366,7 @@ export default function Analytics() {
               <p className="text-sm text-slate-400 mt-1">{t("admin.analytics.average_deal_size")}</p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400">
+              <div className="text-3xl font-bold text-slate-400">
                 {data.tasks.filter((t: any) => t.status === "COMPLETED").length}
               </div>
               <p className="text-sm text-slate-400 mt-1">{t("admin.analytics.completed_tasks")}</p>

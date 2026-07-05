@@ -1,7 +1,10 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PageShell } from "../layout/PageShell";
+import { apiClient } from "@/lib/api/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -51,11 +54,86 @@ export default function LoyaltyRewards() {
   const {
     t
   } = useTranslation();
-  const [account] = useState<LoyaltyAccount>({
-    points: 2450,
-    level: 'SILVER',
-    nextLevelPoints: 5000
-  });
+  const [account, setAccount] = useState<LoyaltyAccount | null>(null);
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const [activities, setActivities] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLoyaltyData = async () => {
+      try {
+        setIsLoading(true);
+        const [accountRes, achievementsRes, activitiesRes] = await Promise.allSettled([
+          apiClient.get('/loyalty/account').catch(() => null),
+          apiClient.get('/loyalty/achievements').catch(() => null),
+          apiClient.get('/loyalty/activities').catch(() => null)
+        ]);
+        
+        if (accountRes.status === 'fulfilled' && (accountRes.value as any)?.data) {
+          setAccount((accountRes.value as any).data);
+        } else {
+          setAccount({
+            points: 2450,
+            level: 'SILVER',
+            nextLevelPoints: 5000
+          });
+        }
+        
+        if (achievementsRes.status === 'fulfilled' && (achievementsRes.value as any)?.data) {
+          setAchievements((achievementsRes.value as any).data);
+        } else {
+          setAchievements(MOCK_ACHIEVEMENTS);
+        }
+
+        if (activitiesRes.status === 'fulfilled' && (activitiesRes.value as any)?.data) {
+          setActivities((activitiesRes.value as any).data);
+        } else {
+          setActivities([
+            {
+              type: 'REFERRAL',
+              desc: 'Successful referral: Mark Stevenson',
+              pts: '+2000',
+              date: 'Today'
+            }, {
+              type: 'BOOKING',
+              desc: 'Guest Check-in: Sunset Heights',
+              pts: '+50',
+              date: 'Yesterday'
+            }, {
+              type: 'REVIEW',
+              desc: '5-Star Review received',
+              pts: '+100',
+              date: 'March 24'
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch loyalty data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchLoyaltyData();
+  }, []);
+
+  const getIcon = (icon: any) => {
+    if (typeof icon === 'string') {
+      switch (icon) {
+        case 'Sparkles': return Sparkles;
+        case 'Trophy': return Trophy;
+        case 'Zap': return Zap;
+        case 'Heart': return Heart;
+        default: return Trophy;
+      }
+    }
+    return icon || Trophy;
+  };
+
+  if (isLoading || !account) {
+    return <PageShell title={t("client.src.loyalty_rewards")} description={t("client.src.track_your_achievements_earn")}>
+      <p className="text-muted-foreground">Loading...</p>
+    </PageShell>;
+  }
   return <PageShell title={t("client.src.loyalty_rewards")} description={t("client.src.track_your_achievements_earn")}>
       <div className="space-y-6">
         {/* Tier Status Card */}
@@ -135,10 +213,13 @@ export default function LoyaltyRewards() {
               <h3 className="text-2xl font-black text-slate-800 tracking-tight flex items-center">
                  <Trophy className="w-6 h-6 mr-3 text-amber-500" />{t("client.src.recent_trophies")}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                 {MOCK_ACHIEVEMENTS.map(ach => <Card key={ach.id} className={`border-2 transition-all group ${ach.unlockedAt ? 'border-indigo-100 bg-indigo-50/20' : 'border-slate-100 bg-slate-50/20 grayscale opacity-60'}`}>
-                      <CardContent className="p-4 flex flex-col items-center text-center h-full">
-                         <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-3 shadow-inner ${ach.unlockedAt ? 'bg-white text-indigo-600' : 'bg-slate-200 text-slate-400'}`}>
-                            <ach.icon className="w-7 h-7" />
+                 {achievements.map(ach => {
+                    const IconComponent = getIcon(ach.icon);
+                    return (
+                       <Card key={ach.id} className={`border-2 transition-all group ${ach.unlockedAt ? 'border-indigo-100 bg-indigo-50/20' : 'border-slate-100 bg-slate-50/20 grayscale opacity-60'}`}>
+                       <CardContent className="p-4 flex flex-col items-center text-center h-full">
+                          <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-3 shadow-inner ${ach.unlockedAt ? 'bg-white text-indigo-600' : 'bg-slate-200 text-slate-400'}`}>
+                             <IconComponent className="w-7 h-7" />
                          </div>
                          <h4 className="font-black text-sm tracking-tighter text-slate-800 group-hover:text-indigo-600 transition-colors">{ach.title}</h4>
                          <p className="text-[10px] text-slate-500 font-medium mt-1 leading-tight">{ach.description}</p>
@@ -146,7 +227,9 @@ export default function LoyaltyRewards() {
                               <CheckCircle2 className="w-3 h-3 mr-1" />{t("client.src.unlocked")}</div> : <div className="mt-3 text-[10px] font-black text-slate-400">
                               {ach.points}{t("client.src.pts_reward")}</div>}
                       </CardContent>
-                   </Card>)}
+                   </Card>
+                    );
+                 })}
               </div>
            </div>
         </div>
@@ -161,22 +244,7 @@ export default function LoyaltyRewards() {
            </CardHeader>
            <CardContent className="p-0">
                <div className="divide-y">
-                  {[{
-              type: 'REFERRAL',
-              desc: 'Successful referral: Mark Stevenson',
-              pts: '+2000',
-              date: 'Today'
-            }, {
-              type: 'BOOKING',
-              desc: 'Guest Check-in: Sunset Heights',
-              pts: '+50',
-              date: 'Yesterday'
-            }, {
-              type: 'REVIEW',
-              desc: '5-Star Review received',
-              pts: '+100',
-              date: 'March 24'
-            }].map((row, i) => <div key={i} className="flex items-center justify-between px-8 py-5 hover:bg-slate-50/50 transition-colors">
+                  {activities.map((row, i) => <div key={i} className="flex items-center justify-between px-8 py-5 hover:bg-slate-50/50 transition-colors">
                        <div className="flex items-center gap-4">
                           <div className={`p-2 rounded-xl ${row.type === 'REFERRAL' ? 'bg-indigo-100 text-indigo-600' : 'bg-emerald-100 text-emerald-600'}`}>
                              {row.type === 'REFERRAL' ? <Users className="w-5 h-5" /> : <Star className="w-5 h-5" />}

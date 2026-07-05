@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from 'react';
@@ -23,7 +25,7 @@ export default function Guests() {
   const { data: guests = [], isLoading } = useQuery({
     queryKey: ['guests'],
     queryFn: async () => {
-      const response = await guestsApi.getGuests() as any;
+      const response = await guestsApi.getAll() as any;
       return (response.data || []).map((g: any) => ({
         id: g.id,
         name: g.name,

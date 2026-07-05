@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Check, Zap, Shield, Activity, Fingerprint, Star, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export function PricingContent() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   const plans = [
@@ -98,21 +100,22 @@ export function PricingContent() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Pricing Plans</h1>
-              <p className="text-gray-400">Choose the perfect plan for your real estate business</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("pricing.pricingcontent.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("pricing.pricingcontent.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/client/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("pricing.pricingcontent.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-[1600px] mx-auto">
           {plans.map((plan, index) => {
+              const { t } = useTranslation();
             const isPopular = plan.priceMonthlyCents !== null && plan.priceMonthlyCents > 5000 && plan.priceMonthlyCents < 20000;
             return (
               <motion.div
@@ -127,8 +130,8 @@ export function PricingContent() {
               >
                 {isPopular && (
                   <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-8 py-2 rounded-full text-[10px] font-bold tracking-widest uppercase shadow-xl shadow-blue-600/40 flex items-center gap-2">
-                    <Star className="w-3 h-3 fill-white" /> MOST POPULAR
-                  </div>
+                    <Star className="w-3 h-3 fill-white" /> {t("pricing.pricingcontent.auto_ext_4")}
+                                              </div>
                 )}
 
                 <div className="space-y-6 mb-12">
@@ -136,16 +139,16 @@ export function PricingContent() {
                     <h3 className="text-sm font-bold text-gray-500 tracking-widest uppercase">{plan.name}</h3>
                     <div className="flex items-baseline gap-2">
                       <span className="text-5xl font-bold text-white tracking-tighter">{formatPrice(plan.priceMonthlyCents)}</span>
-                      {plan.priceMonthlyCents !== null && <span className="text-gray-600 font-bold text-xs uppercase">/ MONTH</span>}
+                      {plan.priceMonthlyCents !== null && <span className="text-gray-600 font-bold text-xs uppercase">{t("pricing.pricingcontent.auto_ext_5")}</span>}
                     </div>
                   </div>
                   <p className="text-sm text-gray-400 leading-relaxed">
-                    Advanced management panel tailored to your needs.
-                  </p>
+                    {t("pricing.pricingcontent.auto_ext_6")}
+                                              </p>
                 </div>
 
                 <div className="space-y-4 mb-12 flex-1">
-                  <p className="text-xs font-bold text-gray-600 tracking-widest border-b border-white/5 pb-2">FEATURES</p>
+                  <p className="text-xs font-bold text-gray-600 tracking-widest border-b border-white/5 pb-2">{t("pricing.pricingcontent.auto_ext_7")}</p>
                   {generateFeatures(plan.limits).map((feature, fIdx) => (
                     <div key={fIdx} className="flex items-center gap-3">
                       <div className="h-5 w-5 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
@@ -190,10 +193,10 @@ export function PricingContent() {
           transition={{ delay: 0.5 }}
           className="mt-20 p-12 rounded-[40px] bg-gradient-to-b from-transparent to-white/5 border border-purple-500/20 text-center"
         >
-          <h2 className="text-xl font-bold text-white tracking-tighter mb-4">MILITARY-GRADE SECURITY</h2>
+          <h2 className="text-xl font-bold text-white tracking-tighter mb-4">{t("pricing.pricingcontent.auto_ext_8")}</h2>
           <p className="text-sm text-gray-500 tracking-widest max-w-2xl mx-auto mb-8">
-            All plans are protected with enterprise-level encryption and advanced data security standards.
-          </p>
+            {t("pricing.pricingcontent.auto_ext_9")}
+                                </p>
           <div className="flex flex-wrap justify-center gap-12">
             {["AES-256", "SHA-512", "TLS 1.3", "RBAC", "ISO 27001"].map(auth => (
               <span key={auth} className="text-xs font-bold text-gray-600 tracking-widest">{auth}</span>

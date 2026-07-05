@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -59,15 +61,15 @@ export default function SecurityOverview() {
           </Card>
 
           <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                <Fingerprint className="w-12 h-12" />
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.security.biometric_sync")}</p>
               <h3 className="text-xl font-bold text-white leading-none">42%</h3>
-              <p className="text-[10px] font-bold text-blue-400 mt-4 flex items-center gap-1">{t("admin.security.mobile_entity_links")}</p>
+              <p className="text-[10px] font-bold text-slate-400 mt-4 flex items-center gap-1">{t("admin.security.mobile_entity_links")}</p>
               <div className="mt-4 h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                <div className="h-full bg-blue-600 rounded-full" style={{ width: "42%" }}></div>
+                <div className="h-full bg-slate-600 rounded-full" style={{ width: "42%" }}></div>
               </div>
             </CardContent>
           </Card>
@@ -102,7 +104,7 @@ export default function SecurityOverview() {
           <Card className="lg:col-span-8 bg-white/5 backdrop-blur-xl border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
             <CardHeader className="p-8 border-b border-white/10">
               <CardTitle className="text-xs font-bold text-white flex items-center gap-2">
-                <Activity className="w-4 h-4 text-blue-500" />{t("admin.security.neural_handshake_velocity")}</CardTitle>
+                <Activity className="w-4 h-4 text-slate-500" />{t("admin.security.neural_handshake_velocity")}</CardTitle>
             </CardHeader>
             <CardContent className="p-8 h-[400px]">
               <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -176,8 +178,8 @@ export default function SecurityOverview() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
            <Card className="bg-white/5 border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
               <div className="flex items-center gap-6">
-                 <div className="p-4 bg-blue-600/10 border border-blue-500/20 rounded-2xl group-hover:scale-110 transition-all">
-                    <ShieldCheck className="w-8 h-8 text-blue-400" />
+                 <div className="p-4 bg-slate-600/10 border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
+                    <ShieldCheck className="w-8 h-8 text-slate-400" />
                  </div>
                  <div>
                     <h4 className="text-sm font-bold text-white">{t("admin.security.protocol_audit")}</h4>
@@ -187,8 +189,8 @@ export default function SecurityOverview() {
            </Card>
            <Card className="bg-white/5 border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
               <div className="flex items-center gap-6">
-                 <div className="p-4 bg-purple-600/10 border border-purple-500/20 rounded-2xl group-hover:scale-110 transition-all">
-                    <Zap className="w-8 h-8 text-purple-400" />
+                 <div className="p-4 bg-slate-600/10 border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
+                    <Zap className="w-8 h-8 text-slate-400" />
                  </div>
                  <div>
                     <h4 className="text-sm font-bold text-white">{t("admin.security.key_rotation")}</h4>

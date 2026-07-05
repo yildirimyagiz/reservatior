@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -96,10 +98,10 @@ export default function CommissionRules() {
     : "0";
 
   return (
-    <div className="p-6 space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <Percent className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -113,7 +115,7 @@ export default function CommissionRules() {
         </div>
         <Dialog open={isAddOpen || !!editingRule} onOpenChange={(open) => { if (!open) { setIsAddOpen(false); setEditingRule(null); } }}>
           <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20" onClick={() => { setIsAddOpen(true); setFormData({ providerId: "", ruleType: "PERCENTAGE", commission: 0, minVolume: 0 }); }}>
+            <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20" onClick={() => { setIsAddOpen(true); setFormData({ providerId: "", ruleType: "PERCENTAGE", commission: 0, minVolume: 0 }); }}>
               <Plus className="w-4 h-4 mr-2" />
               {t("admin.financial.new_rule", "New Rule")}
             </Button>
@@ -153,7 +155,7 @@ export default function CommissionRules() {
               </div>
               <DialogFooter>
                 <Button type="button" variant="ghost" onClick={() => { setIsAddOpen(false); setEditingRule(null); }} className="text-slate-300">{t("common.cancel", "Cancel")}</Button>
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={createMutation.isPending || updateMutation.isPending}>
+                <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending || updateMutation.isPending}>
                   {(createMutation.isPending || updateMutation.isPending) ? t("common.saving", "Saving...") : (editingRule ? t("common.update", "Update") : t("common.create", "Create"))}
                 </Button>
               </DialogFooter>
@@ -170,7 +172,7 @@ export default function CommissionRules() {
                 <p className="text-xs font-medium text-slate-400">{t("admin.financial.avg_commission", "Avg Commission")}</p>
                 <h3 className="text-2xl font-bold text-white mt-1">{avgCommission}%</h3>
               </div>
-              <div className="p-3 bg-blue-500/20 rounded-lg"><Percent className="w-5 h-5 text-blue-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><Percent className="w-5 h-5 text-slate-400" /></div>
             </div>
           </CardContent>
         </Card>
@@ -192,7 +194,7 @@ export default function CommissionRules() {
                 <p className="text-xs font-medium text-slate-400">{t("admin.financial.active_rules", "Active Rules")}</p>
                 <h3 className="text-2xl font-bold text-white mt-1">{rules.length}</h3>
               </div>
-              <div className="p-3 bg-indigo-500/20 rounded-lg"><ShieldCheck className="w-5 h-5 text-indigo-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><ShieldCheck className="w-5 h-5 text-slate-400" /></div>
             </div>
           </CardContent>
         </Card>
@@ -222,9 +224,9 @@ export default function CommissionRules() {
                   <TableCell className="px-6">
                     <Badge className={cn(
                       "border-0 text-[10px]",
-                      rule.ruleType === "PERCENTAGE" ? "bg-blue-500/20 text-blue-400" :
+                      rule.ruleType === "PERCENTAGE" ? "bg-slate-500/20 text-slate-400" :
                       rule.ruleType === "FLAT" ? "bg-emerald-500/20 text-emerald-400" :
-                      "bg-purple-500/20 text-purple-400"
+                      "bg-slate-500/20 text-slate-400"
                     )}>
                       {rule.ruleType}
                     </Badge>

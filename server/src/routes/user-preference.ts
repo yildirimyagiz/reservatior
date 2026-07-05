@@ -7,7 +7,7 @@ import {
   UserPreferencePlainInputUpdate 
 } from "../../generated/prismabox/UserPreference";
 
-export const userPreferenceRoutes = new Elysia({ prefix: "/user-preferences" })
+export const userPreferenceRoutes = new Elysia({ prefix: "/user-preference" })
   .use(authMiddleware)
 
   /**

@@ -35,11 +35,11 @@ export function ProtectedRoute({
           <h1 className="text-2xl font-bold mb-4">{t("client.src.authentication_required")}</h1>
           <p className="text-muted-foreground mb-8">{t("client.src.please_sign_in_to")}</p>
           <div className="space-y-4">
-            <Link href="/login">
+            <Link href="/client/login">
               <Button className="w-full">{t("client.src.sign_in")}<ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/signup">
+            <Link href="/client/signup">
               <Button variant="outline" className="w-full">{t("client.src.create_account")}</Button>
             </Link>
           </div>

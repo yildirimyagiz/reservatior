@@ -11,6 +11,7 @@ import {
   Clock
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const events = [
   { id: 1, title: "Property Viewing", date: "2024-04-15", time: "10:00 AM", type: "VIEWING" },
@@ -27,6 +28,7 @@ const EVENT_COLORS: Record<string, string> = {
 };
 
 export default function CalendarPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const currentDate = new Date();
 
@@ -47,16 +49,16 @@ export default function CalendarPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Calendar</h1>
-              <p className="text-gray-400">Manage your schedule and appointments</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("calendar.calendarpage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("calendar.calendarpage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("calendar.calendarpage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -92,6 +94,7 @@ export default function CalendarPage() {
                 </div>
                 <div className="grid grid-cols-7 gap-2">
                   {days.map((date, idx) => {
+                      const { t } = useTranslation();
                     const isCurrentMonth = date.getMonth() === currentDate.getMonth();
                     const isToday = date.toDateString() === new Date().toDateString();
                     return (
@@ -120,7 +123,7 @@ export default function CalendarPage() {
             <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Upcoming Events</CardTitle>
+                  <CardTitle className="text-white">{t("calendar.calendarpage.auto_ext_4")}</CardTitle>
                   <Button size="icon" className="bg-purple-600 hover:bg-purple-700">
                     <Plus className="w-4 h-4" />
                   </Button>

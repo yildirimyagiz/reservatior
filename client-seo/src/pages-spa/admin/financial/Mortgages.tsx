@@ -1,3 +1,6 @@
+"use client";
+import { apiClient } from '@/lib/api/client';
+
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -19,7 +22,7 @@ export default function Mortgages() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();

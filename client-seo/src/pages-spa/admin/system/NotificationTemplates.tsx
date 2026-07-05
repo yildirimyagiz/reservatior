@@ -1,3 +1,6 @@
+"use client";
+import React from 'react';
+
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { PageShell } from "../../client/layout/PageShell";
@@ -14,7 +17,7 @@ import { notificationTemplatesApi } from "@/lib/api/notification-templates";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
@@ -36,13 +39,13 @@ export default function NotificationTemplates() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/notificationtemplates/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/notificationtemplates/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/notificationtemplates/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/notificationtemplates/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -180,7 +183,7 @@ export default function NotificationTemplates() {
           onChange={(e) => setForm({ ...form, variables: e.target.value })}
           placeholder="name, email, propertyName"
         />
-        <p className="text-xs text-gray-500">{t("admin.system.variables_hint")}</p>
+        <p className="text-xs text-slate-400">{t("admin.system.variables_hint")}</p>
       </div>
       <div className="flex items-center gap-2">
         <Switch
@@ -231,7 +234,7 @@ export default function NotificationTemplates() {
             <TableBody>
               {templates.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-gray-500">
+                  <TableCell colSpan={5} className="text-center py-8 text-slate-400">
                     {loading ? t("admin.system.loading") : t("admin.system.no_templates")}
                   </TableCell>
                   </TableRow>
@@ -241,7 +244,7 @@ export default function NotificationTemplates() {
                   <TableCell><Badge variant="outline">{tmpl.channel}</Badge></TableCell>
                   <TableCell className="text-sm max-w-[200px] truncate">{tmpl.subject || "-"}</TableCell>
                   <TableCell>
-                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${tmpl.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-500"}`}>
+                    <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${tmpl.isActive ? "bg-green-100 text-green-800" : "bg-white/5 text-slate-400"}`}>
                       {tmpl.isActive ? t("admin.system.yes") : t("admin.system.no")}
                     </span>
                   </TableCell>
@@ -263,7 +266,7 @@ export default function NotificationTemplates() {
 
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">{t("admin.system.total_templates", { count: total })}</span>
+            <span className="text-sm text-slate-400">{t("admin.system.total_templates", { count: total })}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                 {t("admin.system.previous")}

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -17,7 +19,7 @@ import { mlsApi } from "@/lib/api/mls";
 import { useAuth } from "@/lib/auth/hooks";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { useToast } from "@/hooks/use-toast";
 export type MLSProviderKey = 'RIGHTMOVE' | 'ZOOPLA' | 'ONTHEMARKET' | 'SAVILLS' | 'STRATFORD_GRAHAM' | 'GENERIC_RETS' | 'BRIDGE_API' | 'SPARK_API' | 'ZILLOW' | 'REDFIN' | 'TREB' | 'CREA' | 'IDEALISTA' | 'OTHER';
 export type SyncStatus = 'IDLE' | 'RUNNING' | 'SUCCESS' | 'FAILED';
@@ -122,11 +124,11 @@ export default function MLSIntegration() {
       case 'FAILED':
         return 'bg-red-500';
       case 'RUNNING':
-        return 'bg-blue-500';
+        return 'bg-slate-500';
       case 'IDLE':
-        return 'bg-gray-500';
+        return 'bg-white/10';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
   const formatCurrency = (amount: number) => {
@@ -172,7 +174,7 @@ export default function MLSIntegration() {
               <RefreshCw className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{runningSyncs}</div>
+              <div className="text-2xl font-bold text-slate-600">{runningSyncs}</div>
               <p className="text-xs text-muted-foreground">{t("admin.integrations.in_progress")}</p>
             </CardContent>
           </Card>
@@ -360,8 +362,8 @@ export default function MLSIntegration() {
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <div className="w-16 bg-gray-200 rounded-full h-2">
-                                <div className="bg-blue-600 h-2 rounded-full" style={{
+                              <div className="w-16 bg-white/5 rounded-full h-2">
+                                <div className="bg-slate-600 h-2 rounded-full" style={{
                               width: `100%`
                             }} />
                               </div>
@@ -457,7 +459,7 @@ export default function MLSIntegration() {
                         const score = Math.min(100, (raw.media?.images?.length || 0) * 10 + ((raw.description?.length || 100) > 100 ? 30 : 10) + (raw.location?.lat ? 20 : 0));
                         return <div className="flex items-center gap-2">
                                 <div className="flex-1 h-1.5 bg-muted/50 rounded-full overflow-hidden w-12">
-                                   <div className={cn("h-full", score > 80 ? "bg-emerald-500" : score > 50 ? "bg-blue-500" : "bg-orange-500")} style={{
+                                   <div className={cn("h-full", score > 80 ? "bg-emerald-500" : score > 50 ? "bg-slate-500" : "bg-orange-500")} style={{
                               width: `${score}%`
                             }} />
                                 </div>
@@ -497,7 +499,7 @@ export default function MLSIntegration() {
                             </Button>
 
                             {/* Neural Video Button */}
-                            <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10" title={t("admin.integrations.generate_neural_reels_video")} onClick={async () => {
+                            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-300 hover:bg-slate-500/10" title={t("admin.integrations.generate_neural_reels_video")} onClick={async () => {
                           if (!currentUser) return;
                           toast({
                             title: t("admin.integrations.neural_reels"),
@@ -555,14 +557,14 @@ export default function MLSIntegration() {
                             
                             <Dialog>
                                <DialogTrigger asChild>
-                                  <Button variant="ghost" size="sm" title={t("admin.integrations.invite_homeowner_for_ai")} className="text-purple-400 hover:text-purple-300 hover:bg-purple-500/10">
+                                  <Button variant="ghost" size="sm" title={t("admin.integrations.invite_homeowner_for_ai")} className="text-slate-400 hover:text-slate-300 hover:bg-slate-500/10">
                                      <UsersIcon className="h-4 w-4" />
                                   </Button>
                                </DialogTrigger>
-                               <DialogContent className="bg-[#0f1014] border-border shadow-2xl shadow-purple-500/10">
+                               <DialogContent className="bg-[#0f1014] border-border shadow-2xl shadow-slate-500/10">
                                   <DialogHeader>
                                      <DialogTitle className="flex items-center gap-2 text-foreground">
-                                        <UsersIcon className="w-5 h-5 text-purple-400" />{t("admin.integrations.invite_homeowner")}{listing.mlsId}
+                                        <UsersIcon className="w-5 h-5 text-slate-400" />{t("admin.integrations.invite_homeowner")}{listing.mlsId}
                                      </DialogTitle>
                                      <DialogDescription className="text-muted-foreground">{t("admin.integrations.invite_the_owner_to")}<strong>{t("admin.integrations.staging_results")}</strong>{t("admin.integrations.and_approve_the_virtual")}</DialogDescription>
                                   </DialogHeader>
@@ -571,11 +573,11 @@ export default function MLSIntegration() {
                                         <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.integrations.owners_email_address")}</Label>
                                         <Input placeholder={t("admin.integrations.ownerluxuryresidencecom")} className="bg-muted/50 border-border text-foreground h-12 rounded-xl" />
                                      </div>
-                                     <div className="p-4 bg-purple-500/5 border border-purple-500/10 rounded-2xl">
-                                        <p className="text-[10px] text-purple-300/70 font-medium leading-relaxed">{t("admin.integrations.a_personalized_neural_dashboard")}</p>
+                                     <div className="p-4 bg-slate-500/5 border border-slate-500/10 rounded-2xl">
+                                        <p className="text-[10px] text-slate-300/70 font-medium leading-relaxed">{t("admin.integrations.a_personalized_neural_dashboard")}</p>
                                      </div>
                                   </div>
-                                  <Button className="w-full bg-purple-600 hover:bg-purple-500 text-foreground font-bold h-12 rounded-xl" onClick={() => toast({
+                                  <Button className="w-full bg-slate-600 hover:bg-slate-500 text-foreground font-bold h-12 rounded-xl" onClick={() => toast({
                               title: t("admin.integrations.invitation_sent"),
                               description: t("admin.integrations.host_dashboard_invitation_is")
                             })}>{t("admin.integrations.send_neural_invite")}</Button>
@@ -715,19 +717,19 @@ export default function MLSIntegration() {
                </Card>
             </div>
 
-            <Card className="bg-blue-950/10 border-blue-500/20 shadow-2xl relative overflow-hidden">
-               <div className="absolute inset-0 bg-blue-500/5 pointer-events-none" />
+            <Card className="bg-slate-950/10 border-slate-500/20 shadow-2xl relative overflow-hidden">
+               <div className="absolute inset-0 bg-slate-500/5 pointer-events-none" />
                <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
                   <div className="space-y-2 text-center md:text-left">
                      <h2 className="text-3xl font-bold text-foreground">{t("admin.integrations.the_extinction_gap")}</h2>
-                     <p className="text-sm text-blue-300/70 font-medium max-w-sm">{t("admin.integrations.modernizing_with_neural_reels")}</p>
+                     <p className="text-sm text-slate-300/70 font-medium max-w-sm">{t("admin.integrations.modernizing_with_neural_reels")}</p>
                   </div>
                   <div className="flex flex-col md:flex-row items-center gap-6">
                      <div className="text-center p-6 bg-muted/50 rounded-[32px] border border-border backdrop-blur-md">
                         <p className="text-[10px] font-bold text-muted-foreground">{t("admin.integrations.est_revenue_boost")}</p>
                         <p className="text-2xl font-bold text-emerald-500">+340%</p>
                      </div>
-                     <Button className="h-20 px-8 bg-blue-600 hover:bg-blue-500 font-bold rounded-[24px] shadow-[0_0_40px_rgba(37,99,235,0.3)] group">{t("admin.integrations.upgrade_all_listings")}<ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                     <Button className="h-20 px-8 bg-slate-600 hover:bg-slate-500 font-bold rounded-[24px] shadow-[0_0_40px_rgba(37,99,235,0.3)] group">{t("admin.integrations.upgrade_all_listings")}<ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                      </Button>
                   </div>
                </CardContent>
@@ -751,15 +753,15 @@ export default function MLSIntegration() {
             <p className="text-sm text-muted-foreground max-w-2xl font-medium leading-relaxed">{t("admin.integrations.dont_let_your_listings")}<strong>{t("admin.integrations.reservatior_neural_studio")}</strong>{t("admin.integrations.bypasses_the_legacy_friction")}</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
               <div className="p-4 bg-muted/50 rounded-2xl border border-border space-y-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                   <Clapperboard className="w-4 h-4 text-blue-400" />
+                <div className="w-8 h-8 rounded-lg bg-slate-500/20 flex items-center justify-center">
+                   <Clapperboard className="w-4 h-4 text-slate-400" />
                 </div>
                 <h4 className="text-xs font-bold text-foreground">{t("admin.integrations.neural_reels")}</h4>
                 <p className="text-[10px] text-muted-foreground">{t("admin.integrations.automatic_cinematic_video_generation")}</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-2xl border border-border space-y-2">
-                <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                   <RefreshCw className="w-4 h-4 text-purple-400" />
+                <div className="w-8 h-8 rounded-lg bg-slate-500/20 flex items-center justify-center">
+                   <RefreshCw className="w-4 h-4 text-slate-400" />
                 </div>
                 <h4 className="text-xs font-bold text-foreground">{t("admin.integrations.multilang_seo")}</h4>
                 <p className="text-[10px] text-muted-foreground">{t("admin.integrations.autotranslate_listings_to_capture")}</p>

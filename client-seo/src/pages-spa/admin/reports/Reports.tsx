@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
@@ -37,12 +39,12 @@ const REPORT_TYPE_CONFIG = {
   },
   OCCUPANCY: {
     label: t("admin.reports.occupancy"),
-    color: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
     icon: Building
   },
   PERFORMANCE: {
     label: t("admin.reports.performance"),
-    color: "bg-violet-500/10 text-violet-400 border-violet-500/20",
+    color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
     icon: TrendingUp
   },
   MAINTENANCE: {
@@ -67,12 +69,12 @@ const REPORT_TYPE_CONFIG = {
   },
   MARKETING: {
     label: t("admin.reports.marketing"),
-    color: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+    color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
     icon: TrendingUp
   },
   OPERATIONS: {
     label: t("admin.reports.operations"),
-    color: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+    color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
     icon: Calendar
   }
 };
@@ -103,7 +105,7 @@ const EXECUTION_STATUS_CONFIG = {
   },
   RUNNING: {
     label: t("admin.reports.processing"),
-    color: "bg-blue-500/10 text-blue-400",
+    color: "bg-slate-500/10 text-slate-400",
     icon: Clock
   },
   PENDING: {
@@ -118,13 +120,13 @@ export default function Reports() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/reports/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/reports/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/reports/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/reports/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -197,13 +199,13 @@ export default function Reports() {
         {/* KPI Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-white/5">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                <FileBarChart className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.reports.matrix_capacity")}</p>
               <h3 className="text-xl font-bold text-white leading-none">{stats.total}</h3>
-              <p className="text-[10px] font-bold text-blue-400 mt-4">{t("admin.reports.total_report_nodes")}</p>
+              <p className="text-[10px] font-bold text-slate-400 mt-4">{t("admin.reports.total_report_nodes")}</p>
             </CardContent>
           </Card>
 
@@ -244,10 +246,10 @@ export default function Reports() {
         {/* Tactical Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="lg:col-span-2 bg-white/5 border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
-             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
+             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent opacity-50"></div>
              <CardHeader className="bg-white/5 p-6 rounded-2xl border border-white/10">
                 <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
-                  <Activity className="w-5 h-5 text-blue-500" />{t("admin.reports.temporal_run_distribution")}</CardTitle>
+                  <Activity className="w-5 h-5 text-slate-500" />{t("admin.reports.temporal_run_distribution")}</CardTitle>
                 <CardDescription className="text-[10px] font-bold text-slate-400">{t("admin.reports.monitoring_data_sequence_integrity")}</CardDescription>
              </CardHeader>
              <CardContent className="p-10">
@@ -280,10 +282,10 @@ export default function Reports() {
           </Card>
 
           <Card className="bg-white/5 border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
-             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-600 via-transparent to-transparent opacity-50"></div>
+             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent opacity-50"></div>
              <CardHeader className="bg-white/5 p-6 rounded-2xl border border-white/10">
                 <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
-                  <PieChartIcon className="w-5 h-5 text-violet-500" />{t("admin.reports.sector_allocation")}</CardTitle>
+                  <PieChartIcon className="w-5 h-5 text-slate-500" />{t("admin.reports.sector_allocation")}</CardTitle>
                 <CardDescription className="text-[10px] font-bold text-slate-400">{t("admin.reports.global_report_type_distribution")}</CardDescription>
              </CardHeader>
              <CardContent className="p-10 flex items-center justify-center">
@@ -315,8 +317,8 @@ export default function Reports() {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 px-4">
            <div className="flex flex-wrap items-center gap-3 flex-1">
               <div className="relative group min-w-[320px]">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
-                <Input placeholder={t("admin.reports.filter_reporting_nodes")} value={search} onChange={e => setSearch(e.target.value)} className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-blue-500/20 focus:border-blue-500/40 transition-all font-medium border-l border-t" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-slate-500 transition-colors" />
+                <Input placeholder={t("admin.reports.filter_reporting_nodes")} value={search} onChange={e => setSearch(e.target.value)} className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-slate-500/20 focus:border-slate-500/40 transition-all font-medium border-l border-t" />
               </div>
               <Select value={filterType} onValueChange={setFilterType}>
                 <SelectTrigger className="w-44 bg-white/5 border-white/10 rounded-2xl h-14 text-white font-bold text-[10px] border-l border-t">
@@ -328,7 +330,7 @@ export default function Reports() {
                 </SelectContent>
               </Select>
            </div>
-           <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-xl shadow-blue-600/30 gap-3">
+           <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-slate-600 hover:bg-slate-500 text-white font-bold text-xs shadow-xl shadow-slate-600/30 gap-3">
               <Plus className="w-5 h-5" />{t("admin.reports.initialize_report_node")}</Button>
         </div>
 
@@ -349,7 +351,7 @@ export default function Reports() {
                  <TableBody>
                     {loading ? <TableRow>
                         <TableCell colSpan={5} className="py-24 text-center">
-                          <Activity className="w-10 h-10 text-blue-500 animate-spin mx-auto mb-4 opacity-50" />
+                          <Activity className="w-10 h-10 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
                           <p className="text-[10px] font-bold text-slate-400 animate-pulse">{t("admin.reports.synchronizing_global_matrix")}</p>
                         </TableCell>
                       </TableRow> : filteredReports.map(report => <TableRow key={report.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
@@ -403,10 +405,10 @@ export default function Reports() {
       {/* Modernized Create Report Dialog */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="max-w-2xl bg-[#14151a] border-white/10 text-white rounded-4xl p-0 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent"></div>
+           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent"></div>
            <DialogHeader className="p-8 border-b border-white/10 bg-white/5">
               <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-white">
-                <Layers className="w-6 h-6 text-blue-500" />{t("admin.reports.initialize_neural_node")}</DialogTitle>
+                <Layers className="w-6 h-6 text-slate-500" />{t("admin.reports.initialize_neural_node")}</DialogTitle>
               <DialogDescription className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.reports.configure_automated_reporting_parameters")}</DialogDescription>
            </DialogHeader>
            
@@ -414,7 +416,7 @@ export default function Reports() {
               <div className="grid grid-cols-2 gap-8">
                 <div className="col-span-2 space-y-3">
                    <Label className="text-[10px] font-bold text-slate-400 ml-3">{t("admin.reports.node_designation")}</Label>
-                   <Input placeholder={t("admin.reports.designationid")} className="bg-white/5 border-white/10 rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-blue-500/20 shadow-inner" />
+                   <Input placeholder={t("admin.reports.designationid")} className="bg-white/5 border-white/10 rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-slate-500/20 shadow-inner" />
                 </div>
                 <div className="space-y-3">
                    <Label className="text-[10px] font-bold text-slate-400 ml-3">{t("admin.reports.report_category")}</Label>
@@ -445,7 +447,7 @@ export default function Reports() {
 
            <DialogFooter className="p-8 bg-white/5 border-t border-white/10 flex gap-4">
               <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-slate-400 hover:text-white transition-all" onClick={() => setCreateOpen(false)}>{t("admin.reports.abortmod")}</Button>
-              <Button className="flex-2 h-16 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-[10px] shadow-xl shadow-blue-600/30">{t("admin.reports.initializesequence")}</Button>
+              <Button className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-slate-500 text-white font-bold text-[10px] shadow-xl shadow-slate-600/30">{t("admin.reports.initializesequence")}</Button>
            </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,10 +32,10 @@ export default function GlobalTaxSettings() {
   const rates: any[] = ratesData || [];
 
   return (
-    <div className="p-6 space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <Globe className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -59,7 +61,7 @@ export default function GlobalTaxSettings() {
                 <p className="text-xs font-medium text-slate-400">{t("admin.financial.tax_coverage", "Tax Coverage")}</p>
                 <h3 className="text-2xl font-bold text-white mt-1">{rates.length} {t("admin.financial.regions", "Regions")}</h3>
               </div>
-              <div className="p-3 bg-indigo-500/20 rounded-lg"><Globe className="w-5 h-5 text-indigo-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><Globe className="w-5 h-5 text-slate-400" /></div>
             </div>
           </CardContent>
         </Card>
@@ -172,7 +174,7 @@ export default function GlobalTaxSettings() {
               <div className="font-bold text-sm text-white">{t("admin.financial.uk_vat_mtd_deadline", "UK VAT MTD Deadline")}</div>
               <div className="text-xs text-slate-400 mt-1">{t("admin.financial.submission_due_in_12", "Submission due in 12 days")}</div>
             </div>
-            <div className="p-3 border-l-4 border-blue-500 bg-blue-500/5 rounded-r-lg">
+            <div className="p-3 border-l-4 border-slate-500 bg-slate-500/5 rounded-r-lg">
               <div className="font-bold text-sm text-white">{t("admin.financial.new_regulation_uae_corporate", "UAE Corporate Tax")}</div>
               <div className="text-xs text-slate-400 mt-1">{t("admin.financial.reviewing_impact_on_crossborder", "Reviewing cross-border impact")}</div>
             </div>

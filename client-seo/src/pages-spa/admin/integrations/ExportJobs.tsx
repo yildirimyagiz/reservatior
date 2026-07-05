@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
@@ -15,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface ExportJob {
   id: string;
   orgId: string;
@@ -91,7 +93,7 @@ const EXPORT_TYPE_CONFIG = {
   USERS: {
     label: t("admin.integrations.users"),
     icon: Users,
-    color: "bg-blue-100 text-blue-700"
+    color: "bg-slate-100 text-slate-700"
   },
   PROPERTIES: {
     label: t("admin.integrations.properties"),
@@ -101,7 +103,7 @@ const EXPORT_TYPE_CONFIG = {
   LISTINGS: {
     label: t("admin.integrations.listings"),
     icon: Home,
-    color: "bg-purple-100 text-purple-700"
+    color: "bg-slate-100 text-slate-700"
   },
   CONTRACTS: {
     label: t("admin.integrations.contracts"),
@@ -116,12 +118,12 @@ const EXPORT_TYPE_CONFIG = {
   REPORTS: {
     label: t("admin.integrations.reports"),
     icon: FileText,
-    color: "bg-indigo-100 text-indigo-700"
+    color: "bg-slate-100 text-slate-700"
   },
   AUDIT_LOGS: {
     label: t("admin.integrations.audit_logs"),
     icon: Settings,
-    color: "bg-gray-100 text-gray-700"
+    color: "bg-white/5 text-slate-300"
   },
   FINANCIAL_DATA: {
     label: t("admin.integrations.financial_data"),
@@ -142,7 +144,7 @@ const STATUS_CONFIG = {
   },
   RUNNING: {
     label: t("admin.integrations.running"),
-    color: "bg-blue-100 text-blue-700",
+    color: "bg-slate-100 text-slate-700",
     icon: Play
   },
   COMPLETED: {
@@ -157,7 +159,7 @@ const STATUS_CONFIG = {
   },
   CANCELLED: {
     label: t("admin.integrations.cancelled"),
-    color: "bg-gray-100 text-gray-700",
+    color: "bg-white/5 text-slate-300",
     icon: XCircle
   },
   EXPIRED: {
@@ -343,7 +345,7 @@ export default function ExportJobs() {
     return config || {
       label: type,
       icon: Settings,
-      color: "bg-gray-100 text-gray-700"
+      color: "bg-white/5 text-slate-300"
     };
   };
   const getStatusConfig = (status: ExportStatus) => {
@@ -351,7 +353,7 @@ export default function ExportJobs() {
     return config || {
       label: status,
       icon: Clock,
-      color: "bg-gray-100 text-gray-700"
+      color: "bg-white/5 text-slate-300"
     };
   };
   return <PageShell title={t("admin.integrations.export_jobs")} description={t("admin.integrations.manage_data_export_jobs")}>
@@ -375,7 +377,7 @@ export default function ExportJobs() {
               <Play className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{runningJobs}</div>
+              <div className="text-2xl font-bold text-slate-600">{runningJobs}</div>
               <p className="text-xs text-muted-foreground">{t("admin.integrations.currently_processing")}</p>
             </CardContent>
           </Card>
@@ -407,7 +409,7 @@ export default function ExportJobs() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
               <Input placeholder={t("admin.integrations.search_jobs")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
@@ -473,7 +475,7 @@ export default function ExportJobs() {
                               <TypeIcon className="h-4 w-4" />
                               <div>
                                 <div className="font-medium">{typeConfig.label}</div>
-                                <div className="text-sm text-gray-500">{job.parameters.format}</div>
+                                <div className="text-sm text-slate-400">{job.parameters.format}</div>
                               </div>
                             </div>
                           </TableCell>
@@ -488,18 +490,18 @@ export default function ExportJobs() {
                           <TableCell>
                             {job.progress ? <div className="w-32">
                                 <Progress value={job.progress.percentage} className="w-full" />
-                                <div className="text-xs text-gray-500 mt-1">
+                                <div className="text-xs text-slate-400 mt-1">
                                   {job.progress.processed} / {job.progress.total}
                                 </div>
-                                {job.progress.currentStep && <div className="text-xs text-gray-500 truncate">
+                                {job.progress.currentStep && <div className="text-xs text-slate-400 truncate">
                                     {job.progress.currentStep}
                                   </div>}
-                              </div> : <div className="text-sm text-gray-500">-</div>}
+                              </div> : <div className="text-sm text-slate-400">-</div>}
                           </TableCell>
                           <TableCell>
                             <div>
                               <div className="font-medium">{job.user?.name}</div>
-                              <div className="text-sm text-gray-500">{job.user?.email}</div>
+                              <div className="text-sm text-slate-400">{job.user?.email}</div>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -513,12 +515,12 @@ export default function ExportJobs() {
                           <TableCell>
                             {job.result ? <div className="text-sm">
                                 <div>{formatFileSize(job.result.fileSize || 0)}</div>
-                                <div className="text-gray-500">{job.result.recordCount || 0}{t("admin.integrations.records")}</div>
+                                <div className="text-slate-400">{job.result.recordCount || 0}{t("admin.integrations.records")}</div>
                                 {job.result.expiresAt && <div className="text-xs text-orange-500">{t("admin.integrations.expires")}{formatDate(job.result.expiresAt)}
                                   </div>}
                               </div> : job.error ? <div className="text-sm text-red-500">
                                 {job.error.message}
-                              </div> : <div className="text-sm text-gray-500">-</div>}
+                              </div> : <div className="text-sm text-slate-400">-</div>}
                           </TableCell>
                           <TableCell>
                             <DropdownMenu>
@@ -596,11 +598,11 @@ export default function ExportJobs() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
-                  <input type="checkbox" id="includeHeaders" className="rounded" />
+                  <input type="checkbox" id="includeHeaders" className="rounded-lg" />
                   <Label htmlFor="includeHeaders">{t("admin.integrations.include_headers")}</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <input type="checkbox" id="compression" className="rounded" />
+                  <input type="checkbox" id="compression" className="rounded-lg" />
                   <Label htmlFor="compression">{t("admin.integrations.compress_output")}</Label>
                 </div>
               </div>
@@ -666,7 +668,7 @@ export default function ExportJobs() {
                     <Label>{t("admin.integrations.created_by")}</Label>
                     <div>
                       <div className="font-medium">{selectedJob.user?.name}</div>
-                      <div className="text-sm text-gray-500">{selectedJob.user?.email}</div>
+                      <div className="text-sm text-slate-400">{selectedJob.user?.email}</div>
                     </div>
                   </div>
                 </div>
@@ -695,7 +697,7 @@ export default function ExportJobs() {
                       <div className="text-sm">
                         {selectedJob.progress.processed} / {selectedJob.progress.total} ({selectedJob.progress.percentage}%)
                       </div>
-                      {selectedJob.progress.currentStep && <div className="text-sm text-gray-500">{t("admin.integrations.current")}{selectedJob.progress.currentStep}</div>}
+                      {selectedJob.progress.currentStep && <div className="text-sm text-slate-400">{t("admin.integrations.current")}{selectedJob.progress.currentStep}</div>}
                     </div>
                   </div>}
                 {selectedJob.result && <div>

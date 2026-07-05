@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -44,7 +46,7 @@ interface HomeInformationPack {
     zipCode: string;
   };
 }
-export default function PropertyDisclosures() {
+export default function PropertyDisclosures({ propertyId }: { propertyId?: string }) {
   const {
     t
   } = useTranslation();
@@ -63,7 +65,7 @@ export default function PropertyDisclosures() {
   });
 
   const [newDisc, setNewDisc] = useState({
-    propertyId: "",
+    propertyId: propertyId || "",
     title: "",
     description: ""
   });
@@ -74,7 +76,8 @@ export default function PropertyDisclosures() {
   const filteredDisclosures = disclosures.filter((disclosure: any) => {
     const matchesSearch = disclosure.title?.toLowerCase().includes(searchTerm.toLowerCase()) || disclosure.property?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || disclosure.property?.addressLine1?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatusFilter = filterStatus === "all" || filterStatus === "active" && disclosure.isActive || filterStatus === "inactive" && !disclosure.isActive;
-    return matchesSearch && matchesStatusFilter;
+    const matchesProperty = !propertyId || disclosure.propertyId === propertyId;
+    return matchesSearch && matchesStatusFilter && matchesProperty;
   });
   const totalDisclosures = filteredDisclosures.length;
   const activeDisclosures = filteredDisclosures.filter((d: any) => d.isActive).length;

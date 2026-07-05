@@ -1,3 +1,5 @@
+"use client";
+
 import { Shield, ShieldCheck, Zap, Award, Crown, TrendingUp, Lock, CheckCircle, Star, ArrowRight, User, CreditCard, Phone, Mail, FileText, Building2, Calendar, Users, Clock, Gift, Sparkles, ChevronRight, BadgeCheck, Target, Gem, Heart, Globe, MapPin, Key, Home, Briefcase, Plane, Baby, GraduationCap, CalendarDays } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Header } from "@/components/home/Header";
@@ -243,7 +245,7 @@ export default function TenantVerification() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-neutral-500 dark:text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed">
-              Start browsing in 2 minutes. Add verification when you're ready to book. 
+              Start browsing in 2 minutes. Add verification when you&apos;re ready to book. 
               Each step unlocks better properties, lower rates, and exclusive benefits.
             </p>
           </motion.div>
@@ -279,7 +281,7 @@ export default function TenantVerification() {
               Security as a Benefit
             </h2>
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
-              We've designed verification to enhance your experience, not restrict it.
+              We&apos;ve designed verification to enhance your experience, not restrict it.
             </p>
           </motion.div>
 
@@ -508,7 +510,7 @@ export default function TenantVerification() {
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-4">
             <Button
-              onClick={() => window.location.href = "/properties"}
+              onClick={() => window.location.href = "/property"}
               className="h-14 px-10 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-500/25 font-bold tracking-wider text-xs"
             >
               Start Browsing <ArrowRight className="w-4 h-4 ml-2" />

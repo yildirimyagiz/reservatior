@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -13,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Building, Plus, MoreHorizontal, Edit, Trash2, Activity, Users, Settings, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface Department {
   id: string;
   name: string;
@@ -285,7 +287,7 @@ export default function Departments() {
               <ArrowRight className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{rootDepartments}</div>
+              <div className="text-2xl font-bold text-slate-600">{rootDepartments}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.toplevel_units")}</p>
             </CardContent>
           </Card>
@@ -296,7 +298,7 @@ export default function Departments() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{totalUsers}</div>
+              <div className="text-2xl font-bold text-slate-600">{totalUsers}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.across_departments")}</p>
             </CardContent>
           </Card>
@@ -636,7 +638,7 @@ export default function Departments() {
                     {totalDepartments > 0 ? Math.round(totalUsers / totalDepartments) : 0}{t("admin.organization.avg_per_department")}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-2xl font-bold text-slate-600">
                     {totalTeams}
                   </div>
                   <p className="text-sm text-muted-foreground">{t("admin.organization.total_teams")}</p>

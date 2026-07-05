@@ -1,7 +1,9 @@
+"use client";
+
 import { Helmet } from "react-helmet-async";
 import { FAQPageSchema } from "@/components/seo/SchemaScript";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/lib/react-router-shim";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +15,8 @@ import {
   ArrowRight, Play, Sparkles, Building2, Video, Globe2,
   Shield, BarChart3, Zap, CheckCircle2, PlayCircle,
   Bot, TrendingUp, Home as HomeIcon, ChevronRight,
-  ChevronLeft, MapPin, Star, Users, Search, ChevronDown
+  ChevronLeft, MapPin, Star, Users, Search, ChevronDown,
+  Send, Mic, Bed, Bath, X, Paperclip
 } from "lucide-react";
 import Image from "next/image";
 
@@ -56,17 +59,165 @@ export default function Home() {
   const navigate = useNavigate();
   const { selectedRegion } = useRegionsStore();
 
+  // AI Search State
+  const [showAIChat, setShowAIChat] = useState(false);
+  const [aiMessages, setAiMessages] = useState<{ id: string; role: "user" | "ai"; text: string; properties?: { image: string; title: string; price: string; location: string; beds: string; baths: string }[] }[]>([]);
+  const [aiInput, setAiInput] = useState("");
+  const [aiIsLoading, setAiIsLoading] = useState(false);
+  const aiMessagesEndRef = useRef<HTMLDivElement>(null);
 
-  
+  // Support Chat State
+  const [showSupportChat, setShowSupportChat] = useState(false);
+  const [supportMessages, setSupportMessages] = useState<{ id: string; role: "user" | "support" | "ai"; text: string; attachments?: string[] }[]>([]);
+  const [supportInput, setSupportInput] = useState("");
+  const [supportIsLoading, setSupportIsLoading] = useState(false);
+  const [attachments, setAttachments] = useState<string[]>([]);
+  const supportMessagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Traditional Search State
   const [searchMode, setSearchMode] = useState<"STAYS" | "RENT" | "BUY" | "EXPERIENCES">("STAYS");
   const [searchLocation, setSearchLocation] = useState("");
   const [searchDate, setSearchDate] = useState("");
   const [searchGuests, setSearchGuests] = useState(1);
   const [searchPropertyType, setSearchPropertyType] = useState<string>("any");
   const [searchCondition, setSearchCondition] = useState<string>("any");
-  
+
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { provider, apiKey } = useMapProvider();
+
+  // AI Search Functions
+  const scrollToBottom = () => {
+    aiMessagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [aiMessages, aiIsLoading]);
+
+  const handleAISend = async () => {
+    if (!aiInput.trim() || aiIsLoading) return;
+
+    const userMessage = { id: Date.now().toString(), role: "user" as const, text: aiInput };
+    setAiMessages((prev) => [...prev, userMessage]);
+    setAiInput("");
+    setAiIsLoading(true);
+
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const response = await fetch(`${API_URL}/ai-search`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: userMessage.text })
+      });
+
+      const data = await response.json();
+
+      if (data.error) throw new Error(data.error);
+
+      setAiMessages((prev) => [...prev, {
+        id: (Date.now() + 1).toString(),
+        role: "ai",
+        text: data.text,
+        properties: data.properties?.length > 0 ? data.properties : undefined
+      }]);
+    } catch {
+      setAiMessages((prev) => [...prev, { id: Date.now().toString(), role: "ai", text: t("client.src.connection_error_please_try_again") }]);
+    } finally {
+      setAiIsLoading(false);
+    }
+  };
+
+  // Support Chat Functions
+  const scrollToSupportBottom = () => {
+    supportMessagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToSupportBottom();
+  }, [supportMessages]);
+
+  const handleSupportSend = async () => {
+    if (!supportInput.trim() && attachments.length === 0) return;
+
+    const userMessage = { 
+      id: Date.now().toString(), 
+      role: "user" as const, 
+      text: supportInput,
+      attachments: attachments.length > 0 ? attachments : undefined
+    };
+    setSupportMessages((prev) => [...prev, userMessage]);
+    setSupportInput("");
+    setAttachments([]);
+    setSupportIsLoading(true);
+
+    // AI Support Suggestion
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const response = await fetch(`${API_URL}/api/v1/ticket/ai-suggest`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage.text, attachments: userMessage.attachments })
+      });
+
+      const data = await response.json();
+
+      setSupportMessages((prev) => [...prev, {
+        id: (Date.now() + 1).toString(),
+        role: "ai",
+        text: data.suggestion || "Sorununuzu anladım. Size yardımcı olmak için bir destek talebi oluşturuluyor...",
+      }]);
+
+      // Create ticket if needed
+      if (data.createTicket) {
+        const ticketResponse = await fetch(`${API_URL}/api/v1/ticket`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            subject: data.subject || "Destek Talebi",
+            description: userMessage.text,
+            priority: data.priority || "MEDIUM"
+          })
+        });
+        const ticketData = await ticketResponse.json();
+
+        setSupportMessages((prev) => [...prev, {
+          id: (Date.now() + 2).toString(),
+          role: "support",
+          text: `Talebiniz oluşturuldu. Ticket ID: ${ticketData.id}. En kısa sürede size dönüş yapacağız.`
+        }]);
+      }
+    } catch {
+      setSupportMessages((prev) => [...prev, {
+        id: (Date.now() + 1).toString(),
+        role: "support",
+        text: "Şu anda bağlantı sorunu yaşıyoruz. Lütfen daha sonra tekrar deneyin veya destek@reservatior.com adresine e-posta gönderin."
+      }]);
+    } finally {
+      setSupportIsLoading(false);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const response = await fetch(`${API_URL}/api/v1/ticket/upload`, {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      setAttachments(prev => [...prev, data.url]);
+    } catch {
+      alert("Dosya yüklenirken hata oluştu");
+    }
+  };
 
   useEffect(() => {
     if (provider === "google") {
@@ -255,7 +406,7 @@ export default function Home() {
                   type="button"
                   onClick={() => setSearchMode("STAYS")}
                   className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "STAYS" ? "bg-blue-600 text-white shadow-lg" : "text-slate-600 hover:text-slate-900 hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
-                >{t('home.search.mode_stays', 'Stays')}</button>
+                >{t('home.search.mode_stays', 'Booking')}</button>
                 <button 
                   type="button"
                   onClick={() => setSearchMode("RENT")}
@@ -265,7 +416,7 @@ export default function Home() {
                   type="button"
                   onClick={() => setSearchMode("BUY")}
                   className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "BUY" ? "bg-blue-600 text-white shadow-lg" : "text-slate-600 hover:text-slate-900 hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
-                >{t('home.search.mode_buy', 'Buy')}</button>
+                >{t('home.search.mode_buy', 'For Rent / For Sale')}</button>
                 <button 
                   type="button"
                   onClick={() => setSearchMode("EXPERIENCES")}
@@ -294,12 +445,13 @@ export default function Home() {
                 {searchMode !== "BUY" && (
                   <>
                     <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
-                      <label htmlFor="search-date" className="text-xs font-bold tracking-wider text-blue-600 dark:text-blue-400 mb-0.5 cursor-pointer">{t('home.search.when', 'When')}</label>
+                      <label htmlFor="search-date" className="text-xs font-bold tracking-wider text-blue-600 dark:text-blue-400 mb-0.5 cursor-pointer">{t('home.search.dates', 'Dates')}</label>
                       <input 
                         id="search-date"
                         type="date"
                         value={searchDate}
                         onChange={(e) => setSearchDate(e.target.value)}
+                        placeholder={t('home.search.dates_hint', 'dd.mm.yyyy') as string}
                         className="bg-transparent border-none focus:outline-none focus:ring-0 text-sm text-foreground w-full p-0 m-0 placeholder:text-muted-foreground font-medium"
                       />
                     </div>
@@ -319,7 +471,7 @@ export default function Home() {
                           onChange={(e) => setSearchGuests(Number(e.target.value))}
                           className="bg-transparent border-none focus:outline-none focus:ring-0 text-sm text-foreground w-full p-0 m-0 font-medium cursor-pointer appearance-none pr-6"
                         >
-                          <option value={1} className="bg-background text-foreground">{t('home.search.guest_1', '1 Guest')}</option>
+                          <option value={1} className="bg-background text-foreground">{t('home.search.guest_1', 'Guest 1')}</option>
                           <option value={2} className="bg-background text-foreground">{t('home.search.guest_2', '2 Guests')}</option>
                           <option value={3} className="bg-background text-foreground">{t('home.search.guest_3', '3 Guests')}</option>
                           <option value={4} className="bg-background text-foreground">{t('home.search.guest_4', '4+ Guests')}</option>
@@ -394,9 +546,9 @@ export default function Home() {
                     <Search className="w-6 h-6" />
                     <span className="md:hidden ml-2 font-bold">{t('home.search.button', 'Search')}</span>
                   </Button>
-                  <Button type="button" onClick={() => navigate('/ai-search')} className="flex-1 md:flex-none md:w-16 h-14 md:h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white shadow-xl shadow-indigo-500/30 p-0 flex items-center justify-center transition-all hover:scale-105 group" title={t('home.search.ai_search_tooltip', 'Search with AI') as string}>
-                    <Sparkles className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                    <span className="md:hidden ml-2 font-bold">{t('home.search.ai_button', 'AI Search')}</span>
+                  <Button type="button" onClick={() => setShowAIChat(true)} className="flex-1 md:flex-none md:w-auto px-6 h-14 md:h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white shadow-xl shadow-indigo-500/30 flex items-center justify-center gap-2 transition-all hover:scale-105 group" title={t('home.search.ai_search_tooltip', 'Search with AI') as string}>
+                    <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    <span className="text-xs font-black uppercase tracking-widest">{t('home.search.search_with_ai', 'Search With Ai')}</span>
                   </Button>
                 </div>
               </form>
@@ -596,16 +748,289 @@ export default function Home() {
           </div>
         </section>
         
-        {/* ══════ FLOATING AI BUTTON ══════ */}
-        <Link to="/ai-search" className="fixed bottom-6 right-6 z-50 group flex items-center gap-3 bg-white dark:bg-neutral-900/90 backdrop-blur-xl p-2 pr-6 rounded-full shadow-2xl border border-indigo-500/20 hover:scale-105 transition-all duration-300">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/40">
-            <Sparkles className="w-5 h-5 text-white animate-pulse" />
+        {/* ══════ FLOATING SUPPORT BUTTON ══════ */}
+        <button onClick={() => setShowSupportChat(true)} className="fixed bottom-6 right-6 z-50 group flex items-center gap-3 bg-white dark:bg-neutral-900/90 backdrop-blur-xl p-2 pr-6 rounded-full shadow-2xl border border-blue-500/20 hover:scale-105 transition-all duration-300">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/40">
+            <Bot className="w-5 h-5 text-white animate-pulse" />
           </div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 tracking-widest uppercase">YENİ</span>
-            <span className="text-sm font-bold text-foreground">Reservatior AI'ı Dene</span>
+            <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 tracking-widest uppercase">SUPPORT</span>
+            <span className="text-sm font-bold text-foreground">Live Help</span>
           </div>
-        </Link>
+        </button>
+
+        {/* ══════ AI CHAT MODAL ══════ */}
+        {showAIChat && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-neutral-900/40 dark:bg-black/60 backdrop-blur-sm">
+            <div className="w-full max-w-4xl h-[85vh] bg-[#fafafa] dark:bg-[#0a0a0c] rounded-3xl shadow-2xl overflow-hidden relative flex flex-col border border-white/60 dark:border-slate-800">
+              {/* Header */}
+              <div className="flex-none p-6 flex justify-between items-center border-b border-white/40 dark:border-slate-800/40 bg-white/30 dark:bg-[#14151a]/30 backdrop-blur-xl">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <Sparkles className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="font-bold text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-950 to-neutral-800 dark:from-white dark:to-slate-300">
+                    Reservatior AI
+                  </span>
+                </div>
+                <button onClick={() => setShowAIChat(false)} className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-slate-800 transition-colors">
+                  <X className="w-6 h-6 text-neutral-600 dark:text-slate-400" />
+                </button>
+              </div>
+
+              {/* Chat Area */}
+              <div className="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth">
+                <div className="max-w-4xl mx-auto space-y-8 pb-10">
+                  {aiMessages.length === 0 && (
+                    <div className="flex flex-col items-center justify-center h-[40vh] text-center space-y-8">
+                      <div className="relative group">
+                        <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur-xl opacity-30 group-hover:opacity-50 transition duration-1000 animate-pulse" />
+                        <div className="relative w-20 h-20 bg-white/80 dark:bg-[#14151a]/80 backdrop-blur-xl border border-white/60 dark:border-slate-700/60 rounded-3xl flex items-center justify-center shadow-2xl">
+                          <Sparkles className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-white drop-shadow-sm">
+                          {t("client.src.what_kind_of_place_are_you_looking_for").split(" ")[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 dark:from-indigo-400 dark:to-purple-400">{t("client.src.what_kind_of_place_are_you_looking_for").split(" ").slice(1).join(" ")}</span>
+                        </h1>
+                        <p className="text-neutral-500 dark:text-slate-400 text-xl max-w-2xl mx-auto font-medium">
+                          {t("client.src.dont_bother_with_filters_describe_your_dream_home")}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap justify-center gap-3 mt-8 max-w-3xl">
+                        {[t("client.src.suggestion_1"), t("client.src.suggestion_2"), t("client.src.suggestion_3"), t("client.src.suggestion_4")].map((suggestion) => (
+                          <button
+                            key={suggestion}
+                            onClick={() => setAiInput(suggestion)}
+                            className="px-5 py-3 bg-white/60 dark:bg-slate-800/40 backdrop-blur-md border border-white dark:border-slate-700 hover:border-indigo-200 dark:hover:border-indigo-500/50 rounded-2xl text-sm font-semibold text-neutral-700 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-400 hover:bg-white/90 dark:hover:bg-slate-800/80 hover:shadow-lg hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5 transition-all active:scale-95"
+                          >
+                            {suggestion}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {aiMessages.map((msg) => (
+                    <div key={msg.id} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
+                      <div className={`
+                        max-w-[85%] md:max-w-[70%] rounded-4xl p-5 px-6 shadow-sm
+                        ${msg.role === "user"
+                          ? "bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-br-md shadow-indigo-500/20"
+                          : "bg-white/80 dark:bg-slate-800/60 backdrop-blur-xl border border-white/80 dark:border-slate-700/80 text-neutral-800 dark:text-slate-200 rounded-bl-md shadow-neutral-200/50 dark:shadow-none"}
+                      `}>
+                        <p className="leading-relaxed whitespace-pre-wrap font-medium text-[15px]">{msg.text}</p>
+                      </div>
+
+                      {/* Render Properties if AI suggested any */}
+                      {msg.properties && (
+                        <div className="mt-6 flex flex-col md:flex-row gap-5 w-full max-w-4xl overflow-x-auto pb-6 pt-2 pl-2 snap-x">
+                          {msg.properties.map((prop, idx) => (
+                            <div key={idx} className="flex-none w-80 bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 rounded-4xl overflow-hidden group cursor-pointer shadow-xl shadow-neutral-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/10 transition-all hover:-translate-y-1 snap-center">
+                              <div className="h-48 overflow-hidden relative m-2 rounded-3xl">
+                                <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 768px) 100vw, 400px" />
+                                <div className="absolute top-3 right-3 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full text-white text-sm font-bold border border-white/20">
+                                  {prop.price}
+                                </div>
+                              </div>
+                              <div className="p-5 pt-3">
+                                <h3 className="font-bold text-lg text-neutral-900 dark:text-white truncate mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{prop.title}</h3>
+                                <div className="flex items-center gap-1.5 text-neutral-500 dark:text-slate-400 mb-4 text-sm font-medium">
+                                  <MapPin className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                                  <span className="truncate">{prop.location}</span>
+                                </div>
+
+                                <div className="h-px w-full bg-gradient-to-r from-transparent via-neutral-200 dark:via-slate-700 to-transparent mb-4" />
+
+                                <div className="flex items-center justify-between text-neutral-600 dark:text-slate-300 text-sm font-semibold">
+                                  <div className="flex gap-4">
+                                    <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg"><Bed className="w-4 h-4 text-neutral-400 dark:text-slate-500"/> {prop.beds}</span>
+                                    <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg"><Bath className="w-4 h-4 text-neutral-400 dark:text-slate-500"/> {prop.baths}</span>
+                                  </div>
+                                  <button className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                                    <ArrowRight className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {aiIsLoading && (
+                    <div className="flex items-start">
+                      <div className="bg-white/80 dark:bg-slate-800/60 backdrop-blur-xl border border-white/80 dark:border-slate-700/80 rounded-4xl rounded-bl-md p-5 px-6 flex items-center gap-2 shadow-sm dark:shadow-none">
+                        <div className="flex gap-1.5">
+                          <div className="w-2.5 h-2.5 bg-indigo-400 rounded-full animate-bounce" />
+                          <div className="w-2.5 h-2.5 bg-indigo-500 rounded-full animate-bounce delay-150" />
+                          <div className="w-2.5 h-2.5 bg-indigo-600 rounded-full animate-bounce delay-300" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div ref={aiMessagesEndRef} className="h-4" />
+                </div>
+              </div>
+
+              {/* Floating Input Area */}
+              <div className="flex-none p-4 md:p-8 bg-gradient-to-t from-[#fafafa] via-[#fafafa]/80 dark:from-[#0a0a0c] dark:via-[#0a0a0c]/80 to-transparent">
+                <div className="max-w-4xl mx-auto relative group">
+                  <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-[2.5rem] blur-xl opacity-0 group-focus-within:opacity-100 transition duration-500"></div>
+
+                  <div className="relative flex items-center bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-2xl border border-white dark:border-slate-800 shadow-2xl shadow-indigo-900/5 dark:shadow-none rounded-[2.5rem] p-2 focus-within:bg-white/90 dark:focus-within:bg-[#14151a]/90 transition-all">
+
+                    <button className="p-4 text-neutral-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                      <Mic className="w-6 h-6" />
+                    </button>
+
+                    <textarea
+                      value={aiInput}
+                      onChange={(e) => setAiInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleAISend();
+                        }
+                      }}
+                      placeholder={t("client.src.tell_ai_what_you_are_looking_for")}
+                      className="flex-1 max-h-32 min-h-[60px] bg-transparent border-none focus:ring-0 resize-none py-4 px-2 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-slate-500 font-medium text-[17px]"
+                      rows={1}
+                    />
+
+                    <button
+                      onClick={handleAISend}
+                      disabled={!aiInput.trim() || aiIsLoading}
+                      className="m-1.5 p-4 bg-gradient-to-br from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-neutral-300 disabled:to-neutral-300 disabled:text-neutral-500 dark:disabled:from-slate-800 dark:disabled:to-slate-800 dark:disabled:text-slate-600 text-white rounded-[1.8rem] transition-all shrink-0 shadow-md shadow-indigo-500/25 dark:shadow-none active:scale-95"
+                    >
+                      <Send className="w-5 h-5 ml-0.5" />
+                    </button>
+                  </div>
+                </div>
+                <p className="text-center text-[11px] font-medium text-neutral-400 dark:text-slate-500 mt-4 tracking-wide uppercase">
+                  {t("client.src.reservatior_ai_can_make_mistakes_verify_information")}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ══════ SUPPORT CHAT MODAL ══════ */}
+        {showSupportChat && (
+          <div className="fixed bottom-24 right-6 z-[100] w-[380px] h-[500px] bg-white dark:bg-[#0a0a0c] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/60 dark:border-slate-800">
+            {/* Header */}
+            <div className="flex-none p-4 flex justify-between items-center border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#14151a]">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                  <Bot className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="font-bold text-slate-900 dark:text-white">AI Support</span>
+                  <p className="text-xs text-green-500 font-medium">● Online</p>
+                </div>
+              </div>
+              <button onClick={() => setShowSupportChat(false)} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+                <X className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+              </button>
+            </div>
+
+            {/* Chat Area */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {supportMessages.length === 0 && (
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                    <Bot className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900 dark:text-white">How can I help you?</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Describe your issue, share files</p>
+                  </div>
+                </div>
+              )}
+
+              {supportMessages.map((msg) => (
+                <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-[80%] rounded-2xl p-3 ${
+                    msg.role === "user"
+                      ? "bg-blue-600 text-white rounded-br-md"
+                      : msg.role === "ai"
+                      ? "bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-bl-md"
+                      : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-md"
+                  }`}>
+                    {msg.role === "ai" && (
+                      <div className="flex items-center gap-2 mb-2">
+                        <Sparkles className="w-3 h-3" />
+                        <span className="text-xs font-bold opacity-80">AI Assistant</span>
+                      </div>
+                    )}
+                    <p className="text-sm">{msg.text}</p>
+                    {msg.attachments && msg.attachments.length > 0 && (
+                      <div className="mt-2 space-y-1">
+                        {msg.attachments.map((url, idx) => (
+                          <div key={idx} className="text-xs bg-white/20 rounded px-2 py-1">
+                            📎 File attached
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {supportIsLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-bl-md p-3">
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-100" />
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-200" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div ref={supportMessagesEndRef} />
+            </div>
+
+            {/* Input Area */}
+            <div className="flex-none p-4 border-t border-slate-200 dark:border-slate-800">
+              {attachments.length > 0 && (
+                <div className="flex gap-2 mb-2 overflow-x-auto">
+                  {attachments.map((url, idx) => (
+                    <div key={idx} className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-full px-3 py-1 text-xs">
+                      <span>📎 File</span>
+                      <button onClick={() => setAttachments(prev => prev.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-700">×</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <label className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                  <input type="file" onChange={handleFileUpload} className="hidden" />
+                  <Paperclip className="w-5 h-5 text-slate-500" />
+                </label>
+                <input
+                  type="text"
+                  value={supportInput}
+                  onChange={(e) => setSupportInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSupportSend()}
+                  placeholder="Describe your issue..."
+                  className="flex-1 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  onClick={handleSupportSend}
+                  disabled={supportIsLoading}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded-full transition-colors"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <FAQPageSchema questions={[
           { question: "What is Reservatior and how does it work?", answer: "Reservatior is an AI-powered real estate platform that enables direct bookings, property management, instant AI valuations, and cinematic virtual tours. It connects property owners, tenants, and agents through a unified dashboard with smart automation tools." },

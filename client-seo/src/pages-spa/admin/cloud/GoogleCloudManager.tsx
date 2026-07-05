@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { cloudApi, type CloudService } from "@/lib/api/cloud";
+import { apiClient } from "@/lib/api";
 
 export default function GoogleCloudManager() {
   const { t } = useTranslation();
@@ -17,7 +20,7 @@ export default function GoogleCloudManager() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -71,7 +74,7 @@ export default function GoogleCloudManager() {
       case 'ACTIVE':
         return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'DEPLOYING':
-        return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
       case 'ERROR':
         return 'bg-red-500/10 text-red-400 border-red-500/20';
       case 'STOPPED':
@@ -127,7 +130,7 @@ export default function GoogleCloudManager() {
   const totalCost = services.reduce((sum, service) => sum + service.cost.current, 0);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
@@ -151,8 +154,8 @@ export default function GoogleCloudManager() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                <Server className="w-5 h-5 text-blue-400" />
+              <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center">
+                <Server className="w-5 h-5 text-slate-400" />
               </div>
               <div>
                 <p className="text-[10px] font-bold text-slate-400">{t("admin.cloud.active_services")}</p>
@@ -184,8 +187,8 @@ export default function GoogleCloudManager() {
           </Card>
           <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center">
-                <Database className="w-5 h-5 text-violet-400" />
+              <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center">
+                <Database className="w-5 h-5 text-slate-400" />
               </div>
               <div>
                 <p className="text-[10px] font-bold text-slate-400">{t("admin.cloud.storage_used")}</p>
@@ -199,7 +202,7 @@ export default function GoogleCloudManager() {
         <Card className="bg-white/5 border-white/10 rounded-3xl p-8">
           <CardHeader>
             <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-purple-500" />{t("admin.cloud.resource_usage_overview")}</CardTitle>
+              <BarChart3 className="w-5 h-5 text-slate-500" />{t("admin.cloud.resource_usage_overview")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -243,7 +246,7 @@ export default function GoogleCloudManager() {
               <motion.div key={service.name} whileHover={{ scale: 1.02 }} className="bg-white/5 border-white/10 rounded-3xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <Cloud className="w-5 h-5 text-blue-400" />
+                    <Cloud className="w-5 h-5 text-slate-400" />
                     <h3 className="text-lg font-bold text-white">{service.name}</h3>
                   </div>
                   <div className="flex items-center gap-2">
@@ -255,7 +258,7 @@ export default function GoogleCloudManager() {
                 </div>
                 {service.url && (
                   <div className="mb-4">
-                    <a href={service.url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+                    <a href={service.url} target="_blank" rel="noopener noreferrer" className="text-xs text-slate-400 hover:text-slate-300 transition-colors">
                       {service.url}
                     </a>
                   </div>
@@ -307,7 +310,7 @@ export default function GoogleCloudManager() {
         </div>
 
         {/* Free Tier Benefits */}
-        <Card className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border-white/10 rounded-3xl p-8">
+        <Card className="bg-gradient-to-r from-slate-600/10 to-slate-600/10 border-white/10 rounded-3xl p-8">
           <CardHeader>
             <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
               <Shield className="w-5 h-5 text-emerald-400" />{t("admin.cloud.free_tier_benefits")}</CardTitle>

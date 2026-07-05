@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { apiClient } from "@/lib/api/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -118,7 +120,7 @@ export default function MarketingAutomation() {
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const res = await apiClient.post('/api/v1/marketing-campaigns', data);
+      const res = await apiClient.post('/marketing-campaigns', data);
       return res;
     },
     onSuccess: () => {
@@ -132,7 +134,7 @@ export default function MarketingAutomation() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/marketing-campaigns/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/marketing-campaigns/${data.id}`, data),
     onSuccess: () => {
       toast({ title: "Updated", description: "Record updated successfully" });
       queryClient.invalidateQueries({ queryKey: ['marketing-data'] });
@@ -141,7 +143,7 @@ export default function MarketingAutomation() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/marketing-campaigns/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/marketing-campaigns/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries({ queryKey: ['marketing-data'] });
@@ -191,22 +193,22 @@ export default function MarketingAutomation() {
       case 'INACTIVE':
         return 'bg-red-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
 
   const getTierColor = (tier: string) => {
     switch (tier) {
       case 'PLATINUM':
-        return 'bg-purple-500';
+        return 'bg-slate-500';
       case 'GOLD':
         return 'bg-yellow-500';
       case 'SILVER':
-        return 'bg-gray-400';
+        return 'bg-white/10';
       case 'BRONZE':
         return 'bg-orange-600';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
 
@@ -229,7 +231,7 @@ export default function MarketingAutomation() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="space-y-6">
         <div className="flex items-center justify-center h-64">
           <Megaphone className="h-8 w-8 animate-spin text-slate-400" />
         </div>
@@ -289,10 +291,10 @@ export default function MarketingAutomation() {
 
       <Tabs defaultValue="campaigns" className="space-y-4">
         <TabsList className="bg-white/5 border border-white/10">
-          <TabsTrigger value="campaigns" className="text-white data-[state=active]:bg-blue-600">{t("admin.marketing.campaigns")}</TabsTrigger>
-          <TabsTrigger value="ambassadors" className="text-white data-[state=active]:bg-blue-600">{t("admin.marketing.ambassadors")}</TabsTrigger>
-          <TabsTrigger value="contracts" className="text-white data-[state=active]:bg-blue-600">{t("admin.marketing.contracts")}</TabsTrigger>
-          <TabsTrigger value="social-impact" className="text-white data-[state=active]:bg-blue-600">{t("admin.marketing.social_impact")}</TabsTrigger>
+          <TabsTrigger value="campaigns" className="text-white data-[state=active]:bg-slate-600">{t("admin.marketing.campaigns")}</TabsTrigger>
+          <TabsTrigger value="ambassadors" className="text-white data-[state=active]:bg-slate-600">{t("admin.marketing.ambassadors")}</TabsTrigger>
+          <TabsTrigger value="contracts" className="text-white data-[state=active]:bg-slate-600">{t("admin.marketing.contracts")}</TabsTrigger>
+          <TabsTrigger value="social-impact" className="text-white data-[state=active]:bg-slate-600">{t("admin.marketing.social_impact")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="campaigns" className="space-y-4">
@@ -317,7 +319,7 @@ export default function MarketingAutomation() {
             </div>
             <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-500 text-white">
+                <Button className="bg-slate-600 hover:bg-slate-500 text-white">
                   <Plus className="h-4 w-4 mr-2" />{t("admin.marketing.new_campaign")}
                 </Button>
               </DialogTrigger>
@@ -418,7 +420,7 @@ export default function MarketingAutomation() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-white/5 border-white/10 text-white">
                               <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => {
-                                setFormData(campaign);
+                                setFormData(campaign as any);
                                 setIsAddOpen(true);
                               }}><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
                               <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10" onClick={() => deleteMutation.mutate(campaign.id)}><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
@@ -436,7 +438,7 @@ export default function MarketingAutomation() {
 
         <TabsContent value="ambassadors" className="space-y-4">
           <div className="flex justify-end">
-            <Button className="bg-blue-600 hover:bg-blue-500 text-white">
+            <Button className="bg-slate-600 hover:bg-slate-500 text-white">
               <Plus className="h-4 w-4 mr-2" />{t("admin.marketing.add_ambassador")}
             </Button>
           </div>

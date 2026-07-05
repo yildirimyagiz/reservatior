@@ -24,6 +24,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Video {
   id: string;
@@ -115,6 +116,7 @@ const CATEGORIES = [
 ];
 
 export default function VideosPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [activeCat, setActiveCat] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -140,16 +142,16 @@ export default function VideosPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Property Videos</h1>
-              <p className="text-gray-400">AI-powered property video tours with ML neural engine</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("videos.videospage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("videos.videospage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("videos.videospage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -164,7 +166,7 @@ export default function VideosPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Total Videos</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("videos.videospage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{filteredVideos.length}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-blue-500/10">
@@ -184,7 +186,7 @@ export default function VideosPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">AI Generated</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("videos.videospage.auto_ext_5")}</div>
                     <div className="text-2xl font-bold text-white">{aiGeneratedCount}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-purple-500/10">
@@ -204,7 +206,7 @@ export default function VideosPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Avg ML Score</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("videos.videospage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-white">{avgMLScore.toFixed(0)}%</div>
                   </div>
                   <div className="p-3 rounded-lg bg-green-500/10">
@@ -252,9 +254,9 @@ export default function VideosPage() {
                     <SelectValue placeholder="Sort By" />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-900 border-purple-500/30">
-                    <SelectItem value="newest">Newest</SelectItem>
-                    <SelectItem value="popular">Most Popular</SelectItem>
-                    <SelectItem value="ml_score">ML Score</SelectItem>
+                    <SelectItem value="newest">{t("videos.videospage.auto_ext_7")}</SelectItem>
+                    <SelectItem value="popular">{t("videos.videospage.auto_ext_8")}</SelectItem>
+                    <SelectItem value="ml_score">{t("videos.videospage.auto_ext_9")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -277,7 +279,7 @@ export default function VideosPage() {
                 <CardContent className="p-0">
                   {/* Thumbnail */}
                   <div className="relative aspect-video overflow-hidden">
-                    <Image src={video.image} alt={video.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <Image src={video.image} alt={video.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     
                     {/* Play Button */}
@@ -299,8 +301,8 @@ export default function VideosPage() {
                     {video.aiGenerated && (
                       <div className="absolute top-3 left-3 bg-purple-600/80 backdrop-blur-sm px-2 py-1 rounded text-white text-xs flex items-center gap-1">
                         <Sparkles className="w-3 h-3" />
-                        AI Generated
-                      </div>
+                        {t("videos.videospage.auto_ext_10")}
+                                                          </div>
                     )}
                   </div>
 
@@ -351,11 +353,11 @@ export default function VideosPage() {
 
                     <div className="flex items-center justify-between pt-3 border-t border-purple-500/20">
                       <div className="flex items-center gap-2 text-sm text-gray-400">
-                        <span>{video.beds} bed</span>
+                        <span>{video.beds} {t("videos.videospage.auto_ext_11")}</span>
                         <span>•</span>
-                        <span>{video.baths} bath</span>
+                        <span>{video.baths} {t("videos.videospage.auto_ext_12")}</span>
                         <span>•</span>
-                        <span>{video.sqft} sqft</span>
+                        <span>{video.sqft} {t("videos.videospage.auto_ext_13")}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8">

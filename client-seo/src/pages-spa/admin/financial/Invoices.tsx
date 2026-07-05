@@ -1,3 +1,6 @@
+"use client";
+import { apiClient } from '@/lib/api/client';
+
 import { t } from "i18next";
 import { useState, useEffect } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -31,7 +34,7 @@ const STATUS_CONFIG: Record<string, {
   },
   pending: {
     label: t("admin.financial.pending"),
-    cls: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    cls: "bg-slate-500/10 text-slate-400 border-slate-500/20",
     icon: Clock
   },
   overdue: {
@@ -49,7 +52,7 @@ export default function FinancialInvoices() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -374,7 +377,7 @@ export default function FinancialInvoices() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl p-2 w-48 shadow-2xl">
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer">
-                                <Download className="w-4 h-4 mr-3 text-blue-400" />{t("admin.financial.downloadpdf")}</DropdownMenuItem>
+                                <Download className="w-4 h-4 mr-3 text-slate-400" />{t("admin.financial.downloadpdf")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer">
                                 <Send className="w-4 h-4 mr-3 text-emerald-400" />{t("admin.financial.resendpulse")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-red-500/10 focus:text-red-500 rounded-xl py-3 cursor-pointer">

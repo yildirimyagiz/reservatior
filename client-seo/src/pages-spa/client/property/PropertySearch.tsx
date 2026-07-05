@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useMemo, useEffect } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link } from "@/lib/react-router-shim";
 import { useQuery } from "@tanstack/react-query";
 import { propertyApi } from "@/lib/api/property";
 import { Button } from "@/components/ui/button";
@@ -110,7 +112,7 @@ function PropertyListViewCard({ p, idx, selectedRegion }: { p: any, idx: number,
             <CarouselContent className="h-full ml-0">
               {displayImages.map((img: string, i: number) => (
                 <CarouselItem key={i} className="relative w-full h-full pl-0">
-                  <Link to={`/properties/${p.id}`} className="block w-full h-full">
+                  <Link to={`/property/${p.id}`} className="block w-full h-full">
                     <Image src={img} alt={`${p.name} - ${i + 1}`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 400px" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-80" />
                   </Link>
@@ -121,7 +123,7 @@ function PropertyListViewCard({ p, idx, selectedRegion }: { p: any, idx: number,
             <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 h-8 w-8 bg-black/20 hover:bg-black/40 text-white border-0 opacity-0 group-hover:opacity-100 transition-opacity z-20" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
           </Carousel>
         ) : (
-          <Link to={`/properties/${p.id}`} className="relative block w-full h-full">
+          <Link to={`/property/${p.id}`} className="relative block w-full h-full">
             <Image src={displayImages[0]} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 400px" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-80" />
           </Link>
@@ -144,7 +146,7 @@ function PropertyListViewCard({ p, idx, selectedRegion }: { p: any, idx: number,
         <div>
           <div className="flex justify-between items-start gap-4 mb-2">
             <div className="space-y-1">
-              <Link to={`/properties/${p.id}`}><h3 className="font-bold text-2xl leading-tight line-clamp-1 group-hover:text-primary transition-colors">{p.name}</h3></Link>
+              <Link to={`/property/${p.id}`}><h3 className="font-bold text-2xl leading-tight line-clamp-1 group-hover:text-primary transition-colors">{p.name}</h3></Link>
               <div className="flex items-center text-muted-foreground text-sm gap-1.5">
                 <MapPin className="w-4 h-4 shrink-0" />
                 <span className="truncate">{p.city}, {p.country} • {p.propertyCategory.replace("_", " ")}</span>
@@ -184,7 +186,7 @@ function PropertyListViewCard({ p, idx, selectedRegion }: { p: any, idx: number,
               </div>
             )}
           </div>
-          <Link to={`/properties/${p.id}`}>
+          <Link to={`/property/${p.id}`}>
             <Button variant="default" className="rounded-full px-6 shadow-md hover:shadow-lg transition-all group-hover:bg-primary/90">
               {t("client.src.view_details", "View Details")} <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
@@ -237,7 +239,7 @@ export default function PropertySearch() {
       if (listingType !== "BOOKING" || search.length < 3) return { data: [] };
       const checkIn = dateRange?.from ? format(dateRange.from, "yyyy-MM-dd") : "2024-07-01";
       const checkOut = dateRange?.to ? format(dateRange.to, "yyyy-MM-dd") : "2024-07-07";
-      const res = await fetch(`/api/v1/b2b-hotels/search?destination=${search}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
+      const res = await fetch(`/b2b-hotels/search?destination=${search}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
       return res.json();
     },
     enabled: listingType === "BOOKING" || listingType === "ALL",
@@ -249,7 +251,7 @@ export default function PropertySearch() {
       if (search.length < 3) return { data: { hasUpsell: false } };
       const checkIn = dateRange?.from ? format(dateRange.from, "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd");
       const checkOut = dateRange?.to ? format(dateRange.to, "yyyy-MM-dd") : format(new Date(Date.now() + 5 * 86400000), "yyyy-MM-dd");
-      const res = await fetch(`/api/v1/ai-arbitrage/upsell?destination=${encodeURIComponent(search)}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
+      const res = await fetch(`/ai-arbitrage/upsell?destination=${encodeURIComponent(search)}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
       return res.json();
     },
     enabled: (listingType === "BOOKING" || listingType === "ALL") && search.length >= 3,
@@ -1030,7 +1032,7 @@ export default function PropertySearch() {
                          <strong className="text-sm truncate text-foreground">{p.name}</strong>
                          <span className="text-xs text-muted-foreground truncate">{p.city}, {p.country}</span>
                          <span className="font-bold text-base mt-1 text-foreground">{selectedRegion?.currencySymbol || p.currency || "$"}{(p.listingPrice || 0).toLocaleString()}</span>
-                         <Link to={`/properties/${p.id}`} className="mt-2 text-xs font-semibold bg-primary text-primary-foreground text-center py-1.5 rounded-md hover:bg-primary/90 transition-colors">
+                         <Link to={`/property/${p.id}`} className="mt-2 text-xs font-semibold bg-primary text-primary-foreground text-center py-1.5 rounded-md hover:bg-primary/90 transition-colors">
                            {t("client.src.view_details", "View Details")}
                          </Link>
                        </div>

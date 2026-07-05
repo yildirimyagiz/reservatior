@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState, useEffect, FormEvent } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -261,7 +263,7 @@ export default function Expenses() {
               <Button onClick={() => {
               setForm(EMPTY_FORM);
               setCreateOpen(true);
-            }} className="bg-blue-600 hover:bg-blue-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-blue-600/20">
+            }} className="bg-slate-600 hover:bg-slate-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
                 <Plus className="w-4 h-4" />
                 {t("financialInitnode")}
               </Button>

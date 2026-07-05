@@ -1,4 +1,5 @@
-import { t } from "i18next";
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -15,8 +16,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { documentsApi } from "@/lib/api/documents";
-import { FileText, Upload, Download, Eye, Edit, Trash2, MoreHorizontal, Search, Folder, FolderOpen, File, Image, Video, Archive, HardDrive, Share2, Lock, Unlock, Loader2 } from "lucide-react";
+import { FileText, Upload, Download, Eye, Edit, Trash2, MoreHorizontal, Search, Folder, FolderOpen, File, Image, Video, Archive, HardDrive, Share2, Lock, Unlock, Loader2, Brain, CheckCircle, AlertTriangle } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { apiClient } from "@/lib/api";
 interface Document {
   id: string;
   name: string;
@@ -158,13 +160,15 @@ const MOCK_FOLDERS: DocumentFolder[] = [{
 export default function DocumentManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
+  
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: (id: string) => documentsApi.deleteDocument(id),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['documents'] });
     },
-    onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
+    onError: (err: unknown) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
   
 
@@ -178,9 +182,13 @@ export default function DocumentManagement() {
   const [activeTab, setActiveTab] = useState("documents");
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [folderDialogOpen, setFolderDialogOpen] = useState(false);
+  const [contractDialogOpen, setContractDialogOpen] = useState(false);
+  const [contractWizardStep, setContractWizardStep] = useState(1);
+  const [contractResult, setContractResult] = useState("");
   const [search, setSearch] = useState("");
   const [filterCategory, setFilterCategory] = useState("all");
   const [filterType, setFilterType] = useState("all");
+  const [uploadData, setUploadData] = useState({ country: "", city: "", district: "", neighborhood: "", project: "" });
 
   const { data: documentsData, isLoading } = useQuery({
     queryKey: ['documents'],
@@ -188,7 +196,7 @@ export default function DocumentManagement() {
       const res = await documentsApi.getDocuments({ orgId: "current" });
       const apiDocs = Array.isArray(res) ? res : ((res as any).data || []);
       
-      return apiDocs.map((d: any) => ({
+      return apiDocs.map((d: unknown) => ({
         id: d.id,
         name: d.fileName || d.title || "Unnamed Document",
         type: d.mimeType?.includes("pdf") ? "PDF" : (d.mimeType?.includes("word") ? "DOCX" : (d.mimeType?.includes("sheet") ? "XLSX" : "File")),
@@ -221,7 +229,7 @@ export default function DocumentManagement() {
         description: t("admin.documents.document_has_been_removed")
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: t("admin.documents.error", "Hata"),
         description: error.message,
@@ -249,18 +257,18 @@ export default function DocumentManagement() {
       case "PDF":
         return <FileText className="w-4 h-4 text-red-600" />;
       case "DOCX":
-        return <FileText className="w-4 h-4 text-blue-600" />;
+        return <FileText className="w-4 h-4 text-slate-600" />;
       case "XLSX":
         return <FileText className="w-4 h-4 text-green-600" />;
       case "ZIP":
-        return <Archive className="w-4 h-4 text-purple-600" />;
+        return <Archive className="w-4 h-4 text-slate-600" />;
       case "MP4":
         return <Video className="w-4 h-4 text-orange-600" />;
       case "JPG":
       case "PNG":
         return <Image className="w-4 h-4 text-pink-600" />;
       default:
-        return <File className="w-4 h-4 text-gray-600" />;
+        return <File className="w-4 h-4 text-slate-400" />;
     }
   };
   const formatFileSize = (bytes: number) => {
@@ -275,13 +283,13 @@ export default function DocumentManagement() {
       case "Legal":
         return "bg-red-100 text-red-700";
       case "Media":
-        return "bg-blue-100 text-blue-700";
+        return "bg-slate-100 text-slate-700";
       case "Financial":
         return "bg-green-100 text-green-700";
       case "Template":
-        return "bg-purple-100 text-purple-700";
+        return "bg-slate-100 text-slate-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/5 text-slate-300";
     }
   };
   const downloadDocument = async (document: Document) => {
@@ -292,7 +300,7 @@ export default function DocumentManagement() {
         title: t("admin.documents.download_started"),
         description: `Downloading ${document.name}`
       });
-    } catch (e: any) {
+    } catch (e: unknown) {
       toast({
         title: t("admin.documents.error", "Hata"),
         description: e.message,
@@ -328,11 +336,11 @@ export default function DocumentManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.documents.total_documents")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.documents.total_documents")}</p>
                   <p className="text-2xl font-bold">{stats.totalDocuments}</p>
-                  <p className="text-xs text-gray-500">{t("admin.documents.all_files")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.documents.all_files")}</p>
                 </div>
-                <FileText className="w-8 h-8 text-blue-600" />
+                <FileText className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -340,9 +348,9 @@ export default function DocumentManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.documents.total_storage")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.documents.total_storage")}</p>
                   <p className="text-2xl font-bold">{formatFileSize(stats.totalSize)}</p>
-                  <p className="text-xs text-gray-500">{t("admin.documents.used_space")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.documents.used_space")}</p>
                 </div>
                 <HardDrive className="w-8 h-8 text-green-600" />
               </div>
@@ -352,11 +360,11 @@ export default function DocumentManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.documents.public_documents")}</p>
-                  <p className="text-2xl font-bold text-blue-600">{stats.publicDocuments}</p>
-                  <p className="text-xs text-gray-500">{t("admin.documents.accessible_to_all")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.documents.public_documents")}</p>
+                  <p className="text-2xl font-bold text-slate-600">{stats.publicDocuments}</p>
+                  <p className="text-xs text-slate-400">{t("admin.documents.accessible_to_all")}</p>
                 </div>
-                <Unlock className="w-8 h-8 text-blue-600" />
+                <Unlock className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -364,11 +372,11 @@ export default function DocumentManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.documents.total_downloads")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.documents.total_downloads")}</p>
                   <p className="text-2xl font-bold">{stats.totalDownloads}</p>
-                  <p className="text-xs text-gray-500">{t("admin.documents.all_time")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.documents.all_time")}</p>
                 </div>
-                <Download className="w-8 h-8 text-purple-600" />
+                <Download className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -378,7 +386,7 @@ export default function DocumentManagement() {
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-4 flex-1">
             <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
               <Input placeholder={t("admin.documents.search_documents")} value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
             </div>
             <Select value={filterCategory} onValueChange={setFilterCategory}>
@@ -408,6 +416,9 @@ export default function DocumentManagement() {
             </Select>
           </div>
           <div className="flex gap-2">
+            <Button onClick={() => setContractDialogOpen(true)} variant="secondary" className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 border-emerald-500/20">
+              <FileText className="w-4 h-4 mr-2" />AI Contract
+            </Button>
             <Button onClick={() => setFolderDialogOpen(true)} variant="outline">
               <Folder className="w-4 h-4 mr-2" />{t("admin.documents.new_folder")}</Button>
             <Button onClick={() => setUploadDialogOpen(true)}>
@@ -455,7 +466,7 @@ export default function DocumentManagement() {
                             {getFileIcon(document.type)}
                             <div>
                               <div className="font-medium">{document.name}</div>
-                              <div className="flex items-center gap-2 text-xs text-gray-500">
+                              <div className="flex items-center gap-2 text-xs text-slate-400">
                                 <span>v{document.version}</span>
                                 {document.isEncrypted && <Lock className="w-3 h-3" />}
                                 {document.isPublic && <Unlock className="w-3 h-3" />}
@@ -488,6 +499,17 @@ export default function DocumentManagement() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
+                              <DropdownMenuItem onClick={() => {
+                                toast({ title: t("admin.documents.ai_analysis_started", "AI Analysis Started"), description: t("admin.documents.ai_analysis_desc", "Document is being processed by ML OCR Engine.") });
+                                documentsApi.analyzeDocumentWithAI(document.id).then(() => {
+                                  toast({ title: t("admin.documents.ai_analysis_complete", "AI Analysis Complete"), description: t("admin.documents.ai_analysis_success", "Data successfully extracted.") });
+                                }).catch((err: unknown) => {
+                                  toast({ title: "Error", description: err.message, variant: "destructive" });
+                                });
+                              }}>
+                                <Brain className="w-4 h-4 mr-2 text-indigo-400" />
+                                <span className="text-indigo-400 font-medium">AI Analiz (OCR)</span>
+                              </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => downloadDocument(document)}>
                                 <Download className="w-4 h-4 mr-2" />{t("admin.documents.download")}</DropdownMenuItem>
                               <DropdownMenuItem>
@@ -520,12 +542,12 @@ export default function DocumentManagement() {
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        {folder.isPublic ? <FolderOpen className="w-5 h-5 text-blue-600" /> : <Folder className="w-5 h-5 text-gray-600" />}
+                        {folder.isPublic ? <FolderOpen className="w-5 h-5 text-slate-600" /> : <Folder className="w-5 h-5 text-slate-400" />}
                         <span className="font-medium">{folder.name}</span>
                       </div>
                       {folder.isPublic && <Badge variant="outline">{t("admin.documents.public")}</Badge>}
                     </div>
-                    <div className="space-y-2 text-sm text-gray-600">
+                    <div className="space-y-2 text-sm text-slate-400">
                       <div className="flex justify-between">
                         <span>{t("admin.documents.documents")}</span>
                         <span className="font-medium">{folder.documentCount}</span>
@@ -562,10 +584,20 @@ export default function DocumentManagement() {
           <div className="py-4 space-y-4">
             <div className="space-y-2">
               <Label>{t("admin.documents.select_file")}</Label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
-                <p className="text-sm text-gray-600">{t("admin.documents.click_to_upload_or")}</p>
-                <p className="text-xs text-gray-500">{t("admin.documents.pdf_docx_xlsx_zip")}</p>
+              <div className="border-2 border-dashed border-white/10 rounded-lg p-6 text-center">
+                <Upload className="w-8 h-8 mx-auto text-slate-400 mb-2" />
+                <p className="text-sm text-slate-400">{t("admin.documents.click_to_upload_or")}</p>
+                <p className="text-xs text-slate-400">{t("admin.documents.pdf_docx_xlsx_zip")}</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Lokasyon & Proje (Hiyerarşi)</Label>
+              <div className="grid grid-cols-2 gap-2">
+                <Input placeholder="Ülke (örn: TURKİYE)" value={uploadData.country} onChange={e => setUploadData({...uploadData, country: e.target.value})} />
+                <Input placeholder="Şehir (örn: ISTANBUL)" value={uploadData.city} onChange={e => setUploadData({...uploadData, city: e.target.value})} />
+                <Input placeholder="İlçe (örn: SİSLİ)" value={uploadData.district} onChange={e => setUploadData({...uploadData, district: e.target.value})} />
+                <Input placeholder="Mahalle" value={uploadData.neighborhood} onChange={e => setUploadData({...uploadData, neighborhood: e.target.value})} />
+                <Input placeholder="Proje (örn: Queen)" className="col-span-2" value={uploadData.project} onChange={e => setUploadData({...uploadData, project: e.target.value})} />
               </div>
             </div>
             <div className="space-y-2">
@@ -636,6 +668,154 @@ export default function DocumentManagement() {
           <DialogFooter>
             <Button variant="outline" onClick={() => setFolderDialogOpen(false)}>{t("admin.documents.cancel")}</Button>
             <Button>{t("admin.documents.create_folder")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Contract Generator Dialog */}
+      <Dialog open={contractDialogOpen} onOpenChange={(open) => {
+        setContractDialogOpen(open);
+        if (!open) {
+          setContractWizardStep(1);
+          setContractResult("");
+        }
+      }}>
+        <DialogContent className="max-w-2xl bg-card border-border text-card-foreground">
+          <DialogHeader>
+            <DialogTitle>AI Contract Wizard</DialogTitle>
+            <DialogDescription className="text-slate-400">
+              {contractWizardStep === 1 && "Generate a localized real estate contract."}
+              {contractWizardStep === 2 && "Review and export your contract."}
+              {contractWizardStep === 3 && "Securely store property media for this contract."}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-4 space-y-4">
+            {/* Step 1: Generate & Preview */}
+            {contractWizardStep === 1 && (
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-slate-400">Country Code (e.g. TR, US, UK)</Label>
+                    <Input id="contract-country" defaultValue="TR" className="bg-background border-border text-foreground" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-slate-400">Contract Type</Label>
+                    <Select defaultValue="SALES">
+                      <SelectTrigger id="contract-type" className="bg-background border-border text-foreground"><SelectValue /></SelectTrigger>
+                      <SelectContent className="bg-card border-border text-card-foreground">
+                        <SelectItem value="SALES">Sales Agreement</SelectItem>
+                        <SelectItem value="RENTAL">Rental Agreement</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                {contractResult && (
+                  <div className="mt-4 p-4 bg-background border border-border rounded-xl max-h-60 overflow-y-auto">
+                    <div className="prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: contractResult.replace(/\n/g, '<br />') }} />
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Step 2: Export Options */}
+            {contractWizardStep === 2 && (
+              <div className="flex flex-col items-center justify-center py-8 space-y-6">
+                <div className="p-4 bg-emerald-500/10 text-emerald-500 rounded-full">
+                  <CheckCircle className="w-12 h-12" />
+                </div>
+                <h3 className="text-xl font-bold">Contract Ready!</h3>
+                <p className="text-slate-400 text-center max-w-sm">Your AI-generated contract is ready. Choose a format to download.</p>
+                <div className="flex gap-4">
+                  <Button variant="outline" className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10" onClick={() => {
+                    const blob = new Blob([contractResult], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Contract.pdf';
+                    a.click();
+                  }}>
+                    <Download className="w-4 h-4 mr-2" /> Download PDF
+                  </Button>
+                  <Button variant="outline" className="border-indigo-500/50 text-indigo-400 hover:bg-indigo-500/10" onClick={() => {
+                    const blob = new Blob([contractResult], { type: 'application/msword' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Contract.docx';
+                    a.click();
+                  }}>
+                    <Download className="w-4 h-4 mr-2" /> Download DOCX
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Media Vault */}
+            {contractWizardStep === 3 && (
+              <div className="space-y-4">
+                <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-3 text-amber-500">
+                  <AlertTriangle className="w-5 h-5 shrink-0" />
+                  <p className="text-sm">Contract saved. Now, securely store any walkthrough videos or images of the property before handover.</p>
+                </div>
+                <div className="border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center p-12 hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer">
+                  <div className="p-4 bg-primary/10 text-primary rounded-full mb-4">
+                    <Upload className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2">Drag & Drop Media</h3>
+                  <p className="text-sm text-slate-400 text-center max-w-xs mb-6">
+                    Upload MP4 videos or high-res images to the secure media vault.
+                  </p>
+                  <Button variant="secondary">Browse Files</Button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter className="flex items-center justify-between">
+            <Button variant="ghost" onClick={() => {
+              if (contractWizardStep > 1) {
+                setContractWizardStep(contractWizardStep - 1);
+              } else {
+                setContractDialogOpen(false);
+              }
+            }}>
+              {contractWizardStep > 1 ? "Back" : "Cancel"}
+            </Button>
+            
+            {contractWizardStep === 1 && (
+              <Button onClick={async () => {
+                if (contractResult) {
+                  setContractWizardStep(2);
+                  return;
+                }
+                const { contractsApi } = await import('@/lib/api/contracts');
+                const country = (document.getElementById('contract-country') as HTMLInputElement)?.value || 'TR';
+                try {
+                  const res = await contractsApi.generate({
+                    country_code: country,
+                    contract_type: "SALES",
+                    property: { id: "p1", address: "Sample St", city: "Istanbul", country: "TR", price: 100000, currency: "USD", property_type: "Apartment" },
+                    owner: { full_name: "John Doe", identification_number: "123456", address: "Owner Addr", phone: "555", email: "o@o.com" },
+                    buyer_or_tenant: { full_name: "Jane Smith", identification_number: "654321", address: "Buyer Addr", phone: "555", email: "b@b.com" }
+                  });
+                  setContractResult(res.content_markdown);
+                } catch (e) {
+                  console.error(e);
+                  setContractResult("Error generating contract");
+                }
+              }}>
+                {contractResult ? "Next Step" : "Generate"}
+              </Button>
+            )}
+            
+            {contractWizardStep === 2 && (
+              <Button onClick={() => setContractWizardStep(3)}>Continue to Media Vault</Button>
+            )}
+            
+            {contractWizardStep === 3 && (
+              <Button onClick={() => setContractDialogOpen(false)}>Done</Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

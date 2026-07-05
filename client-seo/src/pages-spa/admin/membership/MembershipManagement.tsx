@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { apiClient } from "@/lib/api/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,7 +16,7 @@ import { Users, CreditCard, Crown, Star, Calendar, TrendingUp, Gift, Settings, C
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -67,17 +69,17 @@ const MOCK_TIERS: MembershipTier[] = [{
   id: "tier_basic", name: "Basic", price: 29.99, currency: "USD", billingCycle: "MONTHLY",
   features: ["Up to 10 properties", "Basic analytics", "Email support", "Mobile app access"],
   isActive: true, maxProperties: 10, maxUsers: 3, supportLevel: "BASIC",
-  color: "bg-gray-500/10 text-gray-400 border-gray-500/20", icon: "Users"
+  color: "bg-white/10/10 text-slate-400 border-gray-500/20", icon: "Users"
 }, {
   id: "tier_standard", name: "Standard", price: 79.99, currency: "USD", billingCycle: "MONTHLY",
   features: ["Up to 50 properties", "Advanced analytics", "Priority support", "API access", "Custom branding"],
   isActive: true, maxProperties: 50, maxUsers: 10, supportLevel: "STANDARD",
-  color: "bg-blue-500/10 text-blue-400 border-blue-500/20", icon: "Star"
+  color: "bg-slate-500/10 text-slate-400 border-slate-500/20", icon: "Star"
 }, {
   id: "tier_premium", name: "Premium", price: 199.99, currency: "USD", billingCycle: "MONTHLY",
   features: ["Unlimited properties", "AI-powered analytics", "Dedicated support", "White-label options", "Advanced integrations"],
   isActive: true, maxProperties: -1, maxUsers: -1, supportLevel: "PREMIUM",
-  color: "bg-purple-500/10 text-purple-400 border-purple-500/20", icon: "Crown"
+  color: "bg-slate-500/10 text-slate-400 border-slate-500/20", icon: "Crown"
 }, {
   id: "tier_enterprise", name: "Enterprise", price: 499.99, currency: "USD", billingCycle: "MONTHLY",
   features: ["Everything in Premium", "Custom development", "On-premise deployment", "SLA guarantee", "Dedicated account manager"],
@@ -129,7 +131,7 @@ export default function MembershipManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/memberships/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/memberships/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -156,7 +158,7 @@ export default function MembershipManagement() {
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const res = await apiClient.post('/api/v1/memberships', data);
+      const res = await apiClient.post('/memberships', data);
       return res;
     },
     onSuccess: () => {
@@ -268,9 +270,9 @@ export default function MembershipManagement() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="space-y-6">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-500"></div>
         </div>
       </div>
     );
@@ -287,7 +289,7 @@ export default function MembershipManagement() {
         <div className="flex items-center gap-4">
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs">
+              <Button className="bg-slate-600 hover:bg-slate-500 text-white font-bold text-xs">
                 <Plus className="w-4 h-4 mr-2" />{t('addMember')}
               </Button>
             </DialogTrigger>
@@ -331,13 +333,13 @@ export default function MembershipManagement() {
         </Card>
         <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center"><DollarSign className="w-5 h-5 text-blue-400" /></div>
+            <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center"><DollarSign className="w-5 h-5 text-slate-400" /></div>
             <div><p className="text-[10px] font-bold text-slate-400">{t('monthlyRevenue')}</p><p className="text-2xl font-bold text-white">${totalRevenue.toLocaleString()}</p></div>
           </div>
         </Card>
         <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center"><TrendingUp className="w-5 h-5 text-purple-400" /></div>
+            <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center"><TrendingUp className="w-5 h-5 text-slate-400" /></div>
             <div><p className="text-[10px] font-bold text-slate-400">{t('expiredMembers')}</p><p className="text-2xl font-bold text-white">{expiredMembers}</p></div>
           </div>
         </Card>
@@ -356,7 +358,7 @@ export default function MembershipManagement() {
           { id: 'features', label: t('membership'), icon: <Star className="w-4 h-4" /> },
           { id: 'analytics', label: t('membershipAnalytics'), icon: <TrendingUp className="w-4 h-4" /> }
         ].map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ? "text-white border-blue-500" : "text-slate-400 border-transparent hover:text-white")}>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ? "text-white border-slate-500" : "text-slate-400 border-transparent hover:text-white")}>
             <div className="flex items-center gap-2">{tab.icon}{tab.label}</div>
           </button>
         ))}
@@ -460,7 +462,7 @@ export default function MembershipManagement() {
             <Card className="bg-white/5 border-white/10 rounded-3xl p-8">
               <CardHeader>
                 <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                  <Crown className="w-5 h-5 text-purple-500" />{t("admin.membership.membership_tiers")}
+                  <Crown className="w-5 h-5 text-slate-500" />{t("admin.membership.membership_tiers")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -578,7 +580,7 @@ export default function MembershipManagement() {
               <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                    <Users className="w-5 h-5 text-blue-500" />{t("admin.membership.member_analytics")}
+                    <Users className="w-5 h-5 text-slate-500" />{t("admin.membership.member_analytics")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">

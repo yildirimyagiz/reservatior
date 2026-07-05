@@ -14,6 +14,7 @@ import {
   Trash2
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface FavoriteProperty {
   id: string;
@@ -34,6 +35,7 @@ const mockFavorites: FavoriteProperty[] = [
 ];
 
 export default function ProfileFavoritesPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -52,16 +54,16 @@ export default function ProfileFavoritesPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">My Favorites</h1>
-              <p className="text-gray-400">Your saved properties</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("favorites.profilefavoritespage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("favorites.profilefavoritespage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("favorites.profilefavoritespage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -112,7 +114,7 @@ export default function ProfileFavoritesPage() {
                     {property.price.toLocaleString()}
                   </div>
                   <div className="flex items-center justify-between pt-4 border-t border-purple-500/20">
-                    <div className="text-sm text-gray-400">{property.bedrooms} bed • {property.bathrooms} bath</div>
+                    <div className="text-sm text-gray-400">{property.bedrooms} {t("favorites.profilefavoritespage.auto_ext_4")} {property.bathrooms} {t("favorites.profilefavoritespage.auto_ext_5")}</div>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400">
                       <Trash2 className="w-4 h-4" />
                     </Button>

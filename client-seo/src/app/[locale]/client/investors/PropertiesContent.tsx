@@ -93,7 +93,7 @@ export function PropertiesContent() {
                   {t("client.investor.panel3_desc", { defaultValue: "Estimated annual equity growth based on machine learning market analysis." })}
                 </p>
               </div>
-              <h4 className="text-4xl font-black mt-8 text-purple-400">+5.4% / yr</h4>
+              <h4 className="text-4xl font-black mt-8 text-purple-400">{t("investors.propertiescontent.auto_ext_1")}</h4>
             </motion.div>
 
             {/* Featured Investment Bento Box */}

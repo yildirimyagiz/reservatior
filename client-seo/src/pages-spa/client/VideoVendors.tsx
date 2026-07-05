@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, FormEvent } from "react";
@@ -261,7 +263,7 @@ export function Payouts() {
   const statusCls: Record<string, string> = {
     PAID: "bg-green-100 text-green-700",
     PENDING: "bg-yellow-100 text-yellow-700",
-    PROCESSING: "bg-blue-100 text-blue-700",
+    PROCESSING: "bg-slate-100 text-slate-700",
     FAILED: "bg-red-100 text-red-700"
   };
 
@@ -279,7 +281,7 @@ export function Payouts() {
                   <TableCell><Badge className="bg-secondary border-0 text-xs text-secondary-foreground">{p.method || 'Transfer'}</Badge></TableCell>
                   <TableCell className="font-semibold text-sm">${p.amount.toLocaleString()}</TableCell>
                   <TableCell className="font-mono text-[10px] text-muted-foreground">{p.reference || 'N/A'}</TableCell>
-                  <TableCell><Badge className={`${statusCls[p.status] || 'bg-gray-100'} border-0 text-xs font-normal`}>{p.status}</Badge></TableCell>
+                  <TableCell><Badge className={`${statusCls[p.status] || 'bg-white/5'} border-0 text-xs font-normal`}>{p.status}</Badge></TableCell>
                   <TableCell><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></TableCell>
                 </TableRow>)}
           </TableBody>

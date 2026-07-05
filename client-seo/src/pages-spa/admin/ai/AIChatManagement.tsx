@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -12,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MessageSquare, Search, MoreHorizontal, Eye, Activity, User, Bot, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 interface AIChatbotSession {
@@ -85,7 +87,7 @@ export default function AIChatManagement() {
   } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -176,11 +178,11 @@ export default function AIChatManagement() {
       case 'ACTIVE':
         return 'bg-green-500';
       case 'ENDED':
-        return 'bg-gray-500';
+        return 'bg-white/10';
       case 'TRANSFERRED':
-        return 'bg-blue-500';
+        return 'bg-slate-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
   const getRoleIcon = (role: string) => {
@@ -399,7 +401,7 @@ export default function AIChatManagement() {
                 <div>
                   <Label className="text-base font-semibold">{t("admin.ai.messages")}</Label>
                   <div className="mt-2 space-y-2 max-h-64 overflow-y-auto">
-                    {messages.map((message: AIChatMessage) => <div key={message.id} className={`p-3 rounded-lg ${message.role === 'USER' ? 'bg-blue-50/50' : message.role === 'ASSISTANT' ? 'bg-green-50/50' : 'bg-gray-50/50'}`}>
+                    {messages.map((message: AIChatMessage) => <div key={message.id} className={`p-3 rounded-lg ${message.role === 'USER' ? 'bg-slate-50/50' : message.role === 'ASSISTANT' ? 'bg-green-50/50' : 'bg-white/5/50'}`}>
                         <div className="flex items-center gap-2 mb-1">
                           {getRoleIcon(message.role)}
                           <span className="text-xs font-medium">{message.role}</span>

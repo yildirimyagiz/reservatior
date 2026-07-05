@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { PageShell } from "../../client/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { TrendingUp, TrendingDown, DollarSign, Download, Calendar, ArrowUpRight, ArrowDownRight, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -104,7 +106,7 @@ export default function FinancialReports() {
 
   if (loading) {
     return (
-      <div className="p-6 min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center space-y-6">
         <div className="text-slate-400">{t("common.loading", "Loading...")}</div>
       </div>
     );
@@ -114,7 +116,7 @@ export default function FinancialReports() {
     <div className="p-6 space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <DollarSign className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -180,9 +182,9 @@ export default function FinancialReports() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-medium text-slate-400">{t("profit", "Profit")}</p>
-                <h3 className="text-2xl font-bold text-blue-400 mt-1">{formatCurrency(metrics?.totalProfit || 0)}</h3>
+                <h3 className="text-2xl font-bold text-slate-400 mt-1">{formatCurrency(metrics?.totalProfit || 0)}</h3>
               </div>
-              <div className="p-3 bg-blue-500/20 rounded-lg"><TrendingUp className="w-5 h-5 text-blue-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><TrendingUp className="w-5 h-5 text-slate-400" /></div>
             </div>
             <div className="mt-3 flex items-center gap-2">
               {formatChange(metrics?.profitGrowth || 0)}
@@ -205,16 +207,16 @@ export default function FinancialReports() {
 
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList className="bg-white/5 border border-white/10">
-          <TabsTrigger value="overview" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
             {t("admin.financial.performance_core", "Overview")}
           </TabsTrigger>
-          <TabsTrigger value="revenue" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsTrigger value="revenue" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
             {t("admin.financial.yield_dynamics", "Revenue")}
           </TabsTrigger>
-          <TabsTrigger value="expenses" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsTrigger value="expenses" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
             {t("admin.financial.drain_analysis", "Expenses")}
           </TabsTrigger>
-          <TabsTrigger value="payments" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsTrigger value="payments" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
             {t("admin.financial.gateway_logic", "Payments")}
           </TabsTrigger>
         </TabsList>
@@ -225,7 +227,7 @@ export default function FinancialReports() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-sm text-white flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-blue-400" /> {t("flow", "Cash Flow")}
+                    <Activity className="w-4 h-4 text-slate-400" /> {t("flow", "Cash Flow")}
                   </CardTitle>
                 </div>
               </CardHeader>

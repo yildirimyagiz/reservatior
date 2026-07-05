@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import { MessageCircle, Search, MoreHorizontal, Activity, Inbox } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -74,7 +74,7 @@ export function MessageDropdown() {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-[400px] p-0 bg-card border-border shadow-3xl rounded-3xl overflow-hidden"
+        className="w-[400px] p-0 bg-card/95 border-border/50 shadow-2xl shadow-black/20 rounded-3xl overflow-hidden z-[100] backdrop-blur-xl"
       >
         {/* Telegram Style Header */}
         <div className="p-6 bg-muted/10 border-b border-border">

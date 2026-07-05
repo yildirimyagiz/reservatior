@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -12,6 +14,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { Download, Play, MoreHorizontal, BarChart3, Clock, CheckCircle2, XCircle, RefreshCw, Webhook, Globe, Edit, Trash2 } from "lucide-react";
+import { useEffect } from "react";
+import { apiClient } from "@/lib/api/client";
 
 // ─── Reports ─────────────────────────────────────────────────────────────────
 interface Report {
@@ -77,19 +81,66 @@ export function Reports() {
     schedule: "Monthly",
     format: "PDF"
   });
-  const handleRun = (r: Report) => toast({
-    title: `Running ${r.name}...`
-  });
+  const [reports, setReports] = useState<Report[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const fetchReports = async () => {
+    try {
+      setIsLoading(true);
+      const res: any = await apiClient.get('/reports').catch(() => null);
+      if (res && res.data) {
+        setReports(res.data.map((r: any) => ({
+          id: r.id,
+          name: r.name || 'Unnamed Report',
+          type: r.type || 'Operational',
+          schedule: r.schedule || 'Manual',
+          lastRun: r.lastRun ? new Date(r.lastRun).toLocaleString() : undefined,
+          status: r.status || 'READY',
+          format: r.format || 'PDF'
+        })));
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
+
+  const handleRun = async (r: Report) => {
+    try {
+      await apiClient.post(`/reports/${r.id}/run`);
+      toast({ title: `Running ${r.name}...` });
+      fetchReports();
+    } catch {
+      toast({ title: `Error running ${r.name}`, variant: 'destructive' });
+    }
+  };
   const handleDownload = (r: Report) => toast({
     title: t("client.src.downloading"),
     description: r.name
   });
-  const handleCreate = (e: React.FormEvent) => {
+  const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    setCreateOpen(false);
-    toast({
-      title: t("client.src.report_created")
-    });
+    try {
+      await apiClient.post('/reports', form);
+      setCreateOpen(false);
+      toast({ title: t("client.src.report_created") });
+      fetchReports();
+    } catch {
+      toast({ title: "Error creating report", variant: 'destructive' });
+    }
+  };
+  const handleDelete = async (r: Report) => {
+    try {
+      await apiClient.delete(`/reports/${r.id}`);
+      fetchReports();
+    } catch {
+      toast({ title: "Error deleting report", variant: 'destructive' });
+    }
   };
   const STATUS_ICONS = {
     READY: CheckCircle2,
@@ -104,20 +155,24 @@ export function Reports() {
   return <>
       <PageShell title={t("client.src.reports")} description={t("client.src.scheduled_and_ondemand_business")} createLabel="New Report" onCreateClick={() => setCreateOpen(true)} stats={[{
       label: t("client.src.total_reports"),
-      value: MOCK_REPORTS.length
+      value: reports.length
     }, {
       label: t("client.src.ready"),
-      value: MOCK_REPORTS.filter(r => r.status === "READY").length
+      value: reports.filter(r => r.status === "READY").length
     }, {
       label: t("client.src.running"),
-      value: MOCK_REPORTS.filter(r => r.status === "RUNNING").length
+      value: reports.filter(r => r.status === "RUNNING").length
     }, {
       label: t("client.src.failed"),
-      value: MOCK_REPORTS.filter(r => r.status === "FAILED").length
+      value: reports.filter(r => r.status === "FAILED").length
     }]}>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {MOCK_REPORTS.map(r => {
-          const SIcon = STATUS_ICONS[r.status];
+          {isLoading ? (
+            <p className="text-muted-foreground text-sm col-span-3">Loading...</p>
+          ) : reports.length === 0 ? (
+            <p className="text-muted-foreground text-sm col-span-3">No reports found.</p>
+          ) : reports.map(r => {
+          const SIcon = STATUS_ICONS[r.status] || CheckCircle2;
           return <div key={r.id} className="bg-card border border-border rounded-xl p-5 space-y-4">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
@@ -132,12 +187,12 @@ export function Reports() {
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => handleRun(r)}><Play className="w-4 h-4 mr-2" />{t("client.src.run_now")}</DropdownMenuItem>
                       {r.status === "READY" && <DropdownMenuItem onClick={() => handleDownload(r)}><Download className="w-4 h-4 mr-2" />{t("client.src.download")}</DropdownMenuItem>}
-                      <DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                      <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(r)}><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
                 <div className="flex items-center justify-between">
-                  <Badge className={`${STATUS_CLS[r.status]} border-0 text-xs`}><SIcon className={`w-3 h-3 mr-1 ${r.status === "RUNNING" ? "animate-spin" : ""}`} />{r.status}</Badge>
+                  <Badge className={`${STATUS_CLS[r.status] || STATUS_CLS.READY} border-0 text-xs`}><SIcon className={`w-3 h-3 mr-1 ${r.status === "RUNNING" ? "animate-spin" : ""}`} />{r.status}</Badge>
                   <div className="text-xs text-muted-foreground flex items-center gap-1"><Clock className="w-3 h-3" />{r.schedule}</div>
                 </div>
                 {r.lastRun && <p className="text-xs text-muted-foreground">{t("client.src.last_run")}{r.lastRun}</p>}
@@ -237,24 +292,75 @@ export function Webhooks() {
     url: "",
     events: [] as string[]
   });
+  const [webhooks, setWebhooks] = useState<WebhookDef[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchWebhooks = async () => {
+    try {
+      setIsLoading(true);
+      const res: any = await apiClient.get('/webhooks').catch(() => null);
+      if (res && res.data) {
+        setWebhooks(res.data.map((w: any) => ({
+          id: w.id,
+          name: w.name || 'Unnamed Webhook',
+          url: w.url || '',
+          events: w.events || [],
+          isActive: w.isActive !== undefined ? w.isActive : true,
+          successRate: w.successRate || 100,
+          lastDelivery: w.lastDelivery ? new Date(w.lastDelivery).toLocaleString() : undefined
+        })));
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchWebhooks();
+  }, []);
+
   const AVAILABLE_EVENTS = ["booking.created", "booking.cancelled", "lead.created", "lead.updated", "payment.completed", "payment.failed", "lease.created", "lease.expiring", "maintenance.urgent", "property.listed"];
   const toggleEvent = (e: string) => setForm(f => ({
     ...f,
     events: f.events.includes(e) ? f.events.filter(x => x !== e) : [...f.events, e]
   }));
-  const handleToggle = (w: WebhookDef) => toast({
-    title: w.isActive ? "Webhook Disabled" : "Webhook Enabled"
-  });
-  const handleTest = (w: WebhookDef) => toast({
-    title: t("client.src.test_payload_sent"),
-    description: w.url
-  });
-  const handleCreate = (ev: React.FormEvent) => {
+  const handleToggle = async (w: WebhookDef) => {
+    try {
+      await apiClient.put(`/webhooks/${w.id}`, { isActive: !w.isActive });
+      fetchWebhooks();
+      toast({ title: !w.isActive ? "Webhook Enabled" : "Webhook Disabled" });
+    } catch {
+      toast({ title: "Error toggling webhook", variant: 'destructive' });
+    }
+  };
+  const handleTest = async (w: WebhookDef) => {
+    try {
+      await apiClient.post(`/webhooks/${w.id}/test`);
+      toast({ title: t("client.src.test_payload_sent"), description: w.url });
+    } catch {
+      toast({ title: "Error testing webhook", variant: 'destructive' });
+    }
+  };
+  const handleCreate = async (ev: React.FormEvent) => {
     ev.preventDefault();
-    setCreateOpen(false);
-    toast({
-      title: t("client.src.webhook_created")
-    });
+    try {
+      await apiClient.post('/webhooks', form);
+      setCreateOpen(false);
+      toast({ title: t("client.src.webhook_created") });
+      fetchWebhooks();
+    } catch {
+      toast({ title: "Error creating webhook", variant: 'destructive' });
+    }
+  };
+  const handleDelete = async (w: WebhookDef) => {
+    try {
+      await apiClient.delete(`/webhooks/${w.id}`);
+      fetchWebhooks();
+    } catch {
+      toast({ title: "Error deleting webhook", variant: 'destructive' });
+    }
   };
   return <>
       <PageShell title={t("client.src.webhooks")} description={t("client.src.realtime_event_notifications_to")} createLabel="Add Webhook" onCreateClick={() => {
@@ -266,19 +372,23 @@ export function Webhooks() {
       setCreateOpen(true);
     }} stats={[{
       label: t("client.src.total"),
-      value: MOCK_WEBHOOKS.length
+      value: webhooks.length
     }, {
       label: t("client.src.active"),
-      value: MOCK_WEBHOOKS.filter(w => w.isActive).length
+      value: webhooks.filter(w => w.isActive).length
     }, {
       label: t("client.src.avg_success_rate"),
-      value: `${(MOCK_WEBHOOKS.reduce((s, w) => s + w.successRate, 0) / MOCK_WEBHOOKS.length).toFixed(1)}%`
+      value: `${webhooks.length ? (webhooks.reduce((s, w) => s + w.successRate, 0) / webhooks.length).toFixed(1) : 0}%`
     }, {
       label: t("client.src.events_tracked"),
-      value: [...new Set(MOCK_WEBHOOKS.flatMap(w => w.events))].length
+      value: [...new Set(webhooks.flatMap(w => w.events))].length
     }]}>
         <div className="space-y-3">
-          {MOCK_WEBHOOKS.map(w => <div key={w.id} className={`bg-card border rounded-xl p-5 space-y-3 ${!w.isActive ? "opacity-60" : "border-border"}`}>
+          {isLoading ? (
+            <p className="text-muted-foreground text-sm">Loading...</p>
+          ) : webhooks.length === 0 ? (
+            <p className="text-muted-foreground text-sm">No webhooks found.</p>
+          ) : webhooks.map(w => <div key={w.id} className={`bg-card border rounded-xl p-5 space-y-3 ${!w.isActive ? "opacity-60" : "border-border"}`}>
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center"><Webhook className="w-4 h-4 text-primary" /></div>
@@ -294,7 +404,7 @@ export function Webhooks() {
                     <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                      <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(w)}><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>

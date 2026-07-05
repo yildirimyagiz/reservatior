@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { apiClient } from "@/lib/api/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -78,7 +80,7 @@ export default function ProjectDashboard() {
   });
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">{t("admin.projects.project_management")}</h1>
@@ -90,7 +92,7 @@ export default function ProjectDashboard() {
           </Button>
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-500 text-white">
+              <Button className="bg-slate-600 hover:bg-slate-500 text-white">
                 <Plus className="w-4 h-4 mr-2" />{t("admin.projects.new_project")}
               </Button>
             </DialogTrigger>
@@ -134,7 +136,7 @@ export default function ProjectDashboard() {
                 <h3 className="text-3xl font-bold mt-1 text-white">{projects.length}</h3>
               </div>
               <div className="p-2 bg-white/5 rounded-lg">
-                <BarChart3 className="w-5 h-5 text-blue-400" />
+                <BarChart3 className="w-5 h-5 text-slate-400" />
               </div>
             </div>
             <div className="mt-4 flex items-center gap-2 text-sm text-slate-400">
@@ -169,8 +171,8 @@ export default function ProjectDashboard() {
                 <p className="text-slate-400 text-sm font-medium">{t("admin.projects.total_budget")}</p>
                 <h3 className="text-3xl font-bold mt-1 text-white">{t("admin.projects.4285k")}</h3>
               </div>
-              <div className="p-2 bg-blue-500/10 rounded-lg">
-                <DollarSign className="w-5 h-5 text-blue-400" />
+              <div className="p-2 bg-slate-500/10 rounded-lg">
+                <DollarSign className="w-5 h-5 text-slate-400" />
               </div>
             </div>
             <div className="mt-4 flex items-center gap-2 text-sm text-slate-400">
@@ -201,10 +203,10 @@ export default function ProjectDashboard() {
 
       <Tabs defaultValue="projects" className="space-y-6">
         <TabsList className="bg-white/5 border border-white/10 p-1">
-          <TabsTrigger value="projects" className="text-slate-400 data-[state=active]:bg-blue-600 data-[state=active]:text-white">{t("admin.projects.all_projects")}</TabsTrigger>
-          <TabsTrigger value="alerts" className="text-slate-400 data-[state=active]:bg-blue-600 data-[state=active]:text-white">{t("admin.projects.alerts_notifications")}</TabsTrigger>
-          <TabsTrigger value="analytics" className="text-slate-400 data-[state=active]:bg-blue-600 data-[state=active]:text-white">{t("admin.projects.analytics")}</TabsTrigger>
-          <TabsTrigger value="reports" className="text-slate-400 data-[state=active]:bg-blue-600 data-[state=active]:text-white">{t("admin.projects.reports")}</TabsTrigger>
+          <TabsTrigger value="projects" className="text-slate-400 data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.projects.all_projects")}</TabsTrigger>
+          <TabsTrigger value="alerts" className="text-slate-400 data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.projects.alerts_notifications")}</TabsTrigger>
+          <TabsTrigger value="analytics" className="text-slate-400 data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.projects.analytics")}</TabsTrigger>
+          <TabsTrigger value="reports" className="text-slate-400 data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.projects.reports")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="projects" className="space-y-6">
@@ -216,7 +218,7 @@ export default function ProjectDashboard() {
                     <CardTitle className="text-white">{project.name}</CardTitle>
                     <CardDescription className="text-slate-400">{project.projectType}</CardDescription>
                   </div>
-                  <Badge variant={project.status === "ACTIVE" ? "default" : "outline"} className={project.status === "ACTIVE" ? "bg-blue-600" : "border-white/10 text-slate-400"}>
+                  <Badge variant={project.status === "ACTIVE" ? "default" : "outline"} className={project.status === "ACTIVE" ? "bg-slate-600" : "border-white/10 text-slate-400"}>
                     {project.status}
                   </Badge>
                 </CardHeader>
@@ -239,7 +241,7 @@ export default function ProjectDashboard() {
                     </div>
                     <div className="pt-4 flex justify-end gap-2">
                       <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" onClick={() => toast({ title: "Project Details", description: `Viewing details for ${project.name}` })}>{t("admin.projects.details")}</Button>
-                      <Button size="sm" className="bg-blue-600 hover:bg-blue-500 text-white" onClick={() => toast({ title: "Manage Project", description: `Managing ${project.name}` })}>{t("admin.projects.manage")}</Button>
+                      <Button size="sm" className="bg-slate-600 hover:bg-slate-500 text-white" onClick={() => toast({ title: "Manage Project", description: `Managing ${project.name}` })}>{t("admin.projects.manage")}</Button>
                     </div>
                   </div>
                 </CardContent>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { 
   Star, 
@@ -18,7 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -175,7 +177,7 @@ export default function Reviews() {
                             <div className="relative group/quote">
                                <Quote className="absolute -top-4 -left-6 w-12 h-12 text-white/5 -rotate-12 transition-transform group-hover/quote:scale-110" />
                                <p className="text-xl font-black text-slate-300 leading-tight italic tracking-tight relative z-10 ml-2">
-                                 "{review.comment}"
+                                 &quot;{review.comment}&quot;
                                </p>
                             </div>
                             

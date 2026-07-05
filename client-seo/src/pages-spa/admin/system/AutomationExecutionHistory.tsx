@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { PageShell } from "../../client/layout/PageShell";
@@ -14,8 +16,8 @@ const STATUS_COLORS: Record<string, string> = {
   COMPLETED: "bg-green-100 text-green-800",
   PARTIAL: "bg-yellow-100 text-yellow-800",
   FAILED: "bg-red-100 text-red-800",
-  PENDING: "bg-blue-100 text-blue-800",
-  SKIPPED: "bg-gray-100 text-gray-500",
+  PENDING: "bg-slate-100 text-slate-800",
+  SKIPPED: "bg-white/5 text-slate-400",
 };
 
 export default function AutomationExecutionHistory() {
@@ -83,7 +85,7 @@ export default function AutomationExecutionHistory() {
             <TableBody>
               {executions.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                  <TableCell colSpan={6} className="text-center py-8 text-slate-400">
                     {loading ? t("admin.system.loading") : t("admin.system.no_executions")}
                   </TableCell>
                 </TableRow>
@@ -99,7 +101,7 @@ export default function AutomationExecutionHistory() {
                     ) : "-"}
                   </TableCell>
                   <TableCell>
-                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_COLORS[ex.status] || "bg-gray-100"}`}>
+                    <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${STATUS_COLORS[ex.status] || "bg-white/5"}`}>
                       {ex.status}
                     </span>
                   </TableCell>
@@ -119,7 +121,7 @@ export default function AutomationExecutionHistory() {
 
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">{t("admin.system.total_executions", { count: total })}</span>
+            <span className="text-sm text-slate-400">{t("admin.system.total_executions", { count: total })}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                 {t("admin.system.previous")}
@@ -149,7 +151,7 @@ export default function AutomationExecutionHistory() {
               {selected.event?.eventType && (
                 <div>
                   <span className="font-medium">{t("admin.system.trigger_event")}:</span>
-                  <div className="mt-1 p-2 bg-gray-50 rounded text-xs">
+                  <div className="mt-1 p-2 bg-white/5 rounded-lg text-xs">
                     Type: {selected.event.eventType}
                     {selected.event.severity && ` | Severity: ${selected.event.severity}`}
                     {selected.event.entityType && ` | Entity: ${selected.event.entityType}:${selected.event.entityId || ""}`}
@@ -159,7 +161,7 @@ export default function AutomationExecutionHistory() {
               {selected.triggerEvent && (
                 <div>
                   <span className="font-medium">{t("admin.system.trigger_data")}:</span>
-                  <pre className="mt-1 p-2 bg-gray-50 rounded text-xs overflow-auto max-h-32">
+                  <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-32">
                     {JSON.stringify(selected.triggerEvent, null, 2)}
                   </pre>
                 </div>
@@ -167,7 +169,7 @@ export default function AutomationExecutionHistory() {
               {selected.resultData && (
                 <div>
                   <span className="font-medium">{t("admin.system.results")}:</span>
-                  <pre className="mt-1 p-2 bg-gray-50 rounded text-xs overflow-auto max-h-48">
+                  <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-48">
                     {JSON.stringify(selected.resultData, null, 2)}
                   </pre>
                 </div>
@@ -175,7 +177,7 @@ export default function AutomationExecutionHistory() {
               {selected.errorMessage && (
                 <div>
                   <span className="font-medium">{t("admin.system.error")}:</span>
-                  <pre className="mt-1 p-2 bg-red-50 rounded text-xs text-red-700">
+                  <pre className="mt-1 p-2 bg-red-50 rounded-lg text-xs text-red-700">
                     {selected.errorMessage}
                   </pre>
                 </div>
@@ -183,7 +185,7 @@ export default function AutomationExecutionHistory() {
               {selected.executionData && (
                 <div>
                   <span className="font-medium">{t("admin.system.execution_data")}:</span>
-                  <pre className="mt-1 p-2 bg-gray-50 rounded text-xs overflow-auto max-h-48">
+                  <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-48">
                     {JSON.stringify(selected.executionData, null, 2)}
                   </pre>
                 </div>

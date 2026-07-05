@@ -33,7 +33,7 @@ export function PageShell({
   actions,
 }: PageShellProps) {
   return (
-    <div className="p-8 lg:p-12 space-y-10 min-h-screen bg-background text-foreground transition-colors duration-300">
+    <div className="pt-24 pb-8 px-8 lg:pt-32 lg:pb-12 lg:px-12 space-y-10 min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* Tactical Header */}
       {(title || description || createLabel) && (
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative">

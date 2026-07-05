@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const sections = [
   {
@@ -29,6 +30,7 @@ const sections = [
 ];
 
 export default function TrustCenterPage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -43,22 +45,22 @@ export default function TrustCenterPage() {
           <div className="flex items-center justify-between mb-8">
             <div>
               <Badge className="mb-6 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-6 py-1 text-xs font-bold tracking-widest">
-                <Sparkles className="w-3 h-3 mr-2" /> TRUST CENTER
-              </Badge>
+                <Sparkles className="w-3 h-3 mr-2" /> {t("trust_center.trustcenterpage.auto_ext_1")}
+                                            </Badge>
               <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-4 italic leading-none">
-                Your Trust <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">Is Our Priority</span>
+                {t("trust_center.trustcenterpage.auto_ext_2")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">{t("trust_center.trustcenterpage.auto_ext_3")}</span>
               </h1>
               <p className="text-xl text-gray-500 max-w-3xl font-bold tracking-widest italic leading-relaxed">
-                Enterprise-grade security and compliance for every transaction
-              </p>
+                {t("trust_center.trustcenterpage.auto_ext_4")}
+                                            </p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("trust_center.trustcenterpage.auto_ext_5")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -101,20 +103,20 @@ export default function TrustCenterPage() {
         <div className="grid lg:grid-cols-2 gap-16 bg-white/5 rounded-[60px] p-16 text-white items-center border border-purple-500/20">
           <div className="space-y-10">
             <div className="space-y-4">
-              <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-4 py-1 text-xs font-bold tracking-widest italic">IDENTITY ENGINE</Badge>
-              <h2 className="text-5xl font-bold italic tracking-tighter leading-[0.9]">Advanced Security</h2>
+              <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-4 py-1 text-xs font-bold tracking-widest italic">{t("trust_center.trustcenterpage.auto_ext_6")}</Badge>
+              <h2 className="text-5xl font-bold italic tracking-tighter leading-[0.9]">{t("trust_center.trustcenterpage.auto_ext_7")}</h2>
             </div>
             <p className="text-gray-400 text-lg font-bold tracking-widest italic leading-relaxed max-w-xl">
-              Our identity verification engine uses AI-powered fraud detection to ensure every user and transaction is legitimate.
-            </p>
+              {t("trust_center.trustcenterpage.auto_ext_8")}
+                                      </p>
             <div className="flex flex-wrap gap-6 pt-4">
               <div className="flex items-center gap-4 px-6 py-3 bg-black/40 rounded-2xl border border-white/5 backdrop-blur-xl">
                 <Globe className="w-5 h-5 text-emerald-400 animate-pulse" />
-                <span className="text-xs font-bold tracking-widest italic">GLOBAL COVERAGE</span>
+                <span className="text-xs font-bold tracking-widest italic">{t("trust_center.trustcenterpage.auto_ext_9")}</span>
               </div>
               <div className="flex items-center gap-4 px-6 py-3 bg-black/40 rounded-2xl border border-white/5 backdrop-blur-xl">
                 <ShieldCheck className="w-5 h-5 text-blue-400" />
-                <span className="text-xs font-bold tracking-widest italic">FULLY COMPLIANT</span>
+                <span className="text-xs font-bold tracking-widest italic">{t("trust_center.trustcenterpage.auto_ext_10")}</span>
               </div>
             </div>
           </div>
@@ -122,16 +124,16 @@ export default function TrustCenterPage() {
           <div className="grid grid-cols-2 gap-8">
             <div className="bg-black/40 p-10 rounded-[40px] border border-white/5 backdrop-blur-xl border border-purple-500/20">
               <h4 className="text-emerald-400 text-5xl font-bold italic tracking-tighter mb-2">99.9%</h4>
-              <p className="text-xs text-gray-500 font-bold tracking-widest italic">UPTIME</p>
+              <p className="text-xs text-gray-500 font-bold tracking-widest italic">{t("trust_center.trustcenterpage.auto_ext_11")}</p>
             </div>
             <div className="bg-black/40 p-10 rounded-[40px] border border-white/5 backdrop-blur-xl border border-purple-500/20">
-              <h4 className="text-blue-400 text-5xl font-bold italic tracking-tighter mb-2">2ms</h4>
-              <p className="text-xs text-gray-500 font-bold tracking-widest italic">LATENCY</p>
+              <h4 className="text-blue-400 text-5xl font-bold italic tracking-tighter mb-2">{t("trust_center.trustcenterpage.auto_ext_12")}</h4>
+              <p className="text-xs text-gray-500 font-bold tracking-widest italic">{t("trust_center.trustcenterpage.auto_ext_13")}</p>
             </div>
             <div className="bg-black/60 p-10 rounded-[40px] col-span-2 border border-white/10 backdrop-blur-xl border border-purple-500/20 flex items-center justify-between">
               <div className="space-y-1">
-                <h4 className="text-3xl font-bold text-white italic tracking-tighter leading-none">ISO 27001</h4>
-                <p className="text-xs text-gray-500 font-bold tracking-widest italic">CERTIFIED</p>
+                <h4 className="text-3xl font-bold text-white italic tracking-tighter leading-none">{t("trust_center.trustcenterpage.auto_ext_14")}</h4>
+                <p className="text-xs text-gray-500 font-bold tracking-widest italic">{t("trust_center.trustcenterpage.auto_ext_15")}</p>
               </div>
               <div className="p-5 bg-white/5 border border-white/10 rounded-3xl">
                 <Lock className="w-8 h-8 text-white" />

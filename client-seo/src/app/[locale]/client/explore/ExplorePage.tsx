@@ -23,6 +23,7 @@ import {
   TrendingUp
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const features = [
   {
@@ -92,6 +93,7 @@ const features = [
 ];
 
 export default function ExplorePage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -122,16 +124,16 @@ export default function ExplorePage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Explore Features</h1>
-              <p className="text-gray-400">Discover powerful tools for real estate management</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("explore.explorepage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("explore.explorepage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("explore.explorepage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -191,8 +193,8 @@ export default function ExplorePage() {
                     {feature.popular && (
                       <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
                         <Sparkles className="w-3 h-3 mr-1" />
-                        Popular
-                      </Badge>
+                        {t("explore.explorepage.auto_ext_4")}
+                                                          </Badge>
                     )}
                   </div>
                   <CardTitle className="text-white mt-4">{feature.title}</CardTitle>
@@ -204,8 +206,8 @@ export default function ExplorePage() {
                     className="w-full bg-white/5 border-purple-500/30 text-white hover:bg-purple-600 hover:border-purple-600"
                     onClick={() => router.push('/dashboard')}
                   >
-                    Try Now
-                    <ArrowUpRight className="w-4 h-4 ml-2" />
+                    {t("explore.explorepage.auto_ext_5")}
+                                                <ArrowUpRight className="w-4 h-4 ml-2" />
                   </Button>
                 </CardContent>
               </Card>
@@ -224,29 +226,29 @@ export default function ExplorePage() {
             <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
               <CardContent className="p-6 text-center">
                 <Building2 className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">14.2K+</div>
-                <div className="text-gray-400 text-sm">Properties</div>
+                <div className="text-2xl font-bold text-white">{t("explore.explorepage.auto_ext_6")}</div>
+                <div className="text-gray-400 text-sm">{t("explore.explorepage.auto_ext_7")}</div>
               </CardContent>
             </Card>
             <Card className="bg-white/5 backdrop-blxl border-purple-500/20">
               <CardContent className="p-6 text-center">
                 <Users className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">8.5K+</div>
-                <div className="text-gray-400 text-sm">Active Users</div>
+                <div className="text-2xl font-bold text-white">{t("explore.explorepage.auto_ext_8")}</div>
+                <div className="text-gray-400 text-sm">{t("explore.explorepage.auto_ext_9")}</div>
               </CardContent>
             </Card>
             <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
               <CardContent className="p-6 text-center">
                 <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-white">99.9%</div>
-                <div className="text-gray-400 text-sm">Uptime</div>
+                <div className="text-gray-400 text-sm">{t("explore.explorepage.auto_ext_10")}</div>
               </CardContent>
             </Card>
             <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
               <CardContent className="p-6 text-center">
                 <Star className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-white">4.9</div>
-                <div className="text-gray-400 text-sm">User Rating</div>
+                <div className="text-gray-400 text-sm">{t("explore.explorepage.auto_ext_11")}</div>
               </CardContent>
             </Card>
           </div>

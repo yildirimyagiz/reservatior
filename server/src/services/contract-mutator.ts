@@ -28,16 +28,25 @@ const TRANSITION_PRECONDITIONS: Partial<Record<string, TransitionPrecondition[]>
         const prisma = prismaManager.getClient(region);
         const contract = await prisma.contract.findUnique({
           where: { id: contractId },
-          include: { escrowAccount: true, signatureRequests: { include: { signers: true } } },
+          include: { signatureRequests: { include: { signers: true } } },
         });
         if (!contract) return false;
+
+        // Escrow check: look up via leaseId or bookingId
         if (isExecutionLocked(region, "forceEscrow")) {
-          const escrow = contract.escrowAccount;
-          if (!escrow || escrow.status !== "HOLDING") return false;
+          const reservationId = contract.leaseId || contract.bookingId || null;
+          if (!reservationId) return false; // no linked reservation = no escrow possible
+          const escrow = await prisma.escrowAccount.findFirst({
+            where: { reservationId, status: "HOLDING" },
+          });
+          if (!escrow) return false;
         }
+
+        // Signature check
         if (isExecutionLocked(region, "requireSignatureBeforeActive")) {
-          const allSigned = contract.signatureRequests?.every(
-            sr => sr.signers?.every(s => s.status === "SIGNED")
+          if (!contract.signatureRequests || contract.signatureRequests.length === 0) return false;
+          const allSigned = contract.signatureRequests.every(
+            (sr: any) => sr.signers?.every((s: any) => s.status === "SIGNED")
           );
           if (!allSigned) return false;
         }
@@ -50,13 +59,16 @@ const TRANSITION_PRECONDITIONS: Partial<Record<string, TransitionPrecondition[]>
     {
       check: async (contractId, region) => {
         const prisma = prismaManager.getClient(region);
-        const contract = await prisma.contract.findUnique({
-          where: { id: contractId },
-          include: { escrowAccount: true },
-        });
+        const contract = await prisma.contract.findUnique({ where: { id: contractId } });
         if (!contract) return false;
-        if (!contract.escrowAccount) return true;
-        return contract.escrowAccount.status === "FULLY_RELEASED" || contract.escrowAccount.status === "CANCELLED" || contract.escrowAccount.status === "REFUNDED";
+        const reservationId = contract.leaseId || contract.bookingId || null;
+        if (!reservationId) return true; // no linked escrow, allow termination
+        const escrow = await prisma.escrowAccount.findFirst({
+          where: { reservationId },
+          orderBy: { createdAt: "desc" },
+        });
+        if (!escrow) return true;
+        return ["FULLY_RELEASED", "CANCELLED", "REFUNDED"].includes(escrow.status);
       },
       errorMessage: "Contract cannot be TERMINATED: escrow must be settled first",
     },

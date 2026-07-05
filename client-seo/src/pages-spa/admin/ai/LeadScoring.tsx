@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -34,7 +36,7 @@ const SCORE_STYLES = {
     icon: Minus
   },
   COLD: {
-    cls: "bg-blue-100 text-blue-700",
+    cls: "bg-slate-100 text-slate-700",
     icon: TrendingDown
   }
 };
@@ -150,7 +152,7 @@ export default function AILeadScoring() {
     score: number;
   }) => <div className="flex items-center gap-2">
       <div className="h-1.5 w-20 bg-muted rounded-full overflow-hidden">
-        <div className={`h-full rounded-full transition-all ${score >= 75 ? "bg-red-500" : score >= 50 ? "bg-orange-500" : "bg-blue-400"}`} style={{
+        <div className={`h-full rounded-full transition-all ${score >= 75 ? "bg-red-500" : score >= 50 ? "bg-orange-500" : "bg-slate-400"}`} style={{
         width: `${score}%`
       }} />
       </div>
@@ -209,7 +211,7 @@ export default function AILeadScoring() {
                     <TableCell>
                       <div className="flex items-center gap-1.5">
                         <div className="h-1.5 w-16 bg-muted rounded-full overflow-hidden">
-                          <div className="h-full bg-violet-500 rounded-full" style={{
+                          <div className="h-full bg-slate-500 rounded-full" style={{
                         width: `${l.confidence * 100}%`
                       }} />
                         </div>

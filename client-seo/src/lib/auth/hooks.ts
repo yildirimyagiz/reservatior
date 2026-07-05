@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { AuthUtils } from "./utils";
 import { useUserStore } from "../store/user-store";
 import { authApi } from "../api/auth";
+import { MemberRoleKey } from "../roles/sidebarConfig";
 
 export const useAuth = () => {
   const {
@@ -71,6 +72,7 @@ export const useAuth = () => {
     setError(null);
 
     try {
+      console.log("authApi.register called with:", { email, name, accountType });
       const authData = await authApi.register({
         email,
         password,
@@ -81,10 +83,12 @@ export const useAuth = () => {
         corporateType,
         organizationName
       });
+      console.log("authApi.register response:", authData);
 
       setUser(authData.user as any);
       setToken(authData.token);
     } catch (err: any) {
+      console.error("authApi.register error:", err);
       const errorMessage = err.message || "Registration failed";
       setError(errorMessage);
       throw err;
@@ -129,6 +133,11 @@ export const useAuth = () => {
     return AuthUtils.hasAllPermissions(user.permissions || [], permissions);
   };
 
+  const getUserRole = (): MemberRoleKey | null => {
+    if (!user || !user.role) return null;
+    return user.role as MemberRoleKey;
+  };
+
   // Check token expiration periodically - DISABLED for debugging
   // useEffect(() => {
   //   if (!token) return;
@@ -159,6 +168,7 @@ export const useAuth = () => {
     hasPermission,
     hasAnyPermission,
     hasAllPermissions,
+    getUserRole,
   };
 };
 

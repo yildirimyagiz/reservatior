@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, FormEvent } from "react";
@@ -16,7 +18,7 @@ import { MoreHorizontal, CheckCircle2, AlertCircle, Loader2, RefreshCw } from "l
 const STATUS = {
   HOLDING: {
     label: t("admin.financial.holding"),
-    cls: "bg-blue-100 text-blue-700",
+    cls: "bg-slate-100 text-slate-700",
     icon: "Clock"
   },
   RELEASED: {
@@ -218,7 +220,7 @@ export default function Escrow() {
               {loading ? <TableRow><TableCell colSpan={7} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin.financial.no_escrow_accounts_found")}</TableCell></TableRow> : filtered.map(e => {
               const s = STATUS[e.status as keyof typeof STATUS] || {
                 label: e.status,
-                cls: "bg-gray-100"
+                cls: "bg-white/5"
               };
               return <TableRow key={e.id} className="hover:bg-muted/40">
                       <TableCell>

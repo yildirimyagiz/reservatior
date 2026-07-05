@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "@/lib/react-router-shim";
 import { motion } from "framer-motion";
 
 export const ROICalculator = () => {
@@ -40,7 +42,7 @@ export const ROICalculator = () => {
       >
         <div className="text-center mb-12">
           <h2 className="text-indigo-400 font-semibold tracking-wider uppercase text-sm mb-2">
-            "We turn every property into a continuously optimizing revenue engine"
+            &quot;We turn every property into a continuously optimizing revenue engine&quot;
           </h2>
           <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-200 to-neutral-400 mb-4">
             {companyFromUrl} Portfolio Optimization

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -36,7 +38,7 @@ const EMPTY_SERVICE = {
   isRecurring: false,
   frequency: "monthly"
 };
-export default function Facilities() {
+export default function Facilities({ propertyId }: { propertyId?: string }) {
   const {
     t
   } = useTranslation();
@@ -58,15 +60,21 @@ export default function Facilities() {
   const [editOpen, setEditOpen] = useState(false);
 
   // Form states
-  const [facilityForm, setFacilityForm] = useState<any>(EMPTY_FACILITY);
-  const [serviceForm, setServiceForm] = useState<any>(EMPTY_SERVICE);
+  const [facilityForm, setFacilityForm] = useState<any>({ ...EMPTY_FACILITY, propertyId: propertyId || "" });
+  const [serviceForm, setServiceForm] = useState<any>({ ...EMPTY_SERVICE, propertyId: propertyId || "" });
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const fetchData = async () => {
     try {
       setLoading(true);
       const [facRes, srvRes, propRes] = await Promise.all([facilityApi.getFacilities(), includedServiceApi.getServices(), propertiesApi.getAll()]);
-      setFacilities(facRes.data || []);
-      setServices(srvRes.data || []);
+      let facList = facRes.data || [];
+      let srvList = srvRes.data || [];
+      if (propertyId) {
+        facList = facList.filter((item: any) => item.propertyId === propertyId);
+        srvList = srvList.filter((item: any) => item.propertyId === propertyId);
+      }
+      setFacilities(facList);
+      setServices(srvList);
       setProperties(propRes || []);
     } catch (error) {
       toast({
@@ -80,8 +88,8 @@ export default function Facilities() {
   useEffect(() => {
     fetchData();
   }, []);
-  const filteredFacilities = facilities.filter(row => row.name.toLowerCase().includes(search.toLowerCase()) || (row.property?.name || "").toLowerCase().includes(search.toLowerCase()));
-  const filteredServices = services.filter(row => row.name.toLowerCase().includes(search.toLowerCase()) || (row.property?.name || "").toLowerCase().includes(search.toLowerCase()));
+  const filteredFacilities = facilities.filter(row => (row.name.toLowerCase().includes(search.toLowerCase()) || (row.property?.name || "").toLowerCase().includes(search.toLowerCase())) && (!propertyId || row.propertyId === propertyId));
+  const filteredServices = services.filter(row => (row.name.toLowerCase().includes(search.toLowerCase()) || (row.property?.name || "").toLowerCase().includes(search.toLowerCase())) && (!propertyId || row.propertyId === propertyId));
   const handleCreateFacility = async (e: React.FormEvent) => {
     e.preventDefault();
     try {

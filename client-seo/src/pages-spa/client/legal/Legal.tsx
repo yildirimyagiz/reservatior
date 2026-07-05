@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -15,6 +17,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { FileText, Scale, ShieldCheck, AlertTriangle, Clock, Search, Plus, Eye, Edit, Download, Share2, Trash2, MoreHorizontal, FileSignature, FileCheck, FileWarning, Archive, Lock, Unlock } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
+import { apiClient } from "@/lib/api/client";
+import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 interface LegalDocument {
   id: string;
@@ -114,6 +118,7 @@ export default function Legal() {
   const {
     user
   } = useAuth();
+  const { toast } = useToast();
   const [documents, setDocuments] = useState<LegalDocument[]>([]);
   const [complianceChecks, setComplianceChecks] = useState<ComplianceCheck[]>([]);
   const [templates, setTemplates] = useState<LegalTemplate[]>([]);
@@ -123,251 +128,44 @@ export default function Legal() {
   const [activeTab, setActiveTab] = useState("documents");
   const [showCreateDialog, setShowCreateDialog] = useState(false);
 
-  // Mock data - replace with actual API calls
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    const mockDocuments: LegalDocument[] = [{
-      id: "doc1",
-      title: t("client.src.residential_rental_agreement_property"),
-      type: "lease",
-      category: "Rental",
-      description: t("client.src.standard_residential_rental_agreement"),
-      status: "signed",
-      priority: "medium",
-      parties: [{
-        id: "client1",
-        name: "John Doe",
-        type: "tenant",
-        role: "Tenant",
-        signed: true,
-        signedAt: "2024-01-15T10:00:00Z"
-      }, {
-        id: "landlord1",
-        name: "Jane Smith",
-        type: "landlord",
-        role: "Landlord",
-        signed: true,
-        signedAt: "2024-01-15T10:30:00Z"
-      }, {
-        id: "agent1",
-        name: user?.name || "Agent",
-        type: "agent",
-        role: "Real Estate Agent",
-        signed: false
-      }],
-      propertyId: "prop123",
-      clientId: "client1",
-      effectiveDate: "2024-01-15",
-      expiryDate: "2025-01-15",
-      renewalDate: "2024-12-15",
-      terms: [{
-        id: "term1",
-        title: t("client.src.rent_amount"),
-        content: "Monthly rent of $2,500 due on the 1st of each month",
-        required: true
-      }, {
-        id: "term2",
-        title: t("client.src.security_deposit"),
-        content: "Security deposit of $2,500 required",
-        required: true
-      }],
-      attachments: [{
-        id: "att1",
-        name: "rental_agreement_signed.pdf",
-        type: "application/pdf",
-        size: 1048576,
-        url: "/documents/rental_agreement_signed.pdf"
-      }],
-      compliance: {
-        isCompliant: true,
-        lastChecked: "2024-01-20T00:00:00Z",
-        issues: []
-      },
-      createdBy: user?.id || "",
-      createdAt: "2024-01-10T10:00:00Z",
-      updatedAt: "2024-01-15T10:30:00Z",
-      version: 2,
-      isArchived: false,
-      tags: ["rental", "apartment", "downtown"]
-    }, {
-      id: "doc2",
-      title: t("client.src.property_management_agreement"),
-      type: "contract",
-      category: "Management",
-      description: t("client.src.comprehensive_property_management_services"),
-      status: "approved",
-      priority: "high",
-      parties: [{
-        id: "owner1",
-        name: "Property Owner LLC",
-        type: "company",
-        role: "Property Owner",
-        signed: true,
-        signedAt: "2024-01-01T00:00:00Z"
-      }, {
-        id: "agent1",
-        name: user?.name || "Agent",
-        type: "agent",
-        role: "Property Manager",
-        signed: true,
-        signedAt: "2024-01-02T09:00:00Z"
-      }],
-      effectiveDate: "2024-01-01",
-      expiryDate: "2026-01-01",
-      terms: [{
-        id: "term1",
-        title: t("client.src.management_fee"),
-        content: "8% of monthly rent collected",
-        required: true
-      }],
-      attachments: [],
-      compliance: {
-        isCompliant: true,
-        lastChecked: "2024-01-15T00:00:00Z",
-        issues: []
-      },
-      createdBy: user?.id || "",
-      createdAt: "2023-12-15T10:00:00Z",
-      updatedAt: "2024-01-02T09:00:00Z",
-      version: 1,
-      isArchived: false,
-      tags: ["management", "commercial", "long-term"]
-    }, {
-      id: "doc3",
-      title: t("client.src.disclosure_statement_property_456"),
-      type: "disclosure",
-      category: "Disclosure",
-      description: t("client.src.property_condition_and_history"),
-      status: "draft",
-      priority: "urgent",
-      parties: [{
-        id: "client2",
-        name: "Sarah Johnson",
-        type: "client",
-        role: "Potential Buyer",
-        signed: false
-      }],
-      propertyId: "prop456",
-      clientId: "client2",
-      effectiveDate: "",
-      terms: [{
-        id: "term1",
-        title: t("client.src.property_condition"),
-        content: "Full disclosure of property condition",
-        required: true
-      }],
-      attachments: [],
-      compliance: {
-        isCompliant: false,
-        lastChecked: "2024-01-25T00:00:00Z",
-        issues: [{
-          type: "error",
-          message: t("client.src.missing_leadbased_paint_disclosure"),
-          resolved: false
-        }, {
-          type: "warning",
-          message: t("client.src.property_age_disclosure_incomplete"),
-          resolved: false
-        }]
-      },
-      createdBy: user?.id || "",
-      createdAt: "2024-01-20T14:00:00Z",
-      updatedAt: "2024-01-25T10:00:00Z",
-      version: 1,
-      isArchived: false,
-      tags: ["disclosure", "buyer", "urgent"]
-    }];
-    const mockComplianceChecks: ComplianceCheck[] = [{
-      id: "check1",
-      documentId: "doc1",
-      type: "regulatory",
-      status: "passed",
-      score: 95,
-      maxScore: 100,
-      checkedBy: user?.name || "Agent",
-      checkedAt: "2024-01-20T00:00:00Z",
-      findings: [{
-        category: "Documentation",
-        severity: "low",
-        description: t("client.src.minor_formatting_issues"),
-        recommendation: "Update document formatting",
-        resolved: true
-      }],
-      nextDue: "2024-04-20T00:00:00Z"
-    }, {
-      id: "check2",
-      documentId: "doc3",
-      type: "legal",
-      status: "requires_action",
-      score: 70,
-      maxScore: 100,
-      checkedBy: user?.name || "Agent",
-      checkedAt: "2024-01-25T00:00:00Z",
-      findings: [{
-        category: "Compliance",
-        severity: "high",
-        description: t("client.src.missing_required_disclosures"),
-        recommendation: "Add lead-based paint and property age disclosures",
-        resolved: false
-      }],
-      nextDue: "2024-01-30T00:00:00Z"
-    }];
-    const mockTemplates: LegalTemplate[] = [{
-      id: "template1",
-      name: "Standard Residential Lease",
-      description: t("client.src.comprehensive_residential_lease_agreement"),
-      type: "lease",
-      category: "Rental",
-      content: "Standard lease agreement content...",
-      variables: [{
-        key: "tenant_name",
-        label: t("client.src.tenant_name"),
-        type: "text",
-        required: true
-      }, {
-        key: "rent_amount",
-        label: t("client.src.monthly_rent"),
-        type: "number",
-        required: true
-      }, {
-        key: "lease_term",
-        label: t("client.src.lease_term"),
-        type: "select",
-        required: true,
-        options: ["6 months", "1 year", "2 years"]
-      }],
-      isPublic: true,
-      usageCount: 45,
-      createdBy: user?.id || "",
-      createdAt: "2023-12-01T00:00:00Z",
-      updatedAt: "2024-01-15T00:00:00Z"
-    }, {
-      id: "template2",
-      name: "Property Management Agreement",
-      description: t("client.src.property_management_services_contract"),
-      type: "contract",
-      category: "Management",
-      content: "Management agreement content...",
-      variables: [{
-        key: "property_address",
-        label: t("client.src.property_address"),
-        type: "text",
-        required: true
-      }, {
-        key: "management_fee",
-        label: t("client.src.management_fee"),
-        type: "number",
-        required: true
-      }],
-      isPublic: false,
-      usageCount: 12,
-      createdBy: user?.id || "",
-      createdAt: "2023-11-15T00:00:00Z",
-      updatedAt: "2024-01-10T00:00:00Z"
-    }];
-    setDocuments(mockDocuments);
-    setComplianceChecks(mockComplianceChecks);
-    setTemplates(mockTemplates);
-  }, [user]);
+    const fetchLegalData = async () => {
+      try {
+        setIsLoading(true);
+        const [docsRes, checksRes, templatesRes] = await Promise.allSettled([
+          apiClient.get('/legal/documents'),
+          apiClient.get('/legal/compliance'),
+          apiClient.get('/legal/templates')
+        ]);
+        
+        if (docsRes.status === 'fulfilled' && (docsRes.value as any)?.data) {
+          setDocuments((docsRes.value as any).data);
+        } else {
+          setDocuments([]);
+        }
+        
+        if (checksRes.status === 'fulfilled' && (checksRes.value as any)?.data) {
+          setComplianceChecks((checksRes.value as any).data);
+        } else {
+          setComplianceChecks([]);
+        }
+        
+        if (templatesRes.status === 'fulfilled' && (templatesRes.value as any)?.data) {
+          setTemplates((templatesRes.value as any).data);
+        } else {
+          setTemplates([]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch legal data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchLegalData();
+  }, []);
   const getDocumentIcon = (type: string) => {
     switch (type) {
       case "contract":
@@ -445,7 +243,7 @@ export default function Legal() {
           <p className="text-muted-foreground">{t("client.src.manage_legal_documents_contracts")}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={() => {}}>
+          <Button variant="outline" onClick={() => toast({ title: t("client.src.templates_coming_soon") })}>
             <FileText className="w-4 h-4 mr-2" />{t("client.src.templates")}</Button>
           <Button onClick={() => setShowCreateDialog(true)}>
             <Plus className="w-4 h-4 mr-2" />{t("client.src.new_document")}</Button>

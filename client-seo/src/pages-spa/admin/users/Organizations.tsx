@@ -1,3 +1,6 @@
+"use client";
+import { apiClient } from '@/lib/api/client';
+
 import React, { useState } from "react";
 import { PageShell } from "../../client/layout/PageShell";
 import { Button } from "@/components/ui/button";
@@ -50,7 +53,7 @@ const ORG_STATUS = (t: any) => {
     },
     TRIAL: {
       label: t("trialNode"),
-      color: "bg-blue-500/10 text-blue-400 border-blue-500/20"
+      color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
     }
   };
 };
@@ -62,11 +65,11 @@ const PLAN_CONFIG = (t: any) => {
     },
     PRO: {
       label: t("proTierLabel"),
-      color: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+      color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
     },
     ENTERPRISE: {
       label: t("enterpriseTier"),
-      color: "bg-violet-500/10 text-violet-400 border-violet-500/20"
+      color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
     }
   };
 };
@@ -76,13 +79,13 @@ export default function Organizations() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/organizations/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/organizations/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/organizations/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/organizations/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -128,13 +131,13 @@ export default function Organizations() {
         {/* KPI Neural Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
-             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                <Building className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("total")}</p>
               <h3 className="text-3xl font-bold text-foreground leading-none">{stats.totalNodes}</h3>
-              <p className="text-[10px] font-bold text-blue-400 mt-4 leading-none">{t('organizations.globalStructureNodes')}</p>
+              <p className="text-[10px] font-bold text-slate-400 mt-4 leading-none">{t('organizations.globalStructureNodes')}</p>
             </CardContent>
           </Card>
 
@@ -150,24 +153,24 @@ export default function Organizations() {
           </Card>
 
           <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
-             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-indigo-500">
+             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                <Zap className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("pro")}</p>
-              <h3 className="text-3xl font-bold text-blue-400 leading-none">{stats.proTier}</h3>
-              <p className="text-[10px] font-bold text-indigo-400/60 mt-4 leading-none">{t('organizations.enhancedFeatureNodes')}</p>
+              <h3 className="text-3xl font-bold text-slate-400 leading-none">{stats.proTier}</h3>
+              <p className="text-[10px] font-bold text-slate-400/60 mt-4 leading-none">{t('organizations.enhancedFeatureNodes')}</p>
             </CardContent>
           </Card>
 
           <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
-             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-violet-500">
+             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                <Shield className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("enterprise")}</p>
-              <h3 className="text-3xl font-bold text-violet-400 leading-none">{stats.enterpriseTier}</h3>
-              <p className="text-[10px] font-bold text-violet-400/60 mt-4 leading-none">{t('organizations.maxSecurityProtocols')}</p>
+              <h3 className="text-3xl font-bold text-slate-400 leading-none">{stats.enterpriseTier}</h3>
+              <p className="text-[10px] font-bold text-slate-400/60 mt-4 leading-none">{t('organizations.maxSecurityProtocols')}</p>
             </CardContent>
           </Card>
         </div>
@@ -178,7 +181,7 @@ export default function Organizations() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-orange-500 transition-colors" />
               <Input placeholder={t("searchPlaceholder")} value={search} onChange={e => setSearch(e.target.value)} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-orange-500/20 focus:border-orange-500/40 transition-all font-medium border-l border-t" />
            </div>
-           <Button onClick={() => setCreateOpen(true)} className="bg-blue-600 hover:bg-blue-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-blue-600/20">
+           <Button onClick={() => setCreateOpen(true)} className="bg-slate-600 hover:bg-slate-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
               <Plus className="w-4 h-4" />
               {t("initOrg")}
            </Button>
@@ -186,7 +189,7 @@ export default function Organizations() {
 
         {/* Global Data Table */}
         <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent opacity-50"></div>
             <CardContent className="p-0">
                <Table>
                   <TableHeader className="bg-muted/50 border-b border-border">
@@ -202,7 +205,7 @@ export default function Organizations() {
                   <TableBody>
                      {loading ? <TableRow>
                           <TableCell colSpan={6} className="py-24 text-center">
-                            <Activity className="w-12 h-12 text-blue-500 animate-spin mx-auto mb-4 opacity-50" />
+                            <Activity className="w-12 h-12 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
                             <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t('organizations.syncing')}</p>
                           </TableCell>
                         </TableRow> : filteredOrgs.map(org => <TableRow key={org.id} className="border-b border-border hover:bg-muted/50 transition-all group">
@@ -233,7 +236,7 @@ export default function Organizations() {
                                        <span>{org.userCount}/{org.maxUsers}</span>
                                     </div>
                                     <div className="h-1.5 w-32 bg-muted/50 rounded-full overflow-hidden">
-                                       <div className="h-full bg-blue-500 shadow-[0_0_10px_#3b82f6]" style={{
+                                       <div className="h-full bg-slate-500 shadow-[0_0_10px_#3b82f6]" style={{
                         width: `${org.userCount / org.maxUsers * 100}%`
                       }}></div>
                                     </div>
@@ -276,10 +279,10 @@ export default function Organizations() {
       {/* Modernized Initialization Dialog */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="max-w-2xl bg-[#14151a] border-border text-foreground rounded-4xl p-0 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent"></div>
+           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent"></div>
            <DialogHeader className="p-8 border-b border-border bg-muted/50">
               <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-foreground">
-                <Layers className="w-6 h-6 text-blue-500" />
+                <Layers className="w-6 h-6 text-slate-500" />
                 {t('organizations.initDialogTitle')}
               </DialogTitle>
               <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t('organizations.initDialogDesc')}</DialogDescription>
@@ -289,7 +292,7 @@ export default function Organizations() {
               <div className="grid grid-cols-2 gap-8">
                  <div className="col-span-2 space-y-2">
                     <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t('organizations.formalDesignation')}</Label>
-                    <Input placeholder={t('organizations.namePlaceholder')} className="bg-card border-border rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-blue-500/20" />
+                    <Input placeholder={t('organizations.namePlaceholder')} className="bg-card border-border rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-slate-500/20" />
                  </div>
                  <div className="space-y-2">
                     <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t('organizations.entityRole')}</Label>
@@ -322,7 +325,7 @@ export default function Organizations() {
 
            <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
               <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setCreateOpen(false)}>{t('organizations.abortMod')}</Button>
-              <Button className="flex-2 h-16 rounded-2xl bg-blue-600 hover:bg-blue-500 text-foreground font-bold text-[10px] shadow-xl shadow-blue-600/30">{t('organizations.execInit')}</Button>
+              <Button className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-slate-500 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">{t('organizations.execInit')}</Button>
            </DialogFooter>
         </DialogContent>
       </Dialog>

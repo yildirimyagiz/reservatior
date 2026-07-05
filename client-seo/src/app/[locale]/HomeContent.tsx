@@ -16,6 +16,8 @@ import {
   ArrowRight, ShieldCheck, Key, Compass, Star, ChevronDown, Monitor, Watch, Gem, CheckCircle2
 } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { AIChatModal } from "@/components/home/AIChatModal";
 
 /* ───── Fallback Slides for Hero & Properties ───── */
 const FALLBACK_SLIDES = [
@@ -26,7 +28,7 @@ const FALLBACK_SLIDES = [
 ];
 
 const NAV_ITEMS = [
-  { labelKey: "client.src.properties", defaultLabel: "Properties", href: "/properties" },
+  { labelKey: "client.src.properties", defaultLabel: "Properties", href: "/property" },
   { labelKey: "client.src.explore", defaultLabel: "Explore", href: "/explore", badge: "NEW" },
   { labelKey: "client.src.pricing", defaultLabel: "Pricing", href: "/pricing" },
   { labelKey: "client.src.ai_studio", defaultLabel: "AI Studio", href: "/client/ai/studio" },
@@ -50,6 +52,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const { selectedRegion } = useRegionsStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [aiModalOpen, setAiModalOpen] = useState(false);
 
   // Search State
   const [searchMode, setSearchMode] = useState<"STAYS" | "EXPERIENCES" | "BUY">("STAYS");
@@ -127,90 +130,13 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
-
-      {/* ══════ ULTRA PREMIUM NAVBAR ══════ */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/90 dark:bg-[#050505]/90 backdrop-blur-3xl border-b border-black/5 dark:border-white/5 py-4" : "bg-transparent py-6"}`}>
-        <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-500 ${scrolled ? "bg-black text-white dark:bg-white dark:text-black" : "bg-white/10 backdrop-blur-md text-white border border-white/20"}`}>
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <span className={`text-2xl font-bold tracking-tight transition-colors duration-500 ${scrolled ? "text-slate-900 dark:text-white" : "text-white drop-shadow-md"}`}>
-              Reservatior
-            </span>
-          </Link>
-
-          <nav className="hidden lg:flex items-center gap-8">
-            {NAV_ITEMS.map(item => (
-              <Link key={item.href} href={item.href}
-                className={`text-sm font-semibold tracking-wide transition-all ${scrolled ? "text-slate-600 hover:text-black dark:text-slate-400 dark:hover:text-white" : "text-white/80 hover:text-white drop-shadow-sm"}`}>
-                {t(item.labelKey, { defaultValue: item.defaultLabel })}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="hidden sm:block">
-              <span className={`text-sm font-bold tracking-wide transition-colors ${scrolled ? "text-slate-900 dark:text-white hover:opacity-70" : "text-white hover:text-white/80"}`}>
-                {t("client.src.sign_in", { defaultValue: "Sign In" })}
-              </span>
-            </Link>
-            <Link href="/signup" className="hidden sm:block">
-              <Button className={`rounded-full px-6 h-12 text-sm font-bold tracking-wide shadow-2xl transition-all hover:scale-105 active:scale-95 ${scrolled ? "bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90" : "bg-white text-black hover:bg-white/90"}`}>
-                {t("client.src.sign_up", { defaultValue: "Get Started" })}
-              </Button>
-            </Link>
-            
-            {/* Mobile Menu Toggle */}
-            <button 
-              className={`lg:hidden p-2 rounded-full transition-colors ${scrolled ? "text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10" : "text-white hover:bg-white/10"}`}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu Dropdown */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-white dark:bg-[#050505] border-b border-border overflow-hidden"
-            >
-              <div className="px-6 py-4 flex flex-col gap-4">
-                {NAV_ITEMS.map(item => (
-                  <Link 
-                    key={item.href} 
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-lg font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors"
-                  >
-                    {t(item.labelKey, { defaultValue: item.defaultLabel })}
-                  </Link>
-                ))}
-                <div className="h-px bg-border my-2" />
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-lg font-bold text-slate-900 dark:text-white">
-                  {t("client.src.sign_in", { defaultValue: "Sign In" })}
-                </Link>
-                <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full rounded-full h-12 text-sm font-bold mt-2">
-                    {t("client.src.sign_up", { defaultValue: "Get Started" })}
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+      <AppHeader />
 
       {/* ══════ EDGE-TO-EDGE HERO ══════ */}
       <section className="relative h-[100svh] w-full flex flex-col justify-end pb-12 md:pb-24 pt-32 overflow-hidden bg-black">
         {slides.map((s: any, i: number) => (
           <motion.div key={i} style={{ opacity: heroOpacity }} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${i === currentSlide ? "opacity-100 z-0" : "opacity-0 -z-10"}`}>
-            <Image src={s.image} alt={s.title} fill className="object-cover transform scale-105 animate-[slow-pan_20s_ease-in-out_infinite]" priority={i === 0} />
+            <Image src={s.image} alt={s.title} fill sizes="100vw" className="object-cover transform scale-105 animate-[slow-pan_20s_ease-in-out_infinite]" priority={i === 0} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
           </motion.div>
         ))}
@@ -277,9 +203,19 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
                 </div>
               )}
 
-              <Button type="submit" className="w-full md:w-16 h-14 rounded-full bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 dark:text-black text-white shadow-xl transition-all flex items-center justify-center shrink-0">
-                <Search className="w-6 h-6" />
-              </Button>
+              <div className="flex gap-2 w-full md:w-auto">
+                <Button type="submit" className="w-full md:w-16 h-14 rounded-full bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 dark:text-black text-white shadow-xl transition-all flex items-center justify-center shrink-0">
+                  <Search className="w-6 h-6" />
+                </Button>
+                <Button 
+                  type="button" 
+                  onClick={() => setAiModalOpen(true)} 
+                  className="w-full md:w-16 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl transition-all flex items-center justify-center shrink-0"
+                  title="AI Search"
+                >
+                  <Sparkles className="w-6 h-6 animate-pulse" />
+                </Button>
+              </div>
             </form>
           </motion.div>
         </div>
@@ -393,7 +329,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
         <div className="max-w-[1800px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="md:col-span-1">
-              <span className="text-2xl font-black tracking-tight mb-6 block">Reservatior</span>
+              <span className="text-2xl font-black tracking-tight mb-6 block">{t("_locale_.homecontent.auto_ext_2")}</span>
               <p className="text-muted-foreground text-sm font-medium max-w-xs leading-relaxed">
                 {t("footer.desc", { defaultValue: "The ultimate operating system for modern luxury real estate, experiences, and property management." })}
               </p>
@@ -401,38 +337,40 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
             <div>
               <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.company", { defaultValue: "Company" })}</h4>
               <ul className="space-y-4">
-                <li><Link href="/about" className="font-semibold text-muted-foreground hover:text-foreground">About</Link></li>
-                <li><Link href="/careers" className="font-semibold text-muted-foreground hover:text-foreground">Careers</Link></li>
-                <li><Link href="/investors" className="font-semibold text-muted-foreground hover:text-foreground">Investors</Link></li>
+                <li><Link href="/about" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_3")}</Link></li>
+                <li><Link href="/careers" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_4")}</Link></li>
+                <li><Link href="/investors" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_5")}</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.platform", { defaultValue: "Platform" })}</h4>
               <ul className="space-y-4">
-                <li><Link href="/properties" className="font-semibold text-muted-foreground hover:text-foreground">Properties</Link></li>
-                <li><Link href="/client/experiences" className="font-semibold text-muted-foreground hover:text-foreground">Experiences</Link></li>
-                <li><Link href="/client/ai/studio" className="font-semibold text-muted-foreground hover:text-foreground">AI Studio</Link></li>
+                <li><Link href="/properties" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_6")}</Link></li>
+                <li><Link href="/client/experiences" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_7")}</Link></li>
+                <li><Link href="/client/ai/studio" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_8")}</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.legal", { defaultValue: "Legal" })}</h4>
               <ul className="space-y-4">
-                <li><Link href="/client/terms" className="font-semibold text-muted-foreground hover:text-foreground">Terms</Link></li>
-                <li><Link href="/client/privacy" className="font-semibold text-muted-foreground hover:text-foreground">Privacy</Link></li>
-                <li><Link href="/client/trust-center" className="font-semibold text-muted-foreground hover:text-foreground">Trust Center</Link></li>
+                <li><Link href="/client/terms" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_9")}</Link></li>
+                <li><Link href="/client/privacy" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_10")}</Link></li>
+                <li><Link href="/client/trust-center" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_11")}</Link></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-muted-foreground">
-            <p>© {new Date().getFullYear()} Reservatior Inc. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} {t("_locale_.homecontent.auto_ext_12")}</p>
             <div className="flex gap-6">
-              <span className="hover:text-foreground cursor-pointer transition-colors">Instagram</span>
-              <span className="hover:text-foreground cursor-pointer transition-colors">Twitter</span>
-              <span className="hover:text-foreground cursor-pointer transition-colors">LinkedIn</span>
+              <span className="hover:text-foreground cursor-pointer transition-colors">{t("_locale_.homecontent.auto_ext_13")}</span>
+              <span className="hover:text-foreground cursor-pointer transition-colors">{t("_locale_.homecontent.auto_ext_14")}</span>
+              <span className="hover:text-foreground cursor-pointer transition-colors">{t("_locale_.homecontent.auto_ext_15")}</span>
             </div>
           </div>
         </div>
       </footer>
+      
+      <AIChatModal isOpen={aiModalOpen} onClose={() => setAiModalOpen(false)} />
     </div>
   );
 }
@@ -443,7 +381,7 @@ function BentoCard({ prop, className, large = false }: { prop: any; className?: 
   if (!prop) return null;
   return (
     <Link href={`/properties/${prop.id || "#"}`} className={`group relative rounded-3xl overflow-hidden block ${className}`}>
-      <Image src={prop.image} alt={prop.title} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+      <Image src={prop.image} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 transition-opacity duration-500 group-hover:opacity-80" />
       
       {/* Tag */}
@@ -462,9 +400,9 @@ function BentoCard({ prop, className, large = false }: { prop: any; className?: 
         
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-center gap-4 text-white font-bold text-sm">
-            <span>{prop.beds} BEDS</span>
+            <span>{prop.beds} {t("_locale_.homecontent.auto_ext_16")}</span>
             <span className="w-1 h-1 bg-white/50 rounded-full" />
-            <span>{prop.baths} BATHS</span>
+            <span>{prop.baths} {t("_locale_.homecontent.auto_ext_17")}</span>
           </div>
           <span className={`${large ? "text-2xl" : "text-xl"} font-black text-white bg-white/10 px-4 py-2 rounded-xl backdrop-blur-md`}>{prop.price}</span>
         </div>

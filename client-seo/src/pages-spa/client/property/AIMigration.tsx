@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -10,7 +12,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, Box, CheckCircle2, Clock, DollarSign, Gift, Home, Image, PenTool, Sparkles, Star, TrendingUp, Video, Zap } from "lucide-react";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface AIBenefit {
   title: string;
   description: string;

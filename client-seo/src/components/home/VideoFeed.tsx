@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Heart, MessageCircle, Bookmark, MapPin, User, Zap, Star, TrendingUp, Volume2, VolumeX, Play, Eye, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/react-router-shim';
 import SEOMetadata from "@/components/seo/SEOMetadata";
 interface VideoListing {
   id: string;
@@ -86,7 +86,7 @@ export function VideoFeed({
             <p className="text-slate-400 mt-2 max-w-lg">{t("client.src.experience_properties_through_immersive")}</p>
           </div>
           <div className="hidden md:flex gap-2">
-            <Link to="/auth/signup">
+            <Link to="/client/signup">
               <Button variant="outline" className="border-gold/50 text-gold hover:bg-gold hover:text-black">{t("client.src.join_premium")}</Button>
             </Link>
           </div>
@@ -258,7 +258,7 @@ function VideoSlide({
               <MapPin className="w-3 h-3 mr-1" /> {listing.property.city}
             </div>
           </div>
-          <Link to={`/properties/${listing.id}`}>
+          <Link to={`/property/${listing.id}`}>
             {listing.isAiArbitrage || listing.isB2B ? (
               <Button size="sm" className="bg-gold hover:bg-white text-black font-bold uppercase tracking-widest text-[10px] h-9 px-4 shadow-[0_0_20px_rgba(255,215,0,0.4)]">
                 {listing.isAiArbitrage ? "Tasarruf Et" : "Hemen Rezerve Et"}

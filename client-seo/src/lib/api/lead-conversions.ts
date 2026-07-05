@@ -427,7 +427,7 @@ export const leadConversionsApi = {
     const response = await fetch(`${apiClient['baseURL']}/lead-conversions/export`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(params)

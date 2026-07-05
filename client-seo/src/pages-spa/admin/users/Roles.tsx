@@ -1,3 +1,6 @@
+"use client";
+import { useMutation } from '@tanstack/react-query';
+
 import { t } from "i18next";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -11,7 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { Edit, Trash2, Shield, Lock, Plus, Search, Users, ShieldAlert, ShieldCheck, Fingerprint, Activity, Zap, Layers, ChevronRight, MoreHorizontal } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
@@ -41,7 +44,7 @@ const PERMISSION_GROUPS = (t: any) => {
   return {
     properties: {
       label: t("properties"),
-      color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20"
+      color: "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
     },
     listings: {
       label: t("listings"),
@@ -53,11 +56,11 @@ const PERMISSION_GROUPS = (t: any) => {
     },
     financial: {
       label: t("rolesGroupsFinancial"),
-      color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20"
+      color: "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
     },
     reports: {
       label: t("reports"),
-      color: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20"
+      color: "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
     },
     admin: {
       label: t("admin.roles.groups.admin"),
@@ -65,7 +68,7 @@ const PERMISSION_GROUPS = (t: any) => {
     },
     integrations: {
       label: t("integrations"),
-      color: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20"
+      color: "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
     },
     ai: {
       label: t("ai"),
@@ -247,7 +250,7 @@ export default function Roles() {
           label: t('total'),
           value: stats.total,
           icon: Shield,
-          color: "text-blue-500"
+          color: "text-slate-500"
         }, {
           label: t('admin.roles.systemCores'),
           value: stats.system,
@@ -262,7 +265,7 @@ export default function Roles() {
           label: t('admin.roles.authorizedUsers'),
           value: stats.users,
           icon: Users,
-          color: "text-violet-500"
+          color: "text-slate-500"
         }].map((stat, i) => <motion.div key={i} initial={{
           opacity: 0,
           y: 20
@@ -307,7 +310,7 @@ export default function Roles() {
           setRoleDescription("");
           setSelectedPermissionIds([]);
           setCreateOpen(true);
-        }} className="bg-blue-600 hover:bg-blue-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-blue-600/20">
+        }} className="bg-slate-600 hover:bg-slate-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
             <Plus className="w-4 h-4" />
             {t("rolesInitnode")}
           </Button>
@@ -316,7 +319,7 @@ export default function Roles() {
         {/* Global Data Table */}
         <div className="px-4">
           <div className="bg-card/40 backdrop-blur-xl border-border dark:border-border rounded-4xl overflow-hidden shadow-2xl border-l-2 border-t-2 relative">
-             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-30"></div>
+             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent opacity-30"></div>
              <Table>
                 <TableHeader className="bg-muted/50 border-b border-border">
                   <TableRow className="border-none hover:bg-transparent">
@@ -330,7 +333,7 @@ export default function Roles() {
                <TableBody>
                   {loading ? <TableRow>
                       <TableCell colSpan={5} className="py-24 text-center">
-                        <Activity className="w-12 h-12 text-blue-500 animate-spin mx-auto mb-4 opacity-50" />
+                        <Activity className="w-12 h-12 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
                         <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t('admin.roles.syncing')}</p>
                       </TableCell>
                     </TableRow> : filteredRoles.map((role: Role) => <TableRow key={role.id} className="border-b border-border hover:bg-muted/20 transition-all group">

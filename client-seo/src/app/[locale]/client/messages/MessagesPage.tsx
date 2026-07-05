@@ -14,6 +14,7 @@ import {
   CheckCheck
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Message {
   id: string;
@@ -32,6 +33,7 @@ const mockMessages: Message[] = [
 ];
 
 export default function MessagesPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
@@ -52,16 +54,16 @@ export default function MessagesPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Messages</h1>
-              <p className="text-gray-400">Communicate with clients and partners</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("messages.messagespage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("messages.messagespage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("messages.messagespage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -138,7 +140,7 @@ export default function MessagesPage() {
                       </div>
                       <div>
                         <CardTitle className="text-white">{selectedMessage.sender}</CardTitle>
-                        <div className="text-sm text-gray-400">Online</div>
+                        <div className="text-sm text-gray-400">{t("messages.messagespage.auto_ext_4")}</div>
                       </div>
                     </div>
                   </CardHeader>
@@ -152,11 +154,11 @@ export default function MessagesPage() {
                       </div>
                       <div className="flex justify-end">
                         <div className="bg-purple-600 p-3 rounded-lg max-w-xs">
-                          <div className="text-white">I&apos;ll get back to you shortly</div>
+                          <div className="text-white">{t("messages.messagespage.auto_ext_5")}</div>
                           <div className="text-xs text-purple-200 mt-1 flex items-center gap-1 justify-end">
                             <CheckCheck className="w-3 h-3" />
-                            Just now
-                          </div>
+                            {t("messages.messagespage.auto_ext_6")}
+                                                                                </div>
                         </div>
                       </div>
                     </div>
@@ -177,7 +179,7 @@ export default function MessagesPage() {
                 <CardContent className="flex items-center justify-center h-full">
                   <div className="text-center text-gray-400">
                     <MessageSquare className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                    <p>Select a message to start chatting</p>
+                    <p>{t("messages.messagespage.auto_ext_7")}</p>
                   </div>
                 </CardContent>
               )}

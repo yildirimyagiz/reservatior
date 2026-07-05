@@ -1,3 +1,5 @@
+"use client";
+
 import { Shield, ShieldCheck, Clock, DollarSign, Users, Building2, Scale, AlertTriangle, CheckCircle, Sparkles, Star, Lock, Eye, BadgeCheck, ArrowRight, Hotel, Key, UserCheck, Gavel, Ban } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Header } from "@/components/home/Header";
@@ -133,7 +135,7 @@ export default function HospitalityStandards() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-neutral-500 dark:text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed">
-              Short-term rentals don't have to compromise building prestige.
+              Short-term rentals don&apos;t have to compromise building prestige.
               Our framework transforms every unit into a 5-star experience —
               maximizing owner revenue while protecting resident serenity.
             </p>
@@ -314,7 +316,7 @@ export default function HospitalityStandards() {
                   </span>
                 </h2>
                 <p className="text-neutral-500 dark:text-slate-400 text-sm font-medium leading-relaxed max-w-lg">
-                  When quality is non-negotiable, the entire ecosystem benefits. Property values rise, brand equity strengthens, and premium guests choose your building first. This isn't restriction — it's elevation.
+                  When quality is non-negotiable, the entire ecosystem benefits. Property values rise, brand equity strengthens, and premium guests choose your building first. This isn&apos;t restriction — it&apos;s elevation.
                 </p>
               </div>
 
@@ -358,11 +360,11 @@ export default function HospitalityStandards() {
             Ready to Join the Network?
           </h2>
           <p className="text-neutral-500 dark:text-slate-400 max-w-xl mx-auto font-medium text-sm leading-relaxed">
-            Claim your unit's digital twin, connect with our approved operator network, and start generating premium revenue — all while your neighbors sleep peacefully.
+            Claim your unit&apos;s digital twin, connect with our approved operator network, and start generating premium revenue — all while your neighbors sleep peacefully.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-4">
             <Button
-              onClick={() => window.location.href = "/properties"}
+              onClick={() => window.location.href = "/property"}
               className="h-14 px-10 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-500/25 font-bold tracking-wider text-xs"
             >
               Explore Properties <ArrowRight className="w-4 h-4 ml-2" />

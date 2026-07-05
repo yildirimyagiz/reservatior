@@ -23,6 +23,16 @@ export async function handleLeaseRenewal(data: any) {
     const locale = lease?.listing?.property?.org?.defaultLocale || "en-US";
     const currency = lease?.listing?.property?.org?.defaultCurrency || "USD";
 
+    // Check if organization exists before creating aiServiceTask
+    const org = await prisma.organization.findUnique({
+      where: { id: orgId }
+    });
+
+    if (!org) {
+      console.warn(`Organization ${orgId} not found, skipping aiServiceTask creation`);
+      return;
+    }
+
     // Log: renewal process started
     const aiTask = await prisma.aiServiceTask.create({
       data: {

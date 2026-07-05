@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { Search, MapPin, Home, DollarSign, Square, Filter, X, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

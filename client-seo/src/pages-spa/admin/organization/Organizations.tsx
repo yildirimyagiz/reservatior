@@ -1,3 +1,6 @@
+"use client";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -13,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Building, Users, DollarSign, MoreHorizontal, Activity, Plus, Search, Eye, Edit, Trash2, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface Organization {
   id: string;
   name: string;
@@ -198,19 +201,19 @@ export default function Organizations() {
       case 'ACTIVE':
         return 'bg-green-500';
       case 'INACTIVE':
-        return 'bg-gray-500';
+        return 'bg-white/10';
       case 'SUSPENDED':
         return 'bg-red-500';
       case 'PENDING':
         return 'bg-yellow-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
   const getSizeColor = (size: string) => {
     switch (size) {
       case 'STARTUP':
-        return 'bg-blue-500';
+        return 'bg-slate-500';
       case 'SMALL':
         return 'bg-green-500';
       case 'MEDIUM':
@@ -218,9 +221,9 @@ export default function Organizations() {
       case 'LARGE':
         return 'bg-orange-500';
       case 'ENTERPRISE':
-        return 'bg-purple-500';
+        return 'bg-slate-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
   const filteredOrganizations = organizations.filter(org => org.name.toLowerCase().includes(searchTerm.toLowerCase()) || org.domain?.toLowerCase().includes(searchTerm.toLowerCase()) || org.industry?.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -660,7 +663,7 @@ export default function Organizations() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-gray-500" />{t("admin.organization.inactive")}</span>
+                    <div className="w-2 h-2 rounded-full bg-white/10" />{t("admin.organization.inactive")}</span>
                   <span className="font-medium">
                     {organizations.filter(org => org.status === 'INACTIVE').length}
                   </span>

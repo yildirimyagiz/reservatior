@@ -1,6 +1,8 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link } from "@/lib/react-router-shim";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, ArrowRight, Home, Receipt, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";

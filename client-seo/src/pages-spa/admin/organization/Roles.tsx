@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -13,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Users, Plus, MoreHorizontal, Edit, Trash2, Activity, Shield, Search, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 type MemberRoleKey = 'OWNER' | 'VENDOR_MANAGER' | 'AGENCY_ADMIN' | 'AGENT' | 'ACCOUNTANT' | 'MAINTENANCE' | 'TENANT_GUEST' | 'ORG_ADMIN' | 'READ_ONLY';
 interface Role {
   id: string;
@@ -186,9 +188,9 @@ export default function Roles() {
       case 'OWNER':
         return 'bg-red-500';
       case 'ORG_ADMIN':
-        return 'bg-purple-500';
+        return 'bg-slate-500';
       case 'AGENCY_ADMIN':
-        return 'bg-blue-500';
+        return 'bg-slate-500';
       case 'VENDOR_MANAGER':
         return 'bg-green-500';
       case 'AGENT':
@@ -196,13 +198,13 @@ export default function Roles() {
       case 'ACCOUNTANT':
         return 'bg-yellow-500';
       case 'MAINTENANCE':
-        return 'bg-gray-500';
+        return 'bg-white/10';
       case 'TENANT_GUEST':
         return 'bg-pink-500';
       case 'READ_ONLY':
         return 'bg-slate-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
   const filteredRoles = roles.filter(role => {
@@ -263,7 +265,7 @@ export default function Roles() {
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{customRoles}</div>
+              <div className="text-2xl font-bold text-slate-600">{customRoles}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.userdefined")}</p>
             </CardContent>
           </Card>
@@ -344,7 +346,7 @@ export default function Roles() {
                 </div>
                 <div className="grid gap-2">
                   <Label>{t("admin.organization.permissions")}</Label>
-                  <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded-md p-4">
+                  <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded-xl p-4">
                     {permissions.map(permission => <div key={permission.id} className="flex items-center space-x-2">
                         <input type="checkbox" id={`perm-${permission.id}`} checked={createData.permissionIds.includes(permission.id)} onChange={e => {
                       if (e.target.checked) {
@@ -358,7 +360,7 @@ export default function Roles() {
                           permissionIds: createData.permissionIds.filter(id => id !== permission.id)
                         });
                       }
-                    }} className="rounded" />
+                    }} className="rounded-lg" />
                         <label htmlFor={`perm-${permission.id}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                           {permission.name}
                         </label>
@@ -390,7 +392,7 @@ export default function Roles() {
               </div>
               <div className="grid gap-2">
                 <Label>{t("admin.organization.permissions")}</Label>
-                <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded-md p-4">
+                <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded-xl p-4">
                   {permissions.map(permission => <div key={permission.id} className="flex items-center space-x-2">
                       <input type="checkbox" id={`edit-perm-${permission.id}`} checked={editData.permissionIds.includes(permission.id)} onChange={e => {
                     if (e.target.checked) {
@@ -404,7 +406,7 @@ export default function Roles() {
                         permissionIds: editData.permissionIds.filter(id => id !== permission.id)
                       });
                     }
-                  }} className="rounded" />
+                  }} className="rounded-lg" />
                       <label htmlFor={`edit-perm-${permission.id}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         {permission.name}
                       </label>
@@ -533,7 +535,7 @@ export default function Roles() {
             <CardContent>
               <div className="space-y-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-2xl font-bold text-slate-600">
                     {permissions.length}
                   </div>
                   <p className="text-sm text-muted-foreground">{t("admin.organization.total_permissions")}</p>

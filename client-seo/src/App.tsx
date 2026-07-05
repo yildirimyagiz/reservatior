@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { AppRouter } from "./router";
+// Note: AppRouter moved to Next.js App Router. Legacy SPA entry kept for reference.
 import { queryClient } from "./lib/query-client";
 import { CustomerSupport } from "@/components/support/CustomerSupport";
 import { HelmetProvider } from "react-helmet-async";
@@ -29,7 +29,9 @@ function App() {
                       <h2 className="text-xl font-medium text-slate-200">{t("client.src.loading_platform")}</h2>
                     </div>
                   </div>}>
-                  <AppRouter />
+                  <div className="text-center text-slate-400 p-8">
+                    {/* Legacy SPA wrapper - routing handled by Next.js App Router */}
+                  </div>
                 </Suspense>
                 <CustomerSupport />
                 <Toaster />

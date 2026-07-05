@@ -89,12 +89,12 @@ export class DemandGenerator {
 
     const recentViewings = await prisma.propertyViewing.findMany({
       where: {
-        scheduledAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        scheduledDate: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
         status: "COMPLETED",
       },
       include: {
         property: true,
-        assignedTo: true,
+        assignedAgent: true,
       },
       take: limit,
     });

@@ -294,7 +294,7 @@ export const documentTemplatesApi = {
     const response = await fetch(`${apiClient['baseURL']}/document-templates/export?orgId=${orgId}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(options)

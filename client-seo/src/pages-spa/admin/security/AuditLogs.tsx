@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
@@ -10,7 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { useQuery } from "@tanstack/react-query";
 import { Eye, Download, Shield, Settings, Trash2, Edit, Plus, LogIn, Search, AlertTriangle, Info, Activity, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -74,7 +76,7 @@ const ACTION_ICONS: Record<string, React.ComponentType<any>> = {
 const SEVERITY_CONFIG = {
   INFO: {
     label: t("admin.security.info"),
-    color: "bg-blue-100 text-blue-700",
+    color: "bg-slate-100 text-slate-700",
     icon: Info
   },
   WARNING: {
@@ -103,13 +105,13 @@ export default function AuditLogs() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/auditlogs/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/auditlogs/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/auditlogs/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/auditlogs/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -198,7 +200,7 @@ export default function AuditLogs() {
   };
   const getSeverityColor = (severity: string) => {
     const config = SEVERITY_CONFIG[severity as keyof typeof SEVERITY_CONFIG];
-    return config ? config.color : "bg-gray-100 text-gray-700";
+    return config ? config.color : "bg-white/5 text-slate-300";
   };
   const getSeverityLabel = (severity: string) => {
     const config = SEVERITY_CONFIG[severity as keyof typeof SEVERITY_CONFIG];
@@ -237,13 +239,13 @@ export default function AuditLogs() {
             </Card>
 
             <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t">
-              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                 <Activity className="w-12 h-12" />
               </div>
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.security.diurnal_cycle_events")}</p>
-                <h3 className="text-xl font-bold text-blue-400">{stats.todayLogs}</h3>
-                <p className="text-[10px] font-bold text-blue-500 mt-4">{t("admin.security.active_today")}</p>
+                <h3 className="text-xl font-bold text-slate-400">{stats.todayLogs}</h3>
+                <p className="text-[10px] font-bold text-slate-500 mt-4">{t("admin.security.active_today")}</p>
               </CardContent>
             </Card>
 
@@ -351,7 +353,7 @@ export default function AuditLogs() {
                         </div>
                       </td>
                       <td className="px-8">
-                        <Badge className={cn("text-[9px] font-bold   px-3 py-1 rounded-full  border-none shadow-lg", log.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : log.severity === 'WARNING' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400')}>
+                        <Badge className={cn("text-[9px] font-bold   px-3 py-1 rounded-full  border-none shadow-lg", log.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : log.severity === 'WARNING' ? 'bg-orange-500/20 text-orange-400' : 'bg-slate-500/20 text-slate-400')}>
                           {getSeverityLabel(log.severity)}
                         </Badge>
                       </td>
@@ -397,7 +399,7 @@ export default function AuditLogs() {
                     <label className="text-sm font-medium">{t("admin.security.user")}</label>
                     <div>
                       <div className="font-medium">{selected.user?.name}</div>
-                      <div className="text-sm text-gray-500">{selected.user?.email}</div>
+                      <div className="text-sm text-slate-400">{selected.user?.email}</div>
                       <Badge variant="outline" className="text-xs">
                         {selected.user?.role}
                       </Badge>
@@ -416,8 +418,8 @@ export default function AuditLogs() {
                     <label className="text-sm font-medium">{t("admin.security.entity")}</label>
                     <div>
                       <div className="font-medium">{selected.entityType}</div>
-                      {selected.entityName && <div className="text-sm text-gray-500">{selected.entityName}</div>}
-                      <div className="text-xs text-gray-400 font-mono">{t("admin.security.id")}{selected.entityId}</div>
+                      {selected.entityName && <div className="text-sm text-slate-400">{selected.entityName}</div>}
+                      <div className="text-xs text-slate-400 font-mono">{t("admin.security.id")}{selected.entityId}</div>
                     </div>
                   </div>
                   <div>
@@ -441,7 +443,7 @@ export default function AuditLogs() {
                 </div>
                 {selected.userAgent && <div>
                     <label className="text-sm font-medium">{t("admin.security.user_agent")}</label>
-                    <div className="text-sm text-gray-600 break-all">{selected.userAgent}</div>
+                    <div className="text-sm text-slate-400 break-all">{selected.userAgent}</div>
                   </div>}
                 {selected.description && <div>
                     <label className="text-sm font-medium">{t("admin.security.description")}</label>
@@ -449,7 +451,7 @@ export default function AuditLogs() {
                   </div>}
                 {selected.changes && Object.keys(selected.changes).length > 0 && <div>
                     <label className="text-sm font-medium">{t("admin.security.changes")}</label>
-                    <div className="border rounded p-3 bg-gray-50">
+                    <div className="border rounded-lg p-3 bg-white/5">
                       {formatChanges(selected.changes)}
                     </div>
                   </div>}
@@ -457,12 +459,12 @@ export default function AuditLogs() {
                     <label className="text-sm font-medium">{t("admin.security.value_change")}</label>
                     <div className="flex items-center space-x-4">
                       <div>
-                        <label className="text-xs text-gray-500">{t("admin.security.before")}</label>
+                        <label className="text-xs text-slate-400">{t("admin.security.before")}</label>
                         <div className="text-red-600 line-through">{String(selected.oldValue)}</div>
                       </div>
                       <div>→</div>
                       <div>
-                        <label className="text-xs text-gray-500">{t("admin.security.after")}</label>
+                        <label className="text-xs text-slate-400">{t("admin.security.after")}</label>
                         <div className="text-green-600">{String(selected.newValue)}</div>
                       </div>
                     </div>

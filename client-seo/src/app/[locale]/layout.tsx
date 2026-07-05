@@ -50,9 +50,11 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     },
     manifest: "/site.webmanifest",
     appleWebApp: {
-      capable: true,
       title: "Reservatior",
       statusBarStyle: "black-translucent",
+    },
+    other: {
+      "mobile-web-app-capable": "yes",
     },
     openGraph: {
       type: "website",
@@ -106,15 +108,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={locale || "en"} suppressHydrationWarning>
-      <Script id="locale-init" strategy="beforeInteractive">
-        {`(function(){var l=localStorage.getItem("i18nextLng")||localStorage.getItem("reservatior_lang");if(l){if(l==="tr-TR")l="tr";document.documentElement.lang=l;if(l==="ar")document.documentElement.dir="rtl"}})()`}
-      </Script>
       <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
       <link rel="dns-prefetch" href="https://images.unsplash.com" />
       <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
+        <Script id="locale-init" strategy="beforeInteractive">
+          {`(function(){var l=localStorage.getItem("i18nextLng")||localStorage.getItem("reservatior_lang");if(l){if(l==="tr-TR")l="tr";document.documentElement.lang=l;if(l==="ar")document.documentElement.dir="rtl"}})()`}
+        </Script>
         <OrganizationSchema />
         <WebsiteSchema />
         <Providers>{children}</Providers>

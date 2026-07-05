@@ -1,17 +1,20 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Mail, Eye, EyeOff, AlertCircle, Check, Zap, ChevronRight, Facebook, Twitter, Building2, User } from "lucide-react";
+import { Mail, Eye, EyeOff, AlertCircle, Check, Zap, ChevronRight, Facebook, Twitter, Building2, User } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/lib/auth/hooks";
 import { AuthUtils } from "@/lib/auth/utils";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 const GoogleIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -24,35 +27,81 @@ const GoogleIcon = ({ className }: { className?: string }) => (
 
 export default function Signup() {
   const { t } = useTranslation();
-  const [accountType, setAccountType] = useState<"INDIVIDUAL" | "CORPORATE">("INDIVIDUAL");
+  const [accountType, setAccountType] = useState<"INDIVIDUAL" | "CORPORATE">(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("signupAccountType");
+      if (saved === "INDIVIDUAL" || saved === "CORPORATE") {
+        return saved;
+      }
+    }
+    return "INDIVIDUAL";
+  });
   
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    name: "",
-    phone: "",
-    organizationName: "",
-    corporateType: "OWNER_PORTFOLIO"
+  const [formData, setFormData] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("signupFormData");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch {
+          return {
+            email: "",
+            password: "",
+            confirmPassword: "",
+            name: "",
+            phone: "",
+            organizationName: "",
+            corporateType: "OWNER_PORTFOLIO"
+          };
+        }
+      }
+    }
+    return {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
+      phone: "",
+      organizationName: "",
+      corporateType: "OWNER_PORTFOLIO"
+    };
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("signupAgreedToTerms");
+      return saved === "true";
+    }
+    return false;
+  });
   
   const { register, loading, error } = useAuth();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const promoCode = searchParams.get("promo") || undefined;
-  const leadId = searchParams.get("leadId");
+  const searchParams = useSearchParams() ?? new URLSearchParams();
+  const promoCode = searchParams?.get("promo") || undefined;
+  const leadId = searchParams?.get("leadId");
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [field]: value,
     }));
   };
+
+  useEffect(() => {
+    localStorage.setItem("signupFormData", JSON.stringify(formData));
+  }, [formData]);
+
+  useEffect(() => {
+    localStorage.setItem("signupAccountType", accountType);
+  }, [accountType]);
+
+  useEffect(() => {
+    localStorage.setItem("signupAgreedToTerms", agreedToTerms.toString());
+  }, [agreedToTerms]);
 
   const validateForm = () => {
     const emailValidation = AuthUtils.validateEmail(formData.email);
@@ -68,14 +117,19 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("handleSubmit called", formData);
+    console.log("accountType:", accountType);
+    console.log("agreedToTerms:", agreedToTerms);
     const validationError = validateForm();
+    console.log("validationError:", validationError);
     if (validationError) {
       toast.error(validationError);
       return;
     }
-    
+
     setIsLoading(true);
     try {
+      console.log("Calling register API...");
       await register(
         formData.email,
         formData.password,
@@ -86,9 +140,14 @@ export default function Signup() {
         accountType === "CORPORATE" ? formData.corporateType : undefined,
         accountType === "CORPORATE" ? formData.organizationName : undefined
       );
+      console.log("Register successful");
       toast.success("Hesabınız başarıyla oluşturuldu!");
+      localStorage.removeItem("signupFormData");
+      localStorage.removeItem("signupAccountType");
+      localStorage.removeItem("signupAgreedToTerms");
       navigate("/dashboard");
     } catch (err: any) {
+      console.error("Register error:", err);
       // Handled by auth hook, but we can toast
       toast.error(err?.message || "Kayıt olurken bir hata oluştu");
     } finally {
@@ -99,24 +158,16 @@ export default function Signup() {
   const isFormValid = useMemo(() => {
     const hasBasicFields = formData.email && formData.password && formData.name && formData.confirmPassword && agreedToTerms;
     const hasCorpFields = accountType === "CORPORATE" ? !!formData.organizationName : true;
-    return hasBasicFields && hasCorpFields && validateForm() === null;
+    return hasBasicFields && hasCorpFields;
   }, [formData, agreedToTerms, accountType]);
 
   const handleSocialLogin = (provider: string) => {
-    if (provider === "google") {
-      window.location.href = "http://localhost:3000/api/auth/google";
-    } else if (provider === "facebook") {
-      window.location.href = "http://localhost:3000/api/auth/facebook";
-    } else if (provider === "twitter") {
-      window.location.href = "http://localhost:3000/api/auth/twitter";
-    } else {
-      toast.info(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login is coming soon!`);
-    }
+    window.location.href = `${API_BASE}/api/auth/${provider}`;
   };
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] flex flex-col font-sans selection:bg-blue-500/30">
-      <div className="flex-1 flex justify-center items-center p-4 sm:p-8">
+      <div className="flex-1 flex justify-center items-center p-4 sm:p-8 pt-16">
         
         <div className="w-full max-w-xl bg-[#0a0a0c] border border-[#24262f] rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
@@ -131,10 +182,10 @@ export default function Signup() {
                  <Building2 className="w-6 h-6 text-blue-500" />
               </Link>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 tracking-tight">
-                {t("client.src.create_account")}
+                Create Account
               </h2>
               <p className="text-slate-400 text-sm sm:text-base">
-                {t("client.src.join_us_today_and")}
+                Join us today and
               </p>
             </div>
 
@@ -230,10 +281,10 @@ export default function Signup() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-slate-300 font-medium ml-1">{t("client.src.full_name")}</Label>
+                  <Label htmlFor="name" className="text-slate-300 font-medium ml-1">Full Name</Label>
                   <Input
                     id="name"
-                    placeholder={t("client.src.eg_john_doe")}
+                    placeholder="e.g. John Doe"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     className="bg-[#14151a] border-[#24262f] hover:border-slate-700 focus:border-blue-500 h-12 text-slate-200 rounded-xl"
@@ -241,7 +292,7 @@ export default function Signup() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-slate-300 font-medium ml-1">{t("client.src.phone_number")}</Label>
+                  <Label htmlFor="phone" className="text-slate-300 font-medium ml-1">Phone Number</Label>
                   <Input
                     id="phone"
                     type="tel"
@@ -254,11 +305,11 @@ export default function Signup() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-slate-300 font-medium ml-1">{t("client.src.email_address")}</Label>
+                <Label htmlFor="email" className="text-slate-300 font-medium ml-1">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder={t("client.src.johnexamplecom")}
+                  placeholder="john@example.com"
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   className="bg-[#14151a] border-[#24262f] hover:border-slate-700 focus:border-blue-500 h-12 text-slate-200 rounded-xl"
@@ -268,7 +319,7 @@ export default function Signup() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-2 relative">
-                  <Label htmlFor="password" className="text-slate-300 font-medium ml-1">{t("client.src.password")}</Label>
+                  <Label htmlFor="password" className="text-slate-300 font-medium ml-1">Password</Label>
                   <div className="relative">
                     <Input
                       id="password"
@@ -289,7 +340,7 @@ export default function Signup() {
                   </div>
                 </div>
                 <div className="space-y-2 relative">
-                  <Label htmlFor="confirmPassword" className="text-slate-300 font-medium ml-1">{t("client.src.confirm_password")}</Label>
+                  <Label htmlFor="confirmPassword" className="text-slate-300 font-medium ml-1">Confirm Password</Label>
                   <div className="relative">
                     <Input
                       id="confirmPassword"
@@ -322,10 +373,10 @@ export default function Signup() {
                   />
                 </div>
                 <Label htmlFor="terms" className="text-sm text-slate-400 leading-tight select-none cursor-pointer">
-                  {t("client.src.i_have_read_and")}
-                  <Link to="/terms" className="text-blue-400 hover:text-blue-300 transition-colors mx-1 font-medium">{t("client.src.terms_of_use")}</Link>
-                  {t("client.src.and")}
-                  <Link to="/privacy" className="text-blue-400 hover:text-blue-300 transition-colors ml-1 font-medium">{t("client.src.privacy_policy")}</Link>.
+                  I have read and
+                  <Link to="/terms" className="text-blue-400 hover:text-blue-300 transition-colors mx-1 font-medium">Terms of Use</Link>
+                  and
+                  <Link to="/privacy" className="text-blue-400 hover:text-blue-300 transition-colors ml-1 font-medium">Privacy Policy</Link>.
                 </Label>
               </div>
 
@@ -339,11 +390,11 @@ export default function Signup() {
               <Button
                 type="submit"
                 className="w-full h-14 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-base rounded-xl transition-all shadow-xl shadow-blue-600/20 group relative overflow-hidden mt-4"
-                disabled={!isFormValid || loading || isLoading}
+                disabled={loading || isLoading}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   {loading || isLoading ? "İşleniyor..." : (
-                    <>{t("client.src.create_account")}<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
+                    <>Create Account<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
                   )}
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
@@ -355,14 +406,11 @@ export default function Signup() {
                 <div className="w-full border-t border-[#24262f]"></div>
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="bg-[#0a0a0c] px-4 text-slate-500 font-bold tracking-widest">{t("client.src.or_continue_with")}</span>
+                <span className="bg-[#0a0a0c] px-4 text-slate-500 font-bold tracking-widest">OR CONTINUE WITH</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-4 gap-3">
-              <Button type="button" variant="outline" className="h-12 bg-[#14151a] border-[#24262f] hover:bg-slate-800/40 text-slate-300 rounded-xl transition-all group px-0" onClick={() => handleSocialLogin("github")}>
-                <Github className="h-5 w-5 group-hover:text-white transition-colors" />
-              </Button>
+            <div className="grid grid-cols-3 gap-3">
               <Button type="button" variant="outline" className="h-12 bg-[#14151a] border-[#24262f] hover:bg-slate-800/40 text-slate-300 rounded-xl transition-all group px-0" onClick={() => handleSocialLogin("google")}>
                 <GoogleIcon className="h-5 w-5 group-hover:text-white transition-colors" />
               </Button>
@@ -375,12 +423,13 @@ export default function Signup() {
             </div>
 
             <p className="text-center text-slate-400 mt-8">
-              {t("client.src.already_have_an_account")}{" "}
-              <Link to="/login" className="text-white hover:text-blue-400 transition-all font-bold underline underline-offset-4 decoration-slate-700 hover:decoration-blue-500">{t("client.src.log_in")}</Link>
+              Already have an account?{" "}
+              <Link to="/client/login" className="text-white hover:text-blue-400 transition-all font-bold underline underline-offset-4 decoration-slate-700 hover:decoration-blue-500">Log in</Link>
             </p>
           </motion.div>
         </div>
       </div>
+
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { MOCK_PROPERTIES } from "@/lib/mock-data";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import { ArrowRight, MapPin, Bed, Bath, Square, Play, Video } from "lucide-react";
 import { motion } from "framer-motion";
 export function FeaturedProperties() {
@@ -14,7 +14,7 @@ export function FeaturedProperties() {
           <h2 className="text-2xl md:text-3xl font-display font-medium tracking-wide mb-4">{t("client.src.featured_properties")}</h2>
           <p className="text-muted-foreground max-w-xl">{t("client.src.explore_our_curated_selection")}</p>
         </div>
-        <Link to="/properties">
+        <Link to="/property">
           <span className="hidden md:flex items-center text-primary font-medium hover:underline cursor-pointer">{t("client.src.view_all_listings")}<ArrowRight className="ml-2 w-4 h-4" />
           </span>
         </Link>
@@ -32,7 +32,7 @@ export function FeaturedProperties() {
       }} transition={{
         delay: index * 0.1
       }} className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-1">
-            <Link to={`/properties/${prop.id}`}>
+            <Link to={`/property/${prop.id}`}>
               <div className="aspect-[4/3] overflow-hidden relative">
                 <Image src={prop.coverImage} alt={prop.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" sizes="(max-width: 768px) 100vw, 50vw" />
                 

@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // ISR Configuration for SEO optimization
+  swcMinify: true,
   experimental: {
     // Enable ISR for better performance
     serverActions: {
       bodySizeLimit: '2mb',
     },
+    optimizePackageImports: ['lucide-react', 'framer-motion', '@tanstack/react-query', 'react-i18next'],
+    externalDir: true,
   },
   // Image optimization
   images: {
@@ -29,6 +32,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'loremflickr.com',
       },
     ],
   },
@@ -54,6 +61,40 @@ const nextConfig = {
           { key: 'Access-Control-Allow-Methods', value: 'GET,DELETE,PATCH,POST,PUT' },
           { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' },
         ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: '/:locale/settings',
+        destination: '/:locale/admin/settings',
+        permanent: false,
+      },
+      {
+        source: '/:locale/property',
+        destination: '/:locale/client/property',
+        permanent: false,
+      },
+      {
+        source: '/:locale/property/:id',
+        destination: '/:locale/client/property/:id',
+        permanent: false,
+      },
+      {
+        source: '/:locale/properties',
+        destination: '/:locale/admin/properties',
+        permanent: false,
+      },
+      {
+        source: '/:locale/leasecare',
+        destination: '/:locale/client/lease-care',
+        permanent: false,
+      },
+      {
+        source: '/:locale/admin/admin/:path*',
+        destination: '/:locale/admin/:path*',
+        permanent: false,
       },
     ];
   },

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, X, Percent, CheckCircle2, Shield, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/react-router-shim';
 
 interface AIUpsellBannerProps {
   data: {
@@ -120,7 +120,7 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
                     </span>
                   </div>
                   
-                  <Link to={`/properties/${data.propertyId}`} className="w-full sm:w-auto">
+                  <Link to={`/property/${data.propertyId}`} className="w-full sm:w-auto">
                     <Button className="w-full sm:w-auto rounded-full h-12 px-8 font-bold text-base shadow-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 transition-all gap-2 group">
                       Rezidansa Geçiş Yap <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Button>

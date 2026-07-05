@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -182,7 +184,7 @@ const CustomTooltip = ({
             backgroundColor: entry.color || entry.fill
           }}></div>
               <p className="text-xs font-bold text-foreground">
-                {entry.name}: <span className="text-blue-400">{entry.value.toLocaleString()}</span>
+                {entry.name}: <span className="text-slate-400">{entry.value.toLocaleString()}</span>
               </p>
             </div>)}
         </div>
@@ -246,7 +248,7 @@ export default function AnalyticsDashboard() {
       <div className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-white/5 p-6 rounded-2xl border border-white/10">
          <div className="flex items-center gap-4 flex-1">
             <div className="bg-white/5 border-white/10 rounded-2xl p-1.5 flex gap-1 border shadow-2xl transition-colors">
-               {["1d", "7d", "30d", "90d"].map(range => <Button key={range} variant="ghost" size="sm" onClick={() => setDateRange(range)} className={cn("px-4 rounded-xl text-[10px] font-bold transition-all", dateRange === range ? "bg-blue-600 text-white shadow-lg" : "text-slate-400 hover:text-white")}>
+               {["1d", "7d", "30d", "90d"].map(range => <Button key={range} variant="ghost" size="sm" onClick={() => setDateRange(range)} className={cn("px-4 rounded-xl text-[10px] font-bold transition-all", dateRange === range ? "bg-slate-600 text-white shadow-lg" : "text-slate-400 hover:text-white")}>
                      {range}
                   </Button>)}
             </div>
@@ -280,9 +282,9 @@ export default function AnalyticsDashboard() {
         label: t("admin.analytics.telemetryevents"),
         value: analytics.totalEvents.toLocaleString(),
         icon: Activity,
-        color: "text-blue-500",
+        color: "text-slate-500",
         trend: "+12.4%",
-        trendColor: "text-blue-400"
+        trendColor: "text-slate-400"
       }, {
         label: t("admin.analytics.uniquenodeusers"),
         value: analytics.uniqueUsers.toLocaleString(),
@@ -294,9 +296,9 @@ export default function AnalyticsDashboard() {
         label: t("admin.analytics.totalpageviewfragment"),
         value: analytics.pageViews.toLocaleString(),
         icon: Eye,
-        color: "text-purple-500",
+        color: "text-slate-500",
         trend: "+45.2%",
-        trendColor: "text-purple-400"
+        trendColor: "text-slate-400"
       }, {
         label: t("admin.analytics.conversionratio"),
         value: `${analytics.conversionRate}%`,
@@ -314,7 +316,7 @@ export default function AnalyticsDashboard() {
         delay: i * 0.1
       }}>
                <div className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border transition-all hover:bg-white/10 p-8">
-                  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500", stat.color)}>
+                  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500", stat.color)}>
                     <stat.icon className="w-10 h-10" />
                   </div>
                   <div className="flex items-center gap-2 mb-1">
@@ -333,10 +335,10 @@ export default function AnalyticsDashboard() {
         <Tabs value={selectedMetric} onValueChange={setSelectedMetric} className="w-full">
           <div className="px-4">
             <TabsList className="bg-white/5 border border-white/10 rounded-2xl h-14 p-1 shadow-2xl items-stretch w-full lg:w-fit">
-              <TabsTrigger value="overview" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.globaloverview")}</TabsTrigger>
-              <TabsTrigger value="users" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.useractivity")}</TabsTrigger>
-              <TabsTrigger value="conversion" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.conversionfunnel")}</TabsTrigger>
-              <TabsTrigger value="devices" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.devicetelemetry")}</TabsTrigger>
+              <TabsTrigger value="overview" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.globaloverview")}</TabsTrigger>
+              <TabsTrigger value="users" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.useractivity")}</TabsTrigger>
+              <TabsTrigger value="conversion" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.conversionfunnel")}</TabsTrigger>
+              <TabsTrigger value="devices" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.devicetelemetry")}</TabsTrigger>
             </TabsList>
           </div>
 
@@ -349,7 +351,7 @@ export default function AnalyticsDashboard() {
                         <h4 className="text-xl font-bold text-white leading-none">{t("admin.analytics.activity_velocity")}</h4>
                         <p className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.analytics.daily_interaction_clusters")}</p>
                      </div>
-                     <Cpu className="w-6 h-6 text-blue-500" />
+                     <Cpu className="w-6 h-6 text-slate-500" />
                   </div>
                   <ResponsiveContainer width="100%" height={320} minWidth={0}>
                     <AreaChart data={analytics.userActivity}>
@@ -411,14 +413,14 @@ export default function AnalyticsDashboard() {
               </div>
 
               <div className="bg-white/5 border-white/10 rounded-4xl p-8 shadow-2xl border relative overflow-hidden">
-                 <div className="absolute top-0 left-0 w-1 h-full bg-blue-600"></div>
+                 <div className="absolute top-0 left-0 w-1 h-full bg-slate-600"></div>
                  <div className="flex items-center justify-between mb-8">
                     <h4 className="text-xl font-bold text-white leading-none">{t("admin.analytics.critical_user_actions")}</h4>
-                    <Zap className="w-6 h-6 text-blue-500" />
+                    <Zap className="w-6 h-6 text-slate-500" />
                  </div>
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     {analytics.topActions.map((action, i) => <div key={i} className="bg-white/5 border-white/10 rounded-2xl p-6 transition-all hover:bg-white/10 group">
-                         <p className="text-[10px] font-bold text-slate-400 mb-2 group-hover:text-blue-400 transition-colors">{action.action}</p>
+                         <p className="text-[10px] font-bold text-slate-400 mb-2 group-hover:text-slate-400 transition-colors">{action.action}</p>
                          <h5 className="text-3xl font-bold text-white leading-none">{action.count.toLocaleString()}</h5>
                          <p className="text-[9px] font-bold text-slate-600 mt-2">{action.users}{t("admin.analytics.uniquenodes")}</p>
                       </div>)}
@@ -470,28 +472,28 @@ export default function AnalyticsDashboard() {
 
             <TabsContent value="conversion" className="space-y-8">
                <div className="bg-white/5 border-white/10 rounded-4xl p-10 shadow-2xl border overflow-hidden relative">
-                  <div className="absolute top-0 right-0 w-48 h-48 bg-blue-600/10 blur-[100px] rounded-full"></div>
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-slate-600/10 blur-[100px] rounded-full"></div>
                   <h4 className="text-xl font-bold text-white mb-10 leading-none">{t("admin.analytics.synergy_conversion_funnel")}</h4>
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                      {analytics.conversionFunnel.map((stage, i) => <div key={i} className="relative group">
-                          <div className="bg-white/5 border-white/10 rounded-3xl p-8 z-10 relative border group-hover:bg-blue-600/10 transition-all">
+                          <div className="bg-white/5 border-white/10 rounded-3xl p-8 z-10 relative border group-hover:bg-slate-600/10 transition-all">
                              <p className="text-[10px] font-bold text-slate-400 mb-2">{stage.stage}</p>
                              <div className="text-xl font-bold text-white leading-none mb-1">{stage.users}</div>
-                             <div className="text-sm font-bold text-blue-500">{stage.conversionRate}%</div>
+                             <div className="text-sm font-bold text-slate-500">{stage.conversionRate}%</div>
                           </div>
-                          {i < 4 && <div className="hidden lg:flex absolute top-1/2 -right-4 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-blue-600 items-center justify-center border-4 border-[#14151a] shadow-xl">
+                          {i < 4 && <div className="hidden lg:flex absolute top-1/2 -right-4 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-slate-600 items-center justify-center border-4 border-[#14151a] shadow-xl">
                                <MoreVertical className="w-4 h-4 text-white rotate-90" />
                             </div>}
                        </div>)}
                   </div>
-                  <div className="mt-12 h-24 w-full bg-gradient-to-r from-blue-600/20 via-transparent to-transparent rounded-full blur-3xl opacity-30"></div>
+                  <div className="mt-12 h-24 w-full bg-gradient-to-r from-slate-600/20 via-transparent to-transparent rounded-full blur-3xl opacity-30"></div>
                </div>
             </TabsContent>
 
             <TabsContent value="devices" className="space-y-8">
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div className="bg-white/5 border-white/10 rounded-4xl p-10 shadow-2xl border relative overflow-hidden">
-                     <div className="absolute -top-10 -left-10 w-40 h-40 bg-purple-600/10 blur-[100px]"></div>
+                     <div className="absolute -top-10 -left-10 w-40 h-40 bg-slate-600/10 blur-[100px]"></div>
                      <h4 className="text-xl font-bold text-white mb-10 leading-none mr-12">{t("admin.analytics.hardware_origin_distribution")}</h4>
                      <ResponsiveContainer width="100%" height={320} minWidth={0}>
                        <PieChart>
@@ -513,7 +515,7 @@ export default function AnalyticsDashboard() {
                      <div className="space-y-4">
                         {analytics.deviceBreakdown.map((device, i) => <div key={i} className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 transition-all">
                              <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-500">
+                                <div className="w-12 h-12 rounded-xl bg-slate-600/10 flex items-center justify-center text-slate-500">
                                    {getDeviceIcon(device.device)}
                                 </div>
                                 <div>

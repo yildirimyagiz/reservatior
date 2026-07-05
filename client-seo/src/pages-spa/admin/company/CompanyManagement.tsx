@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -53,7 +55,7 @@ export default function CompanyManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/organization/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/organization/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -78,7 +80,7 @@ export default function CompanyManagement() {
 
             const createMutation = useMutation({
               mutationFn: async (data: any) => {
-                return apiClient.post('/api/v1/organization', data);
+                return apiClient.post('/organization', data);
               },
               onSuccess: () => {
                 setIsAddOpen(false);
@@ -221,7 +223,7 @@ export default function CompanyManagement() {
       case 'COMPLETED':
         return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'IN_PROGRESS':
-        return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
       case 'DELAYED':
         return 'bg-red-500/10 text-red-400 border-red-500/20';
       case 'NOT_STARTED':
@@ -271,7 +273,7 @@ export default function CompanyManagement() {
         <Card className="bg-card border-border rounded-3xl p-8">
           <CardHeader>
             <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-              <Target className="w-5 h-5 text-purple-500" />{t("admin.company.setup_progress")}</CardTitle>
+              <Target className="w-5 h-5 text-slate-500" />{t("admin.company.setup_progress")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -324,7 +326,7 @@ export default function CompanyManagement() {
           id: 'team',
           label: t("admin.company.team"),
           icon: <Users className="w-4 h-4" />
-        }].map(tab => <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ? "text-foreground border-blue-500" : "text-muted-foreground border-transparent hover:text-foreground")}>
+        }].map(tab => <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ? "text-foreground border-slate-500" : "text-muted-foreground border-transparent hover:text-foreground")}>
               <div className="flex items-center gap-2">
                 {tab.icon}
                 {tab.label}
@@ -361,7 +363,7 @@ export default function CompanyManagement() {
                     </div>
                     
                     <div className="flex items-center gap-3">
-                      <Zap className="w-5 h-5 text-blue-400" />
+                      <Zap className="w-5 h-5 text-slate-400" />
                       <div>
                         <h4 className="text-sm font-bold text-foreground">{t("admin.company.domain_secured")}</h4>
                         <p className="text-xs text-muted-foreground">{t("admin.company.reservatiormaicom_registered")}</p>
@@ -374,7 +376,7 @@ export default function CompanyManagement() {
               <Card className="bg-card border-border rounded-3xl p-8">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-purple-500" />{t("admin.company.key_metrics")}</CardTitle>
+                    <TrendingUp className="w-5 h-5 text-slate-500" />{t("admin.company.key_metrics")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
@@ -412,7 +414,7 @@ export default function CompanyManagement() {
                 
                                 <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
                                   <DialogTrigger asChild>
-                                    <Button size="sm" className="bg-blue-600 hover:bg-blue-500">
+                                    <Button size="sm" className="bg-slate-600 hover:bg-slate-500">
                                         <Plus className="w-4 h-4 mr-2" />{t("admin.company.upload_document")}</Button>
                                   </DialogTrigger>
                                   
@@ -512,8 +514,8 @@ export default function CompanyManagement() {
           {activeTab === 'milestones' && <Card className="bg-card border-border rounded-3xl p-8">
               <CardHeader className="flex items-center justify-between">
                 <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-blue-500" />{t("admin.company.setup_milestones")}</CardTitle>
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-500">
+                  <Calendar className="w-5 h-5 text-slate-500" />{t("admin.company.setup_milestones")}</CardTitle>
+                <Button size="sm" className="bg-slate-600 hover:bg-slate-500">
                   <Plus className="w-4 h-4 mr-2" />{t("admin.company.add_milestone")}</Button>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -559,7 +561,7 @@ export default function CompanyManagement() {
               <CardHeader className="flex items-center justify-between">
                 <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
                   <Users className="w-5 h-5 text-emerald-500" />{t("admin.company.team_members")}</CardTitle>
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-500">
+                <Button size="sm" className="bg-slate-600 hover:bg-slate-500">
                   <Plus className="w-4 h-4 mr-2" />{t("admin.company.add_team_member")}</Button>
               </CardHeader>
               <CardContent className="space-y-4">

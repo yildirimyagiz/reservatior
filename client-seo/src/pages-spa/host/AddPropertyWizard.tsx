@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+"use client";
+
+import { useState, useRef } from "react";
+import { useNavigate, useLocation } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { apiClient } from "@/lib/api/client";
-import { Building, MapPin, Bed, Bath, ShieldCheck, CheckCircle2, ChevronRight, ChevronLeft, Building2, Home as HomeIcon } from "lucide-react";
+import { Building, Bed, Bath, ShieldCheck, ChevronRight, Building2, Home as HomeIcon, Upload, X, Loader2 } from "lucide-react";
 
 
 const steps = [
@@ -44,12 +46,79 @@ export default function AddPropertyWizard() {
     photos: []
   });
 
+  const [uploadingPhotos, setUploadingPhotos] = useState(false);
+  const [mlProcessing, setMlProcessing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleNext = () => {
     if (currentStep < steps.length - 1) setCurrentStep(prev => prev + 1);
   };
 
   const handlePrev = () => {
-    if (currentStep > 0) setCurrentStep(prev => prev - 1);
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1);
+    } else {
+      navigate("/admin/properties");
+    }
+  };
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files?.length) return;
+    setUploadingPhotos(true);
+    try {
+      for (const file of Array.from(files)) {
+        const form = new FormData();
+        form.append("file", file);
+        form.append("category", "images");
+        form.append("type", "PROPERTY_PHOTO");
+        form.append("propertyType", formData.type);
+        const result = await apiClient.post("/media/upload", form, {
+          headers: { "Content-Type": "multipart/form-data" },
+        }) as any;
+        const photo = result?.data || result;
+        setFormData((prev: any) => ({
+          ...prev,
+          photos: [...prev.photos, { url: photo.url, id: photo.id, name: photo.originalName }],
+        }));
+      }
+      toast({ title: "Fotoğraflar yüklendi", description: `${files.length} fotoğraf başarıyla yüklendi.` });
+    } catch (err: any) {
+      toast({ title: "Yükleme hatası", description: err.message || "Fotoğraflar yüklenirken hata oluştu.", variant: "destructive" });
+    } finally {
+      setUploadingPhotos(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const removePhoto = (index: number) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      photos: prev.photos.filter((_: any, i: number) => i !== index),
+    }));
+  };
+
+  const triggerMlProcessing = async (photoUrls: string[]) => {
+    setMlProcessing(true);
+    const processorUrl = process.env.NEXT_PUBLIC_ML_API_URL || "http://localhost:8080";
+    const processed: string[] = [];
+    for (const url of photoUrls) {
+      try {
+        await fetch(`${processorUrl}/skipper/tasks`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            workflow: "image-process",
+            data: { image_path: url, resize: true, thumbnail: true },
+          }),
+        });
+        processed.push(url);
+      } catch {
+        // ml service unavailable, continue with raw photos
+      }
+    }
+    setMlProcessing(false);
+    return processed;
   };
 
   const handleSubmit = async () => {
@@ -59,8 +128,10 @@ export default function AddPropertyWizard() {
     }
     setIsLoading(true);
     try {
-      // API expects certain fields depending on schema, we send minimum required
-      await apiClient.post("/property", {
+      const photoUrls = formData.photos.map((p: any) => p.url);
+      toast({ title: "ML İşleme", description: `${photoUrls.length} fotoğraf ml-services ile işleniyor...` });
+      await triggerMlProcessing(photoUrls);
+      const result = await apiClient.post("/property", {
         name: formData.name,
         type: formData.type,
         listingType: formData.listingType,
@@ -70,8 +141,23 @@ export default function AddPropertyWizard() {
         bathrooms: formData.bathrooms,
         areaSqm: formData.areaSqm,
         listingPrice: formData.listingPrice,
-        listingStatus: formData.listingStatus
-      });
+        listingStatus: formData.listingStatus,
+        photos: photoUrls,
+      }) as any;
+      const propertyId = result?.data?.id || result?.id;
+      if (propertyId && photoUrls.length > 0) {
+        for (const url of photoUrls) {
+          try {
+            await apiClient.post("/property-photo", {
+              url,
+              propertyId,
+              isPrimary: url === photoUrls[0],
+            });
+          } catch {
+            // individual photo link failure is non-critical
+          }
+        }
+      }
       toast({ title: "Tebrikler!", description: "Tesisiniz başarıyla eklendi ve incelemeye alındı." });
       navigate("/admin/properties");
     } catch (error: any) {
@@ -268,13 +354,59 @@ export default function AddPropertyWizard() {
                     <h1 className="text-4xl font-black mb-2">Fotoğraflarla süsleyin.</h1>
                     <p className="text-white/50">Harika fotoğraflar konukların tesisinizi seçmesinde en büyük etkendir.</p>
                   </div>
-                  <div className="border-2 border-dashed border-white/10 rounded-3xl p-12 flex flex-col items-center justify-center text-center bg-white/5 hover:bg-white/10 transition-colors cursor-pointer group">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handlePhotoUpload}
+                    className="hidden"
+                  />
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-white/10 rounded-3xl p-12 flex flex-col items-center justify-center text-center bg-white/5 hover:bg-white/10 hover:border-emerald-500/30 transition-all cursor-pointer group"
+                  >
                     <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <CheckCircle2 className="w-8 h-8 text-white/50" />
+                      {uploadingPhotos ? (
+                        <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
+                      ) : (
+                        <Upload className="w-8 h-8 text-white/50 group-hover:text-emerald-400 transition-colors" />
+                      )}
                     </div>
-                    <h3 className="text-lg font-bold mb-2">Fotoğraf Yükle (Simülasyon)</h3>
-                    <p className="text-sm text-white/50">Demo amaçlı şimdilik bu adımı geçebilirsiniz.</p>
+                    <h3 className="text-lg font-bold mb-2">
+                      {uploadingPhotos ? "Yükleniyor..." : "Fotoğraf Yüklemek İçin Tıklayın"}
+                    </h3>
+                    <p className="text-sm text-white/50">PNG, JPG, WebP — En fazla 10 fotoğraf</p>
                   </div>
+                  {formData.photos.length > 0 && (
+                    <div className="grid grid-cols-3 gap-3">
+                      {formData.photos.map((photo: any, idx: number) => (
+                        <div key={idx} className="relative group aspect-square rounded-2xl overflow-hidden bg-white/5 border border-white/10">
+                          <img
+                            src={photo.url}
+                            alt={photo.name || `Fotoğraf ${idx + 1}`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                          />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={(e) => { e.stopPropagation(); removePhoto(idx); }}
+                              className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                            >
+                              <X className="w-5 h-5" />
+                            </Button>
+                          </div>
+                          {idx === 0 && (
+                            <span className="absolute top-2 left-2 text-[10px] font-black tracking-widest bg-emerald-500/80 text-white px-2 py-0.5 rounded-full">
+                              KAPAK
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -286,7 +418,18 @@ export default function AddPropertyWizard() {
                   </div>
                   <div>
                     <h1 className="text-4xl font-black mb-4">Her şey hazır!</h1>
-                    <p className="text-white/50 text-lg max-w-md mx-auto">Tesisiniz <b>{formData.name}</b>, {formData.city} lokasyonunda ${formData.listingPrice} gecelik fiyatla Reservatior ağında yayınlanmaya hazır.</p>
+                    <p className="text-white/50 text-lg max-w-md mx-auto">Tesisiniz <b>{formData.name}</b>, {formData.city} lokasyonunda yayınlanmaya hazır.</p>
+                    <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm text-white/40">
+                      <span>{formData.bedrooms} yatak odası</span>
+                      <span className="w-1 h-1 bg-white/20 rounded-full" />
+                      <span>{formData.bathrooms} banyo</span>
+                      <span className="w-1 h-1 bg-white/20 rounded-full" />
+                      <span>{formData.areaSqm} m²</span>
+                      <span className="w-1 h-1 bg-white/20 rounded-full" />
+                      <span>${formData.listingPrice}</span>
+                      <span className="w-1 h-1 bg-white/20 rounded-full" />
+                      <span>{formData.photos.length} fotoğraf</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -300,11 +443,10 @@ export default function AddPropertyWizard() {
       <div className="h-24 border-t border-white/5 px-8 flex items-center justify-between bg-[#0A0A0B]">
         <Button 
           variant="ghost" 
-          onClick={handlePrev} 
-          disabled={currentStep === 0}
+          onClick={handlePrev}
           className="text-white/50 hover:text-white"
         >
-          <u>Geri Dön</u>
+          <u>{currentStep === 0 ? "Çık" : "Geri Dön"}</u>
         </Button>
         
         {currentStep < steps.length - 1 ? (

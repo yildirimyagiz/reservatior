@@ -12,6 +12,7 @@ import {
   Search
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const verificationSteps = [
   {
@@ -41,6 +42,7 @@ const verificationSteps = [
 ];
 
 export default function TenantVerificationPage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -54,16 +56,16 @@ export default function TenantVerificationPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Tenant Verification</h1>
-              <p className="text-gray-400">Comprehensive tenant screening and verification</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("tenant_verification.tenantverificationpage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("tenant_verification.tenantverificationpage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("tenant_verification.tenantverificationpage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 

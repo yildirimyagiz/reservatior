@@ -111,7 +111,7 @@ export class DistributionEngine {
     const prisma = prismaManager.getClient(region);
     const listings = await prisma.listing.findMany({
       where: {
-        status: { in: ["ACTIVE", "PENDING"] },
+        status: { in: ["AVAILABLE", "VACANT"] },
       },
       take: 100,
     });

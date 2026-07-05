@@ -1,3 +1,6 @@
+"use client";
+import React from 'react';
+
 import { t } from "i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +20,7 @@ import { useTranslation } from "react-i18next";
 import { usersApi, User } from "@/lib/api/users";
 import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 export default function Users() {
@@ -26,13 +29,13 @@ export default function Users() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/users/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/users/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/users/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/users/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -152,7 +155,7 @@ export default function Users() {
       case 'AGENT':
         return {
           label: t("admin.users.fieldagent"),
-          color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20'
+          color: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
         };
       default:
         return {
@@ -187,18 +190,18 @@ export default function Users() {
           </Card>
 
           <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
               <Shield className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("users")}</p>
-              <h3 className="text-3xl font-bold text-blue-400 leading-none font-mono">{users.filter(u => u.role === 'ADMIN').length}</h3>
+              <h3 className="text-3xl font-bold text-slate-400 leading-none font-mono">{users.filter(u => u.role === 'ADMIN').length}</h3>
             </CardContent>
           </Card>
 
           <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-orange-500">
-              <PulseIcon className="w-10 h-10" />
+              <Activity className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("usersNew")}</p>
@@ -220,7 +223,7 @@ export default function Users() {
           <Button onClick={() => {
           setSelectedUser(null);
           setCreateOpen(true);
-        }} className="bg-blue-600 hover:bg-blue-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-blue-600/20">
+        }} className="bg-slate-600 hover:bg-slate-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
             <Plus className="w-4 h-4" />
             {t("initEntity")}
           </Button>
@@ -265,7 +268,7 @@ export default function Users() {
                           <p className="text-[10px] font-bold text-muted-foreground truncate">{user.email}</p>
                           
                           <div className="flex flex-wrap gap-2 mt-6">
-                             <Badge className={cn("text-[8px] font-bold  tracking-[0.2em] px-3 py-1 rounded-md  border-none shadow-sm", getRoleConfig(user.role || 'USER').color)}>
+                             <Badge className={cn("text-[8px] font-bold  tracking-[0.2em] px-3 py-1 rounded-xl  border-none shadow-sm", getRoleConfig(user.role || 'USER').color)}>
                                 {getRoleConfig(user.role || 'USER').label}
                              </Badge>
                             {user.status === 'ACTIVE' ? <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1 shadow-sm">{t("admin.users.activesignal")}</Badge> : <Badge className="bg-muted text-muted-foreground border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1">{t("admin.users.offline")}</Badge>}

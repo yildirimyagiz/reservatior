@@ -1,4 +1,6 @@
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import { useNavigate } from "@/lib/react-router-shim";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FileText, Shield, Globe, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";

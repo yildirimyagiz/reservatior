@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -100,11 +102,11 @@ export default function Settings() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                          <div className="space-y-3">
                             <Label className="text-[10px] font-bold text-slate-400 ml-1">{t("admin.settings.first_designation")}</Label>
-                            <Input value={profileSettings.firstName} onChange={e => setProfileSettings({ ...profileSettings, firstName: e.target.value })} className="bg-white/5 border-white/10 rounded-2xl h-14 text-white focus:ring-purple-500/20" />
+                            <Input value={profileSettings.firstName} onChange={e => setProfileSettings({ ...profileSettings, firstName: e.target.value })} className="bg-white/5 border-white/10 rounded-2xl h-14 text-white focus:ring-slate-500/20" />
                          </div>
                          <div className="space-y-3">
                             <Label className="text-[10px] font-bold text-slate-400 ml-1">{t("admin.settings.last_designation")}</Label>
-                            <Input value={profileSettings.lastName} onChange={e => setProfileSettings({ ...profileSettings, lastName: e.target.value })} className="bg-white/5 border-white/10 rounded-2xl h-14 text-white focus:ring-purple-500/20" />
+                            <Input value={profileSettings.lastName} onChange={e => setProfileSettings({ ...profileSettings, lastName: e.target.value })} className="bg-white/5 border-white/10 rounded-2xl h-14 text-white focus:ring-slate-500/20" />
                          </div>
                          <div className="space-y-3">
                             <Label className="text-[10px] font-bold text-slate-400 ml-1">{t("admin.settings.communication_node")}</Label>
@@ -112,7 +114,7 @@ export default function Settings() {
                          </div>
                          <div className="space-y-3">
                             <Label className="text-[10px] font-bold text-slate-400 ml-1">{t("admin.settings.neural_frequency_phone")}</Label>
-                            <Input value={profileSettings.phone} onChange={e => setProfileSettings({ ...profileSettings, phone: e.target.value })} className="bg-white/5 border-white/10 rounded-2xl h-14 text-white focus:ring-purple-500/20" />
+                            <Input value={profileSettings.phone} onChange={e => setProfileSettings({ ...profileSettings, phone: e.target.value })} className="bg-white/5 border-white/10 rounded-2xl h-14 text-white focus:ring-slate-500/20" />
                          </div>
                       </div>
                       <div className="flex justify-end pt-4 border-t border-white/10">
@@ -127,7 +129,7 @@ export default function Settings() {
           <TabsContent value="notifications" className="focus-visible:ring-0">
              <Card className="bg-white/5 border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
                 <CardHeader className="pt-8 px-8">
-                   <CardTitle className="text-xs font-bold text-blue-400">{t("admin.settings.neural_alert_protocols")}</CardTitle>
+                   <CardTitle className="text-xs font-bold text-slate-400">{t("admin.settings.neural_alert_protocols")}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-8 space-y-6">
                    {[{ id: "emailNotifications", label: t("admin.settings.email_dispatch"), sub: "Mission logs via secondary node", icon: Globe },
@@ -135,7 +137,7 @@ export default function Settings() {
                      { id: "leadAlerts", label: t("admin.settings.request_velocity_alerts"), sub: "Immediate portfolio responses", icon: Bell }
                    ].map(pref => <div key={pref.id} className="flex items-center justify-between p-6 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
                          <div className="flex items-center gap-6">
-                            <div className="w-12 h-12 rounded-2xl bg-[#14151a] flex items-center justify-center text-blue-400 border border-white/10 transition-all">
+                            <div className="w-12 h-12 rounded-2xl bg-[#14151a] flex items-center justify-center text-slate-400 border border-white/10 transition-all">
                                <pref.icon className="w-6 h-6" />
                             </div>
                             <div>
@@ -249,7 +251,7 @@ export default function Settings() {
              <Card className="bg-white/5 border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
                 <CardHeader className="pt-8 px-8 flex flex-row items-center justify-between border-b border-white/10">
                    <div className="space-y-1">
-                      <CardTitle className="text-xs font-bold text-purple-400">{t("admin.settings.neural_gateway_keys")}</CardTitle>
+                      <CardTitle className="text-xs font-bold text-slate-400">{t("admin.settings.neural_gateway_keys")}</CardTitle>
                       <p className="text-[10px] font-bold text-slate-400">{t("admin.settings.external_node_synchronization_tokens")}</p>
                    </div>
                    <Button variant="ghost" className="h-10 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all font-bold text-[9px] border border-white/10 hover:border-white/10">
@@ -259,7 +261,7 @@ export default function Settings() {
                    <div className="space-y-4">
                       <Label className="text-[10px] font-bold text-slate-400 ml-1">{t("admin.settings.active_neural_key")}</Label>
                       <div className="flex gap-3">
-                         <Input value={apiSettings.apiKey} readOnly className="font-mono bg-white/5 border-white/10 rounded-2xl h-14 text-purple-400 tracking-[0.3em] overflow-hidden truncate" />
+                         <Input value={apiSettings.apiKey} readOnly className="font-mono bg-white/5 border-white/10 rounded-2xl h-14 text-slate-400 tracking-[0.3em] overflow-hidden truncate" />
                          <Button variant="outline" className="h-14 rounded-2xl px-6 bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-slate-800 transition-all font-bold text-[10px]">
                             <RefreshCw className="w-4 h-4 mr-2" />{t("admin.settings.revoke_key")}</Button>
                       </div>

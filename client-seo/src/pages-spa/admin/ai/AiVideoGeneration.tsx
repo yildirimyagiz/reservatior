@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -169,11 +171,11 @@ export default function AiVideoGenerationPage() {
       case 'FAILED':
         return 'bg-red-100 text-red-800';
       case 'PROCESSING':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-slate-100 text-slate-800';
       case 'PENDING':
         return 'bg-yellow-100 text-yellow-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-white/5 text-slate-300';
     }
   };
 
@@ -404,7 +406,7 @@ export default function AiVideoGenerationPage() {
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
                 <Label className="text-right pt-2 font-medium">{t("admin.ai.metadata")}</Label>
-                <pre className="col-span-3 bg-gray-100 p-2 rounded text-xs overflow-auto max-h-48">
+                <pre className="col-span-3 bg-white/5 p-2 rounded-lg text-xs overflow-auto max-h-48">
                   {form.metadata}
                 </pre>
               </div>

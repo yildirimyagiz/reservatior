@@ -23,6 +23,7 @@ import {
   Users
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Agent {
   id: string;
@@ -87,6 +88,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function AgentsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -112,16 +114,16 @@ export default function AgentsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Agents</h1>
-              <p className="text-gray-400">Manage your real estate agents and their performance</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("agents.agentspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("agents.agentspage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("agents.agentspage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -136,7 +138,7 @@ export default function AgentsPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Total Agents</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("agents.agentspage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{totalAgents}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-blue-500/10">
@@ -156,7 +158,7 @@ export default function AgentsPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Total Revenue</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("agents.agentspage.auto_ext_5")}</div>
                     <div className="text-2xl font-bold text-white">${(totalRevenue / 1000000).toFixed(1)}M</div>
                   </div>
                   <div className="p-3 rounded-lg bg-green-500/10">
@@ -176,7 +178,7 @@ export default function AgentsPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Avg Rating</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("agents.agentspage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-white">{avgRating.toFixed(1)}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-yellow-500/10">
@@ -214,16 +216,16 @@ export default function AgentsPage() {
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-900 border-purple-500/30">
-                    <SelectItem value="ALL">All Status</SelectItem>
-                    <SelectItem value="ACTIVE">Active</SelectItem>
-                    <SelectItem value="INACTIVE">Inactive</SelectItem>
-                    <SelectItem value="PENDING">Pending</SelectItem>
+                    <SelectItem value="ALL">{t("agents.agentspage.auto_ext_7")}</SelectItem>
+                    <SelectItem value="ACTIVE">{t("agents.agentspage.auto_ext_8")}</SelectItem>
+                    <SelectItem value="INACTIVE">{t("agents.agentspage.auto_ext_9")}</SelectItem>
+                    <SelectItem value="PENDING">{t("agents.agentspage.auto_ext_10")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button className="bg-purple-600 hover:bg-purple-700">
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Agent
-                </Button>
+                  {t("agents.agentspage.auto_ext_11")}
+                                                  </Button>
               </div>
             </CardContent>
           </Card>
@@ -291,21 +293,21 @@ export default function AgentsPage() {
 
                   <div className="grid grid-cols-2 gap-4 pt-4 border-t border-purple-500/20">
                     <div>
-                      <div className="text-xs text-gray-400 mb-1">Rating</div>
+                      <div className="text-xs text-gray-400 mb-1">{t("agents.agentspage.auto_ext_12")}</div>
                       <div className="flex items-center gap-1 text-white">
                         <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                         <span className="font-medium">{agent.rating}</span>
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-gray-400 mb-1">Deals</div>
+                      <div className="text-xs text-gray-400 mb-1">{t("agents.agentspage.auto_ext_13")}</div>
                       <div className="text-white font-medium">{agent.totalDeals}</div>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between pt-4 border-t border-purple-500/20">
                     <div>
-                      <div className="text-xs text-gray-400 mb-1">Revenue</div>
+                      <div className="text-xs text-gray-400 mb-1">{t("agents.agentspage.auto_ext_14")}</div>
                       <div className="text-green-400 font-medium">${(agent.totalRevenue / 1000000).toFixed(1)}M</div>
                     </div>
                     <div className="flex gap-2">

@@ -2,7 +2,7 @@
  import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useRegionsStore } from "@/lib/store/regions-store";
-import apiClient from "@/lib/api/client";
+import { apiClient } from '@/lib/api/client';
 
 /**
  * GeoInit Component

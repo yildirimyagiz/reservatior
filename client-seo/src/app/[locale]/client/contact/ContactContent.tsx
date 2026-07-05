@@ -10,8 +10,10 @@ import { Mail, Phone, MapPin, Send, RefreshCw, Shield, Cpu, ArrowUpRight } from 
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export function ContactContent() {
+    const { t } = useTranslation();
   const { toast } = useToast();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,16 +65,16 @@ export function ContactContent() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Contact Us</h1>
-              <p className="text-gray-400">Get in touch with our team</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("contact.contactcontent.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("contact.contactcontent.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/client/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("contact.contactcontent.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -85,14 +87,14 @@ export function ContactContent() {
           >
             <div className="space-y-8">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold text-white">Send us a message</h2>
-                <p className="text-gray-400 text-sm">We&apos;ll get back to you as soon as possible</p>
+                <h2 className="text-3xl font-bold text-white">{t("contact.contactcontent.auto_ext_4")}</h2>
+                <p className="text-gray-400 text-sm">{t("contact.contactcontent.auto_ext_5")}</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label className="text-gray-400">Name</Label>
+                    <Label className="text-gray-400">{t("contact.contactcontent.auto_ext_6")}</Label>
                     <Input
                       required
                       className="h-14 bg-white/10 border-purple-500/30 rounded-2xl text-white placeholder:text-gray-500"
@@ -100,7 +102,7 @@ export function ContactContent() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-gray-400">Company</Label>
+                    <Label className="text-gray-400">{t("contact.contactcontent.auto_ext_7")}</Label>
                     <Input
                       className="h-14 bg-white/10 border-purple-500/30 rounded-2xl text-white placeholder:text-gray-500"
                       placeholder="Your company"
@@ -109,7 +111,7 @@ export function ContactContent() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-gray-400">Email</Label>
+                  <Label className="text-gray-400">{t("contact.contactcontent.auto_ext_8")}</Label>
                   <Input
                     required
                     type="email"
@@ -119,7 +121,7 @@ export function ContactContent() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-gray-400">Message</Label>
+                  <Label className="text-gray-400">{t("contact.contactcontent.auto_ext_9")}</Label>
                   <Textarea
                     required
                     className="min-h-[160px] bg-white/10 border-purple-500/30 rounded-3xl text-white placeholder:text-gray-500 p-6"
@@ -134,12 +136,12 @@ export function ContactContent() {
                   {isSubmitting ? (
                     <div className="flex items-center gap-3">
                       <RefreshCw className="w-5 h-5 animate-spin" />
-                      <span>Sending...</span>
+                      <span>{t("contact.contactcontent.auto_ext_10")}</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-3">
                       <Send className="w-5 h-5" />
-                      <span>Send Message</span>
+                      <span>{t("contact.contactcontent.auto_ext_11")}</span>
                     </div>
                   )}
                 </Button>
@@ -185,19 +187,19 @@ export function ContactContent() {
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-white flex items-center gap-2">
                   <Shield className="w-5 h-5 text-blue-400" />
-                  Secure & Protected
-                </h3>
+                  {t("contact.contactcontent.auto_ext_12")}
+                                                  </h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Your data is protected with end-to-end encryption. We comply with GDPR and other privacy regulations.
-                </p>
+                  {t("contact.contactcontent.auto_ext_13")}
+                                                  </p>
                 <div className="flex items-center gap-6 pt-4">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-white text-sm font-medium">System Active</span>
+                    <span className="text-white text-sm font-medium">{t("contact.contactcontent.auto_ext_14")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Cpu className="w-4 h-4 text-blue-400" />
-                    <span className="text-white text-sm font-medium">AI-Powered</span>
+                    <span className="text-white text-sm font-medium">{t("contact.contactcontent.auto_ext_15")}</span>
                   </div>
                 </div>
               </div>

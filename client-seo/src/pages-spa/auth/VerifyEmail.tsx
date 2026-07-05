@@ -1,10 +1,12 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "@/lib/react-router-shim";
 import { motion } from "framer-motion";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { Header } from "@/components/home/Header";
 export default function VerifyEmail() {
   const {

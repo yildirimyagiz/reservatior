@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -174,7 +176,7 @@ export default function AdvancedSecurity() {
       case "LOW":
         return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
       case "MEDIUM":
-        return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+        return "bg-slate-500/10 text-slate-400 border-slate-500/20";
       case "HIGH":
         return "bg-orange-500/10 text-orange-400 border-orange-500/20";
       case "CRITICAL":
@@ -205,7 +207,7 @@ export default function AdvancedSecurity() {
           val: "92%",
           sub: "6 Active Protocols",
           icon: Shield,
-          color: "text-blue-400"
+          color: "text-slate-400"
         }, {
           label: t("admin.security.threat_level"),
           val: "Minimal",
@@ -217,7 +219,7 @@ export default function AdvancedSecurity() {
           val: "14",
           sub: "Neural Handshakes",
           icon: Users,
-          color: "text-purple-400"
+          color: "text-slate-400"
         }, {
           label: t("admin.security.alert_velocity"),
           val: "Low",
@@ -247,7 +249,7 @@ export default function AdvancedSecurity() {
           <TabsContent value="policies" className="space-y-6">
              <div className="flex justify-between items-center px-4">
                 <h4 className="text-xl font-bold text-foreground">{t("admin.security.security_protocols")}</h4>
-                <Button onClick={() => setPolicyDialogOpen(true)} className="h-12 bg-blue-600 hover:bg-blue-500 text-foreground rounded-2xl font-bold text-[10px] px-8 shadow-xl shadow-blue-600/20 gap-2">
+                <Button onClick={() => setPolicyDialogOpen(true)} className="h-12 bg-slate-600 hover:bg-slate-500 text-foreground rounded-2xl font-bold text-[10px] px-8 shadow-xl shadow-slate-600/20 gap-2">
                    <Settings className="w-4 h-4" />{t("admin.security.configure_matrix")}</Button>
              </div>
              
@@ -304,7 +306,7 @@ export default function AdvancedSecurity() {
                               </TableCell>
                               <TableCell className="px-8">
                                  <div className="space-y-1">
-                                    <p className="text-xs font-bold text-blue-400 leading-none">{event.userId || 'SYSTEM_DAEMON'}</p>
+                                    <p className="text-xs font-bold text-slate-400 leading-none">{event.userId || 'SYSTEM_DAEMON'}</p>
                                     <p className="text-[9px] font-bold text-slate-600 mt-1">{event.ipAddress}</p>
                                  </div>
                               </TableCell>
@@ -351,7 +353,7 @@ export default function AdvancedSecurity() {
                     icon: PhoneIcon,
                     check: false
                   }].map((node, i) => <div key={i} className="flex items-center gap-6 p-6 rounded-3xl bg-muted/50 border border-border hover:border-border hover:bg-muted/50 transition-all">
-                              <div className="w-12 h-12 rounded-2xl bg-[#14151a] flex items-center justify-center text-blue-400 border border-border">
+                              <div className="w-12 h-12 rounded-2xl bg-[#14151a] flex items-center justify-center text-slate-400 border border-border">
                                  <node.icon className="w-6 h-6" />
                               </div>
                               <div className="flex-1">

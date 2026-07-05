@@ -16,6 +16,7 @@ import {
   Mail
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface User {
   id: string;
@@ -35,8 +36,8 @@ const mockUsers: User[] = [
 ];
 
 const ROLE_COLORS: Record<string, string> = {
-  ADMIN: "bg-purple-500/20 text-purple-400",
-  USER: "bg-blue-500/20 text-blue-400",
+  ADMIN: "bg-slate-500/20 text-slate-400",
+  USER: "bg-slate-500/20 text-slate-400",
   AGENT: "bg-emerald-500/20 text-emerald-400",
   TENANT: "bg-amber-500/20 text-amber-400"
 };
@@ -48,6 +49,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function AdminUsersPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -57,7 +59,7 @@ export default function AdminUsersPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -67,16 +69,16 @@ export default function AdminUsersPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Users Management</h1>
-              <p className="text-gray-400">Manage platform users and permissions</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.users.title")}</h1>
+              <p className="text-gray-400">{t("admin.users.description")}</p>
             </div>
             <Button
               onClick={() => router.push('/admin/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-slate-600 hover:bg-slate-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("admin.users.back_to_dashboard")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -87,24 +89,24 @@ export default function AdminUsersPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
-                      placeholder="Search users..."
+                      placeholder={t("admin.users.search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
-                <Button className="bg-purple-600 hover:bg-purple-700">
+                <Button className="bg-slate-600 hover:bg-slate-700">
                   <Plus className="w-4 h-4 mr-2" />
-                  Add User
-                </Button>
+                  {t("admin.users.add_user")}
+                                                  </Button>
               </div>
             </CardContent>
           </Card>
@@ -116,11 +118,11 @@ export default function AdminUsersPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Users className="w-5 h-5" />
-                All Users ({filteredUsers.length})
+                {t("admin.users.list_title")}{filteredUsers.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -131,7 +133,7 @@ export default function AdminUsersPage() {
                     className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
+                      <div className="w-10 h-10 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-400 font-bold">
                         {user.name.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div>

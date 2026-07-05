@@ -1,8 +1,10 @@
+"use client";
+
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Sparkles, MapPin, Bed, Bath, ArrowRight, Mic, Zap } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import Image from "next/image";
 
 // Note: Gemini API call is now proxied securely through the backend
@@ -58,7 +60,7 @@ export const HomeChat = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/v1/ai-search`, {
+      const response = await fetch(`${API_URL}/ai-search`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: userMessage.text })

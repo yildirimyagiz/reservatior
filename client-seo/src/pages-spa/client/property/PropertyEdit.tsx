@@ -1,7 +1,9 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "@/lib/react-router-shim";
 import { PageShell } from "../../client/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,7 +37,7 @@ interface PropertyFormData {
 
 export default function PropertyEdit() {
   const { t } = useTranslation();
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams() as { id: string };
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -74,7 +76,8 @@ export default function PropertyEdit() {
     if (!id) return;
     setLoading(true);
     try {
-      const propData = await propertiesApi.getById(id);
+      const idStr = Array.isArray(id) ? id[0] : id;
+      const propData = await propertiesApi.getById(idStr);
       if (!propData) throw new Error("Property not found");
       setProperty(propData);
       setFormData({
@@ -213,7 +216,7 @@ export default function PropertyEdit() {
       if (!isEditing && result?.id) {
         navigate(`/property/${result.id}`);
       } else {
-        navigate("/properties");
+        navigate("/property");
       }
     } catch (error) {
       toast({

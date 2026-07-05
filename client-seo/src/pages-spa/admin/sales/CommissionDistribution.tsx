@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -100,10 +102,10 @@ export default function CommissionDistribution() {
           <Card className="bg-white/5 border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
               <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.pending_payouts")}</CardTitle>
-              <Wallet className="w-4 h-4 text-purple-400" />
+              <Wallet className="w-4 h-4 text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-purple-400">${stats?.pendingPayouts?.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-slate-400">${stats?.pendingPayouts?.toLocaleString()}</div>
               <p className="text-xs text-slate-400 mt-1">{t("admin.sales.across_all_entities")}</p>
             </CardContent>
           </Card>
@@ -111,10 +113,10 @@ export default function CommissionDistribution() {
           <Card className="bg-white/5 border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
               <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.agency_weight")}</CardTitle>
-              <Building className="w-4 h-4 text-blue-400" />
+              <Building className="w-4 h-4 text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-400">{stats?.agencyShare}%</div>
+              <div className="text-3xl font-bold text-slate-400">{stats?.agencyShare}%</div>
               <p className="text-xs text-slate-400 mt-1">{t("admin.sales.default_platform_rate")}</p>
             </CardContent>
           </Card>
@@ -135,7 +137,7 @@ export default function CommissionDistribution() {
           <Card className="lg:col-span-1 bg-white/5 border-white/10">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <Percent className="w-5 h-5 text-indigo-400" />{t("admin.sales.global_split_model")}
+                <Percent className="w-5 h-5 text-slate-400" />{t("admin.sales.global_split_model")}
               </CardTitle>
               <CardDescription className="text-slate-400">{t("admin.sales.default_hierarchical_distribution_weight")}</CardDescription>
             </CardHeader>
@@ -193,8 +195,8 @@ export default function CommissionDistribution() {
                     <TableHead className="text-slate-400">{t("admin.sales.deal_info")}</TableHead>
                     <TableHead className="text-slate-400">{t("admin.sales.gross_revenue")}</TableHead>
                     <TableHead className="bg-red-500/5 text-slate-400">{t("admin.sales.tax_deducted")}</TableHead>
-                    <TableHead className="bg-purple-500/5 text-slate-400">{t("admin.sales.platform_10")}</TableHead>
-                    <TableHead className="bg-blue-500/5 text-slate-400">{t("admin.sales.agency_split")}</TableHead>
+                    <TableHead className="bg-slate-500/5 text-slate-400">{t("admin.sales.platform_10")}</TableHead>
+                    <TableHead className="bg-slate-500/5 text-slate-400">{t("admin.sales.agency_split")}</TableHead>
                     <TableHead className="bg-emerald-500/5 text-slate-400">{t("admin.sales.agent_split")}</TableHead>
                     <TableHead className="text-right text-slate-400">{t("admin.sales.status")}</TableHead>
                   </TableRow>
@@ -209,11 +211,11 @@ export default function CommissionDistribution() {
                       <TableCell className="font-semibold text-red-400 bg-red-500/5">
                         ${(trx.amount * 0.18).toLocaleString()} <span className="text-[10px] opacity-70">{t("admin.sales.18_avg")}</span>
                       </TableCell>
-                      <TableCell className="font-semibold text-purple-400 bg-purple-500/5">
+                      <TableCell className="font-semibold text-slate-400 bg-slate-500/5">
                         {trx.shares[0]?.value}{t("admin.sales.platform")}
                       </TableCell>
-                      <TableCell className="bg-blue-500/5">
-                        <div className="font-semibold text-blue-400">{trx.type}</div>
+                      <TableCell className="bg-slate-500/5">
+                        <div className="font-semibold text-slate-400">{trx.type}</div>
                         <div className="text-xs text-slate-400">{t("admin.sales.entity_type")}</div>
                       </TableCell>
                       <TableCell className="bg-emerald-500/5">

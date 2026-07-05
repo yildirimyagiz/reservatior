@@ -1,6 +1,8 @@
+"use client";
+
 import { t } from "i18next";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

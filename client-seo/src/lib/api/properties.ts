@@ -295,4 +295,10 @@ export const propertiesApi = {
     return await apiClient.get<any>(`/api/v1/property/${id}/valuation`);
     
   },
+
+  // AI Staging & Visual Enhancement
+  runAIStaging: async (propertyId: string, options?: { style?: string, roomType?: string }): Promise<any> => {
+    // In a real app this would proxy to the python ML backend staging endpoint
+    return await apiClient.post<any>(`/api/v1/property/${propertyId}/ai-staging`, options);
+  },
 };

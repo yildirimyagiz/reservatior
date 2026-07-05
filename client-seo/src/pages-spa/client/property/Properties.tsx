@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState, useEffect } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -6,13 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Building, MapPin, Users, DollarSign, Calendar, TrendingUp, Search, MoreHorizontal, Activity, Zap, Edit, Clock, BarChart3, Map, Grid, PlayCircle, Trash2, ShieldCheck } from "lucide-react";
+import { Building, MapPin, Users, DollarSign, Calendar, TrendingUp, Search, MoreHorizontal, Activity, Zap, Edit, Clock, BarChart3, Map, Grid, PlayCircle, Trash2, ShieldCheck, List } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { propertiesApi } from "@/lib/api/properties";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import GoogleMapView from "@/components/map/GoogleMapView";
 import { MapProviderWrapper, useMapProvider } from "@/components/map/MapProvider";
@@ -42,7 +44,7 @@ export default function Properties() {
   const [block, setBlock] = useState("ALL");
   const [floor, setFloor] = useState("ALL");
   const [bedrooms, setBedrooms] = useState("ALL");
-  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const {
     provider,
     apiKey
@@ -107,19 +109,7 @@ export default function Properties() {
     return matchesSearch && matchesListing && matchesType && matchesStatus && matchesBlock && matchesFloor && matchesBedrooms;
   });
   return <MapProviderWrapper>
-      <PageShell title={t("client.property.portfolio.title")} description={t("client.property.portfolio.desc")} createLabel={t("client.property.portfolio.add")} onCreateClick={() => navigate("/admin/properties")} searchValue={searchTerm} onSearchChange={setSearchTerm} searchPlaceholder={t("client.property.portfolio.search")} stats={[{
-      label: t("totalAssets"),
-      value: properties.length
-    }, {
-      label: t("activeListings"),
-      value: properties.filter(p => p.listingStatus as string === 'AVAILABLE').length
-    }, {
-      label: t("totalRevenue"),
-      value: `$${properties.reduce((acc, p) => acc + (p.revenue || 0), 0).toLocaleString()}`
-    }, {
-      label: t("client.property.portfolio.stats.avgOccupancy"),
-      value: `${properties.length > 0 ? (properties.reduce((acc, p) => acc + (p.occupancyRate || 0), 0) / properties.length).toFixed(1) : 0}%`
-    }]} actions={<div className="flex flex-wrap items-center gap-2">
+      <PageShell title={t("client.property.portfolio.title")} description={t("client.property.portfolio.desc")} createLabel={t("client.property.portfolio.add")} onCreateClick={() => navigate("/admin/properties")} searchValue={searchTerm} onSearchChange={setSearchTerm} searchPlaceholder={t("client.property.portfolio.search")} actions={<div className="flex flex-wrap items-center gap-2">
             <Select value={listingType} onValueChange={setListingType}>
               <SelectTrigger className="w-[140px] h-10 bg-white/5 border-white/5 text-slate-400 font-black text-[10px] tracking-widest italic rounded-xl hover:text-white transition-all">
                 <SelectValue placeholder={t("client.property.portfolio.filters.listing.placeholder")} />
@@ -185,36 +175,36 @@ export default function Properties() {
 
             <Select value={block} onValueChange={setBlock}>
               <SelectTrigger className="w-[100px] h-10 bg-white/5 border-white/5 text-slate-400 font-black text-[10px] tracking-widest italic rounded-xl hover:text-white transition-all">
-                <SelectValue placeholder="Blok" />
+                <SelectValue placeholder={t("client.property.portfolio.filters.block.placeholder", "Block")} />
               </SelectTrigger>
               <SelectContent className="bg-[#1a1b1e]/95 border-white/10 text-white font-black text-[10px] tracking-widest italic backdrop-blur-3xl rounded-xl">
-                <SelectItem value="ALL">Tüm Bloklar</SelectItem>
+                <SelectItem value="ALL">{t("client.property.portfolio.filters.block.all", "All Blocks")}</SelectItem>
                 {blocks.map(b => (
-                  <SelectItem key={b} value={b as string}>{b} Blok</SelectItem>
+                  <SelectItem key={b} value={b as string}>{b} {t("client.property.portfolio.filters.block.label", "Block")}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
 
             <Select value={floor} onValueChange={setFloor}>
               <SelectTrigger className="w-[100px] h-10 bg-white/5 border-white/5 text-slate-400 font-black text-[10px] tracking-widest italic rounded-xl hover:text-white transition-all">
-                <SelectValue placeholder="Kat" />
+                <SelectValue placeholder={t("client.property.portfolio.filters.floor.placeholder", "Floor")} />
               </SelectTrigger>
               <SelectContent className="bg-[#1a1b1e]/95 border-white/10 text-white font-black text-[10px] tracking-widest italic backdrop-blur-3xl rounded-xl max-h-[300px]">
-                <SelectItem value="ALL">Tüm Katlar</SelectItem>
+                <SelectItem value="ALL">{t("client.property.portfolio.filters.floor.all", "All Floors")}</SelectItem>
                 {floors.map(f => (
-                  <SelectItem key={f} value={f as string}>{f}. Kat</SelectItem>
+                  <SelectItem key={f} value={f as string}>{f}. {t("client.property.portfolio.filters.floor.label", "Floor")}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
 
             <Select value={bedrooms} onValueChange={setBedrooms}>
               <SelectTrigger className="w-[120px] h-10 bg-white/5 border-white/5 text-slate-400 font-black text-[10px] tracking-widest italic rounded-xl hover:text-white transition-all">
-                <SelectValue placeholder="Daire Tipi" />
+                <SelectValue placeholder={t("client.property.portfolio.filters.bedrooms.placeholder", "Bedrooms")} />
               </SelectTrigger>
               <SelectContent className="bg-[#1a1b1e]/95 border-white/10 text-white font-black text-[10px] tracking-widest italic backdrop-blur-3xl rounded-xl">
-                <SelectItem value="ALL">Tüm Tipler</SelectItem>
+                <SelectItem value="ALL">{t("client.property.portfolio.filters.bedrooms.all", "All Bed")}</SelectItem>
                 {bedroomCounts.map(b => (
-                  <SelectItem key={b} value={b as string}>{b}+1 Daire</SelectItem>
+                  <SelectItem key={b} value={b as string}>{b}+1 {t("client.property.portfolio.filters.bedrooms.label", "Room")}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -235,6 +225,10 @@ export default function Properties() {
               <Grid className="w-4 h-4 mr-2" />
               {t("client.property.portfolio.views.grid")}
             </Button>
+            <Button variant={viewMode === 'list' ? 'default' : 'outline'} onClick={() => setViewMode('list')} className="h-10 rounded-xl font-black italic text-[10px] tracking-widest">
+              <List className="w-4 h-4 mr-2" />
+              {t("client.property.portfolio.views.list", "List")}
+            </Button>
             <Button variant={viewMode === 'map' ? 'default' : 'outline'} onClick={() => setViewMode('map')} className="h-10 rounded-xl font-black italic text-[10px] tracking-widest">
               <Map className="w-4 h-4 mr-2" />
               {t("client.property.portfolio.views.map")}
@@ -242,201 +236,148 @@ export default function Properties() {
           </div>}>
       <div className="space-y-10 pb-20 p-6">
         
-        {/* --- KPI NEURAL GRID --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-3xl overflow-hidden shadow-2xl relative group backdrop-blur-3xl">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all">
-              <Building className="w-12 h-12" />
-            </div>
-            <CardContent className="p-8">
-              <p className="text-[10px] font-black text-slate-500 tracking-widest mb-1 italic">{t("totalAssets")}</p>
-              <h3 className="text-4xl font-black text-white italic tracking-tighter leading-none">{properties.length}</h3>
-              <p className="text-[10px] font-bold text-emerald-400 mt-4 flex items-center gap-1 italic">
-                <TrendingUp className="w-3 h-3" /> {t("vsLastMonth", {
-                  percent: 12
-                })}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-3xl overflow-hidden shadow-2xl relative group border-l-emerald-500/30 backdrop-blur-3xl">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
-              <DollarSign className="w-12 h-12" />
-            </div>
-            <CardContent className="p-8">
-              <p className="text-[10px] font-black text-slate-500 tracking-widest mb-1 italic">{t("totalRevenue")}</p>
-              <h3 className="text-4xl font-black text-white italic tracking-tighter leading-none">
-                ${properties.reduce((acc, p) => acc + (p.revenue || 0), 0).toLocaleString()}
-              </h3>
-              <p className="text-[10px] font-bold text-orange-400 mt-4 flex items-center gap-1 italic">
-                <Clock className="w-3 h-3" /> {t("client.property.portfolio.stats.nextPayout", {
-                  days: 4
-                })}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-3xl overflow-hidden shadow-2xl relative group backdrop-blur-3xl">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-violet-500">
-              <Users className="w-12 h-12" />
-            </div>
-            <CardContent className="p-8">
-              <p className="text-[10px] font-black text-slate-500 tracking-widest mb-1 italic">{t("client.property.portfolio.stats.avgOccupancy")}</p>
-              <h3 className="text-4xl font-black text-white italic tracking-tighter leading-none">
-                {properties.length > 0 ? (properties.reduce((acc, p) => acc + (p.occupancyRate || 0), 0) / properties.length).toFixed(1) : 0}%
-              </h3>
-              <div className="mt-4 h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                <div className="h-full bg-violet-600 rounded-full" style={{
-                  width: `${properties.length > 0 ? properties.reduce((acc, p) => acc + (p.occupancyRate || 0), 0) / properties.length : 0}%`
-                }}></div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-3xl overflow-hidden shadow-2xl relative group backdrop-blur-3xl">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-orange-500">
-              <Activity className="w-12 h-12" />
-            </div>
-            <CardContent className="p-8">
-              <p className="text-[10px] font-black text-slate-500 tracking-widest mb-1 italic">{t("activeListings")}</p>
-              <h3 className="text-4xl font-black text-white italic tracking-tighter leading-none">
-                {properties.filter(p => p.listingStatus as string === 'AVAILABLE').length}
-              </h3>
-              <p className="text-[10px] font-bold text-slate-400 mt-4 flex items-center gap-2 italic">
-                {t("pendingSold", {
-                  pending: properties.filter(p => p.listingStatus as string === 'PENDING').length,
-                  sold: properties.filter(p => p.listingStatus as string === 'SOLD').length
-                })}
-              </p>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* --- MAIN CONTENT --- */}
-        {viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {viewMode === 'grid' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredProperties.map((property, idx) => (
               <div key={property.id} className="h-[400px]">
                 <PropertyCard property={property} index={idx} />
               </div>
             ))}
-          </div> : <div className="h-[600px] rounded-[40px] overflow-hidden border border-white/5 bg-[#14151a]/40 shadow-3xl">
+          </div>
+        ) : viewMode === 'map' ? (
+          <div className="h-[600px] rounded-[40px] overflow-hidden border border-white/5 bg-[#14151a]/40 shadow-3xl">
             <GoogleMapView properties={filteredProperties as any} onPropertyClick={property => navigate(`/property/${property.id}`)} height="600px" showControls={true} provider={provider} apiKey={typeof apiKey === 'string' ? apiKey : (apiKey as any).google || ""} />
-          </div>}
-
-        {/* --- TABLE VIEW --- */}
-        <div className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[40px] overflow-hidden shadow-3xl backdrop-blur-3xl">
-          <CardHeader className="bg-white/5 border-b border-white/5 p-8">
-            <CardTitle className="text-xl font-black text-white italic tracking-tighter">{t("client.property.portfolio.table.title")}</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader className="bg-white/2 border-b border-white/5">
-                  <TableRow className="hover:bg-transparent border-none">
-                    <TableHead className="text-[10px] font-black text-slate-500 tracking-[0.2em] py-8 px-10 italic">{t("client.property.portfolio.table.assetProfile")}</TableHead>
-                    <TableHead className="text-[10px] font-black text-slate-500 tracking-[0.2em] px-10 italic">{t("client.property.portfolio.table.performance")}</TableHead>
-                    <TableHead className="text-[10px] font-black text-slate-500 tracking-[0.2em] px-10 italic">{t("client.property.portfolio.table.compliance")}</TableHead>
-                    <TableHead className="text-[10px] font-black text-slate-500 tracking-[0.2em] px-10 text-right italic">{t("client.property.portfolio.table.actions")}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {loading ? <TableRow>
-                      <TableCell colSpan={4} className="py-32 text-center">
-                        <Activity className="w-10 h-10 text-blue-500 animate-spin mx-auto mb-6 opacity-40" />
-                        <p className="text-[10px] font-black text-slate-500 tracking-widest italic animate-pulse">{t("loading")}</p>
-                      </TableCell>
-                    </TableRow> : filteredProperties.length === 0 ? <TableRow>
-                      <TableCell colSpan={4} className="py-32 text-center">
-                        <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{t("empty")}</p>
-                      </TableCell>
-                    </TableRow> : filteredProperties.map(property => <TableRow key={property.id} className="border-b border-white/5 hover:bg-white/2 transition-all group">
-                      <TableCell className="py-10 px-10">
-                        <div className="flex items-center gap-8">
-                          <div className="w-20 h-20 bg-black/40 border border-white/5 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all overflow-hidden relative shadow-inner">
-                            <Building className="w-10 h-10 text-slate-800" />
-                          </div>
-                          <div className="space-y-3">
-                            <h4 className="text-xl font-black text-white italic tracking-tighter leading-tight group-hover:text-blue-400 transition-colors">{property.name}</h4>
-                            <p className="text-[10px] font-black text-slate-500 tracking-widest flex items-center gap-2 leading-none italic">
-                              <MapPin className="w-3.5 h-3.5 text-blue-500" /> {property.city}
-                            </p>
-                            <div className="flex gap-3 mt-4 flex-wrap">
-                              <Badge className={cn("text-[8px] font-black  tracking-widest px-3 py-1 rounded-full border", getStatusColor(property.listingStatus))}>
-                                {property.listingStatus}
-                              </Badge>
-                              {property.agentVideos && property.agentVideos.length > 0 && <Badge className="bg-blue-600/10 text-blue-400 border border-blue-500/20 text-[8px] font-black tracking-widest px-3 py-1 rounded-full gap-2 shadow-xl">
-                                  <PlayCircle className="w-3.5 h-3.5" /> {t("client.property.portfolio.labels.videoTour")}
-                                </Badge>}
-                              {!property.ownershipVerified && <Badge className="bg-orange-600/10 text-orange-400 border border-orange-500/20 text-[8px] font-black tracking-widest px-3 py-1 rounded-full gap-2 shadow-xl">
-                                  <ShieldCheck className="w-3.5 h-3.5" /> Sahipsiz
-                                </Badge>}
+          </div>
+        ) : (
+          /* --- LIST / TABLE VIEW --- */
+          <div className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[40px] overflow-hidden shadow-3xl backdrop-blur-3xl">
+            <CardHeader className="bg-white/5 border-b border-white/5 p-8">
+              <CardTitle className="text-xl font-black text-white italic tracking-tighter">{t("client.property.portfolio.table.title")}</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader className="bg-white/2 border-b border-white/5">
+                    <TableRow className="hover:bg-transparent border-none">
+                      <TableHead className="text-[10px] font-black text-slate-500 tracking-[0.2em] py-8 px-10 italic">{t("client.property.portfolio.table.assetProfile")}</TableHead>
+                      <TableHead className="text-[10px] font-black text-slate-500 tracking-[0.2em] px-10 italic">{t("client.property.portfolio.table.performance")}</TableHead>
+                      <TableHead className="text-[10px] font-black text-slate-500 tracking-[0.2em] px-10 italic">{t("client.property.portfolio.table.compliance")}</TableHead>
+                      <TableHead className="text-[10px] font-black text-slate-500 tracking-[0.2em] px-10 text-right italic">{t("client.property.portfolio.table.actions")}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {loading ? (
+                      <TableRow>
+                        <TableCell colSpan={4} className="py-32 text-center">
+                          <Activity className="w-10 h-10 text-blue-500 animate-spin mx-auto mb-6 opacity-40" />
+                          <p className="text-[10px] font-black text-slate-500 tracking-widest italic animate-pulse">{t("loading")}</p>
+                        </TableCell>
+                      </TableRow>
+                    ) : filteredProperties.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={4} className="py-32 text-center">
+                          <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{t("empty")}</p>
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      filteredProperties.map(property => (
+                        <TableRow key={property.id} className="border-b border-white/5 hover:bg-white/2 transition-all group">
+                          <TableCell className="py-10 px-10">
+                            <div className="flex items-center gap-8">
+                              <div className="w-20 h-20 bg-black/40 border border-white/5 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all overflow-hidden relative shadow-inner">
+                                <Building className="w-10 h-10 text-slate-800" />
+                              </div>
+                              <div className="space-y-3">
+                                <h4 className="text-xl font-black text-white italic tracking-tighter leading-tight group-hover:text-blue-400 transition-colors">{property.name}</h4>
+                                <p className="text-[10px] font-black text-slate-500 tracking-widest flex items-center gap-2 leading-none italic">
+                                  <MapPin className="w-3.5 h-3.5 text-blue-500" /> {property.city}
+                                </p>
+                                <div className="flex gap-3 mt-4 flex-wrap">
+                                  <Badge className={cn("text-[8px] font-black tracking-widest px-3 py-1 rounded-full border", getStatusColor(property.listingStatus))}>
+                                    {property.listingStatus}
+                                  </Badge>
+                                  {property.agentVideos && property.agentVideos.length > 0 && (
+                                    <Badge className="bg-blue-600/10 text-blue-400 border border-blue-500/20 text-[8px] font-black tracking-widest px-3 py-1 rounded-full gap-2 shadow-xl">
+                                      <PlayCircle className="w-3.5 h-3.5" /> {t("client.property.portfolio.labels.videoTour")}
+                                    </Badge>
+                                  )}
+                                  {!property.ownershipVerified && (
+                                    <Badge className="bg-orange-600/10 text-orange-400 border border-orange-500/20 text-[8px] font-black tracking-widest px-3 py-1 rounded-full gap-2 shadow-xl">
+                                      <ShieldCheck className="w-3.5 h-3.5" /> Sahipsiz
+                                    </Badge>
+                                  )}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-10">
-                        <div className="space-y-4 min-w-[240px]">
-                          <div className="flex justify-between items-end">
-                            <span className="text-[10px] font-black text-slate-500 tracking-widest italic leading-none">{t("yieldDna")}</span>
-                            <span className="text-3xl font-black text-white italic tracking-tighter leading-none">
-                              ${(parseFloat(String(property.listingPrice)) || 0).toLocaleString()}
-                            </span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center">
-                              <span className="text-[9px] font-black text-slate-500 tracking-widest italic">{t("client.property.portfolio.stats.avgOccupancy")}</span>
-                              <span className="text-[9px] font-black text-white tracking-widest">{property.occupancyRate}%</span>
+                          </TableCell>
+                          <TableCell className="px-10">
+                            <div className="space-y-4 min-w-[240px]">
+                              <div className="flex justify-between items-end">
+                                <span className="text-[10px] font-black text-slate-500 tracking-widest italic leading-none">{t("yieldDna")}</span>
+                                <span className="text-3xl font-black text-white italic tracking-tighter leading-none">
+                                  ${(parseFloat(String(property.listingPrice)) || 0).toLocaleString()}
+                                </span>
+                              </div>
+                              <div className="space-y-2">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-[9px] font-black text-slate-500 tracking-widest italic">{t("client.property.portfolio.stats.avgOccupancy")}</span>
+                                  <span className="text-[9px] font-black text-white tracking-widest">{property.occupancyRate}%</span>
+                                </div>
+                                <div className="h-1.5 w-full bg-black/40 rounded-full border border-white/5 overflow-hidden shadow-inner">
+                                  <div className="h-full bg-blue-600 shadow-[0_0_10px_#2563eb]" style={{
+                                    width: `${property.occupancyRate}%`
+                                  }}></div>
+                                </div>
+                              </div>
                             </div>
-                            <div className="h-1.5 w-full bg-black/40 rounded-full border border-white/5 overflow-hidden shadow-inner">
-                              <div className="h-full bg-blue-600 shadow-[0_0_10px_#2563eb]" style={{
-                              width: `${property.occupancyRate}%`
-                            }}></div>
-                            </div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-10">
-                        <Badge className={cn("text-[8px] font-black  tracking-widest px-3 py-1 rounded-full border", property.legalComplianceStatus === 'COMPLIANT' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : property.legalComplianceStatus === 'PENDING' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20')}>
-                          {property.legalComplianceStatus || 'PENDING'}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="px-10 text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-14 w-14 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-xl">
-                              <MoreHorizontal className="w-6 h-6" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-56 bg-[#1a1b1e] border border-white/10 p-2 rounded-2xl shadow-3xl text-white backdrop-blur-3xl">
-                            <DropdownMenuLabel className="text-[10px] font-black text-slate-500 tracking-widest p-4 pb-2 italic">{t("assetActions")}</DropdownMenuLabel>
-                            <DropdownMenuSeparator className="bg-white/5 mx-2" />
-                            <DropdownMenuItem onClick={() => navigate(`/property/${property.id}`)} className="focus:bg-white/5 focus:text-blue-400 cursor-pointer rounded-xl h-12 px-4 text-[10px] font-black italic tracking-widest gap-4">
-                              <Activity className="w-4 h-4" />
-                              {t("viewDetails")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="focus:bg-white/5 focus:text-emerald-400 cursor-pointer rounded-xl h-12 px-4 text-[10px] font-black italic tracking-widest gap-4">
-                              <Edit className="w-4 h-4" />
-                              {t("editAsset")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="focus:bg-white/5 focus:text-purple-400 cursor-pointer rounded-xl h-12 px-4 text-[10px] font-black italic tracking-widest gap-4">
-                              <BarChart3 className="w-4 h-4" />
-                              {t("client.property.portfolio.table.analytics")}
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator className="bg-white/5 mx-2" />
-                            <DropdownMenuItem className="focus:bg-red-500/10 focus:text-red-500 cursor-pointer rounded-xl h-12 px-4 text-[10px] font-black italic tracking-widest gap-4">
-                              <Trash2 className="w-4 h-4" />
-                              {t("removeAsset")}
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>)}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </div>
+                          </TableCell>
+                          <TableCell className="px-10">
+                            <Badge className={cn("text-[8px] font-black tracking-widest px-3 py-1 rounded-full border", property.legalComplianceStatus === 'COMPLIANT' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : property.legalComplianceStatus === 'PENDING' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20')}>
+                              {property.legalComplianceStatus || 'PENDING'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="px-10 text-right">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="h-14 w-14 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-xl">
+                                  <MoreHorizontal className="w-6 h-6" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end" className="w-56 bg-[#1a1b1e] border border-white/10 p-2 rounded-2xl shadow-3xl text-white backdrop-blur-3xl">
+                                <DropdownMenuLabel className="text-[10px] font-black text-slate-500 tracking-widest p-4 pb-2 italic">{t("assetActions")}</DropdownMenuLabel>
+                                <DropdownMenuSeparator className="bg-white/5 mx-2" />
+                                <DropdownMenuItem onClick={() => navigate(`/property/${property.id}`)} className="focus:bg-white/5 focus:text-blue-400 cursor-pointer rounded-xl h-12 px-4 text-[10px] font-black italic tracking-widest gap-4">
+                                  <Activity className="w-4 h-4" />
+                                  {t("viewDetails")}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="focus:bg-white/5 focus:text-emerald-400 cursor-pointer rounded-xl h-12 px-4 text-[10px] font-black italic tracking-widest gap-4">
+                                  <Edit className="w-4 h-4" />
+                                  {t("editAsset")}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="focus:bg-white/5 focus:text-purple-400 cursor-pointer rounded-xl h-12 px-4 text-[10px] font-black italic tracking-widest gap-4">
+                                  <BarChart3 className="w-4 h-4" />
+                                  {t("client.property.portfolio.table.analytics")}
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator className="bg-white/5 mx-2" />
+                                <DropdownMenuItem className="focus:bg-red-500/10 focus:text-red-500 cursor-pointer rounded-xl h-12 px-4 text-[10px] font-black italic tracking-widest gap-4">
+                                  <Trash2 className="w-4 h-4" />
+                                  {t("removeAsset")}
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </div>
+        )}
       </div>
       </PageShell>
-    </MapProviderWrapper>;
+    </MapProviderWrapper>
 }

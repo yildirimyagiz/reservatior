@@ -1,10 +1,12 @@
+"use client";
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { Wrench, Plus, AlertTriangle, ShieldAlert, CheckCircle, Edit, Trash2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '@/lib/api';
+import { apiClient } from '@/lib/api';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -20,14 +22,14 @@ const MaintenanceManagement = () => {
   const { data: ordersRes, isLoading } = useQuery({
     queryKey: ['admin-maintenance'],
     queryFn: async () => {
-      const res: any = await api.get('/maintenance-work-order');
+      const res: any = await apiClient.get('/maintenance-work-order');
       return res.data;
     }
   });
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      return api.post('/maintenance-work-order', { 
+      return apiClient.post('/maintenance-work-order', { 
         ...data, 
         propertyId: 'prop_1', 
         reportedBy: 'admin_user',
@@ -43,7 +45,7 @@ const MaintenanceManagement = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      return api.delete(`/maintenance-work-order/${id}`);
+      return apiClient.delete(`/maintenance-work-order/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-maintenance'] });
@@ -142,7 +144,7 @@ const MaintenanceManagement = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Open Tickets</CardTitle>
-            <Wrench className="w-4 h-4 text-blue-400" />
+            <Wrench className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">312</div>
@@ -198,7 +200,7 @@ const MaintenanceManagement = () => {
               No work orders found.
             </div>
           ) : (
-            <div className="rounded-md border border-white/10">
+            <div className="rounded-xl border border-white/10">
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10 hover:bg-transparent">

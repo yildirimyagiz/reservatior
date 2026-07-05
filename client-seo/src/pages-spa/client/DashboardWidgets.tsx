@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";

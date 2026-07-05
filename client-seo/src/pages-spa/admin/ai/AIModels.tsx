@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -168,15 +170,15 @@ export default function AIModels() {
       case 'ACTIVE':
         return 'bg-green-500';
       case 'DEPLOYING':
-        return 'bg-blue-500';
+        return 'bg-slate-500';
       case 'PENDING':
         return 'bg-yellow-500';
       case 'FAILED':
         return 'bg-red-500';
       case 'INACTIVE':
-        return 'bg-gray-500';
+        return 'bg-white/10';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
   if (loading) {

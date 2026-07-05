@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -243,7 +245,7 @@ export default function AIImageAnalysisPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <div className="w-16 bg-gray-200 rounded-full h-2">
+                        <div className="w-16 bg-white/5 rounded-full h-2">
                           <div className="bg-green-500 h-2 rounded-full" style={{
                         width: `${analysis.confidence * 100}%`
                       }} />
@@ -339,7 +341,7 @@ export default function AIImageAnalysisPage() {
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
                 <Label className="text-right pt-2 font-medium">{t("admin.ai.results")}</Label>
-                <pre className="col-span-3 bg-gray-100 p-2 rounded text-xs overflow-auto max-h-48">
+                <pre className="col-span-3 bg-white/5 p-2 rounded-lg text-xs overflow-auto max-h-48">
                   {form.results}
                 </pre>
               </div>

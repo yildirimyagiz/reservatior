@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { PageShell } from "@/pages-spa/client/layout/PageShell";

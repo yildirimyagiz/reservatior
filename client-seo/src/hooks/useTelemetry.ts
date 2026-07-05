@@ -1,4 +1,4 @@
-import api from '@/lib/api';
+import { apiClient } from '@/lib/api';
 import { useEffect, useRef, useCallback } from 'react';
 
 
@@ -35,7 +35,7 @@ export function useTelemetry() {
       // If we had a batch endpoint we could send the array.
       // For now, we fire them off in parallel to the telemetry API.
       await Promise.all(
-        batch.map((event) => api.post('/telemetry/event', event))
+        batch.map((event) => apiClient.post('/telemetry/event', event))
       );
       console.log(`[Telemetry] Flushed ${batch.length} events to Decision Graph.`);
     } catch (error) {

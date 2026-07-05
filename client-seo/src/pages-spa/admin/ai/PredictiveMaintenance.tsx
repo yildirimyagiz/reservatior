@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -15,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface MaintenancePrediction {
   id: string;
   orgId: string;
@@ -86,11 +88,11 @@ const getRiskConfig = (t: any) => ({
 const getUrgencyConfig = (t: any) => ({
   ROUTINE: {
     label: t("admin.ai.routine", "Rutin"),
-    color: "bg-blue-100 text-blue-700"
+    color: "bg-slate-100 text-slate-700"
   },
   SCHEDULED: {
     label: t("admin.ai.scheduled", "Planlı"),
-    color: "bg-purple-100 text-purple-700"
+    color: "bg-slate-100 text-slate-700"
   },
   URGENT: {
     label: t("admin.ai.urgent", "Acil"),
@@ -212,11 +214,11 @@ export default function PredictiveMaintenance() {
   };
   const getRiskColor = (riskLevel: RiskLevel) => {
     const config = getRiskConfig(t)[riskLevel];
-    return config ? config.color : "bg-gray-100 text-gray-700";
+    return config ? config.color : "bg-white/5 text-slate-300";
   };
   const getUrgencyColor = (urgency: Urgency) => {
     const config = getUrgencyConfig(t)[urgency];
-    return config ? config.color : "bg-gray-100 text-gray-700";
+    return config ? config.color : "bg-white/5 text-slate-300";
   };
   return <PageShell title={t("admin.ai.predictive_maintenance")} description={t("admin.ai.aipowered_maintenance_predictions_and")}>
       <div className="space-y-6">
@@ -261,7 +263,7 @@ export default function PredictiveMaintenance() {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{formatCurrency(totalEstimatedCost)}</div>
+              <div className="text-2xl font-bold text-slate-600">{formatCurrency(totalEstimatedCost)}</div>
               <p className="text-xs text-muted-foreground">{t("admin.ai.total_estimated")}</p>
             </CardContent>
           </Card>
@@ -271,7 +273,7 @@ export default function PredictiveMaintenance() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
               <Input placeholder={t("admin.ai.search_predictions")} value={search} onChange={e => setSearch(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={filterRisk} onValueChange={setFilterRisk}>
@@ -457,14 +459,14 @@ export default function PredictiveMaintenance() {
 
                 <div>
                   <Label>{t("admin.ai.predicted_issue")}</Label>
-                  <div className="mt-1 p-3 bg-gray-50 rounded">
+                  <div className="mt-1 p-3 bg-white/5 rounded-lg">
                     {selectedPrediction.predictedIssue}
                   </div>
                 </div>
 
                 <div>
                   <Label>{t("admin.ai.recommended_action")}</Label>
-                  <div className="mt-1 p-3 bg-blue-50 rounded">
+                  <div className="mt-1 p-3 bg-slate-50 rounded-lg">
                     {selectedPrediction.recommendedAction}
                   </div>
                 </div>

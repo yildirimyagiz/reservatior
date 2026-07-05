@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,10 +16,10 @@ import { PropertyValuation } from "@/lib/api/valuations";
 import { format } from "date-fns";
 import { Search, Filter, Plus, Play, Download, TrendingUp, Activity, Zap, BarChart3, Clock, CheckCircle2, AlertCircle, Building, ArrowLeft, ChevronRight, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-export default function Valuations() {
+export default function Valuations({ propertyId }: { propertyId?: string }) {
   const {
     t
   } = useTranslation();
@@ -29,7 +31,7 @@ export default function Valuations() {
   });
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [createData, setCreateData] = useState({
-    propertyId: "",
+    propertyId: propertyId || "",
     valuationType: "BASIC" as ValuationType,
     priority: "normal",
     contactInfo: {},
@@ -42,7 +44,7 @@ export default function Valuations() {
     data: valuations,
     isLoading,
     refetch
-  } = useValuations(filters);
+  } = useValuations({ ...filters, propertyId });
   const {
     data: stats
   } = useValuationStats();

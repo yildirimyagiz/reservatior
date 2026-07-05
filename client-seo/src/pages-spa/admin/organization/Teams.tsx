@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -13,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Users, Plus, MoreHorizontal, Edit, Trash2, Activity, UserPlus, UserMinus, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface Team {
   id: string;
   name: string;
@@ -299,7 +301,7 @@ export default function Teams() {
               <UserPlus className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{totalMembers}</div>
+              <div className="text-2xl font-bold text-slate-600">{totalMembers}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.across_all_teams")}</p>
             </CardContent>
           </Card>
@@ -310,7 +312,7 @@ export default function Teams() {
               <Settings className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{avgTeamSize}</div>
+              <div className="text-2xl font-bold text-slate-600">{avgTeamSize}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.members_per_team")}</p>
             </CardContent>
           </Card>

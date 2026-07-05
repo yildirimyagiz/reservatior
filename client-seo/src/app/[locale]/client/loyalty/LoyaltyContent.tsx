@@ -67,7 +67,7 @@ export function LoyaltyContent() {
                   {t("client.loyalty.panel1_desc", { defaultValue: "Use these coins to book stays, tours, or request luxury concierge services." })}
                 </p>
               </div>
-              <h4 className="text-4xl font-black mt-8 text-amber-400">0 Coins</h4>
+              <h4 className="text-4xl font-black mt-8 text-amber-400">{t("loyalty.loyaltycontent.auto_ext_1")}</h4>
             </motion.div>
 
             {/* Current Level */}
@@ -80,7 +80,7 @@ export function LoyaltyContent() {
                   {t("client.loyalty.panel2_desc", { defaultValue: "Unlock more privileges as your membership rank increases (Gold, Platinum, Black Edition)." })}
                 </p>
               </div>
-              <h4 className="text-3xl font-black mt-8 text-slate-200">Classic</h4>
+              <h4 className="text-3xl font-black mt-8 text-slate-200">{t("loyalty.loyaltycontent.auto_ext_2")}</h4>
             </motion.div>
 
             {/* Next Milestone */}
@@ -93,7 +93,7 @@ export function LoyaltyContent() {
                   {t("client.loyalty.panel3_desc", { defaultValue: "Stays or coins required to advance to the next privileged membership level." })}
                 </p>
               </div>
-              <h4 className="text-xl font-bold mt-8 text-slate-300">10,000 pts to Gold</h4>
+              <h4 className="text-xl font-bold mt-8 text-slate-300">{t("loyalty.loyaltycontent.auto_ext_3")}</h4>
             </motion.div>
 
             {/* Benefits Bento */}

@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -90,7 +92,7 @@ export default function WisePaymentIntegration() {
 
   const statusConfig: Record<string, { label: string; class: string }> = {
     COMPLETED: { label: t("admin.payments.completed", "Completed"), class: "bg-emerald-500/20 text-emerald-400 border-emerald-500/20" },
-    PROCESSING: { label: t("admin.payments.processing", "Processing"), class: "bg-blue-500/20 text-blue-400 border-blue-500/20" },
+    PROCESSING: { label: t("admin.payments.processing", "Processing"), class: "bg-slate-500/20 text-slate-400 border-slate-500/20" },
     FAILED: { label: t("admin.payments.failed", "Failed"), class: "bg-red-500/20 text-red-400 border-red-500/20" },
     CANCELLED: { label: t("admin.payments.cancelled", "Cancelled"), class: "bg-slate-500/20 text-slate-400 border-slate-500/20" },
     PENDING: { label: t("admin.payments.pending", "Pending"), class: "bg-amber-500/20 text-amber-400 border-amber-500/20" },
@@ -100,10 +102,10 @@ export default function WisePaymentIntegration() {
   const avgTransaction = transactions.length > 0 ? monthlyVolume / transactions.length : 0;
 
   return (
-    <div className="p-6 space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <CreditCard className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -125,7 +127,7 @@ export default function WisePaymentIntegration() {
         <Card className="bg-white/5 border-white/10 p-6">
           <CardHeader className="px-0 pt-0">
             <CardTitle className="text-white flex items-center gap-2">
-              <CreditCard className="w-5 h-5 text-blue-400" />
+              <CreditCard className="w-5 h-5 text-slate-400" />
               {t("admin.payments.send_payment", "Send Payment")}
             </CardTitle>
           </CardHeader>
@@ -162,7 +164,7 @@ export default function WisePaymentIntegration() {
               <div className="flex justify-between text-sm"><span className="text-slate-400">{t("admin.payments.transfer_fee", "Transfer Fee")}</span><span className="text-white font-bold">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 0.015).toFixed(2) : '0.00'}</span></div>
               <div className="flex justify-between text-sm font-bold border-t border-white/10 pt-2"><span className="text-white">{t("admin.payments.total", "Total")}</span><span className="text-white">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 1.015).toFixed(2) : '0.00'}</span></div>
             </div>
-            <Button onClick={handlePayment} disabled={createMutation.isPending} className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
+            <Button onClick={handlePayment} disabled={createMutation.isPending} className="w-full bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
               {createMutation.isPending ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("admin.payments.processing", "Processing")}</> : <><DollarSign className="w-4 h-4 mr-2" />{t("admin.payments.send_payment", "Send Payment")}</>}
             </Button>
           </CardContent>
@@ -197,7 +199,7 @@ export default function WisePaymentIntegration() {
           <Card className="bg-white/5 border-white/10 p-6">
             <CardHeader className="px-0 pt-0">
               <CardTitle className="text-white flex items-center gap-2">
-                <Globe className="w-5 h-5 text-violet-400" />
+                <Globe className="w-5 h-5 text-slate-400" />
                 {t("admin.payments.recent_transactions", "Recent Transactions")}
               </CardTitle>
             </CardHeader>
@@ -215,7 +217,7 @@ export default function WisePaymentIntegration() {
                         <div className="flex items-center gap-2 mb-2">
                           {transaction.status === "COMPLETED" ? <CheckCircle className="w-4 h-4 text-emerald-400" /> :
                            transaction.status === "FAILED" ? <AlertTriangle className="w-4 h-4 text-red-400" /> :
-                           <Clock className="w-4 h-4 text-blue-400" />}
+                           <Clock className="w-4 h-4 text-slate-400" />}
                           <Badge className={cn("border-0 text-[10px]", cfg.class)}>{cfg.label}</Badge>
                         </div>
                         <p className="text-sm font-medium text-white">{transaction.recipientName}</p>
@@ -236,8 +238,8 @@ export default function WisePaymentIntegration() {
 
           <Card className="bg-white/5 border-white/10 p-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                <Shield className="w-5 h-5 text-blue-400" />
+              <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center">
+                <Shield className="w-5 h-5 text-slate-400" />
               </div>
               <p className="text-sm text-slate-400">
                 <strong className="text-white">{t("admin.payments.security_notice", "Security Notice")}: </strong>

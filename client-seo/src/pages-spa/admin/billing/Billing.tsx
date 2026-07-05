@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -36,7 +38,7 @@ export default function Billing() {
   const { data: invoicesData, isLoading: invoicesLoading } = useQuery({
     queryKey: ['billing-invoices'],
     queryFn: async () => {
-      const res: any = await apiClient.get('/api/v1/invoices?limit=50');
+      const res: any = await apiClient.get('/invoices?limit=50');
       return (res?.data || []) as Invoice[];
     },
   });
@@ -56,10 +58,10 @@ export default function Billing() {
   const totalPaid = invoices.filter(i => i.status === "PAID" || i.status === "paid").reduce((s, i) => s + i.total, 0);
 
   return (
-    <div className="p-6 space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <CreditCard className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -75,10 +77,10 @@ export default function Billing() {
 
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="bg-white/5 border border-white/10">
-          <TabsTrigger value="overview" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">{t("admin.billing.overview", "Overview")}</TabsTrigger>
-          <TabsTrigger value="plans" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">{t("admin.billing.plans", "Plans")}</TabsTrigger>
-          <TabsTrigger value="billing" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">{t("admin.billing.invoices", "Invoices")}</TabsTrigger>
-          <TabsTrigger value="payment" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">{t("admin.billing.payment_methods", "Payment Methods")}</TabsTrigger>
+          <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.overview", "Overview")}</TabsTrigger>
+          <TabsTrigger value="plans" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.plans", "Plans")}</TabsTrigger>
+          <TabsTrigger value="billing" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.invoices", "Invoices")}</TabsTrigger>
+          <TabsTrigger value="payment" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.payment_methods", "Payment Methods")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6 mt-6">
@@ -122,19 +124,19 @@ export default function Billing() {
         <TabsContent value="plans" className="space-y-6 mt-6">
           <div className="flex justify-center mb-6">
             <div className="flex items-center gap-2 bg-white/5 p-1 rounded-lg">
-              <Button variant={billingCycle === "monthly" ? "default" : "ghost"} size="sm" onClick={() => setBillingCycle("monthly")} className={billingCycle === "monthly" ? "bg-blue-600" : "text-slate-300"}>{t("admin.billing.monthly", "Monthly")}</Button>
-              <Button variant={billingCycle === "yearly" ? "default" : "ghost"} size="sm" onClick={() => setBillingCycle("yearly")} className={billingCycle === "yearly" ? "bg-blue-600" : "text-slate-300"}>{t("admin.billing.yearly_20_discount", "Yearly")}</Button>
+              <Button variant={billingCycle === "monthly" ? "default" : "ghost"} size="sm" onClick={() => setBillingCycle("monthly")} className={billingCycle === "monthly" ? "bg-slate-600" : "text-slate-300"}>{t("admin.billing.monthly", "Monthly")}</Button>
+              <Button variant={billingCycle === "yearly" ? "default" : "ghost"} size="sm" onClick={() => setBillingCycle("yearly")} className={billingCycle === "yearly" ? "bg-slate-600" : "text-slate-300"}>{t("admin.billing.yearly_20_discount", "Yearly")}</Button>
             </div>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {plans.length === 0 ? (
               <p className="text-center text-slate-500 col-span-3 py-8">{t("admin.billing.no_plans", "No plans available")}</p>
             ) : plans.map(plan => (
-              <Card key={plan.id} className={`bg-white/5 border-white/10 ${plan.isActive ? 'ring-2 ring-blue-500' : ''}`}>
+              <Card key={plan.id} className={`bg-white/5 border-white/10 ${plan.isActive ? 'ring-2 ring-slate-500' : ''}`}>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between text-white">
                     {plan.name}
-                    {plan.isActive && <Badge className="bg-blue-600">{t("admin.billing.current", "Current")}</Badge>}
+                    {plan.isActive && <Badge className="bg-slate-600">{t("admin.billing.current", "Current")}</Badge>}
                   </CardTitle>
                   <div>
                     <p className="text-3xl font-bold text-white">${plan.price}<span className="text-lg font-normal text-slate-400">/{plan.interval}</span></p>

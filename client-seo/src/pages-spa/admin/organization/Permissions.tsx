@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -12,7 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Shield, Plus, MoreHorizontal, Edit, Trash2, Activity, Users, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface Permission {
   id: string;
   key: string;
@@ -185,7 +187,7 @@ export default function Permissions() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{usedPermissions}</div>
+              <div className="text-2xl font-bold text-slate-600">{usedPermissions}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.assigned_to_roles")}</p>
             </CardContent>
           </Card>
@@ -408,7 +410,7 @@ export default function Permissions() {
             <CardContent>
               <div className="space-y-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-2xl font-bold text-slate-600">
                     {permissions.reduce((acc, perm) => acc + perm.roles.length, 0)}
                   </div>
                   <p className="text-sm text-muted-foreground">{t("admin.organization.total_assignments")}</p>

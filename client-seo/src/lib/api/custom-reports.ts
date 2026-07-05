@@ -605,7 +605,7 @@ export const customReportsApi = {
     const response = await fetch(`${apiClient['baseURL']}/organizations/${orgId}/custom-reports/export`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(options)
@@ -659,7 +659,7 @@ export const customReportsApi = {
     const response = await fetch(`${apiClient['baseURL']}/organizations/${orgId}/custom-reports/import`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
       },
       body: formData
     });

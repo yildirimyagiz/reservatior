@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -14,6 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Lock as LockIcon, Unlock as UnlockIcon, File as FileIcon, Folder, MoreHorizontal, FileImage, FileVideo, FileAudio, FileArchive, FileCode, FileSpreadsheet, FileText, Upload, Download, Search, Eye, Edit, Trash2, Share2, FilePlus, Grid3X3, List, Star, SortAsc, SortDesc } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
+import { apiClient } from "@/lib/api/client";
 import { motion } from "framer-motion";
 interface DocumentItem {
   id: string;
@@ -78,179 +81,37 @@ export default function Documents() {
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
 
-  // Mock data - replace with actual API calls
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    const mockDocuments: DocumentItem[] = [{
-      id: "1",
-      title: t("client.src.rental_agreement_property_123"),
-      description: t("client.src.standard_residential_rental_agreement"),
-      type: "contract",
-      category: "Legal",
-      size: 2048576,
-      mimeType: "application/pdf",
-      url: "/documents/rental-agreement-123.pdf",
-      thumbnailUrl: "/thumbnails/rental-agreement-123.jpg",
-      status: "active",
-      visibility: "private",
-      tags: ["rental", "agreement", "legal"],
-      metadata: {
-        propertyId: "prop123",
-        clientId: "client456",
-        signedDate: "2024-01-15",
-        expiryDate: "2025-01-15"
-      },
-      createdBy: user?.id || "",
-      createdAt: "2024-01-15T10:00:00Z",
-      updatedAt: "2024-01-15T10:00:00Z",
-      downloadCount: 12,
-      isFavorite: true,
-      permissions: {
-        canView: true,
-        canEdit: true,
-        canDelete: true,
-        canShare: true
+    const fetchDocumentsAndFolders = async () => {
+      try {
+        setIsLoading(true);
+        const [docsRes, foldersRes] = await Promise.allSettled([
+          apiClient.get('/legal/documents'),
+          apiClient.get('/legal/folders')
+        ]);
+        
+        if (docsRes.status === 'fulfilled' && (docsRes.value as any)?.data) {
+          setDocuments((docsRes.value as any).data);
+        } else {
+          setDocuments([]);
+        }
+        
+        if (foldersRes.status === 'fulfilled' && (foldersRes.value as any)?.data) {
+          setFolders((foldersRes.value as any).data);
+        } else {
+          setFolders([]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch documents and folders:', error);
+      } finally {
+        setIsLoading(false);
       }
-    }, {
-      id: "2",
-      title: t("client.src.property_inspection_report"),
-      description: t("client.src.detailed_inspection_report_with"),
-      type: "report",
-      category: "Inspection",
-      size: 5242880,
-      mimeType: "application/pdf",
-      url: "/documents/inspection-report.pdf",
-      thumbnailUrl: "/thumbnails/inspection-report.jpg",
-      status: "active",
-      visibility: "shared",
-      tags: ["inspection", "property", "report"],
-      metadata: {
-        propertyId: "prop123",
-        inspectorId: "inspector789",
-        inspectionDate: "2024-01-10"
-      },
-      createdBy: user?.id || "",
-      createdAt: "2024-01-10T14:30:00Z",
-      updatedAt: "2024-01-10T14:30:00Z",
-      downloadCount: 8,
-      isFavorite: false,
-      permissions: {
-        canView: true,
-        canEdit: false,
-        canDelete: false,
-        canShare: true
-      }
-    }, {
-      id: "3",
-      title: t("client.src.property_photos_living_room"),
-      description: t("client.src.highquality_photos_of_the"),
-      type: "image",
-      category: "Media",
-      size: 8388608,
-      mimeType: "image/jpeg",
-      url: "/documents/living-room-photos.zip",
-      thumbnailUrl: "/thumbnails/living-room.jpg",
-      status: "active",
-      visibility: "public",
-      tags: ["photos", "living-room", "media"],
-      metadata: {
-        propertyId: "prop123",
-        photographer: "John Doe",
-        photoCount: 25
-      },
-      createdBy: user?.id || "",
-      createdAt: "2024-01-08T09:15:00Z",
-      updatedAt: "2024-01-08T09:15:00Z",
-      downloadCount: 45,
-      isFavorite: true,
-      permissions: {
-        canView: true,
-        canEdit: true,
-        canDelete: true,
-        canShare: true
-      }
-    }, {
-      id: "4",
-      title: t("client.src.financial_statements_q4_2023"),
-      description: t("client.src.quarterly_financial_statements_and"),
-      type: "spreadsheet",
-      category: "Financial",
-      size: 1048576,
-      mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      url: "/documents/financial-statements-q4.xlsx",
-      thumbnailUrl: "/thumbnails/spreadsheet.jpg",
-      status: "active",
-      visibility: "private",
-      tags: ["financial", "q4", "2023"],
-      metadata: {
-        quarter: "Q4",
-        year: 2023,
-        revenue: 1250000,
-        expenses: 890000
-      },
-      createdBy: user?.id || "",
-      createdAt: "2024-01-05T16:45:00Z",
-      updatedAt: "2024-01-05T16:45:00Z",
-      downloadCount: 6,
-      isFavorite: false,
-      permissions: {
-        canView: true,
-        canEdit: true,
-        canDelete: true,
-        canShare: false
-      }
-    }];
-    const mockFolders: DocFolder[] = [{
-      id: "folder1",
-      name: "Legal Documents",
-      description: t("client.src.all_legal_contracts_and"),
-      parentId: null,
-      documentCount: 15,
-      size: 52428800,
-      createdBy: user?.id || "",
-      createdAt: "2024-01-01T00:00:00Z",
-      updatedAt: "2024-01-15T10:00:00Z",
-      isShared: false,
-      permissions: {
-        canView: true,
-        canEdit: true,
-        canDelete: true
-      }
-    }, {
-      id: "folder2",
-      name: "Property Photos",
-      description: t("client.src.highquality_property_images_and"),
-      parentId: null,
-      documentCount: 48,
-      size: 1073741824,
-      createdBy: user?.id || "",
-      createdAt: "2024-01-01T00:00:00Z",
-      updatedAt: "2024-01-08T09:15:00Z",
-      isShared: true,
-      permissions: {
-        canView: true,
-        canEdit: true,
-        canDelete: true
-      }
-    }, {
-      id: "folder3",
-      name: "Financial Reports",
-      description: t("client.src.monthly_and_quarterly_financial"),
-      parentId: null,
-      documentCount: 12,
-      size: 20971520,
-      createdBy: user?.id || "",
-      createdAt: "2024-01-01T00:00:00Z",
-      updatedAt: "2024-01-05T16:45:00Z",
-      isShared: false,
-      permissions: {
-        canView: true,
-        canEdit: true,
-        canDelete: true
-      }
-    }];
-    setDocuments(mockDocuments);
-    setFolders(mockFolders);
-  }, [user]);
+    };
+    
+    fetchDocumentsAndFolders();
+  }, []);
   const getDocumentIcon = (type: string) => {
     switch (type) {
       case "contract":

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -132,8 +134,8 @@ const kpis = [{
   value: "45.2K",
   change: "+18%",
   icon: BarChart3,
-  color: "text-blue-400",
-  bg: "bg-blue-500/10"
+  color: "text-slate-400",
+  bg: "bg-slate-500/10"
 }, {
   label: t("admin.ai.avg_latency"),
   value: "1.4s",
@@ -146,8 +148,8 @@ const kpis = [{
   value: "99.2%",
   change: "+0.4%",
   icon: CheckCircle2,
-  color: "text-purple-400",
-  bg: "bg-purple-500/10"
+  color: "text-slate-400",
+  bg: "bg-slate-500/10"
 }];
 export default function AIAnalytics() {
   const {
@@ -345,11 +347,11 @@ export default function AIAnalytics() {
               x: 0
             }} transition={{
               delay: idx * 0.06
-            }} className={`p-4 rounded-xl border transition-all hover:border-primary/20 ${insight.impact === "high" ? "border-l-4 border-l-amber-500 bg-amber-500/5 border-white/10" : "border-l-4 border-l-blue-500 bg-blue-500/5 border-white/10"}`}>
+            }} className={`p-4 rounded-xl border transition-all hover:border-primary/20 ${insight.impact === "high" ? "border-l-4 border-l-amber-500 bg-amber-500/5 border-white/10" : "border-l-4 border-l-slate-500 bg-slate-500/5 border-white/10"}`}>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        {insight.impact === "high" ? <AlertTriangle className="w-4 h-4 text-amber-400" /> : <TrendingUp className="w-4 h-4 text-blue-400" />}
+                        {insight.impact === "high" ? <AlertTriangle className="w-4 h-4 text-amber-400" /> : <TrendingUp className="w-4 h-4 text-slate-400" />}
                         <Badge variant="outline" className="text-[10px] text-slate-400">{insight.category}</Badge>
                       </div>
                       <p className="font-medium text-white">{insight.title}</p>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -82,7 +84,7 @@ export default function SystemMonitoring() {
   const generateMockAlerts = (): Alert[] => {
     return [
       { id: '1', type: 'system' as const, severity: 'medium' as const, title: t("admin.system.high_memory_usage"), message: t("admin.system.system_memory_usage_reached"), timestamp: new Date(Date.now() - 1000 * 60 * 15), status: 'active' as const, source: 'system-monitor', metadata: { metric: 'memory-usage', value: 68.7 } },
-      { id: '2', type: 'performance' as const, severity: 'low' as const, title: t("admin.system.slow_api_response"), message: t("admin.system.api_server_response_time"), timestamp: new Date(Date.now() - 1000 * 60 * 30), status: 'acknowledged' as const, source: 'api-monitor', metadata: { endpoint: '/api/v1/data', responseTime: 145 } },
+      { id: '2', type: 'performance' as const, severity: 'low' as const, title: t("admin.system.slow_api_response"), message: t("admin.system.api_server_response_time"), timestamp: new Date(Date.now() - 1000 * 60 * 30), status: 'acknowledged' as const, source: 'api-monitor', metadata: { endpoint: '/data', responseTime: 145 } },
       { id: '3', type: 'availability' as const, severity: 'high' as const, title: t("admin.system.monitoring_service_in_maintenance"), message: t("admin.system.monitoring_service_stopped_for"), timestamp: new Date(Date.now() - 1000 * 60 * 45), status: 'resolved' as const, source: 'service-monitor', metadata: { service: 'monitoring' } },
       { id: '4', type: 'security' as const, severity: 'critical' as const, title: t("admin.system.suspicious_login_attempt"), message: t("admin.system.multiple_failed_login_attempts"), timestamp: new Date(Date.now() - 1000 * 60 * 60), status: 'active' as const, source: 'security-monitor', metadata: { ip: '185.220.101.45', attempts: 5 } },
     ];
@@ -140,18 +142,18 @@ export default function SystemMonitoring() {
       case 'normal': case 'running': return 'bg-green-100 text-green-800';
       case 'warning': return 'bg-yellow-100 text-yellow-800';
       case 'critical': case 'error': return 'bg-red-100 text-red-800';
-      case 'stopped': return 'bg-gray-100 text-gray-800';
-      case 'maintenance': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'stopped': return 'bg-white/5 text-slate-300';
+      case 'maintenance': return 'bg-slate-100 text-slate-800';
+      default: return 'bg-white/5 text-slate-300';
     }
   };
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'low': return 'bg-blue-100 text-blue-800';
+      case 'low': return 'bg-slate-100 text-slate-800';
       case 'medium': return 'bg-yellow-100 text-yellow-800';
       case 'high': return 'bg-orange-100 text-orange-800';
       case 'critical': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-white/5 text-slate-300';
     }
   };
   const getAlertIcon = (type: string) => {
@@ -170,7 +172,7 @@ export default function SystemMonitoring() {
     const current = recent[recent.length - 1].value;
     if (current > average * 1.05) return <TrendingUp className="w-4 h-4 text-red-500" />;
     if (current < average * 0.95) return <TrendingDown className="w-4 h-4 text-green-500" />;
-    return <Minus className="w-4 h-4 text-gray-500" />;
+    return <Minus className="w-4 h-4 text-slate-400" />;
   };
   const exportMonitoringData = () => {
     const data = { timestamp: new Date().toISOString(), metrics: metrics.map(m => ({ name: m.name, type: m.type, value: m.value, unit: m.unit, status: m.status })), services: services.map(s => ({ name: s.name, type: s.type, status: s.status, uptime: s.uptime, responseTime: s.responseTime, errorRate: s.errorRate })), alerts: alerts.map(a => ({ type: a.type, severity: a.severity, title: a.title, message: a.message, status: a.status, timestamp: a.timestamp.toISOString() })) };
@@ -198,7 +200,7 @@ export default function SystemMonitoring() {
             <Button variant="outline" size="sm" onClick={exportMonitoringData}>
               <Download className="w-4 h-4 mr-2" />{t("admin.system.download")}</Button>
           </div>
-          <select className="px-3 py-1 border rounded-md text-sm bg-white/5 border-white/10 text-white" value={timeRange} onChange={e => setTimeRange(e.target.value as any)}>
+          <select className="px-3 py-1 border rounded-xl text-sm bg-white/5 border-white/10 text-white" value={timeRange} onChange={e => setTimeRange(e.target.value as any)}>
             <option value="1h">{t("admin.system.last_1_hour")}</option>
             <option value="6h">{t("admin.system.last_6_hours")}</option>
             <option value="24h">{t("admin.system.last_24_hours")}</option>
@@ -260,7 +262,7 @@ export default function SystemMonitoring() {
                   </div>
                   {selectedMetric.metadata?.details && <div className="mb-4">
                       <p className="text-sm font-medium text-slate-400 mb-2">{t("admin.system.details")}</p>
-                      <div className="bg-white/5 p-3 rounded-md">
+                      <div className="bg-white/5 p-3 rounded-xl">
                         <pre className="text-xs text-white">{JSON.stringify(selectedMetric.metadata.details, null, 2)}</pre>
                       </div>
                     </div>}

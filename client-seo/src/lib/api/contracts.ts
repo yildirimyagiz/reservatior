@@ -183,8 +183,50 @@ type PartyType = Contracts['parties'][0]['type'];
 type ClauseType = Contracts['clauses'][0]['type'];
 type AttachmentCategory = Contracts['attachments'][0]['category'];
 
+export interface ContractGenerationRequest {
+  country_code: string;
+  contract_type: string;
+  property: {
+    id: string;
+    address: string;
+    city: string;
+    country: string;
+    price: number;
+    currency: string;
+    property_type: string;
+  };
+  owner: {
+    full_name: string;
+    identification_number: string;
+    address: string;
+    phone: string;
+    email: string;
+  };
+  buyer_or_tenant: {
+    full_name: string;
+    identification_number: string;
+    address: string;
+    phone: string;
+    email: string;
+  };
+  additional_terms?: string;
+}
+
+export interface ContractGenerationResponse {
+  contract_id: string;
+  content_markdown: string;
+  country_applied: string;
+  generated_at: string;
+}
+
 
 export const contractsApi = {
+  // Generate Contract via ML-Services
+  generate: async (data: ContractGenerationRequest): Promise<ContractGenerationResponse> => {
+    const response = await apiClient.post<ContractGenerationResponse>("/api/v1/contracts/generate", data);
+    return response as any;
+  },
+
   // Get all contracts
   getAll: async (orgId: string): Promise<Contracts[]> => {
     const response = await apiClient.get<Contracts[]>(`/organizations/${orgId}/contracts`);

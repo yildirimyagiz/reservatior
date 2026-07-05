@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -17,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { communicationTemplatesApi } from "@/lib/api/communication-templates";
 import { Mail, Send, FileText, MessageSquare, Bell, Smartphone, Edit, Trash2, Plus, MoreHorizontal, Copy, TestTube, CheckCircle, Loader2 } from "lucide-react";
+import { apiClient } from "@/lib/api";
 interface CommunicationTemplate {
   id: string;
   name: string;
@@ -132,7 +135,7 @@ export default function CommunicationTemplates() {
   } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -212,15 +215,15 @@ export default function CommunicationTemplates() {
   const getTypeColor = (type: string) => {
     switch (type) {
       case "EMAIL":
-        return "bg-blue-100 text-blue-700";
+        return "bg-slate-100 text-slate-700";
       case "SMS":
         return "bg-green-100 text-green-700";
       case "PUSH":
-        return "bg-purple-100 text-purple-700";
+        return "bg-slate-100 text-slate-700";
       case "IN_APP":
         return "bg-orange-100 text-orange-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/5 text-slate-300";
     }
   };
   const toggleTemplate = (template: CommunicationTemplate) => {
@@ -307,11 +310,11 @@ export default function CommunicationTemplates() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.communication.total_templates")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.communication.total_templates")}</p>
                   <p className="text-2xl font-bold">{stats.total}</p>
-                  <p className="text-xs text-gray-500">{t("admin.communication.all_types")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.communication.all_types")}</p>
                 </div>
-                <FileText className="w-8 h-8 text-blue-600" />
+                <FileText className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -319,9 +322,9 @@ export default function CommunicationTemplates() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.communication.active")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.communication.active")}</p>
                   <p className="text-2xl font-bold text-green-600">{stats.active}</p>
-                  <p className="text-xs text-gray-500">{t("admin.communication.currently_enabled")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.communication.currently_enabled")}</p>
                 </div>
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
@@ -331,11 +334,11 @@ export default function CommunicationTemplates() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.communication.email_templates")}</p>
-                  <p className="text-2xl font-bold text-blue-600">{stats.email}</p>
-                  <p className="text-xs text-gray-500">{t("admin.communication.email_type")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.communication.email_templates")}</p>
+                  <p className="text-2xl font-bold text-slate-600">{stats.email}</p>
+                  <p className="text-xs text-slate-400">{t("admin.communication.email_type")}</p>
                 </div>
-                <Mail className="w-8 h-8 text-blue-600" />
+                <Mail className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -343,11 +346,11 @@ export default function CommunicationTemplates() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.communication.total_usage")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.communication.total_usage")}</p>
                   <p className="text-2xl font-bold">{stats.totalUsage.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500">{t("admin.communication.all_time")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.communication.all_time")}</p>
                 </div>
-                <Send className="w-8 h-8 text-purple-600" />
+                <Send className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -417,10 +420,10 @@ export default function CommunicationTemplates() {
                     <TableCell>
                       <div>
                         <div className="font-medium">{template.name}</div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-slate-400">
                           {template.subject && `Subject: ${template.subject}`}
                         </div>
-                        <div className="text-xs text-gray-400">{t("admin.communication.created")}{new Date(template.createdAt).toLocaleDateString()}
+                        <div className="text-xs text-slate-400">{t("admin.communication.created")}{new Date(template.createdAt).toLocaleDateString()}
                         </div>
                       </div>
                     </TableCell>
@@ -448,7 +451,7 @@ export default function CommunicationTemplates() {
                     <TableCell>
                       <div>
                         <div className="font-medium">{template.usageCount}</div>
-                        {template.lastUsed && <div className="text-xs text-gray-500">{t("admin.communication.last")}{new Date(template.lastUsed).toLocaleDateString()}
+                        {template.lastUsed && <div className="text-xs text-slate-400">{t("admin.communication.last")}{new Date(template.lastUsed).toLocaleDateString()}
                           </div>}
                       </div>
                     </TableCell>
@@ -498,10 +501,10 @@ export default function CommunicationTemplates() {
                   <div className="font-mono text-sm font-medium">
                     {variable.name}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">
+                  <div className="text-sm text-slate-400 mt-1">
                     {variable.description}
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">{t("admin.communication.example")}{variable.example}
+                  <div className="text-xs text-slate-400 mt-1">{t("admin.communication.example")}{variable.example}
                   </div>
                 </div>)}
             </div>

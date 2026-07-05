@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 // Admin Pages Index File
 // This file exports all admin components for easy importing
@@ -77,8 +79,8 @@ export { default as FacilitiesManagement } from './facilities/FacilitiesManageme
 export { default as MaintenanceManagement } from './maintenance/MaintenanceManagement';
 
 // Property & Trust
-export { default as OwnershipVerification } from './property/OwnershipVerification';
-export { default as AdminProperties } from './property/AdminProperties';
+export { default as OwnershipVerification } from './properties/OwnershipVerification';
+export { default as AdminProperties } from './properties/AdminProperties';
 
 // Reports & Analytics
 export { default as Reports } from './reports/Reports';

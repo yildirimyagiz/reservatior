@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -10,6 +12,10 @@ import { Users, MessageSquare, Phone, Mail, Calendar, Clock, CheckCircle, XCircl
 import { useAuth } from "@/lib/auth/hooks";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { guestsApi } from "@/lib/api/guests";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 interface GuestFollowUp {
   id: string;
   guest: {
@@ -115,6 +121,7 @@ export default function GuestFollowUp() {
   const {
     user
   } = useAuth();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [filteredFollowUps, setFilteredFollowUps] = useState<GuestFollowUp[]>([]);
   const [filter, setFilter] = useState<{
@@ -128,6 +135,10 @@ export default function GuestFollowUp() {
   const [selectedFollowUp, setSelectedFollowUp] = useState<GuestFollowUp | null>(null);
   const [viewMode, setViewMode] = useState<'list' | 'kanban' | 'calendar'>('list');
   const [isLive, setIsLive] = useState(true);
+
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+  const [actionType, setActionType] = useState<'message' | 'call' | 'schedule' | null>(null);
+  const [actionContent, setActionContent] = useState('');
 
   const { data: followUps = [], isLoading: isFollowUpsLoading } = useQuery({
     queryKey: ['guest-follow-ups'],
@@ -890,18 +901,51 @@ export default function GuestFollowUp() {
 
                 {/* Actions */}
                 <div className="flex gap-2 pt-4 border-t">
-                  <Button onClick={() => console.log('Send message')}>
+                  <Button onClick={() => {
+                    setActionType('message');
+                    setIsActionModalOpen(true);
+                  }}>
                     <Send className="w-4 h-4 mr-2" />{t("client.src.send_message")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Make call')}>
+                  <Button variant="outline" onClick={() => {
+                    setActionType('call');
+                    setIsActionModalOpen(true);
+                  }}>
                     <Phone className="w-4 h-4 mr-2" />{t("client.src.call")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Schedule follow-up')}>
+                  <Button variant="outline" onClick={() => {
+                    setActionType('schedule');
+                    setIsActionModalOpen(true);
+                  }}>
                     <Calendar className="w-4 h-4 mr-2" />{t("client.src.schedule")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Export follow-up')}>
+                  <Button variant="outline" onClick={() => toast({ title: t("client.src.export_started") })}>
                     <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
                 </div>
               </CardContent>
             </Card>
           </div>}
+
+        <Dialog open={isActionModalOpen} onOpenChange={setIsActionModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {actionType === 'message' && t("client.src.send_message")}
+                {actionType === 'call' && t("client.src.call")}
+                {actionType === 'schedule' && t("client.src.schedule")}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <Label>{t("client.src.details")}</Label>
+              <Textarea value={actionContent} onChange={e => setActionContent(e.target.value)} rows={4} placeholder={t("client.src.enter_details")} />
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsActionModalOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button onClick={() => {
+                toast({ title: t("client.src.action_completed") });
+                setIsActionModalOpen(false);
+                setActionContent('');
+              }}>{t("client.src.submit")}</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>;
 }

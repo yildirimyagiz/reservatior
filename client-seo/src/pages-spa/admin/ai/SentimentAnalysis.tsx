@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -131,7 +133,7 @@ export default function AISentimentAnalysis() {
   const { data: sentimentData = fallbackSentimentData } = useQuery({
     queryKey: ['sentiment-analysis'],
     queryFn: async () => {
-      const res = await apiClient.get('/api/v1/ai-sentiment-analyses');
+      const res = await apiClient.get('/ai-sentiment-analyses');
       const data = (res as any)?.data;
       return data && data.length > 0 ? data : fallbackSentimentData;
     },
@@ -168,9 +170,9 @@ export default function AISentimentAnalysis() {
       case "negative":
         return <ThumbsDown className="h-4 w-4 text-red-500" />;
       case "neutral":
-        return <MessageSquare className="h-4 w-4 text-gray-500" />;
+        return <MessageSquare className="h-4 w-4 text-slate-400" />;
       default:
-        return <MessageSquare className="h-4 w-4 text-gray-500" />;
+        return <MessageSquare className="h-4 w-4 text-slate-400" />;
     }
   };
   const getPriorityColor = (priority: string) => {
@@ -269,7 +271,7 @@ export default function AISentimentAnalysis() {
               <TrendingUp className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-slate-600">
                 {(avgConfidence * 100).toFixed(1)}%
               </div>
               <p className="text-xs text-slate-400">{t("admin.ai.model_confidence")}</p>
@@ -362,7 +364,7 @@ export default function AISentimentAnalysis() {
                         {sentiment.content}
                       </div>
                       {sentiment.keywords.length > 0 && <div className="flex flex-wrap gap-1 mt-1">
-                          {sentiment.keywords.slice(0, 2).map(keyword => <span key={keyword} className="text-xs bg-white/5 text-slate-400 px-1 py-0.5 rounded">
+                          {sentiment.keywords.slice(0, 2).map(keyword => <span key={keyword} className="text-xs bg-white/5 text-slate-400 px-1 py-0.5 rounded-lg">
                               {keyword}
                             </span>)}
                           {sentiment.keywords.length > 2 && <span className="text-xs text-slate-400">+{sentiment.keywords.length - 2}</span>}
@@ -455,7 +457,7 @@ export default function AISentimentAnalysis() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-white">{t("admin.ai.response_rate")}</span>
-                  <span className="text-sm font-bold text-blue-600">87%</span>
+                  <span className="text-sm font-bold text-slate-600">87%</span>
                 </div>
               </div>
             </CardContent>
@@ -468,26 +470,26 @@ export default function AISentimentAnalysis() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="p-3 bg-green-500/10 border border-green-500/20 rounded">
+                <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
                   <div className="flex items-center space-x-2 mb-1">
                     <ThumbsUp className="h-4 w-4 text-green-600" />
                     <span className="text-sm font-medium text-green-400">{t("admin.ai.top_positive_driver")}</span>
                   </div>
                   <p className="text-sm text-green-300">{t("admin.ai.maintenance_responsiveness_mentioned_in")}</p>
                 </div>
-                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded">
+                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
                   <div className="flex items-center space-x-2 mb-1">
                     <ThumbsDown className="h-4 w-4 text-red-600" />
                     <span className="text-sm font-medium text-red-400">{t("admin.ai.main_concern")}</span>
                   </div>
                   <p className="text-sm text-red-300">{t("admin.ai.hvac_and_heating_issues")}</p>
                 </div>
-                <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded">
+                <div className="p-3 bg-slate-500/10 border border-slate-500/20 rounded-lg">
                   <div className="flex items-center space-x-2 mb-1">
-                    <MessageSquare className="h-4 w-4 text-blue-600" />
-                    <span className="text-sm font-medium text-blue-400">{t("admin.ai.recommendation")}</span>
+                    <MessageSquare className="h-4 w-4 text-slate-600" />
+                    <span className="text-sm font-medium text-slate-400">{t("admin.ai.recommendation")}</span>
                   </div>
-                  <p className="text-sm text-blue-300">{t("admin.ai.focus_on_hvac_maintenance")}</p>
+                  <p className="text-sm text-slate-300">{t("admin.ai.focus_on_hvac_maintenance")}</p>
                 </div>
               </div>
             </CardContent>

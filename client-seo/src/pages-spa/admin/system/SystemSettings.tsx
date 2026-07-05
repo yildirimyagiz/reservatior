@@ -1,3 +1,6 @@
+"use client";
+import { apiClient } from '@/lib/api/client';
+
 import { t } from "i18next";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -254,7 +257,7 @@ export default function SystemSettings() {
   } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -501,7 +504,7 @@ export default function SystemSettings() {
                           </TableCell>
                         </TableRow>
                       ) : logs.map(l => <TableRow key={l.id} className="border-b border-border hover:bg-white/3sition-all font-mono">
-                           <TableCell className="px-8"><Badge className={cn("bg-transparent border text-[9px] font-bold   ", l.level === "ERROR" ? "text-red-500 border-red-500/20" : "text-blue-400 border-blue-400/20")}>{l.level}</Badge></TableCell>
+                           <TableCell className="px-8"><Badge className={cn("bg-transparent border text-[9px] font-bold   ", l.level === "ERROR" ? "text-red-500 border-red-500/20" : "text-slate-400 border-slate-400/20")}>{l.level}</Badge></TableCell>
                            <TableCell className="px-8 text-[11px] text-muted-foreground font-bold whitespace-pre-wrap">{l.message}</TableCell>
                            <TableCell className="px-8 text-[10px] text-muted-foreground">{new Date(l.timestamp).toLocaleString()}</TableCell>
                         </TableRow>)}
@@ -519,11 +522,11 @@ export default function SystemSettings() {
                   {t('flush')}
                 </Button>
              </Card>
-             <Card className="bg-card border-border rounded-4xl p-8 hover:bg-muted/50 transition-all text-center border-l border-t border-b-blue-500/50 border-b-2 shadow-2xl">
-                <Shield className="w-10 h-10 text-blue-500 mx-auto mb-6 shadow-[0_0_20px_#3b82f620]" />
+             <Card className="bg-card border-border rounded-4xl p-8 hover:bg-muted/50 transition-all text-center border-l border-t border-b-slate-500/50 border-b-2 shadow-2xl">
+                <Shield className="w-10 h-10 text-slate-500 mx-auto mb-6 shadow-[0_0_20px_#3b82f620]" />
                 <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin.system.full_snapshot")}</h4>
                 <p className="text-[10px] font-bold text-muted-foreground mb-8 tracking-tight">{t("admin.system.export_global_system_parameters")}</p>
-                <Button className="w-full bg-muted/50 hover:bg-blue-600 rounded-2xl h-14 font-bold text-[10px] transition-all">
+                <Button className="w-full bg-muted/50 hover:bg-slate-600 rounded-2xl h-14 font-bold text-[10px] transition-all">
                   {t('snapshot')}
                 </Button>
              </Card>

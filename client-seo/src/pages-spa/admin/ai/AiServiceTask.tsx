@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -152,11 +154,11 @@ export default function AiServiceTaskPage() {
       case 'FAILED':
         return <XCircle className="h-4 w-4 text-red-500" />;
       case 'PROCESSING':
-        return <Settings className="h-4 w-4 text-blue-500 animate-spin" />;
+        return <Settings className="h-4 w-4 text-slate-500 animate-spin" />;
       case 'PENDING':
         return <Play className="h-4 w-4 text-yellow-500" />;
       default:
-        return <Settings className="h-4 w-4 text-gray-500" />;
+        return <Settings className="h-4 w-4 text-slate-400" />;
     }
   };
 
@@ -167,11 +169,11 @@ export default function AiServiceTaskPage() {
       case 'FAILED':
         return 'bg-red-100 text-red-800';
       case 'PROCESSING':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-slate-100 text-slate-800';
       case 'PENDING':
         return 'bg-yellow-100 text-yellow-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-white/5 text-slate-300';
     }
   };
 
@@ -312,8 +314,8 @@ export default function AiServiceTaskPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <div className="w-16 bg-gray-200 rounded-full h-2">
-                          <div className="bg-blue-500 h-2 rounded-full transition-all duration-300" style={{
+                        <div className="w-16 bg-white/5 rounded-full h-2">
+                          <div className="bg-slate-500 h-2 rounded-full transition-all duration-300" style={{
                         width: `${task.progress}%`
                       }} />
                         </div>

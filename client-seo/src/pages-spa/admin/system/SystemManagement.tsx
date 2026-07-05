@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -93,20 +95,20 @@ export default function SystemManagement() {
     switch (status) {
       case 'ACTIVE': case 'COMPLETED': case 'SUCCESS': return 'bg-green-500';
       case 'INACTIVE': case 'PENDING': return 'bg-yellow-500';
-      case 'PAUSED': case 'PROCESSING': return 'bg-blue-500';
+      case 'PAUSED': case 'PROCESSING': return 'bg-slate-500';
       case 'ERROR': case 'FAILED': case 'CRITICAL': return 'bg-red-500';
       case 'TIMEOUT': case 'RETRY': return 'bg-orange-500';
-      case 'CANCELLED': return 'bg-gray-500';
-      default: return 'bg-gray-500';
+      case 'CANCELLED': return 'bg-white/10';
+      default: return 'bg-white/10';
     }
   };
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'CRITICAL': return 'bg-red-500';
       case 'HIGH': return 'bg-orange-500';
-      case 'NORMAL': return 'bg-blue-500';
-      case 'LOW': return 'bg-gray-500';
-      default: return 'bg-gray-500';
+      case 'NORMAL': return 'bg-slate-500';
+      case 'LOW': return 'bg-white/10';
+      default: return 'bg-white/10';
     }
   };
   const automationRules = systemData?.automationRules || [];
@@ -507,7 +509,7 @@ export default function SystemManagement() {
                           <Badge variant="outline" className="text-slate-400 border-white/10">{log.integrationType}</Badge>
                         </TableCell>
                         <TableCell>
-                          <div className={`flex items-center gap-1 ${log.direction === 'INBOUND' ? 'text-blue-400' : 'text-green-400'}`}>
+                          <div className={`flex items-center gap-1 ${log.direction === 'INBOUND' ? 'text-slate-400' : 'text-green-400'}`}>
                             {log.direction === 'INBOUND' ? <Wifi className="h-3 w-3" /> : <Link className="h-3 w-3" />}
                             <span className="capitalize">{t(`admin.system.direction_${log.direction.toLowerCase()}`, log.direction)}</span>
                           </div>
@@ -552,14 +554,14 @@ export default function SystemManagement() {
                           <span className="text-slate-400">{t("admin.system.cpu_usage")}</span>
                           <span className="text-white">{systemMetrics.cpuUsage.toFixed(1)}%</span>
                         </div>
-                        <Progress value={systemMetrics.cpuUsage} className="bg-white/10 [&>div]:bg-blue-500" />
+                        <Progress value={systemMetrics.cpuUsage} className="bg-white/10 [&>div]:bg-slate-500" />
                       </div>
                       <div>
                         <div className="flex justify-between text-sm">
                           <span className="text-slate-400">{t("admin.system.memory_usage")}</span>
                           <span className="text-white">{systemMetrics.memoryUsage.toFixed(1)}%</span>
                         </div>
-                        <Progress value={systemMetrics.memoryUsage} className="bg-white/10 [&>div]:bg-violet-500" />
+                        <Progress value={systemMetrics.memoryUsage} className="bg-white/10 [&>div]:bg-slate-500" />
                       </div>
                       <div>
                         <div className="flex justify-between text-sm">

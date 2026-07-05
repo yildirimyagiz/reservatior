@@ -13,6 +13,7 @@ import {
   PiggyBank
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const financialMetrics = [
   {
@@ -37,7 +38,7 @@ const financialMetrics = [
     change: "+25.3%",
     trend: "up",
     icon: PiggyBank,
-    color: "text-blue-400"
+    color: "text-slate-400"
   },
   {
     title: "Pending Payments",
@@ -58,10 +59,11 @@ const recentTransactions = [
 ];
 
 export default function AdminFinancialPage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -71,16 +73,16 @@ export default function AdminFinancialPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Financial Overview</h1>
-              <p className="text-gray-400">Track revenue, expenses, and profits</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.financial.title")}</h1>
+              <p className="text-gray-400">{t("admin.financial.description")}</p>
             </div>
             <Button
               onClick={() => router.push('/admin/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-slate-600 hover:bg-slate-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("admin.financial.back_to_dashboard")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -92,7 +94,7 @@ export default function AdminFinancialPage() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
         >
           {financialMetrics.map((metric, idx) => (
-            <Card key={idx} className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card key={idx} className="bg-white/5 backdrop-blur-xl border-slate-500/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <metric.icon className={`w-6 h-6 ${metric.color}`} />
@@ -114,9 +116,9 @@ export default function AdminFinancialPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardHeader>
-              <CardTitle className="text-white">Recent Transactions</CardTitle>
+              <CardTitle className="text-white">{t("admin.financial.recent_transactions")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">

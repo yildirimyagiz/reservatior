@@ -1,14 +1,16 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/lib/react-router-shim";
 import { motion } from "framer-motion";
-import { Github, Mail, Eye, EyeOff, AlertCircle, Facebook, Twitter, Linkedin } from "lucide-react";
+import { Mail, Eye, EyeOff, AlertCircle, Facebook, Twitter, Linkedin } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Header } from "@/components/home/Header";
+import { AppHeader } from "@/components/layout/AppHeader";
 import { toast } from "sonner";
 
 const GoogleIcon = ({ className }: { className?: string }) => (
@@ -29,6 +31,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const {
     login,
     loading,
@@ -66,29 +69,18 @@ export default function Login() {
       setIsLoading(false);
     }
   };
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const handleSocialLogin = (provider: string) => {
-    if (provider === 'google') {
-      window.location.href = `${API_BASE}/api/auth/google`;
-    } else if (provider === 'facebook') {
-      window.location.href = `${API_BASE}/api/auth/facebook`;
-    } else if (provider === 'twitter') {
-      window.location.href = `${API_BASE}/api/auth/twitter`;
-    } else if (provider === 'linkedin') {
-      window.location.href = `${API_BASE}/api/auth/linkedin`;
-    } else {
-      toast.info(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login is coming soon!`);
-    }
+    window.location.href = `${API_BASE}/api/auth/${provider}`;
   };
   return <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
-      <Header />
+      <AppHeader />
       {/* Background Blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-4">
+      <div className="flex-1 flex items-center justify-center p-4 pt-16">
         <motion.div initial={{
         opacity: 0,
         scale: 0.95
@@ -120,7 +112,7 @@ export default function Login() {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <Label htmlFor="password">{t("client.src.password")}</Label>
-                <Link to="/forgot-password" className="text-xs text-blue-400 hover:text-blue-300 hover:underline transition-colors">{t("client.src.forgot_password")}</Link>
+                <Link to="/client/forgot-password" className="text-xs text-blue-400 hover:text-blue-300 hover:underline transition-colors">{t("client.src.forgot_password")}</Link>
               </div>
               <div className="relative">
                 <Input id="password" type={showPassword ? "text" : "password"} placeholder={t("client.src.enter_your_password")} value={password} onChange={e => setPassword(e.target.value)} className="bg-[#1b1c22] border-slate-800 focus:ring-blue-500/50 h-11 pr-10 text-slate-200 placeholder:text-slate-500 rounded-xl transition-all" style={{
@@ -153,9 +145,7 @@ export default function Login() {
             </div>
           </div>
 
-          <div className="grid grid-cols-5 gap-3">
-            <Button variant="outline" className="h-11 bg-[#1b1c22] border-slate-800 hover:bg-slate-800 text-slate-300 rounded-xl transition-all px-0" onClick={() => handleSocialLogin("github")} disabled={loading || isLoading}>
-              <Github className="h-4 w-4" /></Button>
+          <div className="grid grid-cols-4 gap-3">
             <Button variant="outline" className="h-11 bg-[#1b1c22] border-slate-800 hover:bg-slate-800 text-slate-300 rounded-xl transition-all px-0" onClick={() => handleSocialLogin("google")} disabled={loading || isLoading}>
               <GoogleIcon className="h-4 w-4" /></Button>
             <Button variant="outline" className="h-11 bg-[#1b1c22] border-slate-800 hover:bg-slate-800 text-slate-300 rounded-xl transition-all px-0" onClick={() => handleSocialLogin("facebook")} disabled={loading || isLoading}>
@@ -167,9 +157,10 @@ export default function Login() {
           </div>
 
           <p className="text-center text-sm text-slate-400 mt-8">{t("client.src.dont_have_an_account")}{" "}
-            <Link to="/signup" className="text-blue-400 hover:text-blue-300 hover:underline transition-colors font-medium">{t("client.src.sign_up_now")}</Link>
+            <Link to="/client/signup" className="text-blue-400 hover:text-blue-300 hover:underline transition-colors font-medium">{t("client.src.sign_up_now")}</Link>
           </p>
         </motion.div>
       </div>
+
     </div>;
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { PageShell } from "../../client/layout/PageShell";
@@ -11,10 +13,10 @@ import { systemEventsApi } from "@/lib/api/system-events";
 import { Eye, RefreshCw, Search } from "lucide-react";
 
 const SEVERITY_COLORS: Record<string, string> = {
-  INFO: "bg-blue-100 text-blue-800",
+  INFO: "bg-slate-100 text-slate-800",
   WARNING: "bg-yellow-100 text-yellow-800",
   ERROR: "bg-red-100 text-red-800",
-  CRITICAL: "bg-purple-100 text-purple-800",
+  CRITICAL: "bg-slate-100 text-slate-800",
 };
 
 const EVENT_TYPES = [
@@ -81,7 +83,7 @@ export default function EventLog() {
       <div className="space-y-4">
         <div className="flex flex-wrap gap-3 items-center">
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
               placeholder={t("admin.system.search_events")}
               className="pl-9"
@@ -121,7 +123,7 @@ export default function EventLog() {
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                  <TableCell colSpan={6} className="text-center py-8 text-slate-400">
                     {loading ? t("admin.system.loading") : t("admin.system.no_events")}
                   </TableCell>
                 </TableRow>
@@ -132,7 +134,7 @@ export default function EventLog() {
                     <Badge variant="outline">{event.eventType}</Badge>
                   </TableCell>
                   <TableCell>
-                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${SEVERITY_COLORS[event.severity] || "bg-gray-100"}`}>
+                    <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${SEVERITY_COLORS[event.severity] || "bg-white/5"}`}>
                       {event.severity}
                     </span>
                   </TableCell>
@@ -155,7 +157,7 @@ export default function EventLog() {
 
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">{t("admin.system.total_events", { count: total })}</span>
+            <span className="text-sm text-slate-400">{t("admin.system.total_events", { count: total })}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                 {t("admin.system.previous")}
@@ -195,7 +197,7 @@ export default function EventLog() {
               {selected.payload && (
                 <div>
                   <span className="font-medium">{t("admin.system.payload")}:</span>
-                  <pre className="mt-1 p-2 bg-gray-50 rounded text-xs overflow-auto max-h-48">
+                  <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-48">
                     {JSON.stringify(selected.payload, null, 2)}
                   </pre>
                 </div>
@@ -203,7 +205,7 @@ export default function EventLog() {
               {selected.metadata && (
                 <div>
                   <span className="font-medium">{t("admin.system.metadata")}:</span>
-                  <pre className="mt-1 p-2 bg-gray-50 rounded text-xs overflow-auto max-h-32">
+                  <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-32">
                     {JSON.stringify(selected.metadata, null, 2)}
                   </pre>
                 </div>
@@ -213,7 +215,7 @@ export default function EventLog() {
                   <span className="font-medium">{t("admin.system.triggered_executions")}:</span>
                   <div className="mt-1 space-y-1">
                     {selected.executions.map((ex: any) => (
-                      <div key={ex.id} className="p-2 bg-gray-50 rounded text-xs">
+                      <div key={ex.id} className="p-2 bg-white/5 rounded-lg text-xs">
                         <span className="font-medium">{ex.rule?.ruleName || ex.ruleId}</span>
                         {" - "}Status: {ex.status} - {formatDate(ex.executedAt)}
                       </div>

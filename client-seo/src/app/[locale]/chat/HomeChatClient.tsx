@@ -110,8 +110,8 @@ export const HomeChatClient = () => {
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <span className="font-bold text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-950 to-neutral-800 dark:from-white dark:to-slate-300">
-            Reservatior AI
-          </span>
+            {t("chat.homechatclient.auto_ext_1")}
+                                </span>
         </Link>
         <div className="flex items-center gap-3">
           {creditsRemaining !== null && (

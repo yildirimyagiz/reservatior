@@ -1,3 +1,8 @@
+"use client";
+import { apiClient } from '@/lib/api/client';
+import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -26,7 +31,7 @@ const getStatusConfig = (t: any): Record<string, {
   },
   COMPLETED: {
     label: t("admin.reservations.completed", "Tamamlandı"),
-    cls: "bg-blue-100 text-blue-700"
+    cls: "bg-slate-100 text-slate-700"
   },
   CANCELLED: {
     label: t("admin.reservations.cancelled", "İptal Edildi"),
@@ -86,13 +91,13 @@ export default function Reservations() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/reservations/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/reservations/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/reservations/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/reservations/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });

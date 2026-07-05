@@ -1,6 +1,7 @@
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";
 import { escrowDisputeService } from "../services/escrowdispute";
+import { regionMiddleware } from "../middleware/region";
 import { 
   EscrowDisputePlainInputCreate, 
   EscrowDisputePlainInputUpdate 
@@ -9,14 +10,15 @@ import { MLBridgeService } from "../lib/intelligence/MLBridgeService";
 
 export const escrowDisputeRoutes = new Elysia({ prefix: "/escrow-dispute" })
   .use(authMiddleware)
+  .use(regionMiddleware)
 
   /**
    * GET /escrow-dispute
    * Retrieves all EscrowDispute with pagination and basic filtering.
    */
-  .get("/", async ({ query }) => {
+  .get("/", async ({ db, query }) => {
     const { page = "1", limit = "20", ...where } = query as any;
-    return escrowDisputeService.getAll({
+    return escrowDisputeService.withDB(db as any).getAll({
       where,
       skip: (parseInt(page) - 1) * parseInt(limit),
       take: parseInt(limit),
@@ -32,10 +34,13 @@ export const escrowDisputeRoutes = new Elysia({ prefix: "/escrow-dispute" })
 
   /**
    * POST /escrow-dispute
-   * Creates a new EscrowDispute.
+   * Creates/Opens a new EscrowDispute.
    */
-  .post("/", async ({ body, set }) => {
-    const data = await escrowDisputeService.create(body);
+  .post("/", async ({ body, set, region }) => {
+    const data = await escrowDisputeService.openDispute({
+      ...body,
+      region
+    } as any);
     
     // Trigger ML feedback loop: Dispute opened -> penalize tenant risk score
     MLBridgeService.sendFeedback("tenant-screening", "DISPUTE_OPENED", -5.0, { 
@@ -54,7 +59,7 @@ export const escrowDisputeRoutes = new Elysia({ prefix: "/escrow-dispute" })
    * GET /escrow-dispute/:id
    * Retrieves a single EscrowDispute by ID.
    */
-  .get("/:id", async ({ params, set }) => {
+  .get("/:id", async ({ params, set, region }) => {
     const data = await escrowDisputeService.getById(params.id);
     if (!data) {
       set.status = 404;
@@ -94,6 +99,55 @@ export const escrowDisputeRoutes = new Elysia({ prefix: "/escrow-dispute" })
       set.status = 404;
       return { error: "EscrowDispute not found or already deleted" };
     }
+  }, {
+    params: t.Object({ id: t.String() })
+  })
+
+  /**
+   * POST /escrow-dispute/:id/evidence
+   * Submits new evidence to an active dispute.
+   */
+  .post("/:id/evidence", async ({ params, body, region }) => {
+    const updated = await escrowDisputeService.submitEvidence(params.id, body as any, region);
+    return { data: updated };
+  }, {
+    params: t.Object({ id: t.String() }),
+    body: t.Any()
+  })
+
+  /**
+   * POST /escrow-dispute/:id/review
+   * Requests a moderator/AI review for the dispute.
+   */
+  .post("/:id/review", async ({ params, region }) => {
+    const result = await escrowDisputeService.requestModeratorReview(params.id, region);
+    return { data: result };
+  }, {
+    params: t.Object({ id: t.String() })
+  })
+
+  /**
+   * POST /escrow-dispute/:id/resolve
+   * Resolves the dispute using AI analyst.
+   */
+  .post("/:id/resolve", async ({ params, body, region }) => {
+    const { resolvedBy = "AI_ANALYST" } = body as { resolvedBy?: string };
+    const result = await escrowDisputeService.resolveDispute(params.id, resolvedBy, region);
+    return { data: result };
+  }, {
+    params: t.Object({ id: t.String() }),
+    body: t.Object({
+      resolvedBy: t.Optional(t.String())
+    })
+  })
+
+  /**
+   * GET /escrow-dispute/:id/timeline
+   * Retrieves the dispute timeline including AI analysis and history logs.
+   */
+  .get("/:id/timeline", async ({ params, region }) => {
+    const result = await escrowDisputeService.getDisputeTimeline(params.id, region);
+    return { data: result };
   }, {
     params: t.Object({ id: t.String() })
   });

@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,6 +11,10 @@ import { PageShell } from "../layout/PageShell";
 import { complianceApi, RightToRentCheck } from "@/lib/api/compliance";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+
 interface RightToRentRecord {
   id: string;
   contactName: string;
@@ -26,6 +32,17 @@ export default function RightToRent() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
+  
+  const [isNewCheckOpen, setIsNewCheckOpen] = useState(false);
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [selectedReport, setSelectedReport] = useState<RightToRentCheck | null>(null);
+  
+  const [newCheckForm, setNewCheckForm] = useState({
+    contactId: "",
+    checkType: "Passport",
+    reference: "",
+    expiresAt: ""
+  });
 
   const { data: checksData = [], isLoading, refetch } = useQuery({
     queryKey: ['right-to-rent-checks'],
@@ -40,6 +57,8 @@ export default function RightToRent() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['right-to-rent-checks'] });
       toast({ title: t("client.src.check_created") });
+      setIsNewCheckOpen(false);
+      setNewCheckForm({ contactId: "", checkType: "Passport", reference: "", expiresAt: "" });
     },
     onError: () => {
       toast({ title: t("client.src.error"), variant: "destructive" });
@@ -74,13 +93,23 @@ export default function RightToRent() {
   const complianceRate = stats.total > 0 ? Math.round((stats.verified / stats.total) * 100) : 0;
 
   const handleStartNewCheck = () => {
-    console.log('Starting new right-to-rent check');
-    // TODO: Implement new check dialog/form
+    setIsNewCheckOpen(true);
+  };
+
+  const submitNewCheck = () => {
+    if (!newCheckForm.contactId || !newCheckForm.reference) {
+      toast({ title: t("client.src.error"), description: t("client.src.please_fill_required"), variant: "destructive" });
+      return;
+    }
+    createMutation.mutate({
+      ...newCheckForm,
+      status: 'pending'
+    });
   };
 
   const handleViewReport = (check: RightToRentCheck) => {
-    console.log('Viewing report for:', check.reference);
-    // TODO: Implement report view dialog
+    setSelectedReport(check);
+    setIsReportOpen(true);
   };
 
   const handleRecheckStatus = (check: RightToRentCheck) => {
@@ -237,5 +266,85 @@ export default function RightToRent() {
           </div>
         </div>
       </div>
+
+      <Dialog open={isNewCheckOpen} onOpenChange={setIsNewCheckOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("client.src.start_new_check")}</DialogTitle>
+            <DialogDescription>{t("client.src.verification_of_identity_and")}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>{t("client.src.tenant_name", "Tenant ID")}</Label>
+              <Input value={newCheckForm.contactId} onChange={e => setNewCheckForm(prev => ({ ...prev, contactId: e.target.value }))} placeholder="C-12345" />
+            </div>
+            <div className="space-y-2">
+              <Label>{t("client.src.document_type")}</Label>
+              <Select value={newCheckForm.checkType} onValueChange={(val) => setNewCheckForm(prev => ({ ...prev, checkType: val }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Passport">Passport</SelectItem>
+                  <SelectItem value="BRP">BRP</SelectItem>
+                  <SelectItem value="ShareCode">ShareCode</SelectItem>
+                  <SelectItem value="DocumentExam">DocumentExam</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>{t("client.src.reference_number")}</Label>
+              <Input value={newCheckForm.reference} onChange={e => setNewCheckForm(prev => ({ ...prev, reference: e.target.value }))} placeholder="P1234567" />
+            </div>
+            <div className="space-y-2">
+              <Label>{t("client.src.expiry_date")}</Label>
+              <Input type="date" value={newCheckForm.expiresAt} onChange={e => setNewCheckForm(prev => ({ ...prev, expiresAt: e.target.value }))} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsNewCheckOpen(false)}>{t("client.src.cancel")}</Button>
+            <Button onClick={submitNewCheck} disabled={createMutation.isPending}>{t("client.src.start_check", "Start Check")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isReportOpen} onOpenChange={setIsReportOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("client.src.view_report")}</DialogTitle>
+          </DialogHeader>
+          {selectedReport && (
+            <div className="space-y-4 py-4">
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-semibold text-muted-foreground">{t("client.src.tenant_name", "Tenant ID")}:</span>
+                <span>{selectedReport.contactId}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-semibold text-muted-foreground">{t("client.src.document_type")}:</span>
+                <span>{selectedReport.checkType}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-semibold text-muted-foreground">{t("client.src.reference_number")}:</span>
+                <span>{selectedReport.reference}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-semibold text-muted-foreground">{t("client.src.status")}:</span>
+                <span>{getStatusBadge(selectedReport.status as any)}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-semibold text-muted-foreground">{t("client.src.checked_on")}:</span>
+                <span>{selectedReport.checkedAt ? new Date(selectedReport.checkedAt).toLocaleDateString() : 'N/A'}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-semibold text-muted-foreground">{t("client.src.expiry_date")}:</span>
+                <span>{selectedReport.expiresAt ? new Date(selectedReport.expiresAt).toLocaleDateString() : 'Indefinite'}</span>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button onClick={() => setIsReportOpen(false)}>{t("client.src.close")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </PageShell>;
 }

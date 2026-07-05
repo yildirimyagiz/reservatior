@@ -159,4 +159,11 @@ export const documentsApi = {
     apiClient.post(`/documents/${documentId}/analyze`),
   getDocumentAnalysis: (documentId: string) => 
     apiClient.get(`/documents/${documentId}/analysis`),
+  getDocumentAnalyses: (documentId: string) => apiClient.get(`/documents/${documentId}/analyses`),
+  
+  // ML Service OCR/Analysis integration
+  analyzeDocumentWithAI: async (documentId: string): Promise<DocumentAnalysis> => {
+    // This proxies to Python OCR/Classifier ML backend
+    return await apiClient.post<DocumentAnalysis>(`/documents/${documentId}/analyze`);
+  }
 };

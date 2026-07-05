@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "@/lib/react-router-shim";
 import { useAuth } from "./hooks";
 
 export const PublicRoute: React.FC<{ children?: React.ReactNode }> = ({ children }) => {

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useCallback } from "react";
@@ -885,7 +887,7 @@ export default function VideoContentManagement() {
                 Sosyal Ağlarda Paylaş
               </DialogTitle>
               <DialogDescription className="text-slate-400">
-                AI tarafından oluşturulan video klibi ve ilanı otomatik hashtagler ve mentionlar ile Twitter'da paylaşın.
+                AI tarafından oluşturulan video klibi ve ilanı otomatik hashtagler ve mentionlar ile Twitter&apos;da paylaşın.
               </DialogDescription>
             </DialogHeader>
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState, useEffect, FormEvent } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -29,7 +31,7 @@ const STATUS_CONFIG = (t: any) => {
     },
     SCHEDULED: {
       label: t("financialPayoutsStatusScheduled"),
-      cls: "bg-blue-500/10 text-blue-400 border-blue-500/20"
+      cls: "bg-slate-500/10 text-slate-400 border-slate-500/20"
     },
     FAILED: {
       label: t("failed"),
@@ -236,12 +238,12 @@ export default function Payouts() {
            </Card>
 
            <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
-             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                <DollarSign className="w-10 h-10" />
              </div>
              <CardContent className="p-8">
                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("financialPayoutsTotalpaid")}</p>
-               <h3 className="text-3xl font-bold text-blue-400 leading-none">${payouts.filter(r => r.status === 'PAID').reduce((s, r) => s + (r.amount || 0), 0).toLocaleString()}</h3>
+               <h3 className="text-3xl font-bold text-slate-400 leading-none">${payouts.filter(r => r.status === 'PAID').reduce((s, r) => s + (r.amount || 0), 0).toLocaleString()}</h3>
              </CardContent>
            </Card>
         </div>
@@ -261,7 +263,7 @@ export default function Payouts() {
             <Button onClick={() => {
               setForm(EMPTY_FORM);
               setCreateOpen(true);
-            }} className="bg-blue-600 hover:bg-blue-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-blue-600/20">
+            }} className="bg-slate-600 hover:bg-slate-500 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
               <Plus className="w-4 h-4" />
               {t("financialInitnode")}
             </Button>
@@ -296,7 +298,7 @@ export default function Payouts() {
                         <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl">
                           <DropdownMenuItem onClick={() => window.location.href = `/checkout?type=PAYOUT&amount=${row.amount}&id=${row.id}`} className="font-bold text-[10px]">
-                            <CreditCard className="w-4 h-4 mr-2 text-blue-400" />{t("admin.financial.pay_with_stripe")}</DropdownMenuItem>
+                            <CreditCard className="w-4 h-4 mr-2 text-slate-400" />{t("admin.financial.pay_with_stripe")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => openEdit(row)} className="font-bold text-[10px]"><Edit className="w-4 h-4 mr-2" />{t("admin.financial.edit")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-red-400 font-bold text-[10px]"><Trash2 className="w-4 h-4 mr-2" />{t("admin.financial.delete")}</DropdownMenuItem>
                         </DropdownMenuContent>

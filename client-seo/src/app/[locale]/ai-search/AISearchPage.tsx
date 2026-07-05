@@ -7,8 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, Loader2, Search, X, MapPin, Home as HomeIcon } from 'lucide-react';
+import { useTranslation } from "react-i18next";
 
 export default function AISearchPage() {
+    const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const { isStreaming, events, error, streamSearch, abort, reset } = useAIStreamSearch();
 
@@ -36,11 +38,11 @@ export default function AISearchPage() {
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <Sparkles className="w-8 h-8 text-purple-400" />
-              <h1 className="text-4xl font-bold text-white">AI Property Search</h1>
+              <h1 className="text-4xl font-bold text-white">{t("ai_search.aisearchpage.auto_ext_1")}</h1>
             </div>
             <p className="text-lg text-gray-300">
-              Describe your dream property in natural language and let AI find the perfect match
-            </p>
+              {t("ai_search.aisearchpage.auto_ext_2")}
+                                      </p>
           </div>
 
           {/* Search Form */}
@@ -73,13 +75,13 @@ export default function AISearchPage() {
                   {isStreaming ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Searching...
-                    </>
+                      {t("ai_search.aisearchpage.auto_ext_3")}
+                                                              </>
                   ) : (
                     <>
                       <Search className="w-4 h-4 mr-2" />
-                      Search
-                    </>
+                      {t("ai_search.aisearchpage.auto_ext_4")}
+                                                                  </>
                   )}
                 </Button>
                 {isStreaming && (
@@ -89,8 +91,8 @@ export default function AISearchPage() {
                     variant="outline"
                     className="border-red-500/30 text-red-400 hover:bg-red-500/10"
                   >
-                    Stop
-                  </Button>
+                    {t("ai_search.aisearchpage.auto_ext_5")}
+                                                        </Button>
                 )}
               </form>
             </CardContent>
@@ -111,20 +113,20 @@ export default function AISearchPage() {
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
                   <Sparkles className="w-5 h-5" />
-                  AI Analysis
-                </CardTitle>
+                  {t("ai_search.aisearchpage.auto_ext_6")}
+                                                  </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div>
-                    <span className="text-sm text-gray-400">Route Used:</span>
+                    <span className="text-sm text-gray-400">{t("ai_search.aisearchpage.auto_ext_7")}</span>
                     <Badge variant="outline" className="ml-2 border-blue-500/30 text-blue-300">
                       {intent.routeUsed}
                     </Badge>
                   </div>
                   {intent.filters && Object.keys(intent.filters).length > 0 && (
                     <div>
-                      <span className="text-sm text-gray-400 block mb-2">Filters Applied:</span>
+                      <span className="text-sm text-gray-400 block mb-2">{t("ai_search.aisearchpage.auto_ext_8")}</span>
                       <div className="flex flex-wrap gap-2">
                         {Object.entries(intent.filters).map(([key, value]) => (
                           <Badge key={key} variant="secondary" className="bg-blue-500/20 text-blue-300">
@@ -143,8 +145,8 @@ export default function AISearchPage() {
           {properties.length > 0 && (
             <div className="space-y-4 mb-6">
               <h2 className="text-2xl font-bold text-white mb-4">
-                Found {properties.length} Properties
-              </h2>
+                {t("ai_search.aisearchpage.auto_ext_9")} {properties.length} {t("ai_search.aisearchpage.auto_ext_10")}
+                                            </h2>
               {properties.map((property: Record<string, unknown>, index: number) => (
                 <Card key={index} className="border-purple-500/20 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-colors">
                   <CardContent className="p-6">
@@ -168,17 +170,17 @@ export default function AISearchPage() {
                       {!!property.beds && (
                         <div className="flex items-center gap-1">
                           <HomeIcon className="w-4 h-4" />
-                          <span>{(property.beds as number)} beds</span>
+                          <span>{(property.beds as number)} {t("ai_search.aisearchpage.auto_ext_11")}</span>
                         </div>
                       )}
                       {!!property.baths && (
                         <div className="flex items-center gap-1">
-                          <span>{(property.baths as number)} baths</span>
+                          <span>{(property.baths as number)} {t("ai_search.aisearchpage.auto_ext_12")}</span>
                         </div>
                       )}
                       {!!property.sqm && (
                         <div className="flex items-center gap-1">
-                          <span>{(property.sqm as number)} sqm</span>
+                          <span>{(property.sqm as number)} {t("ai_search.aisearchpage.auto_ext_13")}</span>
                         </div>
                       )}
                     </div>
@@ -192,13 +194,13 @@ export default function AISearchPage() {
           {analysis && (
             <Card className="border-purple-500/20 bg-purple-500/10">
               <CardHeader>
-                <CardTitle className="text-white">AI Insights</CardTitle>
+                <CardTitle className="text-white">{t("ai_search.aisearchpage.auto_ext_14")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-300 leading-relaxed">{analysis.text}</p>
                 {analysis.marketContext && (
                   <div className="mt-4 pt-4 border-t border-purple-500/20">
-                    <span className="text-sm text-gray-400">Market Context:</span>
+                    <span className="text-sm text-gray-400">{t("ai_search.aisearchpage.auto_ext_15")}</span>
                     <p className="text-gray-300 mt-2 text-sm">{JSON.stringify(analysis.marketContext, null, 2)}</p>
                   </div>
                 )}
@@ -211,7 +213,7 @@ export default function AISearchPage() {
             <Card className="border-purple-500/20 bg-white/5 backdrop-blur-xl">
               <CardContent className="p-12 text-center">
                 <Loader2 className="w-12 h-12 animate-spin text-purple-400 mx-auto mb-4" />
-                <p className="text-gray-300">Analyzing your query with AI...</p>
+                <p className="text-gray-300">{t("ai_search.aisearchpage.auto_ext_16")}</p>
               </CardContent>
             </Card>
           )}

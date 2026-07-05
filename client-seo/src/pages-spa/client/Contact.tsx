@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { PageShell } from "./layout/PageShell";
 import { Button } from "@/components/ui/button";

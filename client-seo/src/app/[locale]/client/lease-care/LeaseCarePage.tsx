@@ -12,6 +12,7 @@ import {
   DollarSign
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const services = [
   {
@@ -41,6 +42,7 @@ const services = [
 ];
 
 export default function LeaseCarePage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -54,16 +56,16 @@ export default function LeaseCarePage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Lease Care</h1>
-              <p className="text-gray-400">Comprehensive property and lease management services</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("lease_care.leasecarepage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("lease_care.leasecarepage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("lease_care.leasecarepage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 

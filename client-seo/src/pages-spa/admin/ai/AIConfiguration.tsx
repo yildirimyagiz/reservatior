@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -20,6 +22,7 @@ import { Brain, Cpu, Zap, Settings, Play, RefreshCw, Edit, Eye, Plus, MoreHorizo
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
+import { apiClient } from "@/lib/api";
 interface AIModel {
   id: string;
   name: string;
@@ -246,7 +249,7 @@ export default function AIConfiguration() {
   } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -326,7 +329,7 @@ export default function AIConfiguration() {
       case "INACTIVE":
         return "bg-slate-500/10 text-muted-foreground border-none";
       case "TRAINING":
-        return "bg-blue-500/10 text-blue-400 border-none";
+        return "bg-slate-500/10 text-slate-400 border-none";
       case "ERROR":
       case "UNHEALTHY":
         return "bg-red-500/10 text-red-500 border-none";
@@ -341,17 +344,17 @@ export default function AIConfiguration() {
       case "OPENAI":
         return <Brain className="w-4 h-4 text-green-600" />;
       case "ANTHROPIC":
-        return <Brain className="w-4 h-4 text-purple-600" />;
+        return <Brain className="w-4 h-4 text-slate-600" />;
       case "GOOGLE":
-        return <Brain className="w-4 h-4 text-blue-600" />;
+        return <Brain className="w-4 h-4 text-slate-600" />;
       case "AZURE":
         return <Brain className="w-4 h-4 text-orange-600" />;
       case "HUGGING_FACE":
         return <Brain className="w-4 h-4 text-yellow-600" />;
       case "CUSTOM":
-        return <Cpu className="w-4 h-4 text-gray-600" />;
+        return <Cpu className="w-4 h-4 text-slate-400" />;
       default:
-        return <Brain className="w-4 h-4 text-gray-600" />;
+        return <Brain className="w-4 h-4 text-slate-400" />;
     }
   };
   const toggleModel = (model: AIModel) => {
@@ -425,7 +428,7 @@ export default function AIConfiguration() {
           delay: 0.1
         }}>
             <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t">
-              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                 <Brain className="w-12 h-12" />
               </div>
               <CardContent className="p-8">
@@ -445,8 +448,8 @@ export default function AIConfiguration() {
         }} transition={{
           delay: 0.2
         }}>
-            <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-violet-500/30 border-l border-t">
-              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-violet-500">
+            <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-slate-500/30 border-l border-t">
+              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                 <Zap className="w-12 h-12" />
               </div>
               <CardContent className="p-8">
@@ -572,10 +575,10 @@ export default function AIConfiguration() {
 
                         {model.trainingData && <div className="p-6 bg-card rounded-2xl border border-border space-y-4">
                             <div className="flex items-center justify-between">
-                                <span className="text-[10px] font-bold text-blue-400">{t('trainingProgress')}</span>
+                                <span className="text-[10px] font-bold text-slate-400">{t('trainingProgress')}</span>
                                 <span className="text-xs font-bold text-foreground">{model.trainingData.accuracy}%</span>
                             </div>
-                            <Progress value={model.trainingData.accuracy} className="h-1.5 bg-muted/50" indicatorClassName="bg-blue-500 shadow-[0_0_10px_#3b82f6]" />
+                            <Progress value={model.trainingData.accuracy} className="h-1.5 bg-muted/50" indicatorClassName="bg-slate-500 shadow-[0_0_10px_#3b82f6]" />
                           </div>}
                       </div>
                       
@@ -592,13 +595,13 @@ export default function AIConfiguration() {
                               <Play className="w-4 h-4 mr-3 text-emerald-500" /> {t('testModel')}
                             </DropdownMenuItem>
                             {model.provider === "CUSTOM" && <DropdownMenuItem onClick={() => trainModel(model.id)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <RefreshCw className="w-4 h-4 mr-3 text-blue-400" /> {t('retrain')}
+                                <RefreshCw className="w-4 h-4 mr-3 text-slate-400" /> {t('retrain')}
                               </DropdownMenuItem>}
                             <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
                               <Settings className="w-4 h-4 mr-3 text-muted-foreground" /> {t('admin.ai.models.configure')}
                             </DropdownMenuItem>
                             <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                              <Eye className="w-4 h-4 mr-3 text-violet-400" /> {t('viewDetails')}
+                              <Eye className="w-4 h-4 mr-3 text-slate-400" /> {t('viewDetails')}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -675,10 +678,10 @@ export default function AIConfiguration() {
                                 <Play className="w-4 h-4 mr-3 text-emerald-500" /> {t('runNow')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <Edit className="w-4 h-4 mr-3 text-blue-400" /> {t('edit')}
+                                <Edit className="w-4 h-4 mr-3 text-slate-400" /> {t('edit')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <Eye className="w-4 h-4 mr-3 text-violet-400" /> {t('viewLogs')}
+                                <Eye className="w-4 h-4 mr-3 text-slate-400" /> {t('viewLogs')}
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -753,13 +756,13 @@ export default function AIConfiguration() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl shadow-2xl p-2 min-w-[180px]">
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <RefreshCw className="w-4 h-4 mr-3 text-blue-400" /> {t('test')}
+                                <RefreshCw className="w-4 h-4 mr-3 text-slate-400" /> {t('test')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
                                 <Edit className="w-4 h-4 mr-3 text-orange-500" /> {t('edit')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <Eye className="w-4 h-4 mr-3 text-violet-400" /> {t('viewLogs')}
+                                <Eye className="w-4 h-4 mr-3 text-slate-400" /> {t('viewLogs')}
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -797,9 +800,9 @@ export default function AIConfiguration() {
                             <div className="space-y-2">
                               <div className="flex justify-between text-[10px] font-bold text-muted-foreground">
                                 <span>{t("admin.ai.latency")}</span>
-                                <span className="text-violet-400">{model.performance.latency}{t("admin.ai.ms")}</span>
+                                <span className="text-slate-400">{model.performance.latency}{t("admin.ai.ms")}</span>
                               </div>
-                              <Progress value={(1 - model.performance.latency / 4000) * 100} className="h-1 bg-muted/50" indicatorClassName="bg-violet-500 shadow-[0_0_8px_#8b5cf6]" />
+                              <Progress value={(1 - model.performance.latency / 4000) * 100} className="h-1 bg-muted/50" indicatorClassName="bg-slate-500 shadow-[0_0_8px_#8b5cf6]" />
                             </div>
                           </div>
                         </div>)}

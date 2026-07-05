@@ -16,6 +16,7 @@ import {
   TrendingDown
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Expense {
   id: string;
@@ -41,6 +42,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function FinancialExpensesPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -59,16 +61,16 @@ export default function FinancialExpensesPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Expenses</h1>
-              <p className="text-gray-400">Track and manage expenses</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("expenses.financialexpensespage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("expenses.financialexpensespage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("expenses.financialexpensespage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -94,12 +96,12 @@ export default function FinancialExpensesPage() {
                 </div>
                 <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
+                  {t("expenses.financialexpensespage.auto_ext_4")}
+                                                  </Button>
                 <Button className="bg-purple-600 hover:bg-purple-700">
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Expense
-                </Button>
+                  {t("expenses.financialexpensespage.auto_ext_5")}
+                                                  </Button>
               </div>
             </CardContent>
           </Card>
@@ -114,7 +116,7 @@ export default function FinancialExpensesPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Receipt className="w-5 h-5" />
-                All Expenses ({filteredExpenses.length})
+                {t("expenses.financialexpensespage.auto_ext_6")}{filteredExpenses.length})
               </CardTitle>
             </CardHeader>
             <CardContent>

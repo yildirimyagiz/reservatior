@@ -81,7 +81,7 @@ export function Navbar() {
           <UserMenu />
 
           <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground">
-            <Link to="/studio">{t("getStarted")}</Link>
+            <Link to="/studio">{t("Get Started")}</Link>
           </Button>
         </div>
 
@@ -178,7 +178,7 @@ export function Navbar() {
 
             <Link to="/studio" onClick={() => setIsOpen(false)}>
             <Button className="w-full justify-center">
-              {t("getStarted")}
+              {t("Get Started")}
             </Button>
           </Link>
         </motion.div>}

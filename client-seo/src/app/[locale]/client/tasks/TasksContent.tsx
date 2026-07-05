@@ -3,8 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckSquare, Calendar, LayoutGrid, ListTodo } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export function TasksContent() {
+    const { t } = useTranslation();
   const taskModules = [
     {
       title: "Task Management",
@@ -39,8 +41,8 @@ export function TasksContent() {
   return (
     <div className="container mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Tasks</h1>
-        <p className="text-muted-foreground">Manage tasks and to-dos for your property business</p>
+        <h1 className="text-3xl font-bold">{t("tasks.taskscontent.auto_ext_1")}</h1>
+        <p className="text-muted-foreground">{t("tasks.taskscontent.auto_ext_2")}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

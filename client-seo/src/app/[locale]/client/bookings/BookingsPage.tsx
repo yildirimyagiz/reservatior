@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, Shield, CheckCircle, Clock, AlertCircle, Zap, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED";
 type SecurityRiskLevel = "LOW" | "MEDIUM" | "HIGH";
@@ -77,6 +78,7 @@ const riskConfig: Record<SecurityRiskLevel, { label: string; icon: React.Compone
 };
 
 export default function BookingsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [filters, setFilters] = useState({
     status: undefined as BookingStatus | undefined,
@@ -104,16 +106,16 @@ export default function BookingsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Bookings</h1>
-              <p className="text-gray-400">Manage your property bookings with AI-powered security</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("bookings.bookingspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("bookings.bookingspage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("bookings.bookingspage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -128,7 +130,7 @@ export default function BookingsPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Total Revenue</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("bookings.bookingspage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">${totalRevenue.toLocaleString()}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-green-500/10">
@@ -148,7 +150,7 @@ export default function BookingsPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Pending Bookings</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("bookings.bookingspage.auto_ext_5")}</div>
                     <div className="text-2xl font-bold text-white">{pendingCount}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-yellow-500/10">
@@ -168,7 +170,7 @@ export default function BookingsPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Verified Properties</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("bookings.bookingspage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-white">{verifiedCount}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-blue-500/10">
@@ -209,11 +211,11 @@ export default function BookingsPage() {
                     <SelectValue placeholder="All Status" />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-900 border-purple-500/30">
-                    <SelectItem value="undefined">All Status</SelectItem>
-                    <SelectItem value="PENDING">Pending</SelectItem>
-                    <SelectItem value="CONFIRMED">Confirmed</SelectItem>
-                    <SelectItem value="CANCELLED">Cancelled</SelectItem>
-                    <SelectItem value="COMPLETED">Completed</SelectItem>
+                    <SelectItem value="undefined">{t("bookings.bookingspage.auto_ext_7")}</SelectItem>
+                    <SelectItem value="PENDING">{t("bookings.bookingspage.auto_ext_8")}</SelectItem>
+                    <SelectItem value="CONFIRMED">{t("bookings.bookingspage.auto_ext_9")}</SelectItem>
+                    <SelectItem value="CANCELLED">{t("bookings.bookingspage.auto_ext_10")}</SelectItem>
+                    <SelectItem value="COMPLETED">{t("bookings.bookingspage.auto_ext_11")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -229,24 +231,25 @@ export default function BookingsPage() {
         >
           <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
             <CardHeader>
-              <CardTitle className="text-white">Recent Bookings</CardTitle>
+              <CardTitle className="text-white">{t("bookings.bookingspage.auto_ext_12")}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow className="border-purple-500/20">
-                    <TableHead className="text-gray-400">Guest</TableHead>
-                    <TableHead className="text-gray-400">Property</TableHead>
-                    <TableHead className="text-gray-400">Check In</TableHead>
-                    <TableHead className="text-gray-400">Check Out</TableHead>
-                    <TableHead className="text-gray-400">Status</TableHead>
-                    <TableHead className="text-gray-400">Risk Level</TableHead>
-                    <TableHead className="text-gray-400">Amount</TableHead>
-                    <TableHead className="text-gray-400">Verified</TableHead>
+                    <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_13")}</TableHead>
+                    <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_14")}</TableHead>
+                    <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_15")}</TableHead>
+                    <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_16")}</TableHead>
+                    <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_17")}</TableHead>
+                    <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_18")}</TableHead>
+                    <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_19")}</TableHead>
+                    <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_20")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredBookings.map((booking) => {
+                      const { t } = useTranslation();
                     const statusInfo = statusConfig[booking.status];
                     const riskInfo = riskConfig[booking.securityRiskLevel];
                     const RiskIcon = riskInfo.icon;

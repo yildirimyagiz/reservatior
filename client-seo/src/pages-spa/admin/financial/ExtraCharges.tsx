@@ -1,3 +1,7 @@
+"use client";
+import { apiClient } from '@/lib/api/client';
+import { useMutation } from '@tanstack/react-query';
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -27,7 +31,7 @@ export default function ExtraCharges() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -214,7 +218,7 @@ export default function ExtraCharges() {
         <input type="checkbox" id="isPaid" checked={form.isPaid} onChange={e => setForm({
           ...form,
           isPaid: e.target.checked
-        })} className="rounded border-gray-300 text-primary focus:ring-primary h-4 w-4" />
+        })} className="rounded-lg border-white/10 text-primary focus:ring-primary h-4 w-4" />
         <Label htmlFor="isPaid" className="cursor-pointer">{t("admin.financial.payment_has_been_received")}</Label>
       </div>
 

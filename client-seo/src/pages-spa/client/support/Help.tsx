@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -9,10 +11,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, BookOpen, MessageCircle, Video, FileText, Phone, Mail, CreditCard } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 export default function Help() {
   const {
     t
   } = useTranslation();
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [supportTicket, setSupportTicket] = useState({
     subject: "",
@@ -77,8 +81,11 @@ export default function Help() {
     available: true
   }];
   const handleSupportSubmit = () => {
-    console.log("Support ticket submitted:", supportTicket);
-    // Handle support ticket submission
+    toast({
+      title: t("client.src.support_ticket_submitted"),
+      description: t("client.src.we_will_respond_soon")
+    });
+    setSupportTicket({ subject: "", category: "", message: "" });
   };
   return <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6">

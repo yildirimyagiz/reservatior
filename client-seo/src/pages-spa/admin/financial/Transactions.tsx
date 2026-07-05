@@ -1,3 +1,6 @@
+"use client";
+import { useToast } from '@/hooks/use-toast';
+
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -83,10 +86,10 @@ export default function FinancialTransactions() {
   });
 
   return (
-    <div className="p-6 space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <DollarSign className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -105,7 +108,7 @@ export default function FinancialTransactions() {
           </Button>
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.financial.new_transaction", "New Transaction")}
               </Button>
@@ -135,7 +138,7 @@ export default function FinancialTransactions() {
                 </div>
                 <DialogFooter>
                   <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-slate-300">{t("common.cancel", "Cancel")}</Button>
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={createMutation.isPending}>
+                  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
                     {createMutation.isPending ? t("common.saving", "Saving...") : t("common.create", "Create")}
                   </Button>
                 </DialogFooter>
@@ -167,7 +170,7 @@ export default function FinancialTransactions() {
         <Card className="bg-white/5 border-white/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.financial.net_profit", "Net Profit")}</CardTitle>
-            <DollarSign className="h-4 w-4 text-blue-400" />
+            <DollarSign className="h-4 w-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">${netProfit.toLocaleString()}</div>
@@ -237,7 +240,7 @@ export default function FinancialTransactions() {
                   </div>
                   <div className="w-full bg-white/5 rounded-full h-2">
                     <div
-                      className="h-2 rounded-full bg-blue-500"
+                      className="h-2 rounded-full bg-slate-500"
                       style={{ width: `${Math.min((cat.amount / Math.max(...categoryTotals.map(c => c.amount))) * 100, 100)}%` }}
                     />
                   </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -121,13 +123,13 @@ export default function UserManagement() {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/usermanagement/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/usermanagement/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/usermanagement/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/usermanagement/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -164,11 +166,11 @@ export default function UserManagement() {
   const fetchUserManagementData = async (): Promise<{ permissions: UserPermission[], preferences: UserPreference[], roles: Role[], accessLogs: AccessLog[], securityAlerts: SecurityAlert[] }> => {
     try {
       const [permissionsRes, preferencesRes, rolesRes, logsRes, alertsRes] = await Promise.all([
-        apiClient.get('/api/v1/admin/users/permissions') as Promise<{ data: UserPermission[] }>,
-        apiClient.get('/api/v1/admin/users/preferences') as Promise<{ data: UserPreference[] }>,
-        apiClient.get('/api/v1/admin/users/roles') as Promise<{ data: Role[] }>,
-        apiClient.get('/api/v1/admin/users/access-logs') as Promise<{ data: AccessLog[] }>,
-        apiClient.get('/api/v1/admin/users/security-alerts') as Promise<{ data: SecurityAlert[] }>
+        apiClient.get('/admin/users/permissions') as Promise<{ data: UserPermission[] }>,
+        apiClient.get('/admin/users/preferences') as Promise<{ data: UserPreference[] }>,
+        apiClient.get('/admin/users/roles') as Promise<{ data: Role[] }>,
+        apiClient.get('/admin/users/access-logs') as Promise<{ data: AccessLog[] }>,
+        apiClient.get('/admin/users/security-alerts') as Promise<{ data: SecurityAlert[] }>
       ]);
       return {
         permissions: permissionsRes.data || [],
@@ -209,7 +211,7 @@ export default function UserManagement() {
       case 'MEDIUM': return 'bg-orange-500';
       case 'HIGH': return 'bg-red-500';
       case 'CRITICAL': return 'bg-red-600';
-      default: return 'bg-gray-500';
+      default: return 'bg-white/10';
     }
   };
 
@@ -244,7 +246,7 @@ export default function UserManagement() {
     return map[status] || status.replace('_', ' ');
   };
 const getRoleLevelColor = (level: number) => {
-    if (level >= 90) return 'bg-purple-500';
+    if (level >= 90) return 'bg-slate-500';
     if (level >= 70) return 'bg-red-500';
     if (level >= 50) return 'bg-orange-500';
     if (level >= 30) return 'bg-yellow-500';
@@ -320,7 +322,7 @@ const getRoleLevelColor = (level: number) => {
               <Clock className="h-4 w-4 text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{recentLogins}</div>
+              <div className="text-2xl font-bold text-slate-600">{recentLogins}</div>
               <p className="text-xs text-slate-400">
                 {t('admin.users.last24Hours')}
               </p>
@@ -544,23 +546,23 @@ const getRoleLevelColor = (level: number) => {
                         <TableCell>
                           <div className="space-y-1">
                             <div className="flex items-center gap-1">
-                              <Mail className={`h-3 w-3 ${preference.settings.emailNotifications ? 'text-green-600' : 'text-gray-400'}`} />
+                              <Mail className={`h-3 w-3 ${preference.settings.emailNotifications ? 'text-green-600' : 'text-slate-400'}`} />
                               <span className="text-xs">{t("admin.users.email")}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <Bell className={`h-3 w-3 ${preference.settings.pushNotifications ? 'text-green-600' : 'text-gray-400'}`} />
+                              <Bell className={`h-3 w-3 ${preference.settings.pushNotifications ? 'text-green-600' : 'text-slate-400'}`} />
                               <span className="text-xs">{t("admin.users.push")}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <Phone className={`h-3 w-3 ${preference.settings.smsNotifications ? 'text-green-600' : 'text-gray-400'}`} />
+                              <Phone className={`h-3 w-3 ${preference.settings.smsNotifications ? 'text-green-600' : 'text-slate-400'}`} />
                               <span className="text-xs">{t("admin.users.sms")}</span>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            {preference.settings.twoFactorEnabled ? <Shield className="h-4 w-4 text-green-600" /> : <Shield className="h-4 w-4 text-gray-400" />}
-                            <span className={preference.settings.twoFactorEnabled ? 'text-green-600' : 'text-gray-600'}>
+                            {preference.settings.twoFactorEnabled ? <Shield className="h-4 w-4 text-green-600" /> : <Shield className="h-4 w-4 text-slate-400" />}
+                            <span className={preference.settings.twoFactorEnabled ? 'text-green-600' : 'text-slate-400'}>
                               {preference.settings.twoFactorEnabled ? t('admin.users.status.enabled') : t('admin.users.status.disabled')}
                             </span>
                           </div>
@@ -629,7 +631,7 @@ const getRoleLevelColor = (level: number) => {
                       <div>
                         <span className="text-sm font-medium text-white">{t('permissions')} ({role.permissions.length})</span>
                         <div className="mt-1 space-y-1">
-                          {role.permissions.slice(0, 3).map((permission, idx) => <div key={idx} className="text-xs bg-gray-100 px-2 py-1 rounded">
+                          {role.permissions.slice(0, 3).map((permission, idx) => <div key={idx} className="text-xs bg-white/5 px-2 py-1 rounded-lg">
                               {permission}
                             </div>)}
                           {role.permissions.length > 3 && <div className="text-xs text-slate-400">
@@ -720,7 +722,7 @@ const getRoleLevelColor = (level: number) => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {securityAlerts.slice(0, 10).map(alert => <div key={alert.id} className="flex justify-between items-start p-3 border rounded">
+                    {securityAlerts.slice(0, 10).map(alert => <div key={alert.id} className="flex justify-between items-start p-3 border rounded-lg">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <div className={`w-2 h-2 rounded-full ${getSeverityColor(alert.severity)}`} />
@@ -752,13 +754,13 @@ const getRoleLevelColor = (level: number) => {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center p-3 border rounded">
+                      <div className="text-center p-3 border rounded-lg">
                         <div className="text-2xl font-bold text-green-600">
                           {securityAlerts.filter(a => a.status === 'RESOLVED').length}
                         </div>
                         <div className="text-sm text-slate-400">{t('admin.users.status.resolved')}</div>
                       </div>
-                      <div className="text-center p-3 border rounded">
+                      <div className="text-center p-3 border rounded-lg">
                         <div className="text-2xl font-bold text-red-600">
                           {securityAlerts.filter(a => a.status === 'OPEN').length}
                         </div>

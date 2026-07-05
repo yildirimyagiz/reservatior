@@ -1,7 +1,9 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
 import { mobileDevicesApi, MobileDevice, MobileDeviceCreate } from "@/lib/api/mobile-devices";
-interface MobileDevicesPageProps {}
+type MobileDevicesPageProps = object
 const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
   const {
     t

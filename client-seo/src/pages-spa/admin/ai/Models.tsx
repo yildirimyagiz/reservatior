@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -96,14 +98,14 @@ export default function AIModels() {
   const { data: serverModels = [] } = useQuery({
     queryKey: ['ai-models'],
     queryFn: async () => {
-      const res = await apiClient.get('/api/v1/ai-models');
+      const res = await apiClient.get('/ai-models');
       return (res as any)?.data || [];
     },
   });
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      return apiClient.post('/api/v1/ai-models', data);
+      return apiClient.post('/ai-models', data);
     },
     onSuccess: () => {
       setIsAddOpen(false);
@@ -230,7 +232,7 @@ export default function AIModels() {
                   </Badge>
                 </div>
                 <div className="w-full bg-white/5 rounded-full h-2">
-                  <div className="bg-blue-600 h-2 rounded-full" style={{
+                  <div className="bg-slate-600 h-2 rounded-full" style={{
                 width: `${training.progress}%`
               }}></div>
                 </div>

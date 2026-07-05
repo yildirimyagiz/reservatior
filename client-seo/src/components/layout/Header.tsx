@@ -1,7 +1,9 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/react-router-shim';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -70,7 +72,7 @@ export default function Header() {
     label: t("client.src.logout"),
     href: '/logout'
   }];
-  return <header className="bg-white border-b border-gray-200 px-4 py-3">
+  return <header className="bg-white border-b border-gray-200 px-4 py-3 relative z-10">
       <div className="flex items-center justify-between">
         {/* Left side - Mobile menu toggle and search */}
         <div className="flex items-center gap-4">
@@ -182,7 +184,7 @@ export default function Header() {
       {/* Mobile Menu */}
       {isMobile && mobileMenuOpen && <div className="absolute top-full left-0 right-0 bg-white border-b border-gray-200 z-50">
           <div className="p-4 space-y-2">
-            <Link to="/properties" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.properties")}</Link>
+            <Link to="/property" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.properties")}</Link>
             <Link to="/financial" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.financial")}</Link>
             <Link to="/tenants" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.tenants")}</Link>
             <Link to="/admin" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.admin")}</Link>

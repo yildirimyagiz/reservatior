@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -118,7 +120,7 @@ export default function CouponsManagement() {
           </Card>
           <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-sm">
             <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-4 bg-blue-500/10 text-blue-500 rounded-2xl">
+              <div className="p-4 bg-slate-500/10 text-slate-500 rounded-2xl">
                 <Globe className="w-8 h-8" />
               </div>
               <div>
@@ -167,7 +169,7 @@ export default function CouponsManagement() {
                       {coupon.type === "PERCENTAGE" ? `${coupon.discount}%` : `$${coupon.discount}`}
                     </TableCell>
                     <TableCell>
-                      <Badge className={coupon.region === "GLOBAL" ? "bg-blue-500" : "bg-orange-500"}>
+                      <Badge className={coupon.region === "GLOBAL" ? "bg-slate-500" : "bg-orange-500"}>
                         {coupon.region}
                       </Badge>
                     </TableCell>

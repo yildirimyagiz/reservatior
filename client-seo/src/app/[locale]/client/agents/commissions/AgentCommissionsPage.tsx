@@ -14,6 +14,7 @@ import {
   Calendar
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Commission {
   id: string;
@@ -39,6 +40,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function AgentCommissionsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -56,16 +58,16 @@ export default function AgentCommissionsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Commissions</h1>
-              <p className="text-gray-400">Track your earnings and commissions</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("commissions.agentcommissionspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("commissions.agentcommissionspage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("commissions.agentcommissionspage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -91,8 +93,8 @@ export default function AgentCommissionsPage() {
                 </div>
                 <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
+                  {t("commissions.agentcommissionspage.auto_ext_4")}
+                                                  </Button>
               </div>
             </CardContent>
           </Card>
@@ -107,7 +109,7 @@ export default function AgentCommissionsPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />
-                All Commissions ({filteredCommissions.length})
+                {t("commissions.agentcommissionspage.auto_ext_5")}{filteredCommissions.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -127,8 +129,8 @@ export default function AgentCommissionsPage() {
                           <Calendar className="w-3 h-3" />
                           {commission.date}
                           <span>•</span>
-                          {commission.rate}% rate
-                        </div>
+                          {commission.rate}{t("commissions.agentcommissionspage.auto_ext_6")}
+                                                            </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">

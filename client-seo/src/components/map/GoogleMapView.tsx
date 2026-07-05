@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 interface GoogleMapViewProps {
   properties: Property[];
   onPropertySelect?: (property: Property) => void;
@@ -232,7 +232,7 @@ export default function GoogleMapView({
                    ${parseInt(selectedProperty.listingPrice?.toString() || "0").toLocaleString()}
                 </div>
               </div>
-              <Button size="sm" className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl h-9 text-xs" onClick={() => navigate(`/properties/${selectedProperty.id}`)}>{t("client.src.view_details")}</Button>
+              <Button size="sm" className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl h-9 text-xs" onClick={() => navigate(`/property/${selectedProperty.id}`)}>{t("client.src.view_details")}</Button>
             </Card>
           </motion.div>
         </div>}

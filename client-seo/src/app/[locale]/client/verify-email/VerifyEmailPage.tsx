@@ -7,8 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, ArrowLeft, ArrowRight, CheckCircle, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function VerifyEmailPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [code, setCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
@@ -38,8 +40,8 @@ export default function VerifyEmailPage() {
           className="mb-6 text-gray-400 hover:text-white"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Login
-        </Button>
+          {t("verify_email.verifyemailpage.auto_ext_1")}
+                          </Button>
 
         <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
           <CardHeader className="text-center">
@@ -59,7 +61,7 @@ export default function VerifyEmailPage() {
             {!isVerified ? (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <div className="text-white text-center text-sm mb-2">Verification Code</div>
+                  <div className="text-white text-center text-sm mb-2">{t("verify_email.verifyemailpage.auto_ext_2")}</div>
                   <Input
                     id="code"
                     type="text"
@@ -73,8 +75,8 @@ export default function VerifyEmailPage() {
                 </div>
 
                 <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700">
-                  Verify Email
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  {t("verify_email.verifyemailpage.auto_ext_3")}
+                                                    <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
 
                 <div className="text-center">
@@ -87,8 +89,8 @@ export default function VerifyEmailPage() {
                     {isResending ? (
                       <span className="flex items-center justify-center gap-2">
                         <RefreshCw className="w-4 h-4 animate-spin" />
-                        Sending...
-                      </span>
+                        {t("verify_email.verifyemailpage.auto_ext_4")}
+                                                                    </span>
                     ) : (
                       "Resend Code"
                     )}
@@ -102,15 +104,15 @@ export default function VerifyEmailPage() {
                 </div>
                 <div className="space-y-4">
                   <p className="text-gray-300">
-                    Your email has been successfully verified. You can now access all features.
-                  </p>
+                    {t("verify_email.verifyemailpage.auto_ext_5")}
+                                                            </p>
                 </div>
                 <Button
                   onClick={() => router.push('/dashboard')}
                   className="w-full bg-purple-600 hover:bg-purple-700"
                 >
-                  Continue to Dashboard
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  {t("verify_email.verifyemailpage.auto_ext_6")}
+                                                        <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
             )}

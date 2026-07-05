@@ -1,10 +1,12 @@
+"use client";
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { Building, Plus, Home, Warehouse, Edit, Trash2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '@/lib/api';
+import { apiClient } from '@/lib/api';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -22,7 +24,7 @@ const FacilitiesManagement = () => {
   const { data: facilitiesRes, isLoading } = useQuery({
     queryKey: ['admin-facilities'],
     queryFn: async () => {
-      const res: any = await api.get('/facility');
+      const res: any = await apiClient.get('/facility');
       return res.data;
     }
   });
@@ -30,7 +32,7 @@ const FacilitiesManagement = () => {
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
       // Mocking orgId and propertyId since we might not have them in context yet
-      return api.post('/facility', { ...data, orgId: 'org_1', propertyId: 'prop_1' });
+      return apiClient.post('/facility', { ...data, orgId: 'org_1', propertyId: 'prop_1' });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-facilities'] });
@@ -41,7 +43,7 @@ const FacilitiesManagement = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      return api.delete(`/facility/${id}`);
+      return apiClient.delete(`/facility/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-facilities'] });
@@ -63,7 +65,7 @@ const FacilitiesManagement = () => {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
             {t("admin.facilities.title", "Facilities Management")}
           </h1>
           <p className="text-slate-400 mt-2">
@@ -76,7 +78,7 @@ const FacilitiesManagement = () => {
           </Button>
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.facilities.add", "Add Facility")}
               </Button>
@@ -123,7 +125,7 @@ const FacilitiesManagement = () => {
                 </div>
                 <div className="pt-4 flex justify-end gap-2">
                   <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
-                  <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700" disabled={createMutation.isPending}>
+                  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
                     {createMutation.isPending ? "Saving..." : "Save Facility"}
                   </Button>
                 </div>
@@ -137,7 +139,7 @@ const FacilitiesManagement = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Registered Facilities</CardTitle>
-            <Building className="w-4 h-4 text-indigo-400" />
+            <Building className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">8,451</div>
@@ -148,7 +150,7 @@ const FacilitiesManagement = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Shared Spaces</CardTitle>
-            <Home className="w-4 h-4 text-purple-400" />
+            <Home className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">1,240</div>
@@ -182,7 +184,7 @@ const FacilitiesManagement = () => {
               {t("admin.facilities.noData", "No facilities found.")}
             </div>
           ) : (
-            <div className="rounded-md border border-white/10">
+            <div className="rounded-xl border border-white/10">
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10 hover:bg-transparent">

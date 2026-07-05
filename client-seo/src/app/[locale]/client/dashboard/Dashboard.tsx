@@ -97,17 +97,17 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">
-                Welcome back, {user?.name || 'User'}
+                {t("dashboard.dashboard.auto_ext_1")} {user?.name || 'User'}
               </h1>
-              <p className="text-gray-400">Here&apos;s what&apos;s happening with your properties today</p>
+              <p className="text-gray-400">{t("dashboard.dashboard.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/ai-search')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <Sparkles className="w-4 h-4 mr-2" />
-              AI Search
-            </Button>
+              {t("dashboard.dashboard.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -154,8 +154,8 @@ export default function Dashboard() {
         >
           <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
             <CardHeader>
-              <CardTitle className="text-white">Revenue Overview</CardTitle>
-              <CardDescription className="text-gray-400">Weekly revenue performance</CardDescription>
+              <CardTitle className="text-white">{t("dashboard.dashboard.auto_ext_4")}</CardTitle>
+              <CardDescription className="text-gray-400">{t("dashboard.dashboard.auto_ext_5")}</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -188,8 +188,8 @@ export default function Dashboard() {
         >
           <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
             <CardHeader>
-              <CardTitle className="text-white">Plan Usage</CardTitle>
-              <CardDescription className="text-gray-400">Your current subscription plan</CardDescription>
+              <CardTitle className="text-white">{t("dashboard.dashboard.auto_ext_6")}</CardTitle>
+              <CardDescription className="text-gray-400">{t("dashboard.dashboard.auto_ext_7")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-4 mb-6">
@@ -197,21 +197,21 @@ export default function Dashboard() {
                   {IconComponent && <IconComponent className="w-6 h-6 text-purple-400" />}
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-white">Professional Plan</div>
-                  <div className="text-sm text-gray-400">50 properties • 5 users • AI features enabled</div>
+                  <div className="text-lg font-bold text-white">{t("dashboard.dashboard.auto_ext_8")}</div>
+                  <div className="text-sm text-gray-400">{t("dashboard.dashboard.auto_ext_9")}</div>
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-400">Properties Used</span>
+                    <span className="text-gray-400">{t("dashboard.dashboard.auto_ext_10")}</span>
                     <span className="text-white">12 / 50</span>
                   </div>
                   <Progress value={24} className="bg-purple-500/20" />
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-400">Users</span>
+                    <span className="text-gray-400">{t("dashboard.dashboard.auto_ext_11")}</span>
                     <span className="text-white">2 / 5</span>
                   </div>
                   <Progress value={40} className="bg-purple-500/20" />

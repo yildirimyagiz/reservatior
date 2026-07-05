@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -55,7 +57,7 @@ enum MetricStatus {
 const CATEGORY_CONFIG = {
   SYSTEM: {
     label: t("admin.system.system"),
-    color: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
     icon: Cpu
   },
   DATABASE: {
@@ -65,7 +67,7 @@ const CATEGORY_CONFIG = {
   },
   NETWORK: {
     label: t("admin.system.network"),
-    color: "bg-violet-500/10 text-violet-400 border-violet-500/20",
+    color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
     icon: Wifi
   },
   APPLICATION: {
@@ -275,7 +277,7 @@ export default function SystemMetrics() {
           delay: 0.1
         }}>
             <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t">
-              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                 <Monitor className="w-12 h-12" />
               </div>
               <CardContent className="p-8">

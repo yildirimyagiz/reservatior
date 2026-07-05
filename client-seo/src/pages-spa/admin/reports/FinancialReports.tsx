@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,9 +10,9 @@ export default function FinancialReports() {
   const { t } = useTranslation();
   const stats = [
     { title: t("admin.reports.total_revenue_dna"), value: "$452,000", change: "+12.5%", trend: "up", icon: DollarSign, color: "text-emerald-400" },
-    { title: t("admin.reports.entity_subsystems"), value: "2,450", change: "+4.3%", trend: "up", icon: Zap, color: "text-blue-400" },
+    { title: t("admin.reports.entity_subsystems"), value: "2,450", change: "+4.3%", trend: "up", icon: Zap, color: "text-slate-400" },
     { title: t("admin.reports.payout_queue"), value: "$12,400", change: "-2.1%", trend: "down", icon: Activity, color: "text-orange-400" },
-    { title: t("admin.reports.system_net_margin"), value: "$84,200", change: "+8.7%", trend: "up", icon: PieChart, color: "text-purple-400" }
+    { title: t("admin.reports.system_net_margin"), value: "$84,200", change: "+8.7%", trend: "up", icon: PieChart, color: "text-slate-400" }
   ];
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-6">
@@ -20,7 +22,7 @@ export default function FinancialReports() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, i) => <Card key={i} className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l-2 border-l-transparent hover:border-l-blue-500/50 transition-all">
+          {stats.map((stat, i) => <Card key={i} className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l-2 border-l-transparent hover:border-l-slate-500/50 transition-all">
               <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
                  <stat.icon className="w-12 h-12" />
               </div>
@@ -43,7 +45,7 @@ export default function FinancialReports() {
             <CardHeader className="p-8 border-b border-white/10 flex flex-row items-center justify-between">
               <div>
                 <CardTitle className="text-xs font-bold text-white flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-blue-500" />{t("admin.reports.fiscal_handshake_velocity")}</CardTitle>
+                  <Activity className="w-4 h-4 text-slate-500" />{t("admin.reports.fiscal_handshake_velocity")}</CardTitle>
                 <CardDescription className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.reports.crosscluster_revenue_performance_metrics")}</CardDescription>
               </div>
               <Button variant="ghost" className="h-10 rounded-xl hover:bg-white/5 text-slate-400 font-bold text-[9px] gap-2">{t("admin.reports.synchronize_matrix")}<Download className="w-3.5 h-3.5" />
@@ -61,11 +63,11 @@ export default function FinancialReports() {
           <Card className="lg:col-span-4 bg-white/5 backdrop-blur-xl border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t">
             <CardHeader className="p-8 border-b border-white/10">
               <CardTitle className="text-xs font-bold text-white flex items-center gap-2">
-                <Globe className="w-4 h-4 text-purple-500" />{t("admin.reports.revenue_verticals")}</CardTitle>
+                <Globe className="w-4 h-4 text-slate-500" />{t("admin.reports.revenue_verticals")}</CardTitle>
             </CardHeader>
             <CardContent className="p-8 space-y-8">
-              {[{ name: t("admin.reports.entity_agencies", "Varlık Acenteleri"), value: "$280k", pct: 62, color: "bg-blue-500 shadow-blue-500/40" },
-                { name: t("admin.reports.premium_nodes", "Premium Düğümler"), value: "$94k", pct: 21, color: "bg-purple-500 shadow-purple-500/40" },
+              {[{ name: t("admin.reports.entity_agencies", "Varlık Acenteleri"), value: "$280k", pct: 62, color: "bg-slate-500 shadow-slate-500/40" },
+                { name: t("admin.reports.premium_nodes", "Premium Düğümler"), value: "$94k", pct: 21, color: "bg-slate-500 shadow-slate-500/40" },
                 { name: t("admin.reports.api_stream_access", "API Akış Erişimi"), value: "$52k", pct: 12, color: "bg-emerald-500 shadow-emerald-500/40" },
                 { name: t("admin.reports.protocol_fees", "Protokol Ücretleri"), value: "$26k", pct: 5, color: "bg-orange-500 shadow-orange-500/40" }
               ].map((item, i) => <div key={i} className="space-y-3">
@@ -92,7 +94,7 @@ export default function FinancialReports() {
            <CardHeader className="p-8 border-b border-white/10 flex flex-row items-center justify-between">
               <CardTitle className="text-xs font-bold text-white flex items-center gap-2">
                  <FileText className="w-4 h-4 text-emerald-500" />{t("admin.reports.fiscal_audit_trail")}</CardTitle>
-              <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-white/5 text-blue-400 font-bold text-[9px] gap-2">{t("admin.reports.view_global_ledger")}<ChevronRight className="w-4 h-4" />
+              <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-white/5 text-slate-400 font-bold text-[9px] gap-2">{t("admin.reports.view_global_ledger")}<ChevronRight className="w-4 h-4" />
               </Button>
            </CardHeader>
            <CardContent className="p-0">
@@ -110,7 +112,7 @@ export default function FinancialReports() {
                  </thead>
                  <tbody className="divide-y divide-white/5">
                    {[1, 2, 3, 4, 5, 6].map((_, i) => <tr key={i} className="group hover:bg-white/5 transition-all">
-                       <td className="py-8 px-8 font-mono text-[10px] font-bold text-blue-400">{t("admin.reports.trx9482")}{i}{t("admin.reports.xls")}</td>
+                       <td className="py-8 px-8 font-mono text-[10px] font-bold text-slate-400">{t("admin.reports.trx9482")}{i}{t("admin.reports.xls")}</td>
                        <td className="py-8 px-8">
                           <p className="text-sm font-bold text-white leading-none">{t("admin.reports.neural_realty_systems")}{i + 1}</p>
                           <p className="text-[9px] font-bold text-slate-600 mt-1">{t("admin.reports.orgclusterdelta")}</p>

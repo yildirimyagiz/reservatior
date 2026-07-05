@@ -1,10 +1,12 @@
+"use client";
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { Contact, Plus, PhoneCall, Mail, MessageSquare, Edit, Trash2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '@/lib/api';
+import { apiClient } from '@/lib/api';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -25,14 +27,14 @@ const ContactsManagement = () => {
   const { data: contactsRes, isLoading } = useQuery({
     queryKey: ['admin-contacts'],
     queryFn: async () => {
-      const res: any = await api.get('/contact');
+      const res: any = await apiClient.get('/contact');
       return res.data;
     }
   });
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      return api.post('/contact', { 
+      return apiClient.post('/contact', { 
         ...data, 
         orgId: 'org_1'
       });
@@ -46,7 +48,7 @@ const ContactsManagement = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      return api.delete(`/contact/${id}`);
+      return apiClient.delete(`/contact/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-contacts'] });
@@ -61,7 +63,7 @@ const ContactsManagement = () => {
   const handleSendContract = async (contact: any, contractType: string) => {
     try {
       toast({ title: t('admin.contracts.sending', "Sending..."), description: t('admin.contracts.sendingDesc', "{{type}} is being sent.", { type: contractType }) });
-      await api.post('/crm/request-contract-signature', {
+      await apiClient.post('/crm/request-contract-signature', {
         email: contact.email,
         name: contact.fullName,
         contractType: contractType,
@@ -79,7 +81,7 @@ const ContactsManagement = () => {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-indigo-400">
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-slate-400">
             {t("admin.contacts.title", "Contacts & Leads")}
           </h1>
           <p className="text-slate-400 mt-2">
@@ -170,7 +172,7 @@ const ContactsManagement = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Emails Sent</CardTitle>
-            <Mail className="w-4 h-4 text-blue-400" />
+            <Mail className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">128k</div>
@@ -192,7 +194,7 @@ const ContactsManagement = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Messages</CardTitle>
-            <MessageSquare className="w-4 h-4 text-purple-400" />
+            <MessageSquare className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">8,901</div>
@@ -215,7 +217,7 @@ const ContactsManagement = () => {
               No contacts found.
             </div>
           ) : (
-            <div className="rounded-md border border-white/10">
+            <div className="rounded-xl border border-white/10">
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10 hover:bg-transparent">
@@ -246,7 +248,7 @@ const ContactsManagement = () => {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="bg-slate-900 border-white/10 text-white">
                             <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin.contracts.salesType', "Sales Contract"))}>
-                              <FileText className="w-4 h-4 mr-2 text-blue-400" /> {t('admin.contracts.sendSales', 'Send Sales Contract')}
+                              <FileText className="w-4 h-4 mr-2 text-slate-400" /> {t('admin.contracts.sendSales', 'Send Sales Contract')}
                             </DropdownMenuItem>
                             <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin.contracts.evictionType', "Eviction Agreement"))}>
                               <FileText className="w-4 h-4 mr-2 text-orange-400" /> {t('admin.contracts.sendEviction', 'Send Eviction Agreement')}

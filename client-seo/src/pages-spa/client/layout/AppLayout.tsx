@@ -1,13 +1,14 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@/lib/react-router-shim";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LayoutDashboard, Building, Calendar, FileText, DollarSign, Users, Settings, Brain, BarChart3, TrendingUp, Wrench, Target, Shield, UserCheck, ChevronDown, ChevronRight, Briefcase, FileSignature, Receipt, Zap, Puzzle, ScrollText, Download, Home, List, CalendarCheck, UserPlus, CalendarDays, Calculator, PieChart, Percent, ArrowRightLeft, Share2, FolderKanban, CalendarClock, PenTool, LayoutTemplate, Building2, FileBarChart, Webhook, CheckSquare, Sparkles, Lightbulb, User, CreditCard, AlertTriangle, Key, Globe, MessageSquare, Bell, Video, Star, Heart, LayoutGrid, Tag, Landmark, Scale, Activity, History as HistoryIcon } from "lucide-react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Footer } from "@/components/layout/Footer";
+import Sidebar from "@/components/layout/Sidebar";
 import { cn } from "@/lib/utils";
 interface NavItem {
   title: string;
@@ -41,7 +42,7 @@ const navigation: NavItem[] = [{
   permissions: ["PROPERTIES_MANAGE", "LISTINGS_MANAGE"],
   children: [{
     title: t("client.src.properties"),
-    href: "/properties",
+    href: "/property",
     icon: Home
   }, {
     title: t("client.src.listings"),
@@ -500,6 +501,7 @@ export function AppLayout({
       <AppHeader />
 
       <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
         {/* Main content */}
         <main className="flex-1 overflow-auto bg-[#1b1c22] flex flex-col">
           <div className="flex-1">

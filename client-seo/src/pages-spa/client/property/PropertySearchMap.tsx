@@ -1,7 +1,9 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "@/lib/react-router-shim";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -195,7 +197,7 @@ export default function PropertySearch() {
   const {
     t
   } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams() || new URLSearchParams();
   const {
     provider
   } = useMapProvider();
@@ -436,7 +438,7 @@ export default function PropertySearch() {
 
           {/* Map View */}
           {viewMode === 'map' && <div className="h-full">
-              <GoogleMapView properties={filteredProperties} onPropertyClick={setSelectedProperty} height="100%" showControls={true} provider={provider} showClusters={true} enableHeatmap={filters.featuredOnly} apiKey="dummy-key" />
+              <GoogleMapView properties={filteredProperties} onPropertyClick={setSelectedProperty} height="100%" showControls={true} provider={provider} showClusters={true} enableHeatmap={filters.featuredOnly} apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} />
               
               {/* Selected Property Card */}
               {selectedProperty && <Card className="absolute bottom-4 right-4 w-80 bg-[#14151a]/95 backdrop-blur-xl border-white/5 rounded-2xl shadow-2xl">

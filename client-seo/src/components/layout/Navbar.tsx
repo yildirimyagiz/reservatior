@@ -1,25 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Menu, X, Globe, Sparkles, User, Settings, LogOut } from "lucide-react";
+import { Menu, X, Globe, Video, User, Settings, LogOut, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useLanguage, LANGUAGES } from "@/lib/languages";
 import { useAuth } from "@/lib/auth/hooks";
-import RegionSelector from "./RegionSelector";
-
+import { NotificationRing } from "@/components/notifications/NotificationRing";
+import { MessageDropdown } from "@/components/layout/MessageDropdown";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
   const {
     currentLang,
     setLanguage,
     t
   } = useLanguage();
   const pathname = usePathname();
+  const router = useRouter();
   const {
     user,
     isAuthenticated,
@@ -29,6 +32,23 @@ export function Navbar() {
   const handleLogout = async () => {
     await logout();
   };
+
+  const handleLanguageChange = (code: string) => {
+    // Extract the current path without locale
+    const segments = pathname.split('/').filter(Boolean);
+    const currentLocale = segments[0];
+    const pathWithoutLocale = currentLocale && LANGUAGES.some(l => l.code === currentLocale)
+      ? segments.slice(1).join('/')
+      : segments.join('/');
+
+    // Navigate to new locale path
+    const newPath = pathWithoutLocale ? `/${code}/${pathWithoutLocale}` : `/${code}`;
+    router.push(newPath);
+    setLanguage(code);
+  };
+
+
+
   return <nav className="fixed top-0 inset-x-0 z-50 p-4 flex justify-center">
       <motion.div initial={{
       y: -100,
@@ -38,27 +58,46 @@ export function Navbar() {
       opacity: 1
     }} className="w-full max-w-6xl bg-background/80 backdrop-blur-md border border-border rounded-full px-6 py-3 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-8">
-          <Link href="/" className="text-xl font-display font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">{t("client.src.stageai")}</Link>
+          <Link href="/" className="text-xl font-display font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">Reservatior</Link>
 
           {/* Desktop Nav */}
           <div className="flex items-center gap-6">
             <Link href="/" className={`text-sm font-medium transition-colors ${isActive("/") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+              Home
+            </Link>
+            <Link href="/features" suppressHydrationWarning className={`text-sm font-medium transition-colors ${isActive("/features") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
               {t("nav.features")}
             </Link>
-            <Link href="/showcase" className={`text-sm font-medium transition-colors ${isActive("/showcase") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
-              {t("nav.showcase")}
+            <Link href="/property" suppressHydrationWarning className={`text-sm font-medium transition-colors ${isActive("/property") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+              {t("nav.listings")}
             </Link>
-            <Link href="/pricing" className={`text-sm font-medium transition-colors ${isActive("/pricing") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+            <Link href="/pricing" suppressHydrationWarning className={`text-sm font-medium transition-colors ${isActive("/pricing") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
               {t("nav.pricing")}
             </Link>
-            <Link href="/studio" className={`text-sm font-medium flex items-center gap-1 transition-colors ${isActive("/studio") ? "text-purple-400" : "text-purple-400/80 hover:text-purple-400"}`}>
-              <Sparkles className="w-3 h-3" />{t("client.src.ai_studio")}</Link>
+            <Link href="/videos" suppressHydrationWarning className={`text-sm font-medium flex items-center gap-1 transition-colors ${isActive("/videos") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+              <Video className="w-3 h-3" />{t("nav.videos")}</Link>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          {/* Region Selector */}
-          <RegionSelector />
+          {/* Theme Toggle */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="rounded-full h-8 w-8 p-0"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            <Sun className="w-4 h-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute w-4 h-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          </Button>
+
+          {/* Notifications & Messages (authenticated only) */}
+          {isAuthenticated && (
+            <>
+              <NotificationRing />
+              <MessageDropdown />
+            </>
+          )}
 
           {/* Language Switcher */}
           <DropdownMenu>
@@ -71,7 +110,7 @@ export function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 max-h-80 overflow-y-auto bg-card border-border">
-              {LANGUAGES.map(lang => <DropdownMenuItem key={lang.code} onClick={() => setLanguage(lang.code)} className="gap-2 cursor-pointer">
+              {LANGUAGES.map(lang => <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)} className="gap-2 cursor-pointer">
                   <span className="text-base">{lang.flag}</span>
                   <span className="flex-1">{lang.name}</span>
                   {currentLang.code === lang.code && <span className="w-2 h-2 rounded-full bg-primary" />}
@@ -83,7 +122,7 @@ export function Navbar() {
           <UserMenu />
 
           <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground">
-            <Link href="/studio">{t("getStarted")}</Link>
+            <Link href="/client/signup" suppressHydrationWarning>{t("nav.getStarted")}</Link>
           </Button>
         </div>
 
@@ -103,21 +142,26 @@ export function Navbar() {
     }} className="absolute top-20 inset-x-4 bg-card border border-border rounded-2xl p-6 flex flex-col gap-4 shadow-2xl md:hidden z-50">
           <Link href="/">
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
+              Home
+            </span>
+          </Link>
+          <Link href="/features" suppressHydrationWarning>
+            <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
               {t("nav.features")}
             </span>
           </Link>
-          <Link href="/showcase">
+          <Link href="/showcase" suppressHydrationWarning>
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
               {t("nav.showcase")}
             </span>
           </Link>
-          <Link href="/pricing">
+          <Link href="/pricing" suppressHydrationWarning>
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
               {t("nav.pricing")}
             </span>
           </Link>
-          <Link href="/studio">
-            <span className="text-lg font-medium text-purple-400 cursor-pointer" onClick={() => setIsOpen(false)}>{t("client.src.ai_studio")}</span>
+          <Link href="/videos" suppressHydrationWarning>
+            <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>{t("nav.videos")}</span>
           </Link>
           <div className="h-px bg-border my-2" />
 
@@ -160,11 +204,11 @@ export function Navbar() {
                 <LogOut className="w-4 h-4" />{t("client.src.logout")}</span>
             </div> : <div className="space-y-2">
               <div className="text-sm text-muted-foreground mb-2">{t("client.src.account")}</div>
-              <Link href="/login" onClick={() => setIsOpen(false)}>
+              <Link href="/client/login" onClick={() => setIsOpen(false)}>
                 <span className="text-lg font-medium cursor-pointer flex items-center gap-2">
                   <User className="w-4 h-4" />{t("client.src.sign_in")}</span>
               </Link>
-              <Link href="/signup" onClick={() => setIsOpen(false)}>
+              <Link href="/client/signup" onClick={() => setIsOpen(false)}>
                 <span className="text-lg font-medium cursor-pointer flex items-center gap-2">
                   <User className="w-4 h-4" />{t("client.src.sign_up")}</span>
               </Link>
@@ -178,9 +222,9 @@ export function Navbar() {
               </button>)}
           </div>
 
-            <Link href="/studio" onClick={() => setIsOpen(false)}>
+            <Link href="/client/signup" onClick={() => setIsOpen(false)}>
             <Button className="w-full justify-center">
-              {t("getStarted")}
+              {t("nav.getStarted")}
             </Button>
           </Link>
         </motion.div>}

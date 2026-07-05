@@ -4,8 +4,10 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FileText, Cpu, Shield, Globe } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export function TermsContent() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -25,23 +27,23 @@ export function TermsContent() {
               className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-gray-400 font-bold text-xs tracking-widest transition-all group"
             >
               <ArrowLeft className="w-4 h-4 mr-3 group-hover:-translate-x-1 transition-transform" />
-              BACK
-            </Button>
+              {t("terms.termscontent.auto_ext_1")}
+                                      </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="flex items-center gap-6">
               <div className="h-14 w-14 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-500">
                 <FileText className="w-6 h-6" />
               </div>
               <div className="space-y-1">
-                <p className="text-xs font-bold text-blue-500 tracking-widest">LEGAL PROTOCOL V1.0</p>
-                <h1 className="text-4xl font-bold tracking-tighter leading-none">Terms of Service</h1>
-                <p className="text-xs font-bold text-gray-500 tracking-widest">LAST UPDATED: JANUARY 2024</p>
+                <p className="text-xs font-bold text-blue-500 tracking-widest">{t("terms.termscontent.auto_ext_2")}</p>
+                <h1 className="text-4xl font-bold tracking-tighter leading-none">{t("terms.termscontent.auto_ext_3")}</h1>
+                <p className="text-xs font-bold text-gray-500 tracking-widest">{t("terms.termscontent.auto_ext_4")}</p>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-4 px-6 py-3 rounded-full bg-white/5 border border-white/5 self-start md:self-center backdrop-blur-xl">
             <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-            <span className="text-xs font-bold text-gray-400 tracking-widest">ACTIVE</span>
+            <span className="text-xs font-bold text-gray-400 tracking-widest">{t("terms.termscontent.auto_ext_5")}</span>
           </div>
         </motion.div>
 
@@ -55,18 +57,18 @@ export function TermsContent() {
             <section className="space-y-10">
               <h2 className="text-sm font-bold text-purple-400 tracking-widest flex items-center gap-4">
                 <div className="h-px w-8 bg-purple-500/30" />
-                <Shield className="w-5 h-5" /> ACCEPTANCE
-              </h2>
+                <Shield className="w-5 h-5" /> {t("terms.termscontent.auto_ext_6")}
+                                            </h2>
               <p className="text-sm font-bold text-gray-400 leading-loose">
-                By accessing and using Reservatior services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
-              </p>
+                {t("terms.termscontent.auto_ext_7")}
+                                            </p>
             </section>
 
             <section className="space-y-10">
               <h2 className="text-sm font-bold text-purple-400 tracking-widest flex items-center gap-4">
                 <div className="h-px w-8 bg-purple-500/30" />
-                <Globe className="w-5 h-5" /> SERVICES
-              </h2>
+                <Globe className="w-5 h-5" /> {t("terms.termscontent.auto_ext_8")}
+                                            </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   "Property listing and management",
@@ -87,8 +89,8 @@ export function TermsContent() {
             <section className="space-y-10">
               <h2 className="text-sm font-bold text-purple-400 tracking-widest flex items-center gap-4">
                 <div className="h-px w-8 bg-purple-500/30" />
-                <Cpu className="w-5 h-5" /> PROHIBITED ACTIVITIES
-              </h2>
+                <Cpu className="w-5 h-5" /> {t("terms.termscontent.auto_ext_9")}
+                                            </h2>
               <ul className="space-y-6 px-4">
                 {[
                   "Using the platform for illegal activities",
@@ -99,7 +101,7 @@ export function TermsContent() {
                   "Sharing account credentials"
                 ].map((text, i) => (
                   <li key={i} className="flex items-center gap-6 text-xs font-bold text-gray-500 tracking-widest group">
-                    <span className="text-purple-500/30 group-hover:text-purple-500 transition-colors line-through">0x0{i + 1}</span>
+                    <span className="text-purple-500/30 group-hover:text-purple-500 transition-colors line-through">{t("terms.termscontent.auto_ext_10")}{i + 1}</span>
                     <span className="group-hover:text-gray-300 transition-colors">{text}</span>
                   </li>
                 ))}
@@ -107,16 +109,16 @@ export function TermsContent() {
             </section>
 
             <div className="p-10 rounded-[48px] bg-purple-500/5 border border-purple-500/10 space-y-6">
-              <h3 className="text-xs font-bold text-white tracking-widest">LIMITATION OF LIABILITY</h3>
+              <h3 className="text-xs font-bold text-white tracking-widest">{t("terms.termscontent.auto_ext_11")}</h3>
               <p className="text-xs font-bold text-gray-500 leading-loose tracking-widest">
-                Reservatior shall not be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.
-              </p>
+                {t("terms.termscontent.auto_ext_12")}
+                                            </p>
             </div>
 
             <div className="pt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12">
               <div className="space-y-2 text-center md:text-left group cursor-pointer">
-                <p className="text-xs font-bold text-white opacity-60 group-hover:opacity-100 transition-opacity">CONTACT</p>
-                <p className="text-xl font-bold text-purple-500 tracking-widest">legal@reservatior.com</p>
+                <p className="text-xs font-bold text-white opacity-60 group-hover:opacity-100 transition-opacity">{t("terms.termscontent.auto_ext_13")}</p>
+                <p className="text-xl font-bold text-purple-500 tracking-widest">{t("terms.termscontent.auto_ext_14")}</p>
               </div>
               <div className="flex items-center gap-10 opacity-10 group-hover:opacity-30 transition-opacity">
                 <FileText className="w-10 h-10" />

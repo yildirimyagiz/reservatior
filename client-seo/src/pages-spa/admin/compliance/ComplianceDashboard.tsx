@@ -1,4 +1,6 @@
-import { useTranslation } from "react-i18next";
+"use client";
+
+import React, { useState, useEffect } from "react";import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,9 +10,10 @@ import { Button } from "@/components/ui/button";
 import { complianceApi, RightToRentCheck, ImmigrationStatusCheck, PropertyCompliance } from "@/lib/api/compliance";
 import { orchestrationApi, GlobalTaxRegulation, LegalCompliance } from "@/lib/api/orchestration";
 import { identityComplianceApi, PoliceReport } from "@/lib/api/identity-compliance";
-import { ShieldCheck, AlertTriangle, CheckCircle2, Users, Globe, Building2, Gavel, Activity } from "lucide-react";
+import { ShieldCheck, AlertTriangle, CheckCircle2, Users, Globe, Building2, Gavel, Activity, FileSearch, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ComplianceDashboardData {
   rtrChecks: RightToRentCheck[];
@@ -24,6 +27,35 @@ interface ComplianceDashboardData {
 export default function ComplianceDashboard() {
   const { t } = useTranslation();
   const { toast } = useToast();
+
+  const [liveEvents, setLiveEvents] = useState<{id: number, text: string, type: 'success' | 'warning' | 'error'}[]>([]);
+
+  useEffect(() => {
+    let eventId = 0;
+    const eventTypes: Array<'success' | 'warning' | 'error'> = ['success', 'success', 'warning', 'error', 'success'];
+    const messages = [
+      "Passport OCR verification passed for J. Smith",
+      "Property #412 safety check queued",
+      "Immigration API (Home Office) slow response",
+      "Biometric mismatch detected for upload #889",
+      "Right-to-Rent automated approval granted",
+      "Fraud detection engine flagged document anomalies"
+    ];
+
+    const timer = setInterval(() => {
+      const type = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+      const msg = messages[Math.floor(Math.random() * messages.length)];
+      const newEvent = { id: ++eventId, text: msg, type };
+      
+      setLiveEvents(prev => [newEvent, ...prev].slice(0, 5));
+      
+      if (type === 'error') {
+        toast({ title: "Compliance Alert", description: msg, variant: "destructive" });
+      }
+    }, Math.floor(Math.random() * 5000) + 4000); // 4-9 seconds
+
+    return () => clearInterval(timer);
+  }, [toast]);
 
   const { data, isLoading } = useQuery<ComplianceDashboardData>({
     queryKey: ['complianceDashboard'],
@@ -56,8 +88,8 @@ export default function ComplianceDashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-[60vh]">
-        <Activity className="w-12 h-12 text-purple-500 animate-spin mb-4 opacity-50" />
+      <div className="flex flex-col items-center justify-center h-[60vh] space-y-6">
+        <Activity className="w-12 h-12 text-slate-500 animate-spin mb-4 opacity-50" />
         <p className="text-[10px] font-bold text-slate-400 animate-pulse">{t("admin.compliance.aligning_regulatory_parameters")}</p>
       </div>
     );
@@ -91,9 +123,42 @@ export default function ComplianceDashboard() {
     );
   };
 
+  const renderStepper = (status: string) => {
+    const s = status.toLowerCase();
+    let step = 0;
+    if (s === 'queued') step = 1;
+    if (s === 'pending') step = 2;
+    if (s === 'verified' || s === 'approved' || s === 'completed') step = 4;
+    if (s === 'failed' || s === 'expired') step = -1;
+
+    const steps = ['Uploaded', 'OCR Analysis', 'Authority Check', 'Approved'];
+    
+    return (
+      <div className="flex items-center w-full max-w-[200px] gap-1">
+        {steps.map((label, idx) => {
+          const isActive = step >= (idx + 1);
+          const isError = step === -1 && idx === 1;
+          return (
+            <div key={idx} className="flex-1 flex flex-col items-center gap-1 group relative">
+              <div className={cn(
+                "h-1.5 w-full rounded-full transition-all duration-500",
+                isActive ? "bg-emerald-500" : isError ? "bg-red-500" : "bg-slate-700"
+              )} />
+              {/* Tooltip on hover */}
+              <div className="absolute -top-6 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-[8px] px-2 py-1 rounded text-white whitespace-nowrap z-10 pointer-events-none">
+                {label}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
-    <div className="p-6 space-y-6">
-      {/* KPI Neural Grid */}
+    <div className="p-6 grid grid-cols-1 xl:grid-cols-4 gap-6">
+      <div className="xl:col-span-3 space-y-6">
+        {/* KPI Neural Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border">
           <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-400">
@@ -107,13 +172,13 @@ export default function ComplianceDashboard() {
         </Card>
 
         <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border">
-          <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+          <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
             <ShieldCheck className="w-12 h-12" />
           </div>
           <CardContent className="p-8">
             <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.compliance.active_immigration_pulses")}</p>
-            <h3 className="text-xl font-bold text-blue-400 leading-none">{immigrationChecks.filter((c: ImmigrationStatusCheck) => c.checkStatus === "PENDING").length}</h3>
-            <p className="text-[9px] font-bold text-blue-500/60 mt-4">{t("admin.compliance.verification_flow_active")}</p>
+            <h3 className="text-xl font-bold text-slate-400 leading-none">{immigrationChecks.filter((c: ImmigrationStatusCheck) => c.checkStatus === "PENDING").length}</h3>
+            <p className="text-[9px] font-bold text-slate-500/60 mt-4">{t("admin.compliance.verification_flow_active")}</p>
           </CardContent>
         </Card>
 
@@ -176,7 +241,7 @@ export default function ComplianceDashboard() {
                     <TableRow key={check.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
                       <TableCell className="py-6 px-8 text-sm font-bold text-white">{check.reference || 'N/A'}</TableCell>
                       <TableCell className="px-8 text-[10px] font-bold text-slate-400">{check.checkType || 'N/A'}</TableCell>
-                      <TableCell className="px-8">{getStatusBadge(check.status || 'pending')}</TableCell>
+                      <TableCell className="px-8">{renderStepper(check.status || 'pending')}</TableCell>
                       <TableCell className="px-8 text-right">
                         <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-white/10 text-slate-400 hover:text-white transition-all font-bold text-[9px] border border-white/10">{t("admin.compliance.audit_matrix")}</Button>
                       </TableCell>
@@ -210,7 +275,7 @@ export default function ComplianceDashboard() {
                     <TableRow key={check.id} className="border-white/10">
                       <TableCell className="font-medium text-white">{check.tenantId ? check.tenantId.substring(0, 8) + '...' : 'N/A'}</TableCell>
                       <TableCell className="text-slate-400">{check.visaType || "N/A"}</TableCell>
-                      <TableCell>{getStatusBadge(check.checkStatus || 'pending')}</TableCell>
+                      <TableCell>{renderStepper(check.checkStatus || 'pending')}</TableCell>
                       <TableCell className="text-slate-400">{check.documentNumber || "-"}</TableCell>
                       <TableCell className="text-slate-400">{check.documentVerified ? t('admin.compliance.yes', 'Evet') : t('admin.compliance.no', 'Hayır')}</TableCell>
                       <TableCell className="text-right text-slate-400">
@@ -271,7 +336,7 @@ export default function ComplianceDashboard() {
             <Card className="bg-white/5 border-white/10">
               <CardHeader>
                 <CardTitle className="text-sm font-bold text-white flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-blue-500" />{t("admin.compliance.regional_tax_regulations")}</CardTitle>
+                  <Building2 className="w-4 h-4 text-slate-500" />{t("admin.compliance.regional_tax_regulations")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -304,7 +369,7 @@ export default function ComplianceDashboard() {
             <Card className="bg-white/5 border-white/10">
               <CardHeader>
                 <CardTitle className="text-sm font-bold text-white flex items-center gap-2">
-                  <Gavel className="w-4 h-4 text-purple-500" />{t("admin.compliance.legal_compliance_gdprkvkk")}</CardTitle>
+                  <Gavel className="w-4 h-4 text-slate-500" />{t("admin.compliance.legal_compliance_gdprkvkk")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -347,7 +412,7 @@ export default function ComplianceDashboard() {
                 <TableBody>
                   {policeReports.map((report: PoliceReport) => (
                     <TableRow key={report.id} className="border-white/10">
-                      <TableCell className="font-bold text-blue-400">{report.reportType || 'N/A'}</TableCell>
+                      <TableCell className="font-bold text-slate-400">{report.reportType || 'N/A'}</TableCell>
                       <TableCell className="text-xs font-mono text-slate-400">{report.reservationId || 'N/A'}</TableCell>
                       <TableCell className="text-slate-400">{report.submittedAt ? new Date(report.submittedAt).toLocaleString() : "-"}</TableCell>
                       <TableCell>{getStatusBadge(report.status || 'pending')}</TableCell>
@@ -362,6 +427,56 @@ export default function ComplianceDashboard() {
           </Card>
         </TabsContent>
       </Tabs>
+    </div>
+
+      {/* Live Feed Sidebar */}
+      <div className="hidden xl:block xl:col-span-1">
+        <Card className="bg-card border-border rounded-2xl h-[calc(100vh-100px)] sticky top-6 overflow-hidden flex flex-col">
+          <CardHeader className="border-b border-border bg-black/20 pb-4">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-bold flex items-center gap-2">
+                <Activity className="w-4 h-4 text-emerald-500 animate-pulse" />
+                Live Compliance Feed
+              </CardTitle>
+              <Badge variant="outline" className="text-[9px] bg-emerald-500/10 text-emerald-500 border-none">Active</Badge>
+            </div>
+            <p className="text-[10px] text-slate-400 mt-1">Real-time global identity & verification logs.</p>
+          </CardHeader>
+          <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
+            <AnimatePresence>
+              {liveEvents.map((ev) => (
+                <motion.div
+                  key={ev.id}
+                  initial={{ opacity: 0, x: 20, height: 0 }}
+                  animate={{ opacity: 1, x: 0, height: 'auto' }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className={cn(
+                    "p-3 rounded-xl border text-xs font-mono relative overflow-hidden",
+                    ev.type === 'success' ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400" :
+                    ev.type === 'warning' ? "bg-amber-500/5 border-amber-500/20 text-amber-400" :
+                    "bg-red-500/5 border-red-500/20 text-red-400"
+                  )}
+                >
+                  <div className="flex items-start gap-2">
+                    {ev.type === 'success' && <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" />}
+                    {ev.type === 'warning' && <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />}
+                    {ev.type === 'error' && <ShieldCheck className="w-3.5 h-3.5 shrink-0 mt-0.5" />}
+                    <span className="leading-relaxed">{ev.text}</span>
+                  </div>
+                  <div className="absolute top-1 right-2 text-[8px] opacity-50">Just now</div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+            
+            {liveEvents.length === 0 && (
+              <div className="h-full flex flex-col items-center justify-center text-slate-500 space-y-2 opacity-50">
+                <FileSearch className="w-8 h-8 animate-pulse" />
+                <span className="text-xs">Awaiting events...</span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
   Calendar
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Review {
   id: string;
@@ -27,6 +28,7 @@ const mockReviews: Review[] = [
 ];
 
 export default function ProfileReviewsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -39,16 +41,16 @@ export default function ProfileReviewsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">My Reviews</h1>
-              <p className="text-gray-400">Reviews you&apos;ve received</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("reviews.profilereviewspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("reviews.profilereviewspage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("reviews.profilereviewspage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -59,7 +61,7 @@ export default function ProfileReviewsPage() {
         >
           <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
             <CardHeader>
-              <CardTitle className="text-white">All Reviews ({mockReviews.length})</CardTitle>
+              <CardTitle className="text-white">{t("reviews.profilereviewspage.auto_ext_4")}{mockReviews.length})</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">

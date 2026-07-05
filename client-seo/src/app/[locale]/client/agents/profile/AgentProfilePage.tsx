@@ -16,8 +16,10 @@ import {
   Edit
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function AgentProfilePage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -30,16 +32,16 @@ export default function AgentProfilePage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Agent Profile</h1>
-              <p className="text-gray-400">Manage your agent profile</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("profile.agentprofilepage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("profile.agentprofilepage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("profile.agentprofilepage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -55,8 +57,8 @@ export default function AgentProfilePage() {
                   <div className="w-24 h-24 rounded-full bg-purple-500/20 flex items-center justify-center mb-4">
                     <User className="w-12 h-12 text-purple-400" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-1">John Doe</h2>
-                  <p className="text-gray-400 mb-4">Senior Real Estate Agent</p>
+                  <h2 className="text-xl font-bold text-white mb-1">{t("profile.agentprofilepage.auto_ext_4")}</h2>
+                  <p className="text-gray-400 mb-4">{t("profile.agentprofilepage.auto_ext_5")}</p>
                   <div className="flex items-center gap-1 mb-4">
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
@@ -67,8 +69,8 @@ export default function AgentProfilePage() {
                   </div>
                   <Button className="w-full bg-purple-600 hover:bg-purple-700">
                     <Edit className="w-4 h-4 mr-2" />
-                    Edit Profile
-                  </Button>
+                    {t("profile.agentprofilepage.auto_ext_6")}
+                                                        </Button>
                 </div>
               </CardContent>
             </Card>
@@ -82,12 +84,12 @@ export default function AgentProfilePage() {
           >
             <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
               <CardHeader>
-                <CardTitle className="text-white">Profile Information</CardTitle>
+                <CardTitle className="text-white">{t("profile.agentprofilepage.auto_ext_7")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="fullName" className="text-white">Full Name</Label>
+                    <Label htmlFor="fullName" className="text-white">{t("profile.agentprofilepage.auto_ext_8")}</Label>
                     <Input
                       id="fullName"
                       defaultValue="John Doe"
@@ -95,7 +97,7 @@ export default function AgentProfilePage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-white">Email</Label>
+                    <Label htmlFor="email" className="text-white">{t("profile.agentprofilepage.auto_ext_9")}</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <Input
@@ -106,7 +108,7 @@ export default function AgentProfilePage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-white">Phone</Label>
+                    <Label htmlFor="phone" className="text-white">{t("profile.agentprofilepage.auto_ext_10")}</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <Input
@@ -117,7 +119,7 @@ export default function AgentProfilePage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="location" className="text-white">Location</Label>
+                    <Label htmlFor="location" className="text-white">{t("profile.agentprofilepage.auto_ext_11")}</Label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <Input
@@ -128,7 +130,7 @@ export default function AgentProfilePage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="agency" className="text-white">Agency</Label>
+                    <Label htmlFor="agency" className="text-white">{t("profile.agentprofilepage.auto_ext_12")}</Label>
                     <div className="relative">
                       <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <Input
@@ -140,7 +142,7 @@ export default function AgentProfilePage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="bio" className="text-white">Bio</Label>
+                  <Label htmlFor="bio" className="text-white">{t("profile.agentprofilepage.auto_ext_13")}</Label>
                   <textarea
                     id="bio"
                     defaultValue="Experienced real estate agent specializing in luxury properties."
@@ -148,8 +150,8 @@ export default function AgentProfilePage() {
                   />
                 </div>
                 <Button className="bg-purple-600 hover:bg-purple-700">
-                  Save Changes
-                </Button>
+                  {t("profile.agentprofilepage.auto_ext_14")}
+                                                  </Button>
               </CardContent>
             </Card>
           </motion.div>

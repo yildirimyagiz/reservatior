@@ -1,3 +1,5 @@
+"use client";
+
 import { Shield, ShieldCheck, Gavel, Lock, CheckCircle, Globe, Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Header } from "@/components/home/Header";

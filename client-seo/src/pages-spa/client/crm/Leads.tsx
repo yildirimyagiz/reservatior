@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -306,7 +308,7 @@ export default function Leads() {
                     {lead.notes && <div className="p-6 rounded-2xl bg-white/5 border border-white/5 relative">
                         <p className="text-[8px] font-black text-slate-600 italic tracking-widest mb-3">{t("client.src.intelligence_notes")}</p>
                         <p className="text-[10px] font-bold text-slate-500 italic leading-relaxed line-clamp-2">
-                          "{lead.notes}"
+                          &quot;{lead.notes}&quot;
                         </p>
                       </div>}
                   </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, FormEvent } from "react";
@@ -27,7 +29,7 @@ const STATUS: Record<string, {
   },
   PARTIAL: {
     label: t("admin.financial.partial"),
-    cls: "bg-blue-100 text-blue-700"
+    cls: "bg-slate-100 text-slate-700"
   },
   OVERDUE: {
     label: t("admin.financial.overdue"),

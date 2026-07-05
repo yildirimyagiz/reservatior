@@ -219,8 +219,8 @@ export function AIRecommendationsContent() {
           setForm(EMPTY_FORM);
           setCreateOpen(true);
         }}>
-          Add AIRecommendations
-        </Button>
+          {t("recommendations.airecommendationscontent.auto_ext_1")}
+                          </Button>
       </div>
 
       <div className="bg-card border border-border rounded-xl overflow-hidden">

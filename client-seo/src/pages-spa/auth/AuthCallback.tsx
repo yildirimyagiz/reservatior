@@ -1,21 +1,23 @@
-import { useTranslation } from "react-i18next";
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "@/lib/auth/hooks";
+
+import { useAuth } from "../../lib/auth/hooks";
+import { useNavigate } from "../../lib/react-router-shim";
+
+
 export default function AuthCallback() {
-  const {
-    t
-  } = useTranslation();
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const navigate = useNavigate();
   const {
     setToken,
     setUser
   } = useAuth();
   useEffect(() => {
-    const token = searchParams.get("token");
-    const userStr = searchParams.get("user");
-    const error = searchParams.get("error");
+    const token = searchParams?.get("token");
+    const userStr = searchParams?.get("user");
+    const error = searchParams?.get("error");
     if (error) {
       console.error("Auth error:", error);
       navigate("/auth/login?error=" + error, {
@@ -66,7 +68,7 @@ export default function AuthCallback() {
   return <div className="min-h-screen bg-[#0A0A0B] flex items-center justify-center">
       <div className="text-center space-y-4">
         <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mx-auto" />
-        <h2 className="text-xl font-medium text-slate-200">{t("client.src.completing_sign_in")}</h2>
+        <h2 className="text-xl font-medium text-slate-200">Completing sign in process</h2>
       </div>
     </div>;
 }

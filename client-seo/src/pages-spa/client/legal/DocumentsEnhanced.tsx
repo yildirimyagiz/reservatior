@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -12,7 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { Upload, FileText, Download, Eye, Edit, Trash2, MoreHorizontal, FileCheck, Clock, CheckCircle, XCircle, BarChart3, Brain, Share, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { CardDescription } from "@/components/ui/card";
@@ -556,9 +558,9 @@ export default function DocumentsEnhanced() {
                             </p>
                           </div>
                           <div className="flex items-center space-x-2">
-                            {getAnalysisIcon(document.metadata?.analysisResults?.status!)}
+                            {getAnalysisIcon(document.metadata?.analysisResults?.status)}
                             <Badge variant="outline">
-                              {ANALYSIS_STATUS[document.metadata?.analysisResults?.status!]?.label}
+                              {ANALYSIS_STATUS[document.metadata?.analysisResults?.status]?.label}
                             </Badge>
                           </div>
                         </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -327,7 +329,7 @@ export default function Routes() {
                     {route.tolls && <div className="text-sm text-muted-foreground">{t("admin.system.tolls")}{route.tolls.toFixed(2)}
                       </div>}
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded" style={{
+                      <div className="w-4 h-4 rounded-lg" style={{
                     backgroundColor: route.color
                   }} />
                       <span className="text-sm text-muted-foreground">{t("admin.system.width")}{route.strokeWidth}{t("admin.system.px_opacity")}{route.opacity}

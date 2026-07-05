@@ -320,6 +320,32 @@ export const mainNavigation: NavigationItem[] = [
     ],
   },
   {
+    title: "System",
+    icon: "Settings",
+    children: [
+      {
+        title: "Triggers & Automation",
+        href: "/admin/system/triggers",
+        icon: "Zap",
+      },
+      {
+        title: "Worker Pool",
+        href: "/admin/system/workers",
+        icon: "Bot",
+      },
+      {
+        title: "Event Log",
+        href: "/admin/system/event-log",
+        icon: "ScrollText",
+      },
+      {
+        title: "Notification Templates",
+        href: "/admin/system/notification-templates",
+        icon: "Bell",
+      },
+    ],
+  },
+  {
     title: "Settings",
     href: "/settings",
     icon: "Settings",

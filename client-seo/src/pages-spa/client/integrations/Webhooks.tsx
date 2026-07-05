@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -59,7 +61,7 @@ export default function Webhooks() {
   const { data: rawData = [] } = useQuery({
     queryKey: ['webhooks'],
     queryFn: async () => {
-      const response = await webhooksApi.getAll("current");
+      const response = await webhooksApi.getAll({ orgId: "current" });
       return (response as any).data || response || [];
     }
   });
@@ -68,7 +70,7 @@ export default function Webhooks() {
   const filtered = webhooks.filter((row: any) => String(row.name ?? "").toLowerCase().includes(search.toLowerCase()) || String(row.url ?? "").toLowerCase().includes(search.toLowerCase()));
 
   const createMutation = useMutation({
-    mutationFn: (data: any) => webhooksApi.create("current", data),
+    mutationFn: (data: any) => webhooksApi.create({ ...data, orgId: "current" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['webhooks'] });
       setCreateOpen(false);
@@ -78,7 +80,7 @@ export default function Webhooks() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string, data: any }) => webhooksApi.update("current", id, data),
+    mutationFn: ({ id, data }: { id: string, data: any }) => webhooksApi.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['webhooks'] });
       setEditOpen(false);
@@ -87,7 +89,7 @@ export default function Webhooks() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) => webhooksApi.delete("current", id),
+    mutationFn: (id: string) => webhooksApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['webhooks'] });
       toast({ title: t("client.src.signal_purged"), description: t("client.src.webhook_node_removed_from"), variant: "destructive" });
@@ -95,7 +97,7 @@ export default function Webhooks() {
   });
 
   const testMutation = useMutation({
-    mutationFn: (id: string) => webhooksApi.test("current", id),
+    mutationFn: (id: string) => webhooksApi.test(id),
     onSuccess: (data) => {
       if (data.success) {
         toast({ title: "Signal Test Successful", description: `Test delivered in ${data.responseTime}ms` });

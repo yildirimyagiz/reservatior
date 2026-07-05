@@ -22,6 +22,7 @@ import {
   Terminal
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface ActivityLog {
   id: string;
@@ -110,6 +111,7 @@ const STATUS_ICONS: Record<string, React.ComponentType<{ className?: string }>> 
 };
 
 export default function ActivityTrackingPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [isLive, setIsLive] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -137,8 +139,8 @@ export default function ActivityTrackingPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Activity Tracking</h1>
-              <p className="text-gray-400">Monitor system activity and user actions</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("activity_tracking.activitytrackingpage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("activity_tracking.activitytrackingpage.auto_ext_2")}</p>
             </div>
             <div className="flex gap-3">
               <Button
@@ -146,8 +148,8 @@ export default function ActivityTrackingPage() {
                 className="bg-purple-600 hover:bg-purple-700"
               >
                 <ArrowUpRight className="w-4 h-4 mr-2" />
-                Dashboard
-              </Button>
+                {t("activity_tracking.activitytrackingpage.auto_ext_3")}
+                                            </Button>
               <Button
                 variant={isLive ? "default" : "outline"}
                 className={isLive ? "bg-green-600 hover:bg-green-700" : "bg-white/10 border-purple-500/30 text-white"}
@@ -171,7 +173,7 @@ export default function ActivityTrackingPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Total Events</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("activity_tracking.activitytrackingpage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{stats.total}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-blue-500/10">
@@ -191,7 +193,7 @@ export default function ActivityTrackingPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Critical</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("activity_tracking.activitytrackingpage.auto_ext_5")}</div>
                     <div className="text-2xl font-bold text-red-400">{stats.critical}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-red-500/10">
@@ -211,7 +213,7 @@ export default function ActivityTrackingPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Completed</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("activity_tracking.activitytrackingpage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-green-400">{stats.completed}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-green-500/10">
@@ -231,8 +233,8 @@ export default function ActivityTrackingPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Throughput</div>
-                    <div className="text-2xl font-bold text-purple-400">{stats.throughput}/s</div>
+                    <div className="text-sm text-gray-400 mb-1">{t("activity_tracking.activitytrackingpage.auto_ext_7")}</div>
+                    <div className="text-2xl font-bold text-purple-400">{stats.throughput}{t("activity_tracking.activitytrackingpage.auto_ext_8")}</div>
                   </div>
                   <div className="p-3 rounded-lg bg-purple-500/10">
                     <Zap className="w-6 h-6 text-purple-400" />
@@ -266,12 +268,12 @@ export default function ActivityTrackingPage() {
                 </div>
                 <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
+                  {t("activity_tracking.activitytrackingpage.auto_ext_9")}
+                                                  </Button>
                 <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
                   <Download className="w-4 h-4 mr-2" />
-                  Export
-                </Button>
+                  {t("activity_tracking.activitytrackingpage.auto_ext_10")}
+                                                  </Button>
               </div>
             </CardContent>
           </Card>
@@ -287,12 +289,13 @@ export default function ActivityTrackingPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Terminal className="w-5 h-5" />
-                Activity Logs
-              </CardTitle>
+                {t("activity_tracking.activitytrackingpage.auto_ext_11")}
+                                            </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {filteredLogs.map((log) => {
+                    const { t } = useTranslation();
                   const StatusIcon = STATUS_ICONS[log.status];
                   return (
                     <div

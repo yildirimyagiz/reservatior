@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -51,7 +53,7 @@ export default function FraudDetection() {
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const res = await apiClient.post('/api/v1/ai-fraud-detections', {
+      const res = await apiClient.post('/ai-fraud-detections', {
         ...data,
         riskFactors: { "ip_mismatch": true },
         recommendedActions: ["Block IP"],
@@ -337,11 +339,11 @@ export default function FraudDetection() {
                   <p className="text-sm text-slate-400">{t("admin.ai.detection_accuracy")}</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">0.02%</div>
+                  <div className="text-2xl font-bold text-slate-600">0.02%</div>
                   <p className="text-sm text-slate-400">{t("admin.ai.false_positive_rate")}</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">{t("admin.ai.23s")}</div>
+                  <div className="text-2xl font-bold text-slate-600">{t("admin.ai.23s")}</div>
                   <p className="text-sm text-slate-400">{t("admin.ai.avg_response_time")}</p>
                 </div>
                 <div className="text-center">
@@ -389,7 +391,7 @@ export default function FraudDetection() {
                 <div>
                   <Label className="text-slate-400">{t("admin.ai.risk_factors")}</Label>
                   <div className="mt-2 space-y-2">
-                    {selectedAlert.riskFactors && Object.entries(selectedAlert.riskFactors).map(([key, value]) => <div key={key} className="flex justify-between p-2 bg-white/5 rounded">
+                    {selectedAlert.riskFactors && Object.entries(selectedAlert.riskFactors).map(([key, value]) => <div key={key} className="flex justify-between p-2 bg-white/5 rounded-lg">
                         <span className="text-sm text-slate-400">{key}</span>
                         <span className="text-sm font-medium text-white">{String(value)}</span>
                       </div>)}
@@ -399,7 +401,7 @@ export default function FraudDetection() {
                 {selectedAlert.recommendedActions && selectedAlert.recommendedActions.length > 0 && <div>
                     <Label className="text-slate-400">{t("admin.ai.recommended_actions")}</Label>
                     <div className="mt-2 space-y-2">
-                      {selectedAlert.recommendedActions.map((action, index) => <div key={index} className="p-2 border border-white/10 rounded">
+                      {selectedAlert.recommendedActions.map((action, index) => <div key={index} className="p-2 border border-white/10 rounded-lg">
                           <p className="text-sm text-slate-400">{action}</p>
                         </div>)}
                     </div>

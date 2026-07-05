@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
@@ -14,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 interface ApiToken {
   id: string;
@@ -86,7 +88,7 @@ export default function ApiTokens() {
           label: t("admin.security.monthly_pulse"),
           val: tokens.reduce((acc, t) => acc + (t.usageStats?.totalRequests || 0), 0).toLocaleString(),
           icon: Activity,
-          color: "text-blue-400"
+          color: "text-slate-400"
         }, {
           label: t("admin.security.expired_nodes"),
           val: tokens.filter(t => t.expiresAt && new Date(t.expiresAt) < new Date()).length,
@@ -96,7 +98,7 @@ export default function ApiTokens() {
           label: t("admin.security.security_level"),
           val: "Elite",
           icon: Shield,
-          color: "text-purple-400"
+          color: "text-slate-400"
         }].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group">
                 <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
                    <stat.icon className="w-12 h-12" />
@@ -111,10 +113,10 @@ export default function ApiTokens() {
         {/* INTERFACE ACTIONS */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
            <div className="relative flex-1 max-w-md group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-blue-500 transition-colors" />
-              <Input placeholder={t("admin.security.search_credential_string")} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-blue-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-slate-500 transition-colors" />
+              <Input placeholder={t("admin.security.search_credential_string")} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
            </div>
-           <Button className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-foreground font-bold text-[10px] gap-2 shadow-xl shadow-blue-600/20">
+           <Button className="h-14 px-8 rounded-2xl bg-slate-600 hover:bg-slate-500 text-foreground font-bold text-[10px] gap-2 shadow-xl shadow-slate-600/20">
               <Plus className="w-4 h-4" />{t("admin.security.generate_new_key")}</Button>
         </div>
 
@@ -134,14 +136,14 @@ export default function ApiTokens() {
                  <TableBody>
                     {loading ? <TableRow>
                           <TableCell colSpan={5} className="py-20 text-center">
-                             <Activity className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-4 opacity-50" />
+                             <Activity className="w-8 h-8 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
                              <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin.security.syncing_credential_matrix")}</p>
                           </TableCell>
                        </TableRow> : filteredTokens.map(token => <TableRow key={token.id} className="border-b border-border hover:bg-muted/50 transition-all group">
                            <TableCell className="py-8 px-8">
                               <div className="flex items-center gap-6">
                                  <div className="p-3 bg-card border border-border rounded-2xl group-hover:rotate-12 transition-all">
-                                    <Key className="w-5 h-5 text-blue-400" />
+                                    <Key className="w-5 h-5 text-slate-400" />
                                  </div>
                                  <div className="space-y-1">
                                     <h4 className="text-sm font-bold text-foreground leading-none">{token.name}</h4>

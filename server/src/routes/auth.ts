@@ -326,10 +326,15 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       .setExpirationTime('7d')
       .sign(ENCODED_SECRET);
 
+      const tokenHash = token.split(".").pop() ?? token;
+      
+      // Delete existing sessions with same token hash to avoid unique constraint error
+      await prisma.session.deleteMany({ where: { tokenHash } });
+
       const session = await prisma.session.create({
         data: {
           userId: user.id,
-          tokenHash: token.split(".").pop() ?? token,
+          tokenHash,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         },
       });
@@ -447,10 +452,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       .setExpirationTime('7d')
       .sign(ENCODED_SECRET);
 
+      const tokenHash = token.split(".").pop() ?? token;
+      await prisma.session.deleteMany({ where: { tokenHash } });
+
       const session = await prisma.session.create({
         data: {
           userId: user.id,
-          tokenHash: token.split(".").pop() ?? token,
+          tokenHash,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         },
       });
@@ -572,10 +580,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       .setExpirationTime('7d')
       .sign(ENCODED_SECRET);
 
+      const tokenHash = token.split(".").pop() ?? token;
+      await prisma.session.deleteMany({ where: { tokenHash } });
+
       const session = await prisma.session.create({
         data: {
           userId: user.id,
-          tokenHash: token.split(".").pop() ?? token,
+          tokenHash,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         },
       });
@@ -684,10 +695,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       .setExpirationTime('7d')
       .sign(ENCODED_SECRET);
 
+      const tokenHash = token.split(".").pop() ?? token;
+      await prisma.session.deleteMany({ where: { tokenHash } });
+
       const session = await prisma.session.create({
         data: {
           userId: user.id,
-          tokenHash: token.split(".").pop() ?? token,
+          tokenHash,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         },
       });
@@ -710,20 +724,29 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   })
 
   // GET /auth/linkedin — redirect to LinkedIn OAuth
-  .get("/linkedin", ({ redirect }) => {
+  .get("/linkedin", ({ redirect, cookie: { linkedinState } }) => {
+    const csrfState = Math.random().toString(36).substring(7);
+    linkedinState?.set({ value: csrfState, path: "/api/v1/auth/linkedin/callback", httpOnly: true, sameSite: "lax", maxAge: 300 });
+
     const params = new URLSearchParams({
       client_id: process.env.AUTH_LINKEDIN_ID || "",
       redirect_uri: `${SERVER_URL}/api/v1/auth/linkedin/callback`,
       response_type: "code",
       scope: "openid profile email w_member_social w_organization_social rw_organization_admin",
+      state: csrfState,
     });
     return redirect(`https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`);
   })
 
   // GET /auth/linkedin/callback
-  .get("/linkedin/callback", async ({ query, redirect }) => {
+  .get("/linkedin/callback", async ({ query, redirect, cookie: { linkedinState: storedState } }) => {
     const code = query.code as string;
+    const returnedState = query.state as string;
     if (!code) return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
+
+    if (returnedState && storedState?.value && returnedState !== storedState.value) {
+      return redirect(`${CLIENT_URL}/auth/login?error=StateMismatch`);
+    }
 
     try {
       const clientId = process.env.AUTH_LINKEDIN_ID!;
@@ -767,9 +790,12 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
             providerId: "linkedin",
             accountId: linkedinUser.sub,
             accessToken: tokenData.access_token,
+            refreshToken: tokenData.refresh_token || null,
           },
         });
       }
+
+      console.log("[LinkedIn Auth] Person URN: urn:li:person:" + linkedinUser.sub);
 
       let role = "USER";
       let permissions = ["PROPERTIES_VIEW_ALL"];
@@ -922,10 +948,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       .setExpirationTime('7d')
       .sign(ENCODED_SECRET);
 
+      const tokenHash = token.split(".").pop() ?? token;
+      await prisma.session.deleteMany({ where: { tokenHash } });
+
       const session = await prisma.session.create({
         data: {
           userId: user.id,
-          tokenHash: token.split(".").pop() ?? token,
+          tokenHash,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         },
       });
@@ -1055,10 +1084,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       .setExpirationTime('7d')
       .sign(ENCODED_SECRET);
 
+      const tokenHash = token.split(".").pop() ?? token;
+      await prisma.session.deleteMany({ where: { tokenHash } });
+
       const session = await prisma.session.create({
         data: {
           userId: user.id,
-          tokenHash: token.split(".").pop() ?? token,
+          tokenHash,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         },
       });

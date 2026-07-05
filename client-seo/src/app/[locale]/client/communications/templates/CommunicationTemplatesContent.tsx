@@ -3,8 +3,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function CommunicationTemplatesContent() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   useEffect(() => {
@@ -18,10 +20,10 @@ export function CommunicationTemplatesContent() {
     <div className="flex items-center justify-center min-h-[60vh]">
       <div className="text-center space-y-4">
         <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
-        <h2 className="text-2xl font-semibold">Coming Soon</h2>
+        <h2 className="text-2xl font-semibold">{t("templates.communicationtemplatescontent.auto_ext_1")}</h2>
         <p className="text-muted-foreground max-w-md">
-          This feature is coming soon. Redirecting you to the main section...
-        </p>
+          {t("templates.communicationtemplatescontent.auto_ext_2")}
+                          </p>
       </div>
     </div>
   );

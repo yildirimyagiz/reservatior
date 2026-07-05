@@ -3,11 +3,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { v4 as uuidv4 } from "uuid";
 
-const BASE_UPLOAD_PATH = join(process.cwd(), "ml-services", "comfysetup", "backend", "uploads");
+const BASE_UPLOAD_PATH = join(process.cwd(), "data");
 
 export const mediaUploadRoutes = new Elysia({ prefix: "/media" })
   .post("/upload", async ({ body, set }) => {
-    const { file, type, category, countryCode, stateCode, cityCode, propertyType, processingType, orgId, propertyId } = body;
+    const { file, type, category, country, city, district, neighborhood, project, orgId, propertyId, processingType } = body;
 
     // Validate file
     if (!file) {
@@ -21,16 +21,16 @@ export const mediaUploadRoutes = new Elysia({ prefix: "/media" })
       ? category 
       : 'temp';
     
-    // Build hierarchical path: country → state → city → propertyType → fileCategory → processingType → org → property
-    const countryDir = countryCode || 'GLOBAL';
-    const stateDir = stateCode || 'default-state';
-    const cityDir = cityCode || 'default-city';
-    const propertyTypeDir = propertyType || 'UNKNOWN';
-    const processingTypeDir = processingType || 'raw';
-    const orgDir = orgId || 'default-org';
+    // Build hierarchical path: country → city → district → neighborhood → project → category → property
+    const countryDir = country || 'GLOBAL';
+    const cityDir = city || 'default-city';
+    const districtDir = district || 'default-district';
+    const neighborhoodDir = neighborhood || 'default-neighborhood';
+    const projectDir = project || 'default-project';
     const propertyDir = propertyId || 'default-property';
     
-    const targetDir = join(BASE_UPLOAD_PATH, countryDir, stateDir, cityDir, propertyTypeDir, targetSubDir, processingTypeDir, orgDir, propertyDir);
+    // e.g. server/data/TURKIYE/ISTANBUL/SISLI/CUMHURIYET/Queen/images/property_123/
+    const targetDir = join(BASE_UPLOAD_PATH, countryDir, cityDir, districtDir, neighborhoodDir, projectDir, targetSubDir, propertyDir);
     
     // Ensure directory exists
     await mkdir(targetDir, { recursive: true });
@@ -45,7 +45,7 @@ export const mediaUploadRoutes = new Elysia({ prefix: "/media" })
     await writeFile(filePath, Buffer.from(buffer));
 
     // Prepare response with hierarchical URL
-    const relativeUrl = `/uploads/${countryDir}/${stateDir}/${cityDir}/${propertyTypeDir}/${targetSubDir}/${processingTypeDir}/${orgDir}/${propertyDir}/${fileName}`;
+    const relativeUrl = `/data/${countryDir}/${cityDir}/${districtDir}/${neighborhoodDir}/${projectDir}/${targetSubDir}/${propertyDir}/${fileName}`;
 
     // Trigger ML processing for documents
     let mlProcessingId = null;
@@ -66,10 +66,11 @@ export const mediaUploadRoutes = new Elysia({ prefix: "/media" })
         path: filePath,
         mimeType: file.type,
         size: file.size,
-        countryCode,
-        stateCode,
-        cityCode,
-        propertyType,
+        country,
+        city,
+        district,
+        neighborhood,
+        project,
         processingType,
         orgId,
         propertyId,
@@ -83,10 +84,11 @@ export const mediaUploadRoutes = new Elysia({ prefix: "/media" })
       file: t.File(),
       type: t.Optional(t.String()),     // e.g. "PROPERTY_VIDEO", "IDENTITY_DOCUMENT", "TITLE_DEED"
       category: t.String(),              // e.g. "videos" | "images" | "documents" | "floorplans" | "contracts"
-      countryCode: t.Optional(t.String()), // e.g. "TR", "US", "UK"
-      stateCode: t.Optional(t.String()),   // e.g. "34", "NY", "ENG"
-      cityCode: t.Optional(t.String()),   // e.g. "IST", "NYC", "LON"
-      propertyType: t.Optional(t.String()), // e.g. "APARTMENT", "VILLA", "DETACHED_HOUSE"
+      country: t.Optional(t.String()),     // e.g. "TURKIYE", "USA"
+      city: t.Optional(t.String()),        // e.g. "ISTANBUL", "Miami"
+      district: t.Optional(t.String()),    // e.g. "SISLI", "Downtown"
+      neighborhood: t.Optional(t.String()),// e.g. "CUMHURIYET MAH"
+      project: t.Optional(t.String()),     // e.g. "Queen", "Villa1"
       processingType: t.Optional(t.String()), // e.g. "raw", "processed", "ocr", "validated"
       orgId: t.Optional(t.String()),     // Organization ID
       propertyId: t.Optional(t.String()) // Property ID

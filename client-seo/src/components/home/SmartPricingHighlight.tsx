@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 
 /**
  * SMART PRICING BADGE COMPONENT
@@ -105,7 +105,7 @@ export function SmartPricingHighlight() {
                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">{t("client.src.direct_rate")}</p>
                        <p className="text-2xl font-black text-white italic">{prop.price}</p>
                     </div>
-                    <Link to="/properties" className="contents">
+                    <Link to="/property" className="contents">
                       <Button variant="ghost" className="h-14 w-14 rounded-2xl bg-white/5 hover:bg-emerald-600 group/btn transition-all">
                         <ArrowRight className="w-6 h-6 text-white group-hover/btn:translate-x-1 transition-all" />
                       </Button>
@@ -117,7 +117,7 @@ export function SmartPricingHighlight() {
         </div>
 
         <div className="flex justify-center pt-8">
-           <Link to="/properties" className="contents">
+           <Link to="/property" className="contents">
              <Button className="h-16 px-12 bg-white text-black font-black rounded-3xl hover:bg-slate-200 transition-all uppercase tracking-widest text-[10px] italic shadow-2xl">{t("client.src.explore_all_strategic_assets")}<Zap className="ml-3 w-4 h-4" />
              </Button>
            </Link>

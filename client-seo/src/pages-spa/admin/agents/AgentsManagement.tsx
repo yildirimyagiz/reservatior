@@ -1,3 +1,5 @@
+"use client";
+
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,10 +10,11 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '@/lib/api';
+
 import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { apiClient } from '@/lib/api';
 
 const AgentsManagement = () => {
   const { t } = useTranslation();
@@ -26,13 +29,13 @@ const AgentsManagement = () => {
   const { data: agentsRes, isLoading } = useQuery({
     queryKey: ['admin-agents'],
     queryFn: async () => {
-      const res: any = await api.get('/agent');
+      const res: any = await apiClient.get('/agent');
       return res.data;
     }
   });
 
   const createMutation = useMutation({
-    mutationFn: async (data: any) => api.post('/agent', data),
+    mutationFn: async (data: any) => apiClient.post('/agent', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-agents'] });
       setIsInviteOpen(false);
@@ -42,7 +45,7 @@ const AgentsManagement = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => api.put(`/agent/${editingId}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/agent/${editingId}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-agents'] });
       setIsEditOpen(false);
@@ -53,7 +56,7 @@ const AgentsManagement = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => api.delete(`/agent/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/agent/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-agents'] });
       toast({ title: "Deleted", description: "Agent deleted successfully" });
@@ -78,7 +81,7 @@ const AgentsManagement = () => {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-pink-400">
             {t("admin.agents.title", "Agent Management")}
           </h1>
           <p className="text-slate-400 mt-2">
@@ -92,7 +95,7 @@ const AgentsManagement = () => {
           
           <Dialog open={isInviteOpen} onOpenChange={setIsInviteOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.agents.add", "Invite Agent")}
               </Button>
@@ -119,7 +122,7 @@ const AgentsManagement = () => {
                 </div>
                 <DialogFooter className="mt-4">
                   <Button type="button" variant="outline" className="bg-transparent border-white/10 text-white hover:bg-white/5" onClick={() => setIsInviteOpen(false)}>Cancel</Button>
-                  <Button type="submit" disabled={createMutation.isPending} className="bg-purple-600 hover:bg-purple-700 text-white">{createMutation.isPending ? 'Saving...' : 'Send Invitation'}</Button>
+                  <Button type="submit" disabled={createMutation.isPending} className="bg-slate-600 hover:bg-slate-700 text-white">{createMutation.isPending ? 'Saving...' : 'Send Invitation'}</Button>
                 </DialogFooter>
               </form>
             </DialogContent>
@@ -145,7 +148,7 @@ const AgentsManagement = () => {
                 </div>
                 <DialogFooter className="mt-4">
                   <Button type="button" variant="outline" className="bg-transparent border-white/10 text-white hover:bg-white/5" onClick={() => setIsEditOpen(false)}>Cancel</Button>
-                  <Button type="submit" disabled={updateMutation.isPending} className="bg-purple-600 hover:bg-purple-700 text-white">{updateMutation.isPending ? 'Saving...' : 'Update Agent'}</Button>
+                  <Button type="submit" disabled={updateMutation.isPending} className="bg-slate-600 hover:bg-slate-700 text-white">{updateMutation.isPending ? 'Saving...' : 'Update Agent'}</Button>
                 </DialogFooter>
               </form>
             </DialogContent>
@@ -163,7 +166,7 @@ const AgentsManagement = () => {
           ) : agents.length === 0 ? (
             <div className="flex items-center justify-center py-20 text-slate-400">No agents found.</div>
           ) : (
-            <div className="rounded-md border border-white/10">
+            <div className="rounded-xl border border-white/10">
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10 hover:bg-transparent">

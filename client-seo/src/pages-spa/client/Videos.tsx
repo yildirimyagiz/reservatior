@@ -1,3 +1,5 @@
+"use client";
+
 import { Helmet } from "react-helmet-async";
 import { VideoObjectSchema } from "@/components/seo/SchemaScript";
 import { useTranslation } from "react-i18next";

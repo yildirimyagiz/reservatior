@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const PILLARS = [
   {
@@ -50,6 +51,7 @@ const PILLARS = [
 ];
 
 export default function HospitalityStandardsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -64,22 +66,22 @@ export default function HospitalityStandardsPage() {
           <div className="flex items-center justify-between mb-8">
             <div>
               <Badge className="mb-6 bg-purple-500/10 text-purple-400 border border-purple-500/20 px-6 py-1 text-xs font-bold tracking-widest">
-                <Star className="w-3 h-3 mr-2" /> PREMIUM STANDARDS
-              </Badge>
+                <Star className="w-3 h-3 mr-2" /> {t("hospitality_standards.hospitalitystandardspage.auto_ext_1")}
+                                            </Badge>
               <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-4 italic leading-none">
-                Hospitality <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">Standards</span>
+                {t("hospitality_standards.hospitalitystandardspage.auto_ext_2")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">{t("hospitality_standards.hospitalitystandardspage.auto_ext_3")}</span>
               </h1>
               <p className="text-xl text-gray-500 max-w-3xl font-bold tracking-widest italic leading-relaxed">
-                Five-star quality standards for premium short-term rental experiences
-              </p>
+                {t("hospitality_standards.hospitalitystandardspage.auto_ext_4")}
+                                            </p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("hospitality_standards.hospitalitystandardspage.auto_ext_5")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -152,8 +154,8 @@ export default function HospitalityStandardsPage() {
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-3">
                   <Lock className="w-6 h-6 text-blue-400" />
-                  Security & Compliance
-                </CardTitle>
+                  {t("hospitality_standards.hospitalitystandardspage.auto_ext_6")}
+                                                  </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {[
@@ -180,8 +182,8 @@ export default function HospitalityStandardsPage() {
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-3">
                   <Key className="w-6 h-6 text-amber-400" />
-                  Premium Services
-                </CardTitle>
+                  {t("hospitality_standards.hospitalitystandardspage.auto_ext_7")}
+                                                  </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {[

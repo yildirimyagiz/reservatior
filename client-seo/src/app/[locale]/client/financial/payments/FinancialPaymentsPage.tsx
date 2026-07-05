@@ -17,6 +17,7 @@ import {
   Clock
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Payment {
   id: string;
@@ -50,6 +51,7 @@ const STATUS_ICONS: Record<string, React.ComponentType<{ className?: string }>> 
 };
 
 export default function FinancialPaymentsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -67,16 +69,16 @@ export default function FinancialPaymentsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Payments</h1>
-              <p className="text-gray-400">Manage all payments and transactions</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("payments.financialpaymentspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("payments.financialpaymentspage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("payments.financialpaymentspage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -102,8 +104,8 @@ export default function FinancialPaymentsPage() {
                 </div>
                 <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
+                  {t("payments.financialpaymentspage.auto_ext_4")}
+                                                  </Button>
               </div>
             </CardContent>
           </Card>
@@ -118,12 +120,13 @@ export default function FinancialPaymentsPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <CreditCard className="w-5 h-5" />
-                All Payments ({filteredPayments.length})
+                {t("payments.financialpaymentspage.auto_ext_5")}{filteredPayments.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {filteredPayments.map((payment) => {
+                    const { t } = useTranslation();
                   const StatusIcon = STATUS_ICONS[payment.status];
                   return (
                     <div

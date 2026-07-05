@@ -17,6 +17,7 @@ import {
   Building2
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Contact {
   id: string;
@@ -48,6 +49,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function ContactsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -66,16 +68,16 @@ export default function ContactsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Contacts</h1>
-              <p className="text-gray-400">Manage your contacts and relationships</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("contacts.contactspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("contacts.contactspage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("contacts.contactspage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -101,8 +103,8 @@ export default function ContactsPage() {
                 </div>
                 <Button className="bg-purple-600 hover:bg-purple-700">
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Contact
-                </Button>
+                  {t("contacts.contactspage.auto_ext_4")}
+                                                  </Button>
               </div>
             </CardContent>
           </Card>
@@ -117,7 +119,7 @@ export default function ContactsPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Users className="w-5 h-5" />
-                All Contacts ({filteredContacts.length})
+                {t("contacts.contactspage.auto_ext_5")}{filteredContacts.length})
               </CardTitle>
             </CardHeader>
             <CardContent>

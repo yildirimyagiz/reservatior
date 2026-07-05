@@ -1,3 +1,6 @@
+"use client";
+import { apiClient } from '@/lib/api/client';
+
 import { t } from "i18next";
 import { useState, useEffect } from "react";
 import { PageShell } from "../../client/layout/PageShell";
@@ -36,12 +39,12 @@ const STATUS_CONFIG = (t: any) => {
     },
     REFUNDED: {
       label: t("admin.financial.refunded"),
-      cls: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+      cls: "bg-slate-500/10 text-slate-400 border-slate-500/20",
       icon: TrendingUp
     },
     PARTIAL: {
       label: t("admin.financial.partial"),
-      cls: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+      cls: "bg-slate-500/10 text-slate-400 border-slate-500/20",
       icon: AlertCircle
     }
   };
@@ -50,7 +53,7 @@ export default function Payments() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -187,7 +190,7 @@ export default function Payments() {
           delay: 0.1
         }}>
             <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-muted/50">
-              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-blue-500">
+              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                 <Zap className="w-10 h-10" />
               </div>
               <CardContent className="p-8">
@@ -357,7 +360,7 @@ export default function Payments() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl p-2 w-48 shadow-2xl">
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer" onClick={() => window.location.href = `/checkout?type=TENANT_PAYMENT&amount=${payment.amount}&id=${payment.id}`}>
-                                <CreditCard className="w-4 h-4 mr-3 text-blue-400" />{t("admin.financial.completestripe")}</DropdownMenuItem>
+                                <CreditCard className="w-4 h-4 mr-3 text-slate-400" />{t("admin.financial.completestripe")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer" onClick={() => {
                           setSelectedPayment(payment);
                           setEditOpen(true);
@@ -370,7 +373,7 @@ export default function Payments() {
                             description: t("admin.financial.reference_copied_to_clipboard")
                           });
                         }}>
-                                <Copy className="w-4 h-4 mr-3 text-violet-400" />{t("admin.financial.syncreference")}</DropdownMenuItem>
+                                <Copy className="w-4 h-4 mr-3 text-slate-400" />{t("admin.financial.syncreference")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-red-500/10 focus:text-red-500 rounded-xl py-3 cursor-pointer" onClick={() => handleDeletePayment(payment.id)}>
                                 <Trash2 className="h-4 w-4 mr-3" />{t("admin.financial.terminateflow")}</DropdownMenuItem>
                             </DropdownMenuContent>

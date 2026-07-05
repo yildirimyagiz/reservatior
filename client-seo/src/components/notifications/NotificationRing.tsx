@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import { notificationsApi } from "@/lib/api/notifications";
 import { cn } from "@/lib/utils";
 interface Notification {
@@ -75,7 +75,7 @@ export function NotificationRing() {
             </Badge>}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-85 bg-card border-border rounded-2xl shadow-3xl p-0 overflow-hidden">
+      <DropdownMenuContent align="end" className="w-[380px] bg-card/95 border-border/50 rounded-2xl shadow-2xl shadow-black/20 p-0 overflow-hidden z-[100] backdrop-blur-xl">
         <DropdownMenuLabel className="p-6 flex items-center justify-between bg-muted/20 border-b border-border">
           <div className="flex items-center gap-3">
              <Activity className="w-4 h-4 text-primary" />

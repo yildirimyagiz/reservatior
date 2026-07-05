@@ -138,7 +138,7 @@ export function AISearchResultsContent() {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold text-lg tracking-tight text-white/90">Reservatior AI</span>
+            <span className="font-bold text-lg tracking-tight text-white/90">{t("search_results.aisearchresultscontent.auto_ext_1")}</span>
           </Link>
 
           <div className="flex items-center gap-3">
@@ -146,21 +146,21 @@ export function AISearchResultsContent() {
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20">
                 <Zap className="w-3.5 h-3.5 text-amber-400" />
                 <span className="text-xs font-bold text-amber-300">{state.creditsRemaining}</span>
-                <span className="text-[10px] text-amber-500/70">credits</span>
+                <span className="text-[10px] text-amber-500/70">{t("search_results.aisearchresultscontent.auto_ext_2")}</span>
               </div>
             )}
             <Link
               href="/client/properties"
               className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs font-semibold text-white/60 hover:text-white transition-all"
             >
-              Classic Search
-            </Link>
+              {t("search_results.aisearchresultscontent.auto_ext_3")}
+                                      </Link>
             <Link
               href="/ai-search"
               className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs font-semibold text-white/60 hover:text-white transition-all"
             >
-              AI Chat
-            </Link>
+              {t("search_results.aisearchresultscontent.auto_ext_4")}
+                                      </Link>
           </div>
         </div>
       </header>
@@ -197,8 +197,9 @@ export function AISearchResultsContent() {
           {/* ───── Left: Progress Pipeline ───── */}
           <div className="col-span-3">
             <div className="sticky top-24 space-y-1">
-              <p className="text-[10px] font-black tracking-[0.2em] text-white/20 uppercase mb-4">Pipeline</p>
+              <p className="text-[10px] font-black tracking-[0.2em] text-white/20 uppercase mb-4">{t("search_results.aisearchresultscontent.auto_ext_5")}</p>
               {Object.entries(STAGE_CONFIG).map(([stage, config]) => {
+                  const { t } = useTranslation();
                 const isCompleted = completedStages.includes(stage);
                 const isCurrent = state.currentStage === stage;
                 const Icon = config.icon;
@@ -247,7 +248,7 @@ export function AISearchResultsContent() {
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-6 p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-3"
                 >
-                  <p className="text-[10px] font-black tracking-[0.2em] text-white/20 uppercase">Detected Filters</p>
+                  <p className="text-[10px] font-black tracking-[0.2em] text-white/20 uppercase">{t("search_results.aisearchresultscontent.auto_ext_6")}</p>
                   {state.filters.location && (
                     <div className="flex items-center gap-2 text-xs text-white/50">
                       <MapPin className="w-3 h-3 text-blue-400" />
@@ -257,18 +258,18 @@ export function AISearchResultsContent() {
                   {state.filters.maxPrice && (
                     <div className="flex items-center gap-2 text-xs text-white/50">
                       <TrendingUp className="w-3 h-3 text-emerald-400" />
-                      <span>Max ${state.filters.maxPrice?.toLocaleString()}</span>
+                      <span>{t("search_results.aisearchresultscontent.auto_ext_7")}{state.filters.maxPrice?.toLocaleString()}</span>
                     </div>
                   )}
                   {state.filters.beds && (
                     <div className="flex items-center gap-2 text-xs text-white/50">
                       <Home className="w-3 h-3 text-purple-400" />
-                      <span>{state.filters.beds}+ bedrooms</span>
+                      <span>{state.filters.beds}{t("search_results.aisearchresultscontent.auto_ext_8")}</span>
                     </div>
                   )}
                   {(intent as any)?.routeUsed && (
                     <div className="mt-2 px-2 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-bold text-indigo-300 text-center">
-                      Route: {(intent as any)?.routeUsed}
+                      {t("search_results.aisearchresultscontent.auto_ext_9")} {(intent as any)?.routeUsed}
                     </div>
                   )}
                 </motion.div>
@@ -282,14 +283,14 @@ export function AISearchResultsContent() {
                   className="mt-4 p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2"
                 >
                   <p className="text-[10px] font-black tracking-[0.2em] text-white/20 uppercase flex items-center gap-2">
-                    <BarChart3 className="w-3 h-3" /> Market Intel
-                  </p>
+                    <BarChart3 className="w-3 h-3" /> {t("search_results.aisearchresultscontent.auto_ext_10")}
+                                                        </p>
                   <div className="text-xs text-white/40">
-                    Signal: <span className="text-white/70 font-semibold">{state.marketContext.signal}</span>
+                    {t("search_results.aisearchresultscontent.auto_ext_11")} <span className="text-white/70 font-semibold">{state.marketContext.signal}</span>
                   </div>
                   {state.marketContext.pricingPressure && (
                     <div className="text-xs text-white/40">
-                      Pressure: <span className="text-white/70 font-semibold">{state.marketContext.pricingPressure}</span>
+                      {t("search_results.aisearchresultscontent.auto_ext_12")} <span className="text-white/70 font-semibold">{state.marketContext.pricingPressure}</span>
                     </div>
                   )}
                 </motion.div>
@@ -309,13 +310,13 @@ export function AISearchResultsContent() {
                 >
                   <div className="flex items-center justify-between">
                     <h2 className="text-sm font-black tracking-[0.15em] text-white/30 uppercase">
-                      {state.properties.length} Properties Found
-                    </h2>
+                      {state.properties.length} {t("search_results.aisearchresultscontent.auto_ext_13")}
+                                                              </h2>
                     <Link
                       href={`/client/properties${state.filters?.location ? `?search=${state.filters.location}` : ""}`}
                       className="flex items-center gap-1 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
                     >
-                      View in Classic Search <ArrowUpRight className="w-3 h-3" />
+                      {t("search_results.aisearchresultscontent.auto_ext_14")} <ArrowUpRight className="w-3 h-3" />
                     </Link>
                   </div>
 
@@ -331,15 +332,15 @@ export function AISearchResultsContent() {
                       >
                         {/* Image */}
                         <div className="h-44 overflow-hidden relative">
-                          <Image src={prop.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600"} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                          <Image src={prop.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600"} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                           <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/40 backdrop-blur-md rounded-lg text-white text-sm font-bold border border-white/10">
                             {prop.price}
                           </div>
                           {state.isDowngraded && (
                             <div className="absolute top-3 right-3 px-2 py-0.5 bg-amber-500/20 border border-amber-500/30 rounded-full text-[9px] font-bold text-amber-300">
-                              Optimized
-                            </div>
+                              {t("search_results.aisearchresultscontent.auto_ext_15")}
+                                                                    </div>
                           )}
                         </div>
 
@@ -357,8 +358,8 @@ export function AISearchResultsContent() {
                           )}
                           <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/5">
                             <div className="flex items-center gap-1 text-[10px] text-white/20">
-                              <Shield className="w-3 h-3" /> Verified
-                            </div>
+                              <Shield className="w-3 h-3" /> {t("search_results.aisearchresultscontent.auto_ext_16")}
+                                                                    </div>
                             <div className="w-7 h-7 rounded-full bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 transition-colors">
                               <ArrowRight className="w-3 h-3 text-indigo-400 group-hover:text-white" />
                             </div>
@@ -383,16 +384,16 @@ export function AISearchResultsContent() {
                     <Sparkles className="w-5 h-5 text-indigo-500/30" />
                   </div>
                   <h3 className="text-sm font-black tracking-[0.15em] text-white/30 uppercase mb-4 flex items-center gap-2">
-                    <Brain className="w-4 h-4 text-purple-400" /> AI Analysis
-                  </h3>
+                    <Brain className="w-4 h-4 text-purple-400" /> {t("search_results.aisearchresultscontent.auto_ext_17")}
+                                                        </h3>
                   <p className="text-sm text-white/70 leading-relaxed whitespace-pre-wrap font-medium">
                     {state.analysisText}
                   </p>
                   {state.costCharged > 0 && (
                     <div className="mt-4 flex items-center gap-2 text-[10px] text-white/20">
                       <Zap className="w-3 h-3 text-amber-400" />
-                      This analysis cost {state.costCharged} credits
-                    </div>
+                      {t("search_results.aisearchresultscontent.auto_ext_18")} {state.costCharged} {t("search_results.aisearchresultscontent.auto_ext_19")}
+                                                              </div>
                   )}
                 </motion.div>
               )}
@@ -413,8 +414,8 @@ export function AISearchResultsContent() {
                     <div className="flex-1">
                       <p className="text-sm text-white/80 font-medium">{state.upsellMessage}</p>
                       <button className="mt-3 px-5 py-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl text-sm font-bold text-white shadow-lg shadow-amber-500/20 hover:shadow-xl transition-all active:scale-95">
-                        Upgrade Now
-                      </button>
+                        {t("search_results.aisearchresultscontent.auto_ext_20")}
+                                                                    </button>
                     </div>
                   </div>
                 </motion.div>
@@ -440,10 +441,10 @@ export function AISearchResultsContent() {
                   <Search className="w-7 h-7 text-white/10" />
                 </div>
                 <div className="space-y-2">
-                  <h2 className="text-xl font-bold text-white/20">Search with AI</h2>
+                  <h2 className="text-xl font-bold text-white/20">{t("search_results.aisearchresultscontent.auto_ext_21")}</h2>
                   <p className="text-sm text-white/10 max-w-md">
-                    Describe what you&apos;re looking for in natural language and watch the AI analyze properties in real-time.
-                  </p>
+                    {t("search_results.aisearchresultscontent.auto_ext_22")}
+                                                        </p>
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center max-w-lg">
                   {[

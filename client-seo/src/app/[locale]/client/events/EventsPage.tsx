@@ -17,6 +17,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Event {
   id: string;
@@ -92,6 +93,7 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 export default function EventsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("upcoming");
 
@@ -109,8 +111,8 @@ export default function EventsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Events & Calendar</h1>
-              <p className="text-gray-400">Manage your schedule and appointments</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("events.eventspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("events.eventspage.auto_ext_2")}</p>
             </div>
             <div className="flex gap-3">
               <Button
@@ -118,12 +120,12 @@ export default function EventsPage() {
                 className="bg-purple-600 hover:bg-purple-700"
               >
                 <ArrowUpRight className="w-4 h-4 mr-2" />
-                Dashboard
-              </Button>
+                {t("events.eventspage.auto_ext_3")}
+                                            </Button>
               <Button className="bg-blue-600 hover:bg-blue-700">
                 <Plus className="w-4 h-4 mr-2" />
-                New Event
-              </Button>
+                {t("events.eventspage.auto_ext_4")}
+                                            </Button>
             </div>
           </div>
         </motion.div>
@@ -131,9 +133,9 @@ export default function EventsPage() {
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-white/5 border-purple-500/20">
-            <TabsTrigger value="upcoming" className="data-[state=active]:bg-purple-600">Upcoming</TabsTrigger>
-            <TabsTrigger value="past" className="data-[state=active]:bg-purple-600">Past</TabsTrigger>
-            <TabsTrigger value="calendar" className="data-[state=active]:bg-purple-600">Calendar</TabsTrigger>
+            <TabsTrigger value="upcoming" className="data-[state=active]:bg-purple-600">{t("events.eventspage.auto_ext_5")}</TabsTrigger>
+            <TabsTrigger value="past" className="data-[state=active]:bg-purple-600">{t("events.eventspage.auto_ext_6")}</TabsTrigger>
+            <TabsTrigger value="calendar" className="data-[state=active]:bg-purple-600">{t("events.eventspage.auto_ext_7")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upcoming">
@@ -169,7 +171,7 @@ export default function EventsPage() {
                             </div>
                             <div className="flex items-center gap-2">
                               <Users className="w-4 h-4" />
-                              <span>{event.attendees} attendees</span>
+                              <span>{event.attendees} {t("events.eventspage.auto_ext_8")}</span>
                             </div>
                           </div>
                         </div>
@@ -228,12 +230,12 @@ export default function EventsPage() {
           <TabsContent value="calendar">
             <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
               <CardHeader>
-                <CardTitle className="text-white">Calendar View</CardTitle>
+                <CardTitle className="text-white">{t("events.eventspage.auto_ext_9")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-12 text-gray-400">
                   <CalendarIcon className="w-12 h-12 mx-auto mb-4 text-purple-400" />
-                  <p>Calendar view coming soon</p>
+                  <p>{t("events.eventspage.auto_ext_10")}</p>
                 </div>
               </CardContent>
             </Card>

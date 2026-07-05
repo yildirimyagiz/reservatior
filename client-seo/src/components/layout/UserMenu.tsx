@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { User as UserIcon, Settings, LogOut, ChevronDown, UserCircle, CreditCard, Sparkles, ShieldCheck, Users, Building2, Database } from "lucide-react";
+import { Settings, LogOut, ChevronDown, UserCircle, CreditCard, Sparkles, ShieldCheck, Users, Building2, Database } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,20 @@ export function UserMenu() {
     hasPermission
   } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  if (!user) return null;
+  
+  // Show login/signup buttons when user is not authenticated
+  if (!user) {
+    return (
+      <div className="flex items-center gap-2">
+        <Button asChild variant="ghost" size="sm" className="rounded-full">
+          <Link href="/client/login">Sign In</Link>
+        </Button>
+        <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground">
+          <Link href="/client/signup">Sign Up</Link>
+        </Button>
+      </div>
+    );
+  }
   const roleColorMap: Record<string, string> = {
     'ADMIN': 'text-purple-400 bg-purple-500/10 border-purple-500/20',
     'AGENT': 'text-blue-400 bg-blue-500/10 border-blue-500/20',
@@ -58,7 +71,7 @@ export function UserMenu() {
       <DropdownMenuContent className="w-72 bg-popover/95 dark:bg-[#14151a]/95 text-popover-foreground backdrop-blur-xl border border-border dark:border-white/10 rounded-4xl p-3 shadow-2xl mt-2 animate-in fade-in zoom-in-95 duration-200" align="end">
         <DropdownMenuLabel className="p-4">
           <div className="flex flex-col gap-1">
-            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] italic">{t('activeSession', 'AKTİF OTURUM')}</p>
+            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] italic">{t('activeSession', 'ACTIVE SESSION')}</p>
             <p className="text-sm font-black text-foreground italic tracking-tight truncate">{user.email}</p>
           </div>
         </DropdownMenuLabel>
@@ -107,7 +120,7 @@ export function UserMenu() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="rounded-xl focus:bg-amber-600/10 focus:text-amber-400 group cursor-pointer transition-all">
-                <Link href="/admin/organizations" className="flex items-center gap-3 p-3">
+                <Link href="/admin/organization" className="flex items-center gap-3 p-3">
                   <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center group-focus:bg-amber-600/20">
                     <Building2 className="w-5 h-5 text-foreground group-focus:text-amber-400" />
                   </div>

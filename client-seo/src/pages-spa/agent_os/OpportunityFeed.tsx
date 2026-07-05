@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 
 import { RefreshCw, Zap, TrendingUp } from 'lucide-react';
-import api from '@/lib/api';
+import { apiClient } from '@/lib/api';
 
 export interface OpportunityAction {
   action: string;
@@ -26,7 +28,7 @@ export function OpportunityFeed() {
   const fetchOpportunities = async () => {
     setLoading(true);
     try {
-      const res: any = await api.get('/telemetry/opportunities');
+      const res: any = await apiClient.get('/telemetry/opportunities');
       if (res.data?.opportunities) {
         setTasks(res.data.opportunities);
       }

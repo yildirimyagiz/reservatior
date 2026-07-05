@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import i18n from "@/i18n";
 
 export type Language = {
   code: string;
@@ -39,10 +40,11 @@ type LanguageStore = {
 const TRANSLATIONS: Record<string, Record<string, string>> = {
   en: {
     "nav.features": "Features",
-    "nav.showcase": "Showcase",
+    "nav.listings": "Listings",
     "nav.pricing": "Pricing",
     "nav.login": "Log in",
     "nav.getStarted": "Get Started",
+    "nav.videos": "Videos",
     "hero.new": "New: AI Video Walkthroughs",
     "hero.title": "The Virtual Stage for Next-Gen Real Estate",
     "heroSubtitle": "Transform photos into cinematic video tours instantly.",
@@ -51,10 +53,11 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
   },
   tr: {
     "nav.features": "Özellikler",
-    "nav.showcase": "Vitrin",
+    "nav.listings": "İlanlar",
     "nav.pricing": "Fiyatlandırma",
     "nav.login": "Giriş Yap",
     "nav.getStarted": "Başlayın",
+    "nav.videos": "Videolar",
     "hero.new": "Yeni: Yapay Zeka Video Turları",
     "hero.title": "Yeni Nesil Emlak İçin Sanal Sahne",
     "heroSubtitle":
@@ -68,6 +71,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     "nav.pricing": "التسعير",
     "nav.login": "تسجيل الدخول",
     "nav.getStarted": "ابدأ الآن",
+    "nav.videos": "الفيديوهات",
     "hero.new": "جديد: جولات فيديو بالذكاء الاصطناعي",
     "hero.title": "المنصة الافتراضية للجيل القادم من العقارات",
     "heroSubtitle": "حول الصور إلى جولات فيديو سينمائية فوراً.",
@@ -83,13 +87,22 @@ export const useLanguage = create<LanguageStore>((set, get) => ({
     const lang = LANGUAGES.find((l) => l.code === code);
     if (lang) {
       set({ currentLang: lang });
-      // Update document direction for RTL support
       document.documentElement.dir = lang.dir;
       document.documentElement.lang = lang.code;
+      // Sync react-i18next so page content updates
+      i18n.changeLanguage(code);
+      // Persist for middleware (server-side locale detection)
+      document.cookie = `NEXT_LOCALE=${code};path=/;max-age=31536000;SameSite=Lax`;
+      // Force re-render by triggering a custom event
+      window.dispatchEvent(new CustomEvent('languageChange', { detail: { code } }));
     }
   },
   t: (key) => {
     const { currentLang } = get();
+    // Try to get from react-i18next instance if initialized and has the key
+    if (i18n && i18n.isInitialized && i18n.exists(key)) {
+      return i18n.t(key);
+    }
     const dict = TRANSLATIONS[currentLang.code] || TRANSLATIONS["en"];
     return dict[key] || TRANSLATIONS["en"][key] || key;
   },

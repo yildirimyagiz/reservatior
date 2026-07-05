@@ -13,6 +13,7 @@ import {
   Calendar
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const performanceMetrics = [
   {
@@ -60,6 +61,7 @@ const ACTIVITY_COLORS: Record<string, string> = {
 };
 
 export default function AgentPerformancePage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -72,16 +74,16 @@ export default function AgentPerformancePage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Agent Performance</h1>
-              <p className="text-gray-400">Track your sales and performance metrics</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("performance.agentperformancepage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("performance.agentperformancepage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("performance.agentperformancepage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -116,8 +118,8 @@ export default function AgentPerformancePage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />
-                Recent Activity
-              </CardTitle>
+                {t("performance.agentperformancepage.auto_ext_4")}
+                                            </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">

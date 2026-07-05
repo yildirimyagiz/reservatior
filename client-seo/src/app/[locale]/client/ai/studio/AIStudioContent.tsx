@@ -234,41 +234,41 @@ export function AIStudioContent() {
                 className={cn("h-14 rounded-xl font-bold tracking-wider", selectedAction === "OCR" ? "bg-purple-600/20 border border-purple-500/30 text-purple-400" : "text-slate-400")}
               >
                 <FileText className="w-5 h-5 mr-2" />
-                OCR & Extraction
-              </Button>
+                {t("studio.aistudiocontent.auto_ext_1")}
+                                            </Button>
               <Button
                 variant="ghost"
                 onClick={() => setSelectedAction("TRANSLATION")}
                 className={cn("h-14 rounded-xl font-bold tracking-wider", selectedAction === "TRANSLATION" ? "bg-blue-600/20 border border-blue-500/30 text-blue-400" : "text-slate-400")}
               >
                 <Languages className="w-5 h-5 mr-2" />
-                Translation
-              </Button>
+                {t("studio.aistudiocontent.auto_ext_2")}
+                                            </Button>
               <Button
                 variant="ghost"
                 onClick={() => setSelectedAction("VIDEO")}
                 className={cn("h-14 rounded-xl font-bold tracking-wider", selectedAction === "VIDEO" ? "bg-emerald-600/20 border border-emerald-500/30 text-emerald-400" : "text-slate-400")}
               >
                 <Video className="w-5 h-5 mr-2" />
-                Video Processor
-              </Button>
+                {t("studio.aistudiocontent.auto_ext_3")}
+                                            </Button>
             </div>
 
             {/* Configurable Input Card */}
             <Card className="bg-[#1a1b1e]/60 border-white/5 rounded-[32px] p-8 border-l border-t relative overflow-hidden">
-              <h3 className="text-lg font-black italic tracking-wider mb-6">INPUT CALIBRATION Matrix</h3>
+              <h3 className="text-lg font-black italic tracking-wider mb-6">{t("studio.aistudiocontent.auto_ext_4")}</h3>
               
               <div className="space-y-6">
                 {selectedAction === "OCR" && (
                   <div className="space-y-3">
-                    <label className="text-xs font-black text-slate-400 tracking-wider">LOCAL DOCUMENT PATH</label>
+                    <label className="text-xs font-black text-slate-400 tracking-wider">{t("studio.aistudiocontent.auto_ext_5")}</label>
                     <Input 
                       value={filePath} 
                       onChange={(e) => setFilePath(e.target.value)} 
                       placeholder="e.g. /Users/os2026/Downloads/receipt.pdf"
                       className="bg-black/40 border-white/10 h-14 rounded-xl text-slate-200"
                     />
-                    <p className="text-[10px] text-slate-500 italic">Provide absolute path of invoice, lease agreement or txt file for processing.</p>
+                    <p className="text-[10px] text-slate-500 italic">{t("studio.aistudiocontent.auto_ext_6")}</p>
                   </div>
                 )}
 
@@ -276,22 +276,22 @@ export function AIStudioContent() {
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">TARGET LANGUAGE</label>
+                        <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">{t("studio.aistudiocontent.auto_ext_7")}</label>
                         <select 
                           value={targetLang} 
                           onChange={(e) => setTargetLang(e.target.value)}
                           className="w-full bg-[#14151a] border border-white/10 h-14 rounded-xl px-4 text-slate-200 font-bold"
                         >
-                          <option value="tr">Turkish (tr)</option>
-                          <option value="en">English (en)</option>
-                          <option value="de">German (de)</option>
-                          <option value="fr">French (fr)</option>
-                          <option value="es">Spanish (es)</option>
+                          <option value="tr">{t("studio.aistudiocontent.auto_ext_8")}</option>
+                          <option value="en">{t("studio.aistudiocontent.auto_ext_9")}</option>
+                          <option value="de">{t("studio.aistudiocontent.auto_ext_10")}</option>
+                          <option value="fr">{t("studio.aistudiocontent.auto_ext_11")}</option>
+                          <option value="es">{t("studio.aistudiocontent.auto_ext_12")}</option>
                         </select>
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-black text-slate-400 tracking-wider">SOURCE TEXT</label>
+                      <label className="text-xs font-black text-slate-400 tracking-wider">{t("studio.aistudiocontent.auto_ext_13")}</label>
                       <Textarea
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
@@ -305,7 +305,7 @@ export function AIStudioContent() {
                 {selectedAction === "VIDEO" && (
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-xs font-black text-slate-400 tracking-wider">VIDEO SOURCE URL</label>
+                      <label className="text-xs font-black text-slate-400 tracking-wider">{t("studio.aistudiocontent.auto_ext_14")}</label>
                       <Input
                         value={videoUrl}
                         onChange={(e) => setVideoUrl(e.target.value)}
@@ -314,14 +314,14 @@ export function AIStudioContent() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">TARGET LANGUAGE (Captions & Summary)</label>
+                      <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">{t("studio.aistudiocontent.auto_ext_15")}</label>
                       <select 
                         value={targetLang} 
                         onChange={(e) => setTargetLang(e.target.value)}
                         className="w-full bg-[#14151a] border border-white/10 h-14 rounded-xl px-4 text-slate-200 font-bold"
                       >
-                        <option value="tr">Turkish (tr)</option>
-                        <option value="en">English (en)</option>
+                        <option value="tr">{t("studio.aistudiocontent.auto_ext_16")}</option>
+                        <option value="en">{t("studio.aistudiocontent.auto_ext_17")}</option>
                       </select>
                     </div>
                   </div>
@@ -439,10 +439,10 @@ export function AIStudioContent() {
             {(taskOutput || taskError) && (
               <Card className="bg-black/60 border border-white/10 rounded-[32px] p-8 font-mono text-sm leading-relaxed overflow-x-auto">
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
-                  <span className="font-bold text-xs tracking-wider text-slate-400">OUTPUT BUFFER</span>
+                  <span className="font-bold text-xs tracking-wider text-slate-400">{t("studio.aistudiocontent.auto_ext_18")}</span>
                   <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
                 </div>
-                {taskError && <p className="text-red-400">Error: {taskError}</p>}
+                {taskError && <p className="text-red-400">{t("studio.aistudiocontent.auto_ext_19")} {taskError}</p>}
                 {taskOutput && (
                   <pre className="text-emerald-400 select-all whitespace-pre-wrap">
                     {JSON.stringify(taskOutput, null, 2)}
@@ -491,7 +491,7 @@ export function AIStudioContent() {
                       <div className="space-y-4">
                         <div className="flex justify-between items-center text-[10px] font-black italic tracking-tighter">
                            <span className="text-slate-400">{t("client.src.memory_partition")}</span>
-                           <span className="text-white">{t("client.src.584_gb")}<span className="text-slate-600 text-[8px]">/ 80 GB</span></span>
+                           <span className="text-white">{t("client.src.584_gb")}<span className="text-slate-600 text-[8px]">{t("studio.aistudiocontent.auto_ext_20")}</span></span>
                         </div>
                         <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner">
                            <motion.div initial={{ width: 0 }} animate={{ width: "73%" }} className="h-full bg-blue-600 shadow-[0_0_10px_#2563eb]" />

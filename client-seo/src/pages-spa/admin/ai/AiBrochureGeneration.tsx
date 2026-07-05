@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -179,11 +181,11 @@ export default function AiBrochureGenerationPage() {
       case 'FAILED':
         return 'bg-red-100 text-red-800';
       case 'PROCESSING':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-slate-100 text-slate-800';
       case 'PENDING':
         return 'bg-yellow-100 text-yellow-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-white/5 text-slate-300';
     }
   };
   if (loading) {

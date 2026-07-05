@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -163,7 +165,7 @@ export default function AIDashboard() {
   };
   return <div className="p-4 md:p-8 space-y-8 max-w-(--breakpoint-2xl) mx-auto min-h-screen">
       {/* Header */}
-      <section className="relative overflow-hidden rounded-3xl p-8 bg-gradient-to-br from-indigo-600/20 via-purple-600/20 to-pink-600/10 border border-white/10">
+      <section className="relative overflow-hidden rounded-3xl p-8 bg-gradient-to-br from-slate-600/20 via-slate-600/20 to-pink-600/10 border border-white/10">
         <div className="absolute -top-24 -right-24 h-96 w-96 bg-primary/20 rounded-full blur-3xl opacity-20 pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -187,8 +189,8 @@ export default function AIDashboard() {
         value: "12",
         change: "+2",
         icon: Brain,
-        color: "text-indigo-400",
-        bg: "bg-indigo-500/10"
+        color: "text-slate-400",
+        bg: "bg-slate-500/10"
       }, {
         label: t("admin.ai.predictions_today"),
         value: "8,543",
@@ -201,8 +203,8 @@ export default function AIDashboard() {
         value: "94.2%",
         change: "+1.8%",
         icon: BarChart3,
-        color: "text-blue-400",
-        bg: "bg-blue-500/10"
+        color: "text-slate-400",
+        bg: "bg-slate-500/10"
       }, {
         label: t("admin.ai.avg_latency"),
         value: "1.5s",
@@ -358,8 +360,8 @@ export default function AIDashboard() {
         }} transition={{
           delay: idx * 0.05
         }} className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-primary/20 transition-colors">
-              <div className={`p-2 rounded-lg ${activity.status === "success" ? "bg-emerald-500/10" : activity.status === "warning" ? "bg-amber-500/10" : "bg-blue-500/10"}`}>
-                {activity.status === "success" ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : activity.status === "warning" ? <AlertTriangle className="w-4 h-4 text-amber-400" /> : <Clock className="w-4 h-4 text-blue-400" />}
+              <div className={`p-2 rounded-lg ${activity.status === "success" ? "bg-emerald-500/10" : activity.status === "warning" ? "bg-amber-500/10" : "bg-slate-500/10"}`}>
+                {activity.status === "success" ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : activity.status === "warning" ? <AlertTriangle className="w-4 h-4 text-amber-400" /> : <Clock className="w-4 h-4 text-slate-400" />}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-white truncate">{activity.action}</p>

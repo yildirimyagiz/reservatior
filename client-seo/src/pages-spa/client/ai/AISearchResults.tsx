@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles, MapPin, Zap, ArrowRight, Search, Building, TrendingUp,
@@ -66,7 +68,7 @@ export default function AISearchResults() {
               </div>
             )}
             <Link
-              to="/properties"
+              to="/property"
               className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs font-semibold text-white/60 hover:text-white transition-all"
             >
               Classic Search
@@ -243,7 +245,7 @@ export default function AISearchResults() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ delay: idx * 0.08 }}
                         className="group relative bg-white/[0.03] border border-white/5 rounded-2xl overflow-hidden hover:border-indigo-500/20 hover:bg-white/[0.05] transition-all cursor-pointer"
-                        onClick={() => navigate(`/properties/${prop.id}`)}
+                        onClick={() => navigate(`/property/${prop.id}`)}
                       >
                         {/* Image */}
                         <div className="h-44 overflow-hidden relative">
@@ -362,7 +364,7 @@ export default function AISearchResults() {
                 <div className="space-y-2">
                   <h2 className="text-xl font-bold text-white/20">Search with AI</h2>
                   <p className="text-sm text-white/10 max-w-md">
-                    Describe what you're looking for in natural language and watch the AI analyze properties in real-time.
+                    Describe what you&apos;re looking for in natural language and watch the AI analyze properties in real-time.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center max-w-lg">

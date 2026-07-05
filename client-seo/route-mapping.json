@@ -1,0 +1,1769 @@
+[
+  {
+    "path": "properties",
+    "element": "AdminProperties",
+    "file": "pages-spa/admin/property/AdminProperties"
+  },
+  {
+    "path": "/auth/login",
+    "element": "Login",
+    "file": "pages-spa/auth/Login"
+  },
+  {
+    "path": "/auth/signup",
+    "element": "Signup",
+    "file": "pages-spa/auth/Signup"
+  },
+  {
+    "path": "/auth/verify-email",
+    "element": "VerifyEmail",
+    "file": "pages-spa/auth/VerifyEmail"
+  },
+  {
+    "path": "/auth/forgot-password",
+    "element": "ForgotPassword",
+    "file": "pages-spa/auth/ForgotPassword"
+  },
+  {
+    "path": "/auth/reset-password",
+    "element": "ForgotPassword",
+    "file": "pages-spa/auth/ForgotPassword"
+  },
+  {
+    "path": "/auth/callback",
+    "element": "AuthCallback",
+    "file": "pages-spa/auth/AuthCallback"
+  },
+  {
+    "path": "/auth/linkedin/callback",
+    "element": "LinkedInCallback",
+    "file": "pages-spa/auth/LinkedInCallback"
+  },
+  {
+    "path": "/auth/register",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/unauthorized",
+    "element": "Unauthorized",
+    "file": "pages-spa/client/Unauthorized"
+  },
+  {
+    "path": "/login",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/signup",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/register",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/forgot-password",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/en",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/host/new-listing",
+    "element": "ProtectedRoute",
+    "file": "pages-spa/host/AddPropertyWizard"
+  },
+  {
+    "path": "/",
+    "element": "HomeChat",
+    "file": "pages-spa/client/HomeChat"
+  },
+  {
+    "path": "/ai-search",
+    "element": "Home",
+    "file": "pages-spa/client/Home"
+  },
+  {
+    "path": "/trust",
+    "element": "TrustCenter",
+    "file": "pages-spa/client/TrustCenter"
+  },
+  {
+    "path": "/hospitality-standards",
+    "element": "HospitalityStandards",
+    "file": "pages-spa/client/HospitalityStandards"
+  },
+  {
+    "path": "/short-term-rental-safety",
+    "element": "ShortTermRentalSafety",
+    "file": "pages-spa/client/ShortTermRentalSafety"
+  },
+  {
+    "path": "/tenant-verification",
+    "element": "TenantVerification",
+    "file": "pages-spa/client/TenantVerification"
+  },
+  {
+    "path": "/terms",
+    "element": "Terms",
+    "file": "pages-spa/client/Terms"
+  },
+  {
+    "path": "/privacy",
+    "element": "Privacy",
+    "file": "pages-spa/client/Privacy"
+  },
+  {
+    "path": "/contact",
+    "element": "Contact",
+    "file": "pages-spa/client/Contact"
+  },
+
+  {
+    "path": "/explore",
+    "element": "Explore",
+    "file": "pages-spa/client/Explore"
+  },
+
+  {
+    "path": "/leasecare",
+    "element": "LeaseCare",
+    "file": "pages-spa/client/LeaseCare"
+  },
+  {
+    "path": "/property-search",
+    "element": "PropertySearch",
+    "file": "pages-spa/client/property/PropertySearch"
+  },
+  {
+    "path": "/properties/:id",
+    "element": "PropertyDetail",
+    "file": "pages-spa/client/property/PropertyDetail"
+  },
+  {
+    "path": "/icny27",
+    "element": "InmanConnect",
+    "file": "pages-spa/marketing/InmanConnect"
+  },
+  {
+    "path": "/inman",
+    "element": "InmanConnect",
+    "file": "pages-spa/marketing/InmanConnect"
+  },
+  {
+    "path": "/roi",
+    "element": "ROICalculator",
+    "file": "pages-spa/marketing/ROICalculator"
+  },
+  {
+    "path": "/ai-results",
+    "element": "React",
+    "file": "pages-spa/client/ai/AISearchResults"
+  },
+  {
+    "path": "/activities",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/cookies",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/showcase",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/stage/:id",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/home",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/dashboard",
+    "element": "Dashboard",
+    "file": "pages-spa/client/Dashboard"
+  },
+  {
+    "path": "/checkout/:id",
+    "element": "Checkout",
+    "file": "pages-spa/client/bookings/Checkout"
+  },
+  {
+    "path": "/calendar",
+    "element": "Today",
+    "file": "pages-spa/client/calendar/Today"
+  },
+  {
+    "path": "/documents",
+    "element": "Documents",
+    "file": "pages-spa/client/legal/Documents"
+  },
+  {
+    "path": "/legal",
+    "element": "Legal",
+    "file": "pages-spa/client/legal/Legal"
+  },
+  {
+    "path": "/events",
+    "element": "Events",
+    "file": "pages-spa/client/Events"
+  },
+  {
+    "path": "/analytics",
+    "element": "AnalyticsDashboard",
+    "file": "pages-spa/client/reports/AnalyticsDashboard"
+  },
+  {
+    "path": "/profile",
+    "element": "Profile",
+    "file": "pages-spa/client/profile/Profile"
+  },
+  {
+    "path": "/deals",
+    "element": "Deals",
+    "file": "pages-spa/client/deals/DealsManagement"
+  },
+  {
+    "path": "/tags",
+    "element": "Tags",
+    "file": "pages-spa/client/crm/Tags"
+  },
+  {
+    "path": "/subscriptions",
+    "element": "Subscriptions",
+    "file": "pages-spa/client/membership/Subscriptions"
+  },
+  {
+    "path": "/api-keys",
+    "element": "ApiKeys",
+    "file": "pages-spa/client/integrations/ApiKeys"
+  },
+  {
+    "path": "/mobile-devices",
+    "element": "MobileDevices",
+    "file": "pages-spa/client/mobile/MobileDevices"
+  },
+  {
+    "path": "/ai-studio",
+    "element": "AIStudio",
+    "file": "pages-spa/client/ai/AIStudio"
+  },
+  {
+    "path": "/listings",
+    "element": "Listings",
+    "file": "pages-spa/client/property/Listings"
+  },
+  {
+    "path": "/reservations",
+    "element": "Reservations",
+    "file": "pages-spa/client/property/Reservations"
+  },
+  {
+    "path": "/reservations/tracking",
+    "element": "ActivityTracking",
+    "file": "pages-spa/client/property/ReservationTracking"
+  },
+  {
+    "path": "/bookings",
+    "element": "BookingCenter",
+    "file": "pages-spa/client/bookings/BookingCenter"
+  },
+  {
+    "path": "/facilities",
+    "element": "Facilities",
+    "file": "pages-spa/client/property/Facilities"
+  },
+  {
+    "path": "/availability",
+    "element": "BookingCenter",
+    "file": "pages-spa/client/bookings/BookingCenter"
+  },
+  {
+    "path": "/property/availability",
+    "element": "BookingCenter",
+    "file": "pages-spa/client/bookings/BookingCenter"
+  },
+  {
+    "path": "/maintenance",
+    "element": "Maintenance",
+    "file": "pages-spa/client/listings/Maintenance"
+  },
+  {
+    "path": "/maintenance-blocks",
+    "element": "MaintenanceBlocks",
+    "file": "pages-spa/client/listings/MaintenanceBlocks"
+  },
+  {
+    "path": "/listings/maintenance",
+    "element": "Maintenance",
+    "file": "pages-spa/client/listings/Maintenance"
+  },
+  {
+    "path": "/property-offers",
+    "element": "PropertyOffers",
+    "file": "pages-spa/client/listings/PropertyOffers"
+  },
+  {
+    "path": "/listing-management",
+    "element": "ListingManagement",
+    "file": "pages-spa/client/listings/ListingManagement"
+  },
+  {
+    "path": "/communication-logs",
+    "element": "CommunicationLogs",
+    "file": "pages-spa/client/communication/CommunicationLogs"
+  },
+  {
+    "path": "/communication-templates",
+    "element": "CommunicationTemplates",
+    "file": "pages-spa/client/communication/CommunicationTemplates"
+  },
+  {
+    "path": "/mortgages",
+    "element": "Mortgages",
+    "file": "pages-spa/client/mortgages/Mortgages"
+  },
+  {
+    "path": "/agents",
+    "element": "Agents",
+    "file": "pages-spa/client/agents/Agents"
+  },
+  {
+    "path": "/agencies",
+    "element": "Agencies",
+    "file": "pages-spa/client/agents/Agencies"
+  },
+  {
+    "path": "/agency-dashboard",
+    "element": "AgencyDashboard",
+    "file": "pages-spa/client/agents/AgencyDashboard"
+  },
+  {
+    "path": "/video-vendors",
+    "element": "VideoVendorMarketplace",
+    "file": "pages-spa/client/VideoVendors"
+  },
+  {
+    "path": "/video-content",
+    "element": "VideoContentManagement",
+    "file": "pages-spa/client/video/VideoContentManagement"
+  },
+  {
+    "path": "/video-studio",
+    "element": "VideoContentManagement",
+    "file": "pages-spa/client/video/VideoContentManagement"
+  },
+  {
+    "path": "/payments",
+    "element": "Payments",
+    "file": "pages-spa/client/financial/Payments"
+  },
+  {
+    "path": "/expenses",
+    "element": "Expenses",
+    "file": "pages-spa/client/financial/Expenses"
+  },
+  {
+    "path": "/financial",
+    "element": "AnalyticsDashboard",
+    "file": "pages-spa/client/reports/AnalyticsDashboard"
+  },
+  {
+    "path": "/financial/taxes",
+    "element": "TaxRecords",
+    "file": "pages-spa/client/financial/TaxRecords"
+  },
+  {
+    "path": "/financial/tax-overview",
+    "element": "TaxOverview",
+    "file": "pages-spa/client/financial/TaxOverview"
+  },
+  {
+    "path": "/financial/expenses",
+    "element": "Expenses",
+    "file": "pages-spa/client/financial/Expenses"
+  },
+  {
+    "path": "/financial/transactions",
+    "element": "Payments",
+    "file": "pages-spa/client/financial/Payments"
+  },
+  {
+    "path": "/financial/reports",
+    "element": "AnalyticsDashboard",
+    "file": "pages-spa/client/reports/AnalyticsDashboard"
+  },
+  {
+    "path": "/financial/invoices",
+    "element": "Payments",
+    "file": "pages-spa/client/financial/Payments"
+  },
+  {
+    "path": "/financial/budgets",
+    "element": "Budgets",
+    "file": "pages-spa/client/financial/Budgets"
+  },
+  {
+    "path": "/financial/commission-rules",
+    "element": "CommissionRules",
+    "file": "pages-spa/client/financial/CommissionRules"
+  },
+  {
+    "path": "/extra-charges",
+    "element": "Payments",
+    "file": "pages-spa/client/financial/Payments"
+  },
+  {
+    "path": "/tax-1099",
+    "element": "Tax1099Forms",
+    "file": "pages-spa/client/financial/Tax1099Forms"
+  },
+  {
+    "path": "/payouts",
+    "element": "Payouts",
+    "file": "pages-spa/client/financial/Payouts"
+  },
+  {
+    "path": "/payout-and-helpdesk",
+    "element": "HelpDesk",
+    "file": "pages-spa/client/support/PayoutHelpdesk"
+  },
+  {
+    "path": "/contracts",
+    "element": "Contracts",
+    "file": "pages-spa/client/contracts/Contracts"
+  },
+  {
+    "path": "/legal/compliance",
+    "element": "Compliance",
+    "file": "pages-spa/client/legal/Compliance"
+  },
+  {
+    "path": "/legal/signatures",
+    "element": "Signatures",
+    "file": "pages-spa/client/legal/Signatures"
+  },
+  {
+    "path": "/legal/deposit-protection",
+    "element": "DepositProtection",
+    "file": "pages-spa/client/legal/DepositProtection"
+  },
+  {
+    "path": "/legal/right-to-rent",
+    "element": "RightToRent",
+    "file": "pages-spa/client/legal/RightToRent"
+  },
+  {
+    "path": "/legal/solicitors",
+    "element": "SolicitorManagement",
+    "file": "pages-spa/client/legal/SolicitorManagement"
+  },
+  {
+    "path": "/document-templates",
+    "element": "DocumentTemplates",
+    "file": "pages-spa/client/legal/DocumentTemplates"
+  },
+  {
+    "path": "/agent-profile/:id",
+    "element": "AgentProfile",
+    "file": "pages-spa/client/agents/AgentProfile"
+  },
+  {
+    "path": "/channels",
+    "element": "ChannelManagement",
+    "file": "pages-spa/client/channels/ChannelManagement"
+  },
+  {
+    "path": "/helpdesk",
+    "element": "HelpDesk",
+    "file": "pages-spa/client/support/PayoutHelpdesk"
+  },
+  {
+    "path": "/guests",
+    "element": "GuestFollowUp",
+    "file": "pages-spa/client/guests/GuestFollowUp"
+  },
+  {
+    "path": "/guests/follow-up",
+    "element": "GuestFollowUp",
+    "file": "pages-spa/client/guests/GuestFollowUp"
+  },
+  {
+    "path": "/files",
+    "element": "FileManagement",
+    "file": "pages-spa/client/FileManagement"
+  },
+  {
+    "path": "/security",
+    "element": "SecuritySettings",
+    "file": "pages-spa/client/profile/SecuritySettings"
+  },
+  {
+    "path": "/security-settings",
+    "element": "SecuritySettings",
+    "file": "pages-spa/client/profile/SecuritySettings"
+  },
+  {
+    "path": "/favorites",
+    "element": "Favorites",
+    "file": "pages-spa/client/profile/Favorites"
+  },
+  {
+    "path": "/my-listings",
+    "element": "MyListings",
+    "file": "pages-spa/client/profile/MyListings"
+  },
+  {
+    "path": "/compare",
+    "element": "CompareList",
+    "file": "pages-spa/client/profile/CompareList"
+  },
+  {
+    "path": "/reviews",
+    "element": "Reviews",
+    "file": "pages-spa/client/profile/Reviews"
+  },
+  {
+    "path": "/support-dashboard",
+    "element": "SupportDashboard",
+    "file": "pages-spa/client/support/SupportDashboard"
+  },
+  {
+    "path": "/support",
+    "element": "SupportDashboard",
+    "file": "pages-spa/client/support/SupportDashboard"
+  },
+  {
+    "path": "/agent-teams",
+    "element": "AgentTeams",
+    "file": "pages-spa/client/agents/AgentTeams"
+  },
+  {
+    "path": "/agent-performance",
+    "element": "AgentPerformance",
+    "file": "pages-spa/client/agents/AgentPerformance"
+  },
+  {
+    "path": "/agent-commissions",
+    "element": "Commissions",
+    "file": "pages-spa/client/agents/Commissions"
+  },
+  {
+    "path": "/commissions",
+    "element": "Commissions",
+    "file": "pages-spa/client/agents/Commissions"
+  },
+  {
+    "path": "/tenants",
+    "element": "Tenants",
+    "file": "pages-spa/client/tenants/Tenants"
+  },
+  {
+    "path": "/leases",
+    "element": "Leases",
+    "file": "pages-spa/client/leases/Leases"
+  },
+  {
+    "path": "/tenants/applications",
+    "element": "TenantApplications",
+    "file": "pages-spa/client/tenants/TenantApplications"
+  },
+  {
+    "path": "/tenant-applications",
+    "element": "TenantApplications",
+    "file": "pages-spa/client/tenants/TenantApplications"
+  },
+  {
+    "path": "/rent-schedule",
+    "element": "RentSchedule",
+    "file": "pages-spa/client/tenants/RentSchedule"
+  },
+  {
+    "path": "/rent-arrears",
+    "element": "RentArrears",
+    "file": "pages-spa/client/tenants/RentArrears"
+  },
+  {
+    "path": "/rent-increases",
+    "element": "Increases",
+    "file": "pages-spa/client/tenants/Increases"
+  },
+  {
+    "path": "/increases",
+    "element": "Increases",
+    "file": "pages-spa/client/tenants/Increases"
+  },
+  {
+    "path": "/escrow",
+    "element": "Escrow",
+    "file": "pages-spa/client/financial/Escrow"
+  },
+  {
+    "path": "/integrations",
+    "element": "Integrations",
+    "file": "pages-spa/client/integrations/Integrations"
+  },
+  {
+    "path": "/mls",
+    "element": "MLSConnections",
+    "file": "pages-spa/client/integrations/MLSConnections"
+  },
+  {
+    "path": "/property-disclosures",
+    "element": "PropertyDisclosures",
+    "file": "pages-spa/client/property/PropertyDisclosures"
+  },
+  {
+    "path": "/investor-portfolio",
+    "element": "InvestorPortfolio",
+    "file": "pages-spa/client/investors/Portfolio"
+  },
+  {
+    "path": "/investors/portfolio",
+    "element": "InvestorPortfolio",
+    "file": "pages-spa/client/investors/Portfolio"
+  },
+  {
+    "path": "/loyalty-rewards",
+    "element": "LoyaltyRewards",
+    "file": "pages-spa/client/membership/LoyaltyRewards"
+  },
+  {
+    "path": "/loyalty",
+    "element": "LoyaltyRewards",
+    "file": "pages-spa/client/membership/LoyaltyRewards"
+  },
+  {
+    "path": "/membership-management",
+    "element": "MembershipManagementClient",
+    "file": "pages-spa/client/membership/MembershipManagement"
+  },
+  {
+    "path": "/membership",
+    "element": "MembershipManagementClient",
+    "file": "pages-spa/client/membership/MembershipManagement"
+  },
+  {
+    "path": "/budgets",
+    "element": "Budgets",
+    "file": "pages-spa/client/financial/Budgets"
+  },
+  {
+    "path": "/commission-rules",
+    "element": "CommissionRules",
+    "file": "pages-spa/client/financial/CommissionRules"
+  },
+  {
+    "path": "/discounts",
+    "element": "Discounts",
+    "file": "pages-spa/client/property/Discounts"
+  },
+  {
+    "path": "/deposit-protection",
+    "element": "DepositProtection",
+    "file": "pages-spa/client/legal/DepositProtection"
+  },
+  {
+    "path": "/right-to-rent",
+    "element": "RightToRent",
+    "file": "pages-spa/client/legal/RightToRent"
+  },
+  {
+    "path": "/solicitor-management",
+    "element": "SolicitorManagement",
+    "file": "pages-spa/client/legal/SolicitorManagement"
+  },
+  {
+    "path": "/referrals",
+    "element": "Referrals",
+    "file": "pages-spa/client/contacts/Referrals"
+  },
+  {
+    "path": "/client-relationships",
+    "element": "ClientRelationships",
+    "file": "pages-spa/client/contacts/ClientRelationships"
+  },
+  {
+    "path": "/offers",
+    "element": "Offers",
+    "file": "pages-spa/client/contacts/Offers"
+  },
+  {
+    "path": "/appointments",
+    "element": "Appointments",
+    "file": "pages-spa/client/tasks/Appointments"
+  },
+  {
+    "path": "/tasks-events",
+    "element": "TaskEvents",
+    "file": "pages-spa/client/tasks/Events"
+  },
+  {
+    "path": "/task-events",
+    "element": "TaskEvents",
+    "file": "pages-spa/client/tasks/Events"
+  },
+  {
+    "path": "/tasks/events",
+    "element": "TaskEvents",
+    "file": "pages-spa/client/tasks/Events"
+  },
+  {
+    "path": "/tasks-kanban",
+    "element": "TasksKanban",
+    "file": "pages-spa/client/tasks/TasksKanban"
+  },
+  {
+    "path": "/tasks/kanban",
+    "element": "TasksKanban",
+    "file": "pages-spa/client/tasks/TasksKanban"
+  },
+  {
+    "path": "/messages",
+    "element": "Messages",
+    "file": "pages-spa/client/messages/Messages"
+  },
+  {
+    "path": "/messages/:id",
+    "element": "Messages",
+    "file": "pages-spa/client/messages/Messages"
+  },
+  {
+    "path": "/ai-valuation",
+    "element": "AIValuation",
+    "file": "pages-spa/client/ai/AIValuation"
+  },
+  {
+    "path": "/ai/valuation",
+    "element": "AIValuation",
+    "file": "pages-spa/client/ai/AIValuation"
+  },
+  {
+    "path": "/ai-recommendations",
+    "element": "AIRecommendations",
+    "file": "pages-spa/client/ai/AIRecommendations"
+  },
+  {
+    "path": "/ai/recommendations",
+    "element": "AIRecommendations",
+    "file": "pages-spa/client/ai/AIRecommendations"
+  },
+  {
+    "path": "/ai/maintenance",
+    "element": "Maintenance",
+    "file": "pages-spa/client/listings/Maintenance"
+  },
+  {
+    "path": "/ai/sentiment",
+    "element": "AISentimentAnalysis",
+    "file": "pages-spa/admin/ai/SentimentAnalysis"
+  },
+  {
+    "path": "/ai/lead-scoring",
+    "element": "LeadScoring",
+    "file": "pages-spa/admin/ai/LeadScoring"
+  },
+  {
+    "path": "/automation",
+    "element": "AutomationRules",
+    "file": "pages-spa/admin/ai/AutomationRules"
+  },
+  {
+    "path": "/mls-connections",
+    "element": "MLSConnections",
+    "file": "pages-spa/client/integrations/MLSConnections"
+  },
+  {
+    "path": "/vacation-rental-platforms",
+    "element": "VacationRentalPlatforms",
+    "file": "pages-spa/client/integrations/VacationRentalPlatforms"
+  },
+  {
+    "path": "/webhooks",
+    "element": "Webhooks",
+    "file": "pages-spa/client/integrations/Webhooks"
+  },
+  {
+    "path": "/contacts",
+    "element": "Contacts",
+    "file": "pages-spa/client/contacts/Contacts"
+  },
+  {
+    "path": "/leads",
+    "element": "Leads",
+    "file": "pages-spa/client/crm/Leads"
+  },
+  {
+    "path": "/tasks",
+    "element": "Tasks",
+    "file": "pages-spa/client/tasks/Tasks"
+  },
+  {
+    "path": "/property",
+    "element": "Properties",
+    "file": "pages-spa/client/property/Properties"
+  },
+  {
+    "path": "/properties/new",
+    "element": "PropertyEdit",
+    "file": "pages-spa/client/property/PropertyEdit"
+  },
+  {
+    "path": "/properties/:id/edit",
+    "element": "PropertyEdit",
+    "file": "pages-spa/client/property/PropertyEdit"
+  },
+  {
+    "path": "/property-detail",
+    "element": "PropertyDetail",
+    "file": "pages-spa/client/property/PropertyDetail"
+  },
+  {
+    "path": "/property-search",
+    "element": "PropertySearch",
+    "file": "pages-spa/client/property/PropertySearch"
+  },
+  {
+    "path": "/property-search-map",
+    "element": "PropertySearchMap",
+    "file": "pages-spa/client/property/PropertySearchMap"
+  },
+  {
+    "path": "/search",
+    "element": "PropertySearch",
+    "file": "pages-spa/client/property/PropertySearch"
+  },
+  {
+    "path": "/property-management",
+    "element": "PropertyManagement",
+    "file": "pages-spa/client/property/PropertyManagement"
+  },
+  {
+    "path": "/settings",
+    "element": "SettingsComponent",
+    "file": "pages-spa/admin/settings/Settings"
+  },
+  {
+    "path": "/admin/payments/wise",
+    "element": "WisePayment",
+    "file": "pages-spa/admin/payments/WisePayment"
+  },
+  {
+    "path": "/admin/invoices",
+    "element": "CustomerInvoices",
+    "file": "pages-spa/admin/invoices/CustomerInvoices"
+  },
+  {
+    "path": "/admin/billing",
+    "element": "Billing",
+    "file": "pages-spa/admin/billing/Billing"
+  },
+  {
+    "path": "/billing",
+    "element": "Billing",
+    "file": "pages-spa/admin/billing/Billing"
+  },
+  {
+    "path": "/help",
+    "element": "HelpDesk",
+    "file": "pages-spa/client/support/PayoutHelpdesk"
+  },
+  {
+    "path": "/notifications",
+    "element": "Notifications",
+    "file": "pages-spa/client/notifications/Notifications"
+  },
+  {
+    "path": "/features",
+    "element": "Features",
+    "file": "pages-spa/public/Features"
+  },
+  {
+    "path": "/review/:id",
+    "element": "NeuralReview",
+    "file": "pages-spa/public/NeuralReview"
+  },
+  {
+    "path": "/signatures",
+    "element": "Signatures",
+    "file": "pages-spa/client/legal/Signatures"
+  },
+  {
+    "path": "/projects",
+    "element": "Projects",
+    "file": "pages-spa/client/projects/Projects"
+  },
+  {
+    "path": "/ai/dashboard",
+    "element": "AIStudio",
+    "file": "pages-spa/client/ai/AIStudio"
+  },
+  {
+    "path": "/ai/models",
+    "element": "AIValuation",
+    "file": "pages-spa/client/ai/AIValuation"
+  },
+  {
+    "path": "/marketplace-brain",
+    "element": "Suspense",
+    "file": "pages-spa/client/marketplace/MarketplaceBrain"
+  },
+  {
+    "path": "/guests-crm",
+    "element": "Guests",
+    "file": "pages-spa/client/contacts/Guests"
+  },
+  {
+    "path": "/audit-logs",
+    "element": "AuditLogs",
+    "file": "pages-spa/admin/security/AuditLogs"
+  },
+  {
+    "path": "/property-amenities",
+    "element": "Facilities",
+    "file": "pages-spa/client/property/Facilities"
+  },
+  {
+    "path": "/property-compliance",
+    "element": "Compliance",
+    "file": "pages-spa/client/legal/Compliance"
+  },
+  {
+    "path": "/property-documents",
+    "element": "Suspense",
+    "file": "pages-spa/client/legal/Documents"
+  },
+  {
+    "path": "/property-viewings",
+    "element": "Suspense",
+    "file": "pages-spa/admin/property/PropertyViewings"
+  },
+  {
+    "path": "/property-promotions",
+    "element": "Suspense",
+    "file": "pages-spa/admin/property/PropertyPromotions"
+  },
+  {
+    "path": "/property-valuations",
+    "element": "AIValuation",
+    "file": "pages-spa/client/ai/AIValuation"
+  },
+  {
+    "path": "/property-inventory",
+    "element": "PropertyManagement",
+    "file": "pages-spa/client/property/PropertyManagement"
+  },
+  {
+    "path": "/listing-channels",
+    "element": "Listings",
+    "file": "pages-spa/client/property/Listings"
+  },
+  {
+    "path": "/financial-records",
+    "element": "Suspense",
+    "file": "pages-spa/admin/financial/FinancialReports"
+  },
+  {
+    "path": "/payment-installments",
+    "element": "Payments",
+    "file": "pages-spa/client/financial/Payments"
+  },
+  {
+    "path": "/tax-records",
+    "element": "Suspense",
+    "file": "pages-spa/admin/financial/TaxRecords"
+  },
+  {
+    "path": "/tax-1099-forms",
+    "element": "Tax1099Forms",
+    "file": "pages-spa/client/financial/Tax1099Forms"
+  },
+  {
+    "path": "/invoices",
+    "element": "Suspense",
+    "file": "pages-spa/admin/financial/Invoices"
+  },
+  {
+    "path": "/transactions",
+    "element": "Suspense",
+    "file": "pages-spa/admin/financial/Transactions"
+  },
+  {
+    "path": "/deposits",
+    "element": "Suspense",
+    "file": "pages-spa/client/payments/Deposits"
+  },
+  {
+    "path": "/export-files",
+    "element": "Suspense",
+    "file": "pages-spa/admin/integrations/ExportJobs"
+  },
+  {
+    "path": "/exports",
+    "element": "Suspense",
+    "file": "pages-spa/admin/integrations/Exports"
+  },
+  {
+    "path": "/deposit-protections",
+    "element": "DepositProtection",
+    "file": "pages-spa/client/legal/DepositProtection"
+  },
+  {
+    "path": "/right-to-rent-checks",
+    "element": "RightToRent",
+    "file": "pages-spa/client/legal/RightToRent"
+  },
+  {
+    "path": "/contract-versions",
+    "element": "Contracts",
+    "file": "pages-spa/client/contracts/Contracts"
+  },
+  {
+    "path": "/legal-compliance",
+    "element": "Compliance",
+    "file": "pages-spa/client/legal/Compliance"
+  },
+  {
+    "path": "/document-workflow",
+    "element": "Suspense",
+    "file": "pages-spa/client/legal/DocumentWorkflow"
+  },
+  {
+    "path": "/signing",
+    "element": "Suspense",
+    "file": "pages-spa/client/legal/Signatures"
+  },
+  {
+    "path": "/map-layers",
+    "element": "MapServices",
+    "file": "pages-spa/client/integrations/MapServices"
+  },
+  {
+    "path": "/map-services",
+    "element": "MapServices",
+    "file": "pages-spa/client/integrations/MapServices"
+  },
+  {
+    "path": "/vacation-rentals",
+    "element": "VacationRentalPlatforms",
+    "file": "pages-spa/client/integrations/VacationRentalPlatforms"
+  },
+  {
+    "path": "/rental-sync-jobs",
+    "element": "VacationRentalPlatforms",
+    "file": "pages-spa/client/integrations/VacationRentalPlatforms"
+  },
+  {
+    "path": "/api-integrations",
+    "element": "Integrations",
+    "file": "pages-spa/client/integrations/Integrations"
+  },
+  {
+    "path": "/mortgage-offers",
+    "element": "Mortgages",
+    "file": "pages-spa/client/mortgages/Mortgages"
+  },
+  {
+    "path": "/neighborhoods",
+    "element": "PropertySearch",
+    "file": "pages-spa/client/property/PropertySearch"
+  },
+  {
+    "path": "/user-preferences",
+    "element": "SettingsComponent",
+    "file": "pages-spa/admin/settings/Settings"
+  },
+  {
+    "path": "/included-services",
+    "element": "Facilities",
+    "file": "pages-spa/client/property/Facilities"
+  },
+  {
+    "path": "/task-management",
+    "element": "Suspense",
+    "file": "pages-spa/client/tasks/TaskManagement"
+  },
+  {
+    "path": "/deals-management",
+    "element": "Suspense",
+    "file": "pages-spa/client/deals/DealsManagement"
+  },
+  {
+    "path": "/facility-management",
+    "element": "Suspense",
+    "file": "pages-spa/client/facilities/FacilityManagement"
+  },
+  {
+    "path": "/checkout",
+    "element": "Suspense",
+    "file": "pages-spa/client/bookings/Checkout"
+  },
+  {
+    "path": "/reports",
+    "element": "Suspense",
+    "file": "pages-spa/client/reports/Reports"
+  },
+  {
+    "path": "/agent-os/dashboard",
+    "element": "AgentDashboard",
+    "file": "pages-spa/agent_os/Dashboard"
+  },
+  {
+    "path": "/agent-os/leads",
+    "element": "AgentDashboard",
+    "file": "pages-spa/agent_os/Dashboard"
+  },
+  {
+    "path": "/agent-os/performance",
+    "element": "AgentDashboard",
+    "file": "pages-spa/agent_os/Dashboard"
+  },
+  {
+    "path": "/agent-os/clients",
+    "element": "AgentDashboard",
+    "file": "pages-spa/agent_os/Dashboard"
+  },
+  {
+    "path": "/agent-os",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/finance-os/dashboard",
+    "element": "FinanceDashboard",
+    "file": "pages-spa/finance_os/Dashboard"
+  },
+  {
+    "path": "/finance-os/ledger",
+    "element": "FinanceDashboard",
+    "file": "pages-spa/finance_os/Dashboard"
+  },
+  {
+    "path": "/finance-os/escrow",
+    "element": "FinanceDashboard",
+    "file": "pages-spa/finance_os/Dashboard"
+  },
+  {
+    "path": "/finance-os/revenue",
+    "element": "FinanceDashboard",
+    "file": "pages-spa/finance_os/Dashboard"
+  },
+  {
+    "path": "/finance-os",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/booking-os/dashboard",
+    "element": "BookingOSDashboard",
+    "file": "pages-spa/admin/BookingsManagement"
+  },
+  {
+    "path": "/booking-os/reservations",
+    "element": "BookingOSDashboard",
+    "file": "pages-spa/admin/BookingsManagement"
+  },
+  {
+    "path": "/booking-os/availability",
+    "element": "BookingOSAvailability",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/booking-os/channels",
+    "element": "BookingOSChannels",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/booking-os",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/listing-os/dashboard",
+    "element": "ListingOSDashboard",
+    "file": "pages-spa/admin/index"
+  },
+  {
+    "path": "/listing-os/inventory",
+    "element": "ListingOSDashboard",
+    "file": "pages-spa/admin/index"
+  },
+  {
+    "path": "/listing-os/properties",
+    "element": "ListingOSDashboard",
+    "file": "pages-spa/admin/index"
+  },
+  {
+    "path": "/listing-os/channels",
+    "element": "ListingOSChannels",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/listing-os",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "/admin",
+    "element": "Navigate",
+    "file": "UNKNOWN"
+  },
+  {
+    "path": "dashboard",
+    "element": "AdminDashboard",
+    "file": "pages-spa/admin/core/Dashboard"
+  },
+  {
+    "path": "inventory",
+    "element": "PropertyInventory",
+    "file": "pages-spa/admin/inventory/PropertyInventory"
+  },
+  {
+    "path": "ownership-verification",
+    "element": "OwnershipVerification",
+    "file": "pages-spa/admin/property/OwnershipVerification"
+  },
+  {
+    "path": "channels",
+    "element": "ChannelManagement",
+    "file": "pages-spa/client/channels/ChannelManagement"
+  },
+  {
+    "path": "users",
+    "element": "UserManagement",
+    "file": "pages-spa/admin/users/UserManagement"
+  },
+  {
+    "path": "roles",
+    "element": "RolesPage",
+    "file": "pages-spa/admin/users/Roles"
+  },
+  {
+    "path": "organizations",
+    "element": "Organizations",
+    "file": "pages-spa/admin/users/Organizations"
+  },
+  {
+    "path": "financial-reports",
+    "element": "FinancialReports",
+    "file": "pages-spa/admin/reports/FinancialReports"
+  },
+  {
+    "path": "ai-dashboard",
+    "element": "AIDashboard",
+    "file": "pages-spa/admin/ai/AIDashboard"
+  },
+  {
+    "path": "plans",
+    "element": "Plans",
+    "file": "pages-spa/admin/users/Plans"
+  },
+  {
+    "path": "reports",
+    "element": "AdminReports",
+    "file": "pages-spa/admin/reports/Reports"
+  },
+  {
+    "path": "dynamic/:model",
+    "element": "DynamicAdminPage",
+    "file": "pages-spa/admin/dynamic/DynamicAdminPage"
+  },
+  {
+    "path": "exports",
+    "element": "Exports",
+    "file": "pages-spa/admin/integrations/Exports"
+  },
+  {
+    "path": "projects",
+    "element": "ProjectDashboard",
+    "file": "pages-spa/admin/projects/ProjectDashboard"
+  },
+  {
+    "path": "digital-twin",
+    "element": "DigitalTwinDashboard",
+    "file": "pages-spa/admin/projects/DigitalTwin"
+  },
+  {
+    "path": "bookings",
+    "element": "BookingsManagement",
+    "file": "pages-spa/admin/BookingsManagement"
+  },
+  {
+    "path": "payouts",
+    "element": "AdminPayouts",
+    "file": "pages-spa/admin/financial/Payouts"
+  },
+  {
+    "path": "payments",
+    "element": "AdminPayments",
+    "file": "pages-spa/admin/financial/Payments"
+  },
+  {
+    "path": "expenses",
+    "element": "AdminExpenses",
+    "file": "pages-spa/admin/financial/Expenses"
+  },
+  {
+    "path": "escrow",
+    "element": "EscrowDashboard",
+    "file": "pages-spa/admin/escrow/EscrowDashboard"
+  },
+  {
+    "path": "b2b-integrations",
+    "element": "B2BHotelIntegrations",
+    "file": "pages-spa/admin/integrations/B2BHotelIntegrations"
+  },
+  {
+    "path": "documents",
+    "element": "DocumentManagement",
+    "file": "pages-spa/admin/documents/DocumentManagement"
+  },
+  {
+    "path": "locations",
+    "element": "LocationServices",
+    "file": "pages-spa/admin/location/LocationServices"
+  },
+  {
+    "path": "location",
+    "element": "LocationServices",
+    "file": "pages-spa/admin/location/LocationServices"
+  },
+  {
+    "path": "settings",
+    "element": "SystemSettings",
+    "file": "pages-spa/admin/system/SystemSettings"
+  },
+  {
+    "path": "analytics",
+    "element": "AdminAnalytics",
+    "file": "pages-spa/admin/analytics/AnalyticsDashboard"
+  },
+  {
+    "path": "custom-reports",
+    "element": "CustomReports",
+    "file": "pages-spa/admin/reports/CustomReports"
+  },
+  {
+    "path": "lead-scoring",
+    "element": "LeadScoring",
+    "file": "pages-spa/admin/ai/LeadScoring"
+  },
+  {
+    "path": "ai-models",
+    "element": "AIModels",
+    "file": "pages-spa/admin/ai/AIModels"
+  },
+  {
+    "path": "scraping",
+    "element": "ScrapingDashboard",
+    "file": "pages-spa/admin/scraping/ScrapingDashboard"
+  },
+  {
+    "path": "marketing",
+    "element": "MarketingAutomation",
+    "file": "pages-spa/admin/marketing/MarketingAutomation"
+  },
+  {
+    "path": "compliance",
+    "element": "ComplianceDashboard",
+    "file": "pages-spa/admin/compliance/ComplianceDashboard"
+  },
+  {
+    "path": "right-to-rent",
+    "element": "ComplianceDashboard",
+    "file": "pages-spa/admin/compliance/ComplianceDashboard"
+  },
+  {
+    "path": "immigration",
+    "element": "ComplianceDashboard",
+    "file": "pages-spa/admin/compliance/ComplianceDashboard"
+  },
+  {
+    "path": "solicitors",
+    "element": "SolicitorManagement",
+    "file": "pages-spa/client/legal/SolicitorManagement"
+  },
+  {
+    "path": "inventory/facilities",
+    "element": "PropertyInventory",
+    "file": "pages-spa/admin/inventory/PropertyInventory"
+  },
+  {
+    "path": "investors",
+    "element": "InvestorPortfolio",
+    "file": "pages-spa/client/investors/Portfolio"
+  },
+  {
+    "path": "leads",
+    "element": "Leads",
+    "file": "pages-spa/client/crm/Leads"
+  },
+  {
+    "path": "maintenance",
+    "element": "MaintenanceManagement",
+    "file": "pages-spa/admin/maintenance/MaintenanceManagement"
+  },
+  {
+    "path": "communication-logs",
+    "element": "CommunicationLogs",
+    "file": "pages-spa/client/communication/CommunicationLogs"
+  },
+  {
+    "path": "ai-sentiment",
+    "element": "AISentiment",
+    "file": "pages-spa/admin/ai/SentimentAnalysis"
+  },
+  {
+    "path": "ai-fraud",
+    "element": "AIFraud",
+    "file": "pages-spa/admin/ai/FraudDetection"
+  },
+  {
+    "path": "ai-predictive",
+    "element": "AIPredictive",
+    "file": "pages-spa/admin/ai/PredictiveMaintenance"
+  },
+  {
+    "path": "ai-predictive-analytics",
+    "element": "AIPredictiveAnalytics",
+    "file": "pages-spa/admin/ai/PredictiveAnalytics"
+  },
+  {
+    "path": "ai-automation-rules",
+    "element": "AIAutomationRules",
+    "file": "pages-spa/admin/ai/AutomationRules"
+  },
+  {
+    "path": "ai-chat",
+    "element": "AIChatManagement",
+    "file": "pages-spa/admin/ai/AIChatManagement"
+  },
+  {
+    "path": "ai-config",
+    "element": "AIConfiguration",
+    "file": "pages-spa/admin/ai/AIConfiguration"
+  },
+  {
+    "path": "ai-configuration",
+    "element": "AIConfiguration",
+    "file": "pages-spa/admin/ai/AIConfiguration"
+  },
+  {
+    "path": "ai-custom-models",
+    "element": "AICustomModels",
+    "file": "pages-spa/admin/ai/Models"
+  },
+  {
+    "path": "audit-logs",
+    "element": "AuditLogs",
+    "file": "pages-spa/admin/security/AuditLogs"
+  },
+  {
+    "path": "security-events",
+    "element": "SecurityEvents",
+    "file": "pages-spa/admin/security/SecurityEvents"
+  },
+  {
+    "path": "security",
+    "element": "SecurityOverview",
+    "file": "pages-spa/admin/security/SecurityOverview"
+  },
+  {
+    "path": "advanced-security",
+    "element": "AdvancedSecurity",
+    "file": "pages-spa/admin/security/AdvancedSecurity"
+  },
+  {
+    "path": "security-overview",
+    "element": "SecurityOverview",
+    "file": "pages-spa/admin/security/SecurityOverview"
+  },
+  {
+    "path": "security-screening",
+    "element": "SecurityScreening",
+    "file": "pages-spa/admin/security/SecurityScreening"
+  },
+  {
+    "path": "api-tokens",
+    "element": "ApiTokens",
+    "file": "pages-spa/admin/security/ApiTokens"
+  },
+  {
+    "path": "sessions",
+    "element": "Sessions",
+    "file": "pages-spa/admin/security/Sessions"
+  },
+  {
+    "path": "system-metrics",
+    "element": "SystemMetrics",
+    "file": "pages-spa/admin/system/SystemMetrics"
+  },
+  {
+    "path": "metrics",
+    "element": "SystemMetrics",
+    "file": "pages-spa/admin/system/SystemMetrics"
+  },
+  {
+    "path": "attachments",
+    "element": "Attachments",
+    "file": "pages-spa/admin/system/Attachments"
+  },
+  {
+    "path": "automation-rules",
+    "element": "AutomationRules",
+    "file": "pages-spa/admin/ai/AutomationRules"
+  },
+  {
+    "path": "sentiment-analysis",
+    "element": "AISentimentAnalysis",
+    "file": "pages-spa/admin/ai/SentimentAnalysis"
+  },
+  {
+    "path": "export-jobs",
+    "element": "ExportJobs",
+    "file": "pages-spa/admin/integrations/ExportJobs"
+  },
+  {
+    "path": "mls-integration",
+    "element": "MLSIntegration",
+    "file": "pages-spa/admin/integrations/MLSIntegration"
+  },
+  {
+    "path": "mls",
+    "element": "MLSIntegration",
+    "file": "pages-spa/admin/integrations/MLSIntegration"
+  },
+  {
+    "path": "commission-distribution",
+    "element": "CommissionDistribution",
+    "file": "pages-spa/admin/sales/CommissionDistribution"
+  },
+  {
+    "path": "tax-settings",
+    "element": "GlobalTaxSettings",
+    "file": "pages-spa/admin/financial/GlobalTaxSettings"
+  },
+  {
+    "path": "agencies",
+    "element": "AgenciesManagement",
+    "file": "pages-spa/admin/agencies/AgenciesManagement"
+  },
+  {
+    "path": "agencies/contracts",
+    "element": "PartnerAgreements",
+    "file": "pages-spa/admin/agencies/PartnerAgreements"
+  },
+  {
+    "path": "agents",
+    "element": "AgentsManagement",
+    "file": "pages-spa/admin/agents/AgentsManagement"
+  },
+  {
+    "path": "vendors",
+    "element": "VendorsManagement",
+    "file": "pages-spa/admin/vendors/VendorsManagement"
+  },
+  {
+    "path": "contacts",
+    "element": "ContactsManagement",
+    "file": "pages-spa/admin/contacts/ContactsManagement"
+  },
+  {
+    "path": "tasks",
+    "element": "TasksManagement",
+    "file": "pages-spa/admin/tasks/TasksManagement"
+  },
+  {
+    "path": "facilities",
+    "element": "FacilitiesManagement",
+    "file": "pages-spa/admin/facilities/FacilitiesManagement"
+  },
+  {
+    "path": "tenants",
+    "element": "Tenants",
+    "file": "pages-spa/client/tenants/Tenants"
+  },
+  {
+    "path": "leases",
+    "element": "Leases",
+    "file": "pages-spa/client/leases/Leases"
+  },
+  {
+    "path": "guests",
+    "element": "Guests",
+    "file": "pages-spa/client/contacts/Guests"
+  },
+  {
+    "path": "bookings-management",
+    "element": "BookingsManagement",
+    "file": "pages-spa/admin/BookingsManagement"
+  },
+  {
+    "path": "cloud/manager",
+    "element": "GoogleCloudManager",
+    "file": "pages-spa/admin/cloud/GoogleCloudManager"
+  },
+  {
+    "path": "company",
+    "element": "CompanyManagement",
+    "file": "pages-spa/admin/company/CompanyManagement"
+  },
+  {
+    "path": "membership",
+    "element": "MembershipManagement",
+    "file": "pages-spa/admin/membership/MembershipManagement"
+  },
+  {
+    "path": "service-analytics",
+    "element": "AIServiceAnalytics",
+    "file": "pages-spa/admin/analytics/AIServiceAnalytics"
+  },
+  {
+    "path": "valuations",
+    "element": "AIValuation",
+    "file": "pages-spa/client/ai/AIValuation"
+  },
+  {
+    "path": "lead-conversions",
+    "element": "LeadScoring",
+    "file": "pages-spa/admin/ai/LeadScoring"
+  },
+  {
+    "path": "market-insights",
+    "element": "AdminAnalytics",
+    "file": "pages-spa/admin/analytics/AnalyticsDashboard"
+  },
+  {
+    "path": "video-vendors",
+    "element": "ScrapingDashboard",
+    "file": "pages-spa/admin/scraping/ScrapingDashboard"
+  },
+  {
+    "path": "video-partnerships",
+    "element": "MarketingAutomation",
+    "file": "pages-spa/admin/marketing/MarketingAutomation"
+  },
+  {
+    "path": "agent-videos",
+    "element": "AIModels",
+    "file": "pages-spa/admin/ai/AIModels"
+  },
+  {
+    "path": "property-viewings",
+    "element": "Suspense",
+    "file": "pages-spa/admin/property/PropertyViewings"
+  },
+  {
+    "path": "property-promotions",
+    "element": "Suspense",
+    "file": "pages-spa/admin/property/PropertyPromotions"
+  },
+  {
+    "path": "vacation-rentals",
+    "element": "Suspense",
+    "file": "pages-spa/admin/property/VacationRentals"
+  },
+  {
+    "path": "property-analytics",
+    "element": "Suspense",
+    "file": "pages-spa/admin/property/PropertyAnalytics"
+  },
+  {
+    "path": "property-media",
+    "element": "Suspense",
+    "file": "pages-spa/client/media/MediaManagement"
+  },
+  {
+    "path": "property-inventory",
+    "element": "PropertyInventory",
+    "file": "pages-spa/admin/inventory/PropertyInventory"
+  },
+  {
+    "path": "permissions",
+    "element": "Suspense",
+    "file": "pages-spa/admin/organization/Permissions"
+  },
+  {
+    "path": "departments",
+    "element": "Suspense",
+    "file": "pages-spa/admin/organization/Departments"
+  },
+  {
+    "path": "teams",
+    "element": "Suspense",
+    "file": "pages-spa/admin/organization/Teams"
+  },
+  {
+    "path": "subscription-management",
+    "element": "Suspense",
+    "file": "pages-spa/admin/organization/SubscriptionManagement"
+  },
+  {
+    "path": "system-management",
+    "element": "Suspense",
+    "file": "pages-spa/admin/system/SystemManagement"
+  },
+  {
+    "path": "communication-templates",
+    "element": "Suspense",
+    "file": "pages-spa/admin/communication/CommunicationTemplates"
+  },
+  {
+    "path": "ml-configuration",
+    "element": "Suspense",
+    "file": "pages-spa/admin/ai/MLConfiguration"
+  },
+  {
+    "path": "ml-tasks",
+    "element": "Suspense",
+    "file": "pages-spa/admin/ai/MLTasks"
+  },
+  {
+    "path": "mobile-devices",
+    "element": "Suspense",
+    "file": "pages-spa/admin/mobile/MobileDeviceManagement"
+  },
+  {
+    "path": "location-services",
+    "element": "LocationServices",
+    "file": "pages-spa/admin/location/LocationServices"
+  },
+  {
+    "path": "audit",
+    "element": "AuditLogs",
+    "file": "pages-spa/admin/security/AuditLogs"
+  },
+  {
+    "path": "old-settings",
+    "element": "SettingsComponent",
+    "file": "pages-spa/admin/settings/Settings"
+  },
+  {
+    "path": "old-billing",
+    "element": "Billing",
+    "file": "pages-spa/admin/billing/Billing"
+  },
+  {
+    "path": "old-analytics",
+    "element": "Analytics",
+    "file": "pages-spa/admin/analytics/Analytics"
+  },
+  {
+    "path": "/host/new-listing",
+    "element": "React",
+    "file": "pages-spa/host/AddPropertyWizard"
+  }
+]

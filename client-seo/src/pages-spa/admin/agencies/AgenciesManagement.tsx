@@ -1,3 +1,5 @@
+"use client";
+
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React from 'react';
@@ -6,12 +8,13 @@ import { useTranslation } from "react-i18next";
 import { Building2, Plus, Users, Globe, Settings, Edit, Trash2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '@/lib/api';
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from 'react';
+import { apiClient } from "@/lib/api";
 
 const AgenciesManagement = () => {
   const { t } = useTranslation();
@@ -24,7 +27,7 @@ const AgenciesManagement = () => {
 
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      return api.put(`/agency/${editingId}`, data);
+      return apiClient.put(`/agency/${editingId}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-agencies'] });
@@ -51,14 +54,14 @@ const AgenciesManagement = () => {
   const { data: agenciesRes, isLoading } = useQuery({
     queryKey: ['admin-agencies'],
     queryFn: async () => {
-      const res: any = await api.get('/agency');
+      const res: any = await apiClient.get('/agency');
       return res.data;
     }
   });
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      return api.post('/agency', { 
+      return apiClient.post('/agency', { 
         ...data, 
         organizationId: 'org_1'
       });
@@ -72,7 +75,7 @@ const AgenciesManagement = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      return api.delete(`/agency/${id}`);
+      return apiClient.delete(`/agency/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-agencies'] });
@@ -90,7 +93,7 @@ const AgenciesManagement = () => {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
             {t("admin.agencies.title", "Agencies Management")}
           </h1>
           <p className="text-slate-400 mt-2">
@@ -104,7 +107,7 @@ const AgenciesManagement = () => {
           </Button>
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.agencies.add", "Add Agency")}
               </Button>
@@ -170,7 +173,7 @@ const AgenciesManagement = () => {
 
                 <div className="pt-4 flex justify-end gap-2">
                   <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={createMutation.isPending}>
+                  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
                     {createMutation.isPending ? "Saving..." : "Create Agency"}
                   </Button>
                 </div>
@@ -210,7 +213,7 @@ const AgenciesManagement = () => {
                 </div>
                 <div className="pt-4 flex justify-end gap-2">
                   <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={updateMutation.isPending}>
+                  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={updateMutation.isPending}>
                     {updateMutation.isPending ? "Saving..." : "Update Agency"}
                   </Button>
                 </div>
@@ -225,7 +228,7 @@ const AgenciesManagement = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Total Agencies</CardTitle>
-            <Building2 className="w-4 h-4 text-blue-400" />
+            <Building2 className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">124</div>
@@ -236,7 +239,7 @@ const AgenciesManagement = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Active Agents</CardTitle>
-            <Users className="w-4 h-4 text-purple-400" />
+            <Users className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">8,432</div>
@@ -270,7 +273,7 @@ const AgenciesManagement = () => {
               No agencies found.
             </div>
           ) : (
-            <div className="rounded-md border border-white/10">
+            <div className="rounded-xl border border-white/10">
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10 hover:bg-transparent">

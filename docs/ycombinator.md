@@ -3,7 +3,7 @@ Türkiye pazarını pas geçip doğrudan ABD ve Dubai odaklı başlamak, özelli
 Bu stratejiyi hayata geçirirken odaklanman gereken kritik dinamikler, avantajlar ve riskler şu şekildedir:
 
 🚀 Avantajlar: Neden Doğrudan Global?
-Birim Başına Yüksek Gelir (ARPU): ABD ve Dubai’deki kullanıcıların (ister B2B ister B2C olsun) "rezervasyon/hizmet" başına ödeme yapma alışkanlığı ve bütçesi Türkiye pazarına kıyasla çok daha yüksek.
+Birim Başına Yüksek Gelir (ARPU): ABD ve Dubai’deki kullanıcıların (ister B2B ister B2C olsun) "rezervasyon/hizmet" başına ödeme yapma alışkanlığı ve bütçesi Türkiye pazarına kıyasla çok daha yüksek.x
 
 Y Combinator Perspektifi: YC, lokal pazarlarda sıkışmış projeler yerine en başından itibaren küresel (özellikle ABD) pazarı hedefleyen, ölçeklenebilir yazılımları ve kurucuları tercih eder. Türkiye’de vakit kaybetmemek, "günün birinci gününden itibaren küresel olma" vizyonunu kanıtlar.
 

@@ -62,7 +62,7 @@
     "start:escrow": "bun run src/pages/escrow/index.ts",
     "dev:ai": "bun run --watch src/pages/ai/index.ts",
     "start:ai": "bun run src/pages/ai/index.ts",
-    "dev": "bun run --watch src/index.ts --port 3000",
+    "dev": "nodemon --watch src -e ts --exec bun run src/index.ts --port 3000",
     "dev:users": "bun run --watch src/pages/users/index.ts",
     "start:users": "bun run src/pages/users/index.ts",
     "dev:agents": "bun run --watch src/pages/agents/index.ts",
@@ -90,7 +90,7 @@
     "dev:locations": "bun run --watch src/pages/locations/index.ts",
     "start:locations": "bun run src/pages/locations/index.ts",
     "start": "bun run src/index.ts",
-    "dev:server": "bun run --watch src/index.ts",
+    "dev:server": "nodemon --watch src -e ts --exec bun run src/index.ts",
     "typecheck": "NODE_OPTIONS=--max_old_space_size=8192 npx tsc --noEmit",
     "clean": "rm -rf node_modules .bun"
   },
@@ -153,6 +153,7 @@
     "@types/otp-generator": "^4.0.2",
     "@types/qrcode": "^1.5.6",
     "csv-parse": "^6.2.1",
+    "nodemon": "^3.1.14",
     "prisma": "6.19.2",
     "ts-morph": "^28.0.0",
     "typescript": "^5.6.0"

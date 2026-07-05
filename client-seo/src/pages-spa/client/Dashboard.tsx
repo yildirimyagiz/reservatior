@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Building, Users, DollarSign, ArrowUpRight, ArrowDownRight, ShieldCheck, Brain, Sparkles, CheckCircle2, AlertCircle, Activity, Zap, Globe, Target, CreditCard, Crown, Star, TrendingUp, LayoutDashboard } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -18,7 +20,7 @@ import { useTranslation } from "react-i18next";
 import { apiClient } from "@/lib/api/client";
 import { subscriptionsApi } from "@/lib/api/subscriptions";
 import { propertiesApi } from "@/lib/api/properties";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 const stats = (t: any) => [{
   label: t("dashboardRevenue"),
   value: "$45,231",

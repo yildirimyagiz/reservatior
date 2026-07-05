@@ -1,3 +1,7 @@
+"use client";
+import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -13,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Users, UserPlus, MoreHorizontal, Activity, Search, Eye, Edit, Trash2, Shield, Mail, Phone, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import Image from "next/image";
 interface User {
   id: string;
@@ -49,13 +53,13 @@ export default function UserManagement() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
 
   const updateMutation = useMutation({
-    mutationFn: async (data: any) => apiClient.put(`/api/v1/admin/usermanagement/${data.id}`, data),
+    mutationFn: async (data: any) => apiClient.put(`/admin/usermanagement/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/admin/usermanagement/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/admin/usermanagement/${id}`),
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
@@ -200,13 +204,13 @@ export default function UserManagement() {
       case 'ACTIVE':
         return 'bg-green-500';
       case 'INACTIVE':
-        return 'bg-gray-500';
+        return 'bg-white/10';
       case 'SUSPENDED':
         return 'bg-red-500';
       case 'PENDING':
         return 'bg-yellow-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
   const getRoleColor = (role: string) => {
@@ -214,15 +218,15 @@ export default function UserManagement() {
       case 'SUPER_ADMIN':
         return 'bg-red-500';
       case 'ORG_ADMIN':
-        return 'bg-purple-500';
+        return 'bg-slate-500';
       case 'AGENT':
-        return 'bg-blue-500';
+        return 'bg-slate-500';
       case 'STAFF':
         return 'bg-green-500';
       case 'CLIENT':
         return 'bg-orange-500';
       default:
-        return 'bg-gray-500';
+        return 'bg-white/10';
     }
   };
   const filteredUsers = users.filter(user => {
@@ -272,7 +276,7 @@ export default function UserManagement() {
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{verifiedUsers}</div>
+              <div className="text-2xl font-bold text-slate-600">{verifiedUsers}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.email_verified")}</p>
             </CardContent>
           </Card>
@@ -283,7 +287,7 @@ export default function UserManagement() {
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{twoFactorUsers}</div>
+              <div className="text-2xl font-bold text-slate-600">{twoFactorUsers}</div>
               <p className="text-xs text-muted-foreground">{t("admin.organization.twofactor_auth")}</p>
             </CardContent>
           </Card>
@@ -503,7 +507,7 @@ export default function UserManagement() {
                 {filteredUsers.map(user => <TableRow key={user.id}>
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-3">
-                        <div className="relative w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                        <div className="relative w-8 h-8 bg-white/5 rounded-full flex items-center justify-center">
                           {user.avatar ? <Image src={user.avatar} alt={t("admin.organization.avatar")} width={32} height={32} className="rounded-full" /> : <span className="text-sm font-medium">
                               {user.firstName[0]}{user.lastName[0]}
                             </span>}
@@ -547,7 +551,7 @@ export default function UserManagement() {
                     <TableCell>
                       <div className="flex gap-1">
                         {user.emailVerified && <CheckCircle className="h-4 w-4 text-green-500" />}
-                        {user.twoFactorEnabled && <Shield className="h-4 w-4 text-blue-500" />}
+                        {user.twoFactorEnabled && <Shield className="h-4 w-4 text-slate-500" />}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -616,7 +620,7 @@ export default function UserManagement() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-gray-500" />{t("admin.organization.inactive")}</span>
+                    <div className="w-2 h-2 rounded-full bg-white/10" />{t("admin.organization.inactive")}</span>
                   <span className="font-medium">
                     {users.filter(user => user.status === 'INACTIVE').length}
                   </span>
@@ -654,7 +658,7 @@ export default function UserManagement() {
                     {totalUsers > 0 ? (verifiedUsers / totalUsers * 100).toFixed(1) : 0}{t("admin.organization.of_users")}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-2xl font-bold text-slate-600">
                     {twoFactorUsers}
                   </div>
                   <p className="text-sm text-muted-foreground">{t("admin.organization.2fa_enabled")}</p>

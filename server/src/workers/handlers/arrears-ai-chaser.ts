@@ -30,6 +30,16 @@ export async function handleArrearsChaser(data: any) {
     const tenantName = schedule?.lease?.tenant?.firstName || "Tenant";
     const amountDue = schedule?.amount ? Number(schedule.amount) : 1500;
 
+    // Check if organization exists before creating aiServiceTask
+    const org = await prisma.organization.findUnique({
+      where: { id: orgId }
+    });
+
+    if (!org) {
+      console.warn(`Organization ${orgId} not found, skipping aiServiceTask creation`);
+      return;
+    }
+
     const aiTask = await prisma.aiServiceTask.create({
       data: {
         organization: { connect: { id: orgId } },

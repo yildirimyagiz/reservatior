@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -6,11 +8,11 @@ import { financialsApi, type Discount } from "@/lib/api/financials";
 import { propertiesApi, type Property } from "@/lib/api/properties";
 import { Tag, Plus, RefreshCw, Loader2, Check, X, Percent as PercentIcon, DollarSign, Search, ArrowLeft, Building2, Ticket, Activity, Edit } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
-export default function Discounts() {
+export default function Discounts({ propertyId }: { propertyId?: string }) {
   const {
     t
   } = useTranslation();
@@ -23,7 +25,7 @@ export default function Discounts() {
     try {
       setLoading(true);
       const [discRes, propRes] = await Promise.all([financialsApi.getDiscounts(), propertiesApi.getAll()]);
-      setDiscounts(discRes || [{
+      let list = discRes || [{
         id: "d1",
         propertyId: "prop1",
         name: "Early Bird",
@@ -46,7 +48,11 @@ export default function Discounts() {
         value: 10,
         type: "PERCENTAGE",
         isActive: false
-      }]);
+      }];
+      if (propertyId) {
+        list = list.filter((item: any) => item.propertyId === propertyId);
+      }
+      setDiscounts(list);
       setProperties(propRes || []);
     } catch (error) {
       console.error("API error, using mock data");

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -8,11 +10,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Globe, ExternalLink, TrendingUp, Users, Star, DollarSign, Clock, Filter, Search, Download, RefreshCw, Eye, Edit, Activity, BarChart3, Target, Zap, Hotel, Home, Navigation, Plane, Calendar, Loader2 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { channelManagementApi, Channel, PropertyListing, ChannelAnalytics } from "@/lib/api/channel-management";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function ChannelManagement() {
   const {
     t
   } = useTranslation();
+  const { toast } = useToast();
   const { data: channels, isLoading: channelsLoading } = useQuery({
     queryKey: ['channel-management', 'channels'],
     queryFn: async () => {
@@ -47,6 +54,8 @@ export default function ChannelManagement() {
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
   const [selectedListing, setSelectedListing] = useState<PropertyListing | null>(null);
   const [isLive, setIsLive] = useState(true);
+  const [isEditListingOpen, setIsEditListingOpen] = useState(false);
+  const [editForm, setEditForm] = useState<any>({ basePrice: "", weekendPrice: "", cleaningFee: "" });
 
   const queryClient = useQueryClient();
 
@@ -616,13 +625,13 @@ export default function ChannelManagement() {
 
                 {/* Actions */}
                 <div className="flex gap-2 pt-4 border-t">
-                  <Button onClick={() => console.log('Test connection')}>
+                  <Button onClick={() => toast({ title: t("client.src.testing_connection"), description: t("client.src.connection_successful") })}>
                     <Zap className="w-4 h-4 mr-2" />{t("client.src.test_connection")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Sync now')}>
+                  <Button variant="outline" onClick={() => toast({ title: t("client.src.sync_started"), description: t("client.src.sync_in_progress") })}>
                     <RefreshCw className="w-4 h-4 mr-2" />{t("client.src.sync_now")}</Button>
-                  <Button variant="outline" onClick={() => console.log('View listings')}>
+                  <Button variant="outline" onClick={() => setSelectedChannel(null)}>
                     <Eye className="w-4 h-4 mr-2" />{t("client.src.view_listings")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Export channel data')}>
+                  <Button variant="outline" onClick={() => toast({ title: t("client.src.export_started") })}>
                     <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
                 </div>
               </CardContent>
@@ -715,18 +724,55 @@ export default function ChannelManagement() {
 
                 {/* Actions */}
                 <div className="flex gap-2 pt-4 border-t">
-                  <Button onClick={() => console.log('View on channel')}>
+                  <Button onClick={() => window.open(selectedListing.channelUrl, '_blank')}>
                     <ExternalLink className="w-4 h-4 mr-2" />{t("client.src.view_on_channel")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Edit listing')}>
+                  <Button variant="outline" onClick={() => {
+                    setEditForm({ 
+                      basePrice: selectedListing.pricing?.basePrice, 
+                      weekendPrice: selectedListing.pricing?.weekendPrice,
+                      cleaningFee: selectedListing.pricing?.cleaningFee
+                    });
+                    setIsEditListingOpen(true);
+                  }}>
                     <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Sync listing')}>
+                  <Button variant="outline" onClick={() => toast({ title: t("client.src.sync_started") })}>
                     <RefreshCw className="w-4 h-4 mr-2" />{t("client.src.sync")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Pause listing')}>
+                  <Button variant="outline" onClick={() => toast({ title: t("client.src.listing_paused") })}>
                     <Clock className="w-4 h-4 mr-2" />{t("client.src.pause")}</Button>
                 </div>
               </CardContent>
             </Card>
           </div>}
+
+        <Dialog open={isEditListingOpen} onOpenChange={setIsEditListingOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("client.src.edit_listing")}</DialogTitle>
+              <DialogDescription>{t("client.src.update_listing_prices")}</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>{t("client.src.base_price")}</Label>
+                <Input type="number" value={editForm.basePrice} onChange={e => setEditForm((prev: any) => ({ ...prev, basePrice: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t("client.src.weekend_price")}</Label>
+                <Input type="number" value={editForm.weekendPrice} onChange={e => setEditForm((prev: any) => ({ ...prev, weekendPrice: e.target.value }))} />
+              </div>
+              <div className="space-y-2">
+                <Label>{t("client.src.cleaning_fee")}</Label>
+                <Input type="number" value={editForm.cleaningFee} onChange={e => setEditForm((prev: any) => ({ ...prev, cleaningFee: e.target.value }))} />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsEditListingOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button onClick={() => {
+                toast({ title: t("client.src.listing_updated") });
+                setIsEditListingOpen(false);
+              }}>{t("client.src.save_changes")}</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>;
 }

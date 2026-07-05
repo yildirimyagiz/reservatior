@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,16 +11,16 @@ import { reservationsApi } from "@/lib/api/reservations";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogTitle, DialogHeader } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-export default function ReservationTracking() {
+export default function ReservationTracking({ propertyId }: { propertyId?: string }) {
   const {
     t
   } = useTranslation();
   const navigate = useNavigate();
-  const [filter, setFilter] = useState<any>({});
+  const [filter, setFilter] = useState<any>({ propertyId });
   const [selectedReservation, setSelectedReservation] = useState<any | null>(null);
   const [viewMode, setViewMode] = useState<'list' | 'grid' | 'kanban'>('list');
   const [isLive, setIsLive] = useState(true);
@@ -30,9 +32,9 @@ export default function ReservationTracking() {
     data: any[];
     total: number;
   }>({
-    queryKey: ["reservations", filter],
+    queryKey: ["reservations", { ...filter, propertyId }],
     queryFn: async () => {
-      const response = await reservationsApi.getAll(filter);
+      const response = await reservationsApi.getAll({ ...filter, propertyId });
       return response as any;
     }
   });

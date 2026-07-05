@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -103,17 +105,17 @@ export default function EscrowDashboard() {
   );
 
   const statusConfig: Record<string, { label: string; class: string; icon: any }> = {
-    HOLDING: { label: t("admin.escrow.holding", "HOLDING"), class: "bg-blue-500/20 text-blue-400", icon: Lock },
+    HOLDING: { label: t("admin.escrow.holding", "HOLDING"), class: "bg-slate-500/20 text-slate-400", icon: Lock },
     RELEASED: { label: t("admin.escrow.released", "RELEASED"), class: "bg-emerald-500/20 text-emerald-400", icon: Unlock },
     DISPUTED: { label: t("admin.escrow.disputed", "DISPUTED"), class: "bg-amber-500/20 text-amber-400", icon: ShieldCheck },
     REFUNDED: { label: t("admin.escrow.refunded", "REFUNDED"), class: "bg-slate-500/20 text-slate-400", icon: ArrowRightLeft },
   };
 
   return (
-    <div className="p-6 space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
       <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+          <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
             <ShieldCheck className="w-8 h-8 text-white" />
           </div>
           <div>
@@ -127,7 +129,7 @@ export default function EscrowDashboard() {
         </div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
+            <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
               <Plus className="w-4 h-4 mr-2" />
               {t("admin.escrow.add", "New Escrow")}
             </Button>
@@ -158,7 +160,7 @@ export default function EscrowDashboard() {
               </div>
               <DialogFooter>
                 <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-slate-300">{t("common.cancel", "Cancel")}</Button>
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={createMutation.isPending}>
+                <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
                   {createMutation.isPending ? t("common.saving", "Saving...") : t("admin.escrow.create", "Create")}
                 </Button>
               </DialogFooter>
@@ -175,7 +177,7 @@ export default function EscrowDashboard() {
                 <p className="text-xs font-medium text-slate-400">{t("admin.escrow.locked_amount", "Locked Amount")}</p>
                 <h3 className="text-2xl font-bold text-white mt-1">${stats.locked.toLocaleString()}</h3>
               </div>
-              <div className="p-3 bg-blue-500/20 rounded-lg"><Lock className="w-5 h-5 text-blue-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><Lock className="w-5 h-5 text-slate-400" /></div>
             </div>
             <p className="text-xs text-slate-500 mt-2">{stats.locked > 0 ? t("admin.escrow.awaiting_release", "Awaiting release") : t("admin.escrow.none_locked", "No locked funds")}</p>
           </CardContent>
@@ -211,7 +213,7 @@ export default function EscrowDashboard() {
                 <p className="text-xs font-medium text-slate-400">{t("admin.escrow.total", "Total Escrows")}</p>
                 <h3 className="text-2xl font-bold text-white mt-1">{stats.total}</h3>
               </div>
-              <div className="p-3 bg-indigo-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-indigo-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-slate-400" /></div>
             </div>
             <p className="text-xs text-slate-500 mt-2">{t("admin.escrow.all_accounts", "All escrow accounts")}</p>
           </CardContent>

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -15,7 +17,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { locationsApi } from "@/lib/api/locations";
-import { Map, MapPin, Navigation, Globe, Layers, Plus, Edit, Eye, Download, RefreshCw, CheckCircle, XCircle, Route, Building, MoreHorizontal, Save, Loader2 } from "lucide-react";
+import { apiClient } from "@/lib/api/client";
+import { Map, MapPin, Navigation, Globe, Layers, Plus, Edit, Eye, Download, RefreshCw, CheckCircle, XCircle, Route, Building, MoreHorizontal, Save, Loader2, MapIcon } from "lucide-react";
 interface LocationService {
   id: string;
   name: string;
@@ -137,7 +140,7 @@ const MOCK_LAYERS: MapLayer[] = [{
   name: "Property Boundaries",
   type: "DATA",
   provider: "Internal",
-  url: "/api/v1/maps/property-boundaries/{z}/{x}/{y}",
+  url: "/maps/property-boundaries/{z}/{x}/{y}",
   zIndex: 10,
   isVisible: true,
   opacity: 0.7,
@@ -150,7 +153,7 @@ const MOCK_LAYERS: MapLayer[] = [{
   name: "School Districts",
   type: "OVERLAY",
   provider: "External",
-  url: "/api/v1/maps/school-districts/{z}/{x}/{y}",
+  url: "/maps/school-districts/{z}/{x}/{y}",
   zIndex: 5,
   isVisible: false,
   opacity: 0.5,
@@ -199,7 +202,7 @@ export default function LocationServices() {
   } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -256,15 +259,15 @@ export default function LocationServices() {
   const getProviderIcon = (provider: string) => {
     switch (provider) {
       case "GOOGLE":
-        return <Globe className="w-4 h-4 text-blue-600" />;
+        return <Globe className="w-4 h-4 text-slate-600" />;
       case "OPENSTREETMAP":
         return <Map className="w-4 h-4 text-green-600" />;
       case "YANDEX":
         return <Navigation className="w-4 h-4 text-yellow-600" />;
       case "MAPBOX":
-        return <MapPin className="w-4 h-4 text-purple-600" />;
+        return <MapPin className="w-4 h-4 text-slate-600" />;
       default:
-        return <MapIcon className="w-4 h-4 text-gray-600" />;
+        return <MapIcon className="w-4 h-4 text-slate-400" />;
     }
   };
   const getStatusColor = (status: string) => {
@@ -272,11 +275,11 @@ export default function LocationServices() {
       case "ACTIVE":
         return "bg-green-100 text-green-700";
       case "INACTIVE":
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/5 text-slate-300";
       case "ERROR":
         return "bg-red-100 text-red-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/5 text-slate-300";
     }
   };
   const getTypeIcon = (type: string) => {
@@ -352,9 +355,9 @@ export default function LocationServices() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.location.active_services")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.location.active_services")}</p>
                   <p className="text-2xl font-bold text-green-600">{stats.activeServices}</p>
-                  <p className="text-xs text-gray-500">{t("admin.location.of")}{stats.totalServices}{t("admin.location.total")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.location.of")}{stats.totalServices}{t("admin.location.total")}</p>
                 </div>
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
@@ -364,7 +367,7 @@ export default function LocationServices() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.location.error_services")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.location.error_services")}</p>
                   <p className="text-2xl font-bold text-red-600">{stats.errorServices}</p>
                   <p className="text-xs text-red-500">{t("admin.location.requires_attention")}</p>
                 </div>
@@ -376,11 +379,11 @@ export default function LocationServices() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.location.map_layers")}</p>
-                  <p className="text-2xl font-bold text-blue-600">{stats.activeLayers}</p>
-                  <p className="text-xs text-gray-500">{t("admin.location.of")}{stats.totalLayers}{t("admin.location.visible")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.location.map_layers")}</p>
+                  <p className="text-2xl font-bold text-slate-600">{stats.activeLayers}</p>
+                  <p className="text-xs text-slate-400">{t("admin.location.of")}{stats.totalLayers}{t("admin.location.visible")}</p>
                 </div>
-                <Layers className="w-8 h-8 text-blue-600" />
+                <Layers className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -388,11 +391,11 @@ export default function LocationServices() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.location.active_geofences")}</p>
-                  <p className="text-2xl font-bold text-purple-600">{stats.activeGeofences}</p>
-                  <p className="text-xs text-gray-500">{t("admin.location.of")}{stats.totalGeofences}{t("admin.location.total")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.location.active_geofences")}</p>
+                  <p className="text-2xl font-bold text-slate-600">{stats.activeGeofences}</p>
+                  <p className="text-xs text-slate-400">{t("admin.location.of")}{stats.totalGeofences}{t("admin.location.total")}</p>
                 </div>
-                <MapPin className="w-8 h-8 text-purple-600" />
+                <MapPin className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -423,7 +426,7 @@ export default function LocationServices() {
                           {getProviderIcon(service.provider)}
                           <div>
                             <h4 className="font-medium">{service.name}</h4>
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <div className="flex items-center gap-2 text-sm text-slate-400">
                               {getTypeIcon(service.type)}
                               <span>{service.type}</span>
                               <Badge className={getStatusColor(service.status)}>
@@ -435,21 +438,21 @@ export default function LocationServices() {
                         
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                           <div>
-                            <span className="text-gray-600">{t("admin.location.response_time")}</span>
+                            <span className="text-slate-400">{t("admin.location.response_time")}</span>
                             <div className="font-medium">{service.responseTime}{t("admin.location.ms")}</div>
                           </div>
                           <div>
-                            <span className="text-gray-600">{t("admin.location.error_count")}</span>
+                            <span className="text-slate-400">{t("admin.location.error_count")}</span>
                             <div className="font-medium text-red-600">{service.errorCount}</div>
                           </div>
                           <div>
-                            <span className="text-gray-600">{t("admin.location.api_usage")}</span>
+                            <span className="text-slate-400">{t("admin.location.api_usage")}</span>
                             <div className="font-medium">
                               {service.quota.used.toLocaleString()} / {service.quota.daily.toLocaleString()}
                             </div>
                           </div>
                           <div>
-                            <span className="text-gray-600">{t("admin.location.cost")}</span>
+                            <span className="text-slate-400">{t("admin.location.cost")}</span>
                             <div className="font-medium">
                               ${service.pricing.perRequest}{t("admin.location.per_request")}</div>
                           </div>
@@ -460,7 +463,7 @@ export default function LocationServices() {
                               <span>{t("admin.location.quota_usage")}</span>
                               <span>{getQuotaPercentage(service.quota.used, service.quota.daily)}%</span>
                             </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div className="w-full bg-white/5 rounded-full h-2">
                               <div className={`h-2 rounded-full ${getQuotaPercentage(service.quota.used, service.quota.daily) > 80 ? "bg-red-600" : getQuotaPercentage(service.quota.used, service.quota.daily) > 60 ? "bg-yellow-600" : "bg-green-600"}`} style={{
                           width: `${getQuotaPercentage(service.quota.used, service.quota.daily)}%`
                         }}></div>
@@ -511,10 +514,10 @@ export default function LocationServices() {
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <Layers className="w-5 h-5 text-blue-600" />
+                          <Layers className="w-5 h-5 text-slate-600" />
                           <div>
                             <h4 className="font-medium">{layer.name}</h4>
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <div className="flex items-center gap-2 text-sm text-slate-400">
                               <Badge variant="outline">{layer.type}</Badge>
                               <span>{t("admin.location.provider")}{layer.provider}</span>
                               <span>{t("admin.location.zindex")}{layer.zIndex}</span>
@@ -524,15 +527,15 @@ export default function LocationServices() {
                         
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                           <div>
-                            <span className="text-gray-600">{t("admin.location.opacity")}</span>
+                            <span className="text-slate-400">{t("admin.location.opacity")}</span>
                             <div className="font-medium">{layer.opacity * 100}%</div>
                           </div>
                           <div>
-                            <span className="text-gray-600">{t("admin.location.style")}</span>
+                            <span className="text-slate-400">{t("admin.location.style")}</span>
                             <div className="font-medium">{layer.style}</div>
                           </div>
                           <div>
-                            <span className="text-gray-600">{t("admin.location.updated")}</span>
+                            <span className="text-slate-400">{t("admin.location.updated")}</span>
                             <div className="font-medium">
                               {new Date(layer.updatedAt).toLocaleDateString()}
                             </div>
@@ -540,8 +543,8 @@ export default function LocationServices() {
                         </div>
 
                         <div className="mt-3">
-                          <div className="text-xs text-gray-500 mb-1">{t("admin.location.url_template")}</div>
-                          <div className="text-xs font-mono bg-gray-100 p-2 rounded">
+                          <div className="text-xs text-slate-400 mb-1">{t("admin.location.url_template")}</div>
+                          <div className="text-xs font-mono bg-white/5 p-2 rounded-lg">
                             {layer.url}
                           </div>
                         </div>
@@ -585,10 +588,10 @@ export default function LocationServices() {
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <MapPin className="w-5 h-5 text-purple-600" />
+                        <MapPin className="w-5 h-5 text-slate-600" />
                         <div>
                           <h4 className="font-medium">{geofence.name}</h4>
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <div className="flex items-center gap-2 text-sm text-slate-400">
                             <Badge variant="outline">{geofence.type}</Badge>
                             {geofence.radius && <span>{t("admin.location.radius")}{geofence.radius}m</span>}
                           </div>
@@ -597,19 +600,19 @@ export default function LocationServices() {
                       <Switch checked={geofence.isActive} onChange={() => toggleGeofence(geofence.id)} />
                     </div>
                     
-                    <p className="text-sm text-gray-600 mb-3">{geofence.description}</p>
+                    <p className="text-sm text-slate-400 mb-3">{geofence.description}</p>
                     
                     <div className="space-y-2">
                       <div className="text-sm font-medium">{t("admin.location.properties")}</div>
                       <div className="grid grid-cols-2 gap-2 text-xs">
-                        {Object.entries(geofence.properties).map(([key, value]) => <div key={key} className="bg-gray-100 p-2 rounded">
+                        {Object.entries(geofence.properties).map(([key, value]) => <div key={key} className="bg-white/5 p-2 rounded-lg">
                             <div className="font-medium capitalize">{key}:</div>
                             <div>{String(value)}</div>
                           </div>)}
                       </div>
                     </div>
                     
-                    <div className="flex justify-between items-center mt-4 text-xs text-gray-500">
+                    <div className="flex justify-between items-center mt-4 text-xs text-slate-400">
                       <span>{t("admin.location.created")}{new Date(geofence.createdAt).toLocaleDateString()}</span>
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm">
@@ -634,7 +637,7 @@ export default function LocationServices() {
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="font-medium">{t("admin.location.default_map_provider")}</div>
-                      <div className="text-sm text-gray-600">{t("admin.location.primary_map_service")}</div>
+                      <div className="text-sm text-slate-400">{t("admin.location.primary_map_service")}</div>
                     </div>
                     <Select defaultValue="OPENSTREETMAP">
                       <SelectTrigger className="w-[150px]">
@@ -651,7 +654,7 @@ export default function LocationServices() {
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="font-medium">{t("admin.location.cache_duration")}</div>
-                      <div className="text-sm text-gray-600">{t("admin.location.how_long_to_cache")}</div>
+                      <div className="text-sm text-slate-400">{t("admin.location.how_long_to_cache")}</div>
                     </div>
                     <Select defaultValue="3600">
                       <SelectTrigger className="w-[150px]">
@@ -668,7 +671,7 @@ export default function LocationServices() {
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="font-medium">{t("admin.location.enable_geolocation")}</div>
-                      <div className="text-sm text-gray-600">{t("admin.location.user_location_tracking")}</div>
+                      <div className="text-sm text-slate-400">{t("admin.location.user_location_tracking")}</div>
                     </div>
                     <Switch defaultChecked />
                   </div>

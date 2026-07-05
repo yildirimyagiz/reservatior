@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,7 +78,7 @@ export default function InmanConnect() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#14151a] border border-[#24262f] text-slate-400 text-xs sm:text-sm mb-6"
           >
             <Sparkles className="w-4 h-4 text-yellow-400 animate-pulse" />
-            <span>We didn't open a physical booth because we already optimized your listings!</span>
+            <span>We didn&apos;t open a physical booth because we already optimized your listings!</span>
           </motion.div>
           
           <motion.h1
@@ -257,7 +259,7 @@ export default function InmanConnect() {
                 </div>
                 <h4 className="font-bold text-white mb-2">John D. (Senior Broker)</h4>
                 <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                  "Our average days-to-lease was 32. After implementing Reservatior's AI virtual staging and spread commission, we received 8 applications in the first week. Contract signed on day 11."
+                  &quot;Our average days-to-lease was 32. After implementing Reservatior&apos;s AI virtual staging and spread commission, we received 8 applications in the first week. Contract signed on day 11.&quot;
                 </p>
               </div>
               <div className="border-t border-[#24262f] pt-4 mt-4 flex items-center justify-between">
@@ -275,7 +277,7 @@ export default function InmanConnect() {
                 </div>
                 <h4 className="font-bold text-white mb-2">Sarah M. (Listing Agent)</h4>
                 <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                  "By presenting the LeaseCare+ monthly spread commission instead of demanding 3 months upfront, we successfully leased 4 luxury units within 2 weeks that had been sitting vacant."
+                  &quot;By presenting the LeaseCare+ monthly spread commission instead of demanding 3 months upfront, we successfully leased 4 luxury units within 2 weeks that had been sitting vacant.&quot;
                 </p>
               </div>
               <div className="border-t border-[#24262f] pt-4 mt-4 flex items-center justify-between">
@@ -293,7 +295,7 @@ export default function InmanConnect() {
                 </div>
                 <h4 className="font-bold text-white mb-2">Robert L. (Team Lead)</h4>
                 <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                  "No more writing copy manually or chasing staging budgets. Our agents save massive time while the firm tracks commission payouts live in the dashboard."
+                  &quot;No more writing copy manually or chasing staging budgets. Our agents save massive time while the firm tracks commission payouts live in the dashboard.&quot;
                 </p>
               </div>
               <div className="border-t border-[#24262f] pt-4 mt-4 flex items-center justify-between">

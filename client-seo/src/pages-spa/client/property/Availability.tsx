@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +15,7 @@ import { propertiesApi, type Property } from "@/lib/api/properties";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,7 +29,7 @@ const EMPTY_FORM = {
   totalUnits: 1,
   maxGuests: 2
 };
-export default function Availability() {
+export default function Availability({ propertyId }: { propertyId?: string }) {
   const {
     t
   } = useTranslation();
@@ -41,13 +43,17 @@ export default function Availability() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [form, setForm] = useState<any>(EMPTY_FORM);
+  const [form, setForm] = useState<any>({ ...EMPTY_FORM, propertyId: propertyId || "" });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const fetchData = async () => {
     try {
       setLoading(true);
       const [availRes, propRes] = await Promise.all([availabilityApi.getAll(), propertiesApi.getAll()]);
-      setAvailabilities(availRes.data || []);
+      let list = availRes.data || [];
+      if (propertyId) {
+        list = list.filter((item: any) => item.propertyId === propertyId);
+      }
+      setAvailabilities(list);
       setProperties(propRes || []);
     } catch (error) {
       toast({

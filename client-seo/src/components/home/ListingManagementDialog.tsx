@@ -12,9 +12,9 @@ import { PlusCircle, Globe, Sparkles, Video, FileText, Zap, ArrowRight, ShieldCh
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { propertiesApi } from "@/lib/api/properties";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 export function ListingManagementDialog({
   children
 }: {
@@ -172,7 +172,7 @@ export function ListingManagementDialog({
       if (data && typeof data === 'object' && 'id' in data) {
         navigate(`/property/${(data as any).id}`);
       } else {
-        navigate("/properties");
+        navigate("/property");
       }
     } catch (error) {
       toast({

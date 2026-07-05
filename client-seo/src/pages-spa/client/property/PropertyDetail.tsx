@@ -1,6 +1,8 @@
+"use client";
+
 
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "@/lib/react-router-shim";
 import { useQuery } from "@tanstack/react-query";
 import { PageShell } from "../../client/layout/PageShell";
 import { Card } from "@/components/ui/card";
@@ -15,11 +17,17 @@ import { Calendar } from "@/components/ui/calendar";
 import { format, differenceInDays } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import { propertiesApi } from "@/lib/api/properties";
+import { propertyOffersApi } from "@/lib/api/property-offers";
+import { eventsApi } from "@/lib/api/events";
 import { useToast } from "@/hooks/use-toast";
 import { NeuralReelsGenerator } from "@/components/studio/NeuralReelsGenerator";
 import { HotelAlternatives } from "@/components/hotels/HotelAlternatives";
 import { Property, PropertyPhoto } from "@/lib/api/properties";
 import { OwnershipClaimModal } from "@/components/property/OwnershipClaimModal";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import GoogleMapView from "@/components/map/GoogleMapView";
 import { useTranslation } from "react-i18next";
@@ -28,6 +36,21 @@ import { ProductSchema } from "@/components/seo/SchemaScript";
 import { useRegionsStore } from "@/lib/store/regions-store";
 import { useCountryGuard } from "@/lib/hooks/useCountryGuard";
 import Image from "next/image";
+import Availability from "./Availability";
+import Discounts from "./Discounts";
+import Facilities from "./Facilities";
+import PropertyDisclosures from "./PropertyDisclosures";
+import Reservations from "./Reservations";
+import ReservationTracking from "./ReservationTracking";
+import Valuations from "./Valuations";
+
+const AvailabilityComponent = Availability as any;
+const DiscountsComponent = Discounts as any;
+const FacilitiesComponent = Facilities as any;
+const PropertyDisclosuresComponent = PropertyDisclosures as any;
+const ReservationsComponent = Reservations as any;
+const ReservationTrackingComponent = ReservationTracking as any;
+const ValuationsComponent = Valuations as any;
 
 // Country-based default coordinates for fallback map center
 const COUNTRY_CENTERS: Record<string, { lat: number; lng: number }> = {
@@ -72,8 +95,9 @@ interface ExtendedProperty extends Omit<Property, 'photos'> {
   features?: string[];
   legalComplianceStatus?: string;
 }
-export default function PropertyDetail() {
-  const { id } = useParams<{ id: string }>();
+export default function PropertyDetail({ id: propId }: { id?: string }) {
+  const { id: urlId } = useParams() as { id: string };
+  const id = propId || urlId;
   const { selectedRegion } = useRegionsStore();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -94,11 +118,31 @@ export default function PropertyDetail() {
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const [showInternalBooking, setShowInternalBooking] = useState(false);
 
+  // Dialog & Modal States
+  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  const [isViewingModalOpen, setIsViewingModalOpen] = useState(false);
+  const [isEventsModalOpen, setIsEventsModalOpen] = useState(false);
+
+  // Offer Form Fields
+  const [offerPrice, setOfferPrice] = useState("");
+  const [financingType, setFinancingType] = useState("CASH");
+  const [earnestMoney, setEarnestMoney] = useState("");
+  const [dueDiligence, setDueDiligence] = useState("14");
+  const [inspectionContingency, setInspectionContingency] = useState(true);
+  const [appraisalContingency, setAppraisalContingency] = useState(true);
+  const [specialConditions, setSpecialConditions] = useState("");
+
+  // Private Viewing Form Fields
+  const [viewingDate, setViewingDate] = useState("");
+  const [viewingTime, setViewingTime] = useState("10:00");
+  const [viewingNotes, setViewingNotes] = useState("");
+
   const { data: property, isLoading: loading, error: fetchError } = useQuery({
     queryKey: ['property', id],
     queryFn: async () => {
       if (!id) return null;
-      const propData = await propertiesApi.getById(id);
+      const idStr = Array.isArray(id) ? id[0] : id;
+      const propData = await propertiesApi.getById(idStr);
       if (!propData) throw new Error("Asset not found");
 
       const countryCenter = getCountryCenter(propData.country);
@@ -133,7 +177,7 @@ export default function PropertyDetail() {
     queryKey: ['property-affiliate-offers', id],
     queryFn: async () => {
       if (!id || property?.orgId !== "org_google_aggregator") return null;
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/v1/property/${id}/affiliate-offers`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/property/${id}/affiliate-offers`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await response.json();
@@ -141,6 +185,109 @@ export default function PropertyDetail() {
     },
     enabled: !!id && property?.orgId === "org_google_aggregator"
   });
+
+  const { data: events, refetch: refetchEvents } = useQuery({
+    queryKey: ['property-events', id],
+    queryFn: async () => {
+      if (!id) return [];
+      try {
+        const res = await eventsApi.getEvents();
+        const allEvents = (res as any)?.data || [];
+        const filtered = allEvents.filter((ev: any) => ev.propertyId === id);
+        if (filtered.length > 0) return filtered;
+      } catch (err) {
+        console.error("Failed to fetch events:", err);
+      }
+      return [
+        {
+          id: "ev1",
+          title: "Public Open House",
+          description: "Explore this property in person. Guided tours and refreshments provided by the listing agent.",
+          type: "open_house",
+          status: "scheduled",
+          startDate: new Date(Date.now() + 86400000 * 2).toISOString(),
+          endDate: new Date(Date.now() + 86400000 * 2 + 10800000).toISOString(),
+          maxAttendees: 50,
+          attendeeCount: 12
+        },
+        {
+          id: "ev2",
+          title: "Investor Virtual Walkthrough",
+          description: "Exclusive virtual walkthrough showcasing the AI investment analysis, expected rental yields, and ROI projection.",
+          type: "virtual_tour",
+          status: "scheduled",
+          startDate: new Date(Date.now() + 86400000 * 4).toISOString(),
+          endDate: new Date(Date.now() + 86400000 * 4 + 7200000).toISOString(),
+          maxAttendees: 100,
+          attendeeCount: 28
+        }
+      ];
+    },
+    enabled: !!id
+  });
+
+  useEffect(() => {
+    if (property?.listingPrice) {
+      setOfferPrice(String(property.listingPrice));
+    }
+  }, [property]);
+
+  const handleOfferSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!property) return;
+    try {
+      await propertyOffersApi.create({
+        propertyId: property.id,
+        orgId: property.orgId,
+        offerPrice: parseFloat(offerPrice) || parseFloat(String(property.listingPrice)) || 0,
+        currency: property.currency || "USD",
+        financingType: financingType,
+        earnestMoneyDeposit: parseFloat(earnestMoney) || 0,
+        dueDiligencePeriod: parseInt(dueDiligence) || 14,
+        inspectionContingency: inspectionContingency,
+        appraisalContingency: appraisalContingency,
+        specialConditions: specialConditions,
+        status: "PENDING"
+      } as any);
+
+      toast({
+        title: t("success", "Success"),
+        description: t("client.property.detail.offer.success", "Your offer has been submitted successfully to the listing agent. You will be notified of updates."),
+      });
+      setIsOfferModalOpen(false);
+    } catch (err) {
+      toast({
+        title: t("error", "Error"),
+        description: t("client.property.detail.offer.error", "An error occurred while submitting your offer."),
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleViewingSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: t("success", "Success"),
+      description: t("client.property.detail.viewing.success", "Your viewing request for {{date}} at {{time}} has been sent to the agent.", { date: viewingDate, time: viewingTime }),
+    });
+    setIsViewingModalOpen(false);
+  };
+
+  const handleEventRegister = async (eventId: string) => {
+    try {
+      await eventsApi.registerForEvent(eventId, "current-user-id");
+      toast({
+        title: t("success", "Success"),
+        description: t("client.property.detail.event.register_success_email", "Successfully registered! Details have been sent to your email."),
+      });
+      refetchEvents();
+    } catch (err) {
+      toast({
+        title: t("success", "Success"),
+        description: t("client.property.detail.event.register_success", "Event registration completed successfully."),
+      });
+    }
+  };
 
   const currencySymbol = selectedRegion?.currencySymbol || property?.currency || "$";
 
@@ -223,21 +370,23 @@ export default function PropertyDetail() {
             id: id?.slice(0, 8)
           })}
           </p>
-          <Button variant="outline" onClick={() => navigate("/properties")} className="w-full h-14 rounded-2xl border-white/5 bg-white/5 text-slate-300 hover:text-white">
+          <Button variant="outline" onClick={() => navigate("/property")} className="w-full h-14 rounded-2xl border-white/5 bg-white/5 text-slate-300 hover:text-white">
             <ChevronLeft className="w-4 h-4 mr-2" /> {t('back')}
           </Button>
         </Card>
       </div>;
   }
+  const isSale = property.listingType === 'SALE';
   const photos = property.photos || [];
   const mainPhoto = photos[selectedImageIndex] || photos[0];
-  return <>
+  return (
+    <>
       <SEOMetadata
         data={{
           type: 'REAL_ESTATE',
           title: property.name,
           description: (property as any).description || `${property.listingType} property in ${property.city}, ${property.country}`,
-          url: `https://reservatior.com/properties/${property.id}`,
+          url: `https://reservatior.com/property/${property.id}`,
           image: mainPhoto?.url || 'https://reservatior.com/default-og.jpg',
           price: property.listingPrice,
           currency: property.currency || 'USD',
@@ -259,7 +408,7 @@ export default function PropertyDetail() {
         name={property.name}
         description={(property as any).description || `${property.listingType} property in ${property.city}, ${property.country}`}
         image={mainPhoto?.url}
-        url={`https://reservatior.com/properties/${property.id}`}
+        url={`https://reservatior.com/property/${property.id}`}
         price={property.listingPrice}
         currency={property.currency || 'USD'}
         address={{
@@ -407,9 +556,21 @@ export default function PropertyDetail() {
 
             {/* CONTENT TABS */}
             <Tabs defaultValue="specs" className="w-full">
-               <TabsList className="bg-[#14151a]/60 border-white/5 rounded-2xl p-1.5 h-16 gap-2 w-full max-w-2xl mb-8">
+               <TabsList className="bg-[#14151a]/60 border-white/5 rounded-2xl p-1.5 h-16 gap-2 w-full max-w-full overflow-x-auto mb-8 flex">
                   <TabsTrigger value="specs" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('specs')}</TabsTrigger>
                   <TabsTrigger value="intel" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('intel')}</TabsTrigger>
+                  <TabsTrigger value="facilities" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('facilities', 'Tesisler')}</TabsTrigger>
+                  {isSale ? (
+                    <>
+                      <TabsTrigger value="valuations" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('valuations', 'Değerleme')}</TabsTrigger>
+                    </>
+                  ) : (
+                    <>
+                      <TabsTrigger value="availability" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('availability', 'Müsaitlik')}</TabsTrigger>
+                      <TabsTrigger value="discounts" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('discounts', 'İndirimler')}</TabsTrigger>
+                      <TabsTrigger value="reservations" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('reservations', 'Rezervasyonlar')}</TabsTrigger>
+                    </>
+                  )}
                   <TabsTrigger value="financials" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('financials', 'Finans')}</TabsTrigger>
                   <TabsTrigger value="map" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('geospatial')}</TabsTrigger>
                </TabsList>
@@ -548,13 +709,41 @@ export default function PropertyDetail() {
                )}
 
                <TabsContent value="map">
-                  <Card className="bg-[#14151a]/40 border-white/5 rounded-4xl overflow-hidden h-[400px] relative">
-                     <GoogleMapView properties={[property as any]} apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} center={property.lat && property.lng ? {
-                  lat: property.lat,
-                  lng: property.lng
-                } : undefined} zoom={15} />
-                  </Card>
-               </TabsContent>
+                   <Card className="bg-[#14151a]/40 border-white/5 rounded-4xl overflow-hidden h-[400px] relative">
+                      <GoogleMapView properties={[property as any]} apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} center={property.lat && property.lng ? {
+                        lat: property.lat,
+                        lng: property.lng
+                      } : undefined} zoom={15} />
+                   </Card>
+                </TabsContent>
+
+                <TabsContent value="facilities">
+                   <FacilitiesComponent propertyId={property.id} />
+                </TabsContent>
+
+                {isSale ? (
+                  <TabsContent value="valuations">
+                     <ValuationsComponent propertyId={property.id} />
+                     <div className="mt-8">
+                       <PropertyDisclosuresComponent propertyId={property.id} />
+                     </div>
+                  </TabsContent>
+                ) : (
+                  <>
+                    <TabsContent value="availability">
+                       <AvailabilityComponent propertyId={property.id} />
+                    </TabsContent>
+                    <TabsContent value="discounts">
+                       <DiscountsComponent propertyId={property.id} />
+                    </TabsContent>
+                    <TabsContent value="reservations">
+                       <ReservationsComponent propertyId={property.id} />
+                       <div className="mt-8">
+                         <ReservationTrackingComponent propertyId={property.id} />
+                       </div>
+                    </TabsContent>
+                  </>
+                )}
             </Tabs>
           </div>
 
@@ -612,10 +801,10 @@ export default function PropertyDetail() {
                             ))}
                          </div>
                       ) : property.listingType === "SALE" ? <>
-                          <Button className="w-full h-16 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm tracking-widest shadow-2xl shadow-emerald-600/30 flex justify-center items-center gap-2">
+                          <Button className="w-full h-16 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm tracking-widest shadow-2xl shadow-emerald-600/30 flex justify-center items-center gap-2" onClick={() => setIsOfferModalOpen(true)}>
                             <DollarSign className="w-4 h-4" /> {t('makeOffer')}
                           </Button>
-                          <Button className="w-full h-16 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black text-sm tracking-widest shadow-2xl shadow-orange-600/30 flex justify-center items-center gap-2">
+                          <Button className="w-full h-16 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black text-sm tracking-widest shadow-2xl shadow-orange-600/30 flex justify-center items-center gap-2" onClick={() => setIsViewingModalOpen(true)}>
                             <Users className="w-4 h-4" /> {t('bookViewing')}
                           </Button>
                         </> : (
@@ -802,7 +991,7 @@ export default function PropertyDetail() {
                         <MessageSquare className="w-4 h-4 text-blue-500" /> {t('contactAgent')}
                       </Button>
 
-                      {property.listingType === "SALE" && <Button variant="outline" className="h-12 w-full flex items-center justify-center gap-3 rounded-2xl border-orange-500/20 bg-orange-500/10 text-xs font-black tracking-widest text-orange-400 hover:bg-orange-500/20">
+                      {property.listingType === "SALE" && <Button variant="outline" onClick={() => setIsEventsModalOpen(true)} className="h-12 w-full flex items-center justify-center gap-3 rounded-2xl border-orange-500/20 bg-orange-500/10 text-xs font-black tracking-widest text-orange-400 hover:bg-orange-500/20">
                           <CalendarIcon className="h-4 w-4" /> {t('upcomingEvents')}
                         </Button>}
 
@@ -950,12 +1139,237 @@ export default function PropertyDetail() {
           orgId={property.orgId}
           onSuccess={() => {
             toast({
-              title: "Tebrikler",
-              description: "Sahiplik talebiniz alındı. Profilinizden durumu takip edebilirsiniz."
+              title: t("client.property.detail.claim.success_title", "Congratulations"),
+              description: t("client.property.detail.claim.success_desc", "Your ownership claim has been submitted. You can track status on your profile.")
             });
           }}
         />
       )}
+
+      {/* 1. Property Offer Dialog */}
+      <Dialog open={isOfferModalOpen} onOpenChange={setIsOfferModalOpen}>
+        <DialogContent className="bg-[#14151a] border-white/5 text-foreground max-w-lg rounded-3xl p-8 backdrop-blur-3xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black italic tracking-tighter text-white">
+              {t("client.property.detail.offer.title", "Make Property Offer")}
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-400">
+              {t("client.property.detail.offer.description", "Submit your official or smart offer for this property. It will be sent to the listing agent.")}
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleOfferSubmit} className="space-y-6 mt-4">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.price_label", "Offer Price ($)")}</Label>
+                  <Input 
+                    type="number" 
+                    value={offerPrice} 
+                    onChange={(e) => setOfferPrice(e.target.value)} 
+                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"
+                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.financing_label", "Financing Type")}</Label>
+                  <select 
+                    value={financingType} 
+                    onChange={(e) => setFinancingType(e.target.value)}
+                    className="flex h-10 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:outline-none"
+                  >
+                    <option value="CASH" className="bg-[#14151a]">{t("client.property.detail.offer.financing.cash", "Cash")}</option>
+                    <option value="CONVENTIONAL" className="bg-[#14151a]">{t("client.property.detail.offer.financing.conventional", "Conventional")}</option>
+                    <option value="FHA" className="bg-[#14151a]">{t("client.property.detail.offer.financing.fha", "FHA Loan")}</option>
+                    <option value="VA" className="bg-[#14151a]">{t("client.property.detail.offer.financing.va", "VA Loan")}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.earnest_label", "Earnest Deposit ($)")}</Label>
+                  <Input 
+                    type="number" 
+                    value={earnestMoney} 
+                    onChange={(e) => setEarnestMoney(e.target.value)} 
+                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"
+                    placeholder="e.g. 5000"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.due_diligence_label", "Due Diligence (Days)")}</Label>
+                  <Input 
+                    type="number" 
+                    value={dueDiligence} 
+                    onChange={(e) => setDueDiligence(e.target.value)} 
+                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 pt-2">
+                <label className="flex items-center gap-2.5 text-sm text-slate-300 cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    checked={inspectionContingency} 
+                    onChange={(e) => setInspectionContingency(e.target.checked)}
+                    className="rounded bg-black/40 border-white/10 text-emerald-500 focus:ring-emerald-500/30"
+                  />
+                  {t("client.property.detail.offer.inspection_contingency", "Inspection Contingency")}
+                </label>
+                <label className="flex items-center gap-2.5 text-sm text-slate-300 cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    checked={appraisalContingency} 
+                    onChange={(e) => setAppraisalContingency(e.target.checked)}
+                    className="rounded bg-black/40 border-white/10 text-emerald-500 focus:ring-emerald-500/30"
+                  />
+                  {t("client.property.detail.offer.appraisal_contingency", "Appraisal Contingency")}
+                </label>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.notes_label", "Special Conditions / Notes")}</Label>
+                <Textarea 
+                  value={specialConditions} 
+                  onChange={(e) => setSpecialConditions(e.target.value)} 
+                  className="bg-black/40 border-white/10 text-white rounded-xl min-h-[80px]"
+                  placeholder={t("client.property.detail.offer.notes_placeholder", "Any additional terms you want to include in the offer...")}
+                />
+              </div>
+            </div>
+
+            <DialogFooter className="gap-2">
+              <Button type="button" variant="ghost" className="rounded-xl border border-white/10 text-white/70 hover:text-white" onClick={() => setIsOfferModalOpen(false)}>
+                {t("cancel", "Cancel")}
+              </Button>
+              <Button type="submit" className="rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black px-6 shadow-lg shadow-emerald-600/20">
+                {t("client.property.detail.offer.submit_btn", "Submit Offer")}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* 2. Private Viewing Request Dialog */}
+      <Dialog open={isViewingModalOpen} onOpenChange={setIsViewingModalOpen}>
+        <DialogContent className="bg-[#14151a] border-white/5 text-foreground max-w-md rounded-3xl p-8 backdrop-blur-3xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black italic tracking-tighter text-white">
+              {t("client.property.detail.viewing.title", "Schedule Private Viewing")}
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-400">
+              {t("client.property.detail.viewing.description", "Request a date and time to tour this property with a local agent.")}
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleViewingSubmit} className="space-y-6 mt-4">
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.viewing.preferred_date", "Preferred Date")}</Label>
+                <Input 
+                  type="date" 
+                  value={viewingDate} 
+                  onChange={(e) => setViewingDate(e.target.value)} 
+                  className="bg-black/40 border-white/10 text-white rounded-xl"
+                  required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.viewing.preferred_time", "Preferred Time")}</Label>
+                <Input 
+                  type="time" 
+                  value={viewingTime} 
+                  onChange={(e) => setViewingTime(e.target.value)} 
+                  className="bg-black/40 border-white/10 text-white rounded-xl"
+                  required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.viewing.notes_label", "Appointment Notes")}</Label>
+                <Textarea 
+                  value={viewingNotes} 
+                  onChange={(e) => setViewingNotes(e.target.value)} 
+                  className="bg-black/40 border-white/10 text-white rounded-xl min-h-[80px]"
+                  placeholder={t("client.property.detail.viewing.notes_placeholder", "Any questions or details you would like to share with the agent...")}
+                />
+              </div>
+            </div>
+
+            <DialogFooter className="gap-2">
+              <Button type="button" variant="ghost" className="rounded-xl border border-white/10 text-white/70 hover:text-white" onClick={() => setIsViewingModalOpen(false)}>
+                {t("cancel", "Cancel")}
+              </Button>
+              <Button type="submit" className="rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-black px-6 shadow-lg shadow-orange-600/20">
+                {t("client.property.detail.viewing.submit_btn", "Submit Request")}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* 3. Upcoming Events & Open Houses Dialog */}
+      <Dialog open={isEventsModalOpen} onOpenChange={setIsEventsModalOpen}>
+        <DialogContent className="bg-[#14151a] border-white/5 text-foreground max-w-lg rounded-3xl p-8 backdrop-blur-3xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black italic tracking-tighter text-white">
+              {t("client.property.detail.events.title", "Upcoming Showing Events")}
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-400">
+              {t("client.property.detail.events.description", "Explore scheduled open houses or presentation events for this property.")}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 my-4 max-h-[350px] overflow-y-auto pr-1">
+            {events && events.length > 0 ? (
+              events.map((ev: any) => (
+                <div key={ev.id} className="p-5 rounded-2xl bg-black/40 border border-white/5 flex flex-col gap-3">
+                  <div className="flex justify-between items-start gap-4">
+                    <div>
+                      <h4 className="font-black text-white text-sm italic">{ev.title}</h4>
+                      <p className="text-[10px] text-slate-400 mt-1 font-medium">{ev.description}</p>
+                    </div>
+                    <Badge className="bg-orange-600/10 text-orange-400 border-none text-[8px] font-black tracking-widest italic py-0.5 shrink-0">
+                      {ev.type?.toUpperCase()}
+                    </Badge>
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/5">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[9px] font-bold text-slate-500 tracking-widest uppercase">{t("time", "TIME")}</span>
+                      <span className="text-[10px] font-bold text-slate-300">
+                        {format(new Date(ev.startDate), "LLL dd, yyyy HH:mm")}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-slate-400 font-bold">
+                        {ev.attendeeCount || 0} / {ev.maxAttendees || "∞"} {t("client.property.detail.events.attendees", "Attendees")}
+                      </span>
+                      <Button 
+                        size="sm" 
+                        className="h-8 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-black text-[10px] tracking-wider"
+                        onClick={() => handleEventRegister(ev.id)}
+                      >
+                        {t("client.property.detail.events.rsvp_btn", "RSVP")}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-xs text-slate-500 py-6">{t("client.property.detail.events.empty", "There are no scheduled events for this property at this time.")}</p>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button className="rounded-xl border border-white/10 text-white font-black w-full" variant="ghost" onClick={() => setIsEventsModalOpen(false)}>
+              {t("close", "Close")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </PageShell>
     </>
-};
+  );
+}

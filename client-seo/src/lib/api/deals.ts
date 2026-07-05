@@ -236,7 +236,7 @@ export const dealsApi = {
     const response = await fetch(`${apiClient['baseURL']}/api/deals/export?format=${format}`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
       },
     });
     

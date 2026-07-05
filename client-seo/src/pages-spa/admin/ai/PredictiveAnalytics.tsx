@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -263,7 +265,7 @@ export default function PredictiveAnalytics() {
                             </div>
                           </TableCell>
                           <TableCell>
-                            <span className={`text-sm font-medium ${priceChange > 0 ? 'text-green-600' : priceChange < 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                            <span className={`text-sm font-medium ${priceChange > 0 ? 'text-green-600' : priceChange < 0 ? 'text-red-600' : 'text-slate-400'}`}>
                               {priceChange > 0 ? '+' : ''}{changePercent.toFixed(1)}%
                             </span>
                           </TableCell>
@@ -276,7 +278,7 @@ export default function PredictiveAnalytics() {
                             {new Date(optimization.generatedAt).toLocaleDateString()}
                           </TableCell>
                           <TableCell>
-                            {!optimization.isApplied && <button onClick={() => applyPriceOptimization(optimization.id)} className="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium bg-blue-600 text-white hover:bg-blue-700">
+                            {!optimization.isApplied && <button onClick={() => applyPriceOptimization(optimization.id)} className="inline-flex items-center px-3 py-1 rounded-xl text-sm font-medium bg-slate-600 text-white hover:bg-slate-700">
                                 <Zap className="h-3 w-3 mr-1" />{t("admin.ai.apply")}</button>}
                           </TableCell>
                         </TableRow>;
@@ -325,11 +327,11 @@ export default function PredictiveAnalytics() {
                       <p className="text-sm text-slate-400">{t("admin.ai.average_price_increase")}</p>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">+8.7%</div>
+                      <div className="text-2xl font-bold text-slate-600">+8.7%</div>
                       <p className="text-sm text-slate-400">{t("admin.ai.faster_time_to_sale")}</p>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-purple-600">+23.1%</div>
+                      <div className="text-2xl font-bold text-slate-600">+23.1%</div>
                       <p className="text-sm text-slate-400">{t("admin.ai.increased_buyer_interest")}</p>
                     </div>
                   </div>

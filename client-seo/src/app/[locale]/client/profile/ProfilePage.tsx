@@ -23,8 +23,10 @@ import {
   Lock
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function ProfilePage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
@@ -50,16 +52,16 @@ export default function ProfilePage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Profile Settings</h1>
-              <p className="text-gray-400">Manage your account settings and preferences</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("profile.profilepage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("profile.profilepage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("profile.profilepage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -97,15 +99,15 @@ export default function ProfilePage() {
                 <div className="mt-6 pt-6 border-t border-purple-500/20 space-y-3">
                   <div className="flex items-center gap-3 text-sm text-gray-400">
                     <MapPin className="w-4 h-4" />
-                    <span>New York, USA</span>
+                    <span>{t("profile.profilepage.auto_ext_4")}</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
                     <Briefcase className="w-4 h-4" />
-                    <span>Real Estate Agent</span>
+                    <span>{t("profile.profilepage.auto_ext_5")}</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
                     <Calendar className="w-4 h-4" />
-                    <span>Joined {new Date().toLocaleDateString()}</span>
+                    <span>{t("profile.profilepage.auto_ext_6")} {new Date().toLocaleDateString()}</span>
                   </div>
                 </div>
               </CardContent>
@@ -122,9 +124,9 @@ export default function ProfilePage() {
             <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <TabsList className="bg-white/5 border-purple-500/20 w-full justify-start">
-                  <TabsTrigger value="profile" className="data-[state=active]:bg-purple-600">Profile</TabsTrigger>
-                  <TabsTrigger value="security" className="data-[state=active]:bg-purple-600">Security</TabsTrigger>
-                  <TabsTrigger value="notifications" className="data-[state=active]:bg-purple-600">Notifications</TabsTrigger>
+                  <TabsTrigger value="profile" className="data-[state=active]:bg-purple-600">{t("profile.profilepage.auto_ext_7")}</TabsTrigger>
+                  <TabsTrigger value="security" className="data-[state=active]:bg-purple-600">{t("profile.profilepage.auto_ext_8")}</TabsTrigger>
+                  <TabsTrigger value="notifications" className="data-[state=active]:bg-purple-600">{t("profile.profilepage.auto_ext_9")}</TabsTrigger>
                 </TabsList>
 
                 <CardContent className="p-6">
@@ -132,14 +134,14 @@ export default function ProfilePage() {
                     <div className="space-y-6">
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label className="text-gray-400">First Name</Label>
+                          <Label className="text-gray-400">{t("profile.profilepage.auto_ext_10")}</Label>
                           <Input
                             defaultValue={user.firstName || ''}
                             className="bg-white/10 border-purple-500/30 text-white"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-gray-400">Last Name</Label>
+                          <Label className="text-gray-400">{t("profile.profilepage.auto_ext_11")}</Label>
                           <Input
                             defaultValue={user.lastName || ''}
                             className="bg-white/10 border-purple-500/30 text-white"
@@ -148,7 +150,7 @@ export default function ProfilePage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-gray-400">Email</Label>
+                        <Label className="text-gray-400">{t("profile.profilepage.auto_ext_12")}</Label>
                         <Input
                           defaultValue={user.email}
                           className="bg-white/10 border-purple-500/30 text-white"
@@ -156,7 +158,7 @@ export default function ProfilePage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-gray-400">Phone</Label>
+                        <Label className="text-gray-400">{t("profile.profilepage.auto_ext_13")}</Label>
                         <Input
                           placeholder="+1 (555) 000-0000"
                           className="bg-white/10 border-purple-500/30 text-white"
@@ -164,7 +166,7 @@ export default function ProfilePage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-gray-400">Bio</Label>
+                        <Label className="text-gray-400">{t("profile.profilepage.auto_ext_14")}</Label>
                         <Textarea
                           placeholder="Tell us about yourself..."
                           className="bg-white/10 border-purple-500/30 text-white min-h-[100px]"
@@ -179,13 +181,13 @@ export default function ProfilePage() {
                         {isLoading ? (
                           <>
                             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                            Saving...
-                          </>
+                            {t("profile.profilepage.auto_ext_15")}
+                                                                                </>
                         ) : (
                           <>
                             <Save className="w-4 h-4 mr-2" />
-                            Save Changes
-                          </>
+                            {t("profile.profilepage.auto_ext_16")}
+                                                                                    </>
                         )}
                       </Button>
                     </div>
@@ -194,7 +196,7 @@ export default function ProfilePage() {
                   <TabsContent value="security">
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <Label className="text-gray-400">Current Password</Label>
+                        <Label className="text-gray-400">{t("profile.profilepage.auto_ext_17")}</Label>
                         <Input
                           type="password"
                           placeholder="Enter current password"
@@ -203,7 +205,7 @@ export default function ProfilePage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-gray-400">New Password</Label>
+                        <Label className="text-gray-400">{t("profile.profilepage.auto_ext_18")}</Label>
                         <Input
                           type="password"
                           placeholder="Enter new password"
@@ -212,7 +214,7 @@ export default function ProfilePage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-gray-400">Confirm Password</Label>
+                        <Label className="text-gray-400">{t("profile.profilepage.auto_ext_19")}</Label>
                         <Input
                           type="password"
                           placeholder="Confirm new password"
@@ -221,11 +223,11 @@ export default function ProfilePage() {
                       </div>
 
                       <div className="pt-4 border-t border-purple-500/20">
-                        <h3 className="text-white font-medium mb-4">Two-Factor Authentication</h3>
+                        <h3 className="text-white font-medium mb-4">{t("profile.profilepage.auto_ext_20")}</h3>
                         <div className="flex items-center justify-between">
                           <div>
-                            <div className="text-white">Enable 2FA</div>
-                            <div className="text-gray-400 text-sm">Add an extra layer of security</div>
+                            <div className="text-white">{t("profile.profilepage.auto_ext_21")}</div>
+                            <div className="text-gray-400 text-sm">{t("profile.profilepage.auto_ext_22")}</div>
                           </div>
                           <Switch />
                         </div>
@@ -237,8 +239,8 @@ export default function ProfilePage() {
                         className="bg-purple-600 hover:bg-purple-700 w-full"
                       >
                         <Lock className="w-4 h-4 mr-2" />
-                        Update Security
-                      </Button>
+                        {t("profile.profilepage.auto_ext_23")}
+                                                                    </Button>
                     </div>
                   </TabsContent>
 
@@ -246,40 +248,40 @@ export default function ProfilePage() {
                     <div className="space-y-6">
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-white">Email Notifications</div>
-                          <div className="text-gray-400 text-sm">Receive updates via email</div>
+                          <div className="text-white">{t("profile.profilepage.auto_ext_24")}</div>
+                          <div className="text-gray-400 text-sm">{t("profile.profilepage.auto_ext_25")}</div>
                         </div>
                         <Switch defaultChecked />
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-white">Push Notifications</div>
-                          <div className="text-gray-400 text-sm">Receive push notifications</div>
+                          <div className="text-white">{t("profile.profilepage.auto_ext_26")}</div>
+                          <div className="text-gray-400 text-sm">{t("profile.profilepage.auto_ext_27")}</div>
                         </div>
                         <Switch defaultChecked />
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-white">Booking Alerts</div>
-                          <div className="text-gray-400 text-sm">Get notified for new bookings</div>
+                          <div className="text-white">{t("profile.profilepage.auto_ext_28")}</div>
+                          <div className="text-gray-400 text-sm">{t("profile.profilepage.auto_ext_29")}</div>
                         </div>
                         <Switch defaultChecked />
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-white">Payment Reminders</div>
-                          <div className="text-gray-400 text-sm">Get reminded about payments</div>
+                          <div className="text-white">{t("profile.profilepage.auto_ext_30")}</div>
+                          <div className="text-gray-400 text-sm">{t("profile.profilepage.auto_ext_31")}</div>
                         </div>
                         <Switch />
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-white">Marketing Emails</div>
-                          <div className="text-gray-400 text-sm">Receive promotional content</div>
+                          <div className="text-white">{t("profile.profilepage.auto_ext_32")}</div>
+                          <div className="text-gray-400 text-sm">{t("profile.profilepage.auto_ext_33")}</div>
                         </div>
                         <Switch />
                       </div>
@@ -290,8 +292,8 @@ export default function ProfilePage() {
                         className="bg-purple-600 hover:bg-purple-700 w-full"
                       >
                         <Bell className="w-4 h-4 mr-2" />
-                        Save Preferences
-                      </Button>
+                        {t("profile.profilepage.auto_ext_34")}
+                                                                    </Button>
                     </div>
                   </TabsContent>
                 </CardContent>

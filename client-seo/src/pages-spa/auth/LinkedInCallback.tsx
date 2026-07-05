@@ -1,6 +1,8 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "@/lib/react-router-shim";
 import { apiClient } from "@/lib/api/client";
 
 export default function LinkedInCallback() {

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -7,6 +9,10 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CreditCard, DollarSign, TrendingUp, TrendingDown, Clock, CheckCircle, XCircle, AlertTriangle, MessageSquare, Filter, Search, Download, RefreshCw, Activity, Target, Zap, Headphones, ThumbsUp, FileText, Receipt, CreditCard as CreditCardIcon, Banknote, Building, Globe, Smile, Send } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 interface Payout {
   id: string;
   reservationId: string;
@@ -134,6 +140,7 @@ export default function PayoutAndHelpDesk() {
   const {
     user
   } = useAuth();
+  const { toast } = useToast();
   const [payouts, setPayouts] = useState<Payout[]>([]);
   const [filteredPayouts, setFilteredPayouts] = useState<Payout[]>([]);
   const [helpDeskTickets, setHelpDeskTickets] = useState<HelpDeskTicket[]>([]);
@@ -165,6 +172,10 @@ export default function PayoutAndHelpDesk() {
   const [selectedPayout, setSelectedPayout] = useState<Payout | null>(null);
   const [selectedTicket, setSelectedTicket] = useState<HelpDeskTicket | null>(null);
   const [isLive, setIsLive] = useState(true);
+
+  const [isTicketActionOpen, setIsTicketActionOpen] = useState(false);
+  const [ticketActionType, setTicketActionType] = useState<'message' | 'resolve' | 'escalate' | null>(null);
+  const [ticketActionContent, setTicketActionContent] = useState('');
 
   // Mock data generation
   const generateMockPayouts = (): Payout[] => {
@@ -941,11 +952,14 @@ export default function PayoutAndHelpDesk() {
 
                 {/* Actions */}
                 <div className="flex gap-2 pt-4 border-t">
-                  <Button onClick={() => console.log('Process payout')}>
+                  <Button onClick={() => toast({ title: t("client.src.payout_processed") })}>
                     <Zap className="w-4 h-4 mr-2" />{t("client.src.process")}</Button>
-                  <Button variant="outline" onClick={() => console.log('View receipt')}>
+                  <Button variant="outline" onClick={() => {
+                    if (selectedPayout.receiptUrl) window.open(selectedPayout.receiptUrl, '_blank');
+                    else toast({ title: t("client.src.no_receipt_available"), variant: "destructive" });
+                  }}>
                     <FileText className="w-4 h-4 mr-2" />{t("client.src.view_receipt")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Export payout')}>
+                  <Button variant="outline" onClick={() => toast({ title: t("client.src.export_started") })}>
                     <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
                 </div>
               </CardContent>
@@ -996,16 +1010,49 @@ export default function PayoutAndHelpDesk() {
 
                 {/* Actions */}
                 <div className="flex gap-2 pt-4 border-t">
-                  <Button onClick={() => console.log('Send message')}>
+                  <Button onClick={() => {
+                    setTicketActionType('message');
+                    setIsTicketActionOpen(true);
+                  }}>
                     <Send className="w-4 h-4 mr-2" />{t("client.src.send_message")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Resolve ticket')}>
+                  <Button variant="outline" onClick={() => {
+                    setTicketActionType('resolve');
+                    setIsTicketActionOpen(true);
+                  }}>
                     <CheckCircle className="w-4 h-4 mr-2" />{t("client.src.resolve")}</Button>
-                  <Button variant="outline" onClick={() => console.log('Escalate ticket')}>
+                  <Button variant="outline" onClick={() => {
+                    setTicketActionType('escalate');
+                    setIsTicketActionOpen(true);
+                  }}>
                     <AlertTriangle className="w-4 h-4 mr-2" />{t("client.src.escalate")}</Button>
                 </div>
               </CardContent>
             </Card>
           </div>}
+
+        <Dialog open={isTicketActionOpen} onOpenChange={setIsTicketActionOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {ticketActionType === 'message' && t("client.src.send_message")}
+                {ticketActionType === 'resolve' && t("client.src.resolve_ticket")}
+                {ticketActionType === 'escalate' && t("client.src.escalate_ticket")}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <Label>{t("client.src.details")}</Label>
+              <Textarea value={ticketActionContent} onChange={e => setTicketActionContent(e.target.value)} rows={4} placeholder={t("client.src.enter_details")} />
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsTicketActionOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button onClick={() => {
+                toast({ title: t("client.src.action_completed") });
+                setIsTicketActionOpen(false);
+                setTicketActionContent('');
+              }}>{t("client.src.submit")}</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>;
 }

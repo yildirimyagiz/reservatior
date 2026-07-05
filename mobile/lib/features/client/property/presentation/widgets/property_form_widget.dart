@@ -5,6 +5,7 @@ import 'package:reservatior/core/providers/region_provider.dart';
 import 'package:reservatior/core/config/region_config.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:reservatior/shared/widgets/ai_reusable_widgets.dart';
+import 'package:reservatior/core/services/ml_api_service.dart';
 
 class PropertyFormWidget extends ConsumerStatefulWidget {
   final Property? item;
@@ -828,6 +829,30 @@ class _PropertyFormWidgetState extends ConsumerState<PropertyFormWidget> {
               title: Text('mobile.auto.accessibilitycompliance'.tr()),
               value: _accessibilityCompliance ?? false,
               onChanged: (v) => setState(() => _accessibilityCompliance = v),
+            ),
+            SizedBox(height: 24),
+            ElevatedButton.icon(
+              icon: Icon(Icons.auto_awesome, color: Colors.amber),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade900),
+              onPressed: () async {
+                try {
+                  final prediction = await mlApiService.predictPrice({
+                    'bedrooms': _bedrooms ?? 0,
+                    'bathrooms': _bathrooms ?? 0,
+                    'areaSqm': _areaSqm ?? 0,
+                    'city': _city ?? 'Unknown',
+                  });
+                  if (prediction['estimated_price'] != null) {
+                    setState(() {
+                      _listingPrice = (prediction['estimated_price'] as num).toDouble();
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("AI Suggested Price: \$$_listingPrice")));
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("AI Error: $e")));
+                }
+              },
+              label: Text('AI Price Prediction', style: TextStyle(color: Colors.white)),
             ),
             SizedBox(height: 16),
             ElevatedButton(

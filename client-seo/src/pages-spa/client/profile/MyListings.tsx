@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import {
   Clock,
@@ -27,7 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { propertiesApi } from "@/lib/api/properties";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/lib/react-router-shim";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -213,7 +215,7 @@ export default function MyListings() {
                           </div>
                           
                           <div className="flex items-center gap-3">
-                            <Link to={`/properties/${listing.id}`}>
+                            <Link to={`/property/${listing.id}`}>
                               <Button variant="outline" className="h-12 px-6 rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10 font-black italic tracking-widest text-[9px] gap-2">
                                 <Eye className="w-4 h-4 text-blue-500" />
                                 {t('view')}

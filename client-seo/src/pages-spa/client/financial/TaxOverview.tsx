@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, Key } from "react";
 import { PageShell } from "../layout/PageShell";

@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 export function CTA() {
   const {
     t
@@ -21,7 +21,7 @@ export function CTA() {
           <h2 className="text-2xl md:text-3xl font-medium tracking-wide mb-4">{t("client.src.ready_to_transform_your")}</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">{t("client.src.join_thousands_of_professionals")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/auth/signup" className="contents">
+            <Link to="/client/signup" className="contents">
               <Button size="lg" className="bg-primary hover:bg-primary/90">
                 <Sparkles className="w-5 h-5 mr-2" />{t("client.src.start_free_trial")}</Button>
             </Link>

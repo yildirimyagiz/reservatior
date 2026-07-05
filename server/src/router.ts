@@ -13,6 +13,7 @@ import { aiSearchStreamRoutes } from "./routes/ai-search-stream";
 import { aiCreditRoutes } from "./routes/ai-credits";
 import { hoaRoutes } from "./routes/hoa";
 import { userRoutes } from "./routes/user";
+import { dataBrowserRoutes } from "./routes/data-browser";
 import { chatProxyRoutes } from "./routes/chat-proxy";
 import { contractGenerationRoutes } from "./routes/contract-generation";
 import { sessionRoutes } from "./routes/session";
@@ -310,6 +311,7 @@ import { invoiceRoutes } from "./routes/invoice";
 import { mediaServeRoutes } from "./routes/media-serve";
 import { realtimeRoutes } from "./routes/realtime";
 import { triggerRoutes } from "./routes/triggers";
+import { workerRoutes } from "./routes/workers";
 import { adminLegacyRoutes } from "./routes/admin-legacy";
 import { aichatHandoffRoutes } from "./routes/aichat-handoff";
 import { turkeyRoutes } from "./routes/turkey";
@@ -322,6 +324,9 @@ import { salesProcessRoutes } from "./routes/sales-process";
 import { identityComplianceRoutes } from "./routes/identity-compliance";
 import { tax1099Routes } from "./routes/tax-1099";
 import { financeOSRoutes } from "./routes/finance-os";
+import { bookingOSRoutes } from "./routes/booking-os";
+import { listingOSRoutes } from "./routes/listing-os";
+import { cleaningStandardRoutes } from "./routes/cleaning-standard";
 import { reputationRoutes } from "./routes/reputation";
 
 // Route Clusters to optimize TypeScript instantiation depth
@@ -628,12 +633,13 @@ const cluster11 = new Elysia()
   .use(transfersRoutes)
   .use(conciergeRoutes)
   .use(triggerRoutes)
+  .use(workerRoutes)
 ;
 
 export const router = new Elysia({ prefix: "/api/v1" })
+  .use(authRoutes)
   .use(escrowGuardMiddleware)
   .use(dashboardSummaryRoutes)
-  .use(authRoutes)
   .use(searchRoutes)
   .use(globalActivityRoutes)
   .use(escrowRoutes)
@@ -666,6 +672,7 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(cluster11)
   .use(stripeWebhookRoutes)
   .use(mediaUploadRoutes)
+  .use(dataBrowserRoutes)
   .use(externalImportRoutes)
   .use(aiMigrationRoutes)
   .use(mlsRoutes)
@@ -690,5 +697,8 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(salesProcessRoutes)
   .use(tax1099Routes)
   .use(financeOSRoutes)
+  .use(bookingOSRoutes)
+  .use(listingOSRoutes)
+  .use(cleaningStandardRoutes)
   .use(reputationRoutes)
 ;

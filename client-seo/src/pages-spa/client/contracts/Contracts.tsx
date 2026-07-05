@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, FormEvent } from "react";
@@ -14,6 +16,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, MoreHorizontal, FileText, CheckCircle2, XCircle, PenTool, Eye, Download, Sparkles, Mic, Brain } from "lucide-react";
 import { AI_MODELS } from "@/lib/ai-models";
+import { apiClient } from "@/lib/api/client";
+import { useEffect } from "react";
 interface Contract {
   id: string;
   title: string;
@@ -54,51 +58,6 @@ const STATUS = {
     icon: XCircle
   }
 };
-const MOCK: Contract[] = [{
-  id: "1",
-  title: t("client.src.sunset_villa_purchase_agreement"),
-  type: "SALE",
-  status: "ACTIVE",
-  parties: ["John Smith", "Premier Realty"],
-  startDate: "2024-12-01",
-  endDate: "2025-06-01",
-  value: 850000,
-  currency: "USD",
-  createdAt: "2024-11-15",
-  signedAt: "2024-12-01"
-}, {
-  id: "2",
-  title: t("client.src.oak_street_lease_agreement"),
-  type: "LEASE",
-  status: "ACTIVE",
-  parties: ["Robert Davis", "Landlord LLC"],
-  startDate: "2023-06-01",
-  endDate: "2025-05-31",
-  value: 1850,
-  currency: "USD",
-  createdAt: "2023-05-20",
-  signedAt: "2023-06-01"
-}, {
-  id: "3",
-  title: t("client.src.property_management_contract"),
-  type: "MANAGEMENT",
-  status: "PENDING_SIGNATURE",
-  parties: ["Coastal Properties", "Owner Corp"],
-  startDate: "2025-02-01",
-  value: 5000,
-  currency: "USD",
-  createdAt: "2025-01-05"
-}, {
-  id: "4",
-  title: t("client.src.maintenance_services_agreement"),
-  type: "SERVICE",
-  status: "DRAFT",
-  parties: ["Maintenance Co"],
-  startDate: "2025-01-15",
-  value: 1200,
-  currency: "USD",
-  createdAt: "2025-01-10"
-}];
 const EMPTY_FORM = {
   title: "",
   type: "LEASE" as const,
@@ -117,6 +76,8 @@ export default function Contracts() {
   const {
     toast
   } = useToast();
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterType, setFilterType] = useState("all");
@@ -129,31 +90,78 @@ export default function Contracts() {
   const [viewOpen, setViewOpen] = useState(false);
   const [selected, setSelected] = useState<Contract | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
-  const filtered = MOCK.filter(c => {
+
+  const fetchContracts = async () => {
+    try {
+      setIsLoading(true);
+      const res: any = await apiClient.get('/contracts').catch(() => null);
+      if (res && res.data) {
+        const mapped = res.data.map((c: any) => ({
+          id: c.id,
+          title: c.title || 'Untitled Contract',
+          type: c.type || 'SERVICE',
+          status: c.status || 'DRAFT',
+          parties: c.parties || ['System'],
+          startDate: c.effectiveFrom ? new Date(c.effectiveFrom).toISOString().split('T')[0] : (c.createdAt ? new Date(c.createdAt).toISOString().split('T')[0] : ''),
+          endDate: c.effectiveTo ? new Date(c.effectiveTo).toISOString().split('T')[0] : '',
+          value: c.value || 0,
+          currency: c.currency || 'USD',
+          createdAt: c.createdAt ? new Date(c.createdAt).toISOString().split('T')[0] : '',
+          signedAt: c.signedAt ? new Date(c.signedAt).toISOString().split('T')[0] : '',
+        }));
+        setContracts(mapped);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchContracts();
+  }, []);
+
+  const filtered = contracts.filter(c => {
     const m = `${c.title} ${c.parties.join(" ")}`.toLowerCase().includes(search.toLowerCase());
     const s = filterStatus === "all" || c.status === filterStatus;
     const t = filterType === "all" || c.type === filterType;
     return m && s && t;
   });
-  const handleCreate = (e: FormEvent) => {
+
+  const handleCreate = async (e: FormEvent) => {
     e.preventDefault();
-    setCreateOpen(false);
-    toast({
-      title: t("client.src.contract_created")
-    });
+    try {
+      await apiClient.post('/contracts', form);
+      setCreateOpen(false);
+      toast({
+        title: t("client.src.contract_created")
+      });
+      fetchContracts();
+    } catch (error) {
+      toast({ title: "Error creating contract", variant: "destructive" });
+    }
   };
-  const handleEdit = (e: FormEvent) => {
+
+  const handleEdit = async (e: FormEvent) => {
     e.preventDefault();
-    setEditOpen(false);
-    toast({
-      title: t("client.src.contract_updated")
-    });
+    if (!selected) return;
+    try {
+      await apiClient.put(`/contracts/${selected.id}`, form);
+      setEditOpen(false);
+      toast({
+        title: t("client.src.contract_updated")
+      });
+      fetchContracts();
+    } catch (error) {
+      toast({ title: "Error updating contract", variant: "destructive" });
+    }
   };
 
   const handleAiGenerate = async () => {
     setIsGenerating(true);
     const model = AI_MODELS.find(m => m.id === selectedModel);
-    // Simulate calling the backend Elysia API: POST /api/v1/contract-generation
+    // Simulate calling the backend Elysia API: POST /contract-generation
     setTimeout(() => {
       setIsGenerating(false);
       setAiCreateOpen(false);
@@ -162,7 +170,7 @@ export default function Contracts() {
         description: `Generated using ${model?.name || 'AI'}. Your prompt has been successfully parsed into a legal document.`,
         variant: "default"
       });
-      // In a real app, we'd add the returned contract to the MOCK/state array here
+      fetchContracts();
     }, 2000);
   };
   const handleSendForSignature = (c: Contract) => toast({
@@ -173,6 +181,14 @@ export default function Contracts() {
     title: t("client.src.downloading"),
     description: c.title
   });
+  const handleDelete = async (c: Contract) => {
+    try {
+      await apiClient.delete(`/contracts/${c.id}`);
+      fetchContracts();
+    } catch (e) {
+      toast({ title: "Error deleting contract", variant: "destructive" });
+    }
+  };
   const openEdit = (c: Contract) => {
     setSelected(c);
     setForm({
@@ -277,16 +293,16 @@ export default function Contracts() {
       }
       stats={[{
       label: t("client.src.total"),
-      value: MOCK.length
+      value: contracts.length
     }, {
       label: t("client.src.active"),
-      value: MOCK.filter(c => c.status === "ACTIVE").length
+      value: contracts.filter(c => c.status === "ACTIVE").length
     }, {
       label: t("client.src.pending_signature"),
-      value: MOCK.filter(c => c.status === "PENDING_SIGNATURE").length
+      value: contracts.filter(c => c.status === "PENDING_SIGNATURE").length
     }, {
       label: t("client.src.total_value"),
-      value: `$${MOCK.reduce((s, c) => s + (c.value || 0), 0).toLocaleString()}`
+      value: `$${contracts.reduce((s, c) => s + (c.value || 0), 0).toLocaleString()}`
     }]} filters={<div className="flex gap-2">
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="w-36"><SelectValue placeholder={t("client.src.type")} /></SelectTrigger>
@@ -317,7 +333,12 @@ export default function Contracts() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.length === 0 && <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("client.src.no_contracts_found")}</TableCell></TableRow>}
+              {isLoading ? (
+                <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">Loading...</TableCell></TableRow>
+              ) : filtered.length === 0 ? (
+                <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("client.src.no_contracts_found")}</TableCell></TableRow>
+              ) : (
+                <>
               {filtered.map(c => {
               const s = STATUS[c.status];
               const SIcon = s.icon;
@@ -342,12 +363,14 @@ export default function Contracts() {
                           <DropdownMenuItem onClick={() => openEdit(c)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
                           {c.status === "DRAFT" && <DropdownMenuItem onClick={() => handleSendForSignature(c)}><PenTool className="w-4 h-4 mr-2" />{t("client.src.send_for_signature")}</DropdownMenuItem>}
                           <DropdownMenuItem onClick={() => handleDownload(c)}><Download className="w-4 h-4 mr-2" />{t("client.src.download_pdf")}</DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(c)}><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>;
             })}
+                </>
+              )}
             </TableBody>
           </Table>
         </div>

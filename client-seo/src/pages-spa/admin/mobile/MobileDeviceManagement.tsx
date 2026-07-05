@@ -1,3 +1,6 @@
+"use client";
+import { apiClient } from '@/lib/api/client';
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -189,7 +192,7 @@ export default function MobileDeviceManagement() {
   } = useToast();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => apiClient.delete(`/api/v1/unknown/${id}`),
+    mutationFn: async (id: string) => apiClient.delete(`/unknown/${id}`),
     onSuccess: () => {
       toast({ title: "Deleted", description: "Record deleted successfully" });
       queryClient.invalidateQueries();
@@ -278,17 +281,17 @@ export default function MobileDeviceManagement() {
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
       case "IOS":
-        return <Smartphone className="w-4 h-4 text-blue-600" />;
+        return <Smartphone className="w-4 h-4 text-slate-600" />;
       case "ANDROID":
         return <Smartphone className="w-4 h-4 text-green-600" />;
       case "WINDOWS":
-        return <Monitor className="w-4 h-4 text-purple-600" />;
+        return <Monitor className="w-4 h-4 text-slate-600" />;
       case "MACOS":
-        return <Laptop className="w-4 h-4 text-gray-600" />;
+        return <Laptop className="w-4 h-4 text-slate-400" />;
       case "LINUX":
         return <Monitor className="w-4 h-4 text-orange-600" />;
       default:
-        return <Smartphone className="w-4 h-4 text-gray-600" />;
+        return <Smartphone className="w-4 h-4 text-slate-400" />;
     }
   };
   const getSecurityColor = (status: string) => {
@@ -300,19 +303,19 @@ export default function MobileDeviceManagement() {
       case "COMPROMISED":
         return "bg-red-100 text-red-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/5 text-slate-300";
     }
   };
   const getNetworkIcon = (networkType: string) => {
     switch (networkType) {
       case "WIFI":
-        return <Wifi className="w-4 h-4 text-blue-600" />;
+        return <Wifi className="w-4 h-4 text-slate-600" />;
       case "CELLULAR":
         return <Activity className="w-4 h-4 text-green-600" />;
       case "NONE":
-        return <Wifi className="w-4 h-4 text-gray-400" />;
+        return <Wifi className="w-4 h-4 text-slate-400" />;
       default:
-        return <Wifi className="w-4 h-4 text-gray-600" />;
+        return <Wifi className="w-4 h-4 text-slate-400" />;
     }
   };
   const getBatteryColor = (level: number) => {
@@ -374,11 +377,11 @@ export default function MobileDeviceManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.mobile.total_devices")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.mobile.total_devices")}</p>
                   <p className="text-2xl font-bold">{stats.totalDevices}</p>
-                  <p className="text-xs text-gray-500">{t("admin.mobile.all_platforms")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.mobile.all_platforms")}</p>
                 </div>
-                <Smartphone className="w-8 h-8 text-blue-600" />
+                <Smartphone className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -386,9 +389,9 @@ export default function MobileDeviceManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.mobile.active_devices")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.mobile.active_devices")}</p>
                   <p className="text-2xl font-bold text-green-600">{stats.activeDevices}</p>
-                  <p className="text-xs text-gray-500">{t("admin.mobile.currently_online")}</p>
+                  <p className="text-xs text-slate-400">{t("admin.mobile.currently_online")}</p>
                 </div>
                 <Activity className="w-8 h-8 text-green-600" />
               </div>
@@ -398,7 +401,7 @@ export default function MobileDeviceManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.mobile.security_issues")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.mobile.security_issues")}</p>
                   <p className="text-2xl font-bold text-orange-600">{stats.warningDevices + stats.compromisedDevices}</p>
                   <p className="text-xs text-orange-500">{t("admin.mobile.requires_attention")}</p>
                 </div>
@@ -410,11 +413,11 @@ export default function MobileDeviceManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{t("admin.mobile.trusted_devices")}</p>
-                  <p className="text-2xl font-bold text-blue-600">{stats.trustedDevices}</p>
-                  <p className="text-xs text-gray-500">{t("admin.mobile.verified_devices")}</p>
+                  <p className="text-sm font-medium text-slate-400">{t("admin.mobile.trusted_devices")}</p>
+                  <p className="text-2xl font-bold text-slate-600">{stats.trustedDevices}</p>
+                  <p className="text-xs text-slate-400">{t("admin.mobile.verified_devices")}</p>
                 </div>
-                <Shield className="w-8 h-8 text-blue-600" />
+                <Shield className="w-8 h-8 text-slate-600" />
               </div>
             </CardContent>
           </Card>
@@ -501,7 +504,7 @@ export default function MobileDeviceManagement() {
                             {getDeviceIcon(device.deviceType)}
                             <div>
                               <div className="font-medium">{device.deviceName}</div>
-                              <div className="text-sm text-gray-500">
+                              <div className="text-sm text-slate-400">
                                 {device.platform} {device.osVersion}{t("admin.mobile.app_v")}{device.appVersion}
                               </div>
                             </div>
@@ -510,7 +513,7 @@ export default function MobileDeviceManagement() {
                         <TableCell>
                           <div>
                             <div className="font-medium">{device.userName}</div>
-                            <div className="text-sm text-gray-500">{device.userId}</div>
+                            <div className="text-sm text-slate-400">{device.userId}</div>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -543,7 +546,7 @@ export default function MobileDeviceManagement() {
                         <TableCell>
                           <div className="text-sm">
                             <div>{new Date(device.lastActive).toLocaleDateString()}</div>
-                            <div className="text-gray-500">
+                            <div className="text-slate-400">
                               {new Date(device.lastActive).toLocaleTimeString()}
                             </div>
                           </div>
@@ -601,7 +604,7 @@ export default function MobileDeviceManagement() {
                             {policy.isActive ? "Active" : "Inactive"}
                           </Badge>
                         </div>
-                        <p className="text-sm text-gray-600 mb-3">{policy.description}</p>
+                        <p className="text-sm text-slate-400 mb-3">{policy.description}</p>
                         <div className="flex flex-wrap gap-2">
                           {policy.platforms.map((platform, index) => <Badge key={index} variant="outline" className="text-xs">
                               {platform}
@@ -646,12 +649,12 @@ export default function MobileDeviceManagement() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Smartphone className="w-4 h-4 text-blue-600" />
+                        <Smartphone className="w-4 h-4 text-slate-600" />
                         <span>{t("admin.mobile.ios")}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-32 bg-gray-200 rounded-full h-2">
-                          <div className="bg-blue-600 h-2 rounded-full" style={{
+                        <div className="w-32 bg-white/5 rounded-full h-2">
+                          <div className="bg-slate-600 h-2 rounded-full" style={{
                           width: `${stats.iosDevices / stats.totalDevices * 100}%`
                         }}></div>
                         </div>
@@ -664,7 +667,7 @@ export default function MobileDeviceManagement() {
                         <span>{t("admin.mobile.android")}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div className="w-32 bg-white/5 rounded-full h-2">
                           <div className="bg-green-600 h-2 rounded-full" style={{
                           width: `${stats.androidDevices / stats.totalDevices * 100}%`
                         }}></div>
@@ -674,12 +677,12 @@ export default function MobileDeviceManagement() {
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Laptop className="w-4 h-4 text-gray-600" />
+                        <Laptop className="w-4 h-4 text-slate-400" />
                         <span>{t("admin.mobile.desktop")}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-32 bg-gray-200 rounded-full h-2">
-                          <div className="bg-gray-600 h-2 rounded-full" style={{
+                        <div className="w-32 bg-white/5 rounded-full h-2">
+                          <div className="bg-white/10 h-2 rounded-full" style={{
                           width: `${(stats.totalDevices - stats.iosDevices - stats.androidDevices) / stats.totalDevices * 100}%`
                         }}></div>
                         </div>
@@ -800,8 +803,8 @@ export default function MobileDeviceManagement() {
 
               {selectedDevice.location && <div className="space-y-2">
                   <Label>{t("admin.mobile.last_known_location")}</Label>
-                  <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                    <MapPin className="w-4 h-4 text-blue-600" />
+                  <div className="flex items-center gap-2 p-3 bg-white/5 rounded-lg">
+                    <MapPin className="w-4 h-4 text-slate-600" />
                     <span>{selectedDevice.location.address}</span>
                   </div>
                 </div>}

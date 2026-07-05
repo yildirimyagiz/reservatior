@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { RefreshCw, Zap, TrendingUp } from 'lucide-react';
-import api from '@/lib/api';
+import apiClient from '@/lib/api';
 
 export interface OpportunityAction {
   action: string;

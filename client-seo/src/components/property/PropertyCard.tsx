@@ -1,10 +1,11 @@
 import Image from "next/image";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import { motion } from "framer-motion";
 import { Heart, MapPin, Bed, Bath, Maximize2, ShieldCheck, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { QualityScoreBadge } from "@/components/cleaning/QualityScoreBadge";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useTranslation } from "react-i18next";
 import * as React from "react";
@@ -88,7 +89,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
             <CarouselContent className="h-full ml-0">
               {displayImages.map((img: string, idx: number) => (
                 <CarouselItem key={idx} className="relative w-full h-full pl-0">
-                  <Link to={`/properties/${p.id}`} className="block w-full h-full">
+                  <Link to={`/property/${p.id}`} className="block w-full h-full">
                     <Image 
                       src={img} 
                       alt={`Optimized rental listing staging by Reservatior - ${p.name || 'Property'} - View ${idx + 1}`} 
@@ -110,7 +111,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
             />
           </Carousel>
         ) : (
-          <Link to={`/properties/${p.id}`} className="block w-full h-full">
+          <Link to={`/property/${p.id}`} className="block w-full h-full">
             <Image 
               src={displayImages[0]} 
               alt={`Optimized rental listing staging by Reservatior - ${p.name || 'Property'}`} 
@@ -128,9 +129,14 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
         
         {/* Top Badges */}
         <div className="absolute top-4 left-4 flex flex-col gap-2 items-start pointer-events-none z-10">
-          <Badge className="bg-white/90 backdrop-blur-md text-black border-0 font-black px-3 py-1 shadow-xl uppercase tracking-[0.2em] text-[8px]">
-            {isSale ? t("client.src.for_sale", "FOR SALE") : isRent ? t("client.src.for_rent", "FOR RENT") : t("client.src.booking", "BOOKING")}
-          </Badge>
+          <div className="flex items-start gap-2">
+            <Badge className="bg-white/90 backdrop-blur-md text-black border-0 font-black px-3 py-1 shadow-xl uppercase tracking-[0.2em] text-[8px]">
+              {isSale ? t("client.src.for_sale", "FOR SALE") : isRent ? t("client.src.for_rent", "FOR RENT") : t("client.src.booking", "BOOKING")}
+            </Badge>
+            {p.qualityScore != null && (
+              <QualityScoreBadge score={p.qualityScore} size="sm" showLabel={false} />
+            )}
+          </div>
           {getPromotionBadge(p.promotion)}
         </div>
 
@@ -173,7 +179,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
       </div>
       
       {/* External Details Area */}
-      <Link to={`/properties/${p.id}`} className="flex flex-col gap-3 px-2 pt-4">
+      <Link to={`/property/${p.id}`} className="flex flex-col gap-3 px-2 pt-4">
         {/* Features Row */}
         <div className="flex items-center gap-4 text-muted-foreground">
           {p.bedrooms > 0 && (

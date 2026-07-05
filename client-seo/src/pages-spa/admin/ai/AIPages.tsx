@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -378,7 +380,7 @@ export function Automation() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <p className="font-medium text-sm">{rule.name}</p>
-                  {rule.isActive ? <Badge className="bg-green-100 text-green-700 border-0 text-xs">{t("admin.ai.active")}</Badge> : <Badge className="bg-gray-100 text-gray-500 border-0 text-xs">{t("admin.ai.inactive")}</Badge>}
+                  {rule.isActive ? <Badge className="bg-green-100 text-green-700 border-0 text-xs">{t("admin.ai.active")}</Badge> : <Badge className="bg-white/5 text-slate-400 border-0 text-xs">{t("admin.ai.inactive")}</Badge>}
                 </div>
                 <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
                   <span>{t("admin.ai.trigger")}<strong className="text-foreground">{rule.trigger}</strong></span>
@@ -448,7 +450,7 @@ export function Automation() {
               <input type="checkbox" checked={form.isActive} onChange={e => setForm({
               ...form,
               isActive: e.target.checked
-            })} className="w-4 h-4 rounded" />
+            })} className="w-4 h-4 rounded-lg" />
               <span className="text-sm">{t("admin.ai.activate_immediately")}</span>
             </label>
             <DialogFooter><Button type="submit">{t("admin.ai.create_rule")}</Button></DialogFooter>

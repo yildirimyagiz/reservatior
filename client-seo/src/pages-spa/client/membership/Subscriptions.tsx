@@ -1,6 +1,8 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "@/lib/react-router-shim";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -11,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle2, Zap, Video, Globe, BarChart4, Sparkles, Crown, Building2, Instagram, Film, Languages, ArrowRight, UserPlus, Users2, Briefcase, Rocket, Clock, TrendingUp, MapPin, Mic2, Cpu, BrainCircuit, Settings2, Sliders, Shield, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PageShell } from "../../client/layout/PageShell";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface PricingPlan {

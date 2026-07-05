@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -237,8 +239,8 @@ export default function AiExtractedDataPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <div className="w-16 bg-gray-200 rounded-full h-2">
-                          <div className="bg-blue-500 h-2 rounded-full" style={{
+                        <div className="w-16 bg-white/5 rounded-full h-2">
+                          <div className="bg-slate-500 h-2 rounded-full" style={{
                         width: `${(item.confidenceScore || 0) * 100}%`
                       }} />
                         </div>

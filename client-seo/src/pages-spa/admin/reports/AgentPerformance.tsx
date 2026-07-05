@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -152,7 +154,7 @@ export default function AgentPerformance() {
   const topNames = AGENTS.slice(0, 4).map(a => a.name);
   const MONTHLY_TREND = buildMonthlyTrend(records, topNames);
   const CONVERSION = buildConversion(records);
-  const RADAR_DATA = buildRadar(records, topNames.slice(0, 3), t);
+  const RADAR_DATA = buildRadar(records, topNames.slice(0, 3), t as any);
   const totalDeals = AGENTS.reduce((s, a) => s + a.deals, 0);
   const totalCommission = AGENTS.reduce((s, a) => s + a.commission, 0);
   return <div className="min-h-screen bg-background">
@@ -308,7 +310,7 @@ export default function AgentPerformance() {
                   </ResponsiveContainer>
                   <div className="flex flex-wrap gap-4 mt-3">
                     {topNames.map((name, i) => <div key={name} className="flex items-center gap-1.5 text-xs text-slate-400">
-                        <span className="w-3 h-0.5 inline-block rounded" style={{ background: AGENT_COLORS[i] }} />
+                        <span className="w-3 h-0.5 inline-block rounded-lg" style={{ background: AGENT_COLORS[i] }} />
                         {name}
                       </div>)}
                   </div>

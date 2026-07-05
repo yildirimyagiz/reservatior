@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -6,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Briefcase, Building2, UserCircle, Scale, Clock, CheckCircle2, DollarSign, Plus, MessageSquare, Phone, Mail, ExternalLink, UserCheck } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageShell } from "../layout/PageShell";
+import { useEffect } from "react";
+import { apiClient } from "@/lib/api/client";
 interface SolicitorRecord {
   id: string;
   name: string;
@@ -24,53 +28,31 @@ interface SolicitorRecord {
     currency: string;
   }>;
 }
-const MOCK_SOLICITORS: SolicitorRecord[] = [{
-  id: "s1",
-  name: "Alistair Cook",
-  firm: "Cook & Partners LLP",
-  type: "conveyancing",
-  contact: {
-    email: "acook@cookllp.com",
-    phone: "+44 20 7123 4567"
-  },
-  assignments: [{
-    dealId: "d1",
-    dealName: "Sunrise Villa Acquisition",
-    status: "instructed",
-    engagedAt: "2024-03-01",
-    fee: 1250,
-    currency: "GBP"
-  }, {
-    dealId: "d2",
-    dealName: "Harbor View Sale",
-    status: "contract-exchange",
-    engagedAt: "2024-02-15",
-    fee: 1800,
-    currency: "GBP"
-  }]
-}, {
-  id: "s2",
-  name: "Sarah Jenkins",
-  firm: "Westminster Legal",
-  type: "litigation",
-  contact: {
-    email: "sjenkins@westlegal.com",
-    phone: "+44 20 7456 7890"
-  },
-  assignments: [{
-    dealId: "d3",
-    dealName: "Tenant Dispute - Apt 12",
-    status: "engaged",
-    engagedAt: "2024-03-10",
-    fee: 450,
-    currency: "GBP"
-  }]
-}];
 export default function SolicitorManagement() {
   const {
     t
   } = useTranslation();
-  const [solicitors] = useState<SolicitorRecord[]>(MOCK_SOLICITORS);
+  const [solicitors, setSolicitors] = useState<SolicitorRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSolicitors = async () => {
+      try {
+        setIsLoading(true);
+        const res: any = await apiClient.get('/legal/solicitors').catch(() => null);
+        if (res && res.data) {
+          setSolicitors(res.data);
+        } else {
+          setSolicitors([]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch solicitors:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchSolicitors();
+  }, []);
   const getStatusBadge = (status: SolicitorRecord['assignments'][0]['status']) => {
     switch (status) {
       case 'verified':
@@ -109,7 +91,11 @@ export default function SolicitorManagement() {
 
           <TabsContent value="solicitors">
             <div className="grid gap-6 md:grid-cols-2">
-              {solicitors.map(solicitor => <Card key={solicitor.id} className="hover:shadow-lg transition-all border-none shadow-sm ring-1 ring-muted">
+              {isLoading ? (
+                <p className="text-muted-foreground col-span-2">Loading...</p>
+              ) : solicitors.length === 0 ? (
+                <p className="text-muted-foreground col-span-2">No solicitors found.</p>
+              ) : solicitors.map(solicitor => <Card key={solicitor.id} className="hover:shadow-lg transition-all border-none shadow-sm ring-1 ring-muted">
                   <CardHeader className="bg-muted/30 pb-4">
                     <div className="flex justify-between items-start">
                       <div className="flex items-center gap-4">

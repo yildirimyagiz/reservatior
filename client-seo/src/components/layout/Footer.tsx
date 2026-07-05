@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import { Github, Twitter, Linkedin, Facebook, Heart } from "lucide-react";
 export function Footer() {
   const {
@@ -21,7 +21,7 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5">{t("client.src.platform")}</h4>
             <ul className="space-y-3">
-              <li><Link to="/properties" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">{t("client.src.inventory")}</Link></li>
+              <li><Link to="/property" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">{t("client.src.inventory")}</Link></li>
               <li><Link to="/bookings" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">{t("client.src.bookings")}</Link></li>
               <li><Link to="/ai-studio" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">{t("client.src.ai_studio")}</Link></li>
               <li><Link to="/analytics" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">{t("client.src.analytics")}</Link></li>

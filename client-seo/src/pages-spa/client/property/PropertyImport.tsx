@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -8,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { Download, Link, CheckCircle2, AlertTriangle, Loader2, Globe, Home, Plus, Zap } from "lucide-react";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 interface ImportResult {
   url: string;
   success: boolean;

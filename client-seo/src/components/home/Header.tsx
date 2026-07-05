@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@/lib/react-router-shim";
 import { Building, Search, Home, Users, Calendar, Phone, Menu, X, Shield } from "lucide-react";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { MessageDropdown } from "@/components/layout/MessageDropdown";
@@ -19,18 +19,18 @@ export function Header() {
     isAuthenticated
   } = useAuth();
   const location = useLocation();
-  const isAuthPage = location.pathname.startsWith("/auth/");
+  const isAuthPage = location?.pathname?.startsWith("/auth/") || false;
   const navigationItems = [{
     name: "Home",
     href: "/",
     icon: Home
   }, {
-    name: "Properties",
-    href: "/properties",
+    name: "Listings",
+    href: "/listings",
     icon: Building
   }, {
     name: "Search",
-    href: "/property-search",
+    href: "/property",
     icon: Search
   }, {
     name: "Management",
@@ -60,7 +60,7 @@ export function Header() {
         <Link to="/" className="flex items-center gap-2 group">
           <div>
             <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-400 via-blue-200 to-blue-400 bg-size-[200%_auto] animate-shimmer bg-clip-text text-transparent">Reservatior</h1>
-            <p className="text-[10px] text-slate-400 font-medium tracking-widest uppercase mt-0.5">{t("client.src.premium_property_iq")}</p>
+            <p className="text-[10px] text-slate-400 font-medium tracking-widest uppercase mt-0.5">Premium Property IQ</p>
           </div>
         </Link>
 

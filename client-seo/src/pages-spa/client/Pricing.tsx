@@ -1,3 +1,5 @@
+"use client";
+
 import { Helmet } from "react-helmet-async";
 import { FAQPageSchema } from "@/components/seo/SchemaScript";
 import { Button } from "@/components/ui/button";
@@ -5,9 +7,9 @@ import { Check, Zap, Shield, Activity, Star, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/react-router-shim";
 import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 
 export default function Pricing() {
   const { t } = useTranslation();

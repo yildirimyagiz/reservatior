@@ -53,11 +53,11 @@
     "src/i18n",
     "src/locales",
     "src/types",
-    "src/config"
+    "src/config",
+    "src/pages-spa"
   ],
   "exclude": [
     "node_modules",
-    "src/pages-spa",
     "src/router",
     "src-original"
   ]

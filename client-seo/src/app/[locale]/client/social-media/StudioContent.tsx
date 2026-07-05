@@ -84,9 +84,9 @@ export function StudioContent() {
                 </p>
               </div>
               <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
-                <div className="flex items-center gap-2"><Heart className="w-4 h-4 text-pink-500" /> <span className="font-bold">4.2k</span></div>
+                <div className="flex items-center gap-2"><Heart className="w-4 h-4 text-pink-500" /> <span className="font-bold">{t("social_media.studiocontent.auto_ext_1")}</span></div>
                 <div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-400" /> <span className="font-bold">890</span></div>
-                <div className="flex items-center gap-2"><Share2 className="w-4 h-4 text-blue-400" /> <span className="font-bold">1.5k</span></div>
+                <div className="flex items-center gap-2"><Share2 className="w-4 h-4 text-blue-400" /> <span className="font-bold">{t("social_media.studiocontent.auto_ext_2")}</span></div>
               </div>
             </motion.div>
 

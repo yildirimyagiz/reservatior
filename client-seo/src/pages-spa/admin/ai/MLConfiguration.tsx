@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
@@ -15,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 
 // Type definitions
 interface MLModel {
@@ -312,7 +314,7 @@ export default function MLConfiguration() {
               <Cpu className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-slate-600">
                 {deployedModels}
               </div>
               <p className="text-xs text-muted-foreground">{t("admin.ai.in_production")}</p>
@@ -325,7 +327,7 @@ export default function MLConfiguration() {
               <Settings className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">
+              <div className="text-2xl font-bold text-slate-600">
                 {activeConfigs}
               </div>
               <p className="text-xs text-muted-foreground">
@@ -527,7 +529,7 @@ export default function MLConfiguration() {
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <code className="text-sm bg-gray-100 px-2 py-1 rounded">
+                          <code className="text-sm bg-white/5 px-2 py-1 rounded-lg">
                             {model.version}
                           </code>
                         </TableCell>

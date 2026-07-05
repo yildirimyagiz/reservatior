@@ -486,7 +486,7 @@ export const cxApi = {
     const response = await fetch(`${apiClient['baseURL']}/organizations/${orgId}/cx/import`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
       },
       body: formData
     });

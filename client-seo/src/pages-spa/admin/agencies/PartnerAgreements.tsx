@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Shield, TrendingUp, Activity, Award, ArrowRight, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -29,7 +31,7 @@ interface PartnerAgreement {
 
 const STATUS_OPTIONS = ["CREATED", "ACTIVE", "SUSPENDED", "TERMINATED"];
 const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
-  CREATED: { label: "Created", cls: "bg-blue-500/10 text-blue-400 border-blue-500/20" },
+  CREATED: { label: "Created", cls: "bg-slate-500/10 text-slate-400 border-slate-500/20" },
   ACTIVE: { label: "Active", cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" },
   SUSPENDED: { label: "Suspended", cls: "bg-orange-500/10 text-orange-400 border-orange-500/20" },
   TERMINATED: { label: "Terminated", cls: "bg-red-500/10 text-red-400 border-red-500/20" },
@@ -125,8 +127,8 @@ export const PartnerAgreements: React.FC = () => {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400 flex items-center gap-3">
-            <Shield className="w-8 h-8 text-indigo-400" />
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400 flex items-center gap-3">
+            <Shield className="w-8 h-8 text-slate-400" />
             {t("admin.agreements.title", "Partner Agreements")}
           </h1>
           <p className="text-slate-400 mt-2">
@@ -135,7 +137,7 @@ export const PartnerAgreements: React.FC = () => {
         </div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/20">
+            <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
               <Shield className="w-4 h-4 mr-2" />
               {t("admin.agreements.create", "Create Agreement")}
             </Button>
@@ -162,7 +164,7 @@ export const PartnerAgreements: React.FC = () => {
               </div>
               <DialogFooter className="pt-4">
                 <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)}>{t("common.cancel", "Cancel")}</Button>
-                <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700" disabled={createMutation.isPending}>
+                <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
                   {createMutation.isPending ? t("common.saving", "Saving...") : t("common.create", "Create")}
                 </Button>
               </DialogFooter>
@@ -175,7 +177,7 @@ export const PartnerAgreements: React.FC = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.active_contracts", "Active Contracts")}</CardTitle>
-            <Activity className="w-4 h-4 text-indigo-400" />
+            <Activity className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">{agreements.filter(a => a.status === 'ACTIVE').length}</div>
@@ -211,7 +213,7 @@ export const PartnerAgreements: React.FC = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.avg_multiplier", "Avg Multiplier")}</CardTitle>
-            <ArrowRight className="w-4 h-4 text-blue-400" />
+            <ArrowRight className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">
@@ -237,7 +239,7 @@ export const PartnerAgreements: React.FC = () => {
               {t("admin.agreements.no_agreements", "No agreements found.")}
             </div>
           ) : (
-            <div className="rounded-md border border-white/10">
+            <div className="rounded-xl border border-white/10">
               <Table>
                 <TableHeader>
                   <TableRow className="border-white/10 hover:bg-transparent">
@@ -276,7 +278,7 @@ export const PartnerAgreements: React.FC = () => {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="text-indigo-400 hover:text-indigo-300 hover:bg-indigo-400/10"
+                              className="text-slate-400 hover:text-slate-300 hover:bg-slate-400/10"
                               onClick={() => {
                                 setSelectedAgreement(agr);
                                 setTransitionState(validTransitions[0]);
@@ -344,7 +346,7 @@ export const PartnerAgreements: React.FC = () => {
               {t("common.cancel", "Cancel")}
             </Button>
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700"
+              className="bg-slate-600 hover:bg-slate-700"
               onClick={() => selectedAgreement && transitionMutation.mutate({ id: selectedAgreement.id, nextState: transitionState })}
               disabled={transitionMutation.isPending || !transitionState}
             >

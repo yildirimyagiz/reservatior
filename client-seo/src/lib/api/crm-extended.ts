@@ -360,7 +360,7 @@ export const crmExtendedApi = {
     const response = await fetch(`${apiClient['baseURL']}/organizations/${orgId}/crm-extended/${id}/activities`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
       },
       body: formData
     });
@@ -522,7 +522,7 @@ export const crmExtendedApi = {
     const response = await fetch(`${apiClient['baseURL']}/organizations/${orgId}/crm-extended/export`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(options)
@@ -576,7 +576,7 @@ export const crmExtendedApi = {
     const response = await fetch(`${apiClient['baseURL']}/organizations/${orgId}/crm-extended/import`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("auth_token")}`,
+        'Authorization': `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,
       },
       body: formData
     });

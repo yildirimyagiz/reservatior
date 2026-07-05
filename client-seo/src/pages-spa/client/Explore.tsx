@@ -1,6 +1,8 @@
+"use client";
+
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/react-router-shim";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

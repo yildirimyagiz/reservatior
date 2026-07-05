@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
@@ -24,7 +26,7 @@ const VendorsManagement = () => {
 
             const createMutation = useMutation({
               mutationFn: async (data: any) => {
-                return apiClient.post('/api/v1/vendor-profiles', {
+                return apiClient.post('/vendor-profiles', {
                    ...data,
                    defaultCommissionBps: parseInt(data.defaultCommissionBps)
                 });
@@ -116,7 +118,7 @@ const VendorsManagement = () => {
         <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Active Work Orders</CardTitle>
-            <Wrench className="w-4 h-4 text-blue-400" />
+            <Wrench className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">1,204</div>

@@ -3,8 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, FileText, Calendar, DollarSign, TrendingUp } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export function TenantsContent() {
+    const { t } = useTranslation();
   const tenantModules = [
     {
       title: "All Tenants",
@@ -46,8 +48,8 @@ export function TenantsContent() {
   return (
     <div className="container mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Tenants</h1>
-        <p className="text-muted-foreground">Manage tenants and rental applications</p>
+        <h1 className="text-3xl font-bold">{t("tenants.tenantscontent.auto_ext_1")}</h1>
+        <p className="text-muted-foreground">{t("tenants.tenantscontent.auto_ext_2")}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -18,6 +18,7 @@ import {
   Clock
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface VideoVendor {
   id: string;
@@ -90,6 +91,7 @@ const TIER_COLORS: Record<string, string> = {
 };
 
 export default function VideoVendorsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -109,16 +111,16 @@ export default function VideoVendorsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Video Vendors</h1>
-              <p className="text-gray-400">Find professional video production services</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("video_vendors.videovendorspage.auto_ext_1")}</h1>
+              <p className="text-gray-400">{t("video_vendors.videovendorspage.auto_ext_2")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-purple-600 hover:bg-purple-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("video_vendors.videovendorspage.auto_ext_3")}
+                                      </Button>
           </div>
         </motion.div>
 
@@ -145,8 +147,8 @@ export default function VideoVendorsPage() {
                 </div>
                 <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
+                  {t("video_vendors.videovendorspage.auto_ext_4")}
+                                                  </Button>
               </div>
             </CardContent>
           </Card>
@@ -207,18 +209,18 @@ export default function VideoVendorsPage() {
 
                   <div className="flex items-center gap-2 text-sm text-gray-400">
                     <Clock className="w-4 h-4" />
-                    <span>Response: {vendor.responseTime}</span>
+                    <span>{t("video_vendors.videovendorspage.auto_ext_5")} {vendor.responseTime}</span>
                   </div>
 
                   <div className="flex gap-2 pt-4 border-t border-purple-500/20">
                     <Button variant="outline" className="flex-1 bg-white/10 border-purple-500/30 text-white">
                       <Mail className="w-4 h-4 mr-2" />
-                      Contact
-                    </Button>
+                      {t("video_vendors.videovendorspage.auto_ext_6")}
+                                                    </Button>
                     <Button className="flex-1 bg-purple-600 hover:bg-purple-700">
                       <ArrowUpRight className="w-4 h-4 mr-2" />
-                      View
-                    </Button>
+                      {t("video_vendors.videovendorspage.auto_ext_7")}
+                                                    </Button>
                   </div>
                 </CardContent>
               </Card>

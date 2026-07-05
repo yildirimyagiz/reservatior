@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,7 +41,7 @@ export default function Sessions() {
     if (!session.isActive) return "bg-rose-500/10 text-rose-400 border-rose-500/20";
     return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
   };
-  const filteredSessions = sessions.filter(s => s.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || s.ipAddress?.includes(searchTerm));
+  const filteredSessions = sessions.filter((s: { user: { name: string; }; ipAddress: string | string[]; }) => s.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || s.ipAddress?.includes(searchTerm));
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-6">
         <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
@@ -48,10 +50,10 @@ export default function Sessions() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-           {[{ label: t("admin.security.total_handshakes"), val: sessions.length, icon: Monitor, color: "text-blue-400" },
-             { label: t("admin.security.active_links"), val: sessions.filter(s => s.isActive).length, icon: Activity, color: "text-emerald-400" },
-             { label: t("admin.security.suspicious"), val: sessions.filter(s => s.securityFlags?.suspiciousActivity).length, icon: AlertTriangle, color: "text-rose-500" },
-             { label: t("admin.security.system_load"), val: "Optimal", icon: Server, color: "text-purple-400" }
+           {[{ label: t("admin.security.total_handshakes"), val: sessions.length, icon: Monitor, color: "text-slate-400" },
+             { label: t("admin.security.active_links"), val: sessions.filter((s: { isActive: any; }) => s.isActive).length, icon: Activity, color: "text-emerald-400" },
+             { label: t("admin.security.suspicious"), val: sessions.filter((s: { securityFlags: { suspiciousActivity: any; }; }) => s.securityFlags?.suspiciousActivity).length, icon: AlertTriangle, color: "text-rose-500" },
+             { label: t("admin.security.system_load"), val: "Optimal", icon: Server, color: "text-slate-400" }
            ].map((stat, i) => <Card key={i} className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
                  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
                     <stat.icon className="w-12 h-12" />
@@ -65,8 +67,8 @@ export default function Sessions() {
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
            <div className="relative flex-1 max-w-md group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
-              <Input placeholder={t("admin.security.search_link_logs")} className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-blue-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-slate-500 transition-colors" />
+              <Input placeholder={t("admin.security.search_link_logs")} className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-slate-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
            </div>
         </div>
 
@@ -85,10 +87,10 @@ export default function Sessions() {
                  <TableBody>
                     {isLoading ? <TableRow>
                           <TableCell colSpan={5} className="py-20 text-center">
-                             <Zap className="w-8 h-8 text-blue-500 animate-pulse mx-auto mb-4 opacity-50" />
+                             <Zap className="w-8 h-8 text-slate-500 animate-pulse mx-auto mb-4 opacity-50" />
                              <p className="text-xs font-bold text-slate-400">{t("admin.security.syncing_connection_matrix")}</p>
                           </TableCell>
-                       </TableRow> : filteredSessions.map(session => <TableRow key={session.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
+                       </TableRow> : filteredSessions.map((session: any) => <TableRow key={session.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
                            <TableCell className="py-8 px-8">
                               <div className="flex items-center gap-6">
                                  <div className="p-3 bg-white/5 border border-white/10 rounded-2xl group-hover:scale-105 transition-all">
@@ -102,7 +104,7 @@ export default function Sessions() {
                            </TableCell>
                            <TableCell className="px-8">
                               <div className="space-y-1">
-                                 <p className="text-[10px] font-bold text-blue-400 leading-none flex items-center gap-1"><Monitor className="w-3 h-3" /> {session.deviceType || "UNKNOWN_HARDWARE"}</p>
+                                 <p className="text-[10px] font-bold text-slate-400 leading-none flex items-center gap-1"><Monitor className="w-3 h-3" /> {session.deviceType || "UNKNOWN_HARDWARE"}</p>
                                  <p className="text-[9px] font-bold text-slate-600 mt-1 flex items-center gap-1"><Globe className="w-3 h-3" /> {session.ipAddress}</p>
                               </div>
                            </TableCell>

@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -11,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api";
+import { apiClient } from "@/lib/api/client";
 import { Edit, Trash2, MoreHorizontal, CreditCard, Users, Building2, RefreshCw, Zap, Shield, Rocket, Sparkles, Activity, Layers, ChevronRight, Globe, DollarSign, Search, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -214,7 +216,7 @@ export default function Plans() {
           label: t('admin.plans.availableTiers'),
           value: plans.length,
           icon: Layers,
-          color: "text-blue-500"
+          color: "text-slate-500"
         }, {
           label: t('admin.plans.totalSubscribers'),
           value: totalSubscribers,
@@ -224,7 +226,7 @@ export default function Plans() {
           label: t('admin.plans.monthlyVelocity'),
           value: `$${(monthlyRevenue / 100).toLocaleString()}`,
           icon: Activity,
-          color: "text-purple-500"
+          color: "text-slate-500"
         }].map((stat, i) => <motion.div key={i} initial={{
           opacity: 0,
           y: 20
@@ -249,8 +251,8 @@ export default function Plans() {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 px-4">
            <div className="flex items-center gap-4 flex-1">
               <div className="relative group min-w-[320px]">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-blue-500 transition-colors" />
-                <Input placeholder={t('admin.plans.filterPlaceholder')} value={search} onChange={e => setSearch(e.target.value)} className="bg-card/60 backdrop-blur-md border-border dark:border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-blue-500/20 focus:border-blue-500/40 transition-all font-bold border-l-2 border-t-2 shadow-2xl tracking-tight" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-slate-500 transition-colors" />
+                <Input placeholder={t('admin.plans.filterPlaceholder')} value={search} onChange={e => setSearch(e.target.value)} className="bg-card/60 backdrop-blur-md border-border dark:border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 focus:border-slate-500/40 transition-all font-bold border-l-2 border-t-2 shadow-2xl tracking-tight" />
               </div>
               <Button variant="outline" size="icon" className="h-14 w-14 rounded-2xl border-border dark:border-border bg-card/60 text-muted-foreground hover:text-foreground transition-all shadow-xl hover:bg-card/80" onClick={() => queryClient.invalidateQueries({ queryKey: ['adminPlans'] })}>
                 <RefreshCw className={cn("w-5 h-5", loading && "animate-spin")} />
@@ -281,7 +283,7 @@ export default function Plans() {
                <TableBody>
                   {loading ? <TableRow>
                       <TableCell colSpan={6} className="py-24 text-center">
-                        <Activity className="w-12 h-12 text-blue-500 animate-spin mx-auto mb-4 opacity-50" />
+                        <Activity className="w-12 h-12 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
                         <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t('admin.plans.syncingGrid')}</p>
                       </TableCell>
                     </TableRow> : filtered.length === 0 ? <TableRow>
@@ -308,7 +310,7 @@ export default function Plans() {
                          <TableCell className="px-8">
                             <div className="flex flex-col gap-1.5">
                                <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground/70">
-                                  <Users className="w-3 h-3 text-blue-500" /> {plan.limits?.maxUsers ?? "∞"} {t('maxUsers')}
+                                  <Users className="w-3 h-3 text-slate-500" /> {plan.limits?.maxUsers ?? "∞"} {t('maxUsers')}
                                </div>
                                <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground/70">
                                   <Building2 className="w-3 h-3 text-emerald-500" /> {plan.limits?.maxProperties ?? "∞"} {t('admin.plans.maxEntityProps')}
@@ -318,8 +320,8 @@ export default function Plans() {
                          <TableCell className="px-8">
                             <div className="flex flex-wrap gap-2">
                                {plan.limits?.aiFeatures && <Badge className="bg-pink-500/10 text-pink-600 dark:text-pink-400 border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin.plans.neuralAi')}</Badge>}
-                               {plan.limits?.customIntegrations && <Badge className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin.plans.externalSync')}</Badge>}
-                               {plan.limits?.prioritySupport && <Badge className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin.plans.highPriorityLink')}</Badge>}
+                               {plan.limits?.customIntegrations && <Badge className="bg-slate-500/10 text-slate-600 dark:text-slate-400 border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin.plans.externalSync')}</Badge>}
+                               {plan.limits?.prioritySupport && <Badge className="bg-slate-500/10 text-slate-600 dark:text-slate-400 border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin.plans.highPriorityLink')}</Badge>}
                                {!plan.limits?.aiFeatures && !plan.limits?.customIntegrations && !plan.limits?.prioritySupport && <span className="text-[10px] font-bold text-muted-foreground/30">{t('admin.plans.baseFeaturesOnly')}</span>}
                             </div>
                          </TableCell>

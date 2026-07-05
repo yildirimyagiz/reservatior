@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -114,10 +116,10 @@ export default function AIServiceAnalytics() {
 
       {/* Global Impact Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-indigo-500/10 via-slate-900 to-slate-900 border-indigo-500/20">
+        <Card className="bg-gradient-to-br from-slate-500/10 via-slate-900 to-slate-900 border-slate-500/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.total_agencies_using_ai")}</CardTitle>
-            <Building2 className="w-4 h-4 text-indigo-400" />
+            <Building2 className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">482</div>
@@ -125,10 +127,10 @@ export default function AIServiceAnalytics() {
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-purple-500/10 via-slate-900 to-slate-900 border-purple-500/20">
+        <Card className="bg-gradient-to-br from-slate-500/10 via-slate-900 to-slate-900 border-slate-500/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.agent_adoption_rate")}</CardTitle>
-            <UserCheck className="w-4 h-4 text-purple-400" />
+            <UserCheck className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">{stats?.adoptionRate?.toFixed(1)}%</div>
@@ -164,7 +166,7 @@ export default function AIServiceAnalytics() {
         <Card className="bg-white/5 border-white/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-purple-400" />{t("admin.analytics.booking_revenue_ai_vs")}</CardTitle>
+              <Sparkles className="h-5 w-5 text-slate-400" />{t("admin.analytics.booking_revenue_ai_vs")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -219,7 +221,7 @@ export default function AIServiceAnalytics() {
       <Card className="bg-white/5 border-white/10">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-blue-400" />{t("admin.analytics.ai_service_handlers_performance")}</CardTitle>
+            <Zap className="h-5 w-5 text-slate-400" />{t("admin.analytics.ai_service_handlers_performance")}</CardTitle>
           <CardDescription>{t("admin.analytics.direct_breakdown_of_client")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -238,7 +240,7 @@ export default function AIServiceAnalytics() {
                 {stats?.services?.map((row, i) => <tr key={i} className="hover:bg-white/5 transition-colors group">
                     <td className="p-4 font-medium flex items-center gap-3 text-white">
                       <div className="p-2 bg-white/5 rounded-lg group-hover:bg-white/10 transition-colors">
-                        {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-purple-400" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-amber-400" />}
+                        {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-slate-400" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-amber-400" />}
                       </div>
                       {row.name}
                     </td>
@@ -251,7 +253,7 @@ export default function AIServiceAnalytics() {
                     <td className="p-4 text-slate-400">
                       <div className="flex items-center gap-3">
                         <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                          <div className="h-full bg-blue-500 rounded-full" style={{
+                          <div className="h-full bg-slate-500 rounded-full" style={{
                             width: `${row.trend * 5}%`
                           }}></div>
                         </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -113,7 +115,7 @@ export default function AIStudio() {
 
   const listenToTaskStream = (taskId: string) => {
     const baseURL = apiClient.defaults.baseURL?.replace('/api/v1', '') || 'http://localhost:3000';
-    const sse = new EventSource(`${baseURL}/api/v1/system/trigger-stream`);
+    const sse = new EventSource(`${baseURL}/system/trigger-stream`);
 
     const cleanup = () => {
       sse.close();

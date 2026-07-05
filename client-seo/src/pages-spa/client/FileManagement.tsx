@@ -1,3 +1,5 @@
+"use client";
+
 import { t } from "i18next";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +9,7 @@ import { FileText, Folder, Eye, Download, Search, Filter, RefreshCw, Trash2, Edi
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 interface FileEntry {
   id: string;
   name: string;
@@ -53,6 +56,7 @@ export default function FileManagement() {
   const {
     t
   } = useTranslation();
+  const { toast } = useToast();
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [filteredFiles, setFilteredFiles] = useState<FileEntry[]>([]);
   const [filter, setFilter] = useState<FileFilter>({});
@@ -366,22 +370,21 @@ export default function FileManagement() {
     }
   };
   const handleFileAction = (action: string, file: FileEntry) => {
-    console.log(`${action} action on file:`, file.name);
     switch (action) {
       case 'view':
         setSelectedFile(file);
         break;
       case 'download':
-        console.log('Downloading file:', file.name);
+        toast({ title: t("client.src.downloading_file") || "Downloading file", description: file.name });
         break;
       case 'share':
-        console.log('Sharing file:', file.name);
+        toast({ title: t("client.src.sharing_file") || "Sharing file", description: file.name });
         break;
       case 'edit':
-        console.log('Editing file:', file.name);
+        toast({ title: t("client.src.editing_file") || "Editing file", description: file.name });
         break;
       case 'delete':
-        console.log('Deleting file:', file.name);
+        toast({ title: t("client.src.deleting_file") || "Deleting file", description: file.name, variant: "destructive" });
         break;
     }
   };

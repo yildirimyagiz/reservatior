@@ -18,26 +18,29 @@ class ApiClient {
     // Strip redundant /api/v1 if provided to avoid double prefix
     const cleanEndpoint = endpoint.startsWith("/api/v1") ? endpoint.substring(7) : endpoint;
     const url = `${this.baseURL}${cleanEndpoint}`;
-    const storedData = localStorage.getItem("user-storage");
     let token = null;
-    if (storedData) {
-      try {
-        const parsed = JSON.parse(storedData);
-        token = parsed.state?.token;
-      } catch (e) {
-        console.error("Failed to parse user-storage", e);
-      }
-    }
-
-    // Get the selected region from regions-store
-    const regionsData = localStorage.getItem("regions-store");
     let regionCode = null;
-    if (regionsData) {
-      try {
-        const parsed = JSON.parse(regionsData);
-        regionCode = parsed.state?.selectedRegion?.countryCode || parsed.state?.selectedRegion?.code;
-      } catch (e) {
-        console.error("Failed to parse regions-store", e);
+
+    if (typeof window !== "undefined") {
+      const storedData = localStorage.getItem("user-storage");
+      if (storedData) {
+        try {
+          const parsed = JSON.parse(storedData);
+          token = parsed.state?.token;
+        } catch (e) {
+          console.error("Failed to parse user-storage", e);
+        }
+      }
+
+      // Get the selected region from regions-store
+      const regionsData = localStorage.getItem("regions-store");
+      if (regionsData) {
+        try {
+          const parsed = JSON.parse(regionsData);
+          regionCode = parsed.state?.selectedRegion?.countryCode || parsed.state?.selectedRegion?.code;
+        } catch (e) {
+          console.error("Failed to parse regions-store", e);
+        }
       }
     }
 
@@ -58,36 +61,39 @@ class ApiClient {
       });
 
       // --- GLOBAL AUDIT LOG INTERCEPTOR ---
-      if (response.ok && options.method && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(options.method)) {
-        // Fire and forget audit log for mutations
-        try {
-          const actionMap: Record<string, string> = { 'POST': 'CREATE', 'PUT': 'UPDATE', 'PATCH': 'UPDATE', 'DELETE': 'DELETE' };
-          const segments = cleanEndpoint.split('/').filter(Boolean);
-          const entityType = segments[0] || 'system';
-          const entityId = segments.length > 1 ? segments[segments.length - 1] : null;
-          
-          fetch(`${this.baseURL}/audit-logs`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', ...(token && { Authorization: `Bearer ${token}` }) },
-            body: JSON.stringify({
-              action: actionMap[options.method] || 'UNKNOWN',
-              entityType: entityType.toUpperCase(),
-              entityId: entityId || 'N/A',
-              userId: token ? 'SYSTEM_USER' : 'ANONYMOUS', // Replace with real decoded userId if available
-              details: { endpoint: cleanEndpoint, timestamp: new Date().toISOString() },
-              ipAddress: 'Client-Side'
-            })
-          }).catch(err => console.error("Audit log failed to send", err));
-        } catch(e) {
-          // Ignore audit errors so main request doesn't fail
-        }
-      }
+      // Disabled temporarily due to 500 errors
+      // if (response.ok && options.method && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(options.method)) {
+      //   // Fire and forget audit log for mutations
+      //   try {
+      //     const actionMap: Record<string, string> = { 'POST': 'CREATE', 'PUT': 'UPDATE', 'PATCH': 'UPDATE', 'DELETE': 'DELETE' };
+      //     const segments = cleanEndpoint.split('/').filter(Boolean);
+      //     const entityType = segments[0] || 'system';
+      //     const entityId = segments.length > 1 ? segments[segments.length - 1] : null;
+      //     
+      //     fetch(`${this.baseURL}/audit-logs`, {
+      //       method: 'POST',
+      //       headers: { 'Content-Type': 'application/json', ...(token && { Authorization: `Bearer ${token}` }) },
+      //       body: JSON.stringify({
+      //         action: actionMap[options.method] || 'UNKNOWN',
+      //         entityType: entityType.toUpperCase(),
+      //         entityId: entityId || 'N/A',
+      //         userId: token ? 'SYSTEM_USER' : 'ANONYMOUS',
+      //         details: { endpoint: cleanEndpoint, timestamp: new Date().toISOString() },
+      //         ipAddress: 'Client-Side'
+      //       })
+      //     }).catch(err => console.error("Audit log failed to send", err));
+      //   } catch(e) {
+      //     // Ignore audit errors so main request doesn't fail
+      //   }
+      // }
       // ------------------------------------
 
       if (!response.ok) {
         if (response.status === 401 && !url.includes("/auth/login") && !url.includes("/auth/register")) {
-          localStorage.removeItem("user-storage");
-          window.location.href = "/auth/login";
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("user-storage");
+            window.location.href = "/auth/login";
+          }
         }
         
         // Try to get error message from body
@@ -108,7 +114,11 @@ class ApiClient {
       let data = {} as T;
       if (response.status !== 204) {
         try {
-          data = await response.json();
+          if ((options as any).responseType === 'blob') {
+            data = await response.blob() as any;
+          } else {
+            data = await response.json();
+          }
         } catch (e) {
           // Empty body
         }
@@ -126,9 +136,25 @@ class ApiClient {
   ): Promise<T> {
     let url = endpoint;
     if (params) {
-      const searchParams = new URLSearchParams(params).toString();
-      if (searchParams) {
-        url += (endpoint.includes('?') ? '&' : '?') + searchParams;
+      // If the caller passed `{ params: { ... } }` (Axios style), unwrap it
+      const actualParams = params.params !== undefined ? params.params : params;
+      
+      const searchParams = new URLSearchParams();
+      Object.entries(actualParams).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+              if (Array.isArray(value)) {
+                  value.forEach(v => searchParams.append(key, String(v)));
+              } else if (typeof value === 'object') {
+                  searchParams.append(key, JSON.stringify(value));
+              } else {
+                  searchParams.append(key, String(value));
+              }
+          }
+      });
+      
+      const searchStr = searchParams.toString();
+      if (searchStr) {
+        url += (endpoint.includes('?') ? '&' : '?') + searchStr;
       }
     }
     const response = await this.request<T>(url);

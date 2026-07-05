@@ -155,10 +155,19 @@ export const propertiesApi = {
     }
   },
 
-  uploadPhoto: async (_propertyId: string, _photoData: any) => {
-    // TODO: Implement photo upload
-    console.log('Photo upload not yet implemented');
-    return { data: null };
+  uploadPhoto: async (propertyId: string, photoData: any) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/property/${propertyId}/photos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(photoData)
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   },
 
   getDocuments: async (propertyId: string) => {
@@ -177,10 +186,19 @@ export const propertiesApi = {
     }
   },
 
-  uploadDocument: async (_propertyId: string, _documentData: any) => {
-    // TODO: Implement document upload
-    console.log('Document upload not yet implemented');
-    return { data: null };
+  uploadDocument: async (propertyId: string, documentData: any) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/property/${propertyId}/documents`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(documentData)
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   },
 
   getValuations: async (propertyId: string) => {
@@ -199,10 +217,19 @@ export const propertiesApi = {
     }
   },
 
-  createValuation: async (_propertyId: string, _valuationData: any) => {
-    // TODO: Implement valuation creation
-    console.log('Valuation creation not yet implemented');
-    return { data: null };
+  createValuation: async (propertyId: string, valuationData: any) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/property/${propertyId}/valuations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(valuationData)
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   },
 
   getVideos: async (propertyId: string) => {
@@ -237,10 +264,19 @@ export const propertiesApi = {
     }
   },
 
-  createOffer: async (_propertyId: string, _offerData: any) => {
-    // TODO: Implement offer creation
-    console.log('Offer creation not yet implemented');
-    return { data: null };
+  createOffer: async (propertyId: string, offerData: any) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/property/${propertyId}/offers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(offerData)
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   },
 
   getViewings: async (propertyId: string) => {
@@ -259,10 +295,19 @@ export const propertiesApi = {
     }
   },
 
-  scheduleViewing: async (_propertyId: string, _viewingData: any) => {
-    // TODO: Implement viewing scheduling
-    console.log('Viewing scheduling not yet implemented');
-    return { data: null };
+  scheduleViewing: async (propertyId: string, viewingData: any) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/property/${propertyId}/viewings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(viewingData)
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   },
 };
 

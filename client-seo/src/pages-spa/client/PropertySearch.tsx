@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "@/lib/react-router-shim";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -72,7 +75,8 @@ export default function PropertySearch() {
   const {
     t
   } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams() || new URLSearchParams();
+  const router = useRouter();
   const [properties, setProperties] = useState<Property[]>([]);
   const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
   const [showFilters, setShowFilters] = useState(false);
@@ -105,7 +109,7 @@ export default function PropertySearch() {
     const fetchProperties = async () => {
       setIsMapLoading(true);
       try {
-        let endpoint = isGlobal ? '/search/global' : '/properties';
+        const endpoint = isGlobal ? '/search/global' : '/properties';
         const params: any = {};
         if (filters.search) params.keyword = filters.search;
         
@@ -115,29 +119,8 @@ export default function PropertySearch() {
           setProperties(response.data);
           setFilteredProperties(response.data);
         } else {
-          // Fallback to mock data if DB is empty
-          const mockProperties: Property[] = [{
-            id: "prop1",
-            orgId: "org1",
-            name: isGlobal ? "Global Luxury Villa" : "Local Luxury Villa",
-            type: "VILLA",
-            region: isGlobal ? "ALL" : "LOCAL",
-            currency: "USD",
-            addressLine1: "123 Coastal Drive",
-            city: "Istanbul",
-            country: "Turkey",
-            lat: 41.0082,
-            lng: 28.9784,
-            listingPrice: 1250000,
-            listingStatus: "AVAILABLE",
-            propertyCategory: "RESIDENTIAL",
-            listingType: "SALE",
-            accessibilityCompliance: true,
-            createdAt: "2024-01-15T10:00:00Z",
-            updatedAt: "2024-03-20T14:30:00Z"
-          } as Property];
-          setProperties(mockProperties);
-          setFilteredProperties(mockProperties);
+          setProperties([]);
+          setFilteredProperties([]);
         }
       } catch (err) {
         console.error(err);
@@ -154,8 +137,8 @@ export default function PropertySearch() {
     if (filters.priceRange[0] > 0) params.set("minPrice", filters.priceRange[0].toString());
     if (filters.priceRange[1] < 10000000) params.set("maxPrice", filters.priceRange[1].toString());
     if (filters.promotionType && filters.promotionType !== "ALL") params.set("promotionType", filters.promotionType);
-    setSearchParams(params);
-  }, [filters, setSearchParams]);
+    router.replace('?' + params.toString());
+  }, [filters, router]);
   useEffect(() => {
     let filtered = [...properties];
     if (filters.search) {

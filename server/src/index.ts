@@ -394,9 +394,14 @@ const app = new Elysia()
   })
 
   // GET /api/auth/linkedin/callback — handle LinkedIn OAuth callback
-  .get("/api/auth/linkedin/callback", async ({ query, redirect }) => {
+  .get("/api/auth/linkedin/callback", async ({ query, redirect, cookie: { state: storedState } }) => {
     const code = query.code as string;
+    const returnedState = query.state as string;
     if (!code) return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
+
+    if (returnedState && storedState?.value && returnedState !== storedState.value) {
+      return redirect(`${CLIENT_URL}/auth/login?error=StateMismatch`);
+    }
 
     try {
       const clientId = process.env.AUTH_LINKEDIN_ID!;
@@ -437,9 +442,12 @@ const app = new Elysia()
             providerId: "linkedin",
             accountId: linkedinUser.sub,
             accessToken: tokenData.access_token,
+            refreshToken: tokenData.refresh_token || null,
           },
         });
       }
+
+      console.log("[LinkedIn Auth] Person URN: urn:li:person:" + linkedinUser.sub);
 
       const { token, userData } = await createAuthSessionAndRedirect(user, "linkedin");
       return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(userData)}`);
