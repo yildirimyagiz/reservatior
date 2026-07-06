@@ -17503,7 +17503,37 @@
   "follow_up.guestfollowupcontent.auto_ext_2": "This feature is coming soon. Redirecting you to the main section...",
   "client": {
     "src": {
-      "ai_studio": "Ai Studio"
+      "ai_studio": "Ai Studio",
+      "plans": {
+        "plan_desc": "Advanced management panel tailored to your needs.",
+        "prop_limit_10": "Portfolio Management up to 10 Properties",
+        "prop_limit_25": "Portfolio Management up to 25 Properties",
+        "prop_limit_50": "Portfolio Management up to 50 Properties",
+        "prop_limit_100": "Portfolio Management up to 100 Properties",
+        "prop_limit_unlimited": "Unlimited Property & Portfolio Management",
+        "user_access_1": "1 User Access",
+        "user_access_3": "3 Users Access",
+        "user_access_5": "5 Users Access",
+        "user_access_10": "10 Users Access",
+        "listing_limit_25": "25 Active Listings Limit",
+        "listing_limit_100": "100 Active Listings Limit",
+        "listing_limit_250": "250 Active Listings Limit",
+        "listing_limit_500": "500 Active Listings Limit",
+        "listing_limit_unlimited": "Unlimited Listings",
+        "support_email": "Standard Email Support",
+        "support_24_7": "24/7 Priority Live Support",
+        "ai_analysis": "AI-Powered Analysis",
+        "custom_erp": "Custom Integrations and ERP",
+        "get_started": "Get Started",
+        "contact_sales": "CONTACT SALES",
+        "badge_optimized": "Optimized Choice",
+        "badge_enterprise": "Enterprise",
+        "tab_hotel": "HOTEL MANAGEMENT",
+        "tab_apartment": "APARTMENT PORTFOLIO",
+        "tab_commission": "COMMISSION MODEL",
+        "discount_notice": "25% Net Advantage Compared to Industry Average!",
+        "commission_notice": "Our 3.5% - 3.5% Commission Model is Fixed Even for 1-Month Free Trial Accounts."
+      }
     },
     "property": {
       "portfolio": {
@@ -22118,5 +22148,6 @@
   "/ai-models": "/ai Models",
   "users": "Users",
   "properties": "Properties",
-  "/commission": "/commission"
+  "/commission": "/commission",
+  "nav.addListing": "Add Listing"
 }

@@ -12,6 +12,7 @@ const nextConfig = {
   },
   // Image optimization
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -36,6 +37,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'loremflickr.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.example.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
       },
     ],
   },

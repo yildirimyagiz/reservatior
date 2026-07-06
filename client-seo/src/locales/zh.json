@@ -13723,5 +13723,6 @@
   "guests.guestscontent.auto_ext_1": "Guests",
   "guests.guestscontent.auto_ext_2": "Manage guests and guest relationships",
   "follow_up.guestfollowupcontent.auto_ext_1": "Coming Soon",
-  "follow_up.guestfollowupcontent.auto_ext_2": "This feature is coming soon. Redirecting you to the main section..."
+  "follow_up.guestfollowupcontent.auto_ext_2": "This feature is coming soon. Redirecting you to the main section...",
+  "nav.addListing": "添加房源"
 }

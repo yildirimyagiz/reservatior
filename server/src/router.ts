@@ -151,6 +151,7 @@ import { aipredictionRoutes } from "./routes/aiprediction";
 import { queueMessageRoutes } from "./routes/queue-message";
 import { queueConfigurationRoutes } from "./routes/queue-configuration";
 import { integrationLogRoutes } from "./routes/integration-log";
+import { instagramRoutes } from "./routes/instagram";
 import { automationRuleRoutes } from "./routes/automation-rule";
 import { automationExecutionRoutes } from "./routes/automation-execution";
 import { aivaluationModelRoutes } from "./routes/aivaluation-model";
@@ -484,6 +485,7 @@ const cluster6 = new Elysia()
   .use(queueMessageRoutes)
   .use(queueConfigurationRoutes)
   .use(integrationLogRoutes)
+  .use(instagramRoutes)
   .use(automationRuleRoutes)
   .use(automationExecutionRoutes)
   .use(aivaluationModelRoutes)

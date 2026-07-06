@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Menu, X, ChevronDown, ChevronRight, Search, HelpCircle, Settings } from 'lucide-react';
 import { useAuth } from "@/lib/auth";
-import { roleBasedMenus, defaultMenu } from "@/lib/roles/sidebarConfig";
+import { roleBasedMenus, defaultMenu, MemberRoleKey } from "@/lib/roles/sidebarConfig";
 
 interface SidebarItem {
   title: string;
@@ -30,7 +30,7 @@ export default function Sidebar() {
   const { getUserRole } = useAuth();
   
   const userRole = getUserRole();
-  const sidebarItems = userRole ? roleBasedMenus[userRole] : defaultMenu;
+  const sidebarItems: SidebarItem[] = (userRole && roleBasedMenus[userRole as MemberRoleKey]) || defaultMenu || [];
 
   const toggleExpanded = (title: string) => {
     setExpandedItems(prev => prev.includes(title) ? prev.filter(item => item !== title) : [...prev, title]);

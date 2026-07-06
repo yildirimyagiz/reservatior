@@ -45,6 +45,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     "nav.login": "Log in",
     "nav.getStarted": "Get Started",
     "nav.videos": "Videos",
+    "nav.addListing": "Add Listing",
     "hero.new": "New: AI Video Walkthroughs",
     "hero.title": "The Virtual Stage for Next-Gen Real Estate",
     "heroSubtitle": "Transform photos into cinematic video tours instantly.",
@@ -58,6 +59,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     "nav.login": "Giriş Yap",
     "nav.getStarted": "Başlayın",
     "nav.videos": "Videolar",
+    "nav.addListing": "İlan Ekle",
     "hero.new": "Yeni: Yapay Zeka Video Turları",
     "hero.title": "Yeni Nesil Emlak İçin Sanal Sahne",
     "heroSubtitle":
@@ -72,6 +74,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     "nav.login": "تسجيل الدخول",
     "nav.getStarted": "ابدأ الآن",
     "nav.videos": "الفيديوهات",
+    "nav.addListing": "أضف عقاراً",
     "hero.new": "جديد: جولات فيديو بالذكاء الاصطناعي",
     "hero.title": "المنصة الافتراضية للجيل القادم من العقارات",
     "heroSubtitle": "حول الصور إلى جولات فيديو سينمائية فوراً.",

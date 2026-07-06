@@ -121,12 +121,6 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
             />
           </Link>
         )}
-        {/* Gradient Overlay - inline style for Tailwind v4 compatibility */}
-        <div 
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.92) 100%)' }}
-        />
-        
         {/* Top Badges */}
         <div className="absolute top-4 left-4 flex flex-col gap-2 items-start pointer-events-none z-10">
           <div className="flex items-start gap-2">
@@ -150,38 +144,29 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
             <Heart className="w-4 h-4" />
           </Button>
         </div>
-
-        {/* Bottom Content Inside Image */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col gap-2 pointer-events-none p-5">
-          <div className="flex justify-between items-end gap-2">
-            <div className="flex flex-col">
-              <span style={{ color: '#ffffff', fontWeight: 900, fontSize: '1.5rem', letterSpacing: '-0.05em', textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}>
-                {formattedPrice || 'Price on Request'}
-                {isRent && formattedPrice && <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem', fontWeight: 500, marginLeft: '4px' }}>/mo</span>}
-              </span>
-              <h2 style={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, fontSize: '0.875rem', lineHeight: '1.25', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }} className="line-clamp-1">
-                {p.name}
-              </h2>
-            </div>
-            
-            <div className="shrink-0">
-               <span className={cn("px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border backdrop-blur-md shadow-sm", getStatusColor(p.listingStatus))}>
-                {p.listingStatus.replace(/_/g, " ")}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1.5 mt-1">
-            <MapPin className="w-3 h-3 shrink-0" style={{ color: '#ffffff' }} />
-            <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.75rem', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }} className="truncate">{p.city}, {p.country}</span>
-          </div>
-        </div>
       </div>
       
       {/* External Details Area */}
-      <Link to={`/property/${p.id}`} className="flex flex-col gap-3 px-2 pt-4">
+      <Link to={`/property/${p.id}`} className="flex flex-col gap-3 px-2 pt-5">
+        
+        {/* Title & Status */}
+        <div className="flex items-start justify-between gap-4">
+          <h2 className="font-black text-foreground text-lg tracking-tight line-clamp-1">
+            {p.name}
+          </h2>
+          <span className={cn("shrink-0 px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-wider", getStatusColor(p.listingStatus))}>
+            {p.listingStatus.replace(/_/g, " ")}
+          </span>
+        </div>
+
+        {/* Location */}
+        <div className="flex items-center gap-1.5 -mt-1">
+          <MapPin className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+          <span className="text-muted-foreground text-sm font-medium truncate">{p.city}, {p.country}</span>
+        </div>
+
         {/* Features Row */}
-        <div className="flex items-center gap-4 text-muted-foreground">
+        <div className="flex items-center gap-4 text-muted-foreground mt-1">
           {p.bedrooms > 0 && (
             <div className="flex items-center gap-1.5">
               <Bed className="w-4 h-4 text-primary"/> 
@@ -206,21 +191,18 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
           </div>
         </div>
 
-        {/* Amenities Preview */}
-        {p.features && p.features.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-1">
-            {p.features.slice(0, 3).map((f: string) => (
-              <span key={f} className="text-[10px] bg-primary/10 text-primary font-semibold px-2 py-0.5 rounded-full">
-                {f.replace(/_/g, " ")}
-              </span>
-            ))}
-            {p.features.length > 3 && (
-              <span className="text-[10px] bg-muted text-muted-foreground font-semibold px-2 py-0.5 rounded-full border border-border/50">
-                +{p.features.length - 3}
-              </span>
-            )}
+        {/* Price Row */}
+        <div className="mt-2 pt-4 border-t border-border flex items-end justify-between">
+          <div className="flex flex-col">
+            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">
+              {isSale ? 'Asking Price' : 'Rate'}
+            </span>
+            <span className="text-2xl font-black text-foreground tracking-tight">
+              {formattedPrice || 'Price on Request'}
+              {isRent && formattedPrice && <span className="text-sm font-medium text-muted-foreground ml-1">/mo</span>}
+            </span>
           </div>
-        )}
+        </div>
       </Link>
     </motion.article>
   );

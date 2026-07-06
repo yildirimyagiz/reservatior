@@ -1,8 +1,6 @@
 "use client";
 
 import { t } from "i18next";
-import { useTranslation } from "react-i18next";
-import { useSearchParams } from "@/lib/react-router-shim";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -10,12 +8,22 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle2, Zap, Video, Globe, BarChart4, Sparkles, Crown, Building2, Instagram, Film, Languages, ArrowRight, UserPlus, Users2, Briefcase, Rocket, Clock, TrendingUp, MapPin, Mic2, Cpu, BrainCircuit, Settings2, Sliders, Shield, RefreshCw } from "lucide-react";
+import { CheckCircle2, Zap, BarChart4, Sparkles, Crown, Instagram, Film, Languages, ArrowRight, Clock, TrendingUp, Mic2, Cpu, BrainCircuit, Settings2, Sliders, Shield, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PageShell } from "../../client/layout/PageShell";
 import { apiClient } from "@/lib/api/client";
 
-// ── Types ──────────────────────────────────────────────────────────────────
+interface PartnerAgreement {
+  id: string;
+  tenantId: string;
+  status: string;
+  terms?: {
+    initial_move_in_cost_subsidy: number;
+    monthly_commission_schedule: { month: number; rate: number }[];
+    loyalty_yield_multipliers: { month: number; multiplier: number }[];
+  };
+}
+
 interface PricingPlan {
   id: string;
   name: string;
@@ -29,7 +37,7 @@ interface PricingPlan {
     properties: string;
     listings: string;
     aiProcessing: string; // New: AI credits/month
-    gpuPriority: "Standard" | "High" | "Ultra" | "Dedicated";
+    gpuPriority: string;
   };
   features: {
     ml_services: {
@@ -165,117 +173,153 @@ const INDIVIDUAL_PLANS: PricingPlan[] = [{
   },
   ctaLabel: "Upgrade to Pro"
 }];
-const AGENCY_PLANS: PricingPlan[] = [{
-  id: "agency-standard",
-  name: "Agency Scale",
-  description: t("client.src.total_team_coordination_with"),
-  priceMonthly: 299,
-  priceYearly: 2990,
-  currency: "$",
-  limits: {
-    properties: "50 Properties",
-    listings: "50 Listings",
-    aiProcessing: "Unlimited Photos",
-    gpuPriority: "Ultra"
+const AGENCY_PLANS: PricingPlan[] = [
+  {
+    id: "agency-starter",
+    name: "STARTER",
+    description: t("client.src.plans.plan_desc"),
+    priceMonthly: 19,
+    priceYearly: 190,
+    currency: "$",
+    limits: {
+      properties: t("client.src.plans.prop_limit_10"),
+      listings: t("client.src.plans.listing_limit_25"),
+      aiProcessing: t("client.src.plans.support_email"),
+      gpuPriority: t("client.src.plans.user_access_1")
+    },
+    features: {
+      ml_services: [
+        { label: t("client.src.plans.prop_limit_10"), included: true },
+        { label: t("client.src.plans.user_access_1"), included: true },
+        { label: t("client.src.plans.listing_limit_25"), included: true }
+      ],
+      video_editing: [],
+      marketing: [
+        { label: t("client.src.plans.support_email"), included: true }
+      ],
+      analytics: []
+    },
+    ctaLabel: t("client.src.plans.get_started")
   },
-  features: {
-    ml_services: [{
-      label: t("client.src.unlimited_highresolution_media"),
-      included: true,
-      icon: <Sparkles className="w-3 h-3 text-emerald-400" />
-    }, {
-      label: t("client.src.hyperfast_cloud_processing"),
-      included: true,
-      icon: <Cpu className="w-3 h-3 text-violet-400" />
-    }, {
-      label: t("client.src.regional_translation_hub"),
-      included: true,
-      icon: <Globe className="w-3 h-3 text-blue-400" />
-    }],
-    video_editing: [{
-      label: t("client.src.full_neural_dubbing_ai"),
-      included: true,
-      icon: <Mic2 className="w-3 h-3 text-blue-400" />
-    }, {
-      label: t("client.src.whitelabel_video_branding"),
-      included: true
-    }, {
-      label: t("client.src.batch_video_processing"),
-      included: true
-    }],
-    marketing: [{
-      label: t("client.src.agencywide_doping_20mo"),
-      included: true
-    }, {
-      label: t("client.src.agent_recruiting_portal"),
-      included: true
-    }],
-    analytics: [{
-      label: t("client.src.team_performance_metrics"),
-      included: true
-    }, {
-      label: t("client.src.mls_data_synchronization"),
-      included: true
-    }]
+  {
+    id: "agency-growth",
+    name: "GROWTH",
+    description: t("client.src.plans.plan_desc"),
+    priceMonthly: 49,
+    priceYearly: 490,
+    currency: "$",
+    badge: t("client.src.plans.badge_optimized"),
+    limits: {
+      properties: t("client.src.plans.prop_limit_25"),
+      listings: t("client.src.plans.listing_limit_100"),
+      aiProcessing: t("client.src.plans.support_email"),
+      gpuPriority: t("client.src.plans.user_access_3")
+    },
+    features: {
+      ml_services: [
+        { label: t("client.src.plans.prop_limit_25"), included: true },
+        { label: t("client.src.plans.user_access_3"), included: true },
+        { label: t("client.src.plans.listing_limit_100"), included: true }
+      ],
+      video_editing: [],
+      marketing: [
+        { label: t("client.src.plans.support_email"), included: true }
+      ],
+      analytics: []
+    },
+    ctaLabel: t("client.src.plans.get_started")
   },
-  ctaLabel: "Agency Package"
-}, {
-  id: "agency-elite",
-  name: "Agency Elite",
-  description: t("client.src.dedicated_server_node_for"),
-  priceMonthly: 499,
-  priceYearly: 4990,
-  currency: "$",
-  badge: "ENTERPRISE",
-  limits: {
-    properties: "Unlimited",
-    listings: "Unlimited",
-    aiProcessing: "Dedicated Node",
-    gpuPriority: "Dedicated"
+  {
+    id: "agency-pro",
+    name: "PRO",
+    description: t("client.src.plans.plan_desc"),
+    priceMonthly: 80,
+    priceYearly: 800,
+    currency: "$",
+    badge: t("client.src.plans.badge_optimized"),
+    isPopular: true,
+    limits: {
+      properties: t("client.src.plans.prop_limit_50"),
+      listings: t("client.src.plans.listing_limit_250"),
+      aiProcessing: t("client.src.plans.ai_analysis"),
+      gpuPriority: t("client.src.plans.user_access_5")
+    },
+    features: {
+      ml_services: [
+        { label: t("client.src.plans.prop_limit_50"), included: true },
+        { label: t("client.src.plans.user_access_5"), included: true },
+        { label: t("client.src.plans.listing_limit_250"), included: true }
+      ],
+      video_editing: [
+        { label: t("client.src.plans.ai_analysis"), included: true, icon: <BrainCircuit className="w-3 h-3 text-blue-400" /> }
+      ],
+      marketing: [
+        { label: t("client.src.plans.support_24_7"), included: true }
+      ],
+      analytics: []
+    },
+    ctaLabel: t("client.src.plans.get_started")
   },
-  features: {
-    ml_services: [{
-      label: t("client.src.dedicated_neural_server_node"),
-      included: true,
-      icon: <Rocket className="w-3 h-3 text-rose-500" />
-    }, {
-      label: t("client.src.custom_model_personalization"),
-      included: true,
-      icon: <BrainCircuit className="w-3 h-3 text-emerald-400" />
-    }, {
-      label: t("client.src.api_direct_hub_access"),
-      included: true
-    }],
-    video_editing: [{
-      label: t("client.src.realtime_virtual_tours"),
-      included: true,
-      icon: <Film className="w-3 h-3 text-yellow-500" />
-    }, {
-      label: t("client.src.cinematic_drone_ai_simulated"),
-      included: true
-    }, {
-      label: t("client.src.multilingual_ai_avatars"),
-      included: true,
-      icon: <Users2 className="w-3 h-3 text-emerald-400" />
-    }],
-    marketing: [{
-      label: t("client.src.unlimited_doping_standard"),
-      included: true,
-      icon: <Zap className="w-3 h-3 text-amber-400" />
-    }, {
-      label: t("client.src.global_mls_distribution"),
-      included: true
-    }],
-    analytics: [{
-      label: t("client.src.advanced_market_dna_reports"),
-      included: true
-    }, {
-      label: t("client.src.custom_data_export_jsoncsv"),
-      included: true
-    }]
+  {
+    id: "agency-agency",
+    name: "AGENCY",
+    description: t("client.src.plans.plan_desc"),
+    priceMonthly: 150,
+    priceYearly: 1500,
+    currency: "$",
+    limits: {
+      properties: t("client.src.plans.prop_limit_100"),
+      listings: t("client.src.plans.listing_limit_500"),
+      aiProcessing: t("client.src.plans.ai_analysis"),
+      gpuPriority: t("client.src.plans.user_access_10")
+    },
+    features: {
+      ml_services: [
+        { label: t("client.src.plans.prop_limit_100"), included: true },
+        { label: t("client.src.plans.user_access_10"), included: true },
+        { label: t("client.src.plans.listing_limit_500"), included: true }
+      ],
+      video_editing: [
+        { label: t("client.src.plans.ai_analysis"), included: true, icon: <BrainCircuit className="w-3 h-3 text-blue-400" /> }
+      ],
+      marketing: [
+        { label: t("client.src.plans.support_24_7"), included: true }
+      ],
+      analytics: []
+    },
+    ctaLabel: t("client.src.plans.get_started")
   },
-  ctaLabel: "Contact Sales"
-}];
+  {
+    id: "agency-enterprise",
+    name: "ENTERPRISE",
+    description: t("client.src.plans.plan_desc"),
+    priceMonthly: 0,
+    priceYearly: 0,
+    currency: "$",
+    badge: t("client.src.plans.badge_enterprise"),
+    limits: {
+      properties: t("client.src.plans.prop_limit_unlimited"),
+      listings: t("client.src.plans.listing_limit_unlimited"),
+      aiProcessing: t("client.src.plans.ai_analysis"),
+      gpuPriority: t("client.src.plans.custom_erp")
+    },
+    features: {
+      ml_services: [
+        { label: t("client.src.plans.prop_limit_unlimited"), included: true },
+        { label: t("client.src.plans.listing_limit_unlimited"), included: true },
+        { label: t("client.src.plans.custom_erp"), included: true }
+      ],
+      video_editing: [
+        { label: t("client.src.plans.ai_analysis"), included: true, icon: <BrainCircuit className="w-3 h-3 text-blue-400" /> }
+      ],
+      marketing: [
+        { label: t("client.src.plans.support_24_7"), included: true }
+      ],
+      analytics: []
+    },
+    ctaLabel: t("client.src.plans.contact_sales")
+  }
+];
 
 const HOTEL_PLANS: PricingPlan[] = [{
   id: "hotel-standard",
@@ -414,11 +458,11 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
   const terms = agreement.terms || {
     initial_move_in_cost_subsidy: 1500,
     monthly_commission_schedule: [
-      { month: 1, rate: 0.02 },
-      { month: 2, rate: 0.02 },
-      { month: 3, rate: 0.015 },
-      { month: 6, rate: 0.012 },
-      { month: 12, rate: 0.01 }
+      { month: 1, rate: 0.035 },
+      { month: 2, rate: 0.035 },
+      { month: 3, rate: 0.035 },
+      { month: 6, rate: 0.035 },
+      { month: 12, rate: 0.035 }
     ],
     loyalty_yield_multipliers: [
       { month: 6, multiplier: 1.1 },
@@ -443,12 +487,12 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
   const monthsData = Array.from({ length: 12 }, (_, i) => {
     const monthIndex = i + 1;
     const sched = terms.monthly_commission_schedule || [];
-    const rate = sched.find((m: any) => m.month === monthIndex)?.rate 
+    const rate = sched.find((m: { month: number; rate: number }) => m.month === monthIndex)?.rate 
       ?? sched[sched.length - 1]?.rate 
       ?? 0.015;
 
     const mults = terms.loyalty_yield_multipliers || [];
-    const loyalty = mults.find((m: any) => m.month === monthIndex)?.multiplier 
+    const loyalty = mults.find((m: { month: number; multiplier: number }) => m.month === monthIndex)?.multiplier 
       ?? 1;
 
     const decayFactor = Math.pow(timeDecay, monthIndex);
@@ -467,7 +511,6 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
   });
 
   const totalGross = monthsData.reduce((acc, m) => acc + m.gross, 0);
-  const totalCommission = monthsData.reduce((acc, m) => acc + m.commission, 0);
   const totalNet = monthsData.reduce((acc, m) => acc + m.net, 0);
   const subsidyAmortized = terms.initial_move_in_cost_subsidy / 12;
 
@@ -719,39 +762,30 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
 }
 
 export default function SubscriptionsPage() {
-  const [agreement, setAgreement] = useState<any>(null);
+  const [agreement, setAgreement] = useState<PartnerAgreement | null>(null);
   const [loadingAgreement, setLoadingAgreement] = useState(true);
 
   useEffect(() => {
     apiClient.get("/partner-agreement/active")
-      .then((res: any) => {
-        if (res && res.data) {
-          setAgreement(res.data);
+      .then((res: unknown) => {
+        const val = res as { data?: PartnerAgreement };
+        if (val && val.data) {
+          setAgreement(val.data);
         }
       })
       .catch(err => console.error("Error loading agreement:", err))
       .finally(() => setLoadingAgreement(false));
   }, []);
-  const [searchParams] = useSearchParams();
-  const isVipPromo = searchParams.get("promo") === "VIPTR";
 
   const [isAnnual, setIsAnnual] = useState(false);
-  const [activeTab, setActiveTab] = useState<"individual" | "agency" | "hotel" | "apartment">("individual");
+  const [activeTab, setActiveTab] = useState<"individual" | "agency" | "hotel" | "apartment" | "commission">("agency");
   
   let basePlans = INDIVIDUAL_PLANS;
   if (activeTab === "agency") basePlans = AGENCY_PLANS;
   else if (activeTab === "hotel") basePlans = HOTEL_PLANS;
   else if (activeTab === "apartment") basePlans = APARTMENT_PLANS;
   
-  // Eğer VIP promosyonu varsa fiyatları %50 düşür ve butonları değiştir
-  const plans = basePlans.map(plan => {
-    if (!isVipPromo) return plan;
-    return {
-      ...plan,
-      priceMonthly: plan.priceMonthly * 0.5,
-      priceYearly: plan.priceYearly * 0.5,
-    };
-  });
+  const plans = basePlans;
 
   if (loadingAgreement) {
     return (
@@ -787,26 +821,27 @@ export default function SubscriptionsPage() {
         }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px] font-black tracking-widest mb-2">
             <Sparkles className="w-4 h-4" />{t("client.src.ai_media_infrastructure")}</motion.div>
           
-          {isVipPromo && (
-            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 p-4 rounded-xl mb-6 shadow-lg shadow-emerald-500/10">
-              <div className="flex items-center justify-center gap-2 font-bold text-lg">
-                <Crown className="w-6 h-6 text-emerald-400" />
-                <span>VIP Emlakçı Kampanyası Aktif!</span>
-              </div>
-              <p className="text-emerald-100/80 text-sm mt-1">İlk 2 Ay Tamamen Ücretsiz! 3. Ay %50 İndirim (Sonrasında Standart Ücret)</p>
-            </motion.div>
-          )}
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 p-4 rounded-xl mb-6 shadow-lg shadow-emerald-500/10">
+            <div className="flex items-center justify-center gap-2 font-bold text-lg">
+              <Crown className="w-6 h-6 text-emerald-400" />
+              <span>{t("client.src.plans.discount_notice")}</span>
+            </div>
+            <p className="text-emerald-100/80 text-sm mt-1">{t("client.src.plans.commission_notice")}</p>
+          </motion.div>
+          
+
 
           <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter">{t("client.src.neural")}<span className="text-orange-500 underline decoration-white/10 underline-offset-8">{t("client.src.pricing")}</span>{t("client.src.matrix")}</h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto font-medium italic">{t("client.src.transform_the_real_estate")}</p>
           
           <div className="pt-4 flex flex-col items-center gap-8">
-            <Tabs value={activeTab} onValueChange={v => setActiveTab(v as any)} className="bg-[#14151a]/60 backdrop-blur-xl border border-white/5 p-1 rounded-2xl">
-              <TabsList className="bg-transparent gap-2 h-14">
-                <TabsTrigger value="individual" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8">{t("client.src.solo_agent")}</TabsTrigger>
-                <TabsTrigger value="agency" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8">{t("client.src.global_agency")}</TabsTrigger>
-                <TabsTrigger value="hotel" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8">OTEL YÖNETİMİ</TabsTrigger>
-                <TabsTrigger value="apartment" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8">DAİRE PORTFÖYÜ</TabsTrigger>
+            <Tabs value={activeTab} onValueChange={v => setActiveTab(v as "individual" | "agency" | "hotel" | "apartment" | "commission")} className="bg-[#14151a]/60 backdrop-blur-xl border border-white/5 p-1 rounded-2xl flex flex-wrap justify-center">
+              <TabsList className="bg-transparent gap-2 h-auto flex-wrap justify-center p-2">
+                <TabsTrigger value="individual" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8 h-10">{t("client.src.solo_agent")}</TabsTrigger>
+                <TabsTrigger value="agency" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8 h-10">{t("client.src.global_agency")}</TabsTrigger>
+                <TabsTrigger value="hotel" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8 h-10">{t("client.src.plans.tab_hotel")}</TabsTrigger>
+                <TabsTrigger value="apartment" className="rounded-xl data-[state=active]:bg-orange-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8 h-10">{t("client.src.plans.tab_apartment")}</TabsTrigger>
+                <TabsTrigger value="commission" className="rounded-xl data-[state=active]:bg-emerald-600 data-[state=active]:text-white font-black tracking-widest text-[10px] px-8 h-10 text-emerald-400 border border-emerald-500/20 bg-emerald-500/5 ml-2">{t("client.src.plans.tab_commission")}</TabsTrigger>
               </TabsList>
             </Tabs>
 
@@ -820,7 +855,16 @@ export default function SubscriptionsPage() {
         </div>
 
         {/* Pricing Cards */}
-        <div className={cn("grid grid-cols-1 gap-8 max-w-7xl mx-auto auto-rows-fr mt-20 pb-20", "md:grid-cols-2")}>
+        {activeTab === "commission" ? (
+          <div className="mt-10 max-w-5xl mx-auto w-full">
+            <PrivateYieldDashboard agreement={{
+              id: "DEMO-YIELD-MATRIX",
+              tenantId: "demo-tenant",
+              status: "ACTIVE"
+            }} />
+          </div>
+        ) : (
+          <div className={cn("grid gap-8 max-w-7xl mx-auto auto-rows-fr mt-20 pb-20", plans.length >= 3 ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1 md:grid-cols-2")}>
           {plans.map((plan, idx) => {
           const price = isAnnual ? plan.priceYearly : plan.priceMonthly;
           return <motion.div key={plan.id} initial={{
@@ -843,8 +887,14 @@ export default function SubscriptionsPage() {
                     <CardTitle className="text-3xl font-black text-white italic tracking-tighter mb-2">{plan.name}</CardTitle>
                     <CardDescription className="text-slate-500 text-xs font-medium tracking-widest italic">{plan.description}</CardDescription>
                     <div className="mt-8 flex justify-center items-end gap-1">
-                      <span className="text-6xl font-black text-white tracking-tighter italic">${parseInt(price.toString()).toLocaleString()}</span>
-                      <span className="text-slate-500 text-xs font-black tracking-widest pb-3">/{isAnnual ? 'Year' : 'Mo'}</span>
+                      {price === 0 ? (
+                        <span className="text-3xl font-black text-white tracking-tighter italic pb-2">SATIŞ İLE İLETİŞİME GEÇ</span>
+                      ) : (
+                        <>
+                          <span className="text-6xl font-black text-white tracking-tighter italic">${parseInt(price.toString()).toLocaleString()}</span>
+                          <span className="text-slate-500 text-xs font-black tracking-widest pb-3">/{isAnnual ? 'Year' : 'Mo'}</span>
+                        </>
+                      )}
                     </div>
                   </CardHeader>
 
@@ -893,6 +943,7 @@ export default function SubscriptionsPage() {
               </motion.div>;
         })}
         </div>
+        )}
 
         {/* Partnership / Hybrid Action */}
         <div className="max-w-7xl mx-auto pb-20">

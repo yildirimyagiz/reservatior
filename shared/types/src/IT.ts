@@ -1,5 +1,5 @@
 // Otomatik üretilmiş Valibot schema'ları (IT)
-// Generated: 2026-06-22T17:05:32.318Z
+// Generated: 2026-07-06T02:23:48.591Z
 
 import * as v from 'valibot';
 
@@ -251,7 +251,8 @@ export enum TaskStatus {
   IN_PROGRESS = "IN_PROGRESS",
   DONE = "DONE",
   CANCELLED = "CANCELLED",
-  BLOCKED = "BLOCKED"
+  BLOCKED = "BLOCKED",
+  REVIEW = "REVIEW"
 }
 export const TaskStatusSchema = v.enum_(TaskStatus);
 
@@ -376,7 +377,8 @@ export enum SyncStatus {
   IDLE = "IDLE",
   RUNNING = "RUNNING",
   SUCCESS = "SUCCESS",
-  FAILED = "FAILED"
+  FAILED = "FAILED",
+  PENDING = "PENDING"
 }
 export const SyncStatusSchema = v.enum_(SyncStatus);
 
@@ -1079,6 +1081,11 @@ export enum SocialImpactType {
   DONATION_MADE = "DONATION_MADE"
 }
 export const SocialImpactTypeSchema = v.enum_(SocialImpactType);
+
+export enum SocialPlatform {
+  TWITTER_X = "TWITTER_X"
+}
+export const SocialPlatformSchema = v.enum_(SocialPlatform);
 
 export enum NegotiationParty {
   TENANT = "TENANT",
@@ -2229,9 +2236,34 @@ export enum AiTaskType {
   TRANSLATION_LOCALIZATION = "TRANSLATION_LOCALIZATION",
   PHOTO_ENHANCEMENT = "PHOTO_ENHANCEMENT",
   COMPLIANCE_CHECK = "COMPLIANCE_CHECK",
-  VIRTUAL_STAGING = "VIRTUAL_STAGING"
+  VIRTUAL_STAGING = "VIRTUAL_STAGING",
+  CONCIERGE_DISPATCH = "CONCIERGE_DISPATCH",
+  FAILOVER_SEARCH = "FAILOVER_SEARCH",
+  PROPERTY_VALUATION = "PROPERTY_VALUATION",
+  SMART_CONTRACT_GENERATION = "SMART_CONTRACT_GENERATION",
+  AI_PHOTO_STAGING = "AI_PHOTO_STAGING",
+  MARKETING_BROCHURE_GEN = "MARKETING_BROCHURE_GEN",
+  MLS_SYNC = "MLS_SYNC"
 }
 export const AiTaskTypeSchema = v.enum_(AiTaskType);
+
+export enum ConciergeRequestType {
+  VIP_TRANSFER = "VIP_TRANSFER",
+  RELOCATION = "RELOCATION",
+  DRY_CLEANING = "DRY_CLEANING",
+  PRIVATE_CHEF = "PRIVATE_CHEF",
+  OTHER = "OTHER"
+}
+export const ConciergeRequestTypeSchema = v.enum_(ConciergeRequestType);
+
+export enum ConciergeRequestStatus {
+  PENDING = "PENDING",
+  AI_PROCESSING = "AI_PROCESSING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  COMPLETED = "COMPLETED"
+}
+export const ConciergeRequestStatusSchema = v.enum_(ConciergeRequestStatus);
 
 export enum AiTaskStatus {
   QUEUED = "QUEUED",
@@ -2341,6 +2373,39 @@ export enum KbsStatus {
 }
 export const KbsStatusSchema = v.enum_(KbsStatus);
 
+export enum AgreementState {
+  CREATED = "CREATED",
+  PENDING = "PENDING",
+  ACTIVE = "ACTIVE",
+  SUSPENDED = "SUSPENDED",
+  MODIFIED = "MODIFIED",
+  ESCALATED = "ESCALATED",
+  RE_EXECUTED = "RE_EXECUTED",
+  SETTLED = "SETTLED",
+  ARCHIVED = "ARCHIVED"
+}
+export const AgreementStateSchema = v.enum_(AgreementState);
+
+export enum GraphRelationType {
+  VIEWED = "VIEWED",
+  SEARCHED = "SEARCHED",
+  CLICKED = "CLICKED",
+  CONTACTED = "CONTACTED",
+  BOOKMARKED = "BOOKMARKED",
+  MANAGED_BY = "MANAGED_BY",
+  BELONGS_TO = "BELONGS_TO",
+  LOCATED_IN = "LOCATED_IN",
+  GENERATED = "GENERATED",
+  RECOMMENDED = "RECOMMENDED",
+  BOOKED = "BOOKED",
+  CONVERTED_TO = "CONVERTED_TO",
+  AFFECTED = "AFFECTED",
+  HAS_CONTRACT = "HAS_CONTRACT",
+  HAS_REVENUE = "HAS_REVENUE",
+  SIMILAR_TO = "SIMILAR_TO"
+}
+export const GraphRelationTypeSchema = v.enum_(GraphRelationType);
+
 // --- MODELS ---
 // User Schemas (IT)
 export const userCreateSchema = v.object({
@@ -2416,6 +2481,26 @@ export const organizationUpdateSchema = v.partial(v.object({
 
 export type OrganizationCreate = v.InferOutput<typeof organizationCreateSchema>;
 export type OrganizationUpdate = v.InferOutput<typeof organizationUpdateSchema>;
+
+// ConciergeRequest Schemas (IT)
+export const conciergeRequestCreateSchema = v.object({
+  userId: v.string(),
+  requestType: v.enum_(ConciergeRequestType),
+  message: v.string()
+});
+
+export const conciergeRequestUpdateSchema = v.partial(v.object({
+  userId: v.optional(v.string()),
+  reservationId: v.optional(v.string()),
+  requestType: v.optional(v.enum_(ConciergeRequestType)),
+  status: v.optional(v.enum_(ConciergeRequestStatus)),
+  message: v.optional(v.string()),
+  aiParsedData: v.optional(v.unknown()),
+  organizationId: v.optional(v.string())
+}));
+
+export type ConciergeRequestCreate = v.InferOutput<typeof conciergeRequestCreateSchema>;
+export type ConciergeRequestUpdate = v.InferOutput<typeof conciergeRequestUpdateSchema>;
 
 // AnalysisJob Schemas (IT)
 export const analysisJobCreateSchema = v.object({
@@ -2636,6 +2721,10 @@ export const propertyUpdateSchema = v.partial(v.object({
   locationId: v.optional(v.string()),
   propertyCategory: v.optional(v.enum_(PropertyCategory)),
   listingType: v.optional(v.enum_(ListingType)),
+  aiSummary: v.optional(v.string()),
+  aiProsCons: v.optional(v.string()),
+  aiNeighborhoodScore: v.optional(v.number()),
+  aiROIHint: v.optional(v.string()),
   listingStatus: v.optional(v.enum_(ListingStatus)),
   listingPrice: v.optional(v.number()),
   originalPrice: v.optional(v.number()),
@@ -4015,7 +4104,6 @@ export type AgentTeamMemberUpdate = v.InferOutput<typeof agentTeamMemberUpdateSc
 
 // AgentPerformance Schemas (IT)
 export const agentPerformanceCreateSchema = v.object({
-  userId: v.string(),
   period: v.string(),
   startDate: v.string(),
   endDate: v.string()
@@ -4023,6 +4111,7 @@ export const agentPerformanceCreateSchema = v.object({
 
 export const agentPerformanceUpdateSchema = v.partial(v.object({
   userId: v.optional(v.string()),
+  agentId: v.optional(v.string()),
   period: v.optional(v.string()),
   startDate: v.optional(v.string()),
   endDate: v.optional(v.string()),
@@ -5151,7 +5240,6 @@ export type PropertyOfferUpdate = v.InferOutput<typeof propertyOfferUpdateSchema
 // Reservation Schemas (IT)
 export const reservationCreateSchema = v.object({
   orgId: v.string(),
-  listingId: v.string(),
   contactId: v.string(),
   checkInDate: v.string(),
   checkOutDate: v.string(),
@@ -5190,7 +5278,10 @@ export const reservationUpdateSchema = v.partial(v.object({
   identityVerified: v.optional(v.boolean()),
   hotelId: v.optional(v.string()),
   hotelRoomTypeId: v.optional(v.string()),
-  hotelRatePlanId: v.optional(v.string())
+  hotelRatePlanId: v.optional(v.string()),
+  b2bProvider: v.optional(v.string()),
+  b2bHotelId: v.optional(v.string()),
+  b2bBookingRef: v.optional(v.string())
 }));
 
 export type ReservationCreate = v.InferOutput<typeof reservationCreateSchema>;
@@ -9034,7 +9125,6 @@ export type PlatformRevenueRecordUpdate = v.InferOutput<typeof platformRevenueRe
 // AiServiceTask Schemas (IT)
 export const aiServiceTaskCreateSchema = v.object({
   orgId: v.string(),
-  propertyId: v.string(),
   taskType: v.enum_(AiTaskType)
 });
 
@@ -9339,6 +9429,117 @@ export const propertySecurityConfigUpdateSchema = v.partial(v.object({
 
 export type PropertySecurityConfigCreate = v.InferOutput<typeof propertySecurityConfigCreateSchema>;
 export type PropertySecurityConfigUpdate = v.InferOutput<typeof propertySecurityConfigUpdateSchema>;
+
+// ContractTransition Schemas (IT)
+export const contractTransitionCreateSchema = v.object({
+  contractId: v.string(),
+  fromState: v.string(),
+  toState: v.string(),
+  triggerEvent: v.string()
+});
+
+export const contractTransitionUpdateSchema = v.partial(v.object({
+  contractId: v.optional(v.string()),
+  fromState: v.optional(v.string()),
+  toState: v.optional(v.string()),
+  triggerEvent: v.optional(v.string()),
+  metadata: v.optional(v.unknown()),
+  region: v.optional(v.string()),
+  transitionedAt: v.optional(v.string())
+}));
+
+export type ContractTransitionCreate = v.InferOutput<typeof contractTransitionCreateSchema>;
+export type ContractTransitionUpdate = v.InferOutput<typeof contractTransitionUpdateSchema>;
+
+// ListingDistribution Schemas (IT)
+export const listingDistributionCreateSchema = v.object({
+  listingId: v.string(),
+  agentId: v.string(),
+  orgId: v.string(),
+  distributionScore: v.number()
+});
+
+export const listingDistributionUpdateSchema = v.partial(v.object({
+  listingId: v.optional(v.string()),
+  agentId: v.optional(v.string()),
+  orgId: v.optional(v.string()),
+  distributionScore: v.optional(v.number()),
+  priority: v.optional(v.string()),
+  estimatedConversion: v.optional(v.number()),
+  calculatedAt: v.optional(v.string())
+}));
+
+export type ListingDistributionCreate = v.InferOutput<typeof listingDistributionCreateSchema>;
+export type ListingDistributionUpdate = v.InferOutput<typeof listingDistributionUpdateSchema>;
+
+// ReputationDecayLog Schemas (IT)
+export const reputationDecayLogCreateSchema = v.object({
+  entityId: v.string(),
+  entityType: v.string(),
+  previousScore: v.number(),
+  newScore: v.number(),
+  decayAmount: v.number(),
+  reason: v.string()
+});
+
+export const reputationDecayLogUpdateSchema = v.partial(v.object({
+  entityId: v.optional(v.string()),
+  entityType: v.optional(v.string()),
+  region: v.optional(v.string()),
+  previousScore: v.optional(v.number()),
+  newScore: v.optional(v.number()),
+  decayAmount: v.optional(v.number()),
+  reason: v.optional(v.string()),
+  appliedAt: v.optional(v.string())
+}));
+
+export type ReputationDecayLogCreate = v.InferOutput<typeof reputationDecayLogCreateSchema>;
+export type ReputationDecayLogUpdate = v.InferOutput<typeof reputationDecayLogUpdateSchema>;
+
+// CrossPartyReview Schemas (IT)
+export const crossPartyReviewCreateSchema = v.object({
+  transactionId: v.string(),
+  reviewerType: v.string(),
+  reviewerId: v.string(),
+  subjectId: v.string(),
+  subjectType: v.string(),
+  score: v.number(),
+  role: v.string()
+});
+
+export const crossPartyReviewUpdateSchema = v.partial(v.object({
+  transactionId: v.optional(v.string()),
+  reviewerType: v.optional(v.string()),
+  reviewerId: v.optional(v.string()),
+  subjectId: v.optional(v.string()),
+  subjectType: v.optional(v.string()),
+  score: v.optional(v.number()),
+  comment: v.optional(v.string()),
+  role: v.optional(v.string())
+}));
+
+export type CrossPartyReviewCreate = v.InferOutput<typeof crossPartyReviewCreateSchema>;
+export type CrossPartyReviewUpdate = v.InferOutput<typeof crossPartyReviewUpdateSchema>;
+
+// DemandGenerationLog Schemas (IT)
+export const demandGenerationLogCreateSchema = v.object({
+  sourceType: v.string()
+});
+
+export const demandGenerationLogUpdateSchema = v.partial(v.object({
+  sourceType: v.optional(v.string()),
+  sourceId: v.optional(v.string()),
+  listingId: v.optional(v.string()),
+  tenantId: v.optional(v.string()),
+  agentId: v.optional(v.string()),
+  region: v.optional(v.string()),
+  matchScore: v.optional(v.number()),
+  recommendation: v.optional(v.unknown()),
+  converted: v.optional(v.boolean())
+}));
+
+export type DemandGenerationLogCreate = v.InferOutput<typeof demandGenerationLogCreateSchema>;
+export type DemandGenerationLogUpdate = v.InferOutput<typeof demandGenerationLogUpdateSchema>;
 
 // AgentEscrowWallet Schemas (IT)
 export const agentEscrowWalletCreateSchema = v.object({
@@ -9656,4 +9857,384 @@ export const bookingFailoverEventUpdateSchema = v.partial(v.object({
 
 export type BookingFailoverEventCreate = v.InferOutput<typeof bookingFailoverEventCreateSchema>;
 export type BookingFailoverEventUpdate = v.InferOutput<typeof bookingFailoverEventUpdateSchema>;
+
+// Experience Schemas (IT)
+export const experienceCreateSchema = v.object({
+  orgId: v.string(),
+  title: v.string(),
+  price: v.number()
+});
+
+export const experienceUpdateSchema = v.partial(v.object({
+  orgId: v.optional(v.string()),
+  title: v.optional(v.string()),
+  description: v.optional(v.string()),
+  price: v.optional(v.number()),
+  currency: v.optional(v.string()),
+  location: v.optional(v.string()),
+  durationMinutes: v.optional(v.number()),
+  provider: v.optional(v.string()),
+  externalId: v.optional(v.string()),
+  status: v.optional(v.string())
+}));
+
+export type ExperienceCreate = v.InferOutput<typeof experienceCreateSchema>;
+export type ExperienceUpdate = v.InferOutput<typeof experienceUpdateSchema>;
+
+// ExperienceBooking Schemas (IT)
+export const experienceBookingCreateSchema = v.object({
+  orgId: v.string(),
+  experienceId: v.string(),
+  date: v.string(),
+  totalAmount: v.number()
+});
+
+export const experienceBookingUpdateSchema = v.partial(v.object({
+  orgId: v.optional(v.string()),
+  reservationId: v.optional(v.string()),
+  experienceId: v.optional(v.string()),
+  date: v.optional(v.string()),
+  guestCount: v.optional(v.number()),
+  totalAmount: v.optional(v.number()),
+  status: v.optional(v.string())
+}));
+
+export type ExperienceBookingCreate = v.InferOutput<typeof experienceBookingCreateSchema>;
+export type ExperienceBookingUpdate = v.InferOutput<typeof experienceBookingUpdateSchema>;
+
+// TransferService Schemas (IT)
+export const transferServiceCreateSchema = v.object({
+  orgId: v.string(),
+  vehicleType: v.string(),
+  capacity: v.number(),
+  basePrice: v.number()
+});
+
+export const transferServiceUpdateSchema = v.partial(v.object({
+  orgId: v.optional(v.string()),
+  vehicleType: v.optional(v.string()),
+  capacity: v.optional(v.number()),
+  basePrice: v.optional(v.number()),
+  currency: v.optional(v.string()),
+  provider: v.optional(v.string()),
+  status: v.optional(v.string())
+}));
+
+export type TransferServiceCreate = v.InferOutput<typeof transferServiceCreateSchema>;
+export type TransferServiceUpdate = v.InferOutput<typeof transferServiceUpdateSchema>;
+
+// TransferBooking Schemas (IT)
+export const transferBookingCreateSchema = v.object({
+  orgId: v.string(),
+  transferServiceId: v.string(),
+  pickupLocation: v.string(),
+  dropoffLocation: v.string(),
+  pickupTime: v.string(),
+  totalAmount: v.number()
+});
+
+export const transferBookingUpdateSchema = v.partial(v.object({
+  orgId: v.optional(v.string()),
+  reservationId: v.optional(v.string()),
+  transferServiceId: v.optional(v.string()),
+  pickupLocation: v.optional(v.string()),
+  dropoffLocation: v.optional(v.string()),
+  flightNumber: v.optional(v.string()),
+  pickupTime: v.optional(v.string()),
+  totalAmount: v.optional(v.number()),
+  status: v.optional(v.string())
+}));
+
+export type TransferBookingCreate = v.InferOutput<typeof transferBookingCreateSchema>;
+export type TransferBookingUpdate = v.InferOutput<typeof transferBookingUpdateSchema>;
+
+// EventRecord Schemas (IT)
+export const eventRecordCreateSchema = v.object({
+  type: v.string(),
+  payload: v.unknown(),
+  source: v.string()
+});
+
+export const eventRecordUpdateSchema = v.partial(v.object({
+  type: v.optional(v.string()),
+  payload: v.optional(v.unknown()),
+  source: v.optional(v.string())
+}));
+
+export type EventRecordCreate = v.InferOutput<typeof eventRecordCreateSchema>;
+export type EventRecordUpdate = v.InferOutput<typeof eventRecordUpdateSchema>;
+
+// PartnerAgreement Schemas (IT)
+export const partnerAgreementCreateSchema = v.object({
+  tenantId: v.string(),
+  userId: v.string(),
+  encryptedTerms: v.string()
+});
+
+export const partnerAgreementUpdateSchema = v.partial(v.object({
+  tenantId: v.optional(v.string()),
+  userId: v.optional(v.string()),
+  status: v.optional(v.enum_(AgreementState)),
+  encryptedTerms: v.optional(v.string())
+}));
+
+export type PartnerAgreementCreate = v.InferOutput<typeof partnerAgreementCreateSchema>;
+export type PartnerAgreementUpdate = v.InferOutput<typeof partnerAgreementUpdateSchema>;
+
+// VisibilityBudget Schemas (IT)
+export const visibilityBudgetCreateSchema = v.object({
+  agentId: v.string()
+});
+
+export const visibilityBudgetUpdateSchema = v.partial(v.object({
+  agentId: v.optional(v.string()),
+  budget: v.optional(v.number()),
+  used: v.optional(v.number())
+}));
+
+export type VisibilityBudgetCreate = v.InferOutput<typeof visibilityBudgetCreateSchema>;
+export type VisibilityBudgetUpdate = v.InferOutput<typeof visibilityBudgetUpdateSchema>;
+
+// AIIntentAuditLog Schemas (IT)
+export const aIIntentAuditLogCreateSchema = v.object({
+  rawQuery: v.string(),
+  intent: v.string(),
+  actionTaken: v.string()
+});
+
+export const aIIntentAuditLogUpdateSchema = v.partial(v.object({
+  userId: v.optional(v.string()),
+  rawQuery: v.optional(v.string()),
+  intent: v.optional(v.string()),
+  confidence: v.optional(v.number()),
+  actionTaken: v.optional(v.string()),
+  cost: v.optional(v.number()),
+  sseEmitted: v.optional(v.boolean()),
+  metadata: v.optional(v.unknown())
+}));
+
+export type AIIntentAuditLogCreate = v.InferOutput<typeof aIIntentAuditLogCreateSchema>;
+export type AIIntentAuditLogUpdate = v.InferOutput<typeof aIIntentAuditLogUpdateSchema>;
+
+// UserAIHabit Schemas (IT)
+export const userAIHabitCreateSchema = v.object({
+  userId: v.string(),
+  category: v.string(),
+  habitKey: v.string(),
+  habitValue: v.string(),
+  confidence: v.number()
+});
+
+export const userAIHabitUpdateSchema = v.partial(v.object({
+  userId: v.optional(v.string()),
+  category: v.optional(v.string()),
+  habitKey: v.optional(v.string()),
+  habitValue: v.optional(v.string()),
+  confidence: v.optional(v.number()),
+  lastObserved: v.optional(v.string())
+}));
+
+export type UserAIHabitCreate = v.InferOutput<typeof userAIHabitCreateSchema>;
+export type UserAIHabitUpdate = v.InferOutput<typeof userAIHabitUpdateSchema>;
+
+// AIKnowledgeArticle Schemas (IT)
+export const aIKnowledgeArticleCreateSchema = v.object({
+  category: v.string(),
+  title: v.string(),
+  content: v.string()
+});
+
+export const aIKnowledgeArticleUpdateSchema = v.partial(v.object({
+  category: v.optional(v.string()),
+  title: v.optional(v.string()),
+  content: v.optional(v.string()),
+  embedding: v.optional(v.unknown()),
+  isActive: v.optional(v.boolean())
+}));
+
+export type AIKnowledgeArticleCreate = v.InferOutput<typeof aIKnowledgeArticleCreateSchema>;
+export type AIKnowledgeArticleUpdate = v.InferOutput<typeof aIKnowledgeArticleUpdateSchema>;
+
+// AICreditBalance Schemas (IT)
+export const aICreditBalanceCreateSchema = v.object({
+  userId: v.string()
+});
+
+export const aICreditBalanceUpdateSchema = v.partial(v.object({
+  userId: v.optional(v.string()),
+  monthlyQuota: v.optional(v.number()),
+  purchasedQuota: v.optional(v.number()),
+  consumed: v.optional(v.number()),
+  resetAt: v.optional(v.string())
+}));
+
+export type AICreditBalanceCreate = v.InferOutput<typeof aICreditBalanceCreateSchema>;
+export type AICreditBalanceUpdate = v.InferOutput<typeof aICreditBalanceUpdateSchema>;
+
+// AICreditLedger Schemas (IT)
+export const aICreditLedgerCreateSchema = v.object({
+  userId: v.string(),
+  amount: v.number(),
+  actionType: v.string()
+});
+
+export const aICreditLedgerUpdateSchema = v.partial(v.object({
+  userId: v.optional(v.string()),
+  amount: v.optional(v.number()),
+  balance: v.optional(v.number()),
+  actionType: v.optional(v.string()),
+  metadata: v.optional(v.unknown())
+}));
+
+export type AICreditLedgerCreate = v.InferOutput<typeof aICreditLedgerCreateSchema>;
+export type AICreditLedgerUpdate = v.InferOutput<typeof aICreditLedgerUpdateSchema>;
+
+// UserRevenueProfile Schemas (IT)
+export const userRevenueProfileCreateSchema = v.object({
+  userId: v.string()
+});
+
+export const userRevenueProfileUpdateSchema = v.partial(v.object({
+  userId: v.optional(v.string()),
+  arpuScore: v.optional(v.number()),
+  intentValueMap: v.optional(v.unknown())
+}));
+
+export type UserRevenueProfileCreate = v.InferOutput<typeof userRevenueProfileCreateSchema>;
+export type UserRevenueProfileUpdate = v.InferOutput<typeof userRevenueProfileUpdateSchema>;
+
+// MarketState Schemas (IT)
+export const marketStateCreateSchema = v.object({
+  segment: v.string()
+});
+
+export const marketStateUpdateSchema = v.partial(v.object({
+  segment: v.optional(v.string()),
+  demandIndex: v.optional(v.number()),
+  supplyIndex: v.optional(v.number()),
+  priceElasticity: v.optional(v.number()),
+  liquidityScore: v.optional(v.number()),
+  congestionLevel: v.optional(v.number()),
+  underSupplyLevel: v.optional(v.number()),
+  lastUpdated: v.optional(v.string())
+}));
+
+export type MarketStateCreate = v.InferOutput<typeof marketStateCreateSchema>;
+export type MarketStateUpdate = v.InferOutput<typeof marketStateUpdateSchema>;
+
+// AISemanticCache Schemas (IT)
+export const aISemanticCacheCreateSchema = v.object({
+  queryHash: v.string(),
+  response: v.unknown(),
+  expiresAt: v.string()
+});
+
+export const aISemanticCacheUpdateSchema = v.partial(v.object({
+  queryHash: v.optional(v.string()),
+  response: v.optional(v.unknown()),
+  hitCount: v.optional(v.number()),
+  expiresAt: v.optional(v.string())
+}));
+
+export type AISemanticCacheCreate = v.InferOutput<typeof aISemanticCacheCreateSchema>;
+export type AISemanticCacheUpdate = v.InferOutput<typeof aISemanticCacheUpdateSchema>;
+
+// AICostAnalytics Schemas (IT)
+export const aICostAnalyticsCreateSchema = v.object({
+  route: v.string(),
+  cost: v.number(),
+  intent: v.string()
+});
+
+export const aICostAnalyticsUpdateSchema = v.partial(v.object({
+  route: v.optional(v.string()),
+  cost: v.optional(v.number()),
+  conversion: v.optional(v.boolean()),
+  revenue: v.optional(v.number()),
+  intent: v.optional(v.string())
+}));
+
+export type AICostAnalyticsCreate = v.InferOutput<typeof aICostAnalyticsCreateSchema>;
+export type AICostAnalyticsUpdate = v.InferOutput<typeof aICostAnalyticsUpdateSchema>;
+
+// RevenueSnapshot Schemas (IT)
+export const revenueSnapshotCreateSchema = v.object({
+  entityId: v.string(),
+  entityType: v.string()
+});
+
+export const revenueSnapshotUpdateSchema = v.partial(v.object({
+  entityId: v.optional(v.string()),
+  entityType: v.optional(v.string()),
+  conversionScore: v.optional(v.number()),
+  marketScore: v.optional(v.number()),
+  pricingScore: v.optional(v.number()),
+  contractState: v.optional(v.string()),
+  forecastRevenue: v.optional(v.number())
+}));
+
+export type RevenueSnapshotCreate = v.InferOutput<typeof revenueSnapshotCreateSchema>;
+export type RevenueSnapshotUpdate = v.InferOutput<typeof revenueSnapshotUpdateSchema>;
+
+// DecisionJournal Schemas (IT)
+export const decisionJournalCreateSchema = v.object({
+  eventName: v.string(),
+  decision: v.string(),
+  reason: v.string(),
+  confidence: v.number()
+});
+
+export const decisionJournalUpdateSchema = v.partial(v.object({
+  eventName: v.optional(v.string()),
+  decision: v.optional(v.string()),
+  reason: v.optional(v.string()),
+  confidence: v.optional(v.number()),
+  outcome: v.optional(v.string()),
+  revenueImpact: v.optional(v.number()),
+  feedback: v.optional(v.string())
+}));
+
+export type DecisionJournalCreate = v.InferOutput<typeof decisionJournalCreateSchema>;
+export type DecisionJournalUpdate = v.InferOutput<typeof decisionJournalUpdateSchema>;
+
+// KnowledgeNode Schemas (IT)
+export const knowledgeNodeCreateSchema = v.object({
+  entityId: v.string(),
+  entityType: v.string()
+});
+
+export const knowledgeNodeUpdateSchema = v.partial(v.object({
+  entityId: v.optional(v.string()),
+  entityType: v.optional(v.string()),
+  label: v.optional(v.string()),
+  metadata: v.optional(v.unknown()),
+  embeddingId: v.optional(v.string())
+}));
+
+export type KnowledgeNodeCreate = v.InferOutput<typeof knowledgeNodeCreateSchema>;
+export type KnowledgeNodeUpdate = v.InferOutput<typeof knowledgeNodeUpdateSchema>;
+
+// KnowledgeEdge Schemas (IT)
+export const knowledgeEdgeCreateSchema = v.object({
+  sourceId: v.string(),
+  targetId: v.string(),
+  relationType: v.enum_(GraphRelationType)
+});
+
+export const knowledgeEdgeUpdateSchema = v.partial(v.object({
+  sourceId: v.optional(v.string()),
+  targetId: v.optional(v.string()),
+  relationType: v.optional(v.enum_(GraphRelationType)),
+  weight: v.optional(v.number()),
+  confidence: v.optional(v.number()),
+  decayFactor: v.optional(v.number()),
+  lastObservedAt: v.optional(v.string()),
+  version: v.optional(v.number()),
+  validFrom: v.optional(v.string()),
+  validTo: v.optional(v.string()),
+  metadata: v.optional(v.unknown())
+}));
+
+export type KnowledgeEdgeCreate = v.InferOutput<typeof knowledgeEdgeCreateSchema>;
+export type KnowledgeEdgeUpdate = v.InferOutput<typeof knowledgeEdgeUpdateSchema>;
 

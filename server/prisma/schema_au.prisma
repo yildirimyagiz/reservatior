@@ -9050,6 +9050,8 @@ enum SocialPlatform {
   FACEBOOK
   INSTAGRAM
   WHATSAPP
+  TWITTER_X
+  LINKEDIN
 }
 
 enum SocialPostType {

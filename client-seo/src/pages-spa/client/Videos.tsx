@@ -10,9 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Play, Heart, MessageCircle, Share2, Sparkles, Eye,
-  ChevronRight, MapPin, Clock, Search, Star, Circle, Radio, Camera
+  ChevronRight, MapPin, Clock, Search, Star, Circle, Radio, Camera,
+  Bot, Filter, ChevronDown, ChevronUp, Send, Loader2
 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useLanguage } from "@/lib/languages";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 
 /* ───── Category Data ───── */
@@ -57,7 +61,8 @@ const FALLBACK_VIDEOS = [
 ];
 
 export default function Videos() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const router = useRouter();
   const [activeCat, setActiveCat] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
@@ -66,6 +71,43 @@ export default function Videos() {
   const [activeProperty, setActiveProperty] = useState(0);
   const [activeRoom, setActiveRoom] = useState(0);
   const [liked, setLiked] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [aiQuery, setAiQuery] = useState("");
+  const [isAiSearching, setIsAiSearching] = useState(false);
+  
+  const handleAISearch = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!aiQuery.trim()) return;
+    
+    setIsAiSearching(true);
+    // Simulate AI parsing and filtering
+    setTimeout(() => {
+      const q = aiQuery.toLowerCase();
+      if (q.includes("villa")) setPropertyType("VILLA");
+      else if (q.includes("apartment")) setPropertyType("APARTMENT");
+      else if (q.includes("penthouse")) setPropertyType("PENTHOUSE");
+      
+      if (q.includes("sale") || q.includes("buy")) setListingType("SALE");
+      else if (q.includes("rent")) setListingType("RENT");
+      
+      if (q.includes("pool")) setPropertyCategory("RESIDENTIAL"); // just mock
+      
+      if (q.match(/2\\s*m/)) setPriceMax("2000000");
+      else if (q.match(/1\\s*m/)) setPriceMax("1000000");
+      
+      setIsAiSearching(false);
+      setShowFilters(true); // show the updated filters
+    }, 1500);
+  };
+  
+  // Advanced Filter States
+  const [propertyCategory, setPropertyCategory] = useState("ALL");
+  const [propertyType, setPropertyType] = useState("ALL");
+  const [beds, setBeds] = useState("ALL");
+  const [baths, setBaths] = useState("ALL");
+  const [priceMin, setPriceMin] = useState("");
+  const [priceMax, setPriceMax] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Fetch real data
@@ -134,22 +176,9 @@ export default function Videos() {
 
   return (
     <>
-      <Helmet>
-        <title>{t('videos.title', 'Property Video Tours - AI-Powered Virtual Tours')} | Reservatior</title>
-        <meta name="description" content="Browse AI-powered property video tours with ML-enhanced virtual walkthroughs of premium real estate listings. Cinematic 4K virtual tours of luxury properties." />
-        <meta property="og:title" content={t('videos.title', 'Property Video Tours - AI-Powered Virtual Tours') + ' | Reservatior'} />
-        <meta property="og:description" content="Browse AI-powered property video tours with ML-enhanced virtual walkthroughs of premium real estate listings." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={t('videos.title', 'Property Video Tours - AI-Powered Virtual Tours') + ' | Reservatior'} />
-        <meta name="twitter:description" content="Browse AI-powered property video tours with ML-enhanced virtual walkthroughs of premium real estate listings." />
-        <link rel="canonical" href={window.location.href} />
-      </Helmet>
+      <div className="h-full w-full bg-black text-white flex overflow-hidden">
 
-      <div className="h-[calc(100vh-64px)] bg-[#0A0B0F] text-white flex overflow-hidden">
-
-        {/* ═══════ LEFT: VIDEO REELS ═══════ */}
+        {/* ═══════ LEFT/MAIN: VIDEO REELS ═══════ */}
         <div ref={scrollRef} className="flex-1 relative flex flex-col min-w-0 bg-black overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
           onScroll={(e) => {
             const container = e.currentTarget;
@@ -164,192 +193,166 @@ export default function Videos() {
           {filtered.map((video: any) => {
             const isActive = videos.findIndex((v: any) => v.id === video.id) === activeProperty;
             return (
-              <div key={video.id} className="relative w-full h-full shrink-0 snap-start snap-always flex flex-col">
+              <div key={video.id} className="relative w-full h-full shrink-0 snap-start snap-always flex flex-col justify-center items-center overflow-hidden">
                 <VideoObjectSchema name={video.title} description={`${video.title} - ${video.location} - ${video.price}`} thumbnailUrl={video.image} />
-                {/* Video Area */}
-                <div className="flex-1 relative overflow-hidden bg-black flex items-center justify-center">
-                  {/* Real Background Image simulating Video Thumbnail */}
-                  <div className="absolute inset-0">
-                     <Image src={video.image} alt={video.title} fill className="object-cover opacity-80" sizes="100vw" />
-                     <div className="absolute inset-0 bg-gradient-to-t from-[#0E0F15] via-black/40 to-transparent" />
-                     <div className="absolute inset-0 bg-black/10" />
-                  </div>
+                
+                {/* Real Background Image simulating Video Thumbnail */}
+                <div className="absolute inset-0">
+                    <Image src={video.image} alt={video.title} fill className="object-cover opacity-90" sizes="100vw" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent h-32" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent h-2/3 mt-auto" />
+                </div>
 
-                  {/* Live & Quality Badges */}
-                  <div className="absolute top-5 left-5 z-20 flex items-center gap-3">
-                    <Badge className="bg-red-600 text-white border-0 px-3 py-1.5 text-xs font-bold tracking-wider gap-1.5 rounded-lg shadow-lg shadow-red-600/30">
+                {/* Top Badges */}
+                <div className="absolute top-6 left-6 right-6 flex justify-between items-start z-30 pointer-events-none">
+                  <div className="flex flex-col gap-2">
+                    <Badge className="bg-red-600/90 backdrop-blur-md text-white border-0 px-3 py-1.5 text-xs font-bold tracking-wider gap-1.5 rounded-lg shadow-lg shadow-red-600/30 w-fit">
                       <Radio className="w-3 h-3 animate-pulse" /> {t('videos.live_tour', 'LIVE TOUR')}
                     </Badge>
-                    <Badge className="bg-white/10 backdrop-blur-md text-white border-white/10px-3 py-1.5 text-xs font-medium rounded-lg gap-1.5">
+                    <Badge className="bg-white/10 backdrop-blur-md text-white border-white/10 px-3 py-1.5 text-xs font-medium rounded-lg gap-1.5 w-fit">
                       <Camera className="w-3 h-3" /> {t('videos.cinematic', '8K CINEMATIC')}
                     </Badge>
                   </div>
-
-                  {/* Price Badge */}
-                  <div className="absolute top-5 right-5 z-20">
-                    <div className="bg-black/80 backdrop-blur-xl rounded-2xl px-5 py-3 border border-white/10">
-                      <div className="text-[10px] text-slate-400 font-semibold tracking-widest">{t('videos.exclusive', 'EXCLUSIVE LISTING')}</div>
-                      <div className="text-2xl font-black text-white tracking-tight">{video.price}</div>
-                    </div>
-                  </div>
-
-                  {/* Center Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 cursor-pointer hover:scale-110 hover:bg-white/20 transition-all shadow-2xl pointer-events-auto">
-                      <Play className="w-9 h-9 text-white ml-1" />
-                    </div>
-                  </div>
-
-                  {/* Current Room Label */}
-                  <div className="absolute bottom-24 left-6 z-20">
-                    <p className="text-[10px] text-emerald-400 font-bold tracking-[0.2em] mb-1">{t('videos.now_playing', 'NOW PLAYING')}</p>
-                    <h2 className="text-3xl lg:text-4xl font-black text-white tracking-tight">{t(video.rooms[isActive ? activeRoom : 0] || video.rooms[0], (video.rooms[isActive ? activeRoom : 0] || video.rooms[0]).split('.').pop() || "") as string}</h2>
-                  </div>
-
-                  {/* Room Selector Pills */}
-                  <div className="absolute bottom-5 left-6 right-20 z-20 flex items-center gap-2 overflow-x-auto scrollbar-hide">
-                    {video.rooms.map((room: string, i: number) => (
-                      <button key={i} onClick={() => setActiveRoom(i)}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all
-                          ${(isActive ? activeRoom : 0) === i ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30" : "bg-white/10 text-white/60 hover:bg-white/20 backdrop-blur-sm"}`}>
-                        {t(room, room.split('.').pop() || "") as string}
-                        {(isActive ? activeRoom : 0) === i && <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center"><ChevronRight className="w-3 h-3" /></span>}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Right Side Social Buttons */}
-                  <div className="absolute right-5 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-5">
-                    <button onClick={() => setLiked(!liked)} className="flex flex-col items-center gap-1 group">
-                      <div className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${liked ? "bg-red-500 text-white" : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-md"}`}>
-                        <Heart className={`w-5 h-5 ${liked ? "fill-white" : ""}`} />
-                      </div>
-                      <span className="text-[10px] text-white/80 font-semibold">3.2K</span>
-                    </button>
-                    <button className="flex flex-col items-center gap-1 group">
-                      <div className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 transition-all">
-                        <MessageCircle className="w-5 h-5" />
-                      </div>
-                      <span className="text-[10px] text-white/80 font-semibold">{t('videos.support', 'SUPPORT')}</span>
-                    </button>
-                    <button className="flex flex-col items-center gap-1 group">
-                      <div className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 transition-all">
-                        <Share2 className="w-5 h-5" />
-                      </div>
-                      <span className="text-[10px] text-white/80 font-semibold">{t('videos.share', 'SHARE')}</span>
-                    </button>
-                    <button className="flex flex-col items-center gap-1 group mt-4">
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-violet-600 to-blue-600 text-white flex items-center justify-center hover:scale-110 transition-all shadow-lg shadow-violet-600/30">
-                        <Sparkles className="w-5 h-5" />
-                      </div>
-                      <span className="text-[10px] text-white/80 font-semibold">AI HUB</span>
-                    </button>
+                  <div className="bg-black/60 backdrop-blur-xl rounded-2xl px-4 py-2.5 border border-white/10 text-right">
+                    <div className="text-[9px] text-emerald-400 font-bold tracking-widest uppercase mb-0.5">{video.listingType}</div>
+                    <div className="text-xl font-black text-white tracking-tight leading-none">{video.price}</div>
                   </div>
                 </div>
 
-                {/* Property Info Bar */}
-                <div className="bg-[#0E0F15] border-t border-white/10 px-6 py-4 space-y-3 shrink-0">
-                  {/* Tags */}
-                  <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-                    {video.tags.map((tag: string, i: number) => (
-                      <Badge key={i} className={`text-[10px] font-bold tracking-wider px-3 py-1 rounded-full border-0 shrink-0
-                        ${i === 0 ? "bg-emerald-500/20 text-emerald-400" : "bg-white/10 text-white/50"}`}>
-                        {i === 0 && <Star className="w-3 h-3 mr-1" />}
-                        {tag}
-                      </Badge>
-                    ))}
+                {/* Center Play Button */}
+                <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                  <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 cursor-pointer hover:scale-110 hover:bg-white/20 transition-all shadow-2xl pointer-events-auto">
+                    <Play className="w-9 h-9 text-white ml-1 opacity-90" />
                   </div>
-                  {/* Title & Location */}
-                  <h3 className="text-lg font-black text-white tracking-wide leading-tight line-clamp-2">{video.title}</h3>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                    <MapPin className="w-3.5 h-3.5 text-blue-400" />
-                    <span className="font-semibold">{video.location}</span>
+                </div>
+
+                {/* Bottom Overlay - Instagram Reels Style */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6 pb-6 z-30 pointer-events-none">
+                  
+                  {/* Property Info (Left Side) */}
+                  <div className="max-w-[calc(100%-4.5rem)] space-y-4 pointer-events-auto">
+                    
+                    {/* Current Room Label & Selectors */}
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Circle className="w-2 h-2 fill-emerald-400 text-emerald-400 animate-pulse" />
+                        <span className="text-[10px] text-emerald-400 font-bold tracking-[0.2em]">{t('videos.now_playing', 'NOW PLAYING')}</span>
+                      </div>
+                      <h2 className="text-2xl lg:text-3xl font-black text-white tracking-tight drop-shadow-md">
+                        {t(video.rooms[isActive ? activeRoom : 0] || video.rooms[0], (video.rooms[isActive ? activeRoom : 0] || video.rooms[0]).split('.').pop() || "") as string}
+                      </h2>
+                      
+                      <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-1 -mx-2 px-2 mask-linear-fade">
+                        {video.rooms.map((room: string, i: number) => (
+                          <button key={i} onClick={() => setActiveRoom(i)}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border border-transparent
+                              ${(isActive ? activeRoom : 0) === i ? "bg-white text-black shadow-lg" : "bg-black/40 text-white/80 hover:bg-black/60 border-white/10 backdrop-blur-md"}`}>
+                            {t(room, room.split('.').pop() || "") as string}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+ 
+                    {/* Meta Data */}
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {video.tags.slice(0, 3).map((tag: string, i: number) => (
+                          <Badge key={i} className={`text-[9px] font-bold tracking-wider px-2.5 py-0.5 rounded-sm border border-white/10
+                            ${i === 0 ? "bg-emerald-500/20 text-emerald-400" : "bg-white/10 text-white/80 backdrop-blur-md"}`}>
+                            {i === 0 && <Star className="w-2.5 h-2.5 mr-1" />}
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                      <h3 className="text-lg lg:text-xl font-bold text-white tracking-wide leading-snug line-clamp-2 drop-shadow-md">{video.title}</h3>
+                      <div className="flex items-center gap-2 text-xs text-slate-300 font-medium">
+                        <div className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{video.location}</div>
+                        <span>•</span>
+                        <div className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{video.time}</div>
+                      </div>
+                    </div>
+                    
+                    {/* Agency & CTA */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs shadow-lg shrink-0">
+                          {video.agency.charAt(0)}
+                        </div>
+                        <span className="text-sm font-semibold text-white/90 truncate max-w-[120px] sm:max-w-none">{video.agency}</span>
+                      </div>
+                      <button 
+                        onClick={() => router.push(`/${i18n.language}/client/property/${video.id}`)}
+                        className="bg-white text-black px-4 py-2 rounded-xl font-bold text-[10px] sm:text-xs tracking-wider uppercase hover:bg-emerald-400 hover:text-white transition-all shadow-xl shadow-black/20 w-fit shrink-0"
+                      >
+                        {t('videos.view_details', 'VIEW DETAILS')}
+                      </button>
+                    </div>
                   </div>
+ 
+                  {/* Floating Action Buttons (Right Side) */}
+                  <div className="absolute right-4 bottom-20 lg:bottom-6 z-40 flex flex-col items-center gap-4 pb-4 pointer-events-auto shrink-0">
+                    <button onClick={() => setLiked(!liked)} className="flex flex-col items-center gap-1 group">
+                      <div className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${liked ? "bg-red-500 text-white shadow-lg shadow-red-500/40 scale-110" : "bg-black/40 text-white border border-white/10 hover:bg-black/60 backdrop-blur-xl"}`}>
+                        <Heart className={`w-5.5 h-5.5 ${liked ? "fill-white" : ""}`} />
+                      </div>
+                      <span className="text-[10px] text-white font-bold drop-shadow-md">3.2K</span>
+                    </button>
+                    <button className="flex flex-col items-center gap-1 group">
+                      <div className="w-11 h-11 rounded-full bg-black/40 border border-white/10 backdrop-blur-xl text-white flex items-center justify-center hover:bg-black/60 transition-all">
+                        <MessageCircle className="w-5.5 h-5.5" />
+                      </div>
+                      <span className="text-[10px] text-white font-bold drop-shadow-md">{t('videos.support', 'ASK')}</span>
+                    </button>
+                    <button className="flex flex-col items-center gap-1 group">
+                      <div className="w-11 h-11 rounded-full bg-black/40 border border-white/10 backdrop-blur-xl text-white flex items-center justify-center hover:bg-black/60 transition-all">
+                        <Share2 className="w-5.5 h-5.5" />
+                      </div>
+                      <span className="text-[10px] text-white font-bold drop-shadow-md">{t('videos.share', 'SHARE')}</span>
+                    </button>
+                    <button onClick={() => setIsAiModalOpen(true)} className="flex flex-col items-center gap-1 group mt-1">
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-white flex items-center justify-center hover:scale-110 transition-transform shadow-xl shadow-violet-600/40 border border-white/20">
+                        <Sparkles className="w-5.5 h-5.5" />
+                      </div>
+                      <span className="text-[10px] text-white font-bold drop-shadow-md">AI HUB</span>
+                    </button>
+                  </div>
+ 
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* ═══════ RIGHT: DISCOVERY PANEL ═══════ */}
-        <div className="w-full lg:w-[420px] bg-[#0E0F15] border-l border-white/10 flex flex-col shrink-0">
+        {/* ═══════ RIGHT: DISCOVERY PANEL (HIDDEN ON MOBILE, VISIBLE >= LG) ═══════ */}
+        <div className="hidden lg:flex w-[420px] bg-card border-l border-border flex-col shrink-0">
           {/* Header */}
-          <div className="px-3 pt-3 pb-1 border-b border-white/10 shrink-0">
-            <div className="flex items-center justify-between mb-2">
+          <div className="px-4 pt-24 pb-2 border-b border-border shrink-0 bg-card/95 backdrop-blur-md sticky top-0 z-20">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-1.5">
-                <Sparkles className="w-3 h-3 text-violet-400" />
-                <div className="text-[10px] font-black text-white tracking-widest">{t('videos.search', 'SEARCH')}</div>
+                <Sparkles className="w-4 h-4 text-violet-500 dark:text-violet-400" />
+                <div className="text-[11px] font-black text-foreground tracking-widest">{t('videos.search', 'DISCOVER')}</div>
               </div>
-              <div className="flex items-center gap-1.5 text-[8px] text-slate-500">
-                <Search className="w-2.5 h-2.5" />
+              <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground uppercase tracking-widest">
+                <Search className="w-3 h-3" />
                 <span className="font-semibold">{filtered.length} {t('videos.properties', 'PROPERTIES')}</span>
               </div>
             </div>
-            {/* Search Input */}
-            <div className="mb-2 relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-400" />
-              <input 
-                type="text" 
-                placeholder={t('videos.search_placeholder', 'SEARCH BY TITLE OR LOCATION...')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-lg h-8 pl-8 pr-2 text-[8px] text-white font-black italic tracking-widest placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all shadow-inner"
-              />
-            </div>
-            {/* Advanced Filters */}
-            <div className="grid grid-cols-2 gap-1.5 mb-1">
-               <Select value={listingType} onValueChange={setListingType}>
-                  <SelectTrigger className="w-full h-8 bg-white/5 border-white/5 text-[#94a3b8] font-black text-[8px] tracking-widest italic rounded-lg hover:text-white transition-all focus:ring-0 focus:border-blue-500/50 shadow-inner">
-                    <SelectValue placeholder={t('client.property.listings.dialog.type', 'LISTING TYPE')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1A1B1E]/95 border-white/10 text-white font-black text-[8px] tracking-widest italic backdrop-blur-3xl rounded-lg shadow-2xl">
-                    <SelectItem value="ALL" className="focus:bg-white/10 cursor-pointer h-7">{t('client.property.listings.all', 'ALL')}</SelectItem>
-                    <SelectItem value="SALE" className="focus:bg-white/10 cursor-pointer h-7">{t('client.property.listings.dialog.forSale', 'FOR SALE')}</SelectItem>
-                    <SelectItem value="RENT" className="focus:bg-white/10 cursor-pointer h-7">{t('forRent', 'FOR RENT')}</SelectItem>
-                    <SelectItem value="LEASE" className="focus:bg-white/10 cursor-pointer h-7">{t('lease', 'LEASE')}</SelectItem>
-                  </SelectContent>
-               </Select>
 
-               <Select value={promotionType} onValueChange={setPromotionType}>
-                  <SelectTrigger className="w-full h-8 bg-white/5 border-white/5 text-[#94a3b8] font-black text-[8px] tracking-widest italic rounded-lg hover:text-white transition-all focus:ring-0 focus:border-blue-500/50 shadow-inner">
-                    <SelectValue placeholder={t('client.src.promotion.title', 'PROMOTION')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1A1B1E]/95 border-white/10 text-white font-black text-[8px] tracking-widest italic backdrop-blur-3xl rounded-lg shadow-2xl">
-                    <SelectItem value="ALL" className="focus:bg-white/10 cursor-pointer h-7">{t('client.src.promotion.all', 'ALL PROMOTIONS')}</SelectItem>
-                    <SelectItem value="FEATURED" className="focus:bg-white/10 cursor-pointer h-7">{t('client.src.promotion.featured', 'FEATURED')}</SelectItem>
-                    <SelectItem value="URGENT" className="focus:bg-white/10 cursor-pointer h-7">{t('client.src.promotion.urgent', 'URGENT')}</SelectItem>
-                    <SelectItem value="PRICE_REDUCED" className="focus:bg-white/10 cursor-pointer h-7">{t('client.src.promotion.price_reduced', 'PRICE REDUCED')}</SelectItem>
-                    <SelectItem value="BEST_DEAL" className="focus:bg-white/10 cursor-pointer h-7">{t('client.src.promotion.best_deal', 'BEST DEAL')}</SelectItem>
-                  </SelectContent>
-               </Select>
-
-               <Select value={activeCat} onValueChange={setActiveCat}>
-                  <SelectTrigger className="w-full h-8 bg-white/5 border-white/5 text-[#94a3b8] font-black text-[8px] tracking-widest italic rounded-lg hover:text-white transition-all focus:ring-0 focus:border-blue-500/50 shadow-inner">
-                    <SelectValue placeholder={t('videos.category', 'CATEGORY')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1A1B1E]/95 border-white/10 text-white font-black text-[8px] tracking-widest italic backdrop-blur-3xl rounded-lg shadow-2xl">
-                    {CATEGORIES.map(cat => (
-                      <SelectItem key={cat.id} value={cat.id} className="focus:bg-white/10 cursor-pointer h-7">{t(cat.key, cat.fallback)}</SelectItem>
-                    ))}
-                  </SelectContent>
-               </Select>
-
-               <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-full h-8 bg-white/5 border-white/5 text-[#94a3b8] font-black text-[8px] tracking-widest italic rounded-lg hover:text-white transition-all focus:ring-0 focus:border-blue-500/50 shadow-inner">
-                    <SelectValue placeholder={t('videos.sort_by', 'SORT BY')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1A1B1E]/95 border-white/10 text-white font-black text-[8px] tracking-widest italic backdrop-blur-3xl rounded-lg shadow-2xl">
-                    <SelectItem value="newest" className="focus:bg-white/10 cursor-pointer h-7">{t('videos.sort.newest', 'NEWEST')}</SelectItem>
-                    <SelectItem value="price_high" className="focus:bg-white/10 cursor-pointer h-7">{t('videos.sort.price_high', 'PRICE (HIGH-LOW)')}</SelectItem>
-                    <SelectItem value="price_low" className="focus:bg-white/10 cursor-pointer h-7">{t('videos.sort.price_low', 'PRICE (LOW-HIGH)')}</SelectItem>
-                    <SelectItem value="views" className="focus:bg-white/10 cursor-pointer h-7">{t('videos.sort.views', 'MOST VIEWED')}</SelectItem>
-                  </SelectContent>
-               </Select>
-            </div>
+            {/* AI Modal Trigger */}
+            <button 
+              onClick={() => setIsAiModalOpen(true)}
+              className="mb-3 w-full relative group overflow-hidden rounded-xl border border-border bg-background p-1"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 group-hover:opacity-100 transition-opacity opacity-50" />
+              <div className="relative flex items-center justify-center gap-2 py-3 px-4 bg-background/80 backdrop-blur-sm rounded-lg hover:bg-background/90 transition-colors shadow-inner">
+                <Sparkles className="w-4 h-4 text-violet-500" />
+                <span className="text-xs font-bold text-foreground tracking-wider uppercase">AI Search & Filters</span>
+              </div>
+            </button>
           </div>
 
           {/* Property Cards List */}
-          <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2 scrollbar-hide">
+          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-hide">
             {filtered.map((p: any, i: number) => {
               const isActive = p.id === prop.id;
               return (
@@ -360,18 +363,17 @@ export default function Videos() {
                     if (scrollRef.current) {
                       scrollRef.current.scrollTo({ top: i * scrollRef.current.clientHeight, behavior: 'smooth' });
                     }
-                  }}
-                  className={`w-full flex gap-3 p-2.5 rounded-xl text-left transition-all group
-                    ${isActive ? "bg-blue-600/10 border border-blue-500/20" : "hover:bg-white/10 border border-transparent"}`}>
+                  }} 
+                  className={`w-full group text-left relative overflow-hidden rounded-2xl transition-all duration-300 border flex gap-3 p-2.5 
+                    ${isActive ? "border-blue-500 bg-blue-500/5 dark:bg-[#1A1B1E] shadow-lg shadow-blue-500/10" : "border-border bg-background hover:bg-accent hover:border-border"}`}>
+                  
                   {/* Thumbnail */}
                   <div className="relative w-[140px] h-[90px] rounded-lg overflow-hidden shrink-0 bg-black">
-                    <Image src={p.image} alt={p.title} fill className="object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" sizes="140px" />
-                    <div className="absolute inset-0 bg-black/20" />
-                    {/* Price overlay */}
+                    <Image src={p.image} alt={p.title} fill className={`object-cover transition-transform duration-700 ${isActive ? 'scale-105' : 'group-hover:scale-105'}`} sizes="140px" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute top-1.5 left-1.5 bg-black/70 backdrop-blur-sm rounded px-1.5 py-0.5">
                       <span className="text-[10px] font-bold text-white">{p.price}</span>
                     </div>
-                    {/* Category badge */}
                     <div className="absolute top-1.5 right-1.5">
                       <Badge className="text-[8px] bg-violet-600 text-white border-0 px-1.5 py-0 font-bold">{p.category}</Badge>
                     </div>
@@ -389,17 +391,17 @@ export default function Videos() {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0 py-0.5 flex flex-col justify-between">
-                    <h4 className="text-xs font-bold text-white line-clamp-2 leading-snug group-hover:text-blue-400 transition-colors">{p.title}</h4>
+                    <h4 className={`text-xs font-bold leading-tight line-clamp-2 mb-1.5 transition-colors ${isActive ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'}`}>{p.title}</h4>
                     <div className="space-y-1.5 mt-1">
                       <div className="flex items-center gap-1">
                         <div className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center shrink-0">
                           <span className="text-[6px] font-bold text-white">{p.agency.charAt(0)}</span>
                         </div>
-                        <span className="text-[10px] text-slate-400 truncate">{p.agency}</span>
+                        <span className="text-[10px] text-muted-foreground truncate">{p.agency}</span>
                         {p.verified && <Circle className="w-2.5 h-2.5 fill-blue-500 text-blue-500 shrink-0" />}
                       </div>
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                        <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                           <span className="flex items-center gap-0.5"><Eye className="w-3 h-3" /> {p.views}</span>
                           <span className="flex items-center gap-0.5"><Clock className="w-3 h-3" /> {p.time}</span>
                         </div>
@@ -426,6 +428,151 @@ export default function Videos() {
           </div>
         </div>
       </div>
+
+      {/* AI Search Modal */}
+      <Dialog open={isAiModalOpen} onOpenChange={setIsAiModalOpen}>
+        <DialogContent className="sm:max-w-[500px] bg-background border-border shadow-2xl overflow-hidden p-0">
+          <div className="p-6 pb-4 border-b border-border bg-card/50">
+            <DialogTitle className="flex items-center gap-2 text-lg font-black tracking-tight text-foreground">
+              <Sparkles className="w-5 h-5 text-violet-500" /> AI HUB
+            </DialogTitle>
+            <DialogDescription className="text-xs font-medium text-muted-foreground mt-1.5">
+              {t('videos.ai_search_description', 'Describe your dream property. Our AI will automatically apply the perfect filters for you.')}
+            </DialogDescription>
+          </div>
+          
+          <div className="p-6 bg-card space-y-6">
+            {/* AI Chat Search Input */}
+            <form onSubmit={handleAISearch} className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-violet-500/20 to-fuchsia-500/20 rounded-xl blur-md opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
+              <div className="relative flex items-center w-full bg-background border border-border group-focus-within:border-violet-500/50 rounded-xl overflow-hidden shadow-inner transition-colors">
+                <div className="pl-4 py-4 flex items-center justify-center">
+                  {isAiSearching ? (
+                    <Loader2 className="w-5 h-5 text-violet-500 animate-spin" />
+                  ) : (
+                    <Bot className="w-5 h-5 text-violet-500" />
+                  )}
+                </div>
+                <input 
+                  type="text" 
+                  placeholder={t('videos.ai_search_placeholder', 'e.g. "Villas with a pool under $2M"')}
+                  value={aiQuery}
+                  onChange={(e) => setAiQuery(e.target.value)}
+                  disabled={isAiSearching}
+                  className="flex-1 bg-transparent border-none h-12 px-3 text-sm text-foreground font-medium placeholder:text-muted-foreground focus:outline-none focus:ring-0 disabled:opacity-50"
+                />
+                <button 
+                  type="submit" 
+                  disabled={isAiSearching}
+                  className="pr-4 pl-3 py-4 flex items-center justify-center hover:bg-muted transition-colors disabled:opacity-50"
+                >
+                  <Send className="w-5 h-5 text-muted-foreground hover:text-violet-500 transition-colors" />
+                </button>
+              </div>
+            </form>
+
+            {/* Advanced Filters */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Filter className="w-4 h-4 text-muted-foreground" />
+                <h4 className="text-xs font-bold text-foreground uppercase tracking-widest">Active Filters</h4>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                 <Select value={listingType} onValueChange={setListingType}>
+                    <SelectTrigger className="w-full h-10 bg-background border-border text-muted-foreground font-bold text-[10px] tracking-widest uppercase rounded-lg focus:ring-0 focus:border-blue-500/50">
+                      <SelectValue placeholder="LISTING TYPE" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ALL">ALL</SelectItem>
+                      <SelectItem value="SALE">FOR SALE</SelectItem>
+                      <SelectItem value="RENT">FOR RENT</SelectItem>
+                      <SelectItem value="LEASE">LEASE</SelectItem>
+                    </SelectContent>
+                 </Select>
+
+                 <Select value={propertyCategory} onValueChange={setPropertyCategory}>
+                    <SelectTrigger className="w-full h-10 bg-background border-border text-muted-foreground font-bold text-[10px] tracking-widest uppercase rounded-lg focus:ring-0 focus:border-blue-500/50">
+                      <SelectValue placeholder="CATEGORY" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ALL">ALL CATS</SelectItem>
+                      <SelectItem value="RESIDENTIAL">RESIDENTIAL</SelectItem>
+                      <SelectItem value="COMMERCIAL">COMMERCIAL</SelectItem>
+                      <SelectItem value="LAND">LAND</SelectItem>
+                    </SelectContent>
+                 </Select>
+
+                 <Select value={propertyType} onValueChange={setPropertyType}>
+                    <SelectTrigger className="w-full h-10 bg-background border-border text-muted-foreground font-bold text-[10px] tracking-widest uppercase rounded-lg focus:ring-0 focus:border-blue-500/50">
+                      <SelectValue placeholder="PROPERTY TYPE" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ALL">ALL TYPES</SelectItem>
+                      <SelectItem value="DETACHED_HOUSE">HOUSE</SelectItem>
+                      <SelectItem value="APARTMENT">APARTMENT</SelectItem>
+                      <SelectItem value="VILLA">VILLA</SelectItem>
+                      <SelectItem value="PENTHOUSE">PENTHOUSE</SelectItem>
+                    </SelectContent>
+                 </Select>
+
+                 <Select value={beds} onValueChange={setBeds}>
+                    <SelectTrigger className="w-full h-10 bg-background border-border text-muted-foreground font-bold text-[10px] tracking-widest uppercase rounded-lg focus:ring-0 focus:border-blue-500/50">
+                      <SelectValue placeholder="BEDROOMS" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ALL">ANY BEDS</SelectItem>
+                      <SelectItem value="1">1+ BEDS</SelectItem>
+                      <SelectItem value="2">2+ BEDS</SelectItem>
+                      <SelectItem value="3">3+ BEDS</SelectItem>
+                      <SelectItem value="4">4+ BEDS</SelectItem>
+                    </SelectContent>
+                 </Select>
+
+                 <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">$</span>
+                    <input 
+                      type="number" 
+                      placeholder="MIN PRICE"
+                      value={priceMin}
+                      onChange={(e) => setPriceMin(e.target.value)}
+                      className="w-full h-10 pl-7 pr-3 bg-background border border-border rounded-lg text-xs font-bold text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50"
+                    />
+                 </div>
+
+                 <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">$</span>
+                    <input 
+                      type="number" 
+                      placeholder="MAX PRICE"
+                      value={priceMax}
+                      onChange={(e) => setPriceMax(e.target.value)}
+                      className="w-full h-10 pl-7 pr-3 bg-background border border-border rounded-lg text-xs font-bold text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50"
+                    />
+                 </div>
+                 
+                 <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-full h-10 col-span-2 bg-background border-border text-muted-foreground font-bold text-[10px] tracking-widest uppercase rounded-lg focus:ring-0 focus:border-blue-500/50">
+                      <SelectValue placeholder="SORT BY" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="newest">NEWEST</SelectItem>
+                      <SelectItem value="price_high">PRICE (HIGH-LOW)</SelectItem>
+                      <SelectItem value="price_low">PRICE (LOW-HIGH)</SelectItem>
+                      <SelectItem value="views">MOST VIEWED</SelectItem>
+                    </SelectContent>
+                 </Select>
+              </div>
+            </div>
+            
+            <button 
+              onClick={() => setIsAiModalOpen(false)}
+              className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold text-xs tracking-widest uppercase h-10 rounded-xl transition-colors"
+            >
+              Apply & Close
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

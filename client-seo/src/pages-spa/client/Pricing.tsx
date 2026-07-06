@@ -102,18 +102,7 @@ export default function Pricing() {
 
   return (
     <>
-      <Helmet>
-        <title>Pricing Plans - Affordable Real Estate Solutions | Reservatior</title>
-        <meta name="description" content="Choose the perfect pricing plan for your real estate needs. From starter to enterprise, we have flexible options for property management and AI-powered tools." />
-        <meta property="og:title" content="Pricing Plans - Affordable Real Estate Solutions | Reservatior" />
-        <meta property="og:description" content="Choose the perfect pricing plan for your real estate needs." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Pricing Plans - Affordable Real Estate Solutions | Reservatior" />
-        <meta name="twitter:description" content="Choose the perfect pricing plan for your real estate needs." />
-        <link rel="canonical" href={window.location.href} />
-      </Helmet>
+
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0c] selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black relative overflow-hidden">
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-400/20 dark:bg-indigo-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten" />

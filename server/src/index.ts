@@ -585,5 +585,17 @@ startWorkerPool().catch(console.error);
 import { startLinkedInAutoPoster } from "./services/linkedin-auto-poster";
 startLinkedInAutoPoster();
 
+// Initialize Instagram Auto-Poster
+import { startInstagramAutoPoster } from "./services/instagram-auto-poster";
+startInstagramAutoPoster();
+
+// Initialize Twitter/X Auto-Poster
+import { startTwitterAutoPoster } from "./services/twitter-auto-poster";
+startTwitterAutoPoster();
+
+// Initialize Facebook Auto-Poster
+import { startFacebookAutoPoster } from "./services/facebook-auto-poster";
+startFacebookAutoPoster();
+
 export type App = typeof app;
 export default app;

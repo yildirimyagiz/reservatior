@@ -680,27 +680,27 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                     </h3>
                     <div className="grid grid-cols-2 gap-y-8 gap-x-4">
                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">Yıllık Kira Getirisi</p>
+                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('client.property.detail.kpi.rentalYield', 'Yıllık Kira Getirisi')}</p>
                           <p className="text-2xl font-black text-emerald-400 italic tracking-tight">%8.5</p>
                        </div>
                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">Amortisman Süresi</p>
-                          <p className="text-2xl font-black text-white italic tracking-tight">12 Yıl</p>
+                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('client.property.detail.kpi.roiDuration', 'Amortisman Süresi')}</p>
+                          <p className="text-2xl font-black text-white italic tracking-tight">12 {t('client.property.detail.kpi.years', 'Yıl')}</p>
                        </div>
                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">Aylık İşletme Gideri</p>
+                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('client.property.detail.kpi.monthlyOpex', 'Aylık İşletme Gideri')}</p>
                           <p className="text-xl font-black text-orange-400 italic tracking-tight">{currencySymbol}450</p>
                        </div>
                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">Yıllık Değer Artışı</p>
+                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('client.property.detail.kpi.annualAppreciation', 'Yıllık Değer Artışı')}</p>
                           <p className="text-xl font-black text-blue-400 italic tracking-tight">%12.4</p>
                        </div>
                     </div>
                     <Separator className="my-8 bg-white/5" />
                     <div className="flex items-center justify-between p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
                        <div>
-                          <p className="text-[10px] font-black text-emerald-500 tracking-widest uppercase mb-1">Yatırım Skoru</p>
-                          <p className="text-xs font-medium text-emerald-400/80">Bölge ortalamasının %15 üzerinde performans</p>
+                          <p className="text-[10px] font-black text-emerald-500 tracking-widest uppercase mb-1">{t('client.property.detail.kpi.investmentScore', 'Yatırım Skoru')}</p>
+                          <p className="text-xs font-medium text-emerald-400/80">{t('client.property.detail.kpi.performanceSubtitle', 'Bölge ortalamasının %15 üzerinde performans')}</p>
                        </div>
                        <div className="text-3xl font-black text-emerald-400 italic">A+</div>
                     </div>
@@ -981,7 +981,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                                   <span className="font-black text-emerald-400 text-sm tracking-widest uppercase">Reservatior SafeStay™</span>
                                </div>
                                <p className="text-xs text-emerald-100/70 font-medium leading-relaxed">
-                                 Ödemeniz, siz tesise giriş yapıp memnun kalana kadar (Check-in sonrası 24 saat) havuz hesabımızda güvenle tutulur. Tesis fotoğraflardaki gibi değilse, anında %100 kesintisiz iade edilir.
+                                 {t('client.property.detail.safestay.desc', 'Ödemeniz, siz tesise giriş yapıp memnun kalana kadar (Check-in sonrası 24 saat) havuz hesabımızda güvenle tutulur. Tesis fotoğraflardaki gibi değilse, anında %100 kesintisiz iade edilir.')}
                                </p>
                              </div>
                           </div>
@@ -1038,19 +1038,21 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
              </Card>
 
              {/* Mülkü Sahiplen Card */}
-             <Card className="bg-gradient-to-br from-orange-600/10 to-transparent border-white/5 rounded-4xl p-6 relative overflow-hidden mt-6 border-l border-t flex flex-col justify-center items-center text-center">
-               <ShieldCheck className="w-10 h-10 text-orange-500 mb-3" />
-               <h4 className="text-lg font-black text-white italic tracking-tighter mb-2">Bu Mülkün Sahibi Misiniz?</h4>
-               <p className="text-xs text-slate-400 font-medium leading-relaxed italic mb-4">
-                 Tapu bilgilerinizi doğrulayarak dijital ikizinizdeki kontrolü elinize alın ve mülkünüzü Reservatior ağına kazandırın.
-               </p>
-               <Button 
-                 onClick={() => setIsClaimModalOpen(true)}
-                 className="w-full h-12 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black tracking-widest text-xs shadow-lg shadow-orange-500/20"
-               >
-                 Mülkü Sahiplen
-               </Button>
-             </Card>
+             {property?.orgId === "org_google_aggregator" && (
+               <Card className="bg-gradient-to-br from-orange-600/10 to-transparent border-white/5 rounded-4xl p-6 relative overflow-hidden mt-6 border-l border-t flex flex-col justify-center items-center text-center">
+                 <ShieldCheck className="w-10 h-10 text-orange-500 mb-3" />
+                 <h4 className="text-lg font-black text-white italic tracking-tighter mb-2">{t('client.property.detail.claim.title', 'Bu Mülkün Sahibi Misiniz?')}</h4>
+                 <p className="text-xs text-slate-400 font-medium leading-relaxed italic mb-4">
+                   {t('client.property.detail.claim.desc', 'Tapu bilgilerinizi doğrulayarak dijital ikizinizdeki kontrolü elinize alın ve mülkünüzü Reservatior ağına kazandırın.')}
+                 </p>
+                 <Button 
+                   onClick={() => setIsClaimModalOpen(true)}
+                   className="w-full h-12 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black tracking-widest text-xs shadow-lg shadow-orange-500/20"
+                 >
+                   {t('client.property.detail.claim.button', 'Mülkü Sahiplen')}
+                 </Button>
+               </Card>
+             )}
           </div>
 
         </div>

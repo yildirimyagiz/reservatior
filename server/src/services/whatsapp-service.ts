@@ -96,21 +96,75 @@ class WhatsAppService {
   }
 
   private async handleIncomingMessage(message: any): Promise<void> {
-    // Process incoming message
-    // This should integrate with the communication system
     const from = message.from;
-    const body = message.body;
+    const body = message.body || "";
     const timestamp = new Date();
 
-    console.log(`Message from ${from}: ${body}`);
+    console.log(`[WhatsAppService] Message from ${from}: ${body}`);
 
-    // TODO: Integrate with communication system
-    // await communicationService.createIncomingMessage({
-    //   channel: 'WHATSAPP',
-    //   from,
-    //   body,
-    //   timestamp
-    // });
+    if (message.hasMedia) {
+      try {
+        const media = await message.downloadMedia();
+        if (media && media.data) {
+          const filename = media.filename || `file_${Date.now()}`;
+          const tempDir = './temp_whatsapp';
+          
+          const fs = require('fs');
+          const path = require('path');
+          const { execSync } = require('child_process');
+
+          if (!fs.existsSync(tempDir)) {
+            fs.mkdirSync(tempDir, { recursive: true });
+          }
+
+          const tempFilePath = path.join(tempDir, filename);
+          fs.writeFileSync(tempFilePath, Buffer.from(media.data, 'base64'));
+          console.log(`[WhatsAppService] Saved temp attachment to: ${tempFilePath}`);
+
+          // Execute python parser script
+          const pythonScript = path.resolve(__dirname, '../scripts/process_whatsapp_media.py');
+          const cmd = `python3 "${pythonScript}" --file-path "${tempFilePath}" --filename "${filename}" --message-body "${body.replace(/"/g, '\\"')}" --mimetype "${media.mimetype}"`;
+          
+          console.log(`[WhatsAppService] Running command: ${cmd}`);
+          const output = execSync(cmd).toString();
+          console.log(`[WhatsAppService] Parser output:`, output);
+
+          // Clean up temp file
+          if (fs.existsSync(tempFilePath)) {
+            fs.unlinkSync(tempFilePath);
+          }
+        }
+      } catch (err) {
+        console.error('[WhatsAppService] Failed to process incoming media:', err);
+      }
+    } else {
+      const bodyLower = body.toLowerCase();
+      const hasKeywords = bodyLower.includes('daire') || 
+                          bodyLower.includes('villa') || 
+                          bodyLower.includes('oda') || 
+                          bodyLower.includes('fiyat') || 
+                          bodyLower.includes('proje') || 
+                          bodyLower.includes('blok') || 
+                          bodyLower.includes('özak') ||
+                          bodyLower.includes('ozak');
+      
+      if (hasKeywords) {
+        try {
+          const path = require('path');
+          const { execSync } = require('child_process');
+
+          // Execute python parser script for text-only message
+          const pythonScript = path.resolve(__dirname, '../scripts/process_whatsapp_media.py');
+          const cmd = `python3 "${pythonScript}" --message-body "${body.replace(/"/g, '\\"')}"`;
+          
+          console.log(`[WhatsAppService] Running text-only command: ${cmd}`);
+          const output = execSync(cmd).toString();
+          console.log(`[WhatsAppService] Text-only parser output:`, output);
+        } catch (err) {
+          console.error('[WhatsAppService] Failed to process incoming text project:', err);
+        }
+      }
+    }
   }
 
   async sendMessage(message: WhatsAppMessage): Promise<void> {
@@ -175,6 +229,47 @@ class WhatsAppService {
         }
       });
     });
+  }
+
+  async syncChatProjects(chatNameQuery: string): Promise<{ success: boolean; processed: number; message?: string }> {
+    if (!this.client || !this.isConnected) {
+      throw new Error('WhatsApp client not connected');
+    }
+
+    try {
+      const chats = await this.client.getChats();
+      const targetChat = chats.find(c => c.name && c.name.toLowerCase().includes(chatNameQuery.toLowerCase()));
+      
+      if (!targetChat) {
+        return { success: false, processed: 0, message: `Chat with name containing "${chatNameQuery}" not found` };
+      }
+
+      console.log(`[WhatsAppService] Syncing projects from chat: ${targetChat.name}`);
+      const messages = await targetChat.fetchMessages({ limit: 100 });
+      let processed = 0;
+
+      for (const message of messages) {
+        const bodyLower = (message.body || '').toLowerCase();
+        const hasKeywords = bodyLower.includes('daire') || 
+                            bodyLower.includes('villa') || 
+                            bodyLower.includes('oda') || 
+                            bodyLower.includes('fiyat') || 
+                            bodyLower.includes('proje') || 
+                            bodyLower.includes('blok') ||
+                            bodyLower.includes('özak') ||
+                            bodyLower.includes('ozak');
+                            
+        if (message.hasMedia || hasKeywords) {
+          await this.handleIncomingMessage(message);
+          processed++;
+        }
+      }
+
+      return { success: true, processed, message: `Successfully processed ${processed} messages from chat "${targetChat.name}"` };
+    } catch (error) {
+      console.error('[WhatsAppService] Failed to sync chat projects:', error);
+      throw error;
+    }
   }
 
   async disconnect(): Promise<void> {

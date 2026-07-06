@@ -2,7 +2,7 @@ import "dotenv/config";
 import { defineConfig, env } from "prisma/config";
 
 export default defineConfig({
-  schema: "prisma/schema_ae.prisma",
+  schema: "../prisma/schema_ae.prisma",
   datasource: {
     url: env("DATABASE_URL_AE"),
   },

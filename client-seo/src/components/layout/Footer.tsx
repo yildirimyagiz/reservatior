@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/react-router-shim";
 import { Github, Twitter, Linkedin, Facebook, Heart } from "lucide-react";

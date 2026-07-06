@@ -41,7 +41,7 @@ function executeForCountry(cmd: string, cCode: string) {
 
   let prismaCmd = '';
   if (cmd === 'push') {
-    prismaCmd = 'npx prisma db push --accept-data-loss';
+    prismaCmd = 'npx prisma db push --accept-data-loss --skip-generate';
   } else if (cmd === 'migrate') {
     prismaCmd = 'npx prisma migrate dev';
   } else {
@@ -76,6 +76,10 @@ if (country === 'ALL') {
   }
   
   console.log(`\n🏁 Bulk Operation Completed. ${successCount}/${allEnvKeys.length} databases updated successfully.`);
+  if (command === 'push' || command === 'migrate') {
+    console.log('Running final generator pass...');
+    execSync('npx prisma generate', { stdio: 'inherit' });
+  }
 } else {
   executeForCountry(command, country);
 }

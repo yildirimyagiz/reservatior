@@ -96,6 +96,23 @@ export const whatsappRouter = new Elysia({ prefix: '/whatsapp' })
     })
   })
 
+  .post('/sync-chat', async ({ body }) => {
+    try {
+      const service = getWhatsAppService();
+      const result = await service.syncChatProjects(body.chatName);
+      return result;
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to sync chat projects'
+      };
+    }
+  }, {
+    body: t.Object({
+      chatName: t.String()
+    })
+  })
+
   .post('/disconnect', async () => {
     try {
       const service = getWhatsAppService();

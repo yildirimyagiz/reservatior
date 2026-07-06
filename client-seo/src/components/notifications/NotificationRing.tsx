@@ -68,8 +68,8 @@ export function NotificationRing() {
   };
   return <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full border border-border bg-muted/20 hover:bg-muted/40 transition-all duration-300 group">
-          <Bell className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+        <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 transition-all duration-300 group">
+          <Bell className="h-5 w-5 text-rose-600 dark:text-rose-400 group-hover:text-rose-500 transition-colors" />
           {unreadCount > 0 && <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] animate-pulse bg-primary text-primary-foreground border-2 border-background font-black italic">
               {unreadCount}
             </Badge>}

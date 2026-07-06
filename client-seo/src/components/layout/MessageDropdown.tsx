@@ -62,9 +62,9 @@ export function MessageDropdown() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative h-10 w-10 rounded-full border border-border bg-muted/20 hover:bg-muted/40 transition-all group"
+          className="relative h-10 w-10 rounded-full border border-blue-500/20 bg-blue-500/10 hover:bg-blue-500/20 transition-all group"
         >
-          <MessageCircle className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+          <MessageCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover:text-blue-500 transition-colors" />
           {unreadCount > 0 && (
             <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary text-[10px] ring-2 ring-background font-black italic shadow-lg animate-bounce">
               {unreadCount}
