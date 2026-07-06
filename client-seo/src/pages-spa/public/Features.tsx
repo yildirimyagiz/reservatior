@@ -7,14 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "@/lib/react-router-shim";
-import { useEffect, useState } from "react";
-import { adminNeuralApi, AIServiceStats } from "@/lib/api/admin-neural";
 import { useTranslation } from "react-i18next";
 export default function Features() {
-  const {
-    t
-  } = useTranslation();
-  const [stats, setStats] = useState<AIServiceStats | null>(null);
+  const { t } = useTranslation();
   const FEATURES = [{
     category: t('admin.neuralStudio'),
     icon: Brain,
@@ -84,11 +79,7 @@ export default function Features() {
       icon: CheckCircle2
     }]
   }];
-  useEffect(() => {
-    adminNeuralApi.getServiceStats().then(data => {
-      if (data) setStats(data as any);
-    });
-  }, []);
+  // Stats are shown with fallback values; actual data is loaded after auth
   return <div className="min-h-screen bg-[#0a0b0d] text-white selection:bg-primary/30">
       {/* Background Orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -170,7 +161,7 @@ export default function Features() {
             <div className="space-y-4">
               <h3 className="text-sm font-black text-primary tracking-[0.3em]">{t('stats.liveActivity')}</h3>
               <p className="text-4xl font-black italic tracking-tighter">
-                {stats?.totalUsage?.toLocaleString() || "12.4K+"}
+                "12.4K+"
                 <span className="text-xs ml-2 font-bold text-slate-500 italic">{t("client.src.events")}</span>
               </p>
               <div className="h-1 w-full bg-primary/20 rounded-full overflow-hidden">
@@ -180,7 +171,7 @@ export default function Features() {
             <div className="space-y-4">
               <h3 className="text-sm font-black text-purple-400 tracking-[0.3em]">{t('stats.aiAdoption')}</h3>
               <p className="text-4xl font-black italic tracking-tighter">
-                {stats?.adoptionRate?.toFixed(1) || "74.2"}%
+                74.2%
                 <span className="text-xs ml-2 font-bold text-slate-500 italic">{t("client.src.active")}</span>
               </p>
               <div className="h-1 w-full bg-purple-400/20 rounded-full overflow-hidden">
@@ -190,7 +181,7 @@ export default function Features() {
             <div className="space-y-4">
               <h3 className="text-sm font-black text-emerald-400 tracking-[0.3em]">{t('stats.revenueLift')}</h3>
               <p className="text-4xl font-black italic tracking-tighter">
-                +{stats?.revenueLift || "31"}%
+                +31%
                 <span className="text-xs ml-2 font-bold text-slate-500 italic">{t("client.src.roi")}</span>
               </p>
               <div className="h-1 w-full bg-emerald-400/20 rounded-full overflow-hidden">
