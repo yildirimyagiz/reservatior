@@ -128,7 +128,7 @@ export default function AgentDashboard() {
                   <YAxis stroke="#475569" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `$${v >= 1000 ? (v/1000).toFixed(0)+"k" : v}`} />
                   <Tooltip
                     contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px" }}
-                    formatter={(v: number | string | undefined, name: string) => [
+                    formatter={(v: any, name: any) => [
                       name === "revenue" ? fmt(Number(v ?? 0)) : v,
                       name === "revenue" ? "Revenue" : "Commissions",
                     ]}

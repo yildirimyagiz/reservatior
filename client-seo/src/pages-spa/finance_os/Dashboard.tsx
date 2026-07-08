@@ -154,7 +154,7 @@ export default function FinanceDashboard() {
                   <Tooltip
                     contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px" }}
                     itemStyle={{ color: "#10b981" }}
-                    formatter={(v: number | string | undefined) => [fmt(Number(v ?? 0)), "Settlement"]}
+                    formatter={(v: any) => [fmt(Number(v ?? 0)), "Settlement"]}
                   />
                   <ReferenceLine y={0} stroke="#334155" />
                   <Area type="monotone" dataKey="amount" stroke="#10b981" strokeWidth={2} fill="url(#finGrad)" dot={false} activeDot={{ r: 4, fill: "#10b981" }} />
