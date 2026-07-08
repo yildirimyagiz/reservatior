@@ -127,3 +127,23 @@ data/
 # Temporary files
 *.tmp
 *.temp
+
+# Large media and data directories
+server/data/
+server/ml-services/
+server/uploads/
+server/**/*.mp4
+server/**/*.mov
+server/**/*.avi
+server/**/*.mkv
+server/**/*.webm
+server/**/*.jpg
+server/**/*.jpeg
+server/**/*.png
+server/**/*.gif
+server/**/*.webp
+server/.wwebjs_cache/
+server/qr*.json
+server/qr*.txt
+client-seo/.venv/
+client-seo/.next/
