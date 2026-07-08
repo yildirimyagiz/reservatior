@@ -14,10 +14,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
+          cpus: '1'
           memory: 1G
         reservations:
-          cpus: '0.5'
+          cpus: '0.25'
           memory: 256M
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
@@ -78,10 +78,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '4'
+          cpus: '1'
           memory: 2G
         reservations:
-          cpus: '1'
+          cpus: '0.25'
           memory: 512M
     stop_grace_period: 30s
     security_opt:
