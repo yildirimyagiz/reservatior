@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   // ISR Configuration for SEO optimization
   swcMinify: true,
   experimental: {
