@@ -17,7 +17,7 @@ export class DistributionEngine {
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
       include: {
-        property: { include: { maintenanceWorkOrders: true } },
+        property: { include: { workOrders: true } },
         agent: {
           include: {
             agentPerformances: true,
