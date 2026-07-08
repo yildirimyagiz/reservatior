@@ -20,6 +20,9 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Channel {
   id: string;
@@ -57,13 +60,37 @@ export default function AdminChannelsPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const [items, setItems] = useState<Channel[]>(mockChannels);
+  const [editingItem, setEditingItem] = useState<Channel | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deletingItem, setDeletingItem] = useState<Channel | null>(null);
 
-  const filteredChannels = mockChannels.filter(ch =>
+  const filteredChannels = items.filter(ch =>
     ch.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleCreate = (data: Omit<Channel, "id">) => {
+    const newItem: Channel = { ...data, id: String(Date.now()) };
+    setItems(prev => [...prev, newItem]);
+    setIsCreateOpen(false);
+  };
+
+  const handleEdit = (updatedItem: Channel) => {
+    setItems(prev => prev.map(item => item.id === updatedItem.id ? updatedItem : item));
+    setIsEditOpen(false);
+    setEditingItem(null);
+  };
+
+  const handleDelete = (id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+    setIsDeleteOpen(false);
+    setDeletingItem(null);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -72,15 +99,15 @@ export default function AdminChannelsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.channels.title")}</h1>
-              <p className="text-gray-400">{t("admin.channels.description")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_channels_title")}</h1>
+              <p className="text-muted-foreground">{t("admin_channels_description")}</p>
             </div>
             <Button
               onClick={() => router.push('/admin/dashboard')}
-              className="bg-slate-600 hover:bg-slate-700"
+              className="bg-primary hover:bg-primary/90"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.channels.back_to_dashboard")}
+              {t("admin_channels_back_to_dashboard")}
             </Button>
           </div>
         </motion.div>
@@ -91,23 +118,23 @@ export default function AdminChannelsPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin.channels.search_placeholder")}
+                      placeholder={t("admin_channels_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
-                <Button className="bg-slate-600 hover:bg-slate-700">
+                <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin.channels.add_channel")}
+                  {t("admin_channels_add_channel")}
                 </Button>
               </div>
             </CardContent>
@@ -119,11 +146,11 @@ export default function AdminChannelsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Globe className="w-5 h-5" />
-                {t("admin.channels.list_title")}({filteredChannels.length})
+                {t("admin_channels_list_title")}({filteredChannels.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -131,21 +158,21 @@ export default function AdminChannelsPage() {
                 {filteredChannels.map((channel) => (
                   <div
                     key={channel.id}
-                    className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                    className="flex items-center justify-between p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-slate-500/20 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
                         {channel.status === "CONNECTED" ? (
                           <Wifi className="w-5 h-5 text-green-400" />
                         ) : channel.status === "ERROR" ? (
                           <RefreshCw className="w-5 h-5 text-red-400" />
                         ) : (
-                          <WifiOff className="w-5 h-5 text-gray-400" />
+                          <WifiOff className="w-5 h-5 text-muted-foreground" />
                         )}
                       </div>
                       <div>
-                        <div className="text-white font-medium">{channel.name}</div>
-                        <div className="text-sm text-gray-400 flex items-center gap-2">
+                        <div className="text-foreground font-medium">{channel.name}</div>
+                        <div className="text-sm text-muted-foreground flex items-center gap-2">
                           <Building2 className="w-3 h-3" />
                           {t("admin.channels.properties_count", { count: channel.properties })} &middot; {t("admin.channels.commission_rate", { rate: channel.commission })}
                         </div>
@@ -154,12 +181,12 @@ export default function AdminChannelsPage() {
                     <div className="flex items-center gap-4">
                       <Badge className={TYPE_COLORS[channel.type]}>{channel.type}</Badge>
                       <Badge className={STATUS_COLORS[channel.status]}>{channel.status}</Badge>
-                      <div className="text-xs text-gray-500">{channel.lastSync}</div>
+                      <div className="text-xs text-muted-foreground/70">{channel.lastSync}</div>
                       <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Button onClick={() => { setEditingItem(channel); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400">
+                        <Button onClick={() => { setDeletingItem(channel); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -170,7 +197,168 @@ export default function AdminChannelsPage() {
             </CardContent>
           </Card>
         </motion.div>
+        {/* Create Dialog */}
+        <CreateChannelDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
+        {/* Edit Dialog */}
+        {editingItem && (
+          <EditChannelDialog open={isEditOpen} onOpenChange={setIsEditOpen} item={editingItem} onSubmit={handleEdit} />
+        )}
+        {/* Delete Dialog */}
+        {deletingItem && (
+          <DeleteChannelDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen} item={deletingItem} onConfirm={() => handleDelete(deletingItem.id)} />
+        )}
       </div>
     </div>
+  );
+}
+
+function CreateChannelDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<Channel, "id">) => void }) {
+  const [name, setName] = useState("");
+  const [type, setType] = useState<Channel["type"]>("OTA");
+  const [status, setStatus] = useState<Channel["status"]>("CONNECTED");
+  const [properties, setProperties] = useState(0);
+  const [lastSync, setLastSync] = useState("Just now");
+  const [commission, setCommission] = useState("");
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Add Channel</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Add a new distribution channel.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Name</Label>
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Type</Label>
+            <Select value={type} onValueChange={v => setType(v as Channel["type"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="OTA">OTA</SelectItem>
+                <SelectItem value="GDS">GDS</SelectItem>
+                <SelectItem value="DIRECT">Direct</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as Channel["status"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="CONNECTED">Connected</SelectItem>
+                <SelectItem value="DISCONNECTED">Disconnected</SelectItem>
+                <SelectItem value="ERROR">Error</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Properties</Label>
+            <Input type="number" value={properties} onChange={e => setProperties(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Last Sync</Label>
+            <Input value={lastSync} onChange={e => setLastSync(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Commission</Label>
+            <Input value={commission} onChange={e => setCommission(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ name, type, status, properties, lastSync, commission })} className="bg-primary hover:bg-primary/90">Create</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function EditChannelDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: Channel; onSubmit: (data: Channel) => void }) {
+  const [name, setName] = useState(item.name);
+  const [type, setType] = useState<Channel["type"]>(item.type);
+  const [status, setStatus] = useState<Channel["status"]>(item.status);
+  const [properties, setProperties] = useState(item.properties);
+  const [lastSync, setLastSync] = useState(item.lastSync);
+  const [commission, setCommission] = useState(item.commission);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Edit Channel</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Update channel details.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Name</Label>
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Type</Label>
+            <Select value={type} onValueChange={v => setType(v as Channel["type"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="OTA">OTA</SelectItem>
+                <SelectItem value="GDS">GDS</SelectItem>
+                <SelectItem value="DIRECT">Direct</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as Channel["status"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="CONNECTED">Connected</SelectItem>
+                <SelectItem value="DISCONNECTED">Disconnected</SelectItem>
+                <SelectItem value="ERROR">Error</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Properties</Label>
+            <Input type="number" value={properties} onChange={e => setProperties(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Last Sync</Label>
+            <Input value={lastSync} onChange={e => setLastSync(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Commission</Label>
+            <Input value={commission} onChange={e => setCommission(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ id: item.id, name, type, status, properties, lastSync, commission })} className="bg-primary hover:bg-primary/90">Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DeleteChannelDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: Channel; onConfirm: () => void }) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Delete Channel</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Are you sure you want to delete {item.name}? This action cannot be undone.</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

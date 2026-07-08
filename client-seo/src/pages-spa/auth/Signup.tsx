@@ -154,7 +154,7 @@ export default function Signup() {
   }, [formData, agreedToTerms, accountType]);
 
   const handleSocialLogin = (provider: string) => {
-    window.location.href = `${API_BASE}/api/auth/${provider}`;
+    window.location.href = `${API_BASE}/api/auth/${provider}?origin=${encodeURIComponent(window.location.origin)}`;
   };
 
   return (

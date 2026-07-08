@@ -103,15 +103,8 @@ export default function Signup() {
   }, [formData, agreedToTerms, accountType]);
 
   const handleSocialLogin = (provider: string) => {
-    if (provider === "google") {
-      window.location.href = "http://localhost:3000/api/auth/google";
-    } else if (provider === "facebook") {
-      window.location.href = "http://localhost:3000/api/auth/facebook";
-    } else if (provider === "twitter") {
-      window.location.href = "http://localhost:3000/api/auth/twitter";
-    } else {
-      toast.info(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login is coming soon!`);
-    }
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+    window.location.href = `${API_URL}/api/auth/${provider}?origin=${encodeURIComponent(window.location.origin)}`;
   };
 
   return (

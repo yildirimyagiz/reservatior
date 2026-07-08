@@ -63,14 +63,14 @@ export default function AiServiceTaskPage() {
       setIsCreateDialogOpen(false);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.service_task_created_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_service_task_created_successfully")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_service"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_service"),
         variant: "destructive"
       });
     }
@@ -90,14 +90,14 @@ export default function AiServiceTaskPage() {
       setSelectedTask(null);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.service_task_updated_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_service_task_updated_successfully")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_update_service"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_update_service"),
         variant: "destructive"
       });
     }
@@ -108,14 +108,14 @@ export default function AiServiceTaskPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['aiServiceTasks'] });
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.service_task_cancelled_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_service_task_cancelled_successfully")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_cancel_service"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_cancel_service"),
         variant: "destructive"
       });
     }
@@ -158,7 +158,7 @@ export default function AiServiceTaskPage() {
       case 'PENDING':
         return <Play className="h-4 w-4 text-yellow-500" />;
       default:
-        return <Settings className="h-4 w-4 text-slate-400" />;
+        return <Settings className="h-4 w-4 text-slate-500 dark:text-slate-400" />;
     }
   };
 
@@ -178,54 +178,54 @@ export default function AiServiceTaskPage() {
   };
 
   if (loading) {
-    return <PageShell title={t("admin.ai.ai_service_tasks_management")}>
+    return <PageShell title={t("admin_ai_ai_service_tasks_management")}>
         <div className="flex items-center justify-center h-64">
           <Settings className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
 
-  return <PageShell title={t("admin.ai.ai_service_tasks_management")}>
+  return <PageShell title={t("admin_ai_ai_service_tasks_management")}>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">{t("admin.ai.ai_service_tasks")}</h1>
-            <p className="text-muted-foreground">{t("admin.ai.manage_aipowered_service_tasks")}</p>
+            <h1 className="text-3xl font-bold">{t("admin_ai_ai_service_tasks")}</h1>
+            <p className="text-muted-foreground">{t("admin_ai_manage_aipowered_service_tasks")}</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Play className="h-4 w-4 mr-2" />{t("admin.ai.create_task")}</Button>
+                <Play className="h-4 w-4 mr-2" />{t("admin_ai_create_task")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>{t("admin.ai.create_new_service_task")}</DialogTitle>
-                <DialogDescription>{t("admin.ai.create_a_new_ai")}</DialogDescription>
+                <DialogTitle>{t("admin_ai_create_new_service_task")}</DialogTitle>
+                <DialogDescription>{t("admin_ai_create_a_new_ai")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="orgId" className="text-right">{t("admin.ai.organization_id")}</Label>
+                  <Label htmlFor="orgId" className="text-right">{t("admin_ai_organization_id")}</Label>
                   <Input id="orgId" value={form.orgId} onChange={e => setForm({
                   ...form,
                   orgId: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.org")} />
+                })} className="col-span-3" placeholder={t("admin_ai_org")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="propertyId" className="text-right">{t("admin.ai.property_id")}</Label>
+                  <Label htmlFor="propertyId" className="text-right">{t("admin_ai_property_id")}</Label>
                   <Input id="propertyId" value={form.propertyId} onChange={e => setForm({
                   ...form,
                   propertyId: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.prop")} />
+                })} className="col-span-3" placeholder={t("admin_ai_prop")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="listingId" className="text-right">{t("admin.ai.listing_id")}</Label>
+                  <Label htmlFor="listingId" className="text-right">{t("admin_ai_listing_id")}</Label>
                   <Input id="listingId" value={form.listingId} onChange={e => setForm({
                   ...form,
                   listingId: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.listing")} />
+                })} className="col-span-3" placeholder={t("admin_ai_listing")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="taskType" className="text-right">{t("admin.ai.task_type")}</Label>
+                  <Label htmlFor="taskType" className="text-right">{t("admin_ai_task_type")}</Label>
                   <Select value={form.taskType} onValueChange={value => setForm({
                   ...form,
                   taskType: value as AiServiceTask['taskType']
@@ -234,38 +234,38 @@ export default function AiServiceTaskPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="REELS_VIDEO_GEN">{t("admin.ai.reels_video_generation")}</SelectItem>
-                      <SelectItem value="BROCHURE_GEN">{t("admin.ai.brochure_generation")}</SelectItem>
-                      <SelectItem value="SEO_DESCRIPTION">{t("admin.ai.seo_description")}</SelectItem>
-                      <SelectItem value="DOCUMENT_EXTRACT">{t("admin.ai.document_extraction")}</SelectItem>
-                      <SelectItem value="SENTIMENT_ANALYSIS">{t("admin.ai.sentiment_analysis")}</SelectItem>
+                      <SelectItem value="REELS_VIDEO_GEN">{t("admin_ai_reels_video_generation")}</SelectItem>
+                      <SelectItem value="BROCHURE_GEN">{t("admin_ai_brochure_generation")}</SelectItem>
+                      <SelectItem value="SEO_DESCRIPTION">{t("admin_ai_seo_description")}</SelectItem>
+                      <SelectItem value="DOCUMENT_EXTRACT">{t("admin_ai_document_extraction")}</SelectItem>
+                      <SelectItem value="SENTIMENT_ANALYSIS">{t("admin_ai_sentiment_analysis")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="progress" className="text-right">{t("admin.ai.progress")}</Label>
+                  <Label htmlFor="progress" className="text-right">{t("admin_ai_progress")}</Label>
                   <Input id="progress" type="number" min="0" max="100" value={form.progress} onChange={e => setForm({
                   ...form,
                   progress: parseInt(e.target.value)
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="inputData" className="text-right pt-2">{t("admin.ai.input_data_json")}</Label>
+                  <Label htmlFor="inputData" className="text-right pt-2">{t("admin_ai_input_data_json")}</Label>
                   <Textarea id="inputData" value={form.inputData} onChange={e => setForm({
                   ...form,
                   inputData: e.target.value
-                })} className="col-span-3 min-h-32" placeholder={t("admin.ai.key_value")} />
+                })} className="col-span-3 min-h-32" placeholder={t("admin_ai_key_value")} />
                 </div>
                 <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="error" className="text-right pt-2">{t("admin.ai.error_message")}</Label>
+                  <Label htmlFor="error" className="text-right pt-2">{t("admin_ai_error_message")}</Label>
                   <Textarea id="error" value={form.error} onChange={e => setForm({
                   ...form,
                   error: e.target.value
-                })} className="col-span-3 min-h-16" placeholder={t("admin.ai.error_message_if_any")} />
+                })} className="col-span-3 min-h-16" placeholder={t("admin_ai_error_message_if_any")} />
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={() => createMutation.mutate()} disabled={createMutation.isPending}>{t("admin.ai.create_task")}</Button>
+                <Button onClick={() => createMutation.mutate()} disabled={createMutation.isPending}>{t("admin_ai_create_task")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -273,18 +273,18 @@ export default function AiServiceTaskPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.service_tasks")}</CardTitle>
+            <CardTitle>{t("admin_ai_service_tasks")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.task_type")}</TableHead>
-                  <TableHead>{t("admin.ai.entity")}</TableHead>
-                  <TableHead>{t("admin.ai.status")}</TableHead>
-                  <TableHead>{t("admin.ai.progress")}</TableHead>
-                  <TableHead>{t("admin.ai.created")}</TableHead>
-                  <TableHead className="text-right">{t("admin.ai.actions")}</TableHead>
+                  <TableHead>{t("admin_ai_task_type")}</TableHead>
+                  <TableHead>{t("admin_ai_entity")}</TableHead>
+                  <TableHead>{t("admin_ai_status")}</TableHead>
+                  <TableHead>{t("admin_ai_progress")}</TableHead>
+                  <TableHead>{t("admin_ai_created")}</TableHead>
+                  <TableHead className="text-right">{t("admin_ai_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -302,9 +302,9 @@ export default function AiServiceTaskPage() {
                     </TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        <div>{t("admin.ai.org")}{task.orgId}</div>
-                        {task.propertyId && <div>{t("admin.ai.prop")}{task.propertyId}</div>}
-                        {task.listingId && <div>{t("admin.ai.list")}{task.listingId}</div>}
+                        <div>{t("admin_ai_org")}{task.orgId}</div>
+                        {task.propertyId && <div>{t("admin_ai_prop")}{task.propertyId}</div>}
+                        {task.listingId && <div>{t("admin_ai_list")}{task.listingId}</div>}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -333,11 +333,11 @@ export default function AiServiceTaskPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.ai.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_ai_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openEdit(task)}>
-                            <Settings className="h-4 w-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
+                            <Settings className="h-4 w-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
                           {task.status !== 'COMPLETED' && task.status !== 'FAILED' && <DropdownMenuItem onClick={() => cancelMutation.mutate(task.id)} className="text-red-600">
-                              <XCircle className="h-4 w-4 mr-2" />{t("admin.ai.cancel")}</DropdownMenuItem>}
+                              <XCircle className="h-4 w-4 mr-2" />{t("admin_ai_cancel")}</DropdownMenuItem>}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -350,27 +350,27 @@ export default function AiServiceTaskPage() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.edit_service_task")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.update_the_service_task")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_edit_service_task")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_update_the_service_task")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-progress" className="text-right">{t("admin.ai.progress")}</Label>
+                <Label htmlFor="edit-progress" className="text-right">{t("admin_ai_progress")}</Label>
                 <Input id="edit-progress" type="number" min="0" max="100" value={form.progress} onChange={e => setForm({
                 ...form,
                 progress: parseInt(e.target.value)
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="edit-error" className="text-right pt-2">{t("admin.ai.error_message")}</Label>
+                <Label htmlFor="edit-error" className="text-right pt-2">{t("admin_ai_error_message")}</Label>
                 <Textarea id="edit-error" value={form.error} onChange={e => setForm({
                 ...form,
                 error: e.target.value
-              })} className="col-span-3 min-h-16" placeholder={t("admin.ai.error_message_if_any")} />
+              })} className="col-span-3 min-h-16" placeholder={t("admin_ai_error_message_if_any")} />
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={() => updateMutation.mutate()} disabled={updateMutation.isPending}>{t("admin.ai.update_task")}</Button>
+              <Button onClick={() => updateMutation.mutate()} disabled={updateMutation.isPending}>{t("admin_ai_update_task")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

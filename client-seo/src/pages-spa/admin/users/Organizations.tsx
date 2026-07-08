@@ -53,7 +53,7 @@ const ORG_STATUS = (t: any) => {
     },
     TRIAL: {
       label: t("trialNode"),
-      color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
+      color: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20"
     }
   };
 };
@@ -65,11 +65,11 @@ const PLAN_CONFIG = (t: any) => {
     },
     PRO: {
       label: t("proTierLabel"),
-      color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
+      color: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20"
     },
     ENTERPRISE: {
       label: t("enterpriseTier"),
-      color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
+      color: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20"
     }
   };
 };
@@ -110,8 +110,8 @@ export default function Organizations() {
         return (response as any).data || [];
       } catch (error) {
         toast({
-          title: t("admin.users.nexus.organizations.syncFailure") || "Sync Failure",
-          description: t("admin.users.nexus.organizations.unreachable") || "Global matrix unreachable",
+          title: t("admin_users_nexus_organizations_syncFailure") || "Sync Failure",
+          description: t("admin_users_nexus_organizations_unreachable") || "Global matrix unreachable",
           variant: "destructive"
         });
         return [];
@@ -137,7 +137,7 @@ export default function Organizations() {
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("total")}</p>
               <h3 className="text-3xl font-bold text-foreground leading-none">{stats.totalNodes}</h3>
-              <p className="text-[10px] font-bold text-slate-400 mt-4 leading-none">{t('organizations.globalStructureNodes')}</p>
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-4 leading-none">{t('organizations.globalStructureNodes')}</p>
             </CardContent>
           </Card>
 
@@ -158,8 +158,8 @@ export default function Organizations() {
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("pro")}</p>
-              <h3 className="text-3xl font-bold text-slate-400 leading-none">{stats.proTier}</h3>
-              <p className="text-[10px] font-bold text-slate-400/60 mt-4 leading-none">{t('organizations.enhancedFeatureNodes')}</p>
+              <h3 className="text-3xl font-bold text-slate-500 dark:text-slate-400 leading-none">{stats.proTier}</h3>
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400/60 mt-4 leading-none">{t('organizations.enhancedFeatureNodes')}</p>
             </CardContent>
           </Card>
 
@@ -169,8 +169,8 @@ export default function Organizations() {
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("enterprise")}</p>
-              <h3 className="text-3xl font-bold text-slate-400 leading-none">{stats.enterpriseTier}</h3>
-              <p className="text-[10px] font-bold text-slate-400/60 mt-4 leading-none">{t('organizations.maxSecurityProtocols')}</p>
+              <h3 className="text-3xl font-bold text-slate-500 dark:text-slate-400 leading-none">{stats.enterpriseTier}</h3>
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400/60 mt-4 leading-none">{t('organizations.maxSecurityProtocols')}</p>
             </CardContent>
           </Card>
         </div>
@@ -216,7 +216,7 @@ export default function Organizations() {
                                     </div>
                                     <div>
                                        <div className="text-lg font-bold text-foreground leading-tight">{org.name}</div>
-                                       <div className="text-[10px] font-bold text-muted-foreground leading-none mt-1">{t("admin.users.id")}{org.id.slice(0, 8).toUpperCase()}</div>
+                                       <div className="text-[10px] font-bold text-muted-foreground leading-none mt-1">{t("admin_users_id")}{org.id.slice(0, 8).toUpperCase()}</div>
                                     </div>
                                  </div>
                               </TableCell>

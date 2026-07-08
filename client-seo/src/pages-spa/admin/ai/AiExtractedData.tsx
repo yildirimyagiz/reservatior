@@ -47,8 +47,8 @@ export default function AiExtractedDataPage() {
       setData(response);
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_fetch_extracted"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_fetch_extracted"),
         variant: "destructive"
       });
     } finally {
@@ -68,13 +68,13 @@ export default function AiExtractedDataPage() {
       setIsCreateDialogOpen(false);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.extracted_data_created_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_extracted_data_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_extracted"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_extracted"),
         variant: "destructive"
       });
     }
@@ -94,13 +94,13 @@ export default function AiExtractedDataPage() {
       setSelectedItem(null);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.extracted_data_updated_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_extracted_data_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_update_extracted"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_update_extracted"),
         variant: "destructive"
       });
     }
@@ -110,13 +110,13 @@ export default function AiExtractedDataPage() {
       await aiApi.deleteExtractedData(id);
       setData(data.filter(item => item.id !== id));
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.extracted_data_deleted_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_extracted_data_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_delete_extracted"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_delete_extracted"),
         variant: "destructive"
       });
     }
@@ -142,68 +142,68 @@ export default function AiExtractedDataPage() {
     setIsEditDialogOpen(true);
   };
   if (loading) {
-    return <PageShell title={t("admin.ai.ai_extracted_data_management")}>
+    return <PageShell title={t("admin_ai_ai_extracted_data_management")}>
         <div className="flex items-center justify-center h-64">
           <Database className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.ai.ai_extracted_data_management")}>
+  return <PageShell title={t("admin_ai_ai_extracted_data_management")}>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">{t("admin.ai.ai_extracted_data")}</h1>
-            <p className="text-muted-foreground">{t("admin.ai.manage_aiextracted_data_from")}</p>
+            <h1 className="text-3xl font-bold">{t("admin_ai_ai_extracted_data")}</h1>
+            <p className="text-muted-foreground">{t("admin_ai_manage_aiextracted_data_from")}</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.ai.add_extracted_data")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_ai_add_extracted_data")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>{t("admin.ai.add_new_extracted_data")}</DialogTitle>
-                <DialogDescription>{t("admin.ai.create_a_new_ai")}</DialogDescription>
+                <DialogTitle>{t("admin_ai_add_new_extracted_data")}</DialogTitle>
+                <DialogDescription>{t("admin_ai_create_a_new_ai")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="entityType" className="text-right">{t("admin.ai.entity_type")}</Label>
+                  <Label htmlFor="entityType" className="text-right">{t("admin_ai_entity_type")}</Label>
                   <Input id="entityType" value={form.entityType} onChange={e => setForm({
                   ...form,
                   entityType: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.eg_property_document_image")} />
+                })} className="col-span-3" placeholder={t("admin_ai_eg_property_document_image")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="entityId" className="text-right">{t("admin.ai.entity_id")}</Label>
+                  <Label htmlFor="entityId" className="text-right">{t("admin_ai_entity_id")}</Label>
                   <Input id="entityId" value={form.entityId} onChange={e => setForm({
                   ...form,
                   entityId: e.target.value
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="aiModel" className="text-right">{t("admin.ai.ai_model")}</Label>
+                  <Label htmlFor="aiModel" className="text-right">{t("admin_ai_ai_model")}</Label>
                   <Input id="aiModel" value={form.aiModel} onChange={e => setForm({
                   ...form,
                   aiModel: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.eg_gpt4_bert")} />
+                })} className="col-span-3" placeholder={t("admin_ai_eg_gpt4_bert")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="confidenceScore" className="text-right">{t("admin.ai.confidence")}</Label>
+                  <Label htmlFor="confidenceScore" className="text-right">{t("admin_ai_confidence")}</Label>
                   <Input id="confidenceScore" type="number" step="0.01" min="0" max="1" value={form.confidenceScore} onChange={e => setForm({
                   ...form,
                   confidenceScore: parseFloat(e.target.value)
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="extractedJson" className="text-right pt-2">{t("admin.ai.extracted_json")}</Label>
+                  <Label htmlFor="extractedJson" className="text-right pt-2">{t("admin_ai_extracted_json")}</Label>
                   <Textarea id="extractedJson" value={form.extractedJson} onChange={e => setForm({
                   ...form,
                   extractedJson: e.target.value
-                })} className="col-span-3 min-h-32" placeholder={t("admin.ai.key_value")} />
+                })} className="col-span-3 min-h-32" placeholder={t("admin_ai_key_value")} />
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createItem}>{t("admin.ai.create_data")}</Button>
+                <Button onClick={createItem}>{t("admin_ai_create_data")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -211,18 +211,18 @@ export default function AiExtractedDataPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.extracted_data_entries")}</CardTitle>
+            <CardTitle>{t("admin_ai_extracted_data_entries")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.entity_type")}</TableHead>
-                  <TableHead>{t("admin.ai.entity_id")}</TableHead>
-                  <TableHead>{t("admin.ai.ai_model")}</TableHead>
-                  <TableHead>{t("admin.ai.confidence")}</TableHead>
-                  <TableHead>{t("admin.ai.created")}</TableHead>
-                  <TableHead className="text-right">{t("admin.ai.actions")}</TableHead>
+                  <TableHead>{t("admin_ai_entity_type")}</TableHead>
+                  <TableHead>{t("admin_ai_entity_id")}</TableHead>
+                  <TableHead>{t("admin_ai_ai_model")}</TableHead>
+                  <TableHead>{t("admin_ai_confidence")}</TableHead>
+                  <TableHead>{t("admin_ai_created")}</TableHead>
+                  <TableHead className="text-right">{t("admin_ai_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -258,17 +258,17 @@ export default function AiExtractedDataPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.ai.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_ai_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => {
                             setSelectedItemForView(item);
                             setIsViewDialogOpen(true);
                           }}>
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.ai.view_details") || "View Details"}</DropdownMenuItem>
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details") || "View Details"}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => openEdit(item)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deleteItem(item.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.ai.delete")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -281,40 +281,40 @@ export default function AiExtractedDataPage() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.edit_extracted_data")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.update_the_extracted_data")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_edit_extracted_data")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_update_the_extracted_data")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-entityType" className="text-right">{t("admin.ai.entity_type")}</Label>
+                <Label htmlFor="edit-entityType" className="text-right">{t("admin_ai_entity_type")}</Label>
                 <Input id="edit-entityType" value={form.entityType} onChange={e => setForm({
                 ...form,
                 entityType: e.target.value
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-entityId" className="text-right">{t("admin.ai.entity_id")}</Label>
+                <Label htmlFor="edit-entityId" className="text-right">{t("admin_ai_entity_id")}</Label>
                 <Input id="edit-entityId" value={form.entityId} onChange={e => setForm({
                 ...form,
                 entityId: e.target.value
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-aiModel" className="text-right">{t("admin.ai.ai_model")}</Label>
+                <Label htmlFor="edit-aiModel" className="text-right">{t("admin_ai_ai_model")}</Label>
                 <Input id="edit-aiModel" value={form.aiModel} onChange={e => setForm({
                 ...form,
                 aiModel: e.target.value
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-confidenceScore" className="text-right">{t("admin.ai.confidence")}</Label>
+                <Label htmlFor="edit-confidenceScore" className="text-right">{t("admin_ai_confidence")}</Label>
                 <Input id="edit-confidenceScore" type="number" step="0.01" min="0" max="1" value={form.confidenceScore} onChange={e => setForm({
                 ...form,
                 confidenceScore: parseFloat(e.target.value)
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="edit-extractedJson" className="text-right pt-2">{t("admin.ai.extracted_json")}</Label>
+                <Label htmlFor="edit-extractedJson" className="text-right pt-2">{t("admin_ai_extracted_json")}</Label>
                 <Textarea id="edit-extractedJson" value={form.extractedJson} onChange={e => setForm({
                 ...form,
                 extractedJson: e.target.value
@@ -322,16 +322,16 @@ export default function AiExtractedDataPage() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={updateItem}>{t("admin.ai.update_data")}</Button>
+              <Button onClick={updateItem}>{t("admin_ai_update_data")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
 
         <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-          <DialogContent className="max-w-2xl bg-[#14151a] border-white/5 text-white font-mono">
+          <DialogContent className="max-w-2xl bg-[#14151a] border-white/5 text-slate-900 dark:text-white font-mono">
             <DialogHeader>
-              <DialogTitle className="text-white">Extracted Metadata Payload</DialogTitle>
-              <DialogDescription className="text-slate-400">
+              <DialogTitle className="text-slate-900 dark:text-white">Extracted Metadata Payload</DialogTitle>
+              <DialogDescription className="text-slate-500 dark:text-slate-400">
                 JSON output generated by {selectedItemForView?.aiModel || "AI model"}
               </DialogDescription>
             </DialogHeader>

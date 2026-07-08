@@ -56,54 +56,54 @@ enum MetricStatus {
 }
 const CATEGORY_CONFIG = {
   SYSTEM: {
-    label: t("admin.system.system"),
-    color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+    label: t("admin_system_system"),
+    color: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20",
     icon: Cpu
   },
   DATABASE: {
-    label: t("admin.system.database"),
+    label: t("admin_system_database"),
     color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     icon: Database
   },
   NETWORK: {
-    label: t("admin.system.network"),
-    color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+    label: t("admin_system_network"),
+    color: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20",
     icon: Wifi
   },
   APPLICATION: {
-    label: t("admin.system.application"),
+    label: t("admin_system_application"),
     color: "bg-orange-500/10 text-orange-400 border-orange-500/20",
     icon: Server
   },
   SECURITY: {
-    label: t("admin.system.security"),
+    label: t("admin_system_security"),
     color: "bg-red-500/10 text-red-400 border-red-500/20",
     icon: Shield
   },
   PERFORMANCE: {
-    label: t("admin.system.performance"),
+    label: t("admin_system_performance"),
     color: "bg-pink-500/10 text-pink-400 border-pink-500/20",
     icon: Activity
   }
 };
 const STATUS_CONFIG = {
   HEALTHY: {
-    label: t("admin.system.healthy"),
+    label: t("admin_system_healthy"),
     color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     icon: CheckCircle2
   },
   WARNING: {
-    label: t("admin.system.warning"),
+    label: t("admin_system_warning"),
     color: "bg-orange-500/10 text-orange-400 border-orange-500/20",
     icon: AlertTriangle
   },
   CRITICAL: {
-    label: t("admin.system.critical"),
+    label: t("admin_system_critical"),
     color: "bg-red-500/10 text-red-400 border-red-500/20",
     icon: AlertTriangle
   },
   UNKNOWN: {
-    label: t("admin.system.unknown"),
+    label: t("admin_system_unknown"),
     color: "bg-slate-500/10 text-muted-foreground border-slate-500/20",
     icon: Activity
   }
@@ -139,7 +139,7 @@ export default function SystemMetrics() {
       } catch (error) {
         console.error('Error fetching system metrics:', error);
         toast({
-          title: t("admin.system.errorsync"),
+          title: t("admin_system_errorsync"),
           description: t('systemMetricsDesc'),
           variant: "destructive"
         });
@@ -163,8 +163,8 @@ export default function SystemMetrics() {
     try {
       await adminApi.refreshMetrics();
       toast({
-        title: t("admin.system.metricsrefreshed"),
-        description: t("admin.system.system_indicators_synchronized_successfully")
+        title: t("admin_system_metricsrefreshed"),
+        description: t("admin_system_system_indicators_synchronized_successfully")
       });
       // Reload data
       const data = await adminApi.getSystemMetrics({
@@ -212,7 +212,7 @@ export default function SystemMetrics() {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
       toast({
-        title: t("admin.system.exportready"),
+        title: t("admin_system_exportready"),
         description: `Neural data prepared in ${format} format.`
       });
     } catch (error) {
@@ -283,7 +283,7 @@ export default function SystemMetrics() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('total')}</p>
                 <h3 className="text-xl font-bold text-foreground leading-none">{totalMetrics}</h3>
-                <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin.system.activesensors")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_system_activesensors")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -304,7 +304,7 @@ export default function SystemMetrics() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('healthy')}</p>
                 <h3 className="text-xl font-bold text-emerald-500 leading-none">{healthyMetrics}</h3>
-                <p className="text-[10px] font-bold text-emerald-500/60 mt-4 flex items-center gap-1">{t("admin.system.nominalstatus")}</p>
+                <p className="text-[10px] font-bold text-emerald-500/60 mt-4 flex items-center gap-1">{t("admin_system_nominalstatus")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -325,7 +325,7 @@ export default function SystemMetrics() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('warning')}</p>
                 <h3 className="text-xl font-bold text-orange-500 leading-none">{warningMetrics}</h3>
-                <p className="text-[10px] font-bold text-orange-500/60 mt-4 flex items-center gap-1">{t("admin.system.attentionreq")}</p>
+                <p className="text-[10px] font-bold text-orange-500/60 mt-4 flex items-center gap-1">{t("admin_system_attentionreq")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -346,7 +346,7 @@ export default function SystemMetrics() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('critical')}</p>
                 <h3 className="text-xl font-bold text-red-500 leading-none">{criticalMetrics}</h3>
-                <p className="text-[10px] font-bold text-red-500/60 mt-4 flex items-center gap-1">{t("admin.system.urgentintervention")}</p>
+                <p className="text-[10px] font-bold text-red-500/60 mt-4 flex items-center gap-1">{t("admin_system_urgentintervention")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -366,11 +366,11 @@ export default function SystemMetrics() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-xl">
-                <SelectItem value="5m" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin.system.last5min")}</SelectItem>
-                <SelectItem value="15m" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin.system.last15min")}</SelectItem>
-                <SelectItem value="1h" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin.system.lasthour")}</SelectItem>
-                <SelectItem value="6h" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin.system.last6hours")}</SelectItem>
-                <SelectItem value="24h" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin.system.last24hours")}</SelectItem>
+                <SelectItem value="5m" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin_system_last5min")}</SelectItem>
+                <SelectItem value="15m" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin_system_last15min")}</SelectItem>
+                <SelectItem value="1h" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin_system_lasthour")}</SelectItem>
+                <SelectItem value="6h" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin_system_last6hours")}</SelectItem>
+                <SelectItem value="24h" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin_system_last24hours")}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -379,7 +379,7 @@ export default function SystemMetrics() {
                 <SelectValue placeholder={t('systemMetricsCategory')} />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-xl">
-                <SelectItem value="all" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin.system.allcategories")}</SelectItem>
+                <SelectItem value="all" className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">{t("admin_system_allcategories")}</SelectItem>
                 {Object.entries(CATEGORY_CONFIG).map(([key, config]) => <SelectItem key={key} value={key} className="text-[10px] font-bold focus:bg-[#1c1d24] focus:text-foreground transition-colors">
                     {config.label}
                   </SelectItem>)}
@@ -394,9 +394,9 @@ export default function SystemMetrics() {
             </Button>
             <div className="w-px h-8 bg-muted/50 mx-2" />
             <Button variant="ghost" onClick={() => handleExportMetrics('csv')} className="h-12 px-6 rounded-xl text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all">
-              <Download className="h-4 w-4 mr-2" />{t("admin.system.csv")}</Button>
+              <Download className="h-4 w-4 mr-2" />{t("admin_system_csv")}</Button>
             <Button variant="ghost" onClick={() => handleExportMetrics('json')} className="h-12 px-6 rounded-xl text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all">
-              <Download className="h-4 w-4 mr-2" />{t("admin.system.json")}</Button>
+              <Download className="h-4 w-4 mr-2" />{t("admin_system_json")}</Button>
           </div>
         </div>
 
@@ -406,7 +406,7 @@ export default function SystemMetrics() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-xl font-bold text-foreground leading-none">{t('systemMetricsTitle')}</CardTitle>
-                <CardDescription className="text-[10px] font-bold text-muted-foreground mt-2">{t("admin.system.realtime_neural_sensor_synchronization")}</CardDescription>
+                <CardDescription className="text-[10px] font-bold text-muted-foreground mt-2">{t("admin_system_realtime_neural_sensor_synchronization")}</CardDescription>
               </div>
               <Activity className="w-8 h-8 text-primary opacity-20" />
             </div>
@@ -414,7 +414,7 @@ export default function SystemMetrics() {
           <CardContent className="p-0">
             {loading ? <div className="flex flex-col items-center justify-center py-20 space-y-4">
                 <RefreshCw className="w-8 h-8 text-primary animate-spin opacity-50" />
-                <div className="text-[10px] font-bold text-muted-foreground">{t("admin.system.syncing_neural_nodes")}</div>
+                <div className="text-[10px] font-bold text-muted-foreground">{t("admin_system_syncing_neural_nodes")}</div>
               </div> : <Table>
                 <TableHeader className="bg-muted/50 border-b border-border">
                   <TableRow className="hover:bg-transparent border-none">
@@ -432,7 +432,7 @@ export default function SystemMetrics() {
                       <TableCell colSpan={7} className="text-center py-20">
                         <div className="flex flex-col items-center justify-center space-y-3 opacity-30">
                           <Search className="w-10 h-10 text-muted-foreground" />
-                          <div className="text-[10px] font-bold text-muted-foreground">{t("admin.system.no_matching_neural_signatures")}</div>
+                          <div className="text-[10px] font-bold text-muted-foreground">{t("admin_system_no_matching_neural_signatures")}</div>
                         </div>
                       </TableCell>
                     </TableRow> : filteredMetrics.map(metric => {
@@ -441,7 +441,7 @@ export default function SystemMetrics() {
                           <TableCell className="px-8 py-6">
                             <div>
                               <div className="text-sm font-bold text-foreground truncate tracking-tight leading-none mb-2">{metric.name}</div>
-                              {metric.threshold && <div className="text-[9px] font-bold text-muted-foreground opacity-50">{t("admin.system.limits")}{metric.threshold.warning}{t("admin.system.w")}{metric.threshold.critical}C
+                              {metric.threshold && <div className="text-[9px] font-bold text-muted-foreground opacity-50">{t("admin_system_limits")}{metric.threshold.warning}{t("admin_system_w")}{metric.threshold.critical}C
                                 </div>}
                             </div>
                           </TableCell>
@@ -505,7 +505,7 @@ export default function SystemMetrics() {
                       {selectedMetric?.name}
                     </DialogTitle>
                     <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-2 flex items-center gap-2">
-                      <Zap className="w-3 h-3 text-primary" />{t("admin.system.neuraltelemetrylog")}</DialogDescription>
+                      <Zap className="w-3 h-3 text-primary" />{t("admin_system_neuraltelemetrylog")}</DialogDescription>
                  </div>
               </div>
             </DialogHeader>
@@ -513,7 +513,7 @@ export default function SystemMetrics() {
             {selectedMetric && <div className="p-10 space-y-10">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="bg-muted/50 p-6 rounded-3xl border border-border border-l border-t">
-                    <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin.system.currentvalue")}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin_system_currentvalue")}</p>
                     <div className="flex items-baseline gap-2">
                       <span className="text-xl font-bold text-foreground">{selectedMetric.value}</span>
                       <span className="text-xs font-bold text-muted-foreground">{selectedMetric.unit}</span>
@@ -521,14 +521,14 @@ export default function SystemMetrics() {
                   </div>
 
                   <div className="bg-muted/50 p-6 rounded-3xl border border-border border-l border-t">
-                    <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin.system.nodestatus")}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin_system_nodestatus")}</p>
                     <div className="mt-2">
                       {getStatusBadge(selectedMetric.status)}
                     </div>
                   </div>
 
                   <div className="bg-muted/50 p-6 rounded-3xl border border-border border-l border-t">
-                     <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin.system.performancetrend")}</p>
+                     <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin_system_performancetrend")}</p>
                      <div className="flex items-center gap-3">
                        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center bg-muted/50", selectedMetric.trend?.direction === "up" ? "text-emerald-500" : "text-red-500")}>
                           {getTrendIcon(selectedMetric.trend?.direction)}
@@ -537,7 +537,7 @@ export default function SystemMetrics() {
                           <div className="text-lg font-bold text-foreground leading-none">
                             {selectedMetric.trend ? `${selectedMetric.trend.percentage > 0 ? '+' : ''}${selectedMetric.trend.percentage}%` : 'STABLE'}
                           </div>
-                          <div className="text-[9px] font-bold text-muted-foreground mt-1">{t("admin.system.velocitychange")}</div>
+                          <div className="text-[9px] font-bold text-muted-foreground mt-1">{t("admin_system_velocitychange")}</div>
                        </div>
                      </div>
                   </div>
@@ -547,8 +547,8 @@ export default function SystemMetrics() {
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                      <h4 className="text-[10px] font-bold text-muted-foreground flex items-center gap-2">
-                       <Activity className="w-3 h-3 text-primary" />{t("admin.system.historicalpulseanalysis")}</h4>
-                     <div className="text-[9px] font-bold text-muted-foreground">{t("admin.system.windowing_24hrealtime")}</div>
+                       <Activity className="w-3 h-3 text-primary" />{t("admin_system_historicalpulseanalysis")}</h4>
+                     <div className="text-[9px] font-bold text-muted-foreground">{t("admin_system_windowing_24hrealtime")}</div>
                   </div>
                   
                   <div className="h-[300px] w-full bg-muted/50 rounded-4xl p-8 border border-border shadow-inner">
@@ -583,11 +583,11 @@ export default function SystemMetrics() {
                 <div className="flex items-center justify-between pt-10 border-t border-border">
                   <div className="flex items-center gap-4">
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-bold text-slate-600">{t("admin.system.lastsync")}</span>
+                      <span className="text-[9px] font-bold text-slate-600">{t("admin_system_lastsync")}</span>
                       <span className="text-[10px] font-bold text-muted-foreground">{formatDateTime(selectedMetric.recordedAt)}</span>
                     </div>
                   </div>
-                  <Button onClick={() => setDetailOpen(false)} className="bg-muted/50 border border-border hover:bg-muted/50 text-foreground font-bold text-[10px] h-12 px-10 rounded-2xl transition-all">{t("admin.system.dismissinterface")}</Button>
+                  <Button onClick={() => setDetailOpen(false)} className="bg-muted/50 border border-border hover:bg-muted/50 text-foreground font-bold text-[10px] h-12 px-10 rounded-2xl transition-all">{t("admin_system_dismissinterface")}</Button>
                 </div>
               </div>}
           </DialogContent>

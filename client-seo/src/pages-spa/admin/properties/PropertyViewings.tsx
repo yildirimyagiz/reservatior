@@ -73,10 +73,10 @@ export default function PropertyViewings() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['property-viewing'] });
-      toast({ title: t("admin.property.success"), description: t("admin.property.viewing_status_updated_successfully") });
+      toast({ title: t("admin_property_success"), description: t("admin_property_viewing_status_updated_successfully") });
     },
     onError: () => {
-      toast({ title: t("admin.property.error"), description: t("admin.property.failed_to_update_viewing"), variant: "destructive" });
+      toast({ title: t("admin_property_error"), description: t("admin_property_failed_to_update_viewing"), variant: "destructive" });
     }
   });
   const getStatusColor = (status: string) => {
@@ -91,10 +91,10 @@ export default function PropertyViewings() {
   };
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'IN_PERSON': return <Users className="h-4 w-4 text-slate-400" />;
-      case 'VIRTUAL': return <Eye className="h-4 w-4 text-slate-400" />;
-      case 'SELF_GUIDED': return <Activity className="h-4 w-4 text-slate-400" />;
-      default: return <Calendar className="h-4 w-4 text-slate-400" />;
+      case 'IN_PERSON': return <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />;
+      case 'VIRTUAL': return <Eye className="h-4 w-4 text-slate-500 dark:text-slate-400" />;
+      case 'SELF_GUIDED': return <Activity className="h-4 w-4 text-slate-500 dark:text-slate-400" />;
+      default: return <Calendar className="h-4 w-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const scheduledViewings = viewings.filter(v => v.status === 'SCHEDULED').length;
@@ -103,96 +103,96 @@ export default function PropertyViewings() {
   const conversionRate = viewings.length > 0 ? viewings.filter(v => v.feedback?.interested).length / viewings.length * 100 : 0;
   if (isLoading) {
     return <div className="min-h-screen bg-background p-6">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h1 className="text-xl font-bold text-white">{t("admin.property.property_viewings")}</h1>
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t("admin_property_property_viewings")}</h1>
         </div>
         <div className="flex items-center justify-center h-64 mt-6">
-          <Activity className="h-8 w-8 animate-spin text-white" />
+          <Activity className="h-8 w-8 animate-spin text-slate-900 dark:text-white" />
         </div>
       </div>;
   }
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-6">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h1 className="text-xl font-bold text-white">{t("admin.property.property_viewings")}</h1>
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t("admin_property_property_viewings")}</h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.property.scheduled_viewings")}</CardTitle>
-              <Calendar className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_property_scheduled_viewings")}</CardTitle>
+              <Calendar className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{scheduledViewings}</div>
-              <p className="text-xs text-slate-400">{t("admin.property.upcoming_appointments")}</p>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{scheduledViewings}</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_property_upcoming_appointments")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.property.completed_viewings")}</CardTitle>
-              <CheckCircle className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_property_completed_viewings")}</CardTitle>
+              <CheckCircle className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-400">{completedViewings}</div>
-              <p className="text-xs text-slate-400">{t("admin.property.total_completed_this_month")}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_property_total_completed_this_month")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.property.avg_rating")}</CardTitle>
-              <Star className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_property_avg_rating")}</CardTitle>
+              <Star className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{avgRating.toFixed(1)}/5</div>
-              <p className="text-xs text-slate-400">{t("admin.property.customer_satisfaction")}</p>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{avgRating.toFixed(1)}/5</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_property_customer_satisfaction")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.property.conversion_rate")}</CardTitle>
-              <TrendingUp className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_property_conversion_rate")}</CardTitle>
+              <TrendingUp className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{conversionRate.toFixed(1)}%</div>
-              <p className="text-xs text-slate-400">{t("admin.property.interested_leads")}</p>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{conversionRate.toFixed(1)}%</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_property_interested_leads")}</p>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="pt-6">
             <div className="flex gap-4">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-slate-400">{t("admin.property.status")}</span>
+                <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_property_status")}</span>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-[150px] bg-white/5 border-white/10 text-white">
+                  <SelectTrigger className="w-[150px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#14151a] border-white/10 text-white">
-                    <SelectItem value="all">{t("admin.property.all_statuses")}</SelectItem>
-                    <SelectItem value="SCHEDULED">{t("admin.property.scheduled")}</SelectItem>
-                    <SelectItem value="CONFIRMED">{t("admin.property.confirmed")}</SelectItem>
-                    <SelectItem value="COMPLETED">{t("admin.property.completed")}</SelectItem>
-                    <SelectItem value="CANCELLED">{t("admin.property.cancelled")}</SelectItem>
-                    <SelectItem value="NO_SHOW">{t("admin.property.no_show")}</SelectItem>
+                  <SelectContent className="bg-[#14151a] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                    <SelectItem value="all">{t("admin_property_all_statuses")}</SelectItem>
+                    <SelectItem value="SCHEDULED">{t("admin_property_scheduled")}</SelectItem>
+                    <SelectItem value="CONFIRMED">{t("admin_property_confirmed")}</SelectItem>
+                    <SelectItem value="COMPLETED">{t("admin_property_completed")}</SelectItem>
+                    <SelectItem value="CANCELLED">{t("admin_property_cancelled")}</SelectItem>
+                    <SelectItem value="NO_SHOW">{t("admin_property_no_show")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-slate-400">{t("admin.property.type")}</span>
+                <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_property_type")}</span>
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
-                  <SelectTrigger className="w-[150px] bg-white/5 border-white/10 text-white">
+                  <SelectTrigger className="w-[150px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#14151a] border-white/10 text-white">
-                    <SelectItem value="all">{t("admin.property.all_types")}</SelectItem>
-                    <SelectItem value="IN_PERSON">{t("admin.property.in_person")}</SelectItem>
-                    <SelectItem value="VIRTUAL">{t("admin.property.virtual")}</SelectItem>
-                    <SelectItem value="SELF_GUIDED">{t("admin.property.self_guided")}</SelectItem>
+                  <SelectContent className="bg-[#14151a] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                    <SelectItem value="all">{t("admin_property_all_types")}</SelectItem>
+                    <SelectItem value="IN_PERSON">{t("admin_property_in_person")}</SelectItem>
+                    <SelectItem value="VIRTUAL">{t("admin_property_virtual")}</SelectItem>
+                    <SelectItem value="SELF_GUIDED">{t("admin_property_self_guided")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -200,87 +200,87 @@ export default function PropertyViewings() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white">{t("admin.property.property_viewings")}</CardTitle>
-            <p className="text-sm text-slate-400">{t("admin.property.manage_and_track_property")}</p>
+            <CardTitle className="text-slate-900 dark:text-white">{t("admin_property_property_viewings")}</CardTitle>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t("admin_property_manage_and_track_property")}</p>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow className="border-white/10">
-                  <TableHead className="text-slate-400">{t("admin.property.property")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.property.lead")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.property.type")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.property.status")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.property.scheduled")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.property.duration")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.property.rating")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.property.interested")}</TableHead>
-                  <TableHead className="text-right text-slate-400">{t("admin.property.actions")}</TableHead>
+                <TableRow className="border-slate-200 dark:border-white/10">
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_property_property")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_property_lead")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_property_type")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_property_status")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_property_scheduled")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_property_duration")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_property_rating")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_property_interested")}</TableHead>
+                  <TableHead className="text-right text-slate-500 dark:text-slate-400">{t("admin_property_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {viewings.map(viewing => <TableRow key={viewing.id} className="border-white/10">
-                    <TableCell className="font-medium text-white">
+                {viewings.map(viewing => <TableRow key={viewing.id} className="border-slate-200 dark:border-white/10">
+                    <TableCell className="font-medium text-slate-900 dark:text-white">
                       <div>
-                        <div className="text-white">{viewing.property?.address || `Property ${viewing.propertyId}`}</div>
-                        <div className="text-xs text-slate-400">
+                        <div className="text-slate-900 dark:text-white">{viewing.property?.address || `Property ${viewing.propertyId}`}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">
                           {viewing.property?.city}, {viewing.property?.state}
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-slate-400">
+                    <TableCell className="text-slate-500 dark:text-slate-400">
                       <div>
-                        <div className="font-medium text-white">{viewing.lead?.name || 'Unknown'}</div>
-                        <div className="text-xs text-slate-400">{viewing.lead?.email}</div>
+                        <div className="font-medium text-slate-900 dark:text-white">{viewing.lead?.name || 'Unknown'}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">{viewing.lead?.email}</div>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-2 text-white">
+                      <div className="flex items-center gap-2 text-slate-900 dark:text-white">
                         {getTypeIcon(viewing.viewingType)}
                         <span className="capitalize">{viewing.viewingType.replace('_', ' ').toLowerCase()}</span>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-2 text-white">
+                      <div className="flex items-center gap-2 text-slate-900 dark:text-white">
                         <div className={`w-2 h-2 rounded-full ${getStatusColor(viewing.status)}`} />
                         <span className="capitalize">{viewing.status.toLowerCase()}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-slate-400">{new Date(viewing.scheduledAt).toLocaleString()}</TableCell>
-                    <TableCell className="text-slate-400">{viewing.duration}{t("admin.property.min")}</TableCell>
+                    <TableCell className="text-slate-500 dark:text-slate-400">{new Date(viewing.scheduledAt).toLocaleString()}</TableCell>
+                    <TableCell className="text-slate-500 dark:text-slate-400">{viewing.duration}{t("admin_property_min")}</TableCell>
                     <TableCell>
                       {viewing.feedback?.rating ? <div className="flex items-center gap-1">
                           <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                          <span className="text-sm text-white">{viewing.feedback.rating}/5</span>
-                        </div> : <span className="text-slate-400">-</span>}
+                          <span className="text-sm text-slate-900 dark:text-white">{viewing.feedback.rating}/5</span>
+                        </div> : <span className="text-slate-500 dark:text-slate-400">-</span>}
                     </TableCell>
                     <TableCell>
-                      {viewing.feedback ? viewing.feedback.interested ? <CheckCircle className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" /> : <span className="text-slate-400">-</span>}
+                      {viewing.feedback ? viewing.feedback.interested ? <CheckCircle className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" /> : <span className="text-slate-500 dark:text-slate-400">-</span>}
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0 text-slate-400">
+                          <Button variant="ghost" className="h-8 w-8 p-0 text-slate-500 dark:text-slate-400">
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-[#14151a] border-white/10 text-white">
-                          <DropdownMenuLabel className="text-slate-400">{t("admin.property.actions")}</DropdownMenuLabel>
+                        <DropdownMenuContent align="end" className="bg-[#14151a] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                          <DropdownMenuLabel className="text-slate-500 dark:text-slate-400">{t("admin_property_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem className="hover:bg-white/5">
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.property.view_details")}
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_property_view_details")}
                           </DropdownMenuItem>
                           {viewing.status === 'SCHEDULED' && <>
                               <DropdownMenuItem className="hover:bg-white/5" onClick={() => updateStatusMutation.mutate({ viewingId: viewing.id, status: 'CONFIRMED' })}>
-                                <CheckCircle className="h-4 w-4 mr-2" />{t("admin.property.confirm")}
+                                <CheckCircle className="h-4 w-4 mr-2" />{t("admin_property_confirm")}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="hover:bg-white/5 text-red-600" onClick={() => updateStatusMutation.mutate({ viewingId: viewing.id, status: 'CANCELLED' })}>
-                                <XCircle className="h-4 w-4 mr-2" />{t("admin.property.cancel")}
+                                <XCircle className="h-4 w-4 mr-2" />{t("admin_property_cancel")}
                               </DropdownMenuItem>
                             </>}
                           {viewing.status === 'CONFIRMED' && <DropdownMenuItem className="hover:bg-white/5" onClick={() => updateStatusMutation.mutate({ viewingId: viewing.id, status: 'COMPLETED' })}>
-                              <CheckCircle className="h-4 w-4 mr-2" />{t("admin.property.mark_complete")}
+                              <CheckCircle className="h-4 w-4 mr-2" />{t("admin_property_mark_complete")}
                             </DropdownMenuItem>}
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -292,51 +292,51 @@ export default function PropertyViewings() {
         </Card>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.property.viewing_types_distribution")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_property_viewing_types_distribution")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-white flex items-center gap-2">
-                    <Users className="h-4 w-4 text-slate-400" />{t("admin.property.in_person")}</span>
-                  <span className="font-medium text-white">{viewings.filter(v => v.viewingType === 'IN_PERSON').length}</span>
+                  <span className="text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                    <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />{t("admin_property_in_person")}</span>
+                  <span className="font-medium text-slate-900 dark:text-white">{viewings.filter(v => v.viewingType === 'IN_PERSON').length}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-white flex items-center gap-2">
-                    <Eye className="h-4 w-4 text-slate-400" />{t("admin.property.virtual")}</span>
-                  <span className="font-medium text-white">{viewings.filter(v => v.viewingType === 'VIRTUAL').length}</span>
+                  <span className="text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                    <Eye className="h-4 w-4 text-slate-500 dark:text-slate-400" />{t("admin_property_virtual")}</span>
+                  <span className="font-medium text-slate-900 dark:text-white">{viewings.filter(v => v.viewingType === 'VIRTUAL').length}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-white flex items-center gap-2">
-                    <Activity className="h-4 w-4 text-slate-400" />{t("admin.property.self_guided")}</span>
-                  <span className="font-medium text-white">{viewings.filter(v => v.viewingType === 'SELF_GUIDED').length}</span>
+                  <span className="text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-slate-500 dark:text-slate-400" />{t("admin_property_self_guided")}</span>
+                  <span className="font-medium text-slate-900 dark:text-white">{viewings.filter(v => v.viewingType === 'SELF_GUIDED').length}</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.property.status_overview")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_property_status_overview")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-white">{t("admin.property.scheduled")}</span>
-                  <span className="font-medium text-white">{scheduledViewings}</span>
+                  <span className="text-sm text-slate-900 dark:text-white">{t("admin_property_scheduled")}</span>
+                  <span className="font-medium text-slate-900 dark:text-white">{scheduledViewings}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-white">{t("admin.property.confirmed")}</span>
-                  <span className="font-medium text-white">{viewings.filter(v => v.status === 'CONFIRMED').length}</span>
+                  <span className="text-sm text-slate-900 dark:text-white">{t("admin_property_confirmed")}</span>
+                  <span className="font-medium text-slate-900 dark:text-white">{viewings.filter(v => v.status === 'CONFIRMED').length}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-white">{t("admin.property.completed")}</span>
+                  <span className="text-sm text-slate-900 dark:text-white">{t("admin_property_completed")}</span>
                   <span className="font-medium text-green-400">{completedViewings}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-white">{t("admin.property.no_show")}</span>
+                  <span className="text-sm text-slate-900 dark:text-white">{t("admin_property_no_show")}</span>
                   <span className="font-medium text-red-400">{viewings.filter(v => v.status === 'NO_SHOW').length}</span>
                 </div>
               </div>

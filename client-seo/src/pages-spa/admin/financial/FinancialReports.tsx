@@ -83,9 +83,9 @@ export default function FinancialReports() {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-      toast({ title: t("admin.financial.export_successful"), description: `${reportType} report downloaded.` });
+      toast({ title: t("admin_financial_export_successful"), description: `${reportType} report downloaded.` });
     } catch (error) {
-      toast({ title: t("admin.financial.export_failed"), description: t("admin.financial.failed_to_export_financial"), variant: "destructive" });
+      toast({ title: t("admin_financial_export_failed"), description: t("admin_financial_failed_to_export_financial"), variant: "destructive" });
     }
   };
 
@@ -107,52 +107,52 @@ export default function FinancialReports() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center space-y-6">
-        <div className="text-slate-400">{t("common.loading", "Loading...")}</div>
+        <div className="text-slate-500 dark:text-slate-400">{t("common.loading", "Loading...")}</div>
       </div>
     );
   }
 
   return (
     <div className="p-6 space-y-6 min-h-screen">
-      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
-            <DollarSign className="w-8 h-8 text-white" />
+            <DollarSign className="w-8 h-8 text-slate-900 dark:text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
               {t("financialReportsTitle", "Financial Reports")}
             </h1>
-            <p className="text-slate-400">
+            <p className="text-slate-500 dark:text-slate-400">
               {t("financialReportsSubtitle", "Comprehensive financial analysis and reporting")}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-4">
           <Select value={period} onValueChange={setPeriod}>
-            <SelectTrigger className="w-36 bg-white/5 border-white/10 text-white">
+            <SelectTrigger className="w-36 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-slate-900 border-white/10 text-white">
+            <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <SelectItem value="1m">{t("financialReportsPeriodsMonthly", "1 Month")}</SelectItem>
               <SelectItem value="3m">{t("quarterly", "3 Months")}</SelectItem>
               <SelectItem value="6m">{t("biannual", "6 Months")}</SelectItem>
               <SelectItem value="12m">{t("annual", "12 Months")}</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" onClick={() => handleExportCSV('overview')} className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10">
+          <Button variant="outline" onClick={() => handleExportCSV('overview')} className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-300 hover:bg-white/10">
             <Download className="h-4 w-4 mr-2" /> {t("common.export", "Export")}
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">{t("inbound", "Revenue")}</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{formatCurrency(metrics?.totalRevenue || 0)}</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("inbound", "Revenue")}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{formatCurrency(metrics?.totalRevenue || 0)}</h3>
               </div>
               <div className="p-3 bg-emerald-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-emerald-400" /></div>
             </div>
@@ -162,12 +162,12 @@ export default function FinancialReports() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">{t("outflow", "Expenses")}</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{formatCurrency(metrics?.totalExpenses || 0)}</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("outflow", "Expenses")}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{formatCurrency(metrics?.totalExpenses || 0)}</h3>
               </div>
               <div className="p-3 bg-red-500/20 rounded-lg"><TrendingDown className="w-5 h-5 text-red-400" /></div>
             </div>
@@ -177,14 +177,14 @@ export default function FinancialReports() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">{t("profit", "Profit")}</p>
-                <h3 className="text-2xl font-bold text-slate-400 mt-1">{formatCurrency(metrics?.totalProfit || 0)}</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("profit", "Profit")}</p>
+                <h3 className="text-2xl font-bold text-slate-500 dark:text-slate-400 mt-1">{formatCurrency(metrics?.totalProfit || 0)}</h3>
               </div>
-              <div className="p-3 bg-slate-500/20 rounded-lg"><TrendingUp className="w-5 h-5 text-slate-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><TrendingUp className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
             </div>
             <div className="mt-3 flex items-center gap-2">
               {formatChange(metrics?.profitGrowth || 0)}
@@ -192,12 +192,12 @@ export default function FinancialReports() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">{t("financialReportsSync", "Collection Rate")}</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{formatPercent(metrics?.collectionRate || 0)}</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("financialReportsSync", "Collection Rate")}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{formatPercent(metrics?.collectionRate || 0)}</h3>
               </div>
               <div className="p-3 bg-orange-500/20 rounded-lg"><Activity className="w-5 h-5 text-orange-400" /></div>
             </div>
@@ -206,7 +206,7 @@ export default function FinancialReports() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="bg-white/5 border border-white/10">
+        <TabsList className="bg-white/5 border border-slate-200 dark:border-white/10">
           <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
             {t("admin.financial.performance_core", "Overview")}
           </TabsTrigger>
@@ -223,11 +223,11 @@ export default function FinancialReports() {
 
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm text-white flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-slate-400" /> {t("flow", "Cash Flow")}
+                  <CardTitle className="text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-slate-500 dark:text-slate-400" /> {t("flow", "Cash Flow")}
                   </CardTitle>
                 </div>
               </CardHeader>
@@ -254,9 +254,9 @@ export default function FinancialReports() {
                 </ResponsiveContainer>
               </CardContent>
             </Card>
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-sm text-white flex items-center gap-2">
+                <CardTitle className="text-sm text-slate-900 dark:text-white flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-emerald-400" /> {t("integrity", "Collections")}
                 </CardTitle>
               </CardHeader>
@@ -279,14 +279,14 @@ export default function FinancialReports() {
         <TabsContent value="revenue" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <p className="text-sm text-slate-400">{t("financialReportsChartsDistribution", "Revenue Distribution")}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{t("financialReportsChartsDistribution", "Revenue Distribution")}</p>
               {revenueSources.map((source: RevenueSource, index: number) => (
-                <div key={String(source.name)} className="bg-white/5 border border-white/10 p-4 rounded-xl flex items-center justify-between">
+                <div key={String(source.name)} className="bg-white/5 border border-slate-200 dark:border-white/10 p-4 rounded-xl flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }} />
                     <div>
-                      <p className="font-medium text-white">{String(source.name)}</p>
-                      <p className="text-xs text-slate-400">{Number(source.pct)}% share</p>
+                      <p className="font-medium text-slate-900 dark:text-white">{String(source.name)}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{Number(source.pct)}% share</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -296,9 +296,9 @@ export default function FinancialReports() {
                 </div>
               ))}
             </div>
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-sm text-white">{t("polarization", "Distribution")}</CardTitle>
+                <CardTitle className="text-sm text-slate-900 dark:text-white">{t("polarization", "Distribution")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>

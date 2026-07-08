@@ -43,7 +43,7 @@ export default function GoogleCloudManager() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.cloud.deployment_failed"),
+        title: t("admin_cloud_deployment_failed"),
         description: error?.message || "Deployment failed.",
         variant: "destructive"
       });
@@ -56,13 +56,13 @@ export default function GoogleCloudManager() {
     onSuccess: (_data, name) => {
       queryClient.invalidateQueries({ queryKey: ['cloudServices'] });
       toast({
-        title: t("admin.cloud.service_stopped"),
+        title: t("admin_cloud_service_stopped"),
         description: `${name} has been stopped.`
       });
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.cloud.stop_failed"),
+        title: t("admin_cloud_stop_failed"),
         description: error?.message || "Failed to stop service.",
         variant: "destructive"
       });
@@ -74,11 +74,11 @@ export default function GoogleCloudManager() {
       case 'ACTIVE':
         return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'DEPLOYING':
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20';
       case 'ERROR':
         return 'bg-red-500/10 text-red-400 border-red-500/20';
       case 'STOPPED':
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20';
       default:
         return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
     }
@@ -102,7 +102,7 @@ export default function GoogleCloudManager() {
   const handleDeploy = (serviceName: string) => {
     setDeploying(serviceName);
     toast({
-      title: t("admin.cloud.deployment_started"),
+      title: t("admin_cloud_deployment_started"),
       description: `${serviceName} is being deployed to Google Cloud.`
     });
     queryClient.setQueryData(['cloudServices'], (old: CloudService[] | undefined) =>
@@ -133,17 +133,17 @@ export default function GoogleCloudManager() {
     <div className="space-y-6">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white">{t("admin.cloud.google_cloud_infrastructure")}</h1>
-              <p className="text-sm text-slate-400 mt-1">{t("admin.cloud.free_tier_deployment_and")}</p>
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t("admin_cloud_google_cloud_infrastructure")}</h1>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t("admin_cloud_free_tier_deployment_and")}</p>
             </div>
             <div className="flex items-center gap-4">
               <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/20 px-4 py-2">
                 <div className="flex items-center gap-2">
                   <Zap className="w-4 h-4" />
-                  <span className="font-bold text-xs">{t("admin.cloud.free_tier_active")}</span>
+                  <span className="font-bold text-xs">{t("admin_cloud_free_tier_active")}</span>
                 </div>
               </Badge>
             </div>
@@ -152,85 +152,85 @@ export default function GoogleCloudManager() {
 
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center">
-                <Server className="w-5 h-5 text-slate-400" />
+                <Server className="w-5 h-5 text-slate-500 dark:text-slate-400" />
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-400">{t("admin.cloud.active_services")}</p>
-                <p className="text-2xl font-bold text-white">{services.filter(s => s.status === 'ACTIVE').length}</p>
+                <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t("admin_cloud_active_services")}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">{services.filter(s => s.status === 'ACTIVE').length}</p>
               </div>
             </div>
           </Card>
-          <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
                 <DollarSign className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-400">{t("admin.cloud.monthly_cost")}</p>
-                <p className="text-2xl font-bold text-white">${totalCost.toFixed(2)}</p>
+                <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t("admin_cloud_monthly_cost")}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">${totalCost.toFixed(2)}</p>
               </div>
             </div>
           </Card>
-          <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">
                 <TrendingUp className="w-5 h-5 text-orange-400" />
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-400">{t("admin.cloud.cpu_usage")}</p>
-                <p className="text-2xl font-bold text-white">{totalUsage.cpu}%</p>
+                <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t("admin_cloud_cpu_usage")}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">{totalUsage.cpu}%</p>
               </div>
             </div>
           </Card>
-          <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center">
-                <Database className="w-5 h-5 text-slate-400" />
+                <Database className="w-5 h-5 text-slate-500 dark:text-slate-400" />
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-400">{t("admin.cloud.storage_used")}</p>
-                <p className="text-2xl font-bold text-white">{(totalUsage.storage / 1024).toFixed(1)}{t("admin.cloud.gb")}</p>
+                <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t("admin_cloud_storage_used")}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">{(totalUsage.storage / 1024).toFixed(1)}{t("admin_cloud_gb")}</p>
               </div>
             </div>
           </Card>
         </div>
 
         {/* Resource Usage Overview */}
-        <Card className="bg-white/5 border-white/10 rounded-3xl p-8">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8">
           <CardHeader>
-            <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-slate-500" />{t("admin.cloud.resource_usage_overview")}</CardTitle>
+            <CardTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-slate-500" />{t("admin_cloud_resource_usage_overview")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-400">{t("admin.cloud.cpu_usage")}</span>
-                  <span className="text-white">{totalUsage.cpu}% / {totalLimits.cpu}%</span>
+                  <span className="text-slate-500 dark:text-slate-400">{t("admin_cloud_cpu_usage")}</span>
+                  <span className="text-slate-900 dark:text-white">{totalUsage.cpu}% / {totalLimits.cpu}%</span>
                 </div>
                 <Progress value={totalUsage.cpu} className="h-2" />
               </div>
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-400">{t("admin.cloud.memory_usage")}</span>
-                  <span className="text-white">{totalUsage.memory}{t("admin.cloud.mb")} / {totalLimits.memory}{t("admin.cloud.mb")}</span>
+                  <span className="text-slate-500 dark:text-slate-400">{t("admin_cloud_memory_usage")}</span>
+                  <span className="text-slate-900 dark:text-white">{totalUsage.memory}{t("admin_cloud_mb")} / {totalLimits.memory}{t("admin_cloud_mb")}</span>
                 </div>
                 <Progress value={totalUsage.memory / totalLimits.memory * 100} className="h-2" />
               </div>
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-400">{t("admin.cloud.storage_usage")}</span>
-                  <span className="text-white">{totalUsage.storage}{t("admin.cloud.mb")} / {totalLimits.storage}{t("admin.cloud.mb")}</span>
+                  <span className="text-slate-500 dark:text-slate-400">{t("admin_cloud_storage_usage")}</span>
+                  <span className="text-slate-900 dark:text-white">{totalUsage.storage}{t("admin_cloud_mb")} / {totalLimits.storage}{t("admin_cloud_mb")}</span>
                 </div>
                 <Progress value={totalUsage.storage / totalLimits.storage * 100} className="h-2" />
               </div>
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-400">{t("admin.cloud.bandwidth_usage")}</span>
-                  <span className="text-white">{totalUsage.bandwidth}{t("admin.cloud.gb")} / {totalLimits.bandwidth}{t("admin.cloud.gb")}</span>
+                  <span className="text-slate-500 dark:text-slate-400">{t("admin_cloud_bandwidth_usage")}</span>
+                  <span className="text-slate-900 dark:text-white">{totalUsage.bandwidth}{t("admin_cloud_gb")} / {totalLimits.bandwidth}{t("admin_cloud_gb")}</span>
                 </div>
                 <Progress value={totalUsage.bandwidth / totalLimits.bandwidth * 100} className="h-2" />
               </div>
@@ -240,14 +240,14 @@ export default function GoogleCloudManager() {
 
         {/* Services List */}
         <div className="space-y-6">
-          <h2 className="text-xl font-bold text-white mb-4">{t("admin.cloud.cloud_services")}</h2>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">{t("admin_cloud_cloud_services")}</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {services.map(service => (
-              <motion.div key={service.name} whileHover={{ scale: 1.02 }} className="bg-white/5 border-white/10 rounded-3xl p-6">
+              <motion.div key={service.name} whileHover={{ scale: 1.02 }} className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <Cloud className="w-5 h-5 text-slate-400" />
-                    <h3 className="text-lg font-bold text-white">{service.name}</h3>
+                    <Cloud className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">{service.name}</h3>
                   </div>
                   <div className="flex items-center gap-2">
                     {getStatusIcon(service.status)}
@@ -258,7 +258,7 @@ export default function GoogleCloudManager() {
                 </div>
                 {service.url && (
                   <div className="mb-4">
-                    <a href={service.url} target="_blank" rel="noopener noreferrer" className="text-xs text-slate-400 hover:text-slate-300 transition-colors">
+                    <a href={service.url} target="_blank" rel="noopener noreferrer" className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-300 transition-colors">
                       {service.url}
                     </a>
                   </div>
@@ -266,38 +266,38 @@ export default function GoogleCloudManager() {
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <p className="text-slate-400">{t("admin.cloud.cpu")}</p>
-                      <p className="text-white">{service.usage.cpu}% / {service.limits.cpu}%</p>
+                      <p className="text-slate-500 dark:text-slate-400">{t("admin_cloud_cpu")}</p>
+                      <p className="text-slate-900 dark:text-white">{service.usage.cpu}% / {service.limits.cpu}%</p>
                     </div>
                     <div>
-                      <p className="text-slate-400">{t("admin.cloud.memory")}</p>
-                      <p className="text-white">{service.usage.memory}{t("admin.cloud.mb")} / {service.limits.memory}{t("admin.cloud.mb")}</p>
+                      <p className="text-slate-500 dark:text-slate-400">{t("admin_cloud_memory")}</p>
+                      <p className="text-slate-900 dark:text-white">{service.usage.memory}{t("admin_cloud_mb")} / {service.limits.memory}{t("admin_cloud_mb")}</p>
                     </div>
                     <div>
-                      <p className="text-slate-400">{t("admin.cloud.storage")}</p>
-                      <p className="text-white">{service.usage.storage}{t("admin.cloud.mb")} / {service.limits.storage}{t("admin.cloud.mb")}</p>
+                      <p className="text-slate-500 dark:text-slate-400">{t("admin_cloud_storage")}</p>
+                      <p className="text-slate-900 dark:text-white">{service.usage.storage}{t("admin_cloud_mb")} / {service.limits.storage}{t("admin_cloud_mb")}</p>
                     </div>
                     <div>
-                      <p className="text-slate-400">{t("admin.cloud.bandwidth")}</p>
-                      <p className="text-white">{service.usage.bandwidth}{t("admin.cloud.gb")} / {service.limits.bandwidth}{t("admin.cloud.gb")}</p>
+                      <p className="text-slate-500 dark:text-slate-400">{t("admin_cloud_bandwidth")}</p>
+                      <p className="text-slate-900 dark:text-white">{service.usage.bandwidth}{t("admin_cloud_gb")} / {service.limits.bandwidth}{t("admin_cloud_gb")}</p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                  <div className="flex items-center justify-between pt-3 border-t border-slate-200 dark:border-white/10">
                     <div>
-                      <p className="text-xs text-slate-400">{t("admin.cloud.monthly_cost")}</p>
-                      <p className="text-lg font-bold text-white">${service.cost.current.toFixed(2)}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_cloud_monthly_cost")}</p>
+                      <p className="text-lg font-bold text-slate-900 dark:text-white">${service.cost.current.toFixed(2)}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       {service.status === 'ACTIVE' ? (
                         <Button size="sm" variant="outline" onClick={() => handleStop(service.name)} className="border-red-500/20 text-red-400 hover:bg-red-500/10">
-                          {t("admin.cloud.stop")}
+                          {t("admin_cloud_stop")}
                         </Button>
                       ) : (
                         <Button size="sm" onClick={() => handleDeploy(service.name)} disabled={deploying === service.name} className="bg-emerald-600 hover:bg-emerald-500">
                           {deploying === service.name ? (
-                            <><Activity className="w-3 h-3 mr-1 animate-spin" />{t("admin.cloud.deploying")}</>
+                            <><Activity className="w-3 h-3 mr-1 animate-spin" />{t("admin_cloud_deploying")}</>
                           ) : (
-                            <><Rocket className="w-3 h-3 mr-1" />{t("admin.cloud.deploy")}</>
+                            <><Rocket className="w-3 h-3 mr-1" />{t("admin_cloud_deploy")}</>
                           )}
                         </Button>
                       )}
@@ -310,78 +310,78 @@ export default function GoogleCloudManager() {
         </div>
 
         {/* Free Tier Benefits */}
-        <Card className="bg-gradient-to-r from-slate-600/10 to-slate-600/10 border-white/10 rounded-3xl p-8">
+        <Card className="bg-gradient-to-r from-slate-600/10 to-slate-600/10 border-slate-200 dark:border-white/10 rounded-3xl p-8">
           <CardHeader>
-            <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <Shield className="w-5 h-5 text-emerald-400" />{t("admin.cloud.free_tier_benefits")}</CardTitle>
+            <CardTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Shield className="w-5 h-5 text-emerald-400" />{t("admin_cloud_free_tier_benefits")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <h4 className="text-sm font-bold text-white">{t("admin.cloud.compute")}</h4>
-                <ul className="space-y-2 text-sm text-slate-400">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{t("admin_cloud_compute")}</h4>
+                <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.1_f1micro_instance_744")}</span>
+                    <span>{t("admin_cloud_1_f1micro_instance_744")}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.shared_cpu_infrastructure")}</span>
+                    <span>{t("admin_cloud_shared_cpu_infrastructure")}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.preemptible_vm_instances")}</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="space-y-3">
-                <h4 className="text-sm font-bold text-white">{t("admin.cloud.storage")}</h4>
-                <ul className="space-y-2 text-sm text-slate-400">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.5_gb_standard_storage")}</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.5_gb_cloud_storage")}</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.30_gb_cloud_sql")}</span>
+                    <span>{t("admin_cloud_preemptible_vm_instances")}</span>
                   </li>
                 </ul>
               </div>
               <div className="space-y-3">
-                <h4 className="text-sm font-bold text-white">{t("admin.cloud.networking")}</h4>
-                <ul className="space-y-2 text-sm text-slate-400">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{t("admin_cloud_storage")}</h4>
+                <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.1_gb_egressmonth")}</span>
+                    <span>{t("admin_cloud_5_gb_standard_storage")}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.load_balancing")}</span>
+                    <span>{t("admin_cloud_5_gb_cloud_storage")}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.ssl_certificates")}</span>
+                    <span>{t("admin_cloud_30_gb_cloud_sql")}</span>
                   </li>
                 </ul>
               </div>
               <div className="space-y-3">
-                <h4 className="text-sm font-bold text-white">{t("admin.cloud.services")}</h4>
-                <ul className="space-y-2 text-sm text-slate-400">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{t("admin_cloud_networking")}</h4>
+                <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.2m_cloud_functions_invocations")}</span>
+                    <span>{t("admin_cloud_1_gb_egressmonth")}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.28_instancehoursday_app_engine")}</span>
+                    <span>{t("admin_cloud_load_balancing")}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-3 h-3 text-emerald-400" />
-                    <span>{t("admin.cloud.180k_vcpusecondsmonth_cloud_run")}</span>
+                    <span>{t("admin_cloud_ssl_certificates")}</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{t("admin_cloud_services")}</h4>
+                <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-3 h-3 text-emerald-400" />
+                    <span>{t("admin_cloud_2m_cloud_functions_invocations")}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-3 h-3 text-emerald-400" />
+                    <span>{t("admin_cloud_28_instancehoursday_app_engine")}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-3 h-3 text-emerald-400" />
+                    <span>{t("admin_cloud_180k_vcpusecondsmonth_cloud_run")}</span>
                   </li>
                 </ul>
               </div>
@@ -390,7 +390,7 @@ export default function GoogleCloudManager() {
               <div className="flex items-center gap-3">
                 <DollarSign className="w-5 h-5 text-emerald-400" />
                 <div>
-                  <p className="text-sm font-bold text-emerald-400">{t("admin.cloud.monthly_savings")}</p>
+                  <p className="text-sm font-bold text-emerald-400">{t("admin_cloud_monthly_savings")}</p>
                   <p className="text-2xl font-bold text-emerald-400">$100-200+</p>
                 </div>
               </div>

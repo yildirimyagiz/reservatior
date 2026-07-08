@@ -50,15 +50,15 @@ const MOCK: LeadScore[] = [{
   predictedConversion: 0.78,
   lastUpdated: "2025-01-10 08:30",
   factors: [{
-    label: t("admin.ai.multiple_property_views"),
+    label: t("admin_ai_multiple_property_views"),
     impact: "positive",
     weight: 0.3
   }, {
-    label: t("admin.ai.budget_match"),
+    label: t("admin_ai_budget_match"),
     impact: "positive",
     weight: 0.4
   }, {
-    label: t("admin.ai.responded_within_1h"),
+    label: t("admin_ai_responded_within_1h"),
     impact: "positive",
     weight: 0.2
   }]
@@ -72,15 +72,15 @@ const MOCK: LeadScore[] = [{
   predictedConversion: 0.45,
   lastUpdated: "2025-01-10 07:15",
   factors: [{
-    label: t("admin.ai.viewed_3_listings"),
+    label: t("admin_ai_viewed_3_listings"),
     impact: "positive",
     weight: 0.25
   }, {
-    label: t("admin.ai.opened_5_emails"),
+    label: t("admin_ai_opened_5_emails"),
     impact: "positive",
     weight: 0.2
   }, {
-    label: t("admin.ai.no_call_response"),
+    label: t("admin_ai_no_call_response"),
     impact: "negative",
     weight: -0.15
   }]
@@ -94,11 +94,11 @@ const MOCK: LeadScore[] = [{
   predictedConversion: 0.12,
   lastUpdated: "2025-01-09 15:00",
   factors: [{
-    label: t("admin.ai.inactive_30_days"),
+    label: t("admin_ai_inactive_30_days"),
     impact: "negative",
     weight: -0.4
   }, {
-    label: t("admin.ai.low_budget_fit"),
+    label: t("admin_ai_low_budget_fit"),
     impact: "negative",
     weight: -0.3
   }]
@@ -112,11 +112,11 @@ const MOCK: LeadScore[] = [{
   predictedConversion: 0.67,
   lastUpdated: "2025-01-10 09:00",
   factors: [{
-    label: t("admin.ai.mortgage_preapproved"),
+    label: t("admin_ai_mortgage_preapproved"),
     impact: "positive",
     weight: 0.5
   }, {
-    label: t("admin.ai.requested_3_viewings"),
+    label: t("admin_ai_requested_3_viewings"),
     impact: "positive",
     weight: 0.3
   }]
@@ -142,8 +142,8 @@ export default function AILeadScoring() {
     await new Promise(r => setTimeout(r, 1500));
     setRerunning(false);
     toast({
-      title: t("admin.ai.scoring_updated"),
-      description: t("admin.ai.ai_rescored_all_leads")
+      title: t("admin_ai_scoring_updated"),
+      description: t("admin_ai_ai_rescored_all_leads")
     });
   };
   const ScoreBar = ({
@@ -159,45 +159,45 @@ export default function AILeadScoring() {
       <span className="text-sm font-semibold w-6 text-right">{score}</span>
     </div>;
   return <>
-      <PageShell title={t("admin.ai.ai_lead_scoring")} description={t("admin.ai.machine_learningpowered_lead_prioritization")} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.ai.search_leads", "Müşteri adaylarında ara...")} actions={<Button variant="outline" size="sm" onClick={handleRerun} disabled={rerunning}>
+      <PageShell title={t("admin_ai_ai_lead_scoring")} description={t("admin_ai_machine_learningpowered_lead_prioritization")} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.ai.search_leads", "Müşteri adaylarında ara...")} actions={<Button variant="outline" size="sm" onClick={handleRerun} disabled={rerunning}>
             <RefreshCw className={`w-4 h-4 mr-1.5 ${rerunning ? "animate-spin" : ""}`} />
             {rerunning ? "Scoring..." : "Re-score All"}
           </Button>} stats={[{
-      label: t("admin.ai.scored_leads"),
+      label: t("admin_ai_scored_leads"),
       value: MOCK.length
     }, {
-      label: t("admin.ai.hot_leads"),
+      label: t("admin_ai_hot_leads"),
       value: MOCK.filter(l => l.scoreLabel === "HOT").length
     }, {
-      label: t("admin.ai.avg_score"),
+      label: t("admin_ai_avg_score"),
       value: Math.round(MOCK.reduce((s, l) => s + l.score, 0) / MOCK.length)
     }, {
-      label: t("admin.ai.avg_conversion"),
+      label: t("admin_ai_avg_conversion"),
       value: `${Math.round(MOCK.reduce((s, l) => s + l.predictedConversion, 0) / MOCK.length * 100)}%`
     }]} filters={<Select value={filterLabel} onValueChange={setFilterLabel}>
-            <SelectTrigger className="w-32"><SelectValue placeholder={t("admin.ai.score")} /></SelectTrigger>
+            <SelectTrigger className="w-32"><SelectValue placeholder={t("admin_ai_score")} /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("admin.ai.all")}</SelectItem>
-              <SelectItem value="HOT">{t("admin.ai.hot")}</SelectItem>
-              <SelectItem value="WARM">{t("admin.ai.warm")}</SelectItem>
-              <SelectItem value="COLD">{t("admin.ai.cold")}</SelectItem>
+              <SelectItem value="all">{t("admin_ai_all")}</SelectItem>
+              <SelectItem value="HOT">{t("admin_ai_hot")}</SelectItem>
+              <SelectItem value="WARM">{t("admin_ai_warm")}</SelectItem>
+              <SelectItem value="COLD">{t("admin_ai_cold")}</SelectItem>
             </SelectContent>
           </Select>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("admin.ai.lead")}</TableHead>
-                <TableHead>{t("admin.ai.score")}</TableHead>
-                <TableHead>{t("admin.ai.label")}</TableHead>
-                <TableHead>{t("admin.ai.confidence")}</TableHead>
-                <TableHead>{t("admin.ai.conversion_prob")}</TableHead>
-                <TableHead>{t("admin.ai.last_updated")}</TableHead>
+                <TableHead>{t("admin_ai_lead")}</TableHead>
+                <TableHead>{t("admin_ai_score")}</TableHead>
+                <TableHead>{t("admin_ai_label")}</TableHead>
+                <TableHead>{t("admin_ai_confidence")}</TableHead>
+                <TableHead>{t("admin_ai_conversion_prob")}</TableHead>
+                <TableHead>{t("admin_ai_last_updated")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.length === 0 && <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin.ai.no_scored_leads")}</TableCell></TableRow>}
+              {filtered.length === 0 && <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin_ai_no_scored_leads")}</TableCell></TableRow>}
               {filtered.map(l => {
               const s = SCORE_STYLES[l.scoreLabel];
               const SIcon = s.icon;
@@ -242,7 +242,7 @@ export default function AILeadScoring() {
       <Dialog open={detailOpen} onOpenChange={setDetailOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("admin.ai.score_breakdown")}</DialogTitle>
+            <DialogTitle>{t("admin_ai_score_breakdown")}</DialogTitle>
             <DialogDescription>{selected?.leadName} — {selected?.email}</DialogDescription>
           </DialogHeader>
           {selected && <div className="space-y-5 py-2">
@@ -253,11 +253,11 @@ export default function AILeadScoring() {
                 </div>
                 <div className="text-right">
                   <p className="text-2xl font-bold text-green-600">{Math.round(selected.predictedConversion * 100)}%</p>
-                  <p className="text-sm text-muted-foreground">{t("admin.ai.conversion_prob")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_ai_conversion_prob")}</p>
                 </div>
               </div>
               <div>
-                <p className="text-xs font-semibold text-muted-foreground tracking-wider mb-2">{t("admin.ai.scoring_factors")}</p>
+                <p className="text-xs font-semibold text-muted-foreground tracking-wider mb-2">{t("admin_ai_scoring_factors")}</p>
                 <div className="space-y-2">
                   {selected.factors.map((f, i) => <div key={i} className="flex items-center justify-between gap-3 p-2.5 rounded-lg bg-muted/40">
                       <div className="flex items-center gap-2">
@@ -265,7 +265,7 @@ export default function AILeadScoring() {
                         <span className="text-sm">{f.label}</span>
                       </div>
                       <span className={`text-sm font-semibold ${f.weight > 0 ? "text-green-600" : f.weight < 0 ? "text-red-600" : "text-muted-foreground"}`}>
-                        {f.weight > 0 ? "+" : ""}{Math.round(f.weight * 100)}{t("admin.ai.pts")}</span>
+                        {f.weight > 0 ? "+" : ""}{Math.round(f.weight * 100)}{t("admin_ai_pts")}</span>
                     </div>)}
                 </div>
               </div>

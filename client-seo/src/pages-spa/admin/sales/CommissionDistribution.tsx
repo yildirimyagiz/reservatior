@@ -44,8 +44,8 @@ export default function CommissionDistribution() {
   const stats: CommissionSummary | null = statsData || null;
   if (loading) {
     return <div className="min-h-screen bg-background p-6">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h1 className="text-xl font-bold text-white">{t("admin.sales.sales_commission_distribution")}</h1>
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t("admin_sales_sales_commission_distribution")}</h1>
         </div>
         <div className="flex h-[400px] items-center justify-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -61,85 +61,85 @@ export default function CommissionDistribution() {
   }];
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-6">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h1 className="text-xl font-bold text-white">{t("admin.sales.sales_commission_distribution")}</h1>
-          <p className="text-sm text-slate-400 mt-1">{t("admin.sales.manage_hierarchical_commission_splits")}</p>
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t("admin_sales_sales_commission_distribution")}</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t("admin_sales_manage_hierarchical_commission_splits")}</p>
         </div>
 
-        <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10 shadow-sm">
+        <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
           <div className="flex gap-4 items-center">
             <Select value={filter} onValueChange={setFilter}>
-              <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-white">
-                <SelectValue placeholder={t("admin.sales.transaction_type")} />
+              <SelectTrigger className="w-[180px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                <SelectValue placeholder={t("admin_sales_transaction_type")} />
               </SelectTrigger>
-              <SelectContent className="bg-[#14151a] border-white/10 text-white">
-                <SelectItem value="all">{t("admin.sales.all_deals")}</SelectItem>
-                <SelectItem value="vacation">{t("admin.sales.vacation_rentals")}</SelectItem>
-                <SelectItem value="projects">{t("admin.sales.project_sales")}</SelectItem>
+              <SelectContent className="bg-[#14151a] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                <SelectItem value="all">{t("admin_sales_all_deals")}</SelectItem>
+                <SelectItem value="vacation">{t("admin_sales_vacation_rentals")}</SelectItem>
+                <SelectItem value="projects">{t("admin_sales_project_sales")}</SelectItem>
               </SelectContent>
             </Select>
             <div className="relative">
-              <Input placeholder={t("admin.sales.search_agency_or_agent")} className="w-[300px] bg-white/5 border-white/10 text-white placeholder:text-slate-500" />
+              <Input placeholder={t("admin_sales_search_agency_or_agent")} className="w-[300px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
           </div>
-          <Button variant="outline" className="border-white/10 text-white bg-white/5" onClick={() => refetch()}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin.sales.recalculate_splits")}
+          <Button variant="outline" className="border-slate-200 dark:border-white/10 text-slate-900 dark:text-white bg-white/5" onClick={() => refetch()}>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin_sales_recalculate_splits")}
           </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.total_net_earnings")}</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_sales_total_net_earnings")}</CardTitle>
               <TrendingUp className="w-4 h-4 text-emerald-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">${stats?.totalEarnings?.toLocaleString()}</div>
-              <p className="text-xs text-slate-400 mt-1">{t("admin.sales.platform_revenue_share")}</p>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white">${stats?.totalEarnings?.toLocaleString()}</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("admin_sales_platform_revenue_share")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.pending_payouts")}</CardTitle>
-              <Wallet className="w-4 h-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_sales_pending_payouts")}</CardTitle>
+              <Wallet className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-400">${stats?.pendingPayouts?.toLocaleString()}</div>
-              <p className="text-xs text-slate-400 mt-1">{t("admin.sales.across_all_entities")}</p>
+              <div className="text-3xl font-bold text-slate-500 dark:text-slate-400">${stats?.pendingPayouts?.toLocaleString()}</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("admin_sales_across_all_entities")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.agency_weight")}</CardTitle>
-              <Building className="w-4 h-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_sales_agency_weight")}</CardTitle>
+              <Building className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-400">{stats?.agencyShare}%</div>
-              <p className="text-xs text-slate-400 mt-1">{t("admin.sales.default_platform_rate")}</p>
+              <div className="text-3xl font-bold text-slate-500 dark:text-slate-400">{stats?.agencyShare}%</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("admin_sales_default_platform_rate")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.sales.agent_weight")}</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_sales_agent_weight")}</CardTitle>
               <Users className="w-4 h-4 text-emerald-400" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-emerald-400">{stats?.agentShare}%</div>
-              <p className="text-xs text-slate-400 mt-1">{t("admin.sales.default_platform_rate")}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("admin_sales_default_platform_rate")}</p>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-1 bg-white/5 border-white/10">
+          <Card className="lg:col-span-1 bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-white">
-                <Percent className="w-5 h-5 text-slate-400" />{t("admin.sales.global_split_model")}
+              <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
+                <Percent className="w-5 h-5 text-slate-500 dark:text-slate-400" />{t("admin_sales_global_split_model")}
               </CardTitle>
-              <CardDescription className="text-slate-400">{t("admin.sales.default_hierarchical_distribution_weight")}</CardDescription>
+              <CardDescription className="text-slate-500 dark:text-slate-400">{t("admin_sales_default_hierarchical_distribution_weight")}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center">
               <div className="h-[250px] w-full">
@@ -156,12 +156,12 @@ export default function CommissionDistribution() {
             </CardContent>
           </Card>
 
-          <Card className="lg:col-span-2 bg-white/5 border-white/10">
+          <Card className="lg:col-span-2 bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-white">
-                <Banknote className="w-5 h-5 text-emerald-400" />{t("admin.sales.payout_trending_agency_vs")}
+              <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
+                <Banknote className="w-5 h-5 text-emerald-400" />{t("admin_sales_payout_trending_agency_vs")}
               </CardTitle>
-              <CardDescription className="text-slate-400">{t("admin.sales.monthly_cleared_commissions_routed")}</CardDescription>
+              <CardDescription className="text-slate-500 dark:text-slate-400">{t("admin_sales_monthly_cleared_commissions_routed")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[250px] w-full">
@@ -180,50 +180,50 @@ export default function CommissionDistribution() {
           </Card>
         </div>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-white">
-              <ArrowRightLeft className="w-5 h-5 text-slate-400" />{t("admin.sales.recent_deal_splits")}
+            <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
+              <ArrowRightLeft className="w-5 h-5 text-slate-500 dark:text-slate-400" />{t("admin_sales_recent_deal_splits")}
             </CardTitle>
-            <CardDescription className="text-slate-400">{t("admin.sales.realtime_viewing_of_how")}</CardDescription>
+            <CardDescription className="text-slate-500 dark:text-slate-400">{t("admin_sales_realtime_viewing_of_how")}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="rounded-xl border border-white/10 overflow-hidden">
+            <div className="rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden">
               <Table>
                 <TableHeader className="bg-white/5">
-                  <TableRow className="border-white/10">
-                    <TableHead className="text-slate-400">{t("admin.sales.deal_info")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.sales.gross_revenue")}</TableHead>
-                    <TableHead className="bg-red-500/5 text-slate-400">{t("admin.sales.tax_deducted")}</TableHead>
-                    <TableHead className="bg-slate-500/5 text-slate-400">{t("admin.sales.platform_10")}</TableHead>
-                    <TableHead className="bg-slate-500/5 text-slate-400">{t("admin.sales.agency_split")}</TableHead>
-                    <TableHead className="bg-emerald-500/5 text-slate-400">{t("admin.sales.agent_split")}</TableHead>
-                    <TableHead className="text-right text-slate-400">{t("admin.sales.status")}</TableHead>
+                  <TableRow className="border-slate-200 dark:border-white/10">
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_sales_deal_info")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_sales_gross_revenue")}</TableHead>
+                    <TableHead className="bg-red-500/5 text-slate-500 dark:text-slate-400">{t("admin_sales_tax_deducted")}</TableHead>
+                    <TableHead className="bg-slate-500/5 text-slate-500 dark:text-slate-400">{t("admin_sales_platform_10")}</TableHead>
+                    <TableHead className="bg-slate-500/5 text-slate-500 dark:text-slate-400">{t("admin_sales_agency_split")}</TableHead>
+                    <TableHead className="bg-emerald-500/5 text-slate-500 dark:text-slate-400">{t("admin_sales_agent_split")}</TableHead>
+                    <TableHead className="text-right text-slate-500 dark:text-slate-400">{t("admin_sales_status")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {stats?.distributions?.map(trx => <TableRow key={trx.id} className="border-white/10">
+                  {stats?.distributions?.map(trx => <TableRow key={trx.id} className="border-slate-200 dark:border-white/10">
                       <TableCell>
-                        <div className="font-medium text-white">{trx.entity}</div>
-                        <div className="text-xs text-slate-400 font-mono mt-0.5">{trx.id}</div>
+                        <div className="font-medium text-slate-900 dark:text-white">{trx.entity}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">{trx.id}</div>
                       </TableCell>
-                      <TableCell className="font-bold text-white">${trx.amount.toLocaleString()}</TableCell>
+                      <TableCell className="font-bold text-slate-900 dark:text-white">${trx.amount.toLocaleString()}</TableCell>
                       <TableCell className="font-semibold text-red-400 bg-red-500/5">
-                        ${(trx.amount * 0.18).toLocaleString()} <span className="text-[10px] opacity-70">{t("admin.sales.18_avg")}</span>
+                        ${(trx.amount * 0.18).toLocaleString()} <span className="text-[10px] opacity-70">{t("admin_sales_18_avg")}</span>
                       </TableCell>
-                      <TableCell className="font-semibold text-slate-400 bg-slate-500/5">
-                        {trx.shares[0]?.value}{t("admin.sales.platform")}
+                      <TableCell className="font-semibold text-slate-500 dark:text-slate-400 bg-slate-500/5">
+                        {trx.shares[0]?.value}{t("admin_sales_platform")}
                       </TableCell>
                       <TableCell className="bg-slate-500/5">
-                        <div className="font-semibold text-slate-400">{trx.type}</div>
-                        <div className="text-xs text-slate-400">{t("admin.sales.entity_type")}</div>
+                        <div className="font-semibold text-slate-500 dark:text-slate-400">{trx.type}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">{t("admin_sales_entity_type")}</div>
                       </TableCell>
                       <TableCell className="bg-emerald-500/5">
-                        <div className="font-semibold text-emerald-400">{t("admin.sales.detailed")}</div>
-                        <div className="text-xs text-slate-400">{t("admin.sales.split_breakdown")}</div>
+                        <div className="font-semibold text-emerald-400">{t("admin_sales_detailed")}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">{t("admin_sales_split_breakdown")}</div>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Badge variant={trx.status === 'Cleared' ? 'default' : trx.status === 'Escrow' ? 'secondary' : 'outline'} className={trx.status === 'Cleared' ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : ''}>
+                        <Badge variant={trx.status === 'Cleared' ? 'default' : trx.status === 'Escrow' ? 'secondary' : 'outline'} className={trx.status === 'Cleared' ? 'bg-emerald-600 hover:bg-emerald-700 text-slate-900 dark:text-white' : ''}>
                           {trx.status}
                         </Badge>
                       </TableCell>

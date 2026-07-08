@@ -47,8 +47,8 @@ export default function AIMarketAnalysisPage() {
       setAnalyses(response);
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_fetch_market"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_fetch_market"),
         variant: "destructive"
       });
     } finally {
@@ -70,13 +70,13 @@ export default function AIMarketAnalysisPage() {
       setIsCreateDialogOpen(false);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.market_analysis_created_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_market_analysis_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_market"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_market"),
         variant: "destructive"
       });
     }
@@ -98,13 +98,13 @@ export default function AIMarketAnalysisPage() {
       setSelectedAnalysis(null);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.market_analysis_updated_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_market_analysis_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_update_market"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_update_market"),
         variant: "destructive"
       });
     }
@@ -114,13 +114,13 @@ export default function AIMarketAnalysisPage() {
       await aiApi.deleteMarketAnalysis(id);
       setAnalyses(analyses.filter(analysis => analysis.id !== id));
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.market_analysis_deleted_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_market_analysis_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_delete_market"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_delete_market"),
         variant: "destructive"
       });
     }
@@ -156,7 +156,7 @@ export default function AIMarketAnalysisPage() {
       case 'DECLINING':
         return <TrendingDown className="h-4 w-4 text-red-500" />;
       case 'STABLE':
-        return <Minus className="h-4 w-4 text-slate-400" />;
+        return <Minus className="h-4 w-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const getTrendColor = (trend: AIMarketAnalysis['marketTrend']) => {
@@ -178,46 +178,46 @@ export default function AIMarketAnalysisPage() {
     }).format(amount);
   };
   if (loading) {
-    return <PageShell title={t("admin.ai.ai_market_analysis_management")}>
+    return <PageShell title={t("admin_ai_ai_market_analysis_management")}>
         <div className="flex items-center justify-center h-64">
           <BarChart3 className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.ai.ai_market_analysis_management")}>
+  return <PageShell title={t("admin_ai_ai_market_analysis_management")}>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">{t("admin.ai.ai_market_analysis")}</h1>
-            <p className="text-muted-foreground">{t("admin.ai.manage_aipowered_market_analysis")}</p>
+            <h1 className="text-3xl font-bold">{t("admin_ai_ai_market_analysis")}</h1>
+            <p className="text-muted-foreground">{t("admin_ai_manage_aipowered_market_analysis")}</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.ai.add_analysis")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_ai_add_analysis")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>{t("admin.ai.add_new_market_analysis")}</DialogTitle>
-                <DialogDescription>{t("admin.ai.create_a_new_ai")}</DialogDescription>
+                <DialogTitle>{t("admin_ai_add_new_market_analysis")}</DialogTitle>
+                <DialogDescription>{t("admin_ai_create_a_new_ai")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="region" className="text-right">{t("admin.ai.region")}</Label>
+                  <Label htmlFor="region" className="text-right">{t("admin_ai_region")}</Label>
                   <Input id="region" value={form.region} onChange={e => setForm({
                   ...form,
                   region: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.eg_new_york_california")} />
+                })} className="col-span-3" placeholder={t("admin_ai_eg_new_york_california")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="propertyType" className="text-right">{t("admin.ai.property_type")}</Label>
+                  <Label htmlFor="propertyType" className="text-right">{t("admin_ai_property_type")}</Label>
                   <Input id="propertyType" value={form.propertyType} onChange={e => setForm({
                   ...form,
                   propertyType: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.eg_apartment_house_condo")} />
+                })} className="col-span-3" placeholder={t("admin_ai_eg_apartment_house_condo")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="marketTrend" className="text-right">{t("admin.ai.market_trend")}</Label>
+                  <Label htmlFor="marketTrend" className="text-right">{t("admin_ai_market_trend")}</Label>
                   <Select value={form.marketTrend} onValueChange={value => setForm({
                   ...form,
                   marketTrend: value as AIMarketAnalysis['marketTrend']
@@ -226,35 +226,35 @@ export default function AIMarketAnalysisPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="RISING">{t("admin.ai.rising")}</SelectItem>
-                      <SelectItem value="STABLE">{t("admin.ai.stable")}</SelectItem>
-                      <SelectItem value="DECLINING">{t("admin.ai.declining")}</SelectItem>
+                      <SelectItem value="RISING">{t("admin_ai_rising")}</SelectItem>
+                      <SelectItem value="STABLE">{t("admin_ai_stable")}</SelectItem>
+                      <SelectItem value="DECLINING">{t("admin_ai_declining")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="averagePrice" className="text-right">{t("admin.ai.average_price")}</Label>
+                  <Label htmlFor="averagePrice" className="text-right">{t("admin_ai_average_price")}</Label>
                   <Input id="averagePrice" type="number" value={form.averagePrice} onChange={e => setForm({
                   ...form,
                   averagePrice: parseInt(e.target.value)
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="priceChange" className="text-right">{t("admin.ai.price_change")}</Label>
+                  <Label htmlFor="priceChange" className="text-right">{t("admin_ai_price_change")}</Label>
                   <Input id="priceChange" type="number" step="0.1" value={form.priceChange} onChange={e => setForm({
                   ...form,
                   priceChange: parseFloat(e.target.value)
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="demandScore" className="text-right">{t("admin.ai.demand_score")}</Label>
+                  <Label htmlFor="demandScore" className="text-right">{t("admin_ai_demand_score")}</Label>
                   <Input id="demandScore" type="number" min="0" max="100" value={form.demandScore} onChange={e => setForm({
                   ...form,
                   demandScore: parseInt(e.target.value)
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="supplyScore" className="text-right">{t("admin.ai.supply_score")}</Label>
+                  <Label htmlFor="supplyScore" className="text-right">{t("admin_ai_supply_score")}</Label>
                   <Input id="supplyScore" type="number" min="0" max="100" value={form.supplyScore} onChange={e => setForm({
                   ...form,
                   supplyScore: parseInt(e.target.value)
@@ -262,7 +262,7 @@ export default function AIMarketAnalysisPage() {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createAnalysis}>{t("admin.ai.create_analysis")}</Button>
+                <Button onClick={createAnalysis}>{t("admin_ai_create_analysis")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -270,20 +270,20 @@ export default function AIMarketAnalysisPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.market_analyses")}</CardTitle>
+            <CardTitle>{t("admin_ai_market_analyses")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.region")}</TableHead>
-                  <TableHead>{t("admin.ai.property_type")}</TableHead>
-                  <TableHead>{t("admin.ai.market_trend")}</TableHead>
-                  <TableHead>{t("admin.ai.average_price")}</TableHead>
-                  <TableHead>{t("admin.ai.price_change")}</TableHead>
-                  <TableHead>{t("admin.ai.demandsupply")}</TableHead>
-                  <TableHead>{t("admin.ai.analysis_date")}</TableHead>
-                  <TableHead className="text-right">{t("admin.ai.actions")}</TableHead>
+                  <TableHead>{t("admin_ai_region")}</TableHead>
+                  <TableHead>{t("admin_ai_property_type")}</TableHead>
+                  <TableHead>{t("admin_ai_market_trend")}</TableHead>
+                  <TableHead>{t("admin_ai_average_price")}</TableHead>
+                  <TableHead>{t("admin_ai_price_change")}</TableHead>
+                  <TableHead>{t("admin_ai_demandsupply")}</TableHead>
+                  <TableHead>{t("admin_ai_analysis_date")}</TableHead>
+                  <TableHead className="text-right">{t("admin_ai_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -316,8 +316,8 @@ export default function AIMarketAnalysisPage() {
                     </TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        <div>{t("admin.ai.d")}{analysis.demandScore}/100</div>
-                        <div>{t("admin.ai.s")}{analysis.supplyScore}/100</div>
+                        <div>{t("admin_ai_d")}{analysis.demandScore}/100</div>
+                        <div>{t("admin_ai_s")}{analysis.supplyScore}/100</div>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -331,12 +331,12 @@ export default function AIMarketAnalysisPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.ai.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_ai_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openEdit(analysis)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deleteAnalysis(analysis.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.ai.delete")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -349,26 +349,26 @@ export default function AIMarketAnalysisPage() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.edit_market_analysis")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.update_the_market_analysis")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_edit_market_analysis")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_update_the_market_analysis")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-region" className="text-right">{t("admin.ai.region")}</Label>
+                <Label htmlFor="edit-region" className="text-right">{t("admin_ai_region")}</Label>
                 <Input id="edit-region" value={form.region} onChange={e => setForm({
                 ...form,
                 region: e.target.value
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-propertyType" className="text-right">{t("admin.ai.property_type")}</Label>
+                <Label htmlFor="edit-propertyType" className="text-right">{t("admin_ai_property_type")}</Label>
                 <Input id="edit-propertyType" value={form.propertyType} onChange={e => setForm({
                 ...form,
                 propertyType: e.target.value
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-marketTrend" className="text-right">{t("admin.ai.market_trend")}</Label>
+                <Label htmlFor="edit-marketTrend" className="text-right">{t("admin_ai_market_trend")}</Label>
                 <Select value={form.marketTrend} onValueChange={value => setForm({
                 ...form,
                 marketTrend: value as AIMarketAnalysis['marketTrend']
@@ -377,35 +377,35 @@ export default function AIMarketAnalysisPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="RISING">{t("admin.ai.rising")}</SelectItem>
-                    <SelectItem value="STABLE">{t("admin.ai.stable")}</SelectItem>
-                    <SelectItem value="DECLINING">{t("admin.ai.declining")}</SelectItem>
+                    <SelectItem value="RISING">{t("admin_ai_rising")}</SelectItem>
+                    <SelectItem value="STABLE">{t("admin_ai_stable")}</SelectItem>
+                    <SelectItem value="DECLINING">{t("admin_ai_declining")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-averagePrice" className="text-right">{t("admin.ai.average_price")}</Label>
+                <Label htmlFor="edit-averagePrice" className="text-right">{t("admin_ai_average_price")}</Label>
                 <Input id="edit-averagePrice" type="number" value={form.averagePrice} onChange={e => setForm({
                 ...form,
                 averagePrice: parseInt(e.target.value)
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-priceChange" className="text-right">{t("admin.ai.price_change")}</Label>
+                <Label htmlFor="edit-priceChange" className="text-right">{t("admin_ai_price_change")}</Label>
                 <Input id="edit-priceChange" type="number" step="0.1" value={form.priceChange} onChange={e => setForm({
                 ...form,
                 priceChange: parseFloat(e.target.value)
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-demandScore" className="text-right">{t("admin.ai.demand_score")}</Label>
+                <Label htmlFor="edit-demandScore" className="text-right">{t("admin_ai_demand_score")}</Label>
                 <Input id="edit-demandScore" type="number" min="0" max="100" value={form.demandScore} onChange={e => setForm({
                 ...form,
                 demandScore: parseInt(e.target.value)
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-supplyScore" className="text-right">{t("admin.ai.supply_score")}</Label>
+                <Label htmlFor="edit-supplyScore" className="text-right">{t("admin_ai_supply_score")}</Label>
                 <Input id="edit-supplyScore" type="number" min="0" max="100" value={form.supplyScore} onChange={e => setForm({
                 ...form,
                 supplyScore: parseInt(e.target.value)
@@ -413,7 +413,7 @@ export default function AIMarketAnalysisPage() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={updateAnalysis}>{t("admin.ai.update_analysis")}</Button>
+              <Button onClick={updateAnalysis}>{t("admin_ai_update_analysis")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

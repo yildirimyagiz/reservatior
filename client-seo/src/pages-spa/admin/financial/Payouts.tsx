@@ -31,7 +31,7 @@ const STATUS_CONFIG = (t: any) => {
     },
     SCHEDULED: {
       label: t("financialPayoutsStatusScheduled"),
-      cls: "bg-slate-500/10 text-slate-400 border-slate-500/20"
+      cls: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20"
     },
     FAILED: {
       label: t("failed"),
@@ -75,12 +75,12 @@ export default function Payouts() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialPayouts'] });
       setCreateOpen(false);
-      toast({ title: t("admin.financial.payout_created") });
+      toast({ title: t("admin_financial_payout_created") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_create_payout"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_create_payout"),
         variant: "destructive"
       });
     }
@@ -91,12 +91,12 @@ export default function Payouts() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialPayouts'] });
       setEditOpen(false);
-      toast({ title: t("admin.financial.payout_updated") });
+      toast({ title: t("admin_financial_payout_updated") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_update_payout"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_update_payout"),
         variant: "destructive"
       });
     }
@@ -106,12 +106,12 @@ export default function Payouts() {
     mutationFn: (id: string) => financialsApi.deletePayout(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialPayouts'] });
-      toast({ title: t("admin.financial.payout_deleted") });
+      toast({ title: t("admin_financial_payout_deleted") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_delete_payout"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_delete_payout"),
         variant: "destructive"
       });
     }
@@ -163,39 +163,39 @@ export default function Payouts() {
       t
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
-      {!isEdit && <div className="space-y-1.5"><Label>{t("admin.financial.org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
+      {!isEdit && <div className="space-y-1.5"><Label>{t("admin_financial_org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
           ...form,
           orgId: e.target.value
         })} required /></div>}
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("admin.financial.amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
             ...form,
             amount: e.target.value
           })} required /></div>
         <div className="space-y-1.5">
-          <Label>{t("admin.financial.currency")}</Label>
+          <Label>{t("admin_financial_currency")}</Label>
           <Input type="text" value={form.currency} onChange={e => setForm({
             ...form,
             currency: e.target.value
           })} />
         </div>
       </div>
-      <div className="space-y-1.5"><Label>{t("admin.financial.scheduled_date")}</Label><Input type="date" value={form.scheduledAt} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_scheduled_date")}</Label><Input type="date" value={form.scheduledAt} onChange={e => setForm({
           ...form,
           scheduledAt: e.target.value
         })} /></div>
       <div className="space-y-1.5">
-        <Label>{t("admin.financial.status")}</Label>
+        <Label>{t("admin_financial_status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
         })}>
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="SCHEDULED">{t("admin.financial.scheduled")}</SelectItem>
-            <SelectItem value="PENDING">{t("admin.financial.pending")}</SelectItem>
-            <SelectItem value="PAID">{t("admin.financial.paid")}</SelectItem>
-            <SelectItem value="FAILED">{t("admin.financial.failed")}</SelectItem>
+            <SelectItem value="SCHEDULED">{t("admin_financial_scheduled")}</SelectItem>
+            <SelectItem value="PENDING">{t("admin_financial_pending")}</SelectItem>
+            <SelectItem value="PAID">{t("admin_financial_paid")}</SelectItem>
+            <SelectItem value="FAILED">{t("admin_financial_failed")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -243,7 +243,7 @@ export default function Payouts() {
              </div>
              <CardContent className="p-8">
                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("financialPayoutsTotalpaid")}</p>
-               <h3 className="text-3xl font-bold text-slate-400 leading-none">${payouts.filter(r => r.status === 'PAID').reduce((s, r) => s + (r.amount || 0), 0).toLocaleString()}</h3>
+               <h3 className="text-3xl font-bold text-slate-500 dark:text-slate-400 leading-none">${payouts.filter(r => r.status === 'PAID').reduce((s, r) => s + (r.amount || 0), 0).toLocaleString()}</h3>
              </CardContent>
            </Card>
         </div>
@@ -278,18 +278,18 @@ export default function Payouts() {
                 <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("financialPayoutsAmount")}</TableHead>
                 <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("currency")}</TableHead>
                 <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("financialPayoutsScheduled")}</TableHead>
-                <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.financial.payouts.table.status")}</TableHead>
+                <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_financial_payouts_table_status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground font-bold text-[10px]">{t("admin.financial.no_active_signals_found")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="border-border hover:bg-muted/50 transition-all group">
+              {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground font-bold text-[10px]">{t("admin_financial_no_active_signals_found")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="border-border hover:bg-muted/50 transition-all group">
                     <TableCell className="px-8 text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors">{row.id.slice(0, 12)}</TableCell>
                     <TableCell className="px-8 text-sm font-bold text-foreground">${row.amount.toLocaleString()}</TableCell>
                     <TableCell className="px-8 text-sm font-bold text-muted-foreground">{row.currency}</TableCell>
                     <TableCell className="px-8 text-sm text-muted-foreground font-bold">{row.scheduledAt ? new Date(row.scheduledAt).toLocaleDateString() : "—"}</TableCell>
                     <TableCell className="px-8">
-                       <Badge className={cn("text-[9px] font-bold   px-4 py-1.5 rounded-full  border-none shadow-lg", (statusConfig as any)[row.status]?.cls || "bg-slate-800 text-muted-foreground")}>
+                       <Badge className={cn("text-[9px] font-bold   px-4 py-1.5 rounded-full  border-none shadow-lg", (statusConfig as any)[row.status]?.cls || "bg-slate-50 dark:bg-slate-800 text-muted-foreground")}>
                           {(statusConfig as any)[row.status]?.label || row.status}
                        </Badge>
                     </TableCell>
@@ -298,9 +298,9 @@ export default function Payouts() {
                         <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl">
                           <DropdownMenuItem onClick={() => window.location.href = `/checkout?type=PAYOUT&amount=${row.amount}&id=${row.id}`} className="font-bold text-[10px]">
-                            <CreditCard className="w-4 h-4 mr-2 text-slate-400" />{t("admin.financial.pay_with_stripe")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => openEdit(row)} className="font-bold text-[10px]"><Edit className="w-4 h-4 mr-2" />{t("admin.financial.edit")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-red-400 font-bold text-[10px]"><Trash2 className="w-4 h-4 mr-2" />{t("admin.financial.delete")}</DropdownMenuItem>
+                            <CreditCard className="w-4 h-4 mr-2 text-slate-500 dark:text-slate-400" />{t("admin_financial_pay_with_stripe")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => openEdit(row)} className="font-bold text-[10px]"><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-red-400 font-bold text-[10px]"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -313,14 +313,14 @@ export default function Payouts() {
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.financial.add_payout")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("admin.financial.create")} />
+          <DialogHeader><DialogTitle>{t("admin_financial_add_payout")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleCreate} label={t("admin_financial_create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.financial.edit_payout")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("admin.financial.save_changes")} isEdit={true} />
+          <DialogHeader><DialogTitle>{t("admin_financial_edit_payout")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleEdit} label={t("admin_financial_save_changes")} isEdit={true} />
         </DialogContent>
       </Dialog>
     </>;

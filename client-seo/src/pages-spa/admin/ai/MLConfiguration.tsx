@@ -113,8 +113,8 @@ export default function MLConfiguration() {
       } catch (error) {
         console.error('Error fetching ML data:', error);
         toast({
-          title: t("admin.ai.error"),
-          description: t("admin.ai.failed_to_load_ml"),
+          title: t("admin_ai_error"),
+          description: t("admin_ai_failed_to_load_ml"),
           variant: "destructive"
         });
       } finally {
@@ -144,8 +144,8 @@ export default function MLConfiguration() {
       await apiClient.post('/ml-models', data);
       setIsModelDialogOpen(false);
       toast({
-        title: t("admin.ai.model_created"),
-        description: t("admin.ai.ml_model_has_been")
+        title: t("admin_ai_model_created"),
+        description: t("admin_ai_ml_model_has_been")
       });
       // Refresh data
       const response = await apiClient.get('/ml-models');
@@ -153,8 +153,8 @@ export default function MLConfiguration() {
     } catch (error) {
       console.error('Error creating model:', error);
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_ml"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_ml"),
         variant: "destructive"
       });
     }
@@ -164,8 +164,8 @@ export default function MLConfiguration() {
       await apiClient.post('/ml-configurations', data);
       setIsConfigDialogOpen(false);
       toast({
-        title: t("admin.ai.configuration_created"),
-        description: t("admin.ai.ml_configuration_has_been")
+        title: t("admin_ai_configuration_created"),
+        description: t("admin_ai_ml_configuration_has_been")
       });
       // Refresh data
       const response = await apiClient.get('/ml-configurations');
@@ -173,8 +173,8 @@ export default function MLConfiguration() {
     } catch (error) {
       console.error('Error creating configuration:', error);
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_ml"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_ml"),
         variant: "destructive"
       });
     }
@@ -213,8 +213,8 @@ export default function MLConfiguration() {
     try {
       await apiClient.post(`/ml-models/${id}/train`);
       toast({
-        title: t("admin.ai.training_started"),
-        description: t("admin.ai.model_training_has_been")
+        title: t("admin_ai_training_started"),
+        description: t("admin_ai_model_training_has_been")
       });
     } catch (error) {
       console.error('Error training model:', error);
@@ -225,8 +225,8 @@ export default function MLConfiguration() {
       await apiClient.delete(`/ml-models/${id}`);
       setModels(models.filter(m => m.id !== id));
       toast({
-        title: t("admin.ai.model_deleted"),
-        description: t("admin.ai.ml_model_has_been")
+        title: t("admin_ai_model_deleted"),
+        description: t("admin_ai_ml_model_has_been")
       });
     } catch (error) {
       console.error('Error deleting model:', error);
@@ -271,32 +271,32 @@ export default function MLConfiguration() {
     if (diffDays < 7) return `${diffDays} days ago`;
     return formatDate(dateString);
   };
-  return <PageShell title={t("admin.ai.ml_configuration")} description={t("admin.ai.manage_machine_learning_models")}>
+  return <PageShell title={t("admin_ai_ml_configuration")} description={t("admin_ai_manage_machine_learning_models")}>
       <div className="space-y-6">
         {/* Tab Navigation */}
         <div className="flex space-x-1 bg-muted p-1 rounded-lg w-fit">
           <Button variant={activeTab === "models" ? "default" : "ghost"} size="sm" onClick={() => setActiveTab("models")}>
-            <Brain className="h-4 w-4 mr-2" />{t("admin.ai.models")}</Button>
+            <Brain className="h-4 w-4 mr-2" />{t("admin_ai_models")}</Button>
           <Button variant={activeTab === "configurations" ? "default" : "ghost"} size="sm" onClick={() => setActiveTab("configurations")}>
-            <Settings className="h-4 w-4 mr-2" />{t("admin.ai.configurations")}</Button>
+            <Settings className="h-4 w-4 mr-2" />{t("admin_ai_configurations")}</Button>
         </div>
 
         {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.total_models")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_total_models")}</CardTitle>
               <Brain className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalModels}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.ml_models")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_ml_models")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.active")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_active")}</CardTitle>
               <Zap className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -304,26 +304,26 @@ export default function MLConfiguration() {
                 {activeModels}
               </div>
               <p className="text-xs text-muted-foreground">
-                {totalModels > 0 ? (activeModels / totalModels * 100).toFixed(1) : 0}{t("admin.ai.active")}</p>
+                {totalModels > 0 ? (activeModels / totalModels * 100).toFixed(1) : 0}{t("admin_ai_active")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.deployed")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_deployed")}</CardTitle>
               <Cpu className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">
                 {deployedModels}
               </div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.in_production")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_in_production")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.configurations")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_configurations")}</CardTitle>
               <Settings className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -331,7 +331,7 @@ export default function MLConfiguration() {
                 {activeConfigs}
               </div>
               <p className="text-xs text-muted-foreground">
-                {totalConfigs}{t("admin.ai.total")}</p>
+                {totalConfigs}{t("admin_ai_total")}</p>
             </CardContent>
           </Card>
         </div>
@@ -341,16 +341,16 @@ export default function MLConfiguration() {
           <div className="flex items-center space-x-2">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder={t("admin.ai.search")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-[250px]" />
+              <Input placeholder={t("admin_ai_search")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-[250px]" />
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm">
-                  <Filter className="h-4 w-4 mr-2" />{t("admin.ai.type")}{filterType === "all" ? "All" : filterType}
+                  <Filter className="h-4 w-4 mr-2" />{t("admin_ai_type")}{filterType === "all" ? "All" : filterType}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setFilterType("all")}>{t("admin.ai.all_types")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilterType("all")}>{t("admin_ai_all_types")}</DropdownMenuItem>
                 {Object.values(MLModelType).map(type => <DropdownMenuItem key={type} onClick={() => setFilterType(type)}>
                     {type.replace("_", " ")}
                   </DropdownMenuItem>)}
@@ -358,37 +358,37 @@ export default function MLConfiguration() {
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">{t("admin.ai.status")}{filterStatus === "all" ? "All" : filterStatus}
+                <Button variant="outline" size="sm">{t("admin_ai_status")}{filterStatus === "all" ? "All" : filterStatus}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setFilterStatus("all")}>{t("admin.ai.all_status")}</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilterStatus("active")}>{t("admin.ai.active")}</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilterStatus("inactive")}>{t("admin.ai.inactive")}</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilterStatus("deployed")}>{t("admin.ai.deployed")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilterStatus("all")}>{t("admin_ai_all_status")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilterStatus("active")}>{t("admin_ai_active")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilterStatus("inactive")}>{t("admin_ai_inactive")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilterStatus("deployed")}>{t("admin_ai_deployed")}</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
           {activeTab === "models" ? <Dialog open={isModelDialogOpen} onOpenChange={setIsModelDialogOpen}>
               <DialogTrigger asChild>
                 <Button>
-                  <Plus className="h-4 w-4 mr-2" />{t("admin.ai.create_model")}</Button>
+                  <Plus className="h-4 w-4 mr-2" />{t("admin_ai_create_model")}</Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                  <DialogTitle>{t("admin.ai.create_ml_model")}</DialogTitle>
-                  <DialogDescription>{t("admin.ai.define_a_new_machine")}</DialogDescription>
+                  <DialogTitle>{t("admin_ai_create_ml_model")}</DialogTitle>
+                  <DialogDescription>{t("admin_ai_define_a_new_machine")}</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">{t("admin.ai.name")}</Label>
-                    <Input id="name" placeholder={t("admin.ai.enter_model_name")} className="col-span-3" />
+                    <Label htmlFor="name" className="text-right">{t("admin_ai_name")}</Label>
+                    <Input id="name" placeholder={t("admin_ai_enter_model_name")} className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="type" className="text-right">{t("admin.ai.type")}</Label>
+                    <Label htmlFor="type" className="text-right">{t("admin_ai_type")}</Label>
                     <Select>
                       <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder={t("admin.ai.select_model_type")} />
+                        <SelectValue placeholder={t("admin_ai_select_model_type")} />
                       </SelectTrigger>
                       <SelectContent>
                         {Object.values(MLModelType).map(type => <SelectItem key={type} value={type}>
@@ -398,55 +398,55 @@ export default function MLConfiguration() {
                     </Select>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="algorithm" className="text-right">{t("admin.ai.algorithm")}</Label>
+                    <Label htmlFor="algorithm" className="text-right">{t("admin_ai_algorithm")}</Label>
                     <Select>
                       <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder={t("admin.ai.select_algorithm")} />
+                        <SelectValue placeholder={t("admin_ai_select_algorithm")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="random_forest">{t("admin.ai.random_forest")}</SelectItem>
-                        <SelectItem value="neural_network">{t("admin.ai.neural_network")}</SelectItem>
-                        <SelectItem value="svm">{t("admin.ai.support_vector_machine")}</SelectItem>
-                        <SelectItem value="linear_regression">{t("admin.ai.linear_regression")}</SelectItem>
-                        <SelectItem value="logistic_regression">{t("admin.ai.logistic_regression")}</SelectItem>
-                        <SelectItem value="gradient_boosting">{t("admin.ai.gradient_boosting")}</SelectItem>
+                        <SelectItem value="random_forest">{t("admin_ai_random_forest")}</SelectItem>
+                        <SelectItem value="neural_network">{t("admin_ai_neural_network")}</SelectItem>
+                        <SelectItem value="svm">{t("admin_ai_support_vector_machine")}</SelectItem>
+                        <SelectItem value="linear_regression">{t("admin_ai_linear_regression")}</SelectItem>
+                        <SelectItem value="logistic_regression">{t("admin_ai_logistic_regression")}</SelectItem>
+                        <SelectItem value="gradient_boosting">{t("admin_ai_gradient_boosting")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="version" className="text-right">{t("admin.ai.version")}</Label>
+                    <Label htmlFor="version" className="text-right">{t("admin_ai_version")}</Label>
                     <Input id="version" placeholder="1.0.0" className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="description" className="text-right">{t("admin.ai.description")}</Label>
-                    <Textarea id="description" placeholder={t("admin.ai.model_description")} className="col-span-3" rows={3} />
+                    <Label htmlFor="description" className="text-right">{t("admin_ai_description")}</Label>
+                    <Textarea id="description" placeholder={t("admin_ai_model_description")} className="col-span-3" rows={3} />
                   </div>
                 </div>
                 <div className="flex justify-end space-x-2">
-                  <Button variant="outline" onClick={() => setIsModelDialogOpen(false)}>{t("admin.ai.cancel")}</Button>
-                  <Button onClick={() => handleCreateModel({})}>{t("admin.ai.create_model")}</Button>
+                  <Button variant="outline" onClick={() => setIsModelDialogOpen(false)}>{t("admin_ai_cancel")}</Button>
+                  <Button onClick={() => handleCreateModel({})}>{t("admin_ai_create_model")}</Button>
                 </div>
               </DialogContent>
             </Dialog> : <Dialog open={isConfigDialogOpen} onOpenChange={setIsConfigDialogOpen}>
               <DialogTrigger asChild>
                 <Button>
-                  <Plus className="h-4 w-4 mr-2" />{t("admin.ai.create_configuration")}</Button>
+                  <Plus className="h-4 w-4 mr-2" />{t("admin_ai_create_configuration")}</Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
-                  <DialogTitle>{t("admin.ai.create_ml_configuration")}</DialogTitle>
-                  <DialogDescription>{t("admin.ai.configure_ml_model_settings")}</DialogDescription>
+                  <DialogTitle>{t("admin_ai_create_ml_configuration")}</DialogTitle>
+                  <DialogDescription>{t("admin_ai_configure_ml_model_settings")}</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">{t("admin.ai.name")}</Label>
-                    <Input id="name" placeholder={t("admin.ai.configuration_name")} className="col-span-3" />
+                    <Label htmlFor="name" className="text-right">{t("admin_ai_name")}</Label>
+                    <Input id="name" placeholder={t("admin_ai_configuration_name")} className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="model" className="text-right">{t("admin.ai.model")}</Label>
+                    <Label htmlFor="model" className="text-right">{t("admin_ai_model")}</Label>
                     <Select>
                       <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder={t("admin.ai.select_model")} />
+                        <SelectValue placeholder={t("admin_ai_select_model")} />
                       </SelectTrigger>
                       <SelectContent>
                         {models.map(model => <SelectItem key={model.id} value={model.id}>
@@ -456,37 +456,37 @@ export default function MLConfiguration() {
                     </Select>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="threshold" className="text-right">{t("admin.ai.threshold")}</Label>
+                    <Label htmlFor="threshold" className="text-right">{t("admin_ai_threshold")}</Label>
                     <Input id="threshold" type="number" step="0.1" placeholder="0.5" className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="batchSize" className="text-right">{t("admin.ai.batch_size")}</Label>
+                    <Label htmlFor="batchSize" className="text-right">{t("admin_ai_batch_size")}</Label>
                     <Input id="batchSize" type="number" placeholder="32" className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="environment" className="text-right">{t("admin.ai.environment")}</Label>
+                    <Label htmlFor="environment" className="text-right">{t("admin_ai_environment")}</Label>
                     <Select>
                       <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder={t("admin.ai.select_environment")} />
+                        <SelectValue placeholder={t("admin_ai_select_environment")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="development">{t("admin.ai.development")}</SelectItem>
-                        <SelectItem value="staging">{t("admin.ai.staging")}</SelectItem>
-                        <SelectItem value="production">{t("admin.ai.production")}</SelectItem>
+                        <SelectItem value="development">{t("admin_ai_development")}</SelectItem>
+                        <SelectItem value="staging">{t("admin_ai_staging")}</SelectItem>
+                        <SelectItem value="production">{t("admin_ai_production")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="logging" className="text-right">{t("admin.ai.logging")}</Label>
+                    <Label htmlFor="logging" className="text-right">{t("admin_ai_logging")}</Label>
                     <div className="col-span-3 flex items-center space-x-2">
                       <Switch id="logging" />
-                      <Label htmlFor="logging">{t("admin.ai.enable_logging")}</Label>
+                      <Label htmlFor="logging">{t("admin_ai_enable_logging")}</Label>
                     </div>
                   </div>
                 </div>
                 <div className="flex justify-end space-x-2">
-                  <Button variant="outline" onClick={() => setIsConfigDialogOpen(false)}>{t("admin.ai.cancel")}</Button>
-                  <Button onClick={() => handleCreateConfiguration({})}>{t("admin.ai.create_configuration")}</Button>
+                  <Button variant="outline" onClick={() => setIsConfigDialogOpen(false)}>{t("admin_ai_cancel")}</Button>
+                  <Button onClick={() => handleCreateConfiguration({})}>{t("admin_ai_create_configuration")}</Button>
                 </div>
               </DialogContent>
             </Dialog>}
@@ -495,22 +495,22 @@ export default function MLConfiguration() {
         {/* Content based on active tab */}
         {activeTab === "models" && <Card>
             <CardHeader>
-              <CardTitle>{t("admin.ai.ml_models")}</CardTitle>
-              <CardDescription>{t("admin.ai.manage_machine_learning_models")}</CardDescription>
+              <CardTitle>{t("admin_ai_ml_models")}</CardTitle>
+              <CardDescription>{t("admin_ai_manage_machine_learning_models")}</CardDescription>
             </CardHeader>
             <CardContent>
               {loading ? <div className="flex items-center justify-center py-8">
-                  <div className="text-sm text-muted-foreground">{t("admin.ai.loading")}</div>
+                  <div className="text-sm text-muted-foreground">{t("admin_ai_loading")}</div>
                 </div> : <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("admin.ai.name")}</TableHead>
-                      <TableHead>{t("admin.ai.type")}</TableHead>
-                      <TableHead>{t("admin.ai.version")}</TableHead>
-                      <TableHead>{t("admin.ai.performance")}</TableHead>
-                      <TableHead>{t("admin.ai.status")}</TableHead>
-                      <TableHead>{t("admin.ai.last_trained")}</TableHead>
-                      <TableHead>{t("admin.ai.actions")}</TableHead>
+                      <TableHead>{t("admin_ai_name")}</TableHead>
+                      <TableHead>{t("admin_ai_type")}</TableHead>
+                      <TableHead>{t("admin_ai_version")}</TableHead>
+                      <TableHead>{t("admin_ai_performance")}</TableHead>
+                      <TableHead>{t("admin_ai_status")}</TableHead>
+                      <TableHead>{t("admin_ai_last_trained")}</TableHead>
+                      <TableHead>{t("admin_ai_actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -535,9 +535,9 @@ export default function MLConfiguration() {
                         </TableCell>
                         <TableCell>
                           {model.performance ? <div className="text-sm">
-                              {model.performance.accuracy && <div>{t("admin.ai.accuracy")}{(model.performance.accuracy * 100).toFixed(1)}%</div>}
-                              {model.performance.f1Score && <div>{t("admin.ai.f1")}{(model.performance.f1Score * 100).toFixed(1)}%</div>}
-                            </div> : <span className="text-muted-foreground">{t("admin.ai.not_trained")}</span>}
+                              {model.performance.accuracy && <div>{t("admin_ai_accuracy")}{(model.performance.accuracy * 100).toFixed(1)}%</div>}
+                              {model.performance.f1Score && <div>{t("admin_ai_f1")}{(model.performance.f1Score * 100).toFixed(1)}%</div>}
+                            </div> : <span className="text-muted-foreground">{t("admin_ai_not_trained")}</span>}
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-col space-y-1">
@@ -545,7 +545,7 @@ export default function MLConfiguration() {
                               <Switch checked={model.isActive} onCheckedChange={checked => handleToggleModel(model.id, checked)} />
                               <span className="text-sm">{model.isActive ? "Active" : "Inactive"}</span>
                             </div>
-                            {model.isDeployed && <Badge variant="default" className="text-xs">{t("admin.ai.deployed")}</Badge>}
+                            {model.isDeployed && <Badge variant="default" className="text-xs">{t("admin_ai_deployed")}</Badge>}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -569,15 +569,15 @@ export default function MLConfiguration() {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent>
                                 <DropdownMenuItem>
-                                  <Eye className="h-4 w-4 mr-2" />{t("admin.ai.view_details")}</DropdownMenuItem>
+                                  <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details")}</DropdownMenuItem>
                                 <DropdownMenuItem>
-                                  <BarChart className="h-4 w-4 mr-2" />{t("admin.ai.performance")}</DropdownMenuItem>
+                                  <BarChart className="h-4 w-4 mr-2" />{t("admin_ai_performance")}</DropdownMenuItem>
                                 <DropdownMenuItem>
-                                  <Download className="h-4 w-4 mr-2" />{t("admin.ai.export_model")}</DropdownMenuItem>
+                                  <Download className="h-4 w-4 mr-2" />{t("admin_ai_export_model")}</DropdownMenuItem>
                                 <DropdownMenuItem>
-                                  <Edit className="h-4 w-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
+                                  <Edit className="h-4 w-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
                                 <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteModel(model.id)}>
-                                  <Trash2 className="h-4 w-4 mr-2" />{t("admin.ai.delete")}</DropdownMenuItem>
+                                  <Trash2 className="h-4 w-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
@@ -590,21 +590,21 @@ export default function MLConfiguration() {
 
         {activeTab === "configurations" && <Card>
             <CardHeader>
-              <CardTitle>{t("admin.ai.ml_configurations")}</CardTitle>
-              <CardDescription>{t("admin.ai.manage_deployment_configurations_and")}</CardDescription>
+              <CardTitle>{t("admin_ai_ml_configurations")}</CardTitle>
+              <CardDescription>{t("admin_ai_manage_deployment_configurations_and")}</CardDescription>
             </CardHeader>
             <CardContent>
               {loading ? <div className="flex items-center justify-center py-8">
-                  <div className="text-sm text-muted-foreground">{t("admin.ai.loading")}</div>
+                  <div className="text-sm text-muted-foreground">{t("admin_ai_loading")}</div>
                 </div> : <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("admin.ai.name")}</TableHead>
-                      <TableHead>{t("admin.ai.model")}</TableHead>
-                      <TableHead>{t("admin.ai.environment")}</TableHead>
-                      <TableHead>{t("admin.ai.threshold")}</TableHead>
-                      <TableHead>{t("admin.ai.status")}</TableHead>
-                      <TableHead>{t("admin.ai.created")}</TableHead>
+                      <TableHead>{t("admin_ai_name")}</TableHead>
+                      <TableHead>{t("admin_ai_model")}</TableHead>
+                      <TableHead>{t("admin_ai_environment")}</TableHead>
+                      <TableHead>{t("admin_ai_threshold")}</TableHead>
+                      <TableHead>{t("admin_ai_status")}</TableHead>
+                      <TableHead>{t("admin_ai_created")}</TableHead>
                       <TableHead className="w-[50px]"></TableHead>
                     </TableRow>
                   </TableHeader>
@@ -653,13 +653,13 @@ export default function MLConfiguration() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                               <DropdownMenuItem>
-                                <Eye className="h-4 w-4 mr-2" />{t("admin.ai.view_details")}</DropdownMenuItem>
+                                <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Settings className="h-4 w-4 mr-2" />{t("admin.ai.edit_configuration")}</DropdownMenuItem>
+                                <Settings className="h-4 w-4 mr-2" />{t("admin_ai_edit_configuration")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Play className="h-4 w-4 mr-2" />{t("admin.ai.test_configuration")}</DropdownMenuItem>
+                                <Play className="h-4 w-4 mr-2" />{t("admin_ai_test_configuration")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Download className="h-4 w-4 mr-2" />{t("admin.ai.export_config")}</DropdownMenuItem>
+                                <Download className="h-4 w-4 mr-2" />{t("admin_ai_export_config")}</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>

@@ -11,6 +11,7 @@ import { rateLimitMiddleware } from "./middleware/rate-limit";
 import { csrfMiddleware } from "./middleware/csrf";
 import { auditLogMiddleware } from "./middleware/audit-log";
 import { shareToLinkedInCompany } from "./services/linkedin";
+import { RegionManager } from "./lib/config/RegionManager";
 
 // ── Environment-based configuration ─────────────────────────────────────────
 const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000";
@@ -137,12 +138,14 @@ const app = new Elysia()
   }))
 
   // GET /api/auth/google — redirect to Google OAuth
-  .get("/api/auth/google", ({ redirect }) => {
+  .get("/api/auth/google", ({ query, redirect }) => {
+    const origin = query.origin as string || CLIENT_URL;
     const params = new URLSearchParams({
       client_id: process.env.AUTH_GOOGLE_ID || "",
       redirect_uri: `${SERVER_URL}/api/auth/callback/google`,
       response_type: "code",
       scope: "email profile",
+      state: origin,
     });
     return redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`);
   })
@@ -150,7 +153,9 @@ const app = new Elysia()
   // GET /api/auth/callback/google — handle Google OAuth callback
   .get("/api/auth/callback/google", async ({ query, redirect }) => {
     const code = query.code as string;
-    if (!code) return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
+    const state = (query.state as string) || CLIENT_URL;
+    const redirectTarget = state;
+    if (!code) return redirect(`${redirectTarget}/auth/callback?error=NoCode`);
 
     try {
       const clientId = process.env.AUTH_GOOGLE_ID!;
@@ -181,10 +186,10 @@ const app = new Elysia()
       }
 
       const { token, userData } = await createAuthSessionAndRedirect(user, "google");
-      return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(userData)}`);
+      return redirect(`${redirectTarget}/auth/callback?token=${token}&user=${encodeURIComponent(userData)}`);
     } catch (e) {
       console.error("Google auth callback error:", e);
-      return redirect(`${CLIENT_URL}/auth/login?error=GoogleAuthFailed`);
+      return redirect(`${redirectTarget}/auth/login?error=GoogleAuthFailed`);
     }
   })
 
@@ -560,6 +565,93 @@ const app = new Elysia()
 
   .use(router)
   .use(cronScheduler)
+
+  // GET /api/plan and /api/v1/plan — public pricing plans
+  .get("/api/plan", async ({ query }) => {
+    const { planService } = await import("./services/plan");
+    const { page = "1", limit = "20" } = query as any;
+    return planService.getAll({
+      skip: (parseInt(page as string) - 1) * parseInt(limit as string),
+      take: parseInt(limit as string),
+      orderBy: { createdAt: "desc" }
+    });
+  })
+  .get("/api/v1/plan", async ({ query }) => {
+    const { planService } = await import("./services/plan");
+    const { page = "1", limit = "20" } = query as any;
+    return planService.getAll({
+      skip: (parseInt(page as string) - 1) * parseInt(limit as string),
+      take: parseInt(limit as string),
+      orderBy: { createdAt: "desc" }
+    });
+  })
+
+  // GET /api/country-context — detect user's country/region from CDN headers
+  .get("/api/country-context", ({ headers }) => {
+    const cfCountry = headers['cf-ipcountry'] as string | undefined;
+    const vercelCountry = headers['x-vercel-ip-country'] as string | undefined;
+    const cloudfrontCountry = headers['cloudfront-viewer-country'] as string | undefined;
+    const acceptLanguage = headers['accept-language'] as string | undefined;
+
+    let country = (cfCountry || vercelCountry || cloudfrontCountry || '').toUpperCase();
+    let detectionMethod = 'CDN-header';
+
+    if (!country && acceptLanguage) {
+      const parts = acceptLanguage.split(',');
+      for (const part of parts) {
+        const lang = part.split(';')[0].trim().split('-')[0].toLowerCase();
+        const langToCountry: Record<string, string> = {
+          tr: 'TR', en: 'US', ar: 'AE', es: 'ES',
+          fr: 'FR', de: 'DE', ru: 'RU', pt: 'PT',
+          zh: 'CN', ja: 'JP', ko: 'KR', it: 'IT',
+          nl: 'NL', pl: 'PL', sv: 'SE', da: 'DK',
+          fi: 'FI', el: 'GR', hi: 'IN', id: 'ID'
+        };
+        if (langToCountry[lang]) {
+          country = langToCountry[lang];
+          detectionMethod = 'Accept-Language';
+          break;
+        }
+      }
+    }
+
+    if (!country) {
+      country = 'US';
+      detectionMethod = 'default';
+    }
+
+    const region = RegionManager.getRegion(country);
+    if (!region) {
+      const fallback = RegionManager.getRegion('US');
+      return {
+        region: 'US',
+        currency: fallback?.currency || 'USD',
+        locale: 'en-US',
+        isRTL: false,
+        detectionMethod: 'fallback-US'
+      };
+    }
+
+    const rtlLangs: Record<string, boolean> = { ar: true };
+    const localeMap: Record<string, string> = {
+      TR: 'tr-TR', AE: 'ar-AE', US: 'en-US', UK: 'en-GB',
+      ES: 'es-ES', FR: 'fr-FR', DE: 'de-DE',
+      IT: 'it-IT', NL: 'nl-NL', PL: 'pl-PL',
+      RU: 'ru-RU', PT: 'pt-PT', SE: 'sv-SE',
+      DK: 'da-DK', FI: 'fi-FI', EL: 'el-GR',
+      HI: 'hi-IN', ID: 'id-ID', CN: 'zh-CN',
+      JP: 'ja-JP', KR: 'ko-KR'
+    };
+
+    return {
+      region: region.countryCode,
+      currency: region.currency,
+      locale: localeMap[region.countryCode] || `${region.languageCode}-${region.countryCode}`,
+      isRTL: !!rtlLangs[region.languageCode],
+      detectionMethod
+    };
+  })
+
   .listen({ 
     port: Number(process.env.PORT) || 3000, 
     hostname: "0.0.0.0" 

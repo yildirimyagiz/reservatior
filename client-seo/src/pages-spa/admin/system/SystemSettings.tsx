@@ -66,7 +66,7 @@ const MOCK_SETTINGS: SystemSetting[] = [{
   category: "General",
   key: "system_name",
   value: "Reservatior Platform",
-  description: t("admin.system.system_display_name"),
+  description: t("admin_system_system_display_name"),
   type: "string",
   isEncrypted: false,
   lastModified: "2024-03-28",
@@ -76,7 +76,7 @@ const MOCK_SETTINGS: SystemSetting[] = [{
   category: "General",
   key: "system_timezone",
   value: "America/New_York",
-  description: t("admin.system.default_system_timezone"),
+  description: t("admin_system_default_system_timezone"),
   type: "select",
   options: ["America/New_York", "Europe/London", "Asia/Tokyo", "Australia/Sydney"],
   isEncrypted: false,
@@ -87,7 +87,7 @@ const MOCK_SETTINGS: SystemSetting[] = [{
   category: "Security",
   key: "session_timeout",
   value: 1800,
-  description: t("admin.system.session_timeout_in_seconds"),
+  description: t("admin_system_session_timeout_in_seconds"),
   type: "number",
   isEncrypted: false,
   lastModified: "2024-03-27",
@@ -97,7 +97,7 @@ const MOCK_SETTINGS: SystemSetting[] = [{
   category: "Security",
   key: "max_login_attempts",
   value: 5,
-  description: t("admin.system.maximum_failed_login_attempts"),
+  description: t("admin_system_maximum_failed_login_attempts"),
   type: "number",
   isEncrypted: false,
   lastModified: "2024-03-28",
@@ -107,7 +107,7 @@ const MOCK_SETTINGS: SystemSetting[] = [{
   category: "Notifications",
   key: "email_enabled",
   value: true,
-  description: t("admin.system.enable_email_notifications"),
+  description: t("admin_system_enable_email_notifications"),
   type: "boolean",
   isEncrypted: false,
   lastModified: "2024-03-28",
@@ -117,7 +117,7 @@ const MOCK_SETTINGS: SystemSetting[] = [{
   category: "Notifications",
   key: "smtp_host",
   value: "smtp.reservatior.com",
-  description: t("admin.system.smtp_server_hostname"),
+  description: t("admin_system_smtp_server_hostname"),
   type: "string",
   isEncrypted: true,
   lastModified: "2024-03-25",
@@ -213,7 +213,7 @@ const MOCK_METRICS: SystemMetric[] = [{
 const MOCK_LOGS: SystemLog[] = [{
   id: "1",
   level: "INFO",
-  message: t("admin.system.system_startup_completed_successfully"),
+  message: t("admin_system_system_startup_completed_successfully"),
   component: "System",
   timestamp: "2024-03-28T09:00:00Z",
   metadata: {
@@ -222,7 +222,7 @@ const MOCK_LOGS: SystemLog[] = [{
 }, {
   id: "2",
   level: "WARNING",
-  message: t("admin.system.high_memory_usage_detected"),
+  message: t("admin_system_high_memory_usage_detected"),
   component: "Memory Monitor",
   timestamp: "2024-03-28T10:15:00Z",
   metadata: {
@@ -231,7 +231,7 @@ const MOCK_LOGS: SystemLog[] = [{
 }, {
   id: "3",
   level: "ERROR",
-  message: t("admin.system.failed_to_connect_to"),
+  message: t("admin_system_failed_to_connect_to"),
   component: "Email Service",
   timestamp: "2024-03-28T10:28:00Z",
   metadata: {
@@ -240,7 +240,7 @@ const MOCK_LOGS: SystemLog[] = [{
 }, {
   id: "4",
   level: "INFO",
-  message: t("admin.system.database_backup_completed"),
+  message: t("admin_system_database_backup_completed"),
   component: "Backup Service",
   timestamp: "2024-03-28T10:30:00Z",
   metadata: {
@@ -319,7 +319,7 @@ export default function SystemSettings() {
       queryClient.invalidateQueries({ queryKey: ['systemConfig'] });
       toast({
         title: t('systemSettingsActionsUpdate'),
-        description: t("admin.system.global_parameter_synchronized")
+        description: t("admin_system_global_parameter_synchronized")
       });
     },
     onError: (error: any) => {
@@ -334,13 +334,13 @@ export default function SystemSettings() {
     switch (status) {
       case "HEALTHY":
       case "NORMAL":
-        return <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[10px] font-bold">{t("admin.system.healthy")}</Badge>;
+        return <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[10px] font-bold">{t("admin_system_healthy")}</Badge>;
       case "DEGRADED":
       case "WARNING":
-        return <Badge className="bg-orange-500/10 text-orange-400 border-orange-500/20 text-[10px] font-bold">{t("admin.system.degraded")}</Badge>;
+        return <Badge className="bg-orange-500/10 text-orange-400 border-orange-500/20 text-[10px] font-bold">{t("admin_system_degraded")}</Badge>;
       case "UNHEALTHY":
       case "CRITICAL":
-        return <Badge className="bg-red-500/10 text-red-400 border-red-500/20 text-[10px] font-bold">{t("admin.system.critical")}</Badge>;
+        return <Badge className="bg-red-500/10 text-red-400 border-red-500/20 text-[10px] font-bold">{t("admin_system_critical")}</Badge>;
       default:
         return <Badge className="bg-slate-500/10 text-muted-foreground border-slate-500/20 text-[10px] font-bold">{status}</Badge>;
     }
@@ -350,20 +350,20 @@ export default function SystemSettings() {
   };
   const runHealthCheck = () => {
     toast({
-      title: t("admin.system.diagnostics_initiated"),
-      description: t("admin.system.scanning_neural_health")
+      title: t("admin_system_diagnostics_initiated"),
+      description: t("admin_system_scanning_neural_health")
     });
     setTimeout(() => {
       queryClient.invalidateQueries({ queryKey: ['systemHealth'] });
       toast({
-        title: t("admin.system.diagnostics_complete"),
-        description: t("admin.system.node_verification_finalized")
+        title: t("admin_system_diagnostics_complete"),
+        description: t("admin_system_node_verification_finalized")
       });
     }, 1500);
   };
   const restartService = (service: string) => {
     toast({
-      title: t("admin.system.node_reload"),
+      title: t("admin_system_node_reload"),
       description: `Re-initializing ${service}...`
     });
   };
@@ -382,25 +382,25 @@ export default function SystemSettings() {
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-all"><Activity className="w-12 h-12" /></div>
             <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('systemHubActivenodes')}</p>
             <h3 className="text-xl font-bold text-emerald-500 leading-none">{stats.healthy}</h3>
-            <p className="text-[10px] font-bold text-muted-foreground mt-4">{t("admin.system.of")}{healthChecks.length}{t("admin.system.total_services")}</p>
+            <p className="text-[10px] font-bold text-muted-foreground mt-4">{t("admin_system_of")}{healthChecks.length}{t("admin_system_total_services")}</p>
           </Card>
           <Card className="bg-card border-border rounded-3xl p-8 relative overflow-hidden group border-l-orange-500/30 border-l border-t">
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-all"><AlertTriangle className="w-12 h-12" /></div>
             <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('disruptions')}</p>
             <h3 className="text-xl font-bold text-orange-500 leading-none">{stats.issues}</h3>
-            <p className="text-[10px] font-bold text-orange-500/60 mt-4">{t("admin.system.attention_required")}</p>
+            <p className="text-[10px] font-bold text-orange-500/60 mt-4">{t("admin_system_attention_required")}</p>
           </Card>
           <Card className="bg-card border-border rounded-3xl p-8 relative overflow-hidden group border-l-red-500/30 border-l border-t">
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-all"><XCircle className="w-12 h-12" /></div>
             <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('systemHubAlerts')}</p>
             <h3 className="text-xl font-bold text-red-500 leading-none">{stats.alerts}</h3>
-            <p className="text-[10px] font-bold text-red-500/60 mt-4">{t("admin.system.immediate_action")}</p>
+            <p className="text-[10px] font-bold text-red-500/60 mt-4">{t("admin_system_immediate_action")}</p>
           </Card>
           <Card className="bg-card border-border rounded-3xl p-8 relative overflow-hidden group border-l border-t">
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-all"><Bell className="w-12 h-12" /></div>
             <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('faults')}</p>
             <h3 className="text-xl font-bold text-foreground leading-none">{stats.errors}</h3>
-            <p className="text-[10px] font-bold text-muted-foreground mt-4">{t("admin.system.last_24_hours")}</p>
+            <p className="text-[10px] font-bold text-muted-foreground mt-4">{t("admin_system_last_24_hours")}</p>
           </Card>
         </div>
 
@@ -456,8 +456,8 @@ export default function SystemSettings() {
                   {getStatusBadge(h.status)}
                 </div>
                 <div className="space-y-3 bg-card p-4 rounded-2xl border border-border">
-                  <div className="flex justify-between text-[10px] font-bold"><span className="text-muted-foreground">{t("admin.system.response_index")}</span><span className="text-foreground">{h.responseTime || 0}{t("admin.system.ms")}</span></div>
-                  <div className="flex justify-between text-[10px] font-bold"><span className="text-muted-foreground">{t("admin.system.last_sync")}</span><span className="text-muted-foreground">{new Date(h.lastChecked).toLocaleTimeString()}</span></div>
+                  <div className="flex justify-between text-[10px] font-bold"><span className="text-muted-foreground">{t("admin_system_response_index")}</span><span className="text-foreground">{h.responseTime || 0}{t("admin_system_ms")}</span></div>
+                  <div className="flex justify-between text-[10px] font-bold"><span className="text-muted-foreground">{t("admin_system_last_sync")}</span><span className="text-muted-foreground">{new Date(h.lastChecked).toLocaleTimeString()}</span></div>
                 </div>
                 <div className="flex justify-end gap-3 mt-8">
                   <Button variant="outline" size="sm" onClick={() => restartService(h.serviceName)} className="rounded-xl border-border bg-muted/50 hover:bg-primary font-bold text-[9px] h-10 px-4 transition-all">
@@ -479,7 +479,7 @@ export default function SystemSettings() {
                   <div className="space-y-6">
                     <div className="text-2xl font-bold text-foreground leading-none">{m.value}<span className="text-2xl text-slate-600 block text-right mt-1 font-bold">{m.unit}</span></div>
                     <div className="space-y-2">
-                       <div className="flex justify-between text-[9px] font-bold text-muted-foreground"><span>{t("admin.system.load_efficiency")}</span><span>{Math.round(m.value / m.threshold * 100)}%</span></div>
+                       <div className="flex justify-between text-[9px] font-bold text-muted-foreground"><span>{t("admin_system_load_efficiency")}</span><span>{Math.round(m.value / m.threshold * 100)}%</span></div>
                        <Progress value={m.value / m.threshold * 100} className="h-1.5 bg-muted/50" indicatorClassName="bg-primary shadow-[0_0_10px_#ea580c]" />
                     </div>
                   </div>
@@ -491,9 +491,9 @@ export default function SystemSettings() {
                 <Table>
                    <TableHeader className="bg-muted/50 border-b border-border">
                       <TableRow className="hover:bg-transparent border-none">
-                        <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin.system.severity")}</TableHead>
-                        <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin.system.payload")}</TableHead>
-                        <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin.system.sync_time")}</TableHead>
+                        <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin_system_severity")}</TableHead>
+                        <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin_system_payload")}</TableHead>
+                        <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin_system_sync_time")}</TableHead>
                       </TableRow>
                    </TableHeader>
                    <TableBody>
@@ -504,7 +504,7 @@ export default function SystemSettings() {
                           </TableCell>
                         </TableRow>
                       ) : logs.map(l => <TableRow key={l.id} className="border-b border-border hover:bg-white/3sition-all font-mono">
-                           <TableCell className="px-8"><Badge className={cn("bg-transparent border text-[9px] font-bold   ", l.level === "ERROR" ? "text-red-500 border-red-500/20" : "text-slate-400 border-slate-400/20")}>{l.level}</Badge></TableCell>
+                           <TableCell className="px-8"><Badge className={cn("bg-transparent border text-[9px] font-bold   ", l.level === "ERROR" ? "text-red-500 border-red-500/20" : "text-slate-500 dark:text-slate-400 border-slate-400/20")}>{l.level}</Badge></TableCell>
                            <TableCell className="px-8 text-[11px] text-muted-foreground font-bold whitespace-pre-wrap">{l.message}</TableCell>
                            <TableCell className="px-8 text-[10px] text-muted-foreground">{new Date(l.timestamp).toLocaleString()}</TableCell>
                         </TableRow>)}
@@ -516,24 +516,24 @@ export default function SystemSettings() {
           <TabsContent value="maintenance" className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 pb-10">
              <Card className="bg-card border-border rounded-4xl p-8 hover:bg-muted/50 transition-all text-center border-l border-t border-b-emerald-500/50 border-b-2 shadow-2xl">
                 <RefreshCw className="w-10 h-10 text-emerald-500 mx-auto mb-6" />
-                <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin.system.neural_flush")}</h4>
-                <p className="text-[10px] font-bold text-muted-foreground mb-8 tracking-tight">{t("admin.system.synchronize_all_cache_nodes")}</p>
+                <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin_system_neural_flush")}</h4>
+                <p className="text-[10px] font-bold text-muted-foreground mb-8 tracking-tight">{t("admin_system_synchronize_all_cache_nodes")}</p>
                 <Button className="w-full bg-muted/50 hover:bg-emerald-600 rounded-2xl h-14 font-bold text-[10px] transition-all">
                   {t('flush')}
                 </Button>
              </Card>
              <Card className="bg-card border-border rounded-4xl p-8 hover:bg-muted/50 transition-all text-center border-l border-t border-b-slate-500/50 border-b-2 shadow-2xl">
                 <Shield className="w-10 h-10 text-slate-500 mx-auto mb-6 shadow-[0_0_20px_#3b82f620]" />
-                <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin.system.full_snapshot")}</h4>
-                <p className="text-[10px] font-bold text-muted-foreground mb-8 tracking-tight">{t("admin.system.export_global_system_parameters")}</p>
+                <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin_system_full_snapshot")}</h4>
+                <p className="text-[10px] font-bold text-muted-foreground mb-8 tracking-tight">{t("admin_system_export_global_system_parameters")}</p>
                 <Button className="w-full bg-muted/50 hover:bg-slate-600 rounded-2xl h-14 font-bold text-[10px] transition-all">
                   {t('snapshot')}
                 </Button>
              </Card>
              <Card className="bg-red-950/10 border-border rounded-4xl p-8 hover:bg-red-900/10 transition-all text-center border-l border-t border-b-red-600/50 border-b-2 shadow-2xl">
                 <XCircle className="w-10 h-10 text-red-600 mx-auto mb-6 shadow-[0_0_20px_#dc262620]" />
-                <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin.system.core_reset")}</h4>
-                <p className="text-[10px] font-bold text-red-500/50 mb-8 tracking-tight">{t("admin.system.terminate_all_active_threads")}</p>
+                <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin_system_core_reset")}</h4>
+                <p className="text-[10px] font-bold text-red-500/50 mb-8 tracking-tight">{t("admin_system_terminate_all_active_threads")}</p>
                 <Button variant="destructive" className="w-full rounded-2xl h-14 font-bold text-[10px] shadow-xl shadow-red-600/20 transition-all">
                   {t('kill')}
                 </Button>

@@ -184,7 +184,7 @@ const CustomTooltip = ({
             backgroundColor: entry.color || entry.fill
           }}></div>
               <p className="text-xs font-bold text-foreground">
-                {entry.name}: <span className="text-slate-400">{entry.value.toLocaleString()}</span>
+                {entry.name}: <span className="text-slate-500 dark:text-slate-400">{entry.value.toLocaleString()}</span>
               </p>
             </div>)}
         </div>
@@ -245,62 +245,62 @@ export default function AnalyticsDashboard() {
   };
   return <div className="p-6 space-y-6">
       {/* Tactical UI Toolbar */}
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
          <div className="flex items-center gap-4 flex-1">
-            <div className="bg-white/5 border-white/10 rounded-2xl p-1.5 flex gap-1 border shadow-2xl transition-colors">
-               {["1d", "7d", "30d", "90d"].map(range => <Button key={range} variant="ghost" size="sm" onClick={() => setDateRange(range)} className={cn("px-4 rounded-xl text-[10px] font-bold transition-all", dateRange === range ? "bg-slate-600 text-white shadow-lg" : "text-slate-400 hover:text-white")}>
+            <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl p-1.5 flex gap-1 border shadow-2xl transition-colors">
+               {["1d", "7d", "30d", "90d"].map(range => <Button key={range} variant="ghost" size="sm" onClick={() => setDateRange(range)} className={cn("px-4 rounded-xl text-[10px] font-bold transition-all", dateRange === range ? "bg-slate-600 text-slate-900 dark:text-white shadow-lg" : "text-slate-500 dark:text-slate-400 hover:text-white")}>
                      {range}
                   </Button>)}
             </div>
             <Select defaultValue="all">
-              <SelectTrigger className="w-48 bg-white/5 border-white/10 rounded-2xl h-14 text-white font-bold text-[10px] border shadow-2xl">
-                <SelectValue placeholder={t("admin.analytics.entity_isolation")} />
+              <SelectTrigger className="w-48 bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl h-14 text-slate-900 dark:text-white font-bold text-[10px] border shadow-2xl">
+                <SelectValue placeholder={t("admin_analytics_entity_isolation")} />
               </SelectTrigger>
-              <SelectContent className="bg-[#14151a] border-white/10 text-white rounded-2xl">
-                <SelectItem value="all">{t("admin.analytics.allentities")}</SelectItem>
-                <SelectItem value="property">{t("admin.analytics.properties")}</SelectItem>
-                <SelectItem value="user">{t("admin.analytics.users")}</SelectItem>
-                <SelectItem value="booking">{t("admin.analytics.bookings")}</SelectItem>
+              <SelectContent className="bg-[#14151a] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-2xl">
+                <SelectItem value="all">{t("admin_analytics_allentities")}</SelectItem>
+                <SelectItem value="property">{t("admin_analytics_properties")}</SelectItem>
+                <SelectItem value="user">{t("admin_analytics_users")}</SelectItem>
+                <SelectItem value="booking">{t("admin_analytics_bookings")}</SelectItem>
               </SelectContent>
             </Select>
          </div>
          <Button onClick={() => toast({
-        title: t("admin.analytics.telemetry_extraction_initialized"),
-        description: t("admin.analytics.generating_secure_encrypted_data")
-      })} className="h-14 px-8 rounded-2xl bg-white/5 hover:bg-white/10 text-white border border-white/10 font-bold text-xs shadow-xl gap-3">
-            <Download className="w-5 h-5" />{t("admin.analytics.exfiltrate_telemetry")}</Button>
+        title: t("admin_analytics_telemetry_extraction_initialized"),
+        description: t("admin_analytics_generating_secure_encrypted_data")
+      })} className="h-14 px-8 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 font-bold text-xs shadow-xl gap-3">
+            <Download className="w-5 h-5" />{t("admin_analytics_exfiltrate_telemetry")}</Button>
       </div>
 
       {/* Global KPI Matrix */}
       {isLoading ? (
-        <div className="flex justify-center items-center py-12 text-slate-400">
+        <div className="flex justify-center items-center py-12 text-slate-500 dark:text-slate-400">
           <Loader2 className="w-8 h-8 animate-spin" />
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
          {[{
-        label: t("admin.analytics.telemetryevents"),
+        label: t("admin_analytics_telemetryevents"),
         value: analytics.totalEvents.toLocaleString(),
         icon: Activity,
         color: "text-slate-500",
         trend: "+12.4%",
-        trendColor: "text-slate-400"
+        trendColor: "text-slate-500 dark:text-slate-400"
       }, {
-        label: t("admin.analytics.uniquenodeusers"),
+        label: t("admin_analytics_uniquenodeusers"),
         value: analytics.uniqueUsers.toLocaleString(),
         icon: Users,
         color: "text-emerald-500",
         trend: "+8.7%",
         trendColor: "text-emerald-400"
       }, {
-        label: t("admin.analytics.totalpageviewfragment"),
+        label: t("admin_analytics_totalpageviewfragment"),
         value: analytics.pageViews.toLocaleString(),
         icon: Eye,
         color: "text-slate-500",
         trend: "+45.2%",
-        trendColor: "text-slate-400"
+        trendColor: "text-slate-500 dark:text-slate-400"
       }, {
-        label: t("admin.analytics.conversionratio"),
+        label: t("admin_analytics_conversionratio"),
         value: `${analytics.conversionRate}%`,
         icon: Target,
         color: "text-orange-500",
@@ -315,15 +315,15 @@ export default function AnalyticsDashboard() {
       }} transition={{
         delay: i * 0.1
       }}>
-               <div className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border transition-all hover:bg-white/10 p-8">
+               <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border transition-all hover:bg-white/10 p-8">
                   <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500", stat.color)}>
                     <stat.icon className="w-10 h-10" />
                   </div>
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-[10px] font-bold text-slate-400">{stat.label}</p>
+                    <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{stat.label}</p>
                     <span className={cn("text-[9px] font-bold ", stat.trendColor)}>{stat.trend} <TrendingUp className="w-2.5 h-2.5 inline" /></span>
                   </div>
-                  <h3 className="text-xl font-bold text-white leading-none">{stat.value}</h3>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-none">{stat.value}</h3>
                   <div className={cn("absolute bottom-0 left-0 w-full h-1", stat.color.replace('text-', 'bg-'))}></div>
                </div>
              </motion.div>)}
@@ -334,22 +334,22 @@ export default function AnalyticsDashboard() {
       <div className="space-y-8">
         <Tabs value={selectedMetric} onValueChange={setSelectedMetric} className="w-full">
           <div className="px-4">
-            <TabsList className="bg-white/5 border border-white/10 rounded-2xl h-14 p-1 shadow-2xl items-stretch w-full lg:w-fit">
-              <TabsTrigger value="overview" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.globaloverview")}</TabsTrigger>
-              <TabsTrigger value="users" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.useractivity")}</TabsTrigger>
-              <TabsTrigger value="conversion" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.conversionfunnel")}</TabsTrigger>
-              <TabsTrigger value="devices" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-400">{t("admin.analytics.devicetelemetry")}</TabsTrigger>
+            <TabsList className="bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl h-14 p-1 shadow-2xl items-stretch w-full lg:w-fit">
+              <TabsTrigger value="overview" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-500 dark:text-slate-400">{t("admin_analytics_globaloverview")}</TabsTrigger>
+              <TabsTrigger value="users" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-500 dark:text-slate-400">{t("admin_analytics_useractivity")}</TabsTrigger>
+              <TabsTrigger value="conversion" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-500 dark:text-slate-400">{t("admin_analytics_conversionfunnel")}</TabsTrigger>
+              <TabsTrigger value="devices" className="flex-1 lg:flex-none rounded-xl text-[10px] font-bold data-[state=active]:bg-slate-600 data-[state=active]:text-white text-slate-500 dark:text-slate-400">{t("admin_analytics_devicetelemetry")}</TabsTrigger>
             </TabsList>
           </div>
 
           <div className="mt-8">
             <TabsContent value="overview" className="space-y-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-white/5 border-white/10 rounded-4xl p-8 shadow-2xl border">
+                <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-4xl p-8 shadow-2xl border">
                   <div className="flex items-center justify-between mb-8">
                      <div>
-                        <h4 className="text-xl font-bold text-white leading-none">{t("admin.analytics.activity_velocity")}</h4>
-                        <p className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.analytics.daily_interaction_clusters")}</p>
+                        <h4 className="text-xl font-bold text-slate-900 dark:text-white leading-none">{t("admin_analytics_activity_velocity")}</h4>
+                        <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1">{t("admin_analytics_daily_interaction_clusters")}</p>
                      </div>
                      <Cpu className="w-6 h-6 text-slate-500" />
                   </div>
@@ -382,11 +382,11 @@ export default function AnalyticsDashboard() {
                   </ResponsiveContainer>
                 </div>
 
-                <div className="bg-white/5 border-white/10 rounded-4xl p-8 shadow-2xl border">
+                <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-4xl p-8 shadow-2xl border">
                   <div className="flex items-center justify-between mb-8">
                      <div>
-                        <h4 className="text-xl font-bold text-white leading-none">{t("admin.analytics.highfrequency_routes")}</h4>
-                        <p className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.analytics.most_saturated_page_fragments")}</p>
+                        <h4 className="text-xl font-bold text-slate-900 dark:text-white leading-none">{t("admin_analytics_highfrequency_routes")}</h4>
+                        <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1">{t("admin_analytics_most_saturated_page_fragments")}</p>
                      </div>
                      <Globe className="w-6 h-6 text-emerald-500" />
                   </div>
@@ -412,17 +412,17 @@ export default function AnalyticsDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white/5 border-white/10 rounded-4xl p-8 shadow-2xl border relative overflow-hidden">
+              <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-4xl p-8 shadow-2xl border relative overflow-hidden">
                  <div className="absolute top-0 left-0 w-1 h-full bg-slate-600"></div>
                  <div className="flex items-center justify-between mb-8">
-                    <h4 className="text-xl font-bold text-white leading-none">{t("admin.analytics.critical_user_actions")}</h4>
+                    <h4 className="text-xl font-bold text-slate-900 dark:text-white leading-none">{t("admin_analytics_critical_user_actions")}</h4>
                     <Zap className="w-6 h-6 text-slate-500" />
                  </div>
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                    {analytics.topActions.map((action, i) => <div key={i} className="bg-white/5 border-white/10 rounded-2xl p-6 transition-all hover:bg-white/10 group">
-                         <p className="text-[10px] font-bold text-slate-400 mb-2 group-hover:text-slate-400 transition-colors">{action.action}</p>
-                         <h5 className="text-3xl font-bold text-white leading-none">{action.count.toLocaleString()}</h5>
-                         <p className="text-[9px] font-bold text-slate-600 mt-2">{action.users}{t("admin.analytics.uniquenodes")}</p>
+                    {analytics.topActions.map((action, i) => <div key={i} className="bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl p-6 transition-all hover:bg-white/10 group">
+                         <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-2 group-hover:text-slate-400 transition-colors">{action.action}</p>
+                         <h5 className="text-3xl font-bold text-slate-900 dark:text-white leading-none">{action.count.toLocaleString()}</h5>
+                         <p className="text-[9px] font-bold text-slate-600 mt-2">{action.users}{t("admin_analytics_uniquenodes")}</p>
                       </div>)}
                  </div>
               </div>
@@ -431,24 +431,24 @@ export default function AnalyticsDashboard() {
             <TabsContent value="users" className="space-y-8">
                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {[{
-                label: t("admin.analytics.avgsessiontelemetry"),
+                label: t("admin_analytics_avgsessiontelemetry"),
                 value: formatDuration(analytics.avgSessionDuration),
                 icon: Activity
               }, {
-                label: t("admin.analytics.globalclustersessions"),
+                label: t("admin_analytics_globalclustersessions"),
                 value: analytics.totalSessions.toLocaleString(),
                 icon: Globe
               }, {
-                label: t("admin.analytics.bounceratioreaction"),
+                label: t("admin_analytics_bounceratioreaction"),
                 value: `${analytics.bounceRate}%`,
                 icon: ZapOff
-              }].map((m, i) => <div key={i} className="bg-white/5 border-white/10 rounded-3xl p-8 shadow-2xl border">
-                         <p className="text-[10px] font-bold text-slate-400 mb-1">{m.label}</p>
-                         <h3 className="text-xl font-bold text-white leading-none">{m.value}</h3>
+              }].map((m, i) => <div key={i} className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8 shadow-2xl border">
+                         <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1">{m.label}</p>
+                         <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-none">{m.value}</h3>
                       </div>)}
                </div>
-               <div className="bg-white/5 border-white/10 rounded-4xl p-10 shadow-2xl border">
-                  <h4 className="text-xl font-bold text-white mb-8 leading-none">{t("admin.analytics.node_saturation_matrix")}</h4>
+               <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-4xl p-10 shadow-2xl border">
+                  <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-8 leading-none">{t("admin_analytics_node_saturation_matrix")}</h4>
                   <ResponsiveContainer width="100%" height={400} minWidth={0}>
                     <AreaChart data={analytics.userActivity}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
@@ -471,18 +471,18 @@ export default function AnalyticsDashboard() {
             </TabsContent>
 
             <TabsContent value="conversion" className="space-y-8">
-               <div className="bg-white/5 border-white/10 rounded-4xl p-10 shadow-2xl border overflow-hidden relative">
+               <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-4xl p-10 shadow-2xl border overflow-hidden relative">
                   <div className="absolute top-0 right-0 w-48 h-48 bg-slate-600/10 blur-[100px] rounded-full"></div>
-                  <h4 className="text-xl font-bold text-white mb-10 leading-none">{t("admin.analytics.synergy_conversion_funnel")}</h4>
+                  <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-10 leading-none">{t("admin_analytics_synergy_conversion_funnel")}</h4>
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                      {analytics.conversionFunnel.map((stage, i) => <div key={i} className="relative group">
-                          <div className="bg-white/5 border-white/10 rounded-3xl p-8 z-10 relative border group-hover:bg-slate-600/10 transition-all">
-                             <p className="text-[10px] font-bold text-slate-400 mb-2">{stage.stage}</p>
-                             <div className="text-xl font-bold text-white leading-none mb-1">{stage.users}</div>
+                          <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8 z-10 relative border group-hover:bg-slate-600/10 transition-all">
+                             <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-2">{stage.stage}</p>
+                             <div className="text-xl font-bold text-slate-900 dark:text-white leading-none mb-1">{stage.users}</div>
                              <div className="text-sm font-bold text-slate-500">{stage.conversionRate}%</div>
                           </div>
                           {i < 4 && <div className="hidden lg:flex absolute top-1/2 -right-4 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-slate-600 items-center justify-center border-4 border-[#14151a] shadow-xl">
-                               <MoreVertical className="w-4 h-4 text-white rotate-90" />
+                               <MoreVertical className="w-4 h-4 text-slate-900 dark:text-white rotate-90" />
                             </div>}
                        </div>)}
                   </div>
@@ -492,9 +492,9 @@ export default function AnalyticsDashboard() {
 
             <TabsContent value="devices" className="space-y-8">
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div className="bg-white/5 border-white/10 rounded-4xl p-10 shadow-2xl border relative overflow-hidden">
+                  <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-4xl p-10 shadow-2xl border relative overflow-hidden">
                      <div className="absolute -top-10 -left-10 w-40 h-40 bg-slate-600/10 blur-[100px]"></div>
-                     <h4 className="text-xl font-bold text-white mb-10 leading-none mr-12">{t("admin.analytics.hardware_origin_distribution")}</h4>
+                     <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-10 leading-none mr-12">{t("admin_analytics_hardware_origin_distribution")}</h4>
                      <ResponsiveContainer width="100%" height={320} minWidth={0}>
                        <PieChart>
                           <Pie data={analytics.deviceBreakdown} innerRadius={80} outerRadius={110} paddingAngle={8} dataKey="count" stroke="none">
@@ -510,22 +510,22 @@ export default function AnalyticsDashboard() {
                      </ResponsiveContainer>
                   </div>
 
-                  <div className="bg-white/5 border-white/10 rounded-4xl p-10 shadow-2xl border">
-                     <h4 className="text-xl font-bold text-white mb-10 leading-none">{t("admin.analytics.telemetry_precision_detailed")}</h4>
+                  <div className="bg-white/5 border-slate-200 dark:border-white/10 rounded-4xl p-10 shadow-2xl border">
+                     <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-10 leading-none">{t("admin_analytics_telemetry_precision_detailed")}</h4>
                      <div className="space-y-4">
-                        {analytics.deviceBreakdown.map((device, i) => <div key={i} className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 transition-all">
+                        {analytics.deviceBreakdown.map((device, i) => <div key={i} className="flex items-center justify-between p-6 bg-white/5 border border-slate-200 dark:border-white/10 rounded-3xl hover:bg-white/10 transition-all">
                              <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 rounded-xl bg-slate-600/10 flex items-center justify-center text-slate-500">
                                    {getDeviceIcon(device.device)}
                                 </div>
                                 <div>
-                                   <div className="text-lg font-bold text-white leading-none">{device.device}</div>
-                                   <div className="text-[10px] font-bold text-slate-400 mt-1">{device.count.toLocaleString()}{t("admin.analytics.activenodes")}</div>
+                                   <div className="text-lg font-bold text-slate-900 dark:text-white leading-none">{device.device}</div>
+                                   <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1">{device.count.toLocaleString()}{t("admin_analytics_activenodes")}</div>
                                 </div>
                              </div>
                              <div className="text-right">
-                                <div className="text-3xl font-bold text-white leading-none">{device.percentage}%</div>
-                                <div className="text-[9px] font-bold text-slate-600 mt-1">{t("admin.analytics.segmentshare")}</div>
+                                <div className="text-3xl font-bold text-slate-900 dark:text-white leading-none">{device.percentage}%</div>
+                                <div className="text-[9px] font-bold text-slate-600 mt-1">{t("admin_analytics_segmentshare")}</div>
                              </div>
                           </div>)}
                      </div>

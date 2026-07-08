@@ -96,23 +96,23 @@ const AgenciesManagement = () => {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
             {t("admin.agencies.title", "Agencies Management")}
           </h1>
-          <p className="text-slate-400 mt-2">
+          <p className="text-slate-500 dark:text-slate-400 mt-2">
             {t("admin.agencies.subtitle", "Manage real estate agencies, brokerage firms, and corporate accounts")}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-white/5 border-white/10 hover:bg-white/10">
+          <Button variant="outline" className="bg-white/5 border-slate-200 dark:border-white/10 hover:bg-white/10">
             <Globe className="w-4 h-4 mr-2" />
             {t("common.export", "Export")}
           </Button>
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.agencies.add", "Add Agency")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>{t("admin.agencies.add", "Add Agency")}</DialogTitle>
               </DialogHeader>
@@ -121,7 +121,7 @@ const AgenciesManagement = () => {
                   <Label htmlFor="name">Agency Name</Label>
                   <Input 
                     id="name" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newAgency.name}
                     onChange={e => setNewAgency({...newAgency, name: e.target.value})}
                     required
@@ -132,7 +132,7 @@ const AgenciesManagement = () => {
                   <Input 
                     id="email" 
                     type="email"
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newAgency.email}
                     onChange={e => setNewAgency({...newAgency, email: e.target.value})}
                   />
@@ -141,7 +141,7 @@ const AgenciesManagement = () => {
                   <Label htmlFor="phoneNumber">Phone Number</Label>
                   <Input 
                     id="phoneNumber" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newAgency.phoneNumber}
                     onChange={e => setNewAgency({...newAgency, phoneNumber: e.target.value})}
                   />
@@ -151,7 +151,7 @@ const AgenciesManagement = () => {
                   <Label htmlFor="website">Website</Label>
                   <Input 
                     id="website" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newAgency.website || ''}
                     onChange={e => setNewAgency({...newAgency, website: e.target.value})}
                   />
@@ -159,10 +159,10 @@ const AgenciesManagement = () => {
                 <div className="space-y-2">
                   <Label>Status</Label>
                   <Select value={newAgency.status} onValueChange={v => setNewAgency({...newAgency, status: v})}>
-                    <SelectTrigger className="bg-white/5 border-white/10">
+                    <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-white/10 text-white">
+                    <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                       <SelectItem value="PENDING">Pending</SelectItem>
                       <SelectItem value="ACTIVE">Active</SelectItem>
                       <SelectItem value="INACTIVE">Inactive</SelectItem>
@@ -182,28 +182,28 @@ const AgenciesManagement = () => {
           </Dialog>
 
           <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>{t("admin.agencies.edit", "Edit Agency")}</DialogTitle>
               </DialogHeader>
               <form onSubmit={(e) => { e.preventDefault(); updateMutation.mutate(newAgency); }} className="space-y-4 pt-4">
                 <div className="space-y-2">
                   <Label htmlFor="edit-name">Agency Name</Label>
-                  <Input id="edit-name" className="bg-white/5 border-white/10" value={newAgency.name} onChange={e => setNewAgency({...newAgency, name: e.target.value})} required />
+                  <Input id="edit-name" className="bg-white/5 border-slate-200 dark:border-white/10" value={newAgency.name} onChange={e => setNewAgency({...newAgency, name: e.target.value})} required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="edit-email">Email</Label>
-                  <Input id="edit-email" type="email" className="bg-white/5 border-white/10" value={newAgency.email} onChange={e => setNewAgency({...newAgency, email: e.target.value})} />
+                  <Input id="edit-email" type="email" className="bg-white/5 border-slate-200 dark:border-white/10" value={newAgency.email} onChange={e => setNewAgency({...newAgency, email: e.target.value})} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="edit-phoneNumber">Phone Number</Label>
-                  <Input id="edit-phoneNumber" className="bg-white/5 border-white/10" value={newAgency.phoneNumber} onChange={e => setNewAgency({...newAgency, phoneNumber: e.target.value})} />
+                  <Input id="edit-phoneNumber" className="bg-white/5 border-slate-200 dark:border-white/10" value={newAgency.phoneNumber} onChange={e => setNewAgency({...newAgency, phoneNumber: e.target.value})} />
                 </div>
                 <div className="space-y-2">
                   <Label>Status</Label>
                   <Select value={newAgency.status} onValueChange={v => setNewAgency({...newAgency, status: v})}>
-                    <SelectTrigger className="bg-white/5 border-white/10"><SelectValue placeholder="Select status" /></SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-white/10 text-white">
+                    <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10"><SelectValue placeholder="Select status" /></SelectTrigger>
+                    <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                       <SelectItem value="PENDING">Pending</SelectItem>
                       <SelectItem value="ACTIVE">Active</SelectItem>
                       <SelectItem value="INACTIVE">Inactive</SelectItem>
@@ -225,58 +225,58 @@ const AgenciesManagement = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Total Agencies</CardTitle>
-            <Building2 className="w-4 h-4 text-slate-400" />
+            <Building2 className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">124</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">124</div>
             <p className="text-xs text-green-400 mt-1">+12 this month</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Active Agents</CardTitle>
-            <Users className="w-4 h-4 text-slate-400" />
+            <Users className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">8,432</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">8,432</div>
             <p className="text-xs text-green-400 mt-1">+142 this month</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">System Integration</CardTitle>
             <Settings className="w-4 h-4 text-amber-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">98%</div>
-            <p className="text-xs text-slate-400 mt-1">API Health</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">98%</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">API Health</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white">{t("admin.agencies.list", "Agency Directory")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin.agencies.list", "Agency Directory")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               {t("common.loading", "Loading data...")}
             </div>
           ) : agencies.length === 0 ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               No agencies found.
             </div>
           ) : (
-            <div className="rounded-xl border border-white/10">
+            <div className="rounded-xl border border-slate-200 dark:border-white/10">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
                     <TableHead className="text-slate-300">Agency Name</TableHead>
                     <TableHead className="text-slate-300">Email</TableHead>
                     <TableHead className="text-slate-300">Phone</TableHead>
@@ -286,17 +286,17 @@ const AgenciesManagement = () => {
                 </TableHeader>
                 <TableBody>
                   {agencies.map((a: any) => (
-                    <TableRow key={a.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                      <TableCell className="font-medium text-white">{a.name}</TableCell>
-                      <TableCell className="text-slate-400">{a.email || 'N/A'}</TableCell>
-                      <TableCell className="text-slate-400">{a.phoneNumber || 'N/A'}</TableCell>
-                      <TableCell className="text-slate-400">
+                    <TableRow key={a.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{a.name}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{a.email || 'N/A'}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{a.phoneNumber || 'N/A'}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">
                         <span className="px-2 py-1 bg-white/5 rounded-full text-xs">
                           {a.status}
                         </span>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white" onClick={() => handleEditClick(a)}><Edit className="w-4 h-4" /></Button>
+                        <Button variant="ghost" size="icon" className="text-slate-500 dark:text-slate-400 hover:text-white" onClick={() => handleEditClick(a)}><Edit className="w-4 h-4" /></Button>
                         <Button 
                           variant="ghost" 
                           size="icon" 

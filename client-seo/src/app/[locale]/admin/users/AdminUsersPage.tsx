@@ -59,7 +59,7 @@ export default function AdminUsersPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -69,15 +69,15 @@ export default function AdminUsersPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.users.title")}</h1>
-              <p className="text-gray-400">{t("admin.users.description")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_users_title")}</h1>
+              <p className="text-muted-foreground">{t("admin_users_description")}</p>
             </div>
             <Button
               onClick={() => router.push('/admin/dashboard')}
-              className="bg-slate-600 hover:bg-slate-700"
+              className="bg-primary hover:bg-primary/90"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.users.back_to_dashboard")}
+              {t("admin_users_back_to_dashboard")}
                                       </Button>
           </div>
         </motion.div>
@@ -89,23 +89,23 @@ export default function AdminUsersPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin.users.search_placeholder")}
+                      placeholder={t("admin_users_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
-                <Button className="bg-slate-600 hover:bg-slate-700">
+                <Button className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin.users.add_user")}
+                  {t("admin_users_add_user")}
                                                   </Button>
               </div>
             </CardContent>
@@ -118,11 +118,11 @@ export default function AdminUsersPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Users className="w-5 h-5" />
-                {t("admin.users.list_title")}{filteredUsers.length})
+                {t("admin_users_list_title")}{filteredUsers.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -133,12 +133,12 @@ export default function AdminUsersPage() {
                     className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-400 font-bold">
+                      <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground font-bold">
                         {user.name.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div>
-                        <div className="text-white font-medium">{user.name}</div>
-                        <div className="text-sm text-gray-400 flex items-center gap-2">
+                        <div className="text-foreground font-medium">{user.name}</div>
+                        <div className="text-sm text-muted-foreground flex items-center gap-2">
                           <Mail className="w-3 h-3" />
                           {user.email}
                         </div>

@@ -102,8 +102,8 @@ export default function Departments() {
       setDepartments(response.data);
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_fetch_departments"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_fetch_departments"),
         variant: "destructive"
       });
     } finally {
@@ -118,8 +118,8 @@ export default function Departments() {
       setUsers(response.data);
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_fetch_users"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_fetch_users"),
         variant: "destructive"
       });
     }
@@ -145,13 +145,13 @@ export default function Departments() {
         location: ''
       });
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.department_created_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_department_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_create_department"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_create_department"),
         variant: "destructive"
       });
     }
@@ -171,13 +171,13 @@ export default function Departments() {
       setIsEditDialogOpen(false);
       setSelectedDepartment(null);
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.department_updated_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_department_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_update_department"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_update_department"),
         variant: "destructive"
       });
     }
@@ -187,13 +187,13 @@ export default function Departments() {
       await apiClient.delete(`/departments/${departmentId}`);
       setDepartments(departments.filter(dept => dept.id !== departmentId));
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.department_deleted_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_department_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_delete_department"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_delete_department"),
         variant: "destructive"
       });
     }
@@ -249,68 +249,68 @@ export default function Departments() {
   const totalUsers = departments.reduce((acc, dept) => acc + (dept._count?.users || 0), 0);
   const totalTeams = departments.reduce((acc, dept) => acc + (dept._count?.teams || 0), 0);
   if (loading) {
-    return <PageShell title={t("admin.organization.departments_management")}>
+    return <PageShell title={t("admin_organization_departments_management")}>
         <div className="flex items-center justify-center h-64">
           <Activity className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.organization.departments_management")}>
+  return <PageShell title={t("admin_organization_departments_management")}>
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_departments")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_departments")}</CardTitle>
               <Building className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalDepartments}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.organization_units")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_organization_units")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.active_departments")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_active_departments")}</CardTitle>
               <Building className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{activeDepartments}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.currently_active")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_currently_active")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.root_departments")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_root_departments")}</CardTitle>
               <ArrowRight className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{rootDepartments}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.toplevel_units")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_toplevel_units")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_users")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_users")}</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{totalUsers}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.across_departments")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_across_departments")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_teams")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_teams")}</CardTitle>
               <Settings className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{totalTeams}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.under_departments")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_under_departments")}</p>
             </CardContent>
           </Card>
         </div>
@@ -319,14 +319,14 @@ export default function Departments() {
         <div className="flex justify-between items-center">
           <div className="flex gap-4">
             <div className="relative">
-              <Input placeholder={t("admin.organization.search_departments")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-64" />
+              <Input placeholder={t("admin_organization_search_departments")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-64" />
             </div>
             <Select value={orgFilter} onValueChange={setOrgFilter}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.organization.organization")} />
+                <SelectValue placeholder={t("admin_organization_organization")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.organization.all_organizations")}</SelectItem>
+                <SelectItem value="all">{t("admin_organization_all_organizations")}</SelectItem>
                 {/* Add organization options here */}
               </SelectContent>
             </Select>
@@ -334,60 +334,60 @@ export default function Departments() {
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.organization.create_department")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_organization_create_department")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
               <DialogHeader>
-                <DialogTitle>{t("admin.organization.create_new_department")}</DialogTitle>
-                <DialogDescription>{t("admin.organization.set_up_a_new")}</DialogDescription>
+                <DialogTitle>{t("admin_organization_create_new_department")}</DialogTitle>
+                <DialogDescription>{t("admin_organization_set_up_a_new")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="deptName">{t("admin.organization.department_name")}</Label>
+                  <Label htmlFor="deptName">{t("admin_organization_department_name")}</Label>
                   <Input id="deptName" value={createData.name} onChange={e => setCreateData({
                   ...createData,
                   name: e.target.value
-                })} placeholder={t("admin.organization.eg_engineering")} required />
+                })} placeholder={t("admin_organization_eg_engineering")} required />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="deptDescription">{t("admin.organization.description")}</Label>
+                  <Label htmlFor="deptDescription">{t("admin_organization_description")}</Label>
                   <Input id="deptDescription" value={createData.description} onChange={e => setCreateData({
                   ...createData,
                   description: e.target.value
-                })} placeholder={t("admin.organization.optional_department_description")} />
+                })} placeholder={t("admin_organization_optional_department_description")} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="orgId">{t("admin.organization.organization")}</Label>
+                    <Label htmlFor="orgId">{t("admin_organization_organization")}</Label>
                     <Input id="orgId" value={createData.orgId} onChange={e => setCreateData({
                     ...createData,
                     orgId: e.target.value
-                  })} placeholder={t("admin.organization.organization_id")} required />
+                  })} placeholder={t("admin_organization_organization_id")} required />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="budget">{t("admin.organization.budget")}</Label>
+                    <Label htmlFor="budget">{t("admin_organization_budget")}</Label>
                     <Input id="budget" type="number" step="0.01" value={createData.budget} onChange={e => setCreateData({
                     ...createData,
                     budget: e.target.value
-                  })} placeholder={t("admin.organization.annual_budget")} />
+                  })} placeholder={t("admin_organization_annual_budget")} />
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="location">{t("admin.organization.location")}</Label>
+                  <Label htmlFor="location">{t("admin_organization_location")}</Label>
                   <Input id="location" value={createData.location} onChange={e => setCreateData({
                   ...createData,
                   location: e.target.value
-                })} placeholder={t("admin.organization.office_location")} />
+                })} placeholder={t("admin_organization_office_location")} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="parentId">{t("admin.organization.parent_department")}</Label>
+                    <Label htmlFor="parentId">{t("admin_organization_parent_department")}</Label>
                     <Select value={createData.parentId} onValueChange={value => setCreateData({
                     ...createData,
                     parentId: value
                   })}>
                       <SelectTrigger>
-                        <SelectValue placeholder={t("admin.organization.select_parent_optional")} />
+                        <SelectValue placeholder={t("admin_organization_select_parent_optional")} />
                       </SelectTrigger>
                       <SelectContent>
                         {departments.map(dept => <SelectItem key={dept.id} value={dept.id}>
@@ -397,13 +397,13 @@ export default function Departments() {
                     </Select>
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="headId">{t("admin.organization.department_head")}</Label>
+                    <Label htmlFor="headId">{t("admin_organization_department_head")}</Label>
                     <Select value={createData.headId} onValueChange={value => setCreateData({
                     ...createData,
                     headId: value
                   })}>
                       <SelectTrigger>
-                        <SelectValue placeholder={t("admin.organization.select_head")} />
+                        <SelectValue placeholder={t("admin_organization_select_head")} />
                       </SelectTrigger>
                       <SelectContent>
                         {users.map(user => <SelectItem key={user.id} value={user.id}>
@@ -415,7 +415,7 @@ export default function Departments() {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createDepartment}>{t("admin.organization.create_department")}</Button>
+                <Button onClick={createDepartment}>{t("admin_organization_create_department")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -425,19 +425,19 @@ export default function Departments() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>{t("admin.organization.edit_department")}</DialogTitle>
-              <DialogDescription>{t("admin.organization.update_department_information_and")}</DialogDescription>
+              <DialogTitle>{t("admin_organization_edit_department")}</DialogTitle>
+              <DialogDescription>{t("admin_organization_update_department_information_and")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="editDeptName">{t("admin.organization.department_name")}</Label>
+                <Label htmlFor="editDeptName">{t("admin_organization_department_name")}</Label>
                 <Input id="editDeptName" value={editData.name} onChange={e => setEditData({
                 ...editData,
                 name: e.target.value
               })} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="editDeptDescription">{t("admin.organization.description")}</Label>
+                <Label htmlFor="editDeptDescription">{t("admin_organization_description")}</Label>
                 <Input id="editDeptDescription" value={editData.description} onChange={e => setEditData({
                 ...editData,
                 description: e.target.value
@@ -445,14 +445,14 @@ export default function Departments() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="editBudget">{t("admin.organization.budget")}</Label>
+                  <Label htmlFor="editBudget">{t("admin_organization_budget")}</Label>
                   <Input id="editBudget" type="number" step="0.01" value={editData.budget} onChange={e => setEditData({
                   ...editData,
                   budget: e.target.value
                 })} />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="editLocation">{t("admin.organization.location")}</Label>
+                  <Label htmlFor="editLocation">{t("admin_organization_location")}</Label>
                   <Input id="editLocation" value={editData.location} onChange={e => setEditData({
                   ...editData,
                   location: e.target.value
@@ -461,13 +461,13 @@ export default function Departments() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="editParentId">{t("admin.organization.parent_department")}</Label>
+                  <Label htmlFor="editParentId">{t("admin_organization_parent_department")}</Label>
                   <Select value={editData.parentId} onValueChange={value => setEditData({
                   ...editData,
                   parentId: value
                 })}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t("admin.organization.select_parent")} />
+                      <SelectValue placeholder={t("admin_organization_select_parent")} />
                     </SelectTrigger>
                     <SelectContent>
                       {departments.filter(dept => dept.id !== selectedDepartment?.id).map(dept => <SelectItem key={dept.id} value={dept.id}>
@@ -477,13 +477,13 @@ export default function Departments() {
                   </Select>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="editHeadId">{t("admin.organization.department_head")}</Label>
+                  <Label htmlFor="editHeadId">{t("admin_organization_department_head")}</Label>
                   <Select value={editData.headId} onValueChange={value => setEditData({
                   ...editData,
                   headId: value
                 })}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t("admin.organization.select_head")} />
+                      <SelectValue placeholder={t("admin_organization_select_head")} />
                     </SelectTrigger>
                     <SelectContent>
                       {users.map(user => <SelectItem key={user.id} value={user.id}>
@@ -495,7 +495,7 @@ export default function Departments() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={updateDepartment}>{t("admin.organization.update_department")}</Button>
+              <Button onClick={updateDepartment}>{t("admin_organization_update_department")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -503,22 +503,22 @@ export default function Departments() {
         {/* Departments Hierarchy Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.organization.department_hierarchy")}</CardTitle>
-            <p className="text-sm text-muted-foreground">{t("admin.organization.organizational_structure_and_department")}</p>
+            <CardTitle>{t("admin_organization_department_hierarchy")}</CardTitle>
+            <p className="text-sm text-muted-foreground">{t("admin_organization_organizational_structure_and_department")}</p>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.organization.department")}</TableHead>
-                  <TableHead>{t("admin.organization.head")}</TableHead>
-                  <TableHead>{t("admin.organization.organization")}</TableHead>
-                  <TableHead>{t("admin.organization.users")}</TableHead>
-                  <TableHead>{t("admin.organization.teams")}</TableHead>
-                  <TableHead>{t("admin.organization.budget")}</TableHead>
-                  <TableHead>{t("admin.organization.created")}</TableHead>
-                  <TableHead>{t("admin.organization.status")}</TableHead>
-                  <TableHead className="text-right">{t("admin.organization.actions")}</TableHead>
+                  <TableHead>{t("admin_organization_department")}</TableHead>
+                  <TableHead>{t("admin_organization_head")}</TableHead>
+                  <TableHead>{t("admin_organization_organization")}</TableHead>
+                  <TableHead>{t("admin_organization_users")}</TableHead>
+                  <TableHead>{t("admin_organization_teams")}</TableHead>
+                  <TableHead>{t("admin_organization_budget")}</TableHead>
+                  <TableHead>{t("admin_organization_created")}</TableHead>
+                  <TableHead>{t("admin_organization_status")}</TableHead>
+                  <TableHead className="text-right">{t("admin_organization_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -529,7 +529,7 @@ export default function Departments() {
                         <div>
                           <div className="flex items-center gap-1">
                             {department.name}
-                            {department.parent && <span className="text-xs text-muted-foreground">{t("admin.organization.under")}{department.parent.name})
+                            {department.parent && <span className="text-xs text-muted-foreground">{t("admin_organization_under")}{department.parent.name})
                               </span>}
                           </div>
                           {department.description && <p className="text-xs text-muted-foreground mt-1">
@@ -546,18 +546,18 @@ export default function Departments() {
                           <div className="text-xs text-muted-foreground">
                             {department.head.email}
                           </div>
-                        </div> : <span className="text-muted-foreground">{t("admin.organization.no_head_assigned")}</span>}
+                        </div> : <span className="text-muted-foreground">{t("admin_organization_no_head_assigned")}</span>}
                     </TableCell>
                     <TableCell>
                       {department.organization?.name || 'Unknown'}
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className="text-xs">
-                        {department._count?.users || 0}{t("admin.organization.users")}</Badge>
+                        {department._count?.users || 0}{t("admin_organization_users")}</Badge>
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className="text-xs">
-                        {department._count?.teams || 0}{t("admin.organization.teams")}</Badge>
+                        {department._count?.teams || 0}{t("admin_organization_teams")}</Badge>
                     </TableCell>
                     <TableCell>
                       {department.budget ? <span className="font-medium">
@@ -580,16 +580,16 @@ export default function Departments() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.organization.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_organization_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openEditDialog(department)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.organization.edit_department")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_organization_edit_department")}</DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Users className="h-4 w-4 mr-2" />{t("admin.organization.view_users")}</DropdownMenuItem>
+                            <Users className="h-4 w-4 mr-2" />{t("admin_organization_view_users")}</DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Settings className="h-4 w-4 mr-2" />{t("admin.organization.manage_teams")}</DropdownMenuItem>
+                            <Settings className="h-4 w-4 mr-2" />{t("admin_organization_manage_teams")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deleteDepartment(department.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.organization.delete_department")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_organization_delete_department")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -603,21 +603,21 @@ export default function Departments() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.hierarchy_levels")}</CardTitle>
+              <CardTitle>{t("admin_organization_hierarchy_levels")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.root_level")}</span>
+                  <span className="text-sm">{t("admin_organization_root_level")}</span>
                   <span className="font-medium">{rootDepartments}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.subdepartments")}</span>
+                  <span className="text-sm">{t("admin_organization_subdepartments")}</span>
                   <span className="font-medium">{totalDepartments - rootDepartments}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.max_depth")}</span>
-                  <span className="font-medium">{t("admin.organization.3_levels")}</span>
+                  <span className="text-sm">{t("admin_organization_max_depth")}</span>
+                  <span className="font-medium">{t("admin_organization_3_levels")}</span>
                 </div>
               </div>
             </CardContent>
@@ -625,7 +625,7 @@ export default function Departments() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.resource_allocation")}</CardTitle>
+              <CardTitle>{t("admin_organization_resource_allocation")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -633,17 +633,17 @@ export default function Departments() {
                   <div className="text-2xl font-bold text-green-600">
                     {totalUsers}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.organization.total_users")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_organization_total_users")}</p>
                   <div className="text-xs text-muted-foreground mt-1">
-                    {totalDepartments > 0 ? Math.round(totalUsers / totalDepartments) : 0}{t("admin.organization.avg_per_department")}</div>
+                    {totalDepartments > 0 ? Math.round(totalUsers / totalDepartments) : 0}{t("admin_organization_avg_per_department")}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-slate-600">
                     {totalTeams}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.organization.total_teams")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_organization_total_teams")}</p>
                   <div className="text-xs text-muted-foreground mt-1">
-                    {totalDepartments > 0 ? Math.round(totalTeams / totalDepartments) : 0}{t("admin.organization.avg_per_department")}</div>
+                    {totalDepartments > 0 ? Math.round(totalTeams / totalDepartments) : 0}{t("admin_organization_avg_per_department")}</div>
                 </div>
               </div>
             </CardContent>
@@ -651,24 +651,24 @@ export default function Departments() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.budget_overview")}</CardTitle>
+              <CardTitle>{t("admin_organization_budget_overview")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.departments_with_budget")}</span>
+                  <span className="text-sm">{t("admin_organization_departments_with_budget")}</span>
                   <span className="font-medium">
                     {departments.filter(d => d.budget).length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.total_budget")}</span>
+                  <span className="text-sm">{t("admin_organization_total_budget")}</span>
                   <span className="font-medium">
                     ${departments.reduce((acc, d) => acc + (d.budget || 0), 0).toLocaleString()}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.average_budget")}</span>
+                  <span className="text-sm">{t("admin_organization_average_budget")}</span>
                   <span className="font-medium">
                     ${departments.length > 0 ? Math.round(departments.reduce((acc, d) => acc + (d.budget || 0), 0) / departments.length).toLocaleString() : '0'}
                   </span>

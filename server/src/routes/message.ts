@@ -112,6 +112,45 @@ export const messageRoutes = new Elysia({ prefix: "/message" })
   })
 
   /**
+   * GET /message/conversations
+   * Retrieves all conversations (threads with latest message) for message dropdown.
+   */
+  .get("/conversations", async ({ orgId: contextOrgId, db, query }) => {
+    const { page = "1", limit = "20", orgId: queryOrgId } = query as any;
+    const orgId = queryOrgId || contextOrgId;
+
+    // Get unique threads with their latest message
+    const result = await messageService.withDB(db as any).getAll({
+      where: {
+        ...(orgId && { orgId }),
+      },
+      distinct: ["threadId"],
+      orderBy: { updatedAt: "desc" },
+      skip: (parseInt(page) - 1) * parseInt(limit),
+      take: parseInt(limit),
+    });
+
+    // Map to conversation format
+    const data = (result.data || []).map((msg: any) => ({
+      id: msg.threadId || msg.id,
+      name: msg.subject || msg.senderName || "Unknown",
+      lastMessage: msg.body || "",
+      time: msg.updatedAt || msg.createdAt,
+      unread: msg.readStatus === "UNREAD",
+      online: false,
+      avatarUrl: msg.senderAvatar || undefined,
+    }));
+
+    return { data };
+  }, {
+    query: t.Partial(t.Object({
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+      orgId: t.Optional(t.String()),
+    }))
+  })
+
+  /**
    * GET /message
    * Retrieves all Message with pagination and basic filtering.
    */

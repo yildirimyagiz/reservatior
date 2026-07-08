@@ -39,72 +39,72 @@ export default function SecurityOverview() {
   const { t } = useTranslation();
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-6">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h1 className="text-xl font-bold text-white">{t("admin.security.security_matrix_overview")}</h1>
-          <p className="text-sm text-slate-400">{t("admin.security.monitor_neural_handshake_stability")}</p>
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t("admin_security_security_matrix_overview")}</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{t("admin_security_monitor_neural_handshake_stability")}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l-emerald-500/30 border-l-2">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l-emerald-500/30 border-l-2">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
                <Lock className="w-12 h-12" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.security.mfa_adoption_dna")}</p>
-              <h3 className="text-xl font-bold text-white leading-none">68%</h3>
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1">{t("admin_security_mfa_adoption_dna")}</p>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-none">68%</h3>
               <p className="text-[10px] font-bold text-emerald-400 mt-4 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3" />{t("admin.security.5_vs_last_cycle")}</p>
+                <TrendingUp className="w-3 h-3" />{t("admin_security_5_vs_last_cycle")}</p>
               <div className="mt-4 h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                 <div className="h-full bg-emerald-600 rounded-full" style={{ width: "68%" }}></div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
                <Fingerprint className="w-12 h-12" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.security.biometric_sync")}</p>
-              <h3 className="text-xl font-bold text-white leading-none">42%</h3>
-              <p className="text-[10px] font-bold text-slate-400 mt-4 flex items-center gap-1">{t("admin.security.mobile_entity_links")}</p>
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1">{t("admin_security_biometric_sync")}</p>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-none">42%</h3>
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-4 flex items-center gap-1">{t("admin_security_mobile_entity_links")}</p>
               <div className="mt-4 h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                 <div className="h-full bg-slate-600 rounded-full" style={{ width: "42%" }}></div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l-rose-500/30 border-l-2">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group border-l-rose-500/30 border-l-2">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-rose-500">
                <ShieldAlert className="w-12 h-12" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.security.active_anomalies")}</p>
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1">{t("admin_security_active_anomalies")}</p>
               <h3 className="text-xl font-bold text-rose-500 leading-none">2</h3>
               <div className="mt-4 flex gap-2">
-                 <Badge className="bg-rose-500/20 text-rose-400 border-none text-[8px] font-bold">{t("admin.security.high_risk_detected")}</Badge>
+                 <Badge className="bg-rose-500/20 text-rose-400 border-none text-[8px] font-bold">{t("admin_security_high_risk_detected")}</Badge>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-orange-500">
                <AlertTriangle className="w-12 h-12" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-slate-400 mb-1">{t("admin.security.auth_failures_24h")}</p>
-              <h3 className="text-xl font-bold text-white leading-none">124</h3>
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1">{t("admin_security_auth_failures_24h")}</p>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-none">124</h3>
               <p className="text-[10px] font-bold text-orange-400 mt-4 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3" />{t("admin.security.12_velocity_increase")}</p>
+                <TrendingUp className="w-3 h-3" />{t("admin_security_12_velocity_increase")}</p>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <Card className="lg:col-span-8 bg-white/5 backdrop-blur-xl border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
-            <CardHeader className="p-8 border-b border-white/10">
-              <CardTitle className="text-xs font-bold text-white flex items-center gap-2">
-                <Activity className="w-4 h-4 text-slate-500" />{t("admin.security.neural_handshake_velocity")}</CardTitle>
+          <Card className="lg:col-span-8 bg-white/5 backdrop-blur-xl border-slate-200 dark:border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
+            <CardHeader className="p-8 border-b border-slate-200 dark:border-white/10">
+              <CardTitle className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Activity className="w-4 h-4 text-slate-500" />{t("admin_security_neural_handshake_velocity")}</CardTitle>
             </CardHeader>
             <CardContent className="p-8 h-[400px]">
               <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -130,10 +130,10 @@ export default function SecurityOverview() {
             </CardContent>
           </Card>
 
-          <Card className="lg:col-span-4 bg-white/5 backdrop-blur-xl border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t">
-            <CardHeader className="p-8 border-b border-white/10">
+          <Card className="lg:col-span-4 bg-white/5 backdrop-blur-xl border-slate-200 dark:border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t">
+            <CardHeader className="p-8 border-b border-slate-200 dark:border-white/10">
               <CardTitle className="text-xs font-bold text-rose-500 flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4" />{t("admin.security.priority_anomalies")}</CardTitle>
+                <ShieldAlert className="w-4 h-4" />{t("admin_security_priority_anomalies")}</CardTitle>
             </CardHeader>
             <CardContent className="p-6 space-y-4">
               <div className="p-6 rounded-3xl bg-rose-500/5 border border-rose-500/10 flex items-start gap-4 hover:bg-rose-500/10 transition-all cursor-pointer group">
@@ -141,10 +141,10 @@ export default function SecurityOverview() {
                    <ShieldAlert className="w-5 h-5 text-rose-500" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-[10px] font-bold text-white tracking-tight">{t("admin.security.bruteforce_blocked")}</p>
-                  <p className="text-[10px] text-slate-400 font-bold mt-1">{t("admin.security.ip_1852241102_15m_ago")}</p>
+                  <p className="text-[10px] font-bold text-slate-900 dark:text-white tracking-tight">{t("admin_security_bruteforce_blocked")}</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-1">{t("admin_security_ip_1852241102_15m_ago")}</p>
                 </div>
-                <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white"><Eye className="w-4 h-4" /></Button>
+                <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-white"><Eye className="w-4 h-4" /></Button>
               </div>
 
               <div className="p-6 rounded-3xl bg-orange-500/5 border border-orange-500/10 flex items-start gap-4 hover:bg-orange-500/10 transition-all cursor-pointer group">
@@ -152,60 +152,60 @@ export default function SecurityOverview() {
                    <AlertTriangle className="w-5 h-5 text-orange-400" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-[10px] font-bold text-white tracking-tight">{t("admin.security.multiple_mfa_fails")}</p>
-                  <p className="text-[10px] text-slate-400 font-bold mt-1">{t("admin.security.user_adminpropos_2h_ago")}</p>
+                  <p className="text-[10px] font-bold text-slate-900 dark:text-white tracking-tight">{t("admin_security_multiple_mfa_fails")}</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-1">{t("admin_security_user_adminpropos_2h_ago")}</p>
                 </div>
-                <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white"><Eye className="w-4 h-4" /></Button>
+                <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-white"><Eye className="w-4 h-4" /></Button>
               </div>
 
-              <div className="p-6 rounded-3xl bg-white/5 border border-white/10 flex items-start gap-4 hover:bg-white/10 transition-all cursor-pointer group">
-                <div className="p-3 bg-[#14151a] border border-white/10 rounded-2xl group-hover:scale-110 transition-all">
-                   <Key className="w-5 h-5 text-slate-400" />
+              <div className="p-6 rounded-3xl bg-white/5 border border-slate-200 dark:border-white/10 flex items-start gap-4 hover:bg-white/10 transition-all cursor-pointer group">
+                <div className="p-3 bg-[#14151a] border border-slate-200 dark:border-white/10 rounded-2xl group-hover:scale-110 transition-all">
+                   <Key className="w-5 h-5 text-slate-500 dark:text-slate-400" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-[10px] font-bold text-white tracking-tight">{t("admin.security.token_handshake_revealed")}</p>
-                  <p className="text-[10px] text-slate-400 font-bold mt-1">{t("admin.security.system_log_5h_ago")}</p>
+                  <p className="text-[10px] font-bold text-slate-900 dark:text-white tracking-tight">{t("admin_security_token_handshake_revealed")}</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-1">{t("admin_security_system_log_5h_ago")}</p>
                 </div>
-                <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white"><Eye className="w-4 h-4" /></Button>
+                <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-white"><Eye className="w-4 h-4" /></Button>
               </div>
 
-              <Button variant="outline" className="w-full mt-4 h-14 rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white font-bold text-[10px] gap-2">{t("admin.security.synchronize_security_logs")}<ArrowRight className="w-4 h-4" />
+              <Button variant="outline" className="w-full mt-4 h-14 rounded-2xl border-slate-200 dark:border-white/10 bg-white/5 hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-white font-bold text-[10px] gap-2">{t("admin_security_synchronize_security_logs")}<ArrowRight className="w-4 h-4" />
               </Button>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-           <Card className="bg-white/5 border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
+           <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
               <div className="flex items-center gap-6">
                  <div className="p-4 bg-slate-600/10 border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
-                    <ShieldCheck className="w-8 h-8 text-slate-400" />
+                    <ShieldCheck className="w-8 h-8 text-slate-500 dark:text-slate-400" />
                  </div>
                  <div>
-                    <h4 className="text-sm font-bold text-white">{t("admin.security.protocol_audit")}</h4>
-                    <p className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.security.deep_neural_scan_of")}</p>
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">{t("admin_security_protocol_audit")}</h4>
+                    <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1">{t("admin_security_deep_neural_scan_of")}</p>
                  </div>
               </div>
            </Card>
-           <Card className="bg-white/5 border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
+           <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
               <div className="flex items-center gap-6">
                  <div className="p-4 bg-slate-600/10 border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
-                    <Zap className="w-8 h-8 text-slate-400" />
+                    <Zap className="w-8 h-8 text-slate-500 dark:text-slate-400" />
                  </div>
                  <div>
-                    <h4 className="text-sm font-bold text-white">{t("admin.security.key_rotation")}</h4>
-                    <p className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.security.symmetric_encryption_update")}</p>
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">{t("admin_security_key_rotation")}</h4>
+                    <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1">{t("admin_security_symmetric_encryption_update")}</p>
                  </div>
               </div>
            </Card>
-           <Card className="bg-white/5 border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
+           <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
               <div className="flex items-center gap-6">
                  <div className="p-4 bg-orange-600/10 border border-orange-500/20 rounded-2xl group-hover:scale-110 transition-all">
                     <Activity className="w-8 h-8 text-orange-400" />
                  </div>
                  <div>
-                    <h4 className="text-sm font-bold text-white">{t("admin.security.health_snapshot")}</h4>
-                    <p className="text-[10px] font-bold text-slate-400 mt-1">{t("admin.security.generate_system_pulse_report")}</p>
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">{t("admin_security_health_snapshot")}</h4>
+                    <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1">{t("admin_security_generate_system_pulse_report")}</p>
                  </div>
               </div>
            </Card>

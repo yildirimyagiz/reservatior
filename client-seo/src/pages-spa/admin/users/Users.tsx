@@ -72,14 +72,14 @@ export default function Users() {
       await usersApi.create(payload);
       setCreateOpen(false);
       toast({
-        title: t("admin.users.entity_initialized"),
-        description: t("admin.users.new_identity_node_has")
+        title: t("admin_users_entity_initialized"),
+        description: t("admin_users_new_identity_node_has")
       });
       refetch();
     } catch (error) {
       toast({
-        title: t("admin.users.sync_failed"),
-        description: t("admin.users.failed_to_initialize_identity"),
+        title: t("admin_users_sync_failed"),
+        description: t("admin_users_failed_to_initialize_identity"),
         variant: "destructive"
       });
     }
@@ -93,14 +93,14 @@ export default function Users() {
       await usersApi.update(selectedUser.id, payload);
       setEditOpen(false);
       toast({
-        title: t("admin.users.identity_reconfigured"),
-        description: t("admin.users.node_parameters_updated_successfully")
+        title: t("admin_users_identity_reconfigured"),
+        description: t("admin_users_node_parameters_updated_successfully")
       });
       refetch();
     } catch (error) {
       toast({
-        title: t("admin.users.update_failed"),
-        description: t("admin.users.failed_to_reconfigure_node"),
+        title: t("admin_users_update_failed"),
+        description: t("admin_users_failed_to_reconfigure_node"),
         variant: "destructive"
       });
     }
@@ -111,14 +111,14 @@ export default function Users() {
         status: user.status === "ACTIVE" ? "INACTIVE" : "ACTIVE"
       });
       toast({
-        title: t("admin.users.status_synchronized"),
+        title: t("admin_users_status_synchronized"),
         description: t("admin.users.node_is_now", { status: user.status === "ACTIVE" ? t("admin.users.offline", "ÇEVRİMDIŞI") : t("admin.users.active", "AKTİF") })
       });
       refetch();
     } catch (error) {
       toast({
-        title: t("admin.users.error"),
-        description: t("admin.users.failed_to_update_node"),
+        title: t("admin_users_error"),
+        description: t("admin_users_failed_to_update_node"),
         variant: "destructive"
       });
     }
@@ -128,14 +128,14 @@ export default function Users() {
     try {
       await usersApi.delete(id);
       toast({
-        title: t("admin.users.entity_terminated"),
-        description: t("admin.users.identity_node_removed_from")
+        title: t("admin_users_entity_terminated"),
+        description: t("admin_users_identity_node_removed_from")
       });
       refetch();
     } catch (error) {
       toast({
-        title: t("admin.users.termination_failed"),
-        description: t("admin.users.failed_to_remove_identity"),
+        title: t("admin_users_termination_failed"),
+        description: t("admin_users_failed_to_remove_identity"),
         variant: "destructive"
       });
     }
@@ -144,22 +144,22 @@ export default function Users() {
     switch (role) {
       case 'SUPER_ADMIN':
         return {
-          label: t("admin.users.supernode"),
+          label: t("admin_users_supernode"),
           color: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20'
         };
       case 'ADMIN':
         return {
-          label: t("admin.users.coreadmin"),
+          label: t("admin_users_coreadmin"),
           color: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20'
         };
       case 'AGENT':
         return {
-          label: t("admin.users.fieldagent"),
+          label: t("admin_users_fieldagent"),
           color: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
         };
       default:
         return {
-          label: t("admin.users.entitynode"),
+          label: t("admin_users_entitynode"),
           color: 'bg-muted text-muted-foreground border-border'
         };
     }
@@ -195,7 +195,7 @@ export default function Users() {
             </div>
             <CardContent className="p-8">
               <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("users")}</p>
-              <h3 className="text-3xl font-bold text-slate-400 leading-none font-mono">{users.filter(u => u.role === 'ADMIN').length}</h3>
+              <h3 className="text-3xl font-bold text-slate-500 dark:text-slate-400 leading-none font-mono">{users.filter(u => u.role === 'ADMIN').length}</h3>
             </CardContent>
           </Card>
 
@@ -271,7 +271,7 @@ export default function Users() {
                              <Badge className={cn("text-[8px] font-bold  tracking-[0.2em] px-3 py-1 rounded-xl  border-none shadow-sm", getRoleConfig(user.role || 'USER').color)}>
                                 {getRoleConfig(user.role || 'USER').label}
                              </Badge>
-                            {user.status === 'ACTIVE' ? <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1 shadow-sm">{t("admin.users.activesignal")}</Badge> : <Badge className="bg-muted text-muted-foreground border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1">{t("admin.users.offline")}</Badge>}
+                            {user.status === 'ACTIVE' ? <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1 shadow-sm">{t("admin_users_activesignal")}</Badge> : <Badge className="bg-muted text-muted-foreground border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1">{t("admin_users_offline")}</Badge>}
                           </div>
                        </div>
                     </div>
@@ -283,7 +283,7 @@ export default function Users() {
                     setSelectedUser(user);
                     setEditOpen(true);
                   }} className="text-[9px] font-bold text-muted-foreground hover:text-primary tracking-[0.2em] h-8 px-0 gap-2 transition-colors">
-                             <Edit className="w-3 h-3" />{t("admin.users.reconfig")}</Button>
+                             <Edit className="w-3 h-3" />{t("admin_users_reconfig")}</Button>
                           <Button variant="ghost" size="sm" onClick={e => {
                     e.stopPropagation();
                     handleToggleStatus(user);
@@ -309,7 +309,7 @@ export default function Users() {
               <div className="h-24 w-24 rounded-3xl bg-background border border-border flex items-center justify-center shadow-inner">
                  <UsersIcon className="w-10 h-10 text-muted-foreground" />
               </div>
-              <p className="text-[10px] font-bold text-muted-foreground tracking-[0.3em]">{t("admin.users.awaiting_identity_node_broadcast")}</p>
+              <p className="text-[10px] font-bold text-muted-foreground tracking-[0.3em]">{t("admin_users_awaiting_identity_node_broadcast")}</p>
            </div>}
       </div>
 
@@ -319,41 +319,41 @@ export default function Users() {
           <form onSubmit={handleCreate}>
             <div className="p-10 space-y-12">
               <DialogHeader>
-                <DialogTitle className="text-3xl font-bold text-foreground leading-none">{t("admin.users.initialize_entity")}</DialogTitle>
-                <DialogDescription className="text-[10px] font-bold text-muted-foreground tracking-[0.2em] mt-2">{t("admin.users.provisioning_new_identity_node")}</DialogDescription>
+                <DialogTitle className="text-3xl font-bold text-foreground leading-none">{t("admin_users_initialize_entity")}</DialogTitle>
+                <DialogDescription className="text-[10px] font-bold text-muted-foreground tracking-[0.2em] mt-2">{t("admin_users_provisioning_new_identity_node")}</DialogDescription>
               </DialogHeader>
               
               <div className="space-y-8">
                 <div className="space-y-3">
-                  <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin.users.full_identity_alias")}</Label>
-                  <Input name="name" required className="h-14 bg-background/40 border-border rounded-xl text-foreground pl-4 font-bold focus:ring-primary/20" placeholder={t("admin.users.coreident01")} />
+                  <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin_users_full_identity_alias")}</Label>
+                  <Input name="name" required className="h-14 bg-background/40 border-border rounded-xl text-foreground pl-4 font-bold focus:ring-primary/20" placeholder={t("admin_users_coreident01")} />
                 </div>
                 <div className="space-y-3">
-                  <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin.users.network_comm_link_email")}</Label>
-                  <Input name="email" type="email" required className="h-14 bg-background/40 border-border rounded-xl text-foreground pl-4 font-bold focus:ring-primary/20" placeholder={t("admin.users.nodenexuscom")} />
+                  <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin_users_network_comm_link_email")}</Label>
+                  <Input name="email" type="email" required className="h-14 bg-background/40 border-border rounded-xl text-foreground pl-4 font-bold focus:ring-primary/20" placeholder={t("admin_users_nodenexuscom")} />
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-3">
-                    <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin.users.role_hierarchies")}</Label>
+                    <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin_users_role_hierarchies")}</Label>
                     <Select name="role" defaultValue="AGENT">
                       <SelectTrigger className="h-14 bg-background/40 border-border rounded-xl text-foreground font-bold text-[10px] focus:ring-primary/20">
-                        <SelectValue placeholder={t("admin.users.nodeclass")} />
+                        <SelectValue placeholder={t("admin_users_nodeclass")} />
                       </SelectTrigger>
                       <SelectContent className="bg-card border-border rounded-xl">
-                        <SelectItem value="ADMIN" className="font-bold text-[10px]">{t("admin.users.coreadmin")}</SelectItem>
-                        <SelectItem value="AGENT" className="font-bold text-[10px]">{t("admin.users.fieldagent")}</SelectItem>
+                        <SelectItem value="ADMIN" className="font-bold text-[10px]">{t("admin_users_coreadmin")}</SelectItem>
+                        <SelectItem value="AGENT" className="font-bold text-[10px]">{t("admin_users_fieldagent")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-3">
-                    <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin.users.initial_pulse_state")}</Label>
+                    <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin_users_initial_pulse_state")}</Label>
                     <Select name="status" defaultValue="ACTIVE">
                       <SelectTrigger className="h-14 bg-background/40 border-border rounded-xl text-foreground font-bold text-[10px] focus:ring-primary/20">
-                        <SelectValue placeholder={t("admin.users.pulsestate")} />
+                        <SelectValue placeholder={t("admin_users_pulsestate")} />
                       </SelectTrigger>
                       <SelectContent className="bg-card border-border rounded-xl">
-                        <SelectItem value="ACTIVE" className="font-bold text-[10px]">{t("admin.users.awakened")}</SelectItem>
-                        <SelectItem value="INACTIVE" className="font-bold text-[10px]">{t("admin.users.dormant")}</SelectItem>
+                        <SelectItem value="ACTIVE" className="font-bold text-[10px]">{t("admin_users_awakened")}</SelectItem>
+                        <SelectItem value="INACTIVE" className="font-bold text-[10px]">{t("admin_users_dormant")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -362,8 +362,8 @@ export default function Users() {
             </div>
             
             <footer className="p-8 bg-muted/20 border-t border-border flex gap-4">
-              <Button type="button" variant="ghost" onClick={() => setCreateOpen(false)} className="h-12 flex-1 rounded-xl text-[10px] font-bold text-muted-foreground tracking-[0.2em] hover:text-foreground transition-all">{t("admin.users.abort_cycle")}</Button>
-              <Button type="submit" className="h-12 flex-1 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-[10px] tracking-[0.2em] shadow-xl shadow-primary/20 transition-all">{t("admin.users.push_node")}<ChevronRight className="w-3 h-3 ml-2" />
+              <Button type="button" variant="ghost" onClick={() => setCreateOpen(false)} className="h-12 flex-1 rounded-xl text-[10px] font-bold text-muted-foreground tracking-[0.2em] hover:text-foreground transition-all">{t("admin_users_abort_cycle")}</Button>
+              <Button type="submit" className="h-12 flex-1 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-[10px] tracking-[0.2em] shadow-xl shadow-primary/20 transition-all">{t("admin_users_push_node")}<ChevronRight className="w-3 h-3 ml-2" />
               </Button>
             </footer>
           </form>

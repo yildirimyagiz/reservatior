@@ -170,13 +170,13 @@ export const adminRoutes = [
 {
   path: '/admin/analytics',
   component: 'AnalyticsDashboard',
-  label: t("admin.index.analytics_dashboard"),
+  label: t("admin_index_analytics_dashboard"),
   icon: 'BarChart3',
   category: 'analytics'
 }, {
   path: '/admin/service-analytics',
   component: 'AIServiceAnalytics',
-  label: t("admin.index.ai_service_tracking"),
+  label: t("admin_index_ai_service_tracking"),
   icon: 'Brain',
   category: 'analytics'
 },
@@ -184,7 +184,7 @@ export const adminRoutes = [
 {
   path: '/admin/advanced-security',
   component: 'AdvancedSecurity',
-  label: t("admin.index.advanced_security"),
+  label: t("admin_index_advanced_security"),
   icon: 'Shield',
   category: 'security'
 },
@@ -192,7 +192,7 @@ export const adminRoutes = [
 {
   path: '/admin/system-settings',
   component: 'SystemSettings',
-  label: t("admin.index.system_settings"),
+  label: t("admin_index_system_settings"),
   icon: 'Settings',
   category: 'system'
 },
@@ -200,7 +200,7 @@ export const adminRoutes = [
 {
   path: '/admin/communication-templates',
   component: 'CommunicationTemplates',
-  label: t("admin.index.communication_templates"),
+  label: t("admin_index_communication_templates"),
   icon: 'Mail',
   category: 'communication'
 },
@@ -208,7 +208,7 @@ export const adminRoutes = [
 {
   path: '/admin/document-management',
   component: 'DocumentManagement',
-  label: t("admin.index.document_management"),
+  label: t("admin_index_document_management"),
   icon: 'FileText',
   category: 'documents'
 },
@@ -216,7 +216,7 @@ export const adminRoutes = [
 {
   path: '/admin/location-services',
   component: 'LocationServices',
-  label: t("admin.index.location_services"),
+  label: t("admin_index_location_services"),
   icon: 'Map',
   category: 'location'
 },
@@ -224,7 +224,7 @@ export const adminRoutes = [
 {
   path: '/admin/mobile-devices',
   component: 'MobileDeviceManagement',
-  label: t("admin.index.mobile_devices"),
+  label: t("admin_index_mobile_devices"),
   icon: 'Smartphone',
   category: 'mobile'
 },
@@ -232,7 +232,7 @@ export const adminRoutes = [
 {
   path: '/admin/ai-configuration',
   component: 'AIConfiguration',
-  label: t("admin.index.ai_configuration"),
+  label: t("admin_index_ai_configuration"),
   icon: 'Brain',
   category: 'ai'
 },
@@ -240,7 +240,7 @@ export const adminRoutes = [
 {
   path: '/admin/custom-reports',
   component: 'CustomReports',
-  label: t("admin.index.custom_reports"),
+  label: t("admin_index_custom_reports"),
   icon: 'FileText',
   category: 'reports'
 },
@@ -248,7 +248,7 @@ export const adminRoutes = [
 {
   path: '/admin/dashboard',
   component: 'Dashboard',
-  label: t("admin.index.dashboard"),
+  label: t("admin_index_dashboard"),
   icon: 'LayoutDashboard',
   category: 'core'
 },
@@ -256,25 +256,25 @@ export const adminRoutes = [
 {
   path: '/admin/users',
   component: 'Users',
-  label: t("admin.index.users"),
+  label: t("admin_index_users"),
   icon: 'Users',
   category: 'users'
 }, {
   path: '/admin/organizations',
   component: 'Organizations',
-  label: t("admin.index.organizations"),
+  label: t("admin_index_organizations"),
   icon: 'Building2',
   category: 'users'
 }, {
   path: '/admin/roles',
   component: 'Roles',
-  label: t("admin.index.roles"),
+  label: t("admin_index_roles"),
   icon: 'Shield',
   category: 'users'
 }, {
   path: '/admin/plans',
   component: 'Plans',
-  label: t("admin.index.plans"),
+  label: t("admin_index_plans"),
   icon: 'CreditCard',
   category: 'users'
 },
@@ -282,13 +282,13 @@ export const adminRoutes = [
 {
   path: '/admin/reports',
   component: 'Reports',
-  label: t("admin.index.reports"),
+  label: t("admin_index_reports"),
   icon: 'FileText',
   category: 'reports'
 }, {
   path: '/admin/agent-performance',
   component: 'AgentPerformance',
-  label: t("admin.index.agent_performance"),
+  label: t("admin_index_agent_performance"),
   icon: 'TrendingUp',
   category: 'reports'
 },
@@ -296,73 +296,73 @@ export const adminRoutes = [
 {
   path: '/admin/financial-reports',
   component: 'FinancialReports',
-  label: t("admin.index.financial_reports"),
+  label: t("admin_index_financial_reports"),
   icon: 'DollarSign',
   category: 'financial'
 }, {
   path: '/admin/payouts',
   component: 'Payouts',
-  label: t("admin.index.payouts"),
+  label: t("admin_index_payouts"),
   icon: 'Banknote',
   category: 'financial'
 }, {
   path: '/admin/escrow',
   component: 'EscrowManagement',
-  label: t("admin.index.escrow_management"),
+  label: t("admin_index_escrow_management"),
   icon: 'Scale',
   category: 'financial'
 }, {
   path: '/admin/coupons',
   component: 'CouponsManagement',
-  label: t("admin.index.escrow_management"),
+  label: t("admin_index_escrow_management"),
   icon: 'Scale',
   category: 'financial'
 }, {
   path: '/admin/commission-distribution',
   component: 'CommissionDistribution',
-  label: t("admin.index.sales_commissions"),
+  label: t("admin_index_sales_commissions"),
   icon: 'HandCoins',
   category: 'financial'
 }, {
   path: '/admin/tax-settings',
   component: 'GlobalTaxSettings',
-  label: t("admin.index.tax_compliance"),
+  label: t("admin_index_tax_compliance"),
   icon: 'Landmark',
   category: 'financial'
 }, {
   path: '/admin/security-screening',
   component: 'SecurityScreening',
-  label: t("admin.index.security_screening"),
+  label: t("admin_index_security_screening"),
   icon: 'ShieldCheck',
   category: 'security'
 }, {
   path: '/admin/api-tokens',
   component: 'ApiTokens',
-  label: t("admin.index.api_tokens"),
+  label: t("admin_index_api_tokens"),
   icon: 'Key',
   category: 'security'
 }, {
   path: '/admin/sessions',
   component: 'Sessions',
-  label: t("admin.index.sessions"),
+  label: t("admin_index_sessions"),
   icon: 'Monitor',
   category: 'security'
 }, {
   path: '/admin/audit-logs',
   component: 'AuditLogs',
-  label: t("admin.index.audit_logs"),
+  label: t("admin_index_audit_logs"),
   icon: 'ScrollText',
   category: 'security'
 }, {
   path: '/admin/security',
   component: 'SecurityOverview',
-  label: t("admin.index.security_overview"),
+  label: t("admin_index_security_overview"),
   icon: 'Shield',
   category: 'security'
 }, {
   path: '/admin/security-events',
   component: 'SecurityEvents',
-  label: t("admin.index.security_events"),
+  label: t("admin_index_security_events"),
   icon: 'ShieldAlert',
   category: 'security'
 },
@@ -370,13 +370,13 @@ export const adminRoutes = [
 {
   path: '/admin/system-metrics',
   component: 'SystemMetrics',
-  label: t("admin.index.system_metrics"),
+  label: t("admin_index_system_metrics"),
   icon: 'Activity',
   category: 'system'
 }, {
   path: '/admin/attachments',
   component: 'Attachments',
-  label: t("admin.index.attachments"),
+  label: t("admin_index_attachments"),
   icon: 'Paperclip',
   category: 'system'
 },
@@ -384,19 +384,19 @@ export const adminRoutes = [
 {
   path: '/admin/export-jobs',
   component: 'ExportJobs',
-  label: t("admin.index.export_jobs"),
+  label: t("admin_index_export_jobs"),
   icon: 'Download',
   category: 'integrations'
 }, {
   path: '/admin/exports',
   component: 'Exports',
-  label: t("admin.index.exports"),
+  label: t("admin_index_exports"),
   icon: 'FileDown',
   category: 'integrations'
 }, {
   path: '/admin/mls-integration',
   component: 'MLSIntegration',
-  label: t("admin.index.mls_integration"),
+  label: t("admin_index_mls_integration"),
   icon: 'Link',
   category: 'integrations'
 },
@@ -404,31 +404,31 @@ export const adminRoutes = [
 {
   path: '/admin/properties',
   component: 'AdminProperties',
-  label: t("admin.index.portfolio_neural_hub"),
+  label: t("admin_index_portfolio_neural_hub"),
   icon: 'Building2',
   category: 'property'
 }, {
   path: '/admin/ownership-verification',
   component: 'OwnershipVerification',
-  label: t("admin.index.ownership_verification"),
+  label: t("admin_index_ownership_verification"),
   icon: 'ShieldCheck',
   category: 'property'
 }, {
   path: '/admin/valuations',
   component: 'Valuations',
-  label: t("admin.index.ai_valuations"),
+  label: t("admin_index_ai_valuations"),
   icon: 'Brain',
   category: 'property'
 }, {
   path: '/admin/lead-conversions',
   component: 'LeadConversions',
-  label: t("admin.index.lead_conversions"),
+  label: t("admin_index_lead_conversions"),
   icon: 'TrendingUp',
   category: 'property'
 }, {
   path: '/admin/market-insights',
   component: 'MarketInsights',
-  label: t("admin.index.market_insights"),
+  label: t("admin_index_market_insights"),
   icon: 'BarChart',
   category: 'property'
 },
@@ -436,19 +436,19 @@ export const adminRoutes = [
 {
   path: '/admin/video-vendors',
   component: 'VideoVendors',
-  label: t("admin.index.video_vendors"),
+  label: t("admin_index_video_vendors"),
   icon: 'Video',
   category: 'marketing'
 }, {
   path: '/admin/video-partnerships',
   component: 'VideoVendorPartnerships',
-  label: t("admin.index.vendor_partnerships"),
+  label: t("admin_index_vendor_partnerships"),
   icon: 'Handshake',
   category: 'marketing'
 }, {
   path: '/admin/agent-videos',
   component: 'AgentVideos',
-  label: t("admin.index.agent_videos"),
+  label: t("admin_index_agent_videos"),
   icon: 'Camera',
   category: 'marketing'
 },
@@ -456,13 +456,13 @@ export const adminRoutes = [
 {
   path: '/admin/ai-dashboard',
   component: 'AIDashboard',
-  label: t("admin.index.ai_dashboard"),
+  label: t("admin_index_ai_dashboard"),
   icon: 'Brain',
   category: 'ai'
 }, {
   path: '/admin/ai-models',
   component: 'AIModels',
-  label: t("admin.index.ai_models"),
+  label: t("admin_index_ai_models"),
   icon: 'Brain',
   category: 'ai'
 },
@@ -470,7 +470,7 @@ export const adminRoutes = [
 {
   path: '/admin/marketing',
   component: 'MarketingAutomation',
-  label: t("admin.index.marketing_automation"),
+  label: t("admin_index_marketing_automation"),
   icon: 'Megaphone',
   category: 'marketing'
 }];
@@ -486,53 +486,53 @@ export const adminCategories = {
     description: t("admin.index.operations_desc", "Manage tasks, facilities, and maintenance")
   },
   core: {
-    label: t("admin.index.core"),
+    label: t("admin_index_core"),
     icon: 'LayoutDashboard',
-    description: t("admin.index.main_admin_dashboard_and")
+    description: t("admin_index_main_admin_dashboard_and")
   },
   users: {
-    label: t("admin.index.user_management"),
+    label: t("admin_index_user_management"),
     icon: 'Users',
-    description: t("admin.index.manage_users_organizations_roles")
+    description: t("admin_index_manage_users_organizations_roles")
   },
   financial: {
-    label: t("admin.index.financial"),
+    label: t("admin_index_financial"),
     icon: 'DollarSign',
-    description: t("admin.index.financial_reports_payouts_escrow")
+    description: t("admin_index_financial_reports_payouts_escrow")
   },
   reports: {
-    label: t("admin.index.reports"),
+    label: t("admin_index_reports"),
     icon: 'FileText',
-    description: t("admin.index.system_reports_and_analytics")
+    description: t("admin_index_system_reports_and_analytics")
   },
   security: {
-    label: t("admin.index.security"),
+    label: t("admin_index_security"),
     icon: 'Shield',
-    description: t("admin.index.security_access_control_and")
+    description: t("admin_index_security_access_control_and")
   },
   system: {
-    label: t("admin.index.system"),
+    label: t("admin_index_system"),
     icon: 'Settings',
-    description: t("admin.index.system_metrics_and_configuration")
+    description: t("admin_index_system_metrics_and_configuration")
   },
   integrations: {
-    label: t("admin.index.integrations"),
+    label: t("admin_index_integrations"),
     icon: 'Plug',
-    description: t("admin.index.thirdparty_integrations_mls_and")
+    description: t("admin_index_thirdparty_integrations_mls_and")
   },
   ai: {
-    label: t("admin.index.ai"),
+    label: t("admin_index_ai"),
     icon: 'Brain',
-    description: t("admin.index.ai_model_monitoring_and")
+    description: t("admin_index_ai_model_monitoring_and")
   },
   property: {
-    label: t("admin.index.predict_price_engine"),
+    label: t("admin_index_predict_price_engine"),
     icon: 'Brain',
-    description: t("admin.index.aipowered_property_valuations_lead")
+    description: t("admin_index_aipowered_property_valuations_lead")
   },
   marketing: {
-    label: t("admin.index.video_vendor_system"),
+    label: t("admin_index_video_vendor_system"),
     icon: 'Video',
-    description: t("admin.index.video_vendor_management_partnerships")
+    description: t("admin_index_video_vendor_management_partnerships")
   }
 };

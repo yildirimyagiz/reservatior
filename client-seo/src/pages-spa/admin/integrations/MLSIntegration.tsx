@@ -109,8 +109,8 @@ export default function MLSIntegration() {
       setDataMappings(mappingsRes.data);
     } catch (error) {
       toast({
-        title: t("admin.integrations.error"),
-        description: t("admin.integrations.failed_to_fetch_mls"),
+        title: t("admin_integrations_error"),
+        description: t("admin_integrations_failed_to_fetch_mls"),
         variant: "destructive"
       });
     } finally {
@@ -147,68 +147,68 @@ export default function MLSIntegration() {
   const totalListingsCount = connections.reduce((sum, conn) => sum + (conn.totalListings || 0), 0);
   const recentSyncsCount = syncJobs.filter(s => s.status === 'SUCCESS' && s.finishedAt && new Date(s.finishedAt).toDateString() === new Date().toDateString()).length;
   if (loading) {
-    return <PageShell title={t("admin.integrations.mls_integration")}>
+    return <PageShell title={t("admin_integrations_mls_integration")}>
         <div className="flex items-center justify-center h-64">
           <Database className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.integrations.mls_integration")}>
+  return <PageShell title={t("admin_integrations_mls_integration")}>
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.integrations.active_connections")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_integrations_active_connections")}</CardTitle>
               <Link className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{activeConnections}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.integrations.of")}{connections.length}{t("admin.integrations.total")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_integrations_of")}{connections.length}{t("admin_integrations_total")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.integrations.running_syncs")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_integrations_running_syncs")}</CardTitle>
               <RefreshCw className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{runningSyncs}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.integrations.in_progress")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_integrations_in_progress")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.integrations.total_listings")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_integrations_total_listings")}</CardTitle>
               <Home className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalListingsCount.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.integrations.synchronized_listings")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_integrations_synchronized_listings")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.integrations.recent_syncs")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_integrations_recent_syncs")}</CardTitle>
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{recentSyncsCount}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.integrations.completed_today")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_integrations_completed_today")}</p>
             </CardContent>
           </Card>
         </div>
 
         <Tabs defaultValue="connections" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="connections">{t("admin.integrations.connections")}</TabsTrigger>
-            <TabsTrigger value="sync">{t("admin.integrations.sync_jobs")}</TabsTrigger>
-            <TabsTrigger value="listings" className="font-bold text-[10px]">{t("admin.integrations.external_listings")}</TabsTrigger>
-            <TabsTrigger value="mappings" className="font-bold text-[10px]">{t("admin.integrations.data_mappings")}</TabsTrigger>
-            <TabsTrigger value="roi-insights" className="text-emerald-500 font-bold text-[10px]">{t("admin.integrations.roi_insights")}</TabsTrigger>
+            <TabsTrigger value="connections">{t("admin_integrations_connections")}</TabsTrigger>
+            <TabsTrigger value="sync">{t("admin_integrations_sync_jobs")}</TabsTrigger>
+            <TabsTrigger value="listings" className="font-bold text-[10px]">{t("admin_integrations_external_listings")}</TabsTrigger>
+            <TabsTrigger value="mappings" className="font-bold text-[10px]">{t("admin_integrations_data_mappings")}</TabsTrigger>
+            <TabsTrigger value="roi-insights" className="text-emerald-500 font-bold text-[10px]">{t("admin_integrations_roi_insights")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="connections" className="space-y-4">
@@ -216,69 +216,69 @@ export default function MLSIntegration() {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button>
-                    <Plus className="h-4 w-4 mr-2" />{t("admin.integrations.new_connection")}</Button>
+                    <Plus className="h-4 w-4 mr-2" />{t("admin_integrations_new_connection")}</Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>{t("admin.integrations.connect_new_mls_provider")}</DialogTitle>
-                    <DialogDescription>{t("admin.integrations.select_your_mls_provider")}</DialogDescription>
+                    <DialogTitle>{t("admin_integrations_connect_new_mls_provider")}</DialogTitle>
+                    <DialogDescription>{t("admin_integrations_select_your_mls_provider")}</DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                       <Label>{t("admin.integrations.mls_provider")}</Label>
+                       <Label>{t("admin_integrations_mls_provider")}</Label>
                        <Select onValueChange={v => toast({
-                      title: t("admin.integrations.provider_selected"),
+                      title: t("admin_integrations_provider_selected"),
                       description: `${v} selected. Please provide credentials.`
                     })}>
                          <SelectTrigger className="bg-muted/50 border-border text-foreground">
-                           <SelectValue placeholder={t("admin.integrations.chose_provider")} />
+                           <SelectValue placeholder={t("admin_integrations_chose_provider")} />
                          </SelectTrigger>
                          <SelectContent className="bg-[#14151a] border-border text-foreground max-h-[300px]">
-                            <SelectItem value="BRIDGE_API">{t("admin.integrations.bridge_api_global")}</SelectItem>
-                            <SelectItem value="SPARK_API">{t("admin.integrations.spark_api_north_america")}</SelectItem>
-                            <SelectItem value="ZILLOW">{t("admin.integrations.zillow_redfin_scraper")}</SelectItem>
-                            <SelectItem value="TREB">{t("admin.integrations.treb_toronto")}</SelectItem>
-                            <SelectItem value="CREA">{t("admin.integrations.crea_realtorca")}</SelectItem>
-                            <SelectItem value="IDEALISTA">{t("admin.integrations.idealista_europe")}</SelectItem>
-                            <SelectItem value="RIGHTMOVE">{t("admin.integrations.rightmove_zoopla_uk")}</SelectItem>
-                            <SelectItem value="GENERIC_RETS">{t("admin.integrations.generic_rets_idx")}</SelectItem>
+                            <SelectItem value="BRIDGE_API">{t("admin_integrations_bridge_api_global")}</SelectItem>
+                            <SelectItem value="SPARK_API">{t("admin_integrations_spark_api_north_america")}</SelectItem>
+                            <SelectItem value="ZILLOW">{t("admin_integrations_zillow_redfin_scraper")}</SelectItem>
+                            <SelectItem value="TREB">{t("admin_integrations_treb_toronto")}</SelectItem>
+                            <SelectItem value="CREA">{t("admin_integrations_crea_realtorca")}</SelectItem>
+                            <SelectItem value="IDEALISTA">{t("admin_integrations_idealista_europe")}</SelectItem>
+                            <SelectItem value="RIGHTMOVE">{t("admin_integrations_rightmove_zoopla_uk")}</SelectItem>
+                            <SelectItem value="GENERIC_RETS">{t("admin_integrations_generic_rets_idx")}</SelectItem>
                          </SelectContent>
                        </Select>
                     </div>
                     <div className="grid gap-2">
-                       <Label>{t("admin.integrations.connection_name")}</Label>
-                       <Input placeholder={t("admin.integrations.eg_my_zillow_feed")} className="bg-muted/50 border-border" />
+                       <Label>{t("admin_integrations_connection_name")}</Label>
+                       <Input placeholder={t("admin_integrations_eg_my_zillow_feed")} className="bg-muted/50 border-border" />
                     </div>
                     <div className="grid gap-2">
-                       <Label>{t("admin.integrations.base_url_endpoint")}</Label>
-                       <Input placeholder={t("admin.integrations.https")} className="bg-muted/50 border-border" />
+                       <Label>{t("admin_integrations_base_url_endpoint")}</Label>
+                       <Input placeholder={t("admin_integrations_https")} className="bg-muted/50 border-border" />
                     </div>
                   </div>
                   <Button onClick={() => toast({
-                  title: t("admin.integrations.integration_request_sent"),
-                  description: t("admin.integrations.our_ai_is_verifying")
-                })}>{t("admin.integrations.connect_feed")}</Button>
+                  title: t("admin_integrations_integration_request_sent"),
+                  description: t("admin_integrations_our_ai_is_verifying")
+                })}>{t("admin_integrations_connect_feed")}</Button>
                 </DialogContent>
               </Dialog>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>{t("admin.integrations.mls_connections")}</CardTitle>
+                <CardTitle>{t("admin_integrations_mls_connections")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("admin.integrations.name")}</TableHead>
-                      <TableHead>{t("admin.integrations.provider")}</TableHead>
-                      <TableHead>{t("admin.integrations.endpoint")}</TableHead>
-                      <TableHead>{t("admin.integrations.status")}</TableHead>
-                      <TableHead>{t("admin.integrations.sync_frequency")}</TableHead>
-                      <TableHead>{t("admin.integrations.listings")}</TableHead>
-                      <TableHead>{t("admin.integrations.last_sync")}</TableHead>
-                      <TableHead>{t("admin.integrations.active")}</TableHead>
-                      <TableHead>{t("admin.integrations.actions")}</TableHead>
+                      <TableHead>{t("admin_integrations_name")}</TableHead>
+                      <TableHead>{t("admin_integrations_provider")}</TableHead>
+                      <TableHead>{t("admin_integrations_endpoint")}</TableHead>
+                      <TableHead>{t("admin_integrations_status")}</TableHead>
+                      <TableHead>{t("admin_integrations_sync_frequency")}</TableHead>
+                      <TableHead>{t("admin_integrations_listings")}</TableHead>
+                      <TableHead>{t("admin_integrations_last_sync")}</TableHead>
+                      <TableHead>{t("admin_integrations_active")}</TableHead>
+                      <TableHead>{t("admin_integrations_actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -295,7 +295,7 @@ export default function MLSIntegration() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline">{t("admin.integrations.daily")}</Badge>
+                          <Badge variant="outline">{t("admin_integrations_daily")}</Badge>
                         </TableCell>
                         <TableCell>{(connection.totalListings || 0).toLocaleString()}</TableCell>
                         <TableCell>{connection.lastSyncAt ? new Date(connection.lastSyncAt).toLocaleDateString() : '-'}</TableCell>
@@ -322,28 +322,28 @@ export default function MLSIntegration() {
           <TabsContent value="sync" className="space-y-4">
             <div className="flex justify-end">
               <Button onClick={() => toast({
-              title: t("admin.integrations.coming_soon"),
-              description: t("admin.integrations.this_feature_is_being")
+              title: t("admin_integrations_coming_soon"),
+              description: t("admin_integrations_this_feature_is_being")
             })}>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.integrations.start_sync")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_integrations_start_sync")}</Button>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>{t("admin.integrations.sync_jobs")}</CardTitle>
+                <CardTitle>{t("admin_integrations_sync_jobs")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("admin.integrations.connection")}</TableHead>
-                      <TableHead>{t("admin.integrations.type")}</TableHead>
-                      <TableHead>{t("admin.integrations.status")}</TableHead>
-                      <TableHead>{t("admin.integrations.progress")}</TableHead>
-                      <TableHead>{t("admin.integrations.started")}</TableHead>
-                      <TableHead>{t("admin.integrations.completed")}</TableHead>
-                      <TableHead>{t("admin.integrations.duration")}</TableHead>
-                      <TableHead>{t("admin.integrations.actions")}</TableHead>
+                      <TableHead>{t("admin_integrations_connection")}</TableHead>
+                      <TableHead>{t("admin_integrations_type")}</TableHead>
+                      <TableHead>{t("admin_integrations_status")}</TableHead>
+                      <TableHead>{t("admin_integrations_progress")}</TableHead>
+                      <TableHead>{t("admin_integrations_started")}</TableHead>
+                      <TableHead>{t("admin_integrations_completed")}</TableHead>
+                      <TableHead>{t("admin_integrations_duration")}</TableHead>
+                      <TableHead>{t("admin_integrations_actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -352,7 +352,7 @@ export default function MLSIntegration() {
                     return <TableRow key={job.id}>
                           <TableCell className="font-medium">{job.connectionName}</TableCell>
                           <TableCell>
-                            <Badge variant="outline">{t("admin.integrations.incremental")}</Badge>
+                            <Badge variant="outline">{t("admin_integrations_incremental")}</Badge>
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
@@ -392,40 +392,40 @@ export default function MLSIntegration() {
             <div className="flex gap-2">
               <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input placeholder={t("admin.integrations.search_listings")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
+                <Input placeholder={t("admin_integrations_search_listings")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-32">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="ALL">{t("admin.integrations.all_status")}</SelectItem>
-                  <SelectItem value="ACTIVE">{t("admin.integrations.active")}</SelectItem>
-                  <SelectItem value="SOLD">{t("admin.integrations.sold")}</SelectItem>
-                  <SelectItem value="PENDING">{t("admin.integrations.pending")}</SelectItem>
-                  <SelectItem value="EXPIRED">{t("admin.integrations.expired")}</SelectItem>
+                  <SelectItem value="ALL">{t("admin_integrations_all_status")}</SelectItem>
+                  <SelectItem value="ACTIVE">{t("admin_integrations_active")}</SelectItem>
+                  <SelectItem value="SOLD">{t("admin_integrations_sold")}</SelectItem>
+                  <SelectItem value="PENDING">{t("admin_integrations_pending")}</SelectItem>
+                  <SelectItem value="EXPIRED">{t("admin_integrations_expired")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>{t("admin.integrations.external_mls_listings")}</CardTitle>
+                <CardTitle>{t("admin_integrations_external_mls_listings")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("admin.integrations.mls_id")}</TableHead>
-                      <TableHead>{t("admin.integrations.address")}</TableHead>
-                      <TableHead>{t("admin.integrations.price")}</TableHead>
-                      <TableHead>{t("admin.integrations.details")}</TableHead>
-                      <TableHead>{t("admin.integrations.status")}</TableHead>
-                      <TableHead>{t("admin.integrations.connection")}</TableHead>
-                      <TableHead>{t("admin.integrations.listed")}</TableHead>
-                      <TableHead>{t("admin.integrations.synced")}</TableHead>
-                      <TableHead>{t("admin.integrations.neural_score")}</TableHead>
-                      <TableHead>{t("admin.integrations.actions")}</TableHead>
+                      <TableHead>{t("admin_integrations_mls_id")}</TableHead>
+                      <TableHead>{t("admin_integrations_address")}</TableHead>
+                      <TableHead>{t("admin_integrations_price")}</TableHead>
+                      <TableHead>{t("admin_integrations_details")}</TableHead>
+                      <TableHead>{t("admin_integrations_status")}</TableHead>
+                      <TableHead>{t("admin_integrations_connection")}</TableHead>
+                      <TableHead>{t("admin_integrations_listed")}</TableHead>
+                      <TableHead>{t("admin_integrations_synced")}</TableHead>
+                      <TableHead>{t("admin_integrations_neural_score")}</TableHead>
+                      <TableHead>{t("admin_integrations_actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -440,7 +440,7 @@ export default function MLSIntegration() {
                         <TableCell className="font-semibold">{listing.price ? formatCurrency(listing.price) : 'N/A'}</TableCell>
                         <TableCell>
                           <div className="text-sm">
-                            <div>{listing.bedrooms || 'N/A'}{t("admin.integrations.bed")}{listing.bathrooms || 'N/A'}{t("admin.integrations.bath")}</div>
+                            <div>{listing.bedrooms || 'N/A'}{t("admin_integrations_bed")}{listing.bathrooms || 'N/A'}{t("admin_integrations_bath")}</div>
                             <div>{listing.areaSqm ? `${listing.areaSqm} m²` : 'N/A'} • {listing.propertyType || 'N/A'}</div>
                           </div>
                         </TableCell>
@@ -470,10 +470,10 @@ export default function MLSIntegration() {
                         <TableCell>
                           <div className="flex gap-1">
                             {/* Neural Staging Button */}
-                            <Button variant="ghost" size="sm" className="text-orange-400 hover:text-orange-300 hover:bg-orange-500/10" title={t("admin.integrations.neural_staging_virtual_furniture")} onClick={async () => {
+                            <Button variant="ghost" size="sm" className="text-orange-400 hover:text-orange-300 hover:bg-orange-500/10" title={t("admin_integrations_neural_staging_virtual_furniture")} onClick={async () => {
                           if (!currentUser) return;
                           toast({
-                            title: t("admin.integrations.neural_staging"),
+                            title: t("admin_integrations_neural_staging"),
                             description: `Converting ${listing.mlsId} and preparing AI transformation...`
                           });
                           try {
@@ -483,14 +483,14 @@ export default function MLSIntegration() {
                               // Step 2: Trigger AI Staging
                               await mlsApi.superchargeStaging(convertRes.propertyId, currentUser.orgId || "", (listing as any).raw?.media?.images?.[0] || "");
                               toast({
-                                title: t("admin.integrations.neural_suite_active"),
-                                description: t("admin.integrations.ai_is_now_staging")
+                                title: t("admin_integrations_neural_suite_active"),
+                                description: t("admin_integrations_ai_is_now_staging")
                               });
                             }
                           } catch (e) {
                             toast({
-                              title: t("admin.integrations.action_failed"),
-                              description: t("admin.integrations.could_not_initiate_staging"),
+                              title: t("admin_integrations_action_failed"),
+                              description: t("admin_integrations_could_not_initiate_staging"),
                               variant: "destructive"
                             });
                           }
@@ -499,10 +499,10 @@ export default function MLSIntegration() {
                             </Button>
 
                             {/* Neural Video Button */}
-                            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-300 hover:bg-slate-500/10" title={t("admin.integrations.generate_neural_reels_video")} onClick={async () => {
+                            <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-slate-300 hover:bg-slate-500/10" title={t("admin_integrations_generate_neural_reels_video")} onClick={async () => {
                           if (!currentUser) return;
                           toast({
-                            title: t("admin.integrations.neural_reels"),
+                            title: t("admin_integrations_neural_reels"),
                             description: `Generating cinematic content for ${listing.mlsId}...`
                           });
                           try {
@@ -510,14 +510,14 @@ export default function MLSIntegration() {
                             if (convertRes.success) {
                               await mlsApi.superchargeReels(convertRes.propertyId, currentUser.orgId || "", (listing as any).raw?.media?.images || []);
                               toast({
-                                title: t("admin.integrations.production_started"),
-                                description: t("admin.integrations.neural_reel_is_being")
+                                title: t("admin_integrations_production_started"),
+                                description: t("admin_integrations_neural_reel_is_being")
                               });
                             }
                           } catch (e) {
                             toast({
-                              title: t("admin.integrations.production_failed"),
-                              description: t("admin.integrations.could_not_generate_video"),
+                              title: t("admin_integrations_production_failed"),
+                              description: t("admin_integrations_could_not_generate_video"),
                               variant: "destructive"
                             });
                           }
@@ -525,11 +525,11 @@ export default function MLSIntegration() {
                               <Clapperboard className="h-4 w-4" />
                             </Button>
 
-                            <Button variant="ghost" size="sm" title={t("admin.integrations.convert_to_project_neural")} disabled={isTransferring === listing.id} className="text-emerald-500 hover:text-emerald-400 hover:bg-emerald-500/10" onClick={async () => {
+                            <Button variant="ghost" size="sm" title={t("admin_integrations_convert_to_project_neural")} disabled={isTransferring === listing.id} className="text-emerald-500 hover:text-emerald-400 hover:bg-emerald-500/10" onClick={async () => {
                           if (!currentUser) return;
                           setIsTransferring(listing.id);
                           toast({
-                            title: t("admin.integrations.neural_studio"),
+                            title: t("admin_integrations_neural_studio"),
                             description: `Extracting assets from ${listing.mlsId}...`
                           });
                           try {
@@ -537,15 +537,15 @@ export default function MLSIntegration() {
                             const response = await mlsApi.convert(listing.id, currentUser.orgId, currentUser.id);
                             if (response.success) {
                               toast({
-                                title: t("admin.integrations.transfer_complete"),
-                                description: t("admin.integrations.listing_has_been_converted")
+                                title: t("admin_integrations_transfer_complete"),
+                                description: t("admin_integrations_listing_has_been_converted")
                               });
                               navigate("/admin/projects");
                             }
                           } catch (e) {
                             toast({
-                              title: t("admin.integrations.transfer_failed"),
-                              description: t("admin.integrations.could_not_migrate_listing"),
+                              title: t("admin_integrations_transfer_failed"),
+                              description: t("admin_integrations_could_not_migrate_listing"),
                               variant: "destructive"
                             });
                           } finally {
@@ -557,34 +557,34 @@ export default function MLSIntegration() {
                             
                             <Dialog>
                                <DialogTrigger asChild>
-                                  <Button variant="ghost" size="sm" title={t("admin.integrations.invite_homeowner_for_ai")} className="text-slate-400 hover:text-slate-300 hover:bg-slate-500/10">
+                                  <Button variant="ghost" size="sm" title={t("admin_integrations_invite_homeowner_for_ai")} className="text-slate-500 dark:text-slate-400 hover:text-slate-300 hover:bg-slate-500/10">
                                      <UsersIcon className="h-4 w-4" />
                                   </Button>
                                </DialogTrigger>
                                <DialogContent className="bg-[#0f1014] border-border shadow-2xl shadow-slate-500/10">
                                   <DialogHeader>
                                      <DialogTitle className="flex items-center gap-2 text-foreground">
-                                        <UsersIcon className="w-5 h-5 text-slate-400" />{t("admin.integrations.invite_homeowner")}{listing.mlsId}
+                                        <UsersIcon className="w-5 h-5 text-slate-500 dark:text-slate-400" />{t("admin_integrations_invite_homeowner")}{listing.mlsId}
                                      </DialogTitle>
-                                     <DialogDescription className="text-muted-foreground">{t("admin.integrations.invite_the_owner_to")}<strong>{t("admin.integrations.staging_results")}</strong>{t("admin.integrations.and_approve_the_virtual")}</DialogDescription>
+                                     <DialogDescription className="text-muted-foreground">{t("admin_integrations_invite_the_owner_to")}<strong>{t("admin_integrations_staging_results")}</strong>{t("admin_integrations_and_approve_the_virtual")}</DialogDescription>
                                   </DialogHeader>
                                   <div className="space-y-4 py-4">
                                      <div className="grid gap-2">
-                                        <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.integrations.owners_email_address")}</Label>
-                                        <Input placeholder={t("admin.integrations.ownerluxuryresidencecom")} className="bg-muted/50 border-border text-foreground h-12 rounded-xl" />
+                                        <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_integrations_owners_email_address")}</Label>
+                                        <Input placeholder={t("admin_integrations_ownerluxuryresidencecom")} className="bg-muted/50 border-border text-foreground h-12 rounded-xl" />
                                      </div>
                                      <div className="p-4 bg-slate-500/5 border border-slate-500/10 rounded-2xl">
-                                        <p className="text-[10px] text-slate-300/70 font-medium leading-relaxed">{t("admin.integrations.a_personalized_neural_dashboard")}</p>
+                                        <p className="text-[10px] text-slate-300/70 font-medium leading-relaxed">{t("admin_integrations_a_personalized_neural_dashboard")}</p>
                                      </div>
                                   </div>
                                   <Button className="w-full bg-slate-600 hover:bg-slate-500 text-foreground font-bold h-12 rounded-xl" onClick={() => toast({
-                              title: t("admin.integrations.invitation_sent"),
-                              description: t("admin.integrations.host_dashboard_invitation_is")
-                            })}>{t("admin.integrations.send_neural_invite")}</Button>
+                              title: t("admin_integrations_invitation_sent"),
+                              description: t("admin_integrations_host_dashboard_invitation_is")
+                            })}>{t("admin_integrations_send_neural_invite")}</Button>
                                </DialogContent>
                             </Dialog>
 
-                            <Button variant="ghost" size="sm" title={t("admin.integrations.sales_support_closing_management")} className="text-muted-foreground">
+                            <Button variant="ghost" size="sm" title={t("admin_integrations_sales_support_closing_management")} className="text-muted-foreground">
                                <Table className="h-4 w-4" />
                             </Button>
                           </div>
@@ -599,19 +599,19 @@ export default function MLSIntegration() {
           <TabsContent value="mappings" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>{t("admin.integrations.field_mappings")}</CardTitle>
+                <CardTitle>{t("admin_integrations_field_mappings")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("admin.integrations.source_field")}</TableHead>
-                      <TableHead>{t("admin.integrations.target_field")}</TableHead>
-                      <TableHead>{t("admin.integrations.field_type")}</TableHead>
-                      <TableHead>{t("admin.integrations.required")}</TableHead>
-                      <TableHead>{t("admin.integrations.transform_rule")}</TableHead>
-                      <TableHead>{t("admin.integrations.active")}</TableHead>
-                      <TableHead>{t("admin.integrations.actions")}</TableHead>
+                      <TableHead>{t("admin_integrations_source_field")}</TableHead>
+                      <TableHead>{t("admin_integrations_target_field")}</TableHead>
+                      <TableHead>{t("admin_integrations_field_type")}</TableHead>
+                      <TableHead>{t("admin_integrations_required")}</TableHead>
+                      <TableHead>{t("admin_integrations_transform_rule")}</TableHead>
+                      <TableHead>{t("admin_integrations_active")}</TableHead>
+                      <TableHead>{t("admin_integrations_actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -640,26 +640,26 @@ export default function MLSIntegration() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                <Card className="bg-orange-950/10 border-orange-500/20 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                     <div className="text-8xl font-bold select-none">{t("admin.integrations.trex")}</div>
+                     <div className="text-8xl font-bold select-none">{t("admin_integrations_trex")}</div>
                   </div>
                   <CardHeader>
                      <CardTitle className="text-orange-400 flex items-center gap-2 text-sm">
-                        <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />{t("admin.integrations.dinosaur_mls_performance")}</CardTitle>
+                        <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />{t("admin_integrations_dinosaur_mls_performance")}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                      <div className="space-y-4">
                         {[{
-                    label: t("admin.integrations.reach_local_only"),
+                    label: t("admin_integrations_reach_local_only"),
                     val: 15,
                     max: 100,
                     color: "bg-orange-500"
                   }, {
-                    label: t("admin.integrations.conversion_rate"),
+                    label: t("admin_integrations_conversion_rate"),
                     val: 8,
                     max: 100,
                     color: "bg-orange-500"
                   }, {
-                    label: t("admin.integrations.engagement_velocity"),
+                    label: t("admin_integrations_engagement_velocity"),
                     val: 12,
                     max: 100,
                     color: "bg-orange-500"
@@ -672,7 +672,7 @@ export default function MLSIntegration() {
                            </div>)}
                      </div>
                      <div className="p-4 bg-orange-500/5 rounded-2xl border border-orange-500/10">
-                        <p className="text-[10px] text-orange-200/50 leading-relaxed font-bold">{t("admin.integrations.static_photos_and_manual")}</p>
+                        <p className="text-[10px] text-orange-200/50 leading-relaxed font-bold">{t("admin_integrations_static_photos_and_manual")}</p>
                      </div>
                   </CardContent>
                </Card>
@@ -683,22 +683,22 @@ export default function MLSIntegration() {
                   </div>
                   <CardHeader>
                      <CardTitle className="text-emerald-400 flex items-center gap-2 text-sm">
-                        <Sparkles className="w-5 h-5" />{t("admin.integrations.neural_reservatior_roi")}</CardTitle>
+                        <Sparkles className="w-5 h-5" />{t("admin_integrations_neural_reservatior_roi")}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                      <div className="space-y-4">
                         {[{
-                    label: t("admin.integrations.global_reach_14_languages"),
+                    label: t("admin_integrations_global_reach_14_languages"),
                     val: 88,
                     max: 100,
                     color: "bg-emerald-500"
                   }, {
-                    label: t("admin.integrations.ai_staging_conversion"),
+                    label: t("admin_integrations_ai_staging_conversion"),
                     val: 72,
                     max: 100,
                     color: "bg-emerald-500"
                   }, {
-                    label: t("admin.integrations.booking_speed_reels_powered"),
+                    label: t("admin_integrations_booking_speed_reels_powered"),
                     val: 94,
                     max: 100,
                     color: "bg-emerald-500"
@@ -711,7 +711,7 @@ export default function MLSIntegration() {
                            </div>)}
                      </div>
                      <div className="p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.05)]">
-                        <p className="text-[10px] text-emerald-200/70 leading-relaxed font-bold">{t("admin.integrations.bypassing_the_extinction_neural")}</p>
+                        <p className="text-[10px] text-emerald-200/70 leading-relaxed font-bold">{t("admin_integrations_bypassing_the_extinction_neural")}</p>
                      </div>
                   </CardContent>
                </Card>
@@ -721,15 +721,15 @@ export default function MLSIntegration() {
                <div className="absolute inset-0 bg-slate-500/5 pointer-events-none" />
                <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
                   <div className="space-y-2 text-center md:text-left">
-                     <h2 className="text-3xl font-bold text-foreground">{t("admin.integrations.the_extinction_gap")}</h2>
-                     <p className="text-sm text-slate-300/70 font-medium max-w-sm">{t("admin.integrations.modernizing_with_neural_reels")}</p>
+                     <h2 className="text-3xl font-bold text-foreground">{t("admin_integrations_the_extinction_gap")}</h2>
+                     <p className="text-sm text-slate-300/70 font-medium max-w-sm">{t("admin_integrations_modernizing_with_neural_reels")}</p>
                   </div>
                   <div className="flex flex-col md:flex-row items-center gap-6">
                      <div className="text-center p-6 bg-muted/50 rounded-[32px] border border-border backdrop-blur-md">
-                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin.integrations.est_revenue_boost")}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin_integrations_est_revenue_boost")}</p>
                         <p className="text-2xl font-bold text-emerald-500">+340%</p>
                      </div>
-                     <Button className="h-20 px-8 bg-slate-600 hover:bg-slate-500 font-bold rounded-[24px] shadow-[0_0_40px_rgba(37,99,235,0.3)] group">{t("admin.integrations.upgrade_all_listings")}<ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                     <Button className="h-20 px-8 bg-slate-600 hover:bg-slate-500 font-bold rounded-[24px] shadow-[0_0_40px_rgba(37,99,235,0.3)] group">{t("admin_integrations_upgrade_all_listings")}<ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                      </Button>
                   </div>
                </CardContent>
@@ -745,33 +745,33 @@ export default function MLSIntegration() {
           <CardHeader>
             <CardTitle className="text-emerald-500 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5" />{t("admin.integrations.extinction_of_the_dinosaur")}</div>
-              <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">{t("admin.integrations.bypass_the_48hour_wait")}</Badge>
+                <Sparkles className="w-5 h-5" />{t("admin_integrations_extinction_of_the_dinosaur")}</div>
+              <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">{t("admin_integrations_bypass_the_48hour_wait")}</Badge>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 relative z-10">
-            <p className="text-sm text-muted-foreground max-w-2xl font-medium leading-relaxed">{t("admin.integrations.dont_let_your_listings")}<strong>{t("admin.integrations.reservatior_neural_studio")}</strong>{t("admin.integrations.bypasses_the_legacy_friction")}</p>
+            <p className="text-sm text-muted-foreground max-w-2xl font-medium leading-relaxed">{t("admin_integrations_dont_let_your_listings")}<strong>{t("admin_integrations_reservatior_neural_studio")}</strong>{t("admin_integrations_bypasses_the_legacy_friction")}</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
               <div className="p-4 bg-muted/50 rounded-2xl border border-border space-y-2">
                 <div className="w-8 h-8 rounded-lg bg-slate-500/20 flex items-center justify-center">
-                   <Clapperboard className="w-4 h-4 text-slate-400" />
+                   <Clapperboard className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                 </div>
-                <h4 className="text-xs font-bold text-foreground">{t("admin.integrations.neural_reels")}</h4>
-                <p className="text-[10px] text-muted-foreground">{t("admin.integrations.automatic_cinematic_video_generation")}</p>
+                <h4 className="text-xs font-bold text-foreground">{t("admin_integrations_neural_reels")}</h4>
+                <p className="text-[10px] text-muted-foreground">{t("admin_integrations_automatic_cinematic_video_generation")}</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-2xl border border-border space-y-2">
                 <div className="w-8 h-8 rounded-lg bg-slate-500/20 flex items-center justify-center">
-                   <RefreshCw className="w-4 h-4 text-slate-400" />
+                   <RefreshCw className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                 </div>
-                <h4 className="text-xs font-bold text-foreground">{t("admin.integrations.multilang_seo")}</h4>
-                <p className="text-[10px] text-muted-foreground">{t("admin.integrations.autotranslate_listings_to_capture")}</p>
+                <h4 className="text-xs font-bold text-foreground">{t("admin_integrations_multilang_seo")}</h4>
+                <p className="text-[10px] text-muted-foreground">{t("admin_integrations_autotranslate_listings_to_capture")}</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-2xl border border-border space-y-2">
                 <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
                    <Calendar className="w-4 h-4 text-orange-400" />
                 </div>
-                <h4 className="text-xs font-bold text-foreground">{t("admin.integrations.booking_capture")}</h4>
-                <p className="text-[10px] text-muted-foreground">{t("admin.integrations.turn_browsing_into_bookings")}</p>
+                <h4 className="text-xs font-bold text-foreground">{t("admin_integrations_booking_capture")}</h4>
+                <p className="text-[10px] text-muted-foreground">{t("admin_integrations_turn_browsing_into_bookings")}</p>
               </div>
             </div>
           </CardContent>

@@ -18,6 +18,9 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Solicitor {
   id: string;
@@ -44,46 +47,70 @@ const STATUS_COLORS: Record<string, string> = {
 export default function AdminSolicitorsPage() {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
+  const [items, setItems] = useState<Solicitor[]>(mockSolicitors);
+  const [editingItem, setEditingItem] = useState<Solicitor | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deletingItem, setDeletingItem] = useState<Solicitor | null>(null);
 
-  const filtered = mockSolicitors.filter(s =>
+  const filtered = items.filter(s =>
     s.firmName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     s.contactName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleCreate = (data: Omit<Solicitor, "id">) => {
+    const newItem: Solicitor = { ...data, id: String(Date.now()) };
+    setItems(prev => [...prev, newItem]);
+    setIsCreateOpen(false);
+  };
+
+  const handleEdit = (updatedItem: Solicitor) => {
+    setItems(prev => prev.map(item => item.id === updatedItem.id ? updatedItem : item));
+    setIsEditOpen(false);
+    setEditingItem(null);
+  };
+
+  const handleDelete = (id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+    setIsDeleteOpen(false);
+    setDeletingItem(null);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.solicitors.title")}</h1>
-              <p className="text-gray-400">{t("admin.solicitors.description")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_solicitors_title")}</h1>
+              <p className="text-muted-foreground">{t("admin_solicitors_description")}</p>
             </div>
-            <Button className="bg-slate-600 hover:bg-slate-700">
+            <Button className="bg-primary hover:bg-primary/90">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.solicitors.back_to_dashboard")}
+              {t("admin_solicitors_back_to_dashboard")}
             </Button>
           </div>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin.solicitors.search_placeholder")}
+                      placeholder={t("admin_solicitors_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
-                <Button className="bg-slate-600 hover:bg-slate-700">
+                <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin.solicitors.add_solicitor")}
+                  {t("admin_solicitors_add_solicitor")}
                 </Button>
               </div>
             </CardContent>
@@ -91,39 +118,39 @@ export default function AdminSolicitorsPage() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Scale className="w-5 h-5" />
-                {t("admin.solicitors.list_title")} ({filtered.length})
+                {t("admin_solicitors_list_title")} ({filtered.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {filtered.map((solicitor) => (
-                  <div key={solicitor.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                  <div key={solicitor.id} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-slate-500/20 flex items-center justify-center">
-                        <Scale className="w-5 h-5 text-slate-400" />
+                      <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
+                        <Scale className="w-5 h-5 text-muted-foreground" />
                       </div>
                       <div>
-                        <div className="text-white font-medium">{solicitor.firmName}</div>
-                        <div className="text-sm text-gray-400 flex items-center gap-2">
+                        <div className="text-foreground font-medium">{solicitor.firmName}</div>
+                        <div className="text-sm text-muted-foreground flex items-center gap-2">
                           <Building2 className="w-3 h-3" />
                           {solicitor.contactName}
                         </div>
-                        <div className="text-xs text-gray-500 flex items-center gap-3 mt-1">
+                        <div className="text-xs text-muted-foreground/70 flex items-center gap-3 mt-1">
                           <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{solicitor.email}</span>
                           <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{solicitor.phone}</span>
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="text-xs text-gray-400">{solicitor.specialisation}</span>
+                      <span className="text-xs text-muted-foreground">{solicitor.specialisation}</span>
                       <Badge className={STATUS_COLORS[solicitor.status]}>{solicitor.status}</Badge>
                       <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setEditingItem(solicitor); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setDeletingItem(solicitor); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                       </div>
                     </div>
                   </div>
@@ -132,7 +159,149 @@ export default function AdminSolicitorsPage() {
             </CardContent>
           </Card>
         </motion.div>
+
+        {/* Create Dialog */}
+        <CreateSolicitorDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
+        {/* Edit Dialog */}
+        {editingItem && (
+          <EditSolicitorDialog open={isEditOpen} onOpenChange={setIsEditOpen} item={editingItem} onSubmit={handleEdit} />
+        )}
+        {/* Delete Dialog */}
+        {deletingItem && (
+          <DeleteSolicitorDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen} item={deletingItem} onConfirm={() => handleDelete(deletingItem.id)} />
+        )}
       </div>
     </div>
+  );
+}
+
+function CreateSolicitorDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<Solicitor, "id">) => void }) {
+  const [firmName, setFirmName] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [specialisation, setSpecialisation] = useState("");
+  const [status, setStatus] = useState<"ACTIVE" | "INACTIVE">("ACTIVE");
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Add Solicitor</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Add a new solicitor firm to the system.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Firm Name</Label>
+            <Input value={firmName} onChange={e => setFirmName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Contact Name</Label>
+            <Input value={contactName} onChange={e => setContactName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Email</Label>
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Phone</Label>
+            <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Specialisation</Label>
+            <Input value={specialisation} onChange={e => setSpecialisation(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as "ACTIVE" | "INACTIVE")}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+                <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ firmName, contactName, email, phone, specialisation, status })} className="bg-primary hover:bg-primary/90">Create</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function EditSolicitorDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: Solicitor; onSubmit: (data: Solicitor) => void }) {
+  const [firmName, setFirmName] = useState(item.firmName);
+  const [contactName, setContactName] = useState(item.contactName);
+  const [email, setEmail] = useState(item.email);
+  const [phone, setPhone] = useState(item.phone);
+  const [specialisation, setSpecialisation] = useState(item.specialisation);
+  const [status, setStatus] = useState<"ACTIVE" | "INACTIVE">(item.status);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Edit Solicitor</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Update solicitor details.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Firm Name</Label>
+            <Input value={firmName} onChange={e => setFirmName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Contact Name</Label>
+            <Input value={contactName} onChange={e => setContactName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Email</Label>
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Phone</Label>
+            <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Specialisation</Label>
+            <Input value={specialisation} onChange={e => setSpecialisation(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as "ACTIVE" | "INACTIVE")}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+                <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ id: item.id, firmName, contactName, email, phone, specialisation, status })} className="bg-primary hover:bg-primary/90">Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DeleteSolicitorDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: Solicitor; onConfirm: () => void }) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Delete Solicitor</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Are you sure you want to delete {item.firmName}? This action cannot be undone.</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

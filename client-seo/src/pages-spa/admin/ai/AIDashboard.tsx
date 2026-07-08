@@ -64,22 +64,22 @@ export default function AIDashboard() {
 
   return (
     <div className="space-y-6 min-h-screen">
-      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
-            <Brain className="w-8 h-8 text-white" />
+            <Brain className="w-8 h-8 text-slate-900 dark:text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
               {t("admin.ai.ai_central_intelligence", "AI Central Intelligence")}
             </h1>
-            <p className="text-slate-400">
+            <p className="text-slate-500 dark:text-slate-400">
               {t("admin.ai.monitoring_and_managing_reservatior", "Monitoring and managing Reservatior AI infrastructure")}
             </p>
           </div>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" className="gap-2 bg-white/5 border-white/10 hover:bg-white/10 text-white">
+          <Button variant="outline" className="gap-2 bg-white/5 border-slate-200 dark:border-white/10 hover:bg-white/10 text-slate-900 dark:text-white">
             <Settings className="w-4 h-4" />
             {t("admin.ai.global_config", "Global Config")}
           </Button>
@@ -90,7 +90,7 @@ export default function AIDashboard() {
             }).catch((err: any) => {
               toast({ title: "Error", description: err.message, variant: "destructive" });
             });
-          }} className="gap-2 bg-slate-600 hover:bg-slate-700 shadow-lg shadow-slate-600/20 text-white">
+          }} className="gap-2 bg-slate-600 hover:bg-slate-700 shadow-lg shadow-slate-600/20 text-slate-900 dark:text-white">
             <Zap className="w-4 h-4" />
             {t("admin.ai.retrain_models", "Retrain Models")}
           </Button>
@@ -98,16 +98,16 @@ export default function AIDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Cpu className="w-4 h-4 text-slate-400" />
+            <CardTitle className="text-slate-900 dark:text-white flex items-center gap-2">
+              <Cpu className="w-4 h-4 text-slate-500 dark:text-slate-400" />
               {t("admin.ai.infrastructure_health", "Infrastructure Health")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.system_status", "System Status")}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.system_status", "System Status")}</span>
               <Badge className={cn(
                 "border-0",
                 status?.status === "online" ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400"
@@ -116,91 +116,91 @@ export default function AIDashboard() {
               </Badge>
             </div>
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.active_sessions", "Active Sessions")}</span>
-              <span className="font-bold text-white">{status?.metrics?.activeSessions ?? "—"}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.active_sessions", "Active Sessions")}</span>
+              <span className="font-bold text-slate-900 dark:text-white">{status?.metrics?.activeSessions ?? "—"}</span>
             </div>
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.pending_tasks", "Pending Tasks")}</span>
-              <span className="font-bold text-white">{status?.metrics?.pendingTasks ?? "—"}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.pending_tasks", "Pending Tasks")}</span>
+              <span className="font-bold text-slate-900 dark:text-white">{status?.metrics?.pendingTasks ?? "—"}</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Activity className="w-4 h-4 text-slate-400" />
+            <CardTitle className="text-slate-900 dark:text-white flex items-center gap-2">
+              <Activity className="w-4 h-4 text-slate-500 dark:text-slate-400" />
               {t("admin.ai.usage_metrics", "Usage Metrics")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.total_sessions", "Total Sessions")}</span>
-              <span className="font-bold text-white">{status?.metrics?.totalSessions ?? "—"}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.total_sessions", "Total Sessions")}</span>
+              <span className="font-bold text-slate-900 dark:text-white">{status?.metrics?.totalSessions ?? "—"}</span>
             </div>
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.total_valuations", "Total Valuations")}</span>
-              <span className="font-bold text-white">{status?.metrics?.totalValuations ?? "—"}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.total_valuations", "Total Valuations")}</span>
+              <span className="font-bold text-slate-900 dark:text-white">{status?.metrics?.totalValuations ?? "—"}</span>
             </div>
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.uptime", "Uptime")}</span>
-              <span className="font-bold text-white">
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.uptime", "Uptime")}</span>
+              <span className="font-bold text-slate-900 dark:text-white">
                 {status?.uptime ? `${Math.floor(status.uptime / 60)}m` : "—"}
               </span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
+            <CardTitle className="text-slate-900 dark:text-white flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               {t("admin.ai.active_models", "Active Models")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.valuation_model", "Valuation / Price Prediction")}</span>
-              <span className="font-medium text-white">{status?.models?.valuation ?? "XGBoost-v4"}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.valuation_model", "Valuation / Price Prediction")}</span>
+              <span className="font-medium text-slate-900 dark:text-white">{status?.models?.valuation ?? "XGBoost-v4"}</span>
             </div>
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.location_model", "Location Intelligence")}</span>
-              <span className="font-medium text-white">{"GeoGraph-v2"}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.location_model", "Location Intelligence")}</span>
+              <span className="font-medium text-slate-900 dark:text-white">{"GeoGraph-v2"}</span>
             </div>
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.chatbot_model", "Chatbot")}</span>
-              <span className="font-medium text-white">{status?.models?.chatbot ?? "—"}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.chatbot_model", "Chatbot")}</span>
+              <span className="font-medium text-slate-900 dark:text-white">{status?.models?.chatbot ?? "—"}</span>
             </div>
             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
-              <span className="text-slate-400">{t("admin.ai.recommendation_model", "Recommendation")}</span>
-              <span className="font-medium text-white">{status?.models?.recommendation ?? "—"}</span>
+              <span className="text-slate-500 dark:text-slate-400">{t("admin.ai.recommendation_model", "Recommendation")}</span>
+              <span className="font-medium text-slate-900 dark:text-white">{status?.models?.recommendation ?? "—"}</span>
             </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white/5 border-white/10 overflow-hidden">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 overflow-hidden">
           <CardHeader className="bg-white/5">
-            <CardTitle className="flex items-center gap-2 text-white">
-              <Bot className="w-5 h-5 text-slate-400" />
+            <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-white">
+              <Bot className="w-5 h-5 text-slate-500 dark:text-slate-400" />
               {t("admin.ai.model_fleet_status", "Model Fleet Status")}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-white/10 bg-white/5">
-                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-400">
+                <tr className="border-b border-slate-200 dark:border-white/10 bg-white/5">
+                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-500 dark:text-slate-400">
                     {t("admin.ai.model_name", "Model Name")}
                   </th>
-                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-400">
+                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-500 dark:text-slate-400">
                     {t("admin.ai.type", "Type")}
                   </th>
-                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-400">
+                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-500 dark:text-slate-400">
                     {t("admin.ai.status", "Status")}
                   </th>
-                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-400">
+                  <th className="px-6 py-4 font-medium text-xs tracking-wider text-slate-500 dark:text-slate-400">
                     {t("admin.ai.accuracy", "Accuracy")}
                   </th>
                 </tr>
@@ -216,8 +216,8 @@ export default function AIDashboard() {
                   <tr key={model.id} className="hover:bg-white/5 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-white">{model.modelName}</span>
-                        <span className="text-xs text-slate-400">v{model.modelVersion}</span>
+                        <span className="text-sm font-medium text-slate-900 dark:text-white">{model.modelName}</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">v{model.modelVersion}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-300">{model.modelType}</td>
@@ -227,13 +227,13 @@ export default function AIDashboard() {
                         model.status === "ACTIVE" || model.status === "Active"
                           ? "bg-emerald-500/20 text-emerald-400"
                           : model.status === "TRAINING" || model.status === "Training"
-                          ? "bg-slate-500/20 text-slate-400"
-                          : "bg-slate-500/20 text-slate-400"
+                          ? "bg-slate-500/20 text-slate-500 dark:text-slate-400"
+                          : "bg-slate-500/20 text-slate-500 dark:text-slate-400"
                       )}>
                         {model.status}
                       </Badge>
                     </td>
-                    <td className="px-6 py-4 text-sm text-white">
+                    <td className="px-6 py-4 text-sm text-slate-900 dark:text-white">
                       {model.accuracy != null ? `${(model.accuracy * 100).toFixed(1)}%` : "—"}
                     </td>
                   </tr>
@@ -243,9 +243,9 @@ export default function AIDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
+            <CardTitle className="text-slate-900 dark:text-white flex items-center gap-2">
               <BarChart3 className="w-5 h-5 text-amber-400" />
               {t("admin.ai.model_breakdown", "Model Breakdown")}
             </CardTitle>
@@ -264,7 +264,7 @@ export default function AIDashboard() {
                     <div className={cn("w-3 h-3 rounded-full", group.color)} />
                     <span className="text-sm text-slate-300">{group.label}</span>
                   </div>
-                  <span className="text-sm font-bold text-white">{group.count}</span>
+                  <span className="text-sm font-bold text-slate-900 dark:text-white">{group.count}</span>
                 </div>
               ))}
               {models.length === 0 && (

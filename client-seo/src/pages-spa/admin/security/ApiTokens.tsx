@@ -60,8 +60,8 @@ export default function ApiTokens() {
       setTokens((response as any).data || []);
     } catch (error) {
       toast({
-        title: t("admin.security.sync_failed"),
-        description: t("admin.security.credential_database_unreachable"),
+        title: t("admin_security_sync_failed"),
+        description: t("admin_security_credential_database_unreachable"),
         variant: "destructive"
       });
     } finally {
@@ -74,31 +74,31 @@ export default function ApiTokens() {
     return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
   };
   const filteredTokens = tokens.filter(t => t.name.toLowerCase().includes(searchTerm.toLowerCase()));
-  return <PageShell title={t("admin.security.credential_matrix")} description={t("admin.security.programmatic_entry_points_and")}>
+  return <PageShell title={t("admin_security_credential_matrix")} description={t("admin_security_programmatic_entry_points_and")}>
       <div className="space-y-10 pb-20">
         
         {/* KPI GRID */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
            {[{
-          label: t("admin.security.active_keys"),
+          label: t("admin_security_active_keys"),
           val: tokens.filter(t => t.isActive).length,
           icon: Key,
           color: "text-emerald-400"
         }, {
-          label: t("admin.security.monthly_pulse"),
+          label: t("admin_security_monthly_pulse"),
           val: tokens.reduce((acc, t) => acc + (t.usageStats?.totalRequests || 0), 0).toLocaleString(),
           icon: Activity,
-          color: "text-slate-400"
+          color: "text-slate-500 dark:text-slate-400"
         }, {
-          label: t("admin.security.expired_nodes"),
+          label: t("admin_security_expired_nodes"),
           val: tokens.filter(t => t.expiresAt && new Date(t.expiresAt) < new Date()).length,
           icon: AlertTriangle,
           color: "text-rose-500"
         }, {
-          label: t("admin.security.security_level"),
+          label: t("admin_security_security_level"),
           val: "Elite",
           icon: Shield,
-          color: "text-slate-400"
+          color: "text-slate-500 dark:text-slate-400"
         }].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group">
                 <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
                    <stat.icon className="w-12 h-12" />
@@ -114,10 +114,10 @@ export default function ApiTokens() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
            <div className="relative flex-1 max-w-md group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-slate-500 transition-colors" />
-              <Input placeholder={t("admin.security.search_credential_string")} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              <Input placeholder={t("admin_security_search_credential_string")} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
            </div>
            <Button className="h-14 px-8 rounded-2xl bg-slate-600 hover:bg-slate-500 text-foreground font-bold text-[10px] gap-2 shadow-xl shadow-slate-600/20">
-              <Plus className="w-4 h-4" />{t("admin.security.generate_new_key")}</Button>
+              <Plus className="w-4 h-4" />{t("admin_security_generate_new_key")}</Button>
         </div>
 
         {/* TACTICAL TABLE */}
@@ -126,24 +126,24 @@ export default function ApiTokens() {
               <Table>
                  <TableHeader className="bg-muted/50 border-b border-border">
                     <TableRow className="hover:bg-transparent border-none">
-                       <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8">{t("admin.security.key_identity")}</TableHead>
-                       <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.security.origin")}</TableHead>
-                       <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.security.permissions")}</TableHead>
-                       <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.security.state")}</TableHead>
-                       <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin.security.interrogate")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8">{t("admin_security_key_identity")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_security_origin")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_security_permissions")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_security_state")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin_security_interrogate")}</TableHead>
                     </TableRow>
                  </TableHeader>
                  <TableBody>
                     {loading ? <TableRow>
                           <TableCell colSpan={5} className="py-20 text-center">
                              <Activity className="w-8 h-8 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
-                             <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin.security.syncing_credential_matrix")}</p>
+                             <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin_security_syncing_credential_matrix")}</p>
                           </TableCell>
                        </TableRow> : filteredTokens.map(token => <TableRow key={token.id} className="border-b border-border hover:bg-muted/50 transition-all group">
                            <TableCell className="py-8 px-8">
                               <div className="flex items-center gap-6">
                                  <div className="p-3 bg-card border border-border rounded-2xl group-hover:rotate-12 transition-all">
-                                    <Key className="w-5 h-5 text-slate-400" />
+                                    <Key className="w-5 h-5 text-slate-500 dark:text-slate-400" />
                                  </div>
                                  <div className="space-y-1">
                                     <h4 className="text-sm font-bold text-foreground leading-none">{token.name}</h4>
@@ -169,7 +169,7 @@ export default function ApiTokens() {
                            </TableCell>
                            <TableCell className="px-8 text-right text-nowrap">
                               <div className="flex justify-end gap-2">
-                                 <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground" title={t("admin.security.copy_handshake")}>
+                                 <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground" title={t("admin_security_copy_handshake")}>
                                     <Copy className="w-5 h-5" />
                                  </Button>
                                  <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground">
@@ -183,9 +183,9 @@ export default function ApiTokens() {
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl p-2 min-w-[160px]">
                                        <DropdownMenuItem className="rounded-xl px-4 py-2 font-bold text-[10px] text-muted-foreground hover:text-foreground cursor-pointer gap-3">
-                                          <RefreshCw className="w-3 h-3" />{t("admin.security.rotate_key")}</DropdownMenuItem>
+                                          <RefreshCw className="w-3 h-3" />{t("admin_security_rotate_key")}</DropdownMenuItem>
                                        <DropdownMenuItem className="rounded-xl px-4 py-2 font-bold text-[10px] text-rose-500 hover:text-rose-400 cursor-pointer gap-3">
-                                          <Trash2 className="w-3 h-3" />{t("admin.security.revoke_access")}</DropdownMenuItem>
+                                          <Trash2 className="w-3 h-3" />{t("admin_security_revoke_access")}</DropdownMenuItem>
                                     </DropdownMenuContent>
                                  </DropdownMenu>
                               </div>

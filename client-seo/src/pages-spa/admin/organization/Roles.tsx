@@ -89,8 +89,8 @@ export default function Roles() {
       setRoles(response.data);
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_fetch_roles"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_fetch_roles"),
         variant: "destructive"
       });
     } finally {
@@ -105,8 +105,8 @@ export default function Roles() {
       setPermissions(response.data);
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_fetch_permissions"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_fetch_permissions"),
         variant: "destructive"
       });
     }
@@ -126,13 +126,13 @@ export default function Roles() {
         permissionIds: []
       });
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.role_created_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_role_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_create_role"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_create_role"),
         variant: "destructive"
       });
     }
@@ -148,13 +148,13 @@ export default function Roles() {
       setIsEditDialogOpen(false);
       setSelectedRole(null);
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.role_updated_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_role_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_update_role"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_update_role"),
         variant: "destructive"
       });
     }
@@ -164,13 +164,13 @@ export default function Roles() {
       await apiClient.delete(`/role/${roleId}`);
       setRoles(roles.filter(role => role.id !== roleId));
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.role_deleted_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_role_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_delete_role"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_delete_role"),
         variant: "destructive"
       });
     }
@@ -216,57 +216,57 @@ export default function Roles() {
   const systemRoles = roles.filter(role => ['OWNER', 'ORG_ADMIN'].includes(role.key)).length;
   const customRoles = roles.filter(role => !['OWNER', 'ORG_ADMIN'].includes(role.key)).length;
   if (loading) {
-    return <PageShell title={t("admin.organization.roles_management")}>
+    return <PageShell title={t("admin_organization_roles_management")}>
         <div className="flex items-center justify-center h-64">
           <Activity className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.organization.roles_management")}>
+  return <PageShell title={t("admin_organization_roles_management")}>
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_roles")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_roles")}</CardTitle>
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalRoles}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.defined_roles")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_defined_roles")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.active_roles")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_active_roles")}</CardTitle>
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{activeRoles}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.not_deleted")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_not_deleted")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.system_roles")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_system_roles")}</CardTitle>
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">{systemRoles}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.builtin_roles")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_builtin_roles")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.custom_roles")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_custom_roles")}</CardTitle>
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{customRoles}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.userdefined")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_userdefined")}</p>
             </CardContent>
           </Card>
         </div>
@@ -276,14 +276,14 @@ export default function Roles() {
           <div className="flex gap-4">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder={t("admin.organization.search_roles")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
+              <Input placeholder={t("admin_organization_search_roles")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={orgFilter} onValueChange={setOrgFilter}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.organization.organization")} />
+                <SelectValue placeholder={t("admin_organization_organization")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.organization.all_organizations")}</SelectItem>
+                <SelectItem value="all">{t("admin_organization_all_organizations")}</SelectItem>
                 {/* Add organization options here */}
               </SelectContent>
             </Select>
@@ -291,24 +291,24 @@ export default function Roles() {
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.organization.create_role")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_organization_create_role")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>{t("admin.organization.create_new_role")}</DialogTitle>
-                <DialogDescription>{t("admin.organization.define_a_new_role")}</DialogDescription>
+                <DialogTitle>{t("admin_organization_create_new_role")}</DialogTitle>
+                <DialogDescription>{t("admin_organization_define_a_new_role")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="roleName">{t("admin.organization.role_name")}</Label>
+                    <Label htmlFor="roleName">{t("admin_organization_role_name")}</Label>
                     <Input id="roleName" value={createData.name} onChange={e => setCreateData({
                     ...createData,
                     name: e.target.value
-                  })} placeholder={t("admin.organization.eg_senior_agent")} required />
+                  })} placeholder={t("admin_organization_eg_senior_agent")} required />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="roleKey">{t("admin.organization.role_key")}</Label>
+                    <Label htmlFor="roleKey">{t("admin_organization_role_key")}</Label>
                     <Select value={createData.key} onValueChange={value => setCreateData({
                     ...createData,
                     key: value as MemberRoleKey
@@ -317,35 +317,35 @@ export default function Roles() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="AGENT">{t("admin.organization.agent")}</SelectItem>
-                        <SelectItem value="ACCOUNTANT">{t("admin.organization.accountant")}</SelectItem>
-                        <SelectItem value="MAINTENANCE">{t("admin.organization.maintenance")}</SelectItem>
-                        <SelectItem value="TENANT_GUEST">{t("admin.organization.tenant_guest")}</SelectItem>
-                        <SelectItem value="READ_ONLY">{t("admin.organization.read_only")}</SelectItem>
-                        <SelectItem value="VENDOR_MANAGER">{t("admin.organization.vendor_manager")}</SelectItem>
-                        <SelectItem value="AGENCY_ADMIN">{t("admin.organization.agency_admin")}</SelectItem>
+                        <SelectItem value="AGENT">{t("admin_organization_agent")}</SelectItem>
+                        <SelectItem value="ACCOUNTANT">{t("admin_organization_accountant")}</SelectItem>
+                        <SelectItem value="MAINTENANCE">{t("admin_organization_maintenance")}</SelectItem>
+                        <SelectItem value="TENANT_GUEST">{t("admin_organization_tenant_guest")}</SelectItem>
+                        <SelectItem value="READ_ONLY">{t("admin_organization_read_only")}</SelectItem>
+                        <SelectItem value="VENDOR_MANAGER">{t("admin_organization_vendor_manager")}</SelectItem>
+                        <SelectItem value="AGENCY_ADMIN">{t("admin_organization_agency_admin")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="orgId">{t("admin.organization.organization")}</Label>
+                    <Label htmlFor="orgId">{t("admin_organization_organization")}</Label>
                     <Input id="orgId" value={createData.orgId} onChange={e => setCreateData({
                     ...createData,
                     orgId: e.target.value
-                  })} placeholder={t("admin.organization.organization_id")} required />
+                  })} placeholder={t("admin_organization_organization_id")} required />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="locationId">{t("admin.organization.location_optional")}</Label>
+                    <Label htmlFor="locationId">{t("admin_organization_location_optional")}</Label>
                     <Input id="locationId" value={createData.locationId} onChange={e => setCreateData({
                     ...createData,
                     locationId: e.target.value
-                  })} placeholder={t("admin.organization.location_id")} />
+                  })} placeholder={t("admin_organization_location_id")} />
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <Label>{t("admin.organization.permissions")}</Label>
+                  <Label>{t("admin_organization_permissions")}</Label>
                   <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded-xl p-4">
                     {permissions.map(permission => <div key={permission.id} className="flex items-center space-x-2">
                         <input type="checkbox" id={`perm-${permission.id}`} checked={createData.permissionIds.includes(permission.id)} onChange={e => {
@@ -369,7 +369,7 @@ export default function Roles() {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createRole}>{t("admin.organization.create_role")}</Button>
+                <Button onClick={createRole}>{t("admin_organization_create_role")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -379,19 +379,19 @@ export default function Roles() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.organization.edit_role")}</DialogTitle>
-              <DialogDescription>{t("admin.organization.update_role_name_and")}</DialogDescription>
+              <DialogTitle>{t("admin_organization_edit_role")}</DialogTitle>
+              <DialogDescription>{t("admin_organization_update_role_name_and")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="editRoleName">{t("admin.organization.role_name")}</Label>
+                <Label htmlFor="editRoleName">{t("admin_organization_role_name")}</Label>
                 <Input id="editRoleName" value={editData.name} onChange={e => setEditData({
                 ...editData,
                 name: e.target.value
               })} />
               </div>
               <div className="grid gap-2">
-                <Label>{t("admin.organization.permissions")}</Label>
+                <Label>{t("admin_organization_permissions")}</Label>
                 <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded-xl p-4">
                   {permissions.map(permission => <div key={permission.id} className="flex items-center space-x-2">
                       <input type="checkbox" id={`edit-perm-${permission.id}`} checked={editData.permissionIds.includes(permission.id)} onChange={e => {
@@ -415,7 +415,7 @@ export default function Roles() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={updateRole}>{t("admin.organization.update_role")}</Button>
+              <Button onClick={updateRole}>{t("admin_organization_update_role")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -423,21 +423,21 @@ export default function Roles() {
         {/* Roles Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.organization.roles")}</CardTitle>
-            <p className="text-sm text-muted-foreground">{t("admin.organization.manage_roles_and_their")}</p>
+            <CardTitle>{t("admin_organization_roles")}</CardTitle>
+            <p className="text-sm text-muted-foreground">{t("admin_organization_manage_roles_and_their")}</p>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.organization.role")}</TableHead>
-                  <TableHead>{t("admin.organization.key")}</TableHead>
-                  <TableHead>{t("admin.organization.organization")}</TableHead>
-                  <TableHead>{t("admin.organization.permissions")}</TableHead>
-                  <TableHead>{t("admin.organization.users")}</TableHead>
-                  <TableHead>{t("admin.organization.created")}</TableHead>
-                  <TableHead>{t("admin.organization.status")}</TableHead>
-                  <TableHead className="text-right">{t("admin.organization.actions")}</TableHead>
+                  <TableHead>{t("admin_organization_role")}</TableHead>
+                  <TableHead>{t("admin_organization_key")}</TableHead>
+                  <TableHead>{t("admin_organization_organization")}</TableHead>
+                  <TableHead>{t("admin_organization_permissions")}</TableHead>
+                  <TableHead>{t("admin_organization_users")}</TableHead>
+                  <TableHead>{t("admin_organization_created")}</TableHead>
+                  <TableHead>{t("admin_organization_status")}</TableHead>
+                  <TableHead className="text-right">{t("admin_organization_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -463,7 +463,7 @@ export default function Roles() {
                             {rp.permission.name}
                           </Badge>)}
                         {role.permissions.length > 3 && <Badge variant="secondary" className="text-xs">
-                            +{role.permissions.length - 3}{t("admin.organization.more")}</Badge>}
+                            +{role.permissions.length - 3}{t("admin_organization_more")}</Badge>}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -476,7 +476,7 @@ export default function Roles() {
                       {new Date(role.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell>
-                      {role.deletedAt ? <Badge variant="destructive" className="text-xs">{t("admin.organization.deleted")}</Badge> : <Badge variant="default" className="text-xs">{t("admin.organization.active")}</Badge>}
+                      {role.deletedAt ? <Badge variant="destructive" className="text-xs">{t("admin_organization_deleted")}</Badge> : <Badge variant="default" className="text-xs">{t("admin_organization_active")}</Badge>}
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
@@ -486,16 +486,16 @@ export default function Roles() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.organization.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_organization_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openEditDialog(role)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.organization.edit_role")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_organization_edit_role")}</DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.organization.view_details")}</DropdownMenuItem>
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_organization_view_details")}</DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Users className="h-4 w-4 mr-2" />{t("admin.organization.manage_users")}</DropdownMenuItem>
+                            <Users className="h-4 w-4 mr-2" />{t("admin_organization_manage_users")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deleteRole(role.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.organization.delete_role")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_organization_delete_role")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -509,7 +509,7 @@ export default function Roles() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.role_key_distribution")}</CardTitle>
+              <CardTitle>{t("admin_organization_role_key_distribution")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -530,7 +530,7 @@ export default function Roles() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.permission_overview")}</CardTitle>
+              <CardTitle>{t("admin_organization_permission_overview")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -538,13 +538,13 @@ export default function Roles() {
                   <div className="text-2xl font-bold text-slate-600">
                     {permissions.length}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.organization.total_permissions")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_organization_total_permissions")}</p>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-green-600">
                     {roles.reduce((acc, role) => acc + role.permissions.length, 0)}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.organization.permission_assignments")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_organization_permission_assignments")}</p>
                 </div>
               </div>
             </CardContent>
@@ -552,18 +552,18 @@ export default function Roles() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.role_status")}</CardTitle>
+              <CardTitle>{t("admin_organization_role_status")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin.organization.active")}</span>
+                    <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin_organization_active")}</span>
                   <span className="font-medium">{activeRoles}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-red-500" />{t("admin.organization.deleted")}</span>
+                    <div className="w-2 h-2 rounded-full bg-red-500" />{t("admin_organization_deleted")}</span>
                   <span className="font-medium">{totalRoles - activeRoles}</span>
                 </div>
               </div>

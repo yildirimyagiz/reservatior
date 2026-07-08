@@ -84,22 +84,22 @@ const ContactsManagement = () => {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-slate-400">
             {t("admin.contacts.title", "Contacts & Leads")}
           </h1>
-          <p className="text-slate-400 mt-2">
+          <p className="text-slate-500 dark:text-slate-400 mt-2">
             {t("admin.contacts.subtitle", "Centralized CRM for all property inquiries, leads, and client relations")}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-white/5 border-white/10 hover:bg-white/10">
+          <Button variant="outline" className="bg-white/5 border-slate-200 dark:border-white/10 hover:bg-white/10">
             {t("common.export", "Export CSV")}
           </Button>
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-slate-900 dark:text-white shadow-lg shadow-emerald-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.contacts.add", "New Contact")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>{t("admin.contacts.add", "New Contact")}</DialogTitle>
               </DialogHeader>
@@ -108,7 +108,7 @@ const ContactsManagement = () => {
                   <Label htmlFor="fullName">Full Name</Label>
                   <Input 
                     id="fullName" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newContact.fullName}
                     onChange={e => setNewContact({...newContact, fullName: e.target.value})}
                     required
@@ -119,7 +119,7 @@ const ContactsManagement = () => {
                   <Input 
                     id="email" 
                     type="email"
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newContact.email}
                     onChange={e => setNewContact({...newContact, email: e.target.value})}
                   />
@@ -129,7 +129,7 @@ const ContactsManagement = () => {
                     <Label htmlFor="phone">Phone</Label>
                     <Input 
                       id="phone" 
-                      className="bg-white/5 border-white/10" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
                       value={newContact.phone}
                       onChange={e => setNewContact({...newContact, phone: e.target.value})}
                     />
@@ -138,7 +138,7 @@ const ContactsManagement = () => {
                     <Label htmlFor="type">Contact Type</Label>
                     <Input 
                       id="type" 
-                      className="bg-white/5 border-white/10" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
                       value={newContact.type}
                       onChange={e => setNewContact({...newContact, type: e.target.value})}
                       placeholder="TENANT, OWNER_CONTACT..."
@@ -158,69 +158,69 @@ const ContactsManagement = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Total Leads</CardTitle>
             <Contact className="w-4 h-4 text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">45,210</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">45,210</div>
             <p className="text-xs text-green-400 mt-1">+1,200 this week</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Emails Sent</CardTitle>
-            <Mail className="w-4 h-4 text-slate-400" />
+            <Mail className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">128k</div>
-            <p className="text-xs text-slate-400 mt-1">98% delivery rate</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">128k</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">98% delivery rate</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Active Calls</CardTitle>
             <PhoneCall className="w-4 h-4 text-amber-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">342</div>
-            <p className="text-xs text-slate-400 mt-1">Today</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">342</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Today</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Messages</CardTitle>
-            <MessageSquare className="w-4 h-4 text-slate-400" />
+            <MessageSquare className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">8,901</div>
-            <p className="text-xs text-slate-400 mt-1">Unread: 12</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">8,901</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Unread: 12</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white">{t("admin.contacts.list", "Global Directory")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin.contacts.list", "Global Directory")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               {t("common.loading", "Loading global CRM data...")}
             </div>
           ) : contacts.length === 0 ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               No contacts found.
             </div>
           ) : (
-            <div className="rounded-xl border border-white/10">
+            <div className="rounded-xl border border-slate-200 dark:border-white/10">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
                     <TableHead className="text-slate-300">Name</TableHead>
                     <TableHead className="text-slate-300">Email</TableHead>
                     <TableHead className="text-slate-300">Phone</TableHead>
@@ -230,11 +230,11 @@ const ContactsManagement = () => {
                 </TableHeader>
                 <TableBody>
                   {contacts.map((c: any) => (
-                    <TableRow key={c.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                      <TableCell className="font-medium text-white">{c.fullName}</TableCell>
-                      <TableCell className="text-slate-400">{c.email || 'N/A'}</TableCell>
-                      <TableCell className="text-slate-400">{c.phone || 'N/A'}</TableCell>
-                      <TableCell className="text-slate-400">
+                    <TableRow key={c.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{c.fullName}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{c.email || 'N/A'}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{c.phone || 'N/A'}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">
                         <span className="px-2 py-1 bg-white/5 rounded-full text-xs">
                           {c.type}
                         </span>
@@ -242,13 +242,13 @@ const ContactsManagement = () => {
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 mr-2">
+                            <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 mr-2">
                               <FileSignature className="w-4 h-4 mr-2" /> {t('admin.contracts.actions', 'Process')}
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="bg-slate-900 border-white/10 text-white">
+                          <DropdownMenuContent align="end" className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                             <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin.contracts.salesType', "Sales Contract"))}>
-                              <FileText className="w-4 h-4 mr-2 text-slate-400" /> {t('admin.contracts.sendSales', 'Send Sales Contract')}
+                              <FileText className="w-4 h-4 mr-2 text-slate-500 dark:text-slate-400" /> {t('admin.contracts.sendSales', 'Send Sales Contract')}
                             </DropdownMenuItem>
                             <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin.contracts.evictionType', "Eviction Agreement"))}>
                               <FileText className="w-4 h-4 mr-2 text-orange-400" /> {t('admin.contracts.sendEviction', 'Send Eviction Agreement')}
@@ -259,7 +259,7 @@ const ContactsManagement = () => {
                           </DropdownMenuContent>
                         </DropdownMenu>
 
-                        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
+                        <Button variant="ghost" size="icon" className="text-slate-500 dark:text-slate-400 hover:text-white">
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 

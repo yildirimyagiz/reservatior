@@ -50,15 +50,15 @@ export default function PropertyAvailabilityPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.properties.availability.title")}</h1>
-              <p className="text-gray-400">{t("admin.properties.availability.description")}</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("admin_properties_availability_title")}</h1>
+              <p className="text-gray-400">{t("admin_properties_availability_description")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-slate-600 hover:bg-slate-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.properties.availability.back_to_dashboard")}
+              {t("admin_properties_availability_back_to_dashboard")}
                                       </Button>
           </div>
         </motion.div>
@@ -121,7 +121,7 @@ export default function PropertyAvailabilityPage() {
             <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">{t("admin.properties.availability.calendar_title")}</CardTitle>
+                  <CardTitle className="text-white">{t("admin_properties_availability_calendar_title")}</CardTitle>
                   <Button size="icon" className="bg-slate-600 hover:bg-slate-700">
                     <Plus className="w-4 h-4" />
                   </Button>

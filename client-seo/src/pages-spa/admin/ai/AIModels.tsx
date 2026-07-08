@@ -51,8 +51,8 @@ export default function AIModels() {
       setModels(response);
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_fetch_ai"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_fetch_ai"),
         variant: "destructive"
       });
     }
@@ -68,8 +68,8 @@ export default function AIModels() {
       setDeployments(deploymentsRes);
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_fetch_ai"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_fetch_ai"),
         variant: "destructive"
       });
     } finally {
@@ -89,13 +89,13 @@ export default function AIModels() {
         metadata: {}
       });
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.ai_model_created_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_ai_model_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_ai"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_ai"),
         variant: "destructive"
       });
     }
@@ -115,13 +115,13 @@ export default function AIModels() {
       setIsEditDialogOpen(false);
       setSelectedModel(null);
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.ai_model_updated_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_ai_model_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_update_ai"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_update_ai"),
         variant: "destructive"
       });
     }
@@ -131,13 +131,13 @@ export default function AIModels() {
       await aiApi.deleteModel(modelId);
       setModels(models.filter(m => m.id !== modelId));
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.ai_model_deleted_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_ai_model_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_delete_ai"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_delete_ai"),
         variant: "destructive"
       });
     }
@@ -154,13 +154,13 @@ export default function AIModels() {
       });
       setSelectedModel(null);
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.ai_model_deployment_initiated")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_ai_model_deployment_initiated")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_deploy_ai"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_deploy_ai"),
         variant: "destructive"
       });
     }
@@ -182,47 +182,47 @@ export default function AIModels() {
     }
   };
   if (loading) {
-    return <PageShell title={t("admin.ai.ai_models_management")}>
+    return <PageShell title={t("admin_ai_ai_models_management")}>
         <div className="flex items-center justify-center h-64">
           <Activity className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.ai.ai_models_management")}>
+  return <PageShell title={t("admin_ai_ai_models_management")}>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">{t("admin.ai.ai_models_management")}</h1>
-            <p className="text-muted-foreground">{t("admin.ai.manage_ai_models_and")}</p>
+            <h1 className="text-3xl font-bold">{t("admin_ai_ai_models_management")}</h1>
+            <p className="text-muted-foreground">{t("admin_ai_manage_ai_models_and")}</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.ai.create_model")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_ai_create_model")}</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{t("admin.ai.create_new_ai_model")}</DialogTitle>
-                <DialogDescription>{t("admin.ai.add_a_new_ai")}</DialogDescription>
+                <DialogTitle>{t("admin_ai_create_new_ai_model")}</DialogTitle>
+                <DialogDescription>{t("admin_ai_add_a_new_ai")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="modelName" className="text-right">{t("admin.ai.model_name")}</Label>
+                  <Label htmlFor="modelName" className="text-right">{t("admin_ai_model_name")}</Label>
                   <Input id="modelName" value={newModel.modelName} onChange={e => setNewModel({
                   ...newModel,
                   modelName: e.target.value
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="modelVersion" className="text-right">{t("admin.ai.version")}</Label>
+                  <Label htmlFor="modelVersion" className="text-right">{t("admin_ai_version")}</Label>
                   <Input id="modelVersion" value={newModel.modelVersion} onChange={e => setNewModel({
                   ...newModel,
                   modelVersion: e.target.value
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="accuracy" className="text-right">{t("admin.ai.accuracy")}</Label>
+                  <Label htmlFor="accuracy" className="text-right">{t("admin_ai_accuracy")}</Label>
                   <Input id="accuracy" type="number" value={newModel.accuracy} onChange={e => setNewModel({
                   ...newModel,
                   accuracy: parseFloat(e.target.value)
@@ -230,7 +230,7 @@ export default function AIModels() {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createModel}>{t("admin.ai.create_model")}</Button>
+                <Button onClick={createModel}>{t("admin_ai_create_model")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -239,19 +239,19 @@ export default function AIModels() {
         {/* Models Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.ai_models")}</CardTitle>
+            <CardTitle>{t("admin_ai_ai_models")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.model_name")}</TableHead>
-                  <TableHead>{t("admin.ai.version")}</TableHead>
-                  <TableHead>{t("admin.ai.status")}</TableHead>
-                  <TableHead>{t("admin.ai.accuracy")}</TableHead>
-                  <TableHead>{t("admin.ai.last_trained")}</TableHead>
-                  <TableHead>{t("admin.ai.deployments")}</TableHead>
-                  <TableHead className="text-right">{t("admin.ai.actions")}</TableHead>
+                  <TableHead>{t("admin_ai_model_name")}</TableHead>
+                  <TableHead>{t("admin_ai_version")}</TableHead>
+                  <TableHead>{t("admin_ai_status")}</TableHead>
+                  <TableHead>{t("admin_ai_accuracy")}</TableHead>
+                  <TableHead>{t("admin_ai_last_trained")}</TableHead>
+                  <TableHead>{t("admin_ai_deployments")}</TableHead>
+                  <TableHead className="text-right">{t("admin_ai_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -289,20 +289,20 @@ export default function AIModels() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>{t("admin.ai.actions")}</DropdownMenuLabel>
+                            <DropdownMenuLabel>{t("admin_ai_actions")}</DropdownMenuLabel>
                             <DropdownMenuItem onClick={() => {
                           setSelectedModel(model);
                           setIsEditDialogOpen(true);
                         }}>
-                              <Edit className="h-4 w-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
+                              <Edit className="h-4 w-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => {
                           setSelectedModel(model);
                           setIsDeploymentDialogOpen(true);
                         }}>
-                              <Play className="h-4 w-4 mr-2" />{t("admin.ai.deploy")}</DropdownMenuItem>
+                              <Play className="h-4 w-4 mr-2" />{t("admin_ai_deploy")}</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => deleteModel(model.id)} className="text-red-600">
-                              <Trash2 className="h-4 w-4 mr-2" />{t("admin.ai.delete")}</DropdownMenuItem>
+                              <Trash2 className="h-4 w-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -316,18 +316,18 @@ export default function AIModels() {
         {/* Deployments Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.model_deployments")}</CardTitle>
+            <CardTitle>{t("admin_ai_model_deployments")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.model")}</TableHead>
-                  <TableHead>{t("admin.ai.version")}</TableHead>
-                  <TableHead>{t("admin.ai.environment")}</TableHead>
-                  <TableHead>{t("admin.ai.status")}</TableHead>
-                  <TableHead>{t("admin.ai.deployed_at")}</TableHead>
-                  <TableHead>{t("admin.ai.endpoint")}</TableHead>
+                  <TableHead>{t("admin_ai_model")}</TableHead>
+                  <TableHead>{t("admin_ai_version")}</TableHead>
+                  <TableHead>{t("admin_ai_environment")}</TableHead>
+                  <TableHead>{t("admin_ai_status")}</TableHead>
+                  <TableHead>{t("admin_ai_deployed_at")}</TableHead>
+                  <TableHead>{t("admin_ai_endpoint")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -362,33 +362,33 @@ export default function AIModels() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.edit_ai_model")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.update_the_ai_model")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_edit_ai_model")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_update_the_ai_model")}</DialogDescription>
             </DialogHeader>
             {selectedModel && <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-modelName" className="text-right">{t("admin.ai.model_name")}</Label>
+                  <Label htmlFor="edit-modelName" className="text-right">{t("admin_ai_model_name")}</Label>
                   <Input id="edit-modelName" value={selectedModel.modelName} onChange={e => setSelectedModel({
                 ...selectedModel,
                 modelName: e.target.value
               })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-modelVersion" className="text-right">{t("admin.ai.version")}</Label>
+                  <Label htmlFor="edit-modelVersion" className="text-right">{t("admin_ai_version")}</Label>
                   <Input id="edit-modelVersion" value={selectedModel.modelVersion} onChange={e => setSelectedModel({
                 ...selectedModel,
                 modelVersion: e.target.value
               })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-accuracy" className="text-right">{t("admin.ai.accuracy")}</Label>
+                  <Label htmlFor="edit-accuracy" className="text-right">{t("admin_ai_accuracy")}</Label>
                   <Input id="edit-accuracy" type="number" value={selectedModel.accuracy} onChange={e => setSelectedModel({
                 ...selectedModel,
                 accuracy: parseFloat(e.target.value)
               })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-isActive" className="text-right">{t("admin.ai.status")}</Label>
+                  <Label htmlFor="edit-isActive" className="text-right">{t("admin_ai_status")}</Label>
                   <Select value={selectedModel.status === "ACTIVE" ? "active" : "inactive"} onValueChange={value => setSelectedModel({
                 ...selectedModel,
                 status: value === "active" ? "ACTIVE" : "INACTIVE"
@@ -397,14 +397,14 @@ export default function AIModels() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="active">{t("admin.ai.active")}</SelectItem>
-                      <SelectItem value="inactive">{t("admin.ai.inactive")}</SelectItem>
+                      <SelectItem value="active">{t("admin_ai_active")}</SelectItem>
+                      <SelectItem value="inactive">{t("admin_ai_inactive")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>}
             <DialogFooter>
-              <Button onClick={updateModel}>{t("admin.ai.update_model")}</Button>
+              <Button onClick={updateModel}>{t("admin_ai_update_model")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -413,19 +413,19 @@ export default function AIModels() {
         <Dialog open={isDeploymentDialogOpen} onOpenChange={setIsDeploymentDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.deploy_ai_model")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.deploy")}{selectedModel?.modelName}{t("admin.ai.to_an_environment")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_deploy_ai_model")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_deploy")}{selectedModel?.modelName}{t("admin_ai_to_an_environment")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="deploymentVersion" className="text-right">{t("admin.ai.deployment_version")}</Label>
+                <Label htmlFor="deploymentVersion" className="text-right">{t("admin_ai_deployment_version")}</Label>
                 <Input id="deploymentVersion" value={newDeployment.deploymentVersion} onChange={e => setNewDeployment({
                 ...newDeployment,
                 deploymentVersion: e.target.value
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="environment" className="text-right">{t("admin.ai.environment")}</Label>
+                <Label htmlFor="environment" className="text-right">{t("admin_ai_environment")}</Label>
                 <Select value={newDeployment.environment} onValueChange={value => setNewDeployment({
                 ...newDeployment,
                 environment: value
@@ -434,15 +434,15 @@ export default function AIModels() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="development">{t("admin.ai.development")}</SelectItem>
-                    <SelectItem value="staging">{t("admin.ai.staging")}</SelectItem>
-                    <SelectItem value="production">{t("admin.ai.production")}</SelectItem>
+                    <SelectItem value="development">{t("admin_ai_development")}</SelectItem>
+                    <SelectItem value="staging">{t("admin_ai_staging")}</SelectItem>
+                    <SelectItem value="production">{t("admin_ai_production")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={deployModel}>{t("admin.ai.deploy_model")}</Button>
+              <Button onClick={deployModel}>{t("admin_ai_deploy_model")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

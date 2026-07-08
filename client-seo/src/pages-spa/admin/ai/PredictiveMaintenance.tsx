@@ -151,8 +151,8 @@ export default function PredictiveMaintenance() {
       } catch (error) {
         console.error('Error fetching predictions:', error);
         toast({
-          title: t("admin.ai.error"),
-          description: t("admin.ai.failed_to_load_maintenance"),
+          title: t("admin_ai_error"),
+          description: t("admin_ai_failed_to_load_maintenance"),
           variant: "destructive"
         });
       } finally {
@@ -181,8 +181,8 @@ export default function PredictiveMaintenance() {
         status
       } : p));
       toast({
-        title: t("admin.ai.status_updated"),
-        description: t("admin.ai.prediction_status_has_been")
+        title: t("admin_ai_status_updated"),
+        description: t("admin_ai_prediction_status_has_been")
       });
     } catch (error) {
       console.error('Error updating status:', error);
@@ -192,8 +192,8 @@ export default function PredictiveMaintenance() {
     try {
       await apiClient.post('/ai/maintenance-predictions/refresh');
       toast({
-        title: t("admin.ai.refresh_started"),
-        description: t("admin.ai.ai_model_is_analyzing")
+        title: t("admin_ai_refresh_started"),
+        description: t("admin_ai_ai_model_is_analyzing")
       });
     } catch (error) {
       console.error('Error refreshing predictions:', error);
@@ -220,51 +220,51 @@ export default function PredictiveMaintenance() {
     const config = getUrgencyConfig(t)[urgency];
     return config ? config.color : "bg-white/5 text-slate-300";
   };
-  return <PageShell title={t("admin.ai.predictive_maintenance")} description={t("admin.ai.aipowered_maintenance_predictions_and")}>
+  return <PageShell title={t("admin_ai_predictive_maintenance")} description={t("admin_ai_aipowered_maintenance_predictions_and")}>
       <div className="space-y-6">
         {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.total_predictions")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_total_predictions")}</CardTitle>
               <AlertTriangle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalPredictions}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.ai_predictions")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_ai_predictions")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.critical")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_critical")}</CardTitle>
               <AlertTriangle className="h-4 w-4 text-red-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">{criticalPredictions}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.immediate_attention")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_immediate_attention")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.high_risk")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_high_risk")}</CardTitle>
               <AlertTriangle className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{highPredictions}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.review_soon")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_review_soon")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.est_cost")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_est_cost")}</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{formatCurrency(totalEstimatedCost)}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.total_estimated")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_total_estimated")}</p>
             </CardContent>
           </Card>
         </div>
@@ -273,15 +273,15 @@ export default function PredictiveMaintenance() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
-              <Input placeholder={t("admin.ai.search_predictions")} value={search} onChange={e => setSearch(e.target.value)} className="pl-8 w-64" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
+              <Input placeholder={t("admin_ai_search_predictions")} value={search} onChange={e => setSearch(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={filterRisk} onValueChange={setFilterRisk}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("admin.ai.risk_level")} />
+                <SelectValue placeholder={t("admin_ai_risk_level")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.ai.all_risks")}</SelectItem>
+                <SelectItem value="all">{t("admin_ai_all_risks")}</SelectItem>
                 {Object.values(RiskLevel).map(risk => <SelectItem key={risk} value={risk}>
                     {getRiskConfig(t)[risk]?.label || risk}
                   </SelectItem>)}
@@ -289,10 +289,10 @@ export default function PredictiveMaintenance() {
             </Select>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("admin.ai.status")} />
+                <SelectValue placeholder={t("admin_ai_status")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.ai.all_status")}</SelectItem>
+                <SelectItem value="all">{t("admin_ai_all_status")}</SelectItem>
                 {Object.values(PredictionStatus).map(status => <SelectItem key={status} value={status}>
                     {getLocalizedStatus(status, t)}
                   </SelectItem>)}
@@ -300,36 +300,36 @@ export default function PredictiveMaintenance() {
             </Select>
           </div>
           <Button onClick={handleRefreshPredictions}>
-            <RefreshCw className="h-4 w-4 mr-2" />{t("admin.ai.refresh_ai")}</Button>
+            <RefreshCw className="h-4 w-4 mr-2" />{t("admin_ai_refresh_ai")}</Button>
         </div>
 
         {/* Predictions Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.maintenance_predictions")}</CardTitle>
-            <CardDescription>{t("admin.ai.aipowered_predictions_for_equipment")}</CardDescription>
+            <CardTitle>{t("admin_ai_maintenance_predictions")}</CardTitle>
+            <CardDescription>{t("admin_ai_aipowered_predictions_for_equipment")}</CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? <div className="flex items-center justify-center py-8">
-                <div className="text-sm text-muted-foreground">{t("admin.ai.loading_predictions")}</div>
+                <div className="text-sm text-muted-foreground">{t("admin_ai_loading_predictions")}</div>
               </div> : <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>{t("admin.ai.property")}</TableHead>
-                    <TableHead>{t("admin.ai.system")}</TableHead>
-                    <TableHead>{t("admin.ai.component")}</TableHead>
-                    <TableHead>{t("admin.ai.risk_level")}</TableHead>
-                    <TableHead>{t("admin.ai.probability")}</TableHead>
-                    <TableHead>{t("admin.ai.est_failure")}</TableHead>
-                    <TableHead>{t("admin.ai.est_cost")}</TableHead>
-                    <TableHead>{t("admin.ai.urgency")}</TableHead>
-                    <TableHead>{t("admin.ai.status")}</TableHead>
+                    <TableHead>{t("admin_ai_property")}</TableHead>
+                    <TableHead>{t("admin_ai_system")}</TableHead>
+                    <TableHead>{t("admin_ai_component")}</TableHead>
+                    <TableHead>{t("admin_ai_risk_level")}</TableHead>
+                    <TableHead>{t("admin_ai_probability")}</TableHead>
+                    <TableHead>{t("admin_ai_est_failure")}</TableHead>
+                    <TableHead>{t("admin_ai_est_cost")}</TableHead>
+                    <TableHead>{t("admin_ai_urgency")}</TableHead>
+                    <TableHead>{t("admin_ai_status")}</TableHead>
                     <TableHead className="w-[50px]"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredPredictions.length === 0 ? <TableRow>
-                      <TableCell colSpan={10} className="text-center py-8">{t("admin.ai.no_predictions_found")}</TableCell>
+                      <TableCell colSpan={10} className="text-center py-8">{t("admin_ai_no_predictions_found")}</TableCell>
                     </TableRow> : filteredPredictions.map(prediction => <TableRow key={prediction.id}>
                         <TableCell>
                           <div>
@@ -389,13 +389,13 @@ export default function PredictiveMaintenance() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                               <DropdownMenuItem onClick={() => setSelectedPrediction(prediction)}>
-                                <Eye className="h-4 w-4 mr-2" />{t("admin.ai.view_details")}</DropdownMenuItem>
+                                <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Wrench className="h-4 w-4 mr-2" />{t("admin.ai.schedule_maintenance")}</DropdownMenuItem>
+                                <Wrench className="h-4 w-4 mr-2" />{t("admin_ai_schedule_maintenance")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Edit className="h-4 w-4 mr-2" />{t("admin.ai.edit_prediction")}</DropdownMenuItem>
+                                <Edit className="h-4 w-4 mr-2" />{t("admin_ai_edit_prediction")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <DollarSign className="h-4 w-4 mr-2" />{t("admin.ai.view_cost_breakdown")}</DropdownMenuItem>
+                                <DollarSign className="h-4 w-4 mr-2" />{t("admin_ai_view_cost_breakdown")}</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
@@ -409,20 +409,20 @@ export default function PredictiveMaintenance() {
         <Dialog open={!!selectedPrediction} onOpenChange={() => setSelectedPrediction(null)}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.maintenance_prediction_details")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.detailed_analysis_and_recommendations")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_maintenance_prediction_details")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_detailed_analysis_and_recommendations")}</DialogDescription>
             </DialogHeader>
             {selectedPrediction && <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.ai.property")}</Label>
+                    <Label>{t("admin_ai_property")}</Label>
                     <div className="font-medium">{selectedPrediction.property?.name}</div>
                     <div className="text-sm text-muted-foreground">
                       {selectedPrediction.property?.addressLine1}
                     </div>
                   </div>
                   <div>
-                    <Label>{t("admin.ai.system_component")}</Label>
+                    <Label>{t("admin_ai_system_component")}</Label>
                     <div className="font-medium">{selectedPrediction.systemType}</div>
                     <div className="text-sm text-muted-foreground">{selectedPrediction.component}</div>
                   </div>
@@ -430,16 +430,16 @@ export default function PredictiveMaintenance() {
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.ai.risk_assessment")}</Label>
+                    <Label>{t("admin_ai_risk_assessment")}</Label>
                     <div className="flex items-center space-x-2 mt-1">
                       <Badge className={getRiskColor(selectedPrediction.riskLevel)}>
                         {getRiskConfig(t)[selectedPrediction.riskLevel]?.label}
                       </Badge>
-                      <span className="text-sm">({Math.round(selectedPrediction.probability * 100)}{t("admin.ai.confidence")}</span>
+                      <span className="text-sm">({Math.round(selectedPrediction.probability * 100)}{t("admin_ai_confidence")}</span>
                     </div>
                   </div>
                   <div>
-                    <Label>{t("admin.ai.urgency")}</Label>
+                    <Label>{t("admin_ai_urgency")}</Label>
                     <Badge className={cn(getUrgencyColor(selectedPrediction.urgency), "mt-1")}>
                       {getUrgencyConfig(t)[selectedPrediction.urgency]?.label}
                     </Badge>
@@ -448,39 +448,39 @@ export default function PredictiveMaintenance() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.ai.estimated_failure_date")}</Label>
+                    <Label>{t("admin_ai_estimated_failure_date")}</Label>
                     <div className="font-medium">{formatDate(selectedPrediction.estimatedFailureDate)}</div>
                   </div>
                   <div>
-                    <Label>{t("admin.ai.estimated_cost")}</Label>
+                    <Label>{t("admin_ai_estimated_cost")}</Label>
                     <div className="font-medium">{formatCurrency(selectedPrediction.estimatedCost)}</div>
                   </div>
                 </div>
 
                 <div>
-                  <Label>{t("admin.ai.predicted_issue")}</Label>
+                  <Label>{t("admin_ai_predicted_issue")}</Label>
                   <div className="mt-1 p-3 bg-white/5 rounded-lg">
                     {selectedPrediction.predictedIssue}
                   </div>
                 </div>
 
                 <div>
-                  <Label>{t("admin.ai.recommended_action")}</Label>
+                  <Label>{t("admin_ai_recommended_action")}</Label>
                   <div className="mt-1 p-3 bg-slate-50 rounded-lg">
                     {selectedPrediction.recommendedAction}
                   </div>
                 </div>
 
                 {selectedPrediction.lastMaintenanceDate && <div>
-                    <Label>{t("admin.ai.last_maintenance")}</Label>
+                    <Label>{t("admin_ai_last_maintenance")}</Label>
                     <div className="mt-1">{formatDate(selectedPrediction.lastMaintenanceDate)}</div>
                   </div>}
 
                 <div className="flex justify-end space-x-2">
                   <Button variant="outline">
-                    <Wrench className="h-4 w-4 mr-2" />{t("admin.ai.schedule_maintenance")}</Button>
+                    <Wrench className="h-4 w-4 mr-2" />{t("admin_ai_schedule_maintenance")}</Button>
                   <Button>
-                    <DollarSign className="h-4 w-4 mr-2" />{t("admin.ai.create_work_order")}</Button>
+                    <DollarSign className="h-4 w-4 mr-2" />{t("admin_ai_create_work_order")}</Button>
                 </div>
               </div>}
           </DialogContent>

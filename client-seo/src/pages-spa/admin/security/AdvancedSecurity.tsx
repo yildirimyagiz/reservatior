@@ -57,7 +57,7 @@ interface SecuritySession {
 const MOCK_POLICIES: SecurityPolicy[] = [{
   id: "1",
   name: "Neural Password DNA",
-  description: t("admin.security.require_complex_alphanumeric_sequences"),
+  description: t("admin_security_require_complex_alphanumeric_sequences"),
   enabled: true,
   severity: "HIGH",
   category: "Authentication",
@@ -66,7 +66,7 @@ const MOCK_POLICIES: SecurityPolicy[] = [{
 }, {
   id: "2",
   name: "Multi-Node Handshake (2FA)",
-  description: t("admin.security.mandatory_secondary_node_verification"),
+  description: t("admin_security_mandatory_secondary_node_verification"),
   enabled: true,
   severity: "CRITICAL",
   category: "Authentication",
@@ -75,7 +75,7 @@ const MOCK_POLICIES: SecurityPolicy[] = [{
 }, {
   id: "3",
   name: "Temporal Session Decay",
-  description: t("admin.security.automated_session_termination_after"),
+  description: t("admin_security_automated_session_termination_after"),
   enabled: true,
   severity: "MEDIUM",
   category: "Session Management",
@@ -86,7 +86,7 @@ const MOCK_EVENTS: SecurityEvent[] = [{
   id: "1",
   type: "LOGIN_SUCCESS",
   severity: "INFO",
-  description: t("admin.security.successful_neural_link_established"),
+  description: t("admin_security_successful_neural_link_established"),
   userId: "user-1",
   ipAddress: "192.168.1.100",
   userAgent: "Mozilla/5.0 (Windows NT 10.0)",
@@ -176,7 +176,7 @@ export default function AdvancedSecurity() {
       case "LOW":
         return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
       case "MEDIUM":
-        return "bg-slate-500/10 text-slate-400 border-slate-500/20";
+        return "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20";
       case "HIGH":
         return "bg-orange-500/10 text-orange-400 border-orange-500/20";
       case "CRITICAL":
@@ -197,31 +197,31 @@ export default function AdvancedSecurity() {
         return <Clock className="w-4 h-4 text-muted-foreground" />;
     }
   };
-  return <PageShell title={t("admin.security.advanced_security_lab")} description={t("admin.security.deep_neural_firewall_and")}>
+  return <PageShell title={t("admin_security_advanced_security_lab")} description={t("admin_security_deep_neural_firewall_and")}>
       <div className="space-y-10 pb-20">
         
         {/* KPI NEURAL GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[{
-          label: t("admin.security.policy_sync"),
+          label: t("admin_security_policy_sync"),
           val: "92%",
           sub: "6 Active Protocols",
           icon: Shield,
-          color: "text-slate-400"
+          color: "text-slate-500 dark:text-slate-400"
         }, {
-          label: t("admin.security.threat_level"),
+          label: t("admin_security_threat_level"),
           val: "Minimal",
           sub: "0 Anomalies Detected",
           icon: ShieldAlert,
           color: "text-emerald-400"
         }, {
-          label: t("admin.security.active_links"),
+          label: t("admin_security_active_links"),
           val: "14",
           sub: "Neural Handshakes",
           icon: Users,
-          color: "text-slate-400"
+          color: "text-slate-500 dark:text-slate-400"
         }, {
-          label: t("admin.security.alert_velocity"),
+          label: t("admin_security_alert_velocity"),
           val: "Low",
           sub: "Normal Cycle",
           icon: Activity,
@@ -240,17 +240,17 @@ export default function AdvancedSecurity() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-10">
           <TabsList className="bg-card border border-border p-1.5 rounded-2xl h-18 w-full flex overflow-x-auto gap-1">
-             <TabsTrigger value="policies" className="flex-1 min-w-[120px] rounded-xl font-bold text-[10px] data-[state=active]:bg-muted/50 data-[state=active]:text-foreground text-muted-foreground transition-all gap-2"><Shield className="w-4 h-4" />{t("admin.security.policies")}</TabsTrigger>
-             <TabsTrigger value="events" className="flex-1 min-w-[120px] rounded-xl font-bold text-[10px] data-[state=active]:bg-muted/50 data-[state=active]:text-foreground text-muted-foreground transition-all gap-2"><Activity className="w-4 h-4" />{t("admin.security.neural_logs")}</TabsTrigger>
-             <TabsTrigger value="sessions" className="flex-1 min-w-[120px] rounded-xl font-bold text-[10px] data-[state=active]:bg-muted/50 data-[state=active]:text-foreground text-muted-foreground transition-all gap-2"><Monitor className="w-4 h-4" />{t("admin.security.link_state")}</TabsTrigger>
-             <TabsTrigger value="2fa" className="flex-1 min-w-[120px] rounded-xl font-bold text-[10px] data-[state=active]:bg-muted/50 data-[state=active]:text-foreground text-muted-foreground transition-all gap-2"><Fingerprint className="w-4 h-4" />{t("admin.security.biohandshake")}</TabsTrigger>
+             <TabsTrigger value="policies" className="flex-1 min-w-[120px] rounded-xl font-bold text-[10px] data-[state=active]:bg-muted/50 data-[state=active]:text-foreground text-muted-foreground transition-all gap-2"><Shield className="w-4 h-4" />{t("admin_security_policies")}</TabsTrigger>
+             <TabsTrigger value="events" className="flex-1 min-w-[120px] rounded-xl font-bold text-[10px] data-[state=active]:bg-muted/50 data-[state=active]:text-foreground text-muted-foreground transition-all gap-2"><Activity className="w-4 h-4" />{t("admin_security_neural_logs")}</TabsTrigger>
+             <TabsTrigger value="sessions" className="flex-1 min-w-[120px] rounded-xl font-bold text-[10px] data-[state=active]:bg-muted/50 data-[state=active]:text-foreground text-muted-foreground transition-all gap-2"><Monitor className="w-4 h-4" />{t("admin_security_link_state")}</TabsTrigger>
+             <TabsTrigger value="2fa" className="flex-1 min-w-[120px] rounded-xl font-bold text-[10px] data-[state=active]:bg-muted/50 data-[state=active]:text-foreground text-muted-foreground transition-all gap-2"><Fingerprint className="w-4 h-4" />{t("admin_security_biohandshake")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="policies" className="space-y-6">
              <div className="flex justify-between items-center px-4">
-                <h4 className="text-xl font-bold text-foreground">{t("admin.security.security_protocols")}</h4>
+                <h4 className="text-xl font-bold text-foreground">{t("admin_security_security_protocols")}</h4>
                 <Button onClick={() => setPolicyDialogOpen(true)} className="h-12 bg-slate-600 hover:bg-slate-500 text-foreground rounded-2xl font-bold text-[10px] px-8 shadow-xl shadow-slate-600/20 gap-2">
-                   <Settings className="w-4 h-4" />{t("admin.security.configure_matrix")}</Button>
+                   <Settings className="w-4 h-4" />{t("admin_security_configure_matrix")}</Button>
              </div>
              
              <div className="grid grid-cols-1 gap-4">
@@ -266,8 +266,8 @@ export default function AdvancedSecurity() {
                            </div>
                            <p className="text-xs text-muted-foreground font-medium leading-relaxed mb-4 max-w-2xl">{policy.description}</p>
                            <div className="flex items-center gap-6 text-[10px] font-bold text-slate-600">
-                              <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{t("admin.security.sync")}{policy.lastUpdated}</span>
-                              {policy.violations > 0 && <span className="text-rose-500 flex items-center gap-1 font-bold"><ShieldAlert className="w-3 h-3" /> {policy.violations}{t("admin.security.anomalies")}</span>}
+                              <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{t("admin_security_sync")}{policy.lastUpdated}</span>
+                              {policy.violations > 0 && <span className="text-rose-500 flex items-center gap-1 font-bold"><ShieldAlert className="w-3 h-3" /> {policy.violations}{t("admin_security_anomalies")}</span>}
                            </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -285,10 +285,10 @@ export default function AdvancedSecurity() {
                    <Table>
                       <TableHeader className="bg-muted/50 border-b border-border">
                          <TableRow className="hover:bg-transparent border-none">
-                            <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8">{t("admin.security.neural_event")}</TableHead>
-                            <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.security.node_identity")}</TableHead>
-                            <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.security.temporal_sync")}</TableHead>
-                            <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin.security.actions")}</TableHead>
+                            <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8">{t("admin_security_neural_event")}</TableHead>
+                            <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_security_node_identity")}</TableHead>
+                            <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_security_temporal_sync")}</TableHead>
+                            <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin_security_actions")}</TableHead>
                          </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -306,7 +306,7 @@ export default function AdvancedSecurity() {
                               </TableCell>
                               <TableCell className="px-8">
                                  <div className="space-y-1">
-                                    <p className="text-xs font-bold text-slate-400 leading-none">{event.userId || 'SYSTEM_DAEMON'}</p>
+                                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 leading-none">{event.userId || 'SYSTEM_DAEMON'}</p>
                                     <p className="text-[9px] font-bold text-slate-600 mt-1">{event.ipAddress}</p>
                                  </div>
                               </TableCell>
@@ -314,7 +314,7 @@ export default function AdvancedSecurity() {
                                  <span className="text-[10px] font-bold text-muted-foreground">{new Date(event.timestamp).toLocaleTimeString()}</span>
                               </TableCell>
                               <TableCell className="px-8 text-right">
-                                 <Button variant="ghost" className="h-10 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground font-bold text-[9px]">{t("admin.security.details")}</Button>
+                                 <Button variant="ghost" className="h-10 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground font-bold text-[9px]">{t("admin_security_details")}</Button>
                               </TableCell>
                            </TableRow>)}
                       </TableBody>
@@ -332,28 +332,28 @@ export default function AdvancedSecurity() {
                             <Fingerprint className="w-10 h-10 text-emerald-400" />
                          </div>
                          <div>
-                            <h3 className="text-2xl font-bold text-foreground leading-none">{t("admin.security.biohandshake_status")}</h3>
-                            <p className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin.security.multinode_authentication_matrix")}</p>
+                            <h3 className="text-2xl font-bold text-foreground leading-none">{t("admin_security_biohandshake_status")}</h3>
+                            <p className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin_security_multinode_authentication_matrix")}</p>
                          </div>
                       </div>
                       <div className="space-y-6">
                          {[{
-                    label: t("admin.security.neural_auth_app"),
+                    label: t("admin_security_neural_auth_app"),
                     sub: "Synced via secondary hardware",
                     icon: Smartphone,
                     check: true
                   }, {
-                    label: t("admin.security.secondary_comm_code"),
+                    label: t("admin_security_secondary_comm_code"),
                     sub: "Encrypted email dispatch",
                     icon: Mail,
                     check: false
                   }, {
-                    label: t("admin.security.symmetric_sms_node"),
+                    label: t("admin_security_symmetric_sms_node"),
                     sub: "Legacy telco handshake",
                     icon: PhoneIcon,
                     check: false
                   }].map((node, i) => <div key={i} className="flex items-center gap-6 p-6 rounded-3xl bg-muted/50 border border-border hover:border-border hover:bg-muted/50 transition-all">
-                              <div className="w-12 h-12 rounded-2xl bg-[#14151a] flex items-center justify-center text-slate-400 border border-border">
+                              <div className="w-12 h-12 rounded-2xl bg-[#14151a] flex items-center justify-center text-slate-500 dark:text-slate-400 border border-border">
                                  <node.icon className="w-6 h-6" />
                               </div>
                               <div className="flex-1">
@@ -371,8 +371,8 @@ export default function AdvancedSecurity() {
                    <div className="space-y-8">
                       <div className="flex items-center justify-between">
                          <div>
-                           <h3 className="text-2xl font-bold text-foreground leading-none">{t("admin.security.neural_recovery_codes")}</h3>
-                           <p className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin.security.backup_handshake_bypass_tokens")}</p>
+                           <h3 className="text-2xl font-bold text-foreground leading-none">{t("admin_security_neural_recovery_codes")}</h3>
+                           <p className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin_security_backup_handshake_bypass_tokens")}</p>
                          </div>
                          <Button variant="ghost" className="h-10 rounded-xl hover:bg-muted/50 text-muted-foreground" onClick={() => setShowSecret(!showSecret)}>
                             {showSecret ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -389,8 +389,8 @@ export default function AdvancedSecurity() {
                       </div>
 
                       <div className="flex gap-4">
-                         <Button className="flex-1 h-14 bg-muted/50 hover:bg-muted/50 text-foreground border border-border rounded-2xl font-bold text-[10px] transition-all">{t("admin.security.download_keys")}</Button>
-                         <Button variant="ghost" className="flex-1 h-14 border border-border text-muted-foreground hover:text-foreground rounded-2xl font-bold text-[10px] transition-all">{t("admin.security.regenerate_all")}</Button>
+                         <Button className="flex-1 h-14 bg-muted/50 hover:bg-muted/50 text-foreground border border-border rounded-2xl font-bold text-[10px] transition-all">{t("admin_security_download_keys")}</Button>
+                         <Button variant="ghost" className="flex-1 h-14 border border-border text-muted-foreground hover:text-foreground rounded-2xl font-bold text-[10px] transition-all">{t("admin_security_regenerate_all")}</Button>
                       </div>
                    </div>
                 </Card>

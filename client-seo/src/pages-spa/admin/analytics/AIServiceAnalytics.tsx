@@ -83,34 +83,34 @@ export default function AIServiceAnalytics() {
   }
   return <div className="p-6 space-y-6">
       {/* Filters */}
-      <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
             <Select value={dateRange} onValueChange={setDateRange}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={t("admin.analytics.timeframe")} />
+                <SelectValue placeholder={t("admin_analytics_timeframe")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="30d">{t("admin.analytics.last_30_days")}</SelectItem>
-                <SelectItem value="90d">{t("admin.analytics.last_90_days")}</SelectItem>
-                <SelectItem value="ytd">{t("admin.analytics.year_to_date")}</SelectItem>
-                <SelectItem value="all">{t("admin.analytics.all_time")}</SelectItem>
+                <SelectItem value="30d">{t("admin_analytics_last_30_days")}</SelectItem>
+                <SelectItem value="90d">{t("admin_analytics_last_90_days")}</SelectItem>
+                <SelectItem value="ytd">{t("admin_analytics_year_to_date")}</SelectItem>
+                <SelectItem value="all">{t("admin_analytics_all_time")}</SelectItem>
               </SelectContent>
             </Select>
             <Select value={serviceFilter} onValueChange={setServiceFilter}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={t("admin.analytics.ai_service")} />
+                <SelectValue placeholder={t("admin_analytics_ai_service")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.analytics.all_services")}</SelectItem>
-                <SelectItem value="staging">{t("admin.analytics.neural_staging")}</SelectItem>
-                <SelectItem value="valuation">{t("admin.analytics.ai_valuations")}</SelectItem>
-                <SelectItem value="brochure">{t("admin.analytics.smart_brochures")}</SelectItem>
+                <SelectItem value="all">{t("admin_analytics_all_services")}</SelectItem>
+                <SelectItem value="staging">{t("admin_analytics_neural_staging")}</SelectItem>
+                <SelectItem value="valuation">{t("admin_analytics_ai_valuations")}</SelectItem>
+                <SelectItem value="brochure">{t("admin_analytics_smart_brochures")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <Button variant="outline" className="gap-2">
-            <Download className="w-4 h-4" />{t("admin.analytics.export_report")}</Button>
+            <Download className="w-4 h-4" />{t("admin_analytics_export_report")}</Button>
         </div>
       </div>
 
@@ -118,55 +118,55 @@ export default function AIServiceAnalytics() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-gradient-to-br from-slate-500/10 via-slate-900 to-slate-900 border-slate-500/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.total_agencies_using_ai")}</CardTitle>
-            <Building2 className="w-4 h-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_analytics_total_agencies_using_ai")}</CardTitle>
+            <Building2 className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">482</div>
-            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.12_from_last")}{dateRange}</p>
+            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin_analytics_12_from_last")}{dateRange}</p>
           </CardContent>
         </Card>
         
         <Card className="bg-gradient-to-br from-slate-500/10 via-slate-900 to-slate-900 border-slate-500/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.agent_adoption_rate")}</CardTitle>
-            <UserCheck className="w-4 h-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_analytics_agent_adoption_rate")}</CardTitle>
+            <UserCheck className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">{stats?.adoptionRate?.toFixed(1)}%</div>
-            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.82_across_platform")}</p>
+            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin_analytics_82_across_platform")}</p>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-emerald-500/10 via-slate-900 to-slate-900 border-emerald-500/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.total_ai_processes")}</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_analytics_total_ai_processes")}</CardTitle>
             <CalendarCheck className="w-4 h-4 text-emerald-400" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">{stats?.totalUsage?.toLocaleString()}</div>
-            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin.analytics.global_usage_track")}</p>
+            <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin_analytics_global_usage_track")}</p>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-900 border-amber-500/20">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin.analytics.avg_revenue_lift")}</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_analytics_avg_revenue_lift")}</CardTitle>
             <TrendingUp className="w-4 h-4 text-amber-400" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">+{stats?.revenueLift}%</div>
-            <p className="text-xs text-muted-foreground font-bold mt-1">{t("admin.analytics.compared_to_nonai_listings")}</p>
+            <p className="text-xs text-muted-foreground font-bold mt-1">{t("admin_analytics_compared_to_nonai_listings")}</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-slate-400" />{t("admin.analytics.booking_revenue_ai_vs")}</CardTitle>
+              <Sparkles className="h-5 w-5 text-slate-500 dark:text-slate-400" />{t("admin_analytics_booking_revenue_ai_vs")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -194,10 +194,10 @@ export default function AIServiceAnalytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Brain className="h-5 w-5 text-emerald-400" />{t("admin.analytics.ai_service_roi_breakdown")}</CardTitle>
+              <Brain className="h-5 w-5 text-emerald-400" />{t("admin_analytics_ai_service_roi_breakdown")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -218,39 +218,39 @@ export default function AIServiceAnalytics() {
       </div>
 
       {/* Actionable Insights & Handlers */}
-      <Card className="bg-white/5 border-white/10">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-slate-400" />{t("admin.analytics.ai_service_handlers_performance")}</CardTitle>
-          <CardDescription>{t("admin.analytics.direct_breakdown_of_client")}</CardDescription>
+            <Zap className="h-5 w-5 text-slate-500 dark:text-slate-400" />{t("admin_analytics_ai_service_handlers_performance")}</CardTitle>
+          <CardDescription>{t("admin_analytics_direct_breakdown_of_client")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="bg-white/5 border-b border-white/10 text-slate-400">
+              <thead className="bg-white/5 border-b border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">
                 <tr>
-                  <th className="p-4 font-semibold rounded-tl-xl">{t("admin.analytics.service_handler")}</th>
-                  <th className="p-4 font-semibold">{t("admin.analytics.processed_properties")}</th>
-                  <th className="p-4 font-semibold">{t("admin.analytics.generated_bookings")}</th>
-                  <th className="p-4 font-semibold">{t("admin.analytics.conversion_lift")}</th>
-                  <th className="p-4 font-semibold rounded-tr-xl">{t("admin.analytics.agent_adoption")}</th>
+                  <th className="p-4 font-semibold rounded-tl-xl">{t("admin_analytics_service_handler")}</th>
+                  <th className="p-4 font-semibold">{t("admin_analytics_processed_properties")}</th>
+                  <th className="p-4 font-semibold">{t("admin_analytics_generated_bookings")}</th>
+                  <th className="p-4 font-semibold">{t("admin_analytics_conversion_lift")}</th>
+                  <th className="p-4 font-semibold rounded-tr-xl">{t("admin_analytics_agent_adoption")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">
                 {stats?.services?.map((row, i) => <tr key={i} className="hover:bg-white/5 transition-colors group">
-                    <td className="p-4 font-medium flex items-center gap-3 text-white">
+                    <td className="p-4 font-medium flex items-center gap-3 text-slate-900 dark:text-white">
                       <div className="p-2 bg-white/5 rounded-lg group-hover:bg-white/10 transition-colors">
-                        {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-slate-400" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-amber-400" />}
+                        {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-slate-500 dark:text-slate-400" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-amber-400" />}
                       </div>
                       {row.name}
                     </td>
-                    <td className="p-4 text-slate-400">{row.usage.toLocaleString()}</td>
-                    <td className="p-4 font-bold text-white">${row.revenue.toLocaleString()}</td>
+                    <td className="p-4 text-slate-500 dark:text-slate-400">{row.usage.toLocaleString()}</td>
+                    <td className="p-4 font-bold text-slate-900 dark:text-white">${row.revenue.toLocaleString()}</td>
                     <td className="p-4">
                       <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-                        {row.efficiency.toFixed(1)}{t("admin.analytics.acc")}</Badge>
+                        {row.efficiency.toFixed(1)}{t("admin_analytics_acc")}</Badge>
                     </td>
-                    <td className="p-4 text-slate-400">
+                    <td className="p-4 text-slate-500 dark:text-slate-400">
                       <div className="flex items-center gap-3">
                         <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                           <div className="h-full bg-slate-500 rounded-full" style={{

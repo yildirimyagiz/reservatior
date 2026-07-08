@@ -20,19 +20,19 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   PAID: {
-    label: t("admin.financial.paid"),
+    label: t("admin_financial_paid"),
     cls: "bg-green-100 text-green-700"
   },
   UNPAID: {
-    label: t("admin.financial.unpaid"),
+    label: t("admin_financial_unpaid"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   PARTIAL: {
-    label: t("admin.financial.partial"),
+    label: t("admin_financial_partial"),
     cls: "bg-slate-100 text-slate-700"
   },
   OVERDUE: {
-    label: t("admin.financial.overdue"),
+    label: t("admin_financial_overdue"),
     cls: "bg-red-100 text-red-700"
   }
 };
@@ -75,12 +75,12 @@ export default function TaxRecords() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialRecords', 'TAX'] });
       setCreateOpen(false);
-      toast({ title: t("admin.financial.tax_record_created") });
+      toast({ title: t("admin_financial_tax_record_created") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_create_tax"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_create_tax"),
         variant: "destructive"
       });
     }
@@ -91,12 +91,12 @@ export default function TaxRecords() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialRecords', 'TAX'] });
       setEditOpen(false);
-      toast({ title: t("admin.financial.tax_record_updated") });
+      toast({ title: t("admin_financial_tax_record_updated") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_update_tax"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_update_tax"),
         variant: "destructive"
       });
     }
@@ -106,12 +106,12 @@ export default function TaxRecords() {
     mutationFn: (id: string) => financialsApi.deleteRecord(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialRecords', 'TAX'] });
-      toast({ title: t("admin.financial.tax_record_deleted") });
+      toast({ title: t("admin_financial_tax_record_deleted") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_delete_tax"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_delete_tax"),
         variant: "destructive"
       });
     }
@@ -167,30 +167,30 @@ export default function TaxRecords() {
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       {!isEdit && <>
-          <div className="space-y-1.5"><Label>{t("admin.financial.org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
+          <div className="space-y-1.5"><Label>{t("admin_financial_org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
             ...form,
             orgId: e.target.value
           })} required /></div>
-          <div className="space-y-1.5"><Label>{t("admin.financial.property_id")}</Label><Input value={form.propertyId} onChange={e => setForm({
+          <div className="space-y-1.5"><Label>{t("admin_financial_property_id")}</Label><Input value={form.propertyId} onChange={e => setForm({
             ...form,
             propertyId: e.target.value
           })} required /></div>
         </>}
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("admin.financial.amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
             ...form,
             amount: e.target.value
           })} required /></div>
-        <div className="space-y-1.5"><Label>{t("admin.financial.currency")}</Label><Input value={form.currency} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_currency")}</Label><Input value={form.currency} onChange={e => setForm({
             ...form,
             currency: e.target.value
           })} /></div>
       </div>
-      <div className="space-y-1.5"><Label>{t("admin.financial.date")}</Label><Input type="date" value={form.occurredAt} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_date")}</Label><Input type="date" value={form.occurredAt} onChange={e => setForm({
           ...form,
           occurredAt: e.target.value
         })} /></div>
-      <div className="space-y-1.5"><Label>{t("admin.financial.description")}</Label><Input value={form.description} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_description")}</Label><Input value={form.description} onChange={e => setForm({
           ...form,
           description: e.target.value
         })} /></div>
@@ -198,34 +198,34 @@ export default function TaxRecords() {
     </form>;
   };
   return <>
-      <PageShell title={t("admin.financial.tax_records")} description={t("admin.financial.manage_property_tax_records")} createLabel={t("admin.financial.add_tax_record", "Vergi Kaydı Ekle")} onCreateClick={() => {
+      <PageShell title={t("admin_financial_tax_records")} description={t("admin_financial_manage_property_tax_records")} createLabel={t("admin.financial.add_tax_record", "Vergi Kaydı Ekle")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.financial.search_tax_records", "Vergi kayıtlarında ara...")} stats={[{
-      label: t("admin.financial.total"),
+      label: t("admin_financial_total"),
       value: records.length
     }, {
-      label: t("admin.financial.paid"),
+      label: t("admin_financial_paid"),
       value: records.filter(r => r.paymentStatus === 'PAID').length
     }, {
-      label: t("admin.financial.total_paid"),
+      label: t("admin_financial_total_paid"),
       value: `$${records.filter(r => r.paymentStatus === 'PAID').reduce((s, r) => s + (r.amount || 0), 0).toLocaleString()}`
     }]} actions={<Button variant="outline" size="sm" onClick={() => fetchRecords()} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin.financial.refresh")}</Button>}>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin_financial_refresh")}</Button>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("admin.financial.date")}</TableHead>
-                <TableHead>{t("admin.financial.type")}</TableHead>
-                <TableHead>{t("admin.financial.amount")}</TableHead>
-                <TableHead>{t("admin.financial.description")}</TableHead>
-                <TableHead>{t("admin.financial.status")}</TableHead>
+                <TableHead>{t("admin_financial_date")}</TableHead>
+                <TableHead>{t("admin_financial_type")}</TableHead>
+                <TableHead>{t("admin_financial_amount")}</TableHead>
+                <TableHead>{t("admin_financial_description")}</TableHead>
+                <TableHead>{t("admin_financial_status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground">{t("admin.financial.no_tax_records_found")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="hover:bg-muted/40">
+              {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_tax_records_found")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="hover:bg-muted/40">
                     <TableCell className="text-sm">{row.occurredAt ? new Date(row.occurredAt).toLocaleDateString() : "—"}</TableCell>
                     <TableCell className="text-sm font-medium">{row.category || "TAX"}</TableCell>
                     <TableCell className="text-sm font-semibold">${row.amount.toLocaleString()}</TableCell>
@@ -237,8 +237,8 @@ export default function TaxRecords() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin.financial.edit")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin.financial.delete")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -250,14 +250,14 @@ export default function TaxRecords() {
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.financial.add_tax_record")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("admin.financial.create")} />
+          <DialogHeader><DialogTitle>{t("admin_financial_add_tax_record")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleCreate} label={t("admin_financial_create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.financial.edit_tax_record")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("admin.financial.save_changes")} isEdit={true} />
+          <DialogHeader><DialogTitle>{t("admin_financial_edit_tax_record")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleEdit} label={t("admin_financial_save_changes")} isEdit={true} />
         </DialogContent>
       </Dialog>
     </>;

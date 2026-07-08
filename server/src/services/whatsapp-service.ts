@@ -245,7 +245,7 @@ class WhatsAppService {
       }
 
       console.log(`[WhatsAppService] Syncing projects from chat: ${targetChat.name}`);
-      const messages = await targetChat.fetchMessages({ limit: 100 });
+      const messages = await targetChat.fetchMessages({ limit: 1000 });
       let processed = 0;
 
       for (const message of messages) {

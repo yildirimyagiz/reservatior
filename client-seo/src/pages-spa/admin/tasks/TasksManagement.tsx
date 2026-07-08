@@ -64,22 +64,22 @@ const TasksManagement = () => {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
             {t("admin.tasks.title", "Tasks & Workflow")}
           </h1>
-          <p className="text-slate-400 mt-2">
+          <p className="text-slate-500 dark:text-slate-400 mt-2">
             {t("admin.tasks.subtitle", "Centralized workflow management for internal teams and operations")}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-white/5 border-white/10 hover:bg-white/10">
+          <Button variant="outline" className="bg-white/5 border-slate-200 dark:border-white/10 hover:bg-white/10">
             {t("common.export", "Export")}
           </Button>
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.tasks.add", "New Task")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>{t("admin.tasks.add", "New Task")}</DialogTitle>
               </DialogHeader>
@@ -88,7 +88,7 @@ const TasksManagement = () => {
                   <Label htmlFor="title">Task Title</Label>
                   <Input 
                     id="title" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newTask.title}
                     onChange={e => setNewTask({...newTask, title: e.target.value})}
                     required
@@ -98,7 +98,7 @@ const TasksManagement = () => {
                   <Label htmlFor="description">Description</Label>
                   <Input 
                     id="description" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newTask.description}
                     onChange={e => setNewTask({...newTask, description: e.target.value})}
                   />
@@ -108,7 +108,7 @@ const TasksManagement = () => {
                     <Label htmlFor="priority">Priority</Label>
                     <Input 
                       id="priority" 
-                      className="bg-white/5 border-white/10" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
                       value={newTask.priority}
                       onChange={e => setNewTask({...newTask, priority: e.target.value})}
                       placeholder="LOW, MEDIUM, HIGH"
@@ -118,7 +118,7 @@ const TasksManagement = () => {
                     <Label htmlFor="type">Task Type</Label>
                     <Input 
                       id="type" 
-                      className="bg-white/5 border-white/10" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
                       value={newTask.type}
                       onChange={e => setNewTask({...newTask, type: e.target.value})}
                       placeholder="ADMIN, OTHER"
@@ -138,69 +138,69 @@ const TasksManagement = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Total Tasks</CardTitle>
-            <Activity className="w-4 h-4 text-slate-400" />
+            <Activity className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">4,291</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">4,291</div>
             <p className="text-xs text-green-400 mt-1">+12% from last week</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Pending</CardTitle>
             <Clock className="w-4 h-4 text-amber-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">842</div>
-            <p className="text-xs text-slate-400 mt-1">Requires action</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">842</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Requires action</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Overdue</CardTitle>
             <AlertCircle className="w-4 h-4 text-red-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">45</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">45</div>
             <p className="text-xs text-red-400 mt-1">Critical priority</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Completed</CardTitle>
             <CheckSquare className="w-4 h-4 text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">3,404</div>
-            <p className="text-xs text-slate-400 mt-1">This month</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">3,404</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">This month</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white">{t("admin.tasks.list", "Global Task Board")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin.tasks.list", "Global Task Board")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               {t("common.loading", "Loading workflow tasks...")}
             </div>
           ) : tasks.length === 0 ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               No tasks found.
             </div>
           ) : (
-            <div className="rounded-xl border border-white/10">
+            <div className="rounded-xl border border-slate-200 dark:border-white/10">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
                     <TableHead className="text-slate-300">Title</TableHead>
                     <TableHead className="text-slate-300">Type</TableHead>
                     <TableHead className="text-slate-300">Priority</TableHead>
@@ -210,19 +210,19 @@ const TasksManagement = () => {
                 </TableHeader>
                 <TableBody>
                   {tasks.map((t: any) => (
-                    <TableRow key={t.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                      <TableCell className="font-medium text-white">{t.title}</TableCell>
-                      <TableCell className="text-slate-400">{t.type}</TableCell>
-                      <TableCell className={`text-slate-400 ${t.priority === 'HIGH' ? 'text-red-400' : ''}`}>
+                    <TableRow key={t.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{t.title}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{t.type}</TableCell>
+                      <TableCell className={`text-slate-500 dark:text-slate-400 ${t.priority === 'HIGH' ? 'text-red-400' : ''}`}>
                         {t.priority}
                       </TableCell>
-                      <TableCell className="text-slate-400">
+                      <TableCell className="text-slate-500 dark:text-slate-400">
                         <span className="px-2 py-1 bg-white/5 rounded-full text-xs">
                           {t.status}
                         </span>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
+                        <Button variant="ghost" size="icon" className="text-slate-500 dark:text-slate-400 hover:text-white">
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 

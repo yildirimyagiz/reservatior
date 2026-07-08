@@ -103,27 +103,27 @@ const MOCK_TEMPLATES: CommunicationTemplate[] = [{
 }];
 const TEMPLATE_VARIABLES: TemplateVariable[] = [{
   name: "user_name",
-  description: t("admin.communication.users_full_name"),
+  description: t("admin_communication_users_full_name"),
   example: "John Doe"
 }, {
   name: "user_email",
-  description: t("admin.communication.users_email_address"),
+  description: t("admin_communication_users_email_address"),
   example: "john@example.com"
 }, {
   name: "property_name",
-  description: t("admin.communication.property_name"),
+  description: t("admin_communication_property_name"),
   example: "Luxury Downtown Apartment"
 }, {
   name: "check_in_date",
-  description: t("admin.communication.checkin_date"),
+  description: t("admin_communication_checkin_date"),
   example: "2024-04-15"
 }, {
   name: "check_out_date",
-  description: t("admin.communication.checkout_date"),
+  description: t("admin_communication_checkout_date"),
   example: "2024-04-22"
 }, {
   name: "total_price",
-  description: t("admin.communication.total_booking_price"),
+  description: t("admin_communication_total_booking_price"),
   example: "$1,200"
 }];
 export default function CommunicationTemplates() {
@@ -186,8 +186,8 @@ export default function CommunicationTemplates() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['communicationTemplates'] });
       toast({
-        title: t("admin.communication.template_updated"),
-        description: t("admin.communication.template_status_has_been")
+        title: t("admin_communication_template_updated"),
+        description: t("admin_communication_template_status_has_been")
       });
     },
     onError: (error: any) => {
@@ -236,8 +236,8 @@ export default function CommunicationTemplates() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['communicationTemplates'] });
       toast({
-        title: t("admin.communication.template_deleted"),
-        description: t("admin.communication.template_has_been_removed")
+        title: t("admin_communication_template_deleted"),
+        description: t("admin_communication_template_has_been_removed")
       });
     },
     onError: (error: any) => {
@@ -261,8 +261,8 @@ export default function CommunicationTemplates() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['communicationTemplates'] });
       toast({
-        title: t("admin.communication.template_duplicated"),
-        description: t("admin.communication.template_has_been_duplicated")
+        title: t("admin_communication_template_duplicated"),
+        description: t("admin_communication_template_has_been_duplicated")
       });
     },
     onError: (error: any) => {
@@ -283,8 +283,8 @@ export default function CommunicationTemplates() {
   };
   const sendTestMessage = () => {
     toast({
-      title: t("admin.communication.test_message_sent"),
-      description: t("admin.communication.test_message_has_been")
+      title: t("admin_communication_test_message_sent"),
+      description: t("admin_communication_test_message_has_been")
     });
     setTestDialogOpen(false);
   };
@@ -302,7 +302,7 @@ export default function CommunicationTemplates() {
     inApp: templates.filter(t => t.type === "IN_APP").length,
     totalUsage: templates.reduce((sum, t) => sum + t.usageCount, 0)
   };
-  return <PageShell title={t("admin.communication.communication_templates")} description={t("admin.communication.manage_email_sms_and")}>
+  return <PageShell title={t("admin_communication_communication_templates")} description={t("admin_communication_manage_email_sms_and")}>
       <div className="space-y-6">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -310,9 +310,9 @@ export default function CommunicationTemplates() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.communication.total_templates")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_communication_total_templates")}</p>
                   <p className="text-2xl font-bold">{stats.total}</p>
-                  <p className="text-xs text-slate-400">{t("admin.communication.all_types")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_communication_all_types")}</p>
                 </div>
                 <FileText className="w-8 h-8 text-slate-600" />
               </div>
@@ -322,9 +322,9 @@ export default function CommunicationTemplates() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.communication.active")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_communication_active")}</p>
                   <p className="text-2xl font-bold text-green-600">{stats.active}</p>
-                  <p className="text-xs text-slate-400">{t("admin.communication.currently_enabled")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_communication_currently_enabled")}</p>
                 </div>
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
@@ -334,9 +334,9 @@ export default function CommunicationTemplates() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.communication.email_templates")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_communication_email_templates")}</p>
                   <p className="text-2xl font-bold text-slate-600">{stats.email}</p>
-                  <p className="text-xs text-slate-400">{t("admin.communication.email_type")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_communication_email_type")}</p>
                 </div>
                 <Mail className="w-8 h-8 text-slate-600" />
               </div>
@@ -346,9 +346,9 @@ export default function CommunicationTemplates() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.communication.total_usage")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_communication_total_usage")}</p>
                   <p className="text-2xl font-bold">{stats.totalUsage.toLocaleString()}</p>
-                  <p className="text-xs text-slate-400">{t("admin.communication.all_time")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_communication_all_time")}</p>
                 </div>
                 <Send className="w-8 h-8 text-slate-600" />
               </div>
@@ -361,51 +361,51 @@ export default function CommunicationTemplates() {
           <div className="flex flex-col sm:flex-row gap-4 flex-1">
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.communication.type")} />
+                <SelectValue placeholder={t("admin_communication_type")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.communication.all_types")}</SelectItem>
-                <SelectItem value="EMAIL">{t("admin.communication.email")}</SelectItem>
-                <SelectItem value="SMS">{t("admin.communication.sms")}</SelectItem>
-                <SelectItem value="PUSH">{t("admin.communication.push")}</SelectItem>
-                <SelectItem value="IN_APP">{t("admin.communication.inapp")}</SelectItem>
+                <SelectItem value="all">{t("admin_communication_all_types")}</SelectItem>
+                <SelectItem value="EMAIL">{t("admin_communication_email")}</SelectItem>
+                <SelectItem value="SMS">{t("admin_communication_sms")}</SelectItem>
+                <SelectItem value="PUSH">{t("admin_communication_push")}</SelectItem>
+                <SelectItem value="IN_APP">{t("admin_communication_inapp")}</SelectItem>
               </SelectContent>
             </Select>
             <Select value={filterCategory} onValueChange={setFilterCategory}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.communication.category")} />
+                <SelectValue placeholder={t("admin_communication_category")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.communication.all_categories")}</SelectItem>
-                <SelectItem value="Onboarding">{t("admin.communication.onboarding")}</SelectItem>
-                <SelectItem value="Bookings">{t("admin.communication.bookings")}</SelectItem>
-                <SelectItem value="Payments">{t("admin.communication.payments")}</SelectItem>
-                <SelectItem value="Leads">{t("admin.communication.leads")}</SelectItem>
-                <SelectItem value="Marketing">{t("admin.communication.marketing")}</SelectItem>
+                <SelectItem value="all">{t("admin_communication_all_categories")}</SelectItem>
+                <SelectItem value="Onboarding">{t("admin_communication_onboarding")}</SelectItem>
+                <SelectItem value="Bookings">{t("admin_communication_bookings")}</SelectItem>
+                <SelectItem value="Payments">{t("admin_communication_payments")}</SelectItem>
+                <SelectItem value="Leads">{t("admin_communication_leads")}</SelectItem>
+                <SelectItem value="Marketing">{t("admin_communication_marketing")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <Button onClick={() => setTemplateDialogOpen(true)}>
-            <Plus className="w-4 h-4 mr-2" />{t("admin.communication.new_template")}</Button>
+            <Plus className="w-4 h-4 mr-2" />{t("admin_communication_new_template")}</Button>
         </div>
 
         {/* Templates Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.communication.templates")}{filteredTemplates.length})</CardTitle>
-            <CardDescription>{t("admin.communication.manage_your_communication_templates")}</CardDescription>
+            <CardTitle>{t("admin_communication_templates")}{filteredTemplates.length})</CardTitle>
+            <CardDescription>{t("admin_communication_manage_your_communication_templates")}</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.communication.name")}</TableHead>
-                  <TableHead>{t("admin.communication.type")}</TableHead>
-                  <TableHead>{t("admin.communication.category")}</TableHead>
-                  <TableHead>{t("admin.communication.variables")}</TableHead>
-                  <TableHead>{t("admin.communication.usage")}</TableHead>
-                  <TableHead>{t("admin.communication.status")}</TableHead>
-                  <TableHead>{t("admin.communication.actions")}</TableHead>
+                  <TableHead>{t("admin_communication_name")}</TableHead>
+                  <TableHead>{t("admin_communication_type")}</TableHead>
+                  <TableHead>{t("admin_communication_category")}</TableHead>
+                  <TableHead>{t("admin_communication_variables")}</TableHead>
+                  <TableHead>{t("admin_communication_usage")}</TableHead>
+                  <TableHead>{t("admin_communication_status")}</TableHead>
+                  <TableHead>{t("admin_communication_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -420,10 +420,10 @@ export default function CommunicationTemplates() {
                     <TableCell>
                       <div>
                         <div className="font-medium">{template.name}</div>
-                        <div className="text-sm text-slate-400">
+                        <div className="text-sm text-slate-500 dark:text-slate-400">
                           {template.subject && `Subject: ${template.subject}`}
                         </div>
-                        <div className="text-xs text-slate-400">{t("admin.communication.created")}{new Date(template.createdAt).toLocaleDateString()}
+                        <div className="text-xs text-slate-500 dark:text-slate-400">{t("admin_communication_created")}{new Date(template.createdAt).toLocaleDateString()}
                         </div>
                       </div>
                     </TableCell>
@@ -451,7 +451,7 @@ export default function CommunicationTemplates() {
                     <TableCell>
                       <div>
                         <div className="font-medium">{template.usageCount}</div>
-                        {template.lastUsed && <div className="text-xs text-slate-400">{t("admin.communication.last")}{new Date(template.lastUsed).toLocaleDateString()}
+                        {template.lastUsed && <div className="text-xs text-slate-500 dark:text-slate-400">{t("admin_communication_last")}{new Date(template.lastUsed).toLocaleDateString()}
                           </div>}
                       </div>
                     </TableCell>
@@ -472,13 +472,13 @@ export default function CommunicationTemplates() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem onClick={() => testTemplate(template)}>
-                            <TestTube className="w-4 h-4 mr-2" />{t("admin.communication.test")}</DropdownMenuItem>
+                            <TestTube className="w-4 h-4 mr-2" />{t("admin_communication_test")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => duplicateTemplate(template)}>
-                            <Copy className="w-4 h-4 mr-2" />{t("admin.communication.duplicate")}</DropdownMenuItem>
+                            <Copy className="w-4 h-4 mr-2" />{t("admin_communication_duplicate")}</DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Edit className="w-4 h-4 mr-2" />{t("admin.communication.edit")}</DropdownMenuItem>
+                            <Edit className="w-4 h-4 mr-2" />{t("admin_communication_edit")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => deleteTemplate(template.id)} className="text-red-600">
-                            <Trash2 className="w-4 h-4 mr-2" />{t("admin.communication.delete")}</DropdownMenuItem>
+                            <Trash2 className="w-4 h-4 mr-2" />{t("admin_communication_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -492,8 +492,8 @@ export default function CommunicationTemplates() {
         {/* Template Variables Reference */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.communication.template_variables")}</CardTitle>
-            <CardDescription>{t("admin.communication.available_variables_you_can")}</CardDescription>
+            <CardTitle>{t("admin_communication_template_variables")}</CardTitle>
+            <CardDescription>{t("admin_communication_available_variables_you_can")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -501,10 +501,10 @@ export default function CommunicationTemplates() {
                   <div className="font-mono text-sm font-medium">
                     {variable.name}
                   </div>
-                  <div className="text-sm text-slate-400 mt-1">
+                  <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                     {variable.description}
                   </div>
-                  <div className="text-xs text-slate-400 mt-1">{t("admin.communication.example")}{variable.example}
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("admin_communication_example")}{variable.example}
                   </div>
                 </div>)}
             </div>
@@ -516,75 +516,75 @@ export default function CommunicationTemplates() {
       <Dialog open={templateDialogOpen} onOpenChange={setTemplateDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>{t("admin.communication.create_new_template")}</DialogTitle>
-            <DialogDescription>{t("admin.communication.create_a_new_communication")}</DialogDescription>
+            <DialogTitle>{t("admin_communication_create_new_template")}</DialogTitle>
+            <DialogDescription>{t("admin_communication_create_a_new_communication")}</DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
             <div className="space-y-2">
-              <Label>{t("admin.communication.template_name")}</Label>
-              <Input placeholder={t("admin.communication.enter_template_name")} />
+              <Label>{t("admin_communication_template_name")}</Label>
+              <Input placeholder={t("admin_communication_enter_template_name")} />
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.communication.type")}</Label>
+              <Label>{t("admin_communication_type")}</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("admin.communication.select_type")} />
+                  <SelectValue placeholder={t("admin_communication_select_type")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="EMAIL">{t("admin.communication.email")}</SelectItem>
-                  <SelectItem value="SMS">{t("admin.communication.sms")}</SelectItem>
-                  <SelectItem value="PUSH">{t("admin.communication.push_notification")}</SelectItem>
-                  <SelectItem value="IN_APP">{t("admin.communication.inapp_message")}</SelectItem>
+                  <SelectItem value="EMAIL">{t("admin_communication_email")}</SelectItem>
+                  <SelectItem value="SMS">{t("admin_communication_sms")}</SelectItem>
+                  <SelectItem value="PUSH">{t("admin_communication_push_notification")}</SelectItem>
+                  <SelectItem value="IN_APP">{t("admin_communication_inapp_message")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.communication.category")}</Label>
+              <Label>{t("admin_communication_category")}</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("admin.communication.select_category")} />
+                  <SelectValue placeholder={t("admin_communication_select_category")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Onboarding">{t("admin.communication.onboarding")}</SelectItem>
-                  <SelectItem value="Bookings">{t("admin.communication.bookings")}</SelectItem>
-                  <SelectItem value="Payments">{t("admin.communication.payments")}</SelectItem>
-                  <SelectItem value="Leads">{t("admin.communication.leads")}</SelectItem>
-                  <SelectItem value="Marketing">{t("admin.communication.marketing")}</SelectItem>
+                  <SelectItem value="Onboarding">{t("admin_communication_onboarding")}</SelectItem>
+                  <SelectItem value="Bookings">{t("admin_communication_bookings")}</SelectItem>
+                  <SelectItem value="Payments">{t("admin_communication_payments")}</SelectItem>
+                  <SelectItem value="Leads">{t("admin_communication_leads")}</SelectItem>
+                  <SelectItem value="Marketing">{t("admin_communication_marketing")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.communication.language")}</Label>
+              <Label>{t("admin_communication_language")}</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("admin.communication.select_language")} />
+                  <SelectValue placeholder={t("admin_communication_select_language")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="en">{t("admin.communication.english")}</SelectItem>
-                  <SelectItem value="es">{t("admin.communication.spanish")}</SelectItem>
-                  <SelectItem value="fr">{t("admin.communication.french")}</SelectItem>
-                  <SelectItem value="de">{t("admin.communication.german")}</SelectItem>
+                  <SelectItem value="en">{t("admin_communication_english")}</SelectItem>
+                  <SelectItem value="es">{t("admin_communication_spanish")}</SelectItem>
+                  <SelectItem value="fr">{t("admin_communication_french")}</SelectItem>
+                  <SelectItem value="de">{t("admin_communication_german")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2 col-span-2">
-              <Label>{t("admin.communication.subject_email_only")}</Label>
-              <Input placeholder={t("admin.communication.email_subject_line")} />
+              <Label>{t("admin_communication_subject_email_only")}</Label>
+              <Input placeholder={t("admin_communication_email_subject_line")} />
             </div>
             <div className="space-y-2 col-span-2">
-              <Label>{t("admin.communication.content")}</Label>
-              <Textarea placeholder={t("admin.communication.template_content_with_variables")} rows={8} />
+              <Label>{t("admin_communication_content")}</Label>
+              <Textarea placeholder={t("admin_communication_template_content_with_variables")} rows={8} />
             </div>
             <div className="space-y-2 col-span-2">
               <div className="flex items-center space-x-2">
                 <Switch />
-                <Label>{t("admin.communication.activate_template")}</Label>
+                <Label>{t("admin_communication_activate_template")}</Label>
               </div>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setTemplateDialogOpen(false)}>{t("admin.communication.cancel")}</Button>
-            <Button onClick={() => setTemplateDialogOpen(false)}>{t("admin.communication.create_template")}</Button>
+            <Button variant="outline" onClick={() => setTemplateDialogOpen(false)}>{t("admin_communication_cancel")}</Button>
+            <Button onClick={() => setTemplateDialogOpen(false)}>{t("admin_communication_create_template")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -593,16 +593,16 @@ export default function CommunicationTemplates() {
       <Dialog open={testDialogOpen} onOpenChange={setTestDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("admin.communication.test_template")}</DialogTitle>
-            <DialogDescription>{t("admin.communication.send_a_test_message")}</DialogDescription>
+            <DialogTitle>{t("admin_communication_test_template")}</DialogTitle>
+            <DialogDescription>{t("admin_communication_send_a_test_message")}</DialogDescription>
           </DialogHeader>
           {selectedTemplate && <div className="py-4 space-y-4">
               <div className="space-y-2">
-                <Label>{t("admin.communication.test_email_address")}</Label>
-                <Input type="email" placeholder={t("admin.communication.testexamplecom")} defaultValue="admin@reservatior.com" />
+                <Label>{t("admin_communication_test_email_address")}</Label>
+                <Input type="email" placeholder={t("admin_communication_testexamplecom")} defaultValue="admin@reservatior.com" />
               </div>
               <div className="space-y-2">
-                <Label>{t("admin.communication.test_variables")}</Label>
+                <Label>{t("admin_communication_test_variables")}</Label>
                 <div className="space-y-2">
                   {selectedTemplate.variables.map((variable, index) => <div key={index} className="flex items-center gap-2">
                       <Label className="text-sm w-24">{variable}:</Label>
@@ -612,9 +612,9 @@ export default function CommunicationTemplates() {
               </div>
             </div>}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setTestDialogOpen(false)}>{t("admin.communication.cancel")}</Button>
+            <Button variant="outline" onClick={() => setTestDialogOpen(false)}>{t("admin_communication_cancel")}</Button>
             <Button onClick={sendTestMessage}>
-              <Send className="w-4 h-4 mr-2" />{t("admin.communication.send_test")}</Button>
+              <Send className="w-4 h-4 mr-2" />{t("admin_communication_send_test")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

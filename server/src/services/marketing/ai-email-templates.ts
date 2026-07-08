@@ -279,6 +279,36 @@ export class AIEmailTemplates {
   }
 
   /**
+   * 6. Email Verification
+   */
+  static generateEmailVerification(recipientName: string, verifyUrl: string): string {
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>${this.CORE_CSS}</style>
+      </head>
+      <body>
+        <div class="container">
+          ${this.getHeader()}
+          <div class="content-wrapper">
+            <h2>Verify Your Email</h2>
+            <p>Hi ${recipientName},</p>
+            <p>Welcome to Reservatior! Please verify your email address by clicking the button below.</p>
+            <div style="text-align: center;">
+              <a href="${verifyUrl}" class="btn">Verify Email</a>
+            </div>
+            <p style="margin-top: 20px; font-size: 12px; color: #71717a;">If you did not create an account, you can safely ignore this email.</p>
+          </div>
+          ${this.getFooter()}
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  /**
    * 7. Password Reset
    */
   static generatePasswordReset(recipientName: string, resetUrl: string): string {

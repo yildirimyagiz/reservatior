@@ -73,18 +73,18 @@ export default function WisePaymentIntegration() {
       });
     },
     onSuccess: () => {
-      toast({ title: t("admin.payments.payment_initiated"), description: t("admin.payments.payment_sent") });
+      toast({ title: t("admin_payments_payment_initiated"), description: t("admin_payments_payment_sent") });
       setPaymentForm({ amount: "", currency: "USD", recipientEmail: "", recipientName: "", description: "" });
       queryClient.invalidateQueries({ queryKey: ['wise-transactions'] });
     },
     onError: (err: any) => {
-      toast({ title: t("admin.payments.payment_failed"), description: err.message, variant: "destructive" });
+      toast({ title: t("admin_payments_payment_failed"), description: err.message, variant: "destructive" });
     },
   });
 
   const handlePayment = () => {
     if (!paymentForm.amount || !paymentForm.recipientEmail || !paymentForm.recipientName) {
-      toast({ title: t("admin.payments.missing_information"), description: t("admin.payments.please_fill_in_all"), variant: "destructive" });
+      toast({ title: t("admin_payments_missing_information"), description: t("admin_payments_please_fill_in_all"), variant: "destructive" });
       return;
     }
     createMutation.mutate(paymentForm);
@@ -92,9 +92,9 @@ export default function WisePaymentIntegration() {
 
   const statusConfig: Record<string, { label: string; class: string }> = {
     COMPLETED: { label: t("admin.payments.completed", "Completed"), class: "bg-emerald-500/20 text-emerald-400 border-emerald-500/20" },
-    PROCESSING: { label: t("admin.payments.processing", "Processing"), class: "bg-slate-500/20 text-slate-400 border-slate-500/20" },
+    PROCESSING: { label: t("admin.payments.processing", "Processing"), class: "bg-slate-500/20 text-slate-500 dark:text-slate-400 border-slate-500/20" },
     FAILED: { label: t("admin.payments.failed", "Failed"), class: "bg-red-500/20 text-red-400 border-red-500/20" },
-    CANCELLED: { label: t("admin.payments.cancelled", "Cancelled"), class: "bg-slate-500/20 text-slate-400 border-slate-500/20" },
+    CANCELLED: { label: t("admin.payments.cancelled", "Cancelled"), class: "bg-slate-500/20 text-slate-500 dark:text-slate-400 border-slate-500/20" },
     PENDING: { label: t("admin.payments.pending", "Pending"), class: "bg-amber-500/20 text-amber-400 border-amber-500/20" },
   };
 
@@ -103,44 +103,44 @@ export default function WisePaymentIntegration() {
 
   return (
     <div className="space-y-6 min-h-screen">
-      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
-            <CreditCard className="w-8 h-8 text-white" />
+            <CreditCard className="w-8 h-8 text-slate-900 dark:text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
               {t("admin.payments.wise_payment_hub", "Wise Payment Hub")}
             </h1>
-            <p className="text-slate-400">
+            <p className="text-slate-500 dark:text-slate-400">
               {t("admin.payments.global_payment_processing_with", "Global payment processing with Wise")}
             </p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-xs text-slate-400">{t("admin.payments.total_sent", "Total Sent")}</p>
-          <p className="text-2xl font-bold text-white">${monthlyVolume.toLocaleString()}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.total_sent", "Total Sent")}</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white">${monthlyVolume.toLocaleString()}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="bg-white/5 border-white/10 p-6">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 p-6">
           <CardHeader className="px-0 pt-0">
-            <CardTitle className="text-white flex items-center gap-2">
-              <CreditCard className="w-5 h-5 text-slate-400" />
+            <CardTitle className="text-slate-900 dark:text-white flex items-center gap-2">
+              <CreditCard className="w-5 h-5 text-slate-500 dark:text-slate-400" />
               {t("admin.payments.send_payment", "Send Payment")}
             </CardTitle>
           </CardHeader>
           <CardContent className="px-0 pb-0 space-y-4">
             <div className="space-y-2">
-              <Label className="text-xs text-slate-400">{t("admin.payments.amount", "Amount")}</Label>
-              <Input type="number" value={paymentForm.amount} onChange={e => setPaymentForm(prev => ({ ...prev, amount: e.target.value }))} placeholder="1000.00" className="bg-white/5 border-white/10 text-white placeholder:text-slate-500" />
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.amount", "Amount")}</Label>
+              <Input type="number" value={paymentForm.amount} onChange={e => setPaymentForm(prev => ({ ...prev, amount: e.target.value }))} placeholder="1000.00" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-400">{t("admin.payments.currency", "Currency")}</Label>
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.currency", "Currency")}</Label>
               <Select value={paymentForm.currency} onValueChange={value => setPaymentForm(prev => ({ ...prev, currency: value }))}>
-                <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
-                <SelectContent className="bg-slate-900 border-white/10 text-white">
+                <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"><SelectValue /></SelectTrigger>
+                <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                   <SelectItem value="USD">USD - US Dollar</SelectItem>
                   <SelectItem value="EUR">EUR - Euro</SelectItem>
                   <SelectItem value="GBP">GBP - British Pound</SelectItem>
@@ -149,22 +149,22 @@ export default function WisePaymentIntegration() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-400">{t("admin.payments.recipient_name", "Recipient Name")}</Label>
-              <Input value={paymentForm.recipientName} onChange={e => setPaymentForm(prev => ({ ...prev, recipientName: e.target.value }))} placeholder="John Doe" className="bg-white/5 border-white/10 text-white placeholder:text-slate-500" />
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.recipient_name", "Recipient Name")}</Label>
+              <Input value={paymentForm.recipientName} onChange={e => setPaymentForm(prev => ({ ...prev, recipientName: e.target.value }))} placeholder="John Doe" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-400">{t("admin.payments.recipient_email", "Recipient Email")}</Label>
-              <Input type="email" value={paymentForm.recipientEmail} onChange={e => setPaymentForm(prev => ({ ...prev, recipientEmail: e.target.value }))} placeholder="john@example.com" className="bg-white/5 border-white/10 text-white placeholder:text-slate-500" />
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.recipient_email", "Recipient Email")}</Label>
+              <Input type="email" value={paymentForm.recipientEmail} onChange={e => setPaymentForm(prev => ({ ...prev, recipientEmail: e.target.value }))} placeholder="john@example.com" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-400">{t("admin.payments.description", "Description")}</Label>
-              <Input value={paymentForm.description} onChange={e => setPaymentForm(prev => ({ ...prev, description: e.target.value }))} placeholder="Payment for services" className="bg-white/5 border-white/10 text-white placeholder:text-slate-500" />
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.description", "Description")}</Label>
+              <Input value={paymentForm.description} onChange={e => setPaymentForm(prev => ({ ...prev, description: e.target.value }))} placeholder="Payment for services" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
             <div className="bg-white/5 rounded-xl p-4 space-y-2">
-              <div className="flex justify-between text-sm"><span className="text-slate-400">{t("admin.payments.transfer_fee", "Transfer Fee")}</span><span className="text-white font-bold">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 0.015).toFixed(2) : '0.00'}</span></div>
-              <div className="flex justify-between text-sm font-bold border-t border-white/10 pt-2"><span className="text-white">{t("admin.payments.total", "Total")}</span><span className="text-white">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 1.015).toFixed(2) : '0.00'}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">{t("admin.payments.transfer_fee", "Transfer Fee")}</span><span className="text-slate-900 dark:text-white font-bold">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 0.015).toFixed(2) : '0.00'}</span></div>
+              <div className="flex justify-between text-sm font-bold border-t border-slate-200 dark:border-white/10 pt-2"><span className="text-slate-900 dark:text-white">{t("admin.payments.total", "Total")}</span><span className="text-slate-900 dark:text-white">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 1.015).toFixed(2) : '0.00'}</span></div>
             </div>
-            <Button onClick={handlePayment} disabled={createMutation.isPending} className="w-full bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
+            <Button onClick={handlePayment} disabled={createMutation.isPending} className="w-full bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
               {createMutation.isPending ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("admin.payments.processing", "Processing")}</> : <><DollarSign className="w-4 h-4 mr-2" />{t("admin.payments.send_payment", "Send Payment")}</>}
             </Button>
           </CardContent>
@@ -172,61 +172,61 @@ export default function WisePaymentIntegration() {
 
         <div className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
-            <Card className="bg-white/5 border-white/10 p-6">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10 p-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400">{t("admin.payments.monthly_volume", "Monthly Volume")}</p>
-                  <p className="text-xl font-bold text-white">${monthlyVolume.toLocaleString()}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.monthly_volume", "Monthly Volume")}</p>
+                  <p className="text-xl font-bold text-slate-900 dark:text-white">${monthlyVolume.toLocaleString()}</p>
                 </div>
               </div>
             </Card>
-            <Card className="bg-white/5 border-white/10 p-6">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10 p-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">
                   <Zap className="w-5 h-5 text-orange-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400">{t("admin.payments.avg_transaction", "Avg Transaction")}</p>
-                  <p className="text-xl font-bold text-white">${avgTransaction.toFixed(2)}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.avg_transaction", "Avg Transaction")}</p>
+                  <p className="text-xl font-bold text-slate-900 dark:text-white">${avgTransaction.toFixed(2)}</p>
                 </div>
               </div>
             </Card>
           </div>
 
-          <Card className="bg-white/5 border-white/10 p-6">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 p-6">
             <CardHeader className="px-0 pt-0">
-              <CardTitle className="text-white flex items-center gap-2">
-                <Globe className="w-5 h-5 text-slate-400" />
+              <CardTitle className="text-slate-900 dark:text-white flex items-center gap-2">
+                <Globe className="w-5 h-5 text-slate-500 dark:text-slate-400" />
                 {t("admin.payments.recent_transactions", "Recent Transactions")}
               </CardTitle>
             </CardHeader>
             <CardContent className="px-0 pb-0 space-y-4">
               {isLoading ? (
-                <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>
+                <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-slate-500 dark:text-slate-400" /></div>
               ) : transactions.length === 0 ? (
                 <p className="text-center text-slate-500 py-8">{t("admin.payments.no_transactions", "No transactions")}</p>
               ) : transactions.slice(0, 10).map(transaction => {
                 const cfg = statusConfig[transaction.status] || statusConfig.PENDING;
                 return (
-                  <div key={transaction.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                  <div key={transaction.id} className="bg-white/5 rounded-xl p-4 border border-slate-200 dark:border-white/10">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           {transaction.status === "COMPLETED" ? <CheckCircle className="w-4 h-4 text-emerald-400" /> :
                            transaction.status === "FAILED" ? <AlertTriangle className="w-4 h-4 text-red-400" /> :
-                           <Clock className="w-4 h-4 text-slate-400" />}
+                           <Clock className="w-4 h-4 text-slate-500 dark:text-slate-400" />}
                           <Badge className={cn("border-0 text-[10px]", cfg.class)}>{cfg.label}</Badge>
                         </div>
-                        <p className="text-sm font-medium text-white">{transaction.recipientName}</p>
-                        <p className="text-xs text-slate-400">{transaction.recipientEmail}</p>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">{transaction.recipientName}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{transaction.recipientEmail}</p>
                         <p className="text-xs text-slate-500">{transaction.description}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-white">${transaction.amount.toLocaleString()}</p>
-                        <p className="text-xs text-slate-400">{t("admin.payments.fee", "Fee")}: ${transaction.fee.toFixed(2)}</p>
+                        <p className="text-lg font-bold text-slate-900 dark:text-white">${transaction.amount.toLocaleString()}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.fee", "Fee")}: ${transaction.fee.toFixed(2)}</p>
                         <p className="text-xs text-slate-500">{new Date(transaction.createdAt).toLocaleDateString()}</p>
                       </div>
                     </div>
@@ -236,13 +236,13 @@ export default function WisePaymentIntegration() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10 p-4">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 p-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center">
-                <Shield className="w-5 h-5 text-slate-400" />
+                <Shield className="w-5 h-5 text-slate-500 dark:text-slate-400" />
               </div>
-              <p className="text-sm text-slate-400">
-                <strong className="text-white">{t("admin.payments.security_notice", "Security Notice")}: </strong>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                <strong className="text-slate-900 dark:text-white">{t("admin.payments.security_notice", "Security Notice")}: </strong>
                 {t("admin.payments.all_payments_secured", "All payments are processed securely through Wise")}
               </p>
             </div>

@@ -60,8 +60,8 @@ export default function ExtraCharges() {
       setCharges(Array.isArray(response) ? response : response?.data || []);
     } catch (error) {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_load_extra"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_load_extra"),
         variant: "destructive"
       });
     } finally {
@@ -77,8 +77,8 @@ export default function ExtraCharges() {
     try {
       if (!form.propertyId || !form.name || !form.amount) {
         toast({
-          title: t("admin.financial.validation_error"),
-          description: t("admin.financial.missing_required_fields"),
+          title: t("admin_financial_validation_error"),
+          description: t("admin_financial_missing_required_fields"),
           variant: "destructive"
         });
         return;
@@ -90,14 +90,14 @@ export default function ExtraCharges() {
       } as any);
       setCreateOpen(false);
       toast({
-        title: t("admin.financial.extra_charge_added")
+        title: t("admin_financial_extra_charge_added")
       });
       setForm(EMPTY_FORM);
       fetchCharges();
     } catch (error) {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_add_charge"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_add_charge"),
         variant: "destructive"
       });
     }
@@ -113,13 +113,13 @@ export default function ExtraCharges() {
       });
       setEditOpen(false);
       toast({
-        title: t("admin.financial.extra_charge_updated")
+        title: t("admin_financial_extra_charge_updated")
       });
       fetchCharges();
     } catch (error) {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_update_charge"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_update_charge"),
         variant: "destructive"
       });
     }
@@ -129,13 +129,13 @@ export default function ExtraCharges() {
     try {
       await extraChargeApi.deleteCharge(id);
       toast({
-        title: t("admin.financial.charge_deleted")
+        title: t("admin_financial_charge_deleted")
       });
       fetchCharges();
     } catch (error) {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_delete_charge"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_delete_charge"),
         variant: "destructive"
       });
     }
@@ -166,15 +166,15 @@ export default function ExtraCharges() {
     return <form onSubmit={onSubmit} className="space-y-4 py-2 text-sm">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>{t("admin.financial.property_id")}</Label>
-          <Input placeholder={t("admin.financial.prop_id")} value={form.propertyId} onChange={e => setForm({
+          <Label>{t("admin_financial_property_id")}</Label>
+          <Input placeholder={t("admin_financial_prop_id")} value={form.propertyId} onChange={e => setForm({
             ...form,
             propertyId: e.target.value
           })} required />
         </div>
         <div className="space-y-2">
-          <Label>{t("admin.financial.reservation_id_optional")}</Label>
-          <Input placeholder={t("admin.financial.res_id")} value={form.reservationId} onChange={e => setForm({
+          <Label>{t("admin_financial_reservation_id_optional")}</Label>
+          <Input placeholder={t("admin_financial_res_id")} value={form.reservationId} onChange={e => setForm({
             ...form,
             reservationId: e.target.value
           })} />
@@ -182,8 +182,8 @@ export default function ExtraCharges() {
       </div>
       
       <div className="space-y-2">
-        <Label>{t("admin.financial.charge_name")}</Label>
-        <Input placeholder={t("admin.financial.eg_pet_fee")} value={form.name} onChange={e => setForm({
+        <Label>{t("admin_financial_charge_name")}</Label>
+        <Input placeholder={t("admin_financial_eg_pet_fee")} value={form.name} onChange={e => setForm({
           ...form,
           name: e.target.value
         })} required />
@@ -191,7 +191,7 @@ export default function ExtraCharges() {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>{t("admin.financial.amount")}</Label>
+          <Label>{t("admin_financial_amount")}</Label>
           <div className="relative">
             <DollarSign className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input type="number" step="0.01" className="pl-8" placeholder="0.00" value={form.amount} onChange={e => setForm({
@@ -201,7 +201,7 @@ export default function ExtraCharges() {
           </div>
         </div>
         <div className="space-y-2">
-          <Label>{t("admin.financial.charge_type")}</Label>
+          <Label>{t("admin_financial_charge_type")}</Label>
           <Select value={form.chargeType} onValueChange={v => setForm({
             ...form,
             chargeType: v
@@ -218,13 +218,13 @@ export default function ExtraCharges() {
         <input type="checkbox" id="isPaid" checked={form.isPaid} onChange={e => setForm({
           ...form,
           isPaid: e.target.checked
-        })} className="rounded-lg border-white/10 text-primary focus:ring-primary h-4 w-4" />
-        <Label htmlFor="isPaid" className="cursor-pointer">{t("admin.financial.payment_has_been_received")}</Label>
+        })} className="rounded-lg border-slate-200 dark:border-white/10 text-primary focus:ring-primary h-4 w-4" />
+        <Label htmlFor="isPaid" className="cursor-pointer">{t("admin_financial_payment_has_been_received")}</Label>
       </div>
 
       <div className="space-y-2">
-        <Label>{t("admin.financial.description")}</Label>
-        <Textarea placeholder={t("admin.financial.note_about_this_charge")} value={form.description} onChange={e => setForm({
+        <Label>{t("admin_financial_description")}</Label>
+        <Textarea placeholder={t("admin_financial_note_about_this_charge")} value={form.description} onChange={e => setForm({
           ...form,
           description: e.target.value
         })} rows={3} />
@@ -234,26 +234,26 @@ export default function ExtraCharges() {
         <Button variant="outline" type="button" onClick={() => {
           setCreateOpen(false);
           setEditOpen(false);
-        }}>{t("admin.financial.cancel")}</Button>
+        }}>{t("admin_financial_cancel")}</Button>
         <Button type="submit">{label}</Button>
       </DialogFooter>
     </form>;
   };
   return <>
-      <PageShell title={t("admin.financial.extra_charges")} description={t("admin.financial.manage_additional_fees_damage")} createLabel={t("admin.financial.add_extra_charge", "Ek Ücret Ekle")} onCreateClick={() => {
+      <PageShell title={t("admin_financial_extra_charges")} description={t("admin_financial_manage_additional_fees_damage")} createLabel={t("admin.financial.add_extra_charge", "Ek Ücret Ekle")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.financial.search_charges", "Ücretlerde ara...")} stats={[{
-      label: t("admin.financial.total_charges"),
+      label: t("admin_financial_total_charges"),
       value: charges.length
     }, {
-      label: t("admin.financial.paid"),
+      label: t("admin_financial_paid"),
       value: charges.filter(r => r.isPaid).length
     }, {
-      label: t("admin.financial.unpaid"),
+      label: t("admin_financial_unpaid"),
       value: charges.filter(r => !r.isPaid).length
     }, {
-      label: t("admin.financial.total_value"),
+      label: t("admin_financial_total_value"),
       value: `$${charges.reduce((s, r) => s + r.amount, 0).toLocaleString()}`
     }]} actions={<Button variant="outline" size="icon" className="h-9 w-9" onClick={fetchCharges} disabled={loading}>
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -262,17 +262,17 @@ export default function ExtraCharges() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("admin.financial.charge_details")}</TableHead>
-                <TableHead>{t("admin.financial.type")}</TableHead>
-                <TableHead>{t("admin.financial.target")}</TableHead>
-                <TableHead>{t("admin.financial.amount")}</TableHead>
-                <TableHead>{t("admin.financial.status")}</TableHead>
-                <TableHead>{t("admin.financial.date")}</TableHead>
+                <TableHead>{t("admin_financial_charge_details")}</TableHead>
+                <TableHead>{t("admin_financial_type")}</TableHead>
+                <TableHead>{t("admin_financial_target")}</TableHead>
+                <TableHead>{t("admin_financial_amount")}</TableHead>
+                <TableHead>{t("admin_financial_status")}</TableHead>
+                <TableHead>{t("admin_financial_date")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? <TableRow><TableCell colSpan={7} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin.financial.no_extra_charges_found")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="hover:bg-muted/40 transition-colors">
+              {loading ? <TableRow><TableCell colSpan={7} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_extra_charges_found")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="hover:bg-muted/40 transition-colors">
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Tag className="w-4 h-4 text-primary" />
@@ -288,9 +288,9 @@ export default function ExtraCharges() {
                     <TableCell>
                       <div className="text-xs">
                         {row.reservationId ? <div className="flex items-center gap-1 text-primary font-medium">
-                            <Calendar className="w-3 h-3" />{t("admin.financial.res")}{row.reservationId.slice(0, 8)}...
+                            <Calendar className="w-3 h-3" />{t("admin_financial_res")}{row.reservationId.slice(0, 8)}...
                           </div> : <div className="flex items-center gap-1 text-muted-foreground">
-                            <Building2 className="w-3 h-3" />{t("admin.financial.prop")}{row.propertyId.slice(0, 8)}...
+                            <Building2 className="w-3 h-3" />{t("admin_financial_prop")}{row.propertyId.slice(0, 8)}...
                           </div>}
                       </div>
                     </TableCell>
@@ -301,8 +301,8 @@ export default function ExtraCharges() {
                     </TableCell>
                     <TableCell>
                       {row.isPaid ? <div className="flex items-center gap-1 text-[11px] text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full w-fit">
-                          <CheckCircle2 className="w-3 h-3" />{t("admin.financial.paid")}</div> : <div className="flex items-center gap-1 text-[11px] text-yellow-600 font-medium bg-yellow-50 px-2 py-0.5 rounded-full w-fit">
-                          <Clock className="w-3 h-3" />{t("admin.financial.unpaid")}</div>}
+                          <CheckCircle2 className="w-3 h-3" />{t("admin_financial_paid")}</div> : <div className="flex items-center gap-1 text-[11px] text-yellow-600 font-medium bg-yellow-50 px-2 py-0.5 rounded-full w-fit">
+                          <Clock className="w-3 h-3" />{t("admin_financial_unpaid")}</div>}
                     </TableCell>
                     <TableCell className="text-[11px] text-muted-foreground">
                       {new Date(row.createdAt).toLocaleDateString()}
@@ -313,8 +313,8 @@ export default function ExtraCharges() {
                           <Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-32">
-                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin.financial.edit")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("admin.financial.delete")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -327,20 +327,20 @@ export default function ExtraCharges() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{t("admin.financial.add_extra_charge")}</DialogTitle>
-            <DialogDescription>{t("admin.financial.create_a_new_additional")}</DialogDescription>
+            <DialogTitle>{t("admin_financial_add_extra_charge")}</DialogTitle>
+            <DialogDescription>{t("admin_financial_create_a_new_additional")}</DialogDescription>
           </DialogHeader>
-          <ChargeForm onSubmit={handleCreate} label={t("admin.financial.add_charge")} />
+          <ChargeForm onSubmit={handleCreate} label={t("admin_financial_add_charge")} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{t("admin.financial.edit_extra_charge")}</DialogTitle>
-            <DialogDescription>{t("admin.financial.update_the_details_for")}</DialogDescription>
+            <DialogTitle>{t("admin_financial_edit_extra_charge")}</DialogTitle>
+            <DialogDescription>{t("admin_financial_update_the_details_for")}</DialogDescription>
           </DialogHeader>
-          <ChargeForm onSubmit={handleEdit} label={t("admin.financial.save_changes")} />
+          <ChargeForm onSubmit={handleEdit} label={t("admin_financial_save_changes")} />
         </DialogContent>
       </Dialog>
     </>;

@@ -82,12 +82,12 @@ export default function NotificationTemplates() {
     try {
       const data = { ...form, variables: form.variables ? form.variables.split(",").map((v: string) => v.trim()) : [] };
       await notificationTemplatesApi.create(data);
-      toast({ title: t("admin.system.template_created") });
+      toast({ title: t("admin_system_template_created") });
       setCreateOpen(false);
       setForm(EMPTY_FORM);
       load();
     } catch (err: any) {
-      toast({ title: err.message || t("admin.system.error"), variant: "destructive" });
+      toast({ title: err.message || t("admin_system_error"), variant: "destructive" });
     }
   };
 
@@ -97,24 +97,24 @@ export default function NotificationTemplates() {
     try {
       const data = { ...form, variables: form.variables ? form.variables.split(",").map((v: string) => v.trim()) : [] };
       await notificationTemplatesApi.update(editingId, data);
-      toast({ title: t("admin.system.template_updated") });
+      toast({ title: t("admin_system_template_updated") });
       setEditOpen(false);
       setForm(EMPTY_FORM);
       setEditingId(null);
       load();
     } catch (err: any) {
-      toast({ title: err.message || t("admin.system.error"), variant: "destructive" });
+      toast({ title: err.message || t("admin_system_error"), variant: "destructive" });
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm(t("admin.system.confirm_delete"))) return;
+    if (!confirm(t("admin_system_confirm_delete"))) return;
     try {
       await notificationTemplatesApi.delete(id);
-      toast({ title: t("admin.system.template_deleted") });
+      toast({ title: t("admin_system_template_deleted") });
       load();
     } catch (err: any) {
-      toast({ title: err.message || t("admin.system.error"), variant: "destructive" });
+      toast({ title: err.message || t("admin_system_error"), variant: "destructive" });
     }
   };
 
@@ -142,11 +142,11 @@ export default function NotificationTemplates() {
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>{t("admin.system.template_name")}</Label>
+          <Label>{t("admin_system_template_name")}</Label>
           <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
         </div>
         <div className="space-y-2">
-          <Label>{t("admin.system.channel")}</Label>
+          <Label>{t("admin_system_channel")}</Label>
           <Select value={form.channel} onValueChange={(v) => setForm({ ...form, channel: v })}>
             <SelectTrigger>
               <SelectValue />
@@ -160,15 +160,15 @@ export default function NotificationTemplates() {
         </div>
       </div>
       <div className="space-y-2">
-        <Label>{t("admin.system.description")}</Label>
+        <Label>{t("admin_system_description")}</Label>
         <Input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
       </div>
       <div className="space-y-2">
-        <Label>{t("admin.system.subject")}</Label>
+        <Label>{t("admin_system_subject")}</Label>
         <Input value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
       </div>
       <div className="space-y-2">
-        <Label>{t("admin.system.body")}</Label>
+        <Label>{t("admin_system_body")}</Label>
         <Textarea
           value={form.body}
           onChange={(e) => setForm({ ...form, body: e.target.value })}
@@ -177,20 +177,20 @@ export default function NotificationTemplates() {
         />
       </div>
       <div className="space-y-2">
-        <Label>{t("admin.system.variables")}</Label>
+        <Label>{t("admin_system_variables")}</Label>
         <Input
           value={form.variables}
           onChange={(e) => setForm({ ...form, variables: e.target.value })}
           placeholder="name, email, propertyName"
         />
-        <p className="text-xs text-slate-400">{t("admin.system.variables_hint")}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_system_variables_hint")}</p>
       </div>
       <div className="flex items-center gap-2">
         <Switch
           checked={form.isActive}
           onCheckedChange={(v) => setForm({ ...form, isActive: v })}
         />
-        <Label>{t("admin.system.active")}</Label>
+        <Label>{t("admin_system_active")}</Label>
       </div>
       <DialogFooter>
         <Button type="submit">{label}</Button>
@@ -199,16 +199,16 @@ export default function NotificationTemplates() {
   );
 
   return (
-    <PageShell title={t("admin.system.notification_templates")}>
+    <PageShell title={t("admin_system_notification_templates")}>
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex gap-3">
             <Select value={channel} onValueChange={(v) => { setChannel(v); setPage(1); }}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={t("admin.system.all_channels")} />
+                <SelectValue placeholder={t("admin_system_all_channels")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">{t("admin.system.all_channels")}</SelectItem>
+                <SelectItem value="">{t("admin_system_all_channels")}</SelectItem>
                 {CHANNELS.map((ch) => (
                   <SelectItem key={ch} value={ch}>{ch}</SelectItem>
                 ))}
@@ -216,7 +216,7 @@ export default function NotificationTemplates() {
             </Select>
           </div>
           <Button onClick={() => { setForm(EMPTY_FORM); setCreateOpen(true); }}>
-            <Plus className="h-4 w-4 mr-2" />{t("admin.system.new_template")}
+            <Plus className="h-4 w-4 mr-2" />{t("admin_system_new_template")}
           </Button>
         </div>
 
@@ -224,18 +224,18 @@ export default function NotificationTemplates() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("admin.system.template_name")}</TableHead>
-                <TableHead>{t("admin.system.channel")}</TableHead>
-                <TableHead>{t("admin.system.subject")}</TableHead>
-                <TableHead>{t("admin.system.active")}</TableHead>
-                <TableHead className="w-24">{t("admin.system.actions")}</TableHead>
+                <TableHead>{t("admin_system_template_name")}</TableHead>
+                <TableHead>{t("admin_system_channel")}</TableHead>
+                <TableHead>{t("admin_system_subject")}</TableHead>
+                <TableHead>{t("admin_system_active")}</TableHead>
+                <TableHead className="w-24">{t("admin_system_actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {templates.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-slate-400">
-                    {loading ? t("admin.system.loading") : t("admin.system.no_templates")}
+                  <TableCell colSpan={5} className="text-center py-8 text-slate-500 dark:text-slate-400">
+                    {loading ? t("admin_system_loading") : t("admin_system_no_templates")}
                   </TableCell>
                   </TableRow>
               ) : templates.map((tmpl: any) => (
@@ -244,8 +244,8 @@ export default function NotificationTemplates() {
                   <TableCell><Badge variant="outline">{tmpl.channel}</Badge></TableCell>
                   <TableCell className="text-sm max-w-[200px] truncate">{tmpl.subject || "-"}</TableCell>
                   <TableCell>
-                    <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${tmpl.isActive ? "bg-green-100 text-green-800" : "bg-white/5 text-slate-400"}`}>
-                      {tmpl.isActive ? t("admin.system.yes") : t("admin.system.no")}
+                    <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${tmpl.isActive ? "bg-green-100 text-green-800" : "bg-white/5 text-slate-500 dark:text-slate-400"}`}>
+                      {tmpl.isActive ? t("admin_system_yes") : t("admin_system_no")}
                     </span>
                   </TableCell>
                   <TableCell>
@@ -266,14 +266,14 @@ export default function NotificationTemplates() {
 
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-400">{t("admin.system.total_templates", { count: total })}</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">{t("admin.system.total_templates", { count: total })}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
-                {t("admin.system.previous")}
+                {t("admin_system_previous")}
               </Button>
               <span className="flex items-center text-sm">{page} / {totalPages}</span>
               <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>
-                {t("admin.system.next")}
+                {t("admin_system_next")}
               </Button>
             </div>
           </div>
@@ -283,18 +283,18 @@ export default function NotificationTemplates() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>{t("admin.system.new_template")}</DialogTitle>
+            <DialogTitle>{t("admin_system_new_template")}</DialogTitle>
           </DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("admin.system.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("admin_system_create")} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>{t("admin.system.edit_template")}</DialogTitle>
+            <DialogTitle>{t("admin_system_edit_template")}</DialogTitle>
           </DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("admin.system.update")} />
+          <EntityForm onSubmit={handleEdit} label={t("admin_system_update")} />
         </DialogContent>
       </Dialog>
     </PageShell>

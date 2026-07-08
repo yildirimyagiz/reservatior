@@ -68,22 +68,22 @@ const FacilitiesManagement = () => {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
             {t("admin.facilities.title", "Facilities Management")}
           </h1>
-          <p className="text-slate-400 mt-2">
+          <p className="text-slate-500 dark:text-slate-400 mt-2">
             {t("admin.facilities.subtitle", "Monitor and configure amenities, common areas, and shared spaces")}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-white/5 border-white/10 hover:bg-white/10">
+          <Button variant="outline" className="bg-white/5 border-slate-200 dark:border-white/10 hover:bg-white/10">
             {t("common.export", "Export")}
           </Button>
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.facilities.add", "Add Facility")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>{t("admin.facilities.add", "Add Facility")}</DialogTitle>
               </DialogHeader>
@@ -92,7 +92,7 @@ const FacilitiesManagement = () => {
                   <Label htmlFor="name">Facility Name</Label>
                   <Input 
                     id="name" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newFacility.name}
                     onChange={e => setNewFacility({...newFacility, name: e.target.value})}
                     required
@@ -105,7 +105,7 @@ const FacilitiesManagement = () => {
                     <Input 
                       id="feeAmount" 
                       type="number"
-                      className="bg-white/5 border-white/10" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
                       value={newFacility.feeAmount}
                       onChange={e => setNewFacility({...newFacility, feeAmount: e.target.value})}
                     />
@@ -116,7 +116,7 @@ const FacilitiesManagement = () => {
                     <Label htmlFor="feeCurrency">Currency</Label>
                     <Input 
                       id="feeCurrency" 
-                      className="bg-white/5 border-white/10" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
                       value={newFacility.feeCurrency}
                       onChange={e => setNewFacility({...newFacility, feeCurrency: e.target.value})}
                     />
@@ -136,58 +136,58 @@ const FacilitiesManagement = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Registered Facilities</CardTitle>
-            <Building className="w-4 h-4 text-slate-400" />
+            <Building className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">8,451</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">8,451</div>
             <p className="text-xs text-green-400 mt-1">Across 120 properties</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Shared Spaces</CardTitle>
-            <Home className="w-4 h-4 text-slate-400" />
+            <Home className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">1,240</div>
-            <p className="text-xs text-slate-400 mt-1">Pools, Gyms, Lounges</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">1,240</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Pools, Gyms, Lounges</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Under Maintenance</CardTitle>
             <Warehouse className="w-4 h-4 text-amber-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">34</div>
-            <p className="text-xs text-slate-400 mt-1">Currently offline</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">34</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Currently offline</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white">{t("admin.facilities.list", "Facilities Index")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin.facilities.list", "Facilities Index")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               {t("common.loading", "Loading facilities data...")}
             </div>
           ) : facilities.length === 0 ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               {t("admin.facilities.noData", "No facilities found.")}
             </div>
           ) : (
-            <div className="rounded-xl border border-white/10">
+            <div className="rounded-xl border border-slate-200 dark:border-white/10">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
                     <TableHead className="text-slate-300">Name</TableHead>
                     <TableHead className="text-slate-300">Property</TableHead>
                     <TableHead className="text-slate-300">Fee Amount</TableHead>
@@ -196,14 +196,14 @@ const FacilitiesManagement = () => {
                 </TableHeader>
                 <TableBody>
                   {facilities.map((f: any) => (
-                    <TableRow key={f.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                      <TableCell className="font-medium text-white">{f.name}</TableCell>
-                      <TableCell className="text-slate-400">{f.propertyId || 'N/A'}</TableCell>
-                      <TableCell className="text-slate-400">
+                    <TableRow key={f.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{f.name}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{f.propertyId || 'N/A'}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">
                         {f.feeAmount ? `${f.feeAmount} ${f.feeCurrency || 'USD'}` : 'Free'}
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
+                        <Button variant="ghost" size="icon" className="text-slate-500 dark:text-slate-400 hover:text-white">
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 

@@ -62,7 +62,7 @@ export default function AdminBookingsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -71,15 +71,15 @@ export default function AdminBookingsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.bookings.title")}</h1>
-              <p className="text-gray-400">{t("admin.bookings.description")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_bookings_title")}</h1>
+              <p className="text-muted-foreground">{t("admin_bookings_description")}</p>
             </div>
             <Button
               onClick={() => router.push('/admin/dashboard')}
-              className="bg-slate-600 hover:bg-slate-700"
+              className="bg-primary hover:bg-primary/90"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.bookings.back_to_dashboard")}
+              {t("admin_bookings_back_to_dashboard")}
                                       </Button>
           </div>
         </motion.div>
@@ -90,23 +90,23 @@ export default function AdminBookingsPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin.bookings.search_placeholder")}
+                      placeholder={t("admin_bookings_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
-                <Button variant="outline" className="bg-white/10 border-slate-500/30 text-white">
+                <Button variant="outline" className="bg-muted/30 border-border text-foreground">
                   <Filter className="w-4 h-4 mr-2" />
-                  {t("admin.bookings.filter")}
+                  {t("admin_bookings_filter")}
                                                   </Button>
               </div>
             </CardContent>
@@ -118,11 +118,11 @@ export default function AdminBookingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
-                {t("admin.bookings.list_title")}{filteredBookings.length})
+                {t("admin_bookings_list_title")}{filteredBookings.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -136,19 +136,19 @@ export default function AdminBookingsPage() {
                       className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-400 font-bold">
+                        <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground font-bold">
                           {booking.guestName.split(' ').map(n => n[0]).join('')}
                         </div>
                         <div>
-                          <div className="text-white font-medium">{booking.guestName}</div>
-                          <div className="text-sm text-gray-400 flex items-center gap-2">
+                          <div className="text-foreground font-medium">{booking.guestName}</div>
+                          <div className="text-sm text-muted-foreground flex items-center gap-2">
                             <Building2 className="w-3 h-3" />
                             {booking.propertyName}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <div className="text-sm text-gray-400 flex items-center gap-1">
+                        <div className="text-sm text-muted-foreground flex items-center gap-1">
                           <Clock className="w-3 h-3" />
                           {booking.checkIn} - {booking.checkOut}
                         </div>
@@ -156,7 +156,7 @@ export default function AdminBookingsPage() {
                           <StatusIcon className="w-3 h-3" />
                           <span className="text-xs font-medium">{booking.status}</span>
                         </div>
-                        <div className="text-white font-bold">
+                        <div className="text-foreground font-bold">
                           ${booking.totalAmount.toLocaleString()}
                         </div>
                       </div>

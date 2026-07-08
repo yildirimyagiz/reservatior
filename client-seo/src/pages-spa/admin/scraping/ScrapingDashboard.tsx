@@ -45,10 +45,10 @@ export default function ScrapingDashboard() {
   });
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "running": return <Badge className="bg-slate-100 text-slate-700 hover:bg-slate-200 border-0 gap-1"><RefreshCw className="w-3 h-3 animate-spin" />{t("admin.scraping.running")}</Badge>;
-      case "completed": return <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-0 gap-1"><CheckCircle2 className="w-3 h-3" />{t("admin.scraping.completed")}</Badge>;
-      case "failed": return <Badge className="bg-red-100 text-red-700 hover:bg-red-200 border-0 gap-1"><AlertCircle className="w-3 h-3" />{t("admin.scraping.failed")}</Badge>;
-      default: return <Badge variant="secondary" className="gap-1"><Clock className="w-3 h-3" />{t("admin.scraping.pending")}</Badge>;
+      case "running": return <Badge className="bg-slate-100 text-slate-700 hover:bg-slate-200 border-0 gap-1"><RefreshCw className="w-3 h-3 animate-spin" />{t("admin_scraping_running")}</Badge>;
+      case "completed": return <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-0 gap-1"><CheckCircle2 className="w-3 h-3" />{t("admin_scraping_completed")}</Badge>;
+      case "failed": return <Badge className="bg-red-100 text-red-700 hover:bg-red-200 border-0 gap-1"><AlertCircle className="w-3 h-3" />{t("admin_scraping_failed")}</Badge>;
+      default: return <Badge variant="secondary" className="gap-1"><Clock className="w-3 h-3" />{t("admin_scraping_pending")}</Badge>;
     }
   };
   const calculateDuration = (start?: string, end?: string) => {
@@ -60,72 +60,72 @@ export default function ScrapingDashboard() {
   };
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-6">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">{t("admin.scraping.scraping_management")}</h1>
-            <p className="text-sm text-slate-400">{t("admin.scraping.monitor_and_control_automated")}</p>
+            <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t("admin_scraping_scraping_management")}</h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t("admin_scraping_monitor_and_control_automated")}</p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isLoading}>
-              <RotateCcw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />{t("admin.scraping.refresh")}</Button>
+              <RotateCcw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />{t("admin_scraping_refresh")}</Button>
             <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-              <Play className="w-4 h-4 mr-2" />{t("admin.scraping.run_new_job")}</Button>
+              <Play className="w-4 h-4 mr-2" />{t("admin_scraping_run_new_job")}</Button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-white/5 border-white/10 shadow-sm">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                <History className="w-3 h-3" />{t("admin.scraping.recent_24h")}</CardTitle>
+              <CardTitle className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <History className="w-3 h-3" />{t("admin_scraping_recent_24h")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">2,482</div>
-              <p className="text-[10px] text-slate-400">{t("admin.scraping.properties_scraped_today")}</p>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">2,482</div>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400">{t("admin_scraping_properties_scraped_today")}</p>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10 shadow-sm">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                <Cpu className="w-3 h-3" />{t("admin.scraping.success_rate")}</CardTitle>
+              <CardTitle className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <Cpu className="w-3 h-3" />{t("admin_scraping_success_rate")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">96.8%</div>
-              <p className="text-[10px] text-slate-400 flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-green-500" />{t("admin.scraping.all_systems_healthy")}</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3 text-green-500" />{t("admin_scraping_all_systems_healthy")}</p>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10 shadow-sm">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                <Database className="w-3 h-3" />{t("admin.scraping.active_threads")}</CardTitle>
+              <CardTitle className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <Database className="w-3 h-3" />{t("admin_scraping_active_threads")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">12</div>
-              <p className="text-[10px] text-slate-400">{t("admin.scraping.across_3_sources")}</p>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">12</div>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400">{t("admin_scraping_across_3_sources")}</p>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10 shadow-sm">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10 shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                <Terminal className="w-3 h-3" />{t("admin.scraping.last_job")}</CardTitle>
+              <CardTitle className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <Terminal className="w-3 h-3" />{t("admin_scraping_last_job")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white truncate">{t("admin.scraping.sahibinden")}</div>
-              <p className="text-[10px] text-slate-400">{t("admin.scraping.finished_15m_ago")}</p>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white truncate">{t("admin_scraping_sahibinden")}</div>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400">{t("admin_scraping_finished_15m_ago")}</p>
             </CardContent>
           </Card>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl shadow-sm overflow-hidden">
           <Table>
             <TableHeader className="bg-white/5">
               <TableRow>
-                <TableHead className="font-bold text-xs text-slate-400">{t("admin.scraping.source")}</TableHead>
-                <TableHead className="font-bold text-xs text-slate-400">{t("admin.scraping.status")}</TableHead>
-                <TableHead className="font-bold text-xs text-slate-400">{t("admin.scraping.progress")}</TableHead>
-                <TableHead className="font-bold text-xs text-slate-400">{t("admin.scraping.duration")}</TableHead>
-                <TableHead className="font-bold text-xs text-slate-400">{t("admin.scraping.operations")}</TableHead>
+                <TableHead className="font-bold text-xs text-slate-500 dark:text-slate-400">{t("admin_scraping_source")}</TableHead>
+                <TableHead className="font-bold text-xs text-slate-500 dark:text-slate-400">{t("admin_scraping_status")}</TableHead>
+                <TableHead className="font-bold text-xs text-slate-500 dark:text-slate-400">{t("admin_scraping_progress")}</TableHead>
+                <TableHead className="font-bold text-xs text-slate-500 dark:text-slate-400">{t("admin_scraping_duration")}</TableHead>
+                <TableHead className="font-bold text-xs text-slate-500 dark:text-slate-400">{t("admin_scraping_operations")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -137,8 +137,8 @@ export default function ScrapingDashboard() {
                         {job.jobType.slice(0, 2)}
                       </div>
                       <div>
-                        <div className="font-semibold text-sm text-white capitalize">{job.jobType}</div>
-                        <div className="text-[10px] text-slate-400 font-mono">{job.id}</div>
+                        <div className="font-semibold text-sm text-slate-900 dark:text-white capitalize">{job.jobType}</div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{job.id}</div>
                       </div>
                     </div>
                   </TableCell>
@@ -146,13 +146,13 @@ export default function ScrapingDashboard() {
                   <TableCell>
                     <div className="space-y-1">
                       <div className="flex justify-between text-[10px] font-medium">
-                        <span className="text-slate-400">{job.projectsScraped}{t("admin.scraping.targets_found")}</span>
-                        {job.status === "running" && <span className="text-slate-400">{t("admin.scraping.processing")}</span>}
+                        <span className="text-slate-500 dark:text-slate-400">{job.projectsScraped}{t("admin_scraping_targets_found")}</span>
+                        {job.status === "running" && <span className="text-slate-500 dark:text-slate-400">{t("admin_scraping_processing")}</span>}
                       </div>
                       <Progress value={job.status === "completed" ? 100 : job.status === "failed" ? 15 : 45} className="h-1" />
                     </div>
                   </TableCell>
-                  <TableCell className="text-xs text-slate-400">
+                  <TableCell className="text-xs text-slate-500 dark:text-slate-400">
                     <div className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {calculateDuration(job.startTime, job.endTime)}
@@ -160,12 +160,12 @@ export default function ScrapingDashboard() {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
-                      <Button variant="ghost" size="sm" className="h-8 px-2 text-[10px] font-bold tracking-tight text-slate-400 hover:text-white">{t("admin.scraping.logs")}</Button>
-                      {job.status === "failed" && <Button variant="ghost" size="sm" className="h-8 px-2 text-[10px] font-bold tracking-tight text-red-600 hover:text-red-700 hover:bg-red-50">{t("admin.scraping.retry")}</Button>}
+                      <Button variant="ghost" size="sm" className="h-8 px-2 text-[10px] font-bold tracking-tight text-slate-500 dark:text-slate-400 hover:text-white">{t("admin_scraping_logs")}</Button>
+                      {job.status === "failed" && <Button variant="ghost" size="sm" className="h-8 px-2 text-[10px] font-bold tracking-tight text-red-600 hover:text-red-700 hover:bg-red-50">{t("admin_scraping_retry")}</Button>}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 dark:text-slate-400">
                       <ChevronRight className="w-4 h-4" />
                     </Button>
                   </TableCell>

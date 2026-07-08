@@ -1,5 +1,5 @@
 // Otomatik üretilmiş Valibot schema'ları (CN)
-// Generated: 2026-07-06T02:23:48.637Z
+// Generated: 2026-07-07T07:57:03.805Z
 
 import * as v from 'valibot';
 
@@ -1083,7 +1083,8 @@ export enum SocialImpactType {
 export const SocialImpactTypeSchema = v.enum_(SocialImpactType);
 
 export enum SocialPlatform {
-  TWITTER_X = "TWITTER_X"
+  TWITTER_X = "TWITTER_X",
+  LINKEDIN = "LINKEDIN"
 }
 export const SocialPlatformSchema = v.enum_(SocialPlatform);
 
@@ -2183,6 +2184,12 @@ export enum AccessEvent {
   CONNECTION_LOST = "CONNECTION_LOST"
 }
 export const AccessEventSchema = v.enum_(AccessEvent);
+
+export enum CommissionCollectionType {
+  UPFRONT = "UPFRONT",
+  INSTALLMENT = "INSTALLMENT"
+}
+export const CommissionCollectionTypeSchema = v.enum_(CommissionCollectionType);
 
 export enum CommissionStatus {
   PENDING = "PENDING",
@@ -4996,6 +5003,11 @@ export const commissionUpdateSchema = v.partial(v.object({
   commissionAmount: v.optional(v.number()),
   currency: v.optional(v.string()),
   status: v.optional(v.enum_(CommissionStatus)),
+  collectionType: v.optional(v.enum_(CommissionCollectionType)),
+  upfrontPercent: v.optional(v.number()),
+  installmentCount: v.optional(v.number()),
+  interestRate: v.optional(v.number()),
+  totalAmount: v.optional(v.number()),
   ruleData: v.optional(v.unknown()),
   records: v.optional(v.unknown())
 }));
@@ -6923,6 +6935,7 @@ export const paymentInstallmentCreateSchema = v.object({
 export const paymentInstallmentUpdateSchema = v.partial(v.object({
   orgId: v.optional(v.string()),
   negotiationId: v.optional(v.string()),
+  commissionId: v.optional(v.string()),
   installmentNo: v.optional(v.number()),
   amount: v.optional(v.number()),
   currency: v.optional(v.string()),
@@ -9570,6 +9583,10 @@ export const escrowSplitConfigUpdateSchema = v.partial(v.object({
   agentPayoutRate: v.optional(v.number()),
   reservatiorFeeRate: v.optional(v.number()),
   blockageDays: v.optional(v.number()),
+  installmentEnabled: v.optional(v.boolean()),
+  upfrontPercent: v.optional(v.number()),
+  installmentCount: v.optional(v.number()),
+  interestRate: v.optional(v.number()),
   isActive: v.optional(v.boolean())
 }));
 

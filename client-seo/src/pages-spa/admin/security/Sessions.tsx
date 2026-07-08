@@ -44,74 +44,74 @@ export default function Sessions() {
   const filteredSessions = sessions.filter((s: { user: { name: string; }; ipAddress: string | string[]; }) => s.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || s.ipAddress?.includes(searchTerm));
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-6">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h1 className="text-xl font-bold text-white">{t("admin.security.neural_session_monitor")}</h1>
-          <p className="text-sm text-slate-400">{t("admin.security.active_handshake_surveillance_and")}</p>
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t("admin_security_neural_session_monitor")}</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{t("admin_security_active_handshake_surveillance_and")}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-           {[{ label: t("admin.security.total_handshakes"), val: sessions.length, icon: Monitor, color: "text-slate-400" },
-             { label: t("admin.security.active_links"), val: sessions.filter((s: { isActive: any; }) => s.isActive).length, icon: Activity, color: "text-emerald-400" },
-             { label: t("admin.security.suspicious"), val: sessions.filter((s: { securityFlags: { suspiciousActivity: any; }; }) => s.securityFlags?.suspiciousActivity).length, icon: AlertTriangle, color: "text-rose-500" },
-             { label: t("admin.security.system_load"), val: "Optimal", icon: Server, color: "text-slate-400" }
-           ].map((stat, i) => <Card key={i} className="bg-white/5 border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
+           {[{ label: t("admin_security_total_handshakes"), val: sessions.length, icon: Monitor, color: "text-slate-500 dark:text-slate-400" },
+             { label: t("admin_security_active_links"), val: sessions.filter((s: { isActive: any; }) => s.isActive).length, icon: Activity, color: "text-emerald-400" },
+             { label: t("admin_security_suspicious"), val: sessions.filter((s: { securityFlags: { suspiciousActivity: any; }; }) => s.securityFlags?.suspiciousActivity).length, icon: AlertTriangle, color: "text-rose-500" },
+             { label: t("admin_security_system_load"), val: "Optimal", icon: Server, color: "text-slate-500 dark:text-slate-400" }
+           ].map((stat, i) => <Card key={i} className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl relative group">
                  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
                     <stat.icon className="w-12 h-12" />
                  </div>
                  <CardContent className="p-8">
-                   <p className="text-[10px] font-bold text-slate-400 mb-1">{stat.label}</p>
-                   <h3 className="text-xl font-bold text-white leading-none">{stat.val}</h3>
+                   <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1">{stat.label}</p>
+                   <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-none">{stat.val}</h3>
                  </CardContent>
               </Card>)}
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
            <div className="relative flex-1 max-w-md group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-slate-500 transition-colors" />
-              <Input placeholder={t("admin.security.search_link_logs")} className="bg-white/5 border-white/10 rounded-2xl pl-12 h-14 text-white focus:ring-slate-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400 group-focus-within:text-slate-500 transition-colors" />
+              <Input placeholder={t("admin_security_search_link_logs")} className="bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl pl-12 h-14 text-slate-900 dark:text-white focus:ring-slate-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
            </div>
         </div>
 
-        <Card className="bg-white/5 border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
            <CardContent className="p-0">
               <Table>
-                 <TableHeader className="bg-white/5 border-b border-white/10">
+                 <TableHeader className="bg-white/5 border-b border-slate-200 dark:border-white/10">
                     <TableRow className="hover:bg-transparent border-none">
-                       <TableHead className="text-[10px] font-bold text-slate-400 py-6 px-8">{t("admin.security.entity_signature")}</TableHead>
-                       <TableHead className="text-[10px] font-bold text-slate-400 px-8">{t("admin.security.node_context")}</TableHead>
-                       <TableHead className="text-[10px] font-bold text-slate-400 px-8">{t("admin.security.temporal_state")}</TableHead>
-                       <TableHead className="text-[10px] font-bold text-slate-400 px-8">{t("admin.security.link_status")}</TableHead>
-                       <TableHead className="text-[10px] font-bold text-slate-400 px-8 text-right">{t("admin.security.actions")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-slate-500 dark:text-slate-400 py-6 px-8">{t("admin_security_entity_signature")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-slate-500 dark:text-slate-400 px-8">{t("admin_security_node_context")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-slate-500 dark:text-slate-400 px-8">{t("admin_security_temporal_state")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-slate-500 dark:text-slate-400 px-8">{t("admin_security_link_status")}</TableHead>
+                       <TableHead className="text-[10px] font-bold text-slate-500 dark:text-slate-400 px-8 text-right">{t("admin_security_actions")}</TableHead>
                     </TableRow>
                  </TableHeader>
                  <TableBody>
                     {isLoading ? <TableRow>
                           <TableCell colSpan={5} className="py-20 text-center">
                              <Zap className="w-8 h-8 text-slate-500 animate-pulse mx-auto mb-4 opacity-50" />
-                             <p className="text-xs font-bold text-slate-400">{t("admin.security.syncing_connection_matrix")}</p>
+                             <p className="text-xs font-bold text-slate-500 dark:text-slate-400">{t("admin_security_syncing_connection_matrix")}</p>
                           </TableCell>
-                       </TableRow> : filteredSessions.map((session: any) => <TableRow key={session.id} className="border-b border-white/10 hover:bg-white/5 transition-all group">
+                       </TableRow> : filteredSessions.map((session: any) => <TableRow key={session.id} className="border-b border-slate-200 dark:border-white/10 hover:bg-white/5 transition-all group">
                            <TableCell className="py-8 px-8">
                               <div className="flex items-center gap-6">
-                                 <div className="p-3 bg-white/5 border border-white/10 rounded-2xl group-hover:scale-105 transition-all">
+                                 <div className="p-3 bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl group-hover:scale-105 transition-all">
                                     <Shield className={cn("w-5 h-5", session.isActive ? "text-emerald-400" : "text-slate-600")} />
                                  </div>
                                  <div>
-                                    <h6 className="text-sm font-bold text-white leading-none">{session.user?.name || "ANONYMOUS_ENTITY"}</h6>
-                                    <p className="text-[10px] font-bold text-slate-400 mt-1">{session.user?.role}</p>
+                                    <h6 className="text-sm font-bold text-slate-900 dark:text-white leading-none">{session.user?.name || "ANONYMOUS_ENTITY"}</h6>
+                                    <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1">{session.user?.role}</p>
                                  </div>
                               </div>
                            </TableCell>
                            <TableCell className="px-8">
                               <div className="space-y-1">
-                                 <p className="text-[10px] font-bold text-slate-400 leading-none flex items-center gap-1"><Monitor className="w-3 h-3" /> {session.deviceType || "UNKNOWN_HARDWARE"}</p>
+                                 <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 leading-none flex items-center gap-1"><Monitor className="w-3 h-3" /> {session.deviceType || "UNKNOWN_HARDWARE"}</p>
                                  <p className="text-[9px] font-bold text-slate-600 mt-1 flex items-center gap-1"><Globe className="w-3 h-3" /> {session.ipAddress}</p>
                               </div>
                            </TableCell>
                            <TableCell className="px-8">
                               <div className="space-y-1">
-                                 <p className="text-[10px] font-bold text-slate-400">{t("admin.security.last_sync")}{new Date(session.lastActivityAt).toLocaleTimeString()}</p>
-                                 <p className="text-[9px] font-bold text-slate-600">{t("admin.security.expires")}{new Date(session.expiresAt).toLocaleDateString()}</p>
+                                 <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t("admin_security_last_sync")}{new Date(session.lastActivityAt).toLocaleTimeString()}</p>
+                                 <p className="text-[9px] font-bold text-slate-600">{t("admin_security_expires")}{new Date(session.expiresAt).toLocaleDateString()}</p>
                               </div>
                            </TableCell>
                            <TableCell className="px-8">
@@ -122,11 +122,11 @@ export default function Sessions() {
                            <TableCell className="px-8 text-right">
                               <DropdownMenu>
                                  <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-white/5 text-slate-400 hover:text-white"><MoreHorizontal className="w-5 h-5" /></Button>
+                                    <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-white"><MoreHorizontal className="w-5 h-5" /></Button>
                                  </DropdownMenuTrigger>
-                                 <DropdownMenuContent className="bg-[#1a1b1e] border-white/10 text-slate-400">
-                                    <DropdownMenuItem className="gap-2 font-bold text-[9px] hover:bg-white/5 cursor-pointer"><Eye className="w-3.5 h-3.5" />{t("admin.security.node_details")}</DropdownMenuItem>
-                                    {session.isActive && <DropdownMenuItem className="gap-2 font-bold text-[9px] hover:bg-rose-500/10 text-rose-500 cursor-pointer"><LogOut className="w-3.5 h-3.5" />{t("admin.security.terminate_link")}</DropdownMenuItem>}
+                                 <DropdownMenuContent className="bg-[#1a1b1e] border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">
+                                    <DropdownMenuItem className="gap-2 font-bold text-[9px] hover:bg-white/5 cursor-pointer"><Eye className="w-3.5 h-3.5" />{t("admin_security_node_details")}</DropdownMenuItem>
+                                    {session.isActive && <DropdownMenuItem className="gap-2 font-bold text-[9px] hover:bg-rose-500/10 text-rose-500 cursor-pointer"><LogOut className="w-3.5 h-3.5" />{t("admin_security_terminate_link")}</DropdownMenuItem>}
                                  </DropdownMenuContent>
                               </DropdownMenu>
                            </TableCell>

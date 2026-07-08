@@ -17,7 +17,7 @@ const STATUS_COLORS: Record<string, string> = {
   PARTIAL: "bg-yellow-100 text-yellow-800",
   FAILED: "bg-red-100 text-red-800",
   PENDING: "bg-slate-100 text-slate-800",
-  SKIPPED: "bg-white/5 text-slate-400",
+  SKIPPED: "bg-white/5 text-slate-500 dark:text-slate-400",
 };
 
 export default function AutomationExecutionHistory() {
@@ -49,15 +49,15 @@ export default function AutomationExecutionHistory() {
   const formatDate = (d: string) => d ? new Date(d).toLocaleString() : "-";
 
   return (
-    <PageShell title={t("admin.system.execution_history")}>
+    <PageShell title={t("admin_system_execution_history")}>
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Select value={status} onValueChange={(v) => { setStatus(v); setPage(1); }}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={t("admin.system.all_statuses")} />
+              <SelectValue placeholder={t("admin_system_all_statuses")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">{t("admin.system.all_statuses")}</SelectItem>
+              <SelectItem value="">{t("admin_system_all_statuses")}</SelectItem>
               <SelectItem value="COMPLETED">COMPLETED</SelectItem>
               <SelectItem value="PARTIAL">PARTIAL</SelectItem>
               <SelectItem value="FAILED">FAILED</SelectItem>
@@ -66,7 +66,7 @@ export default function AutomationExecutionHistory() {
           </Select>
           <Button variant="outline" onClick={load} disabled={loading}>
             <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
-            {t("admin.system.refresh")}
+            {t("admin_system_refresh")}
           </Button>
         </div>
 
@@ -74,19 +74,19 @@ export default function AutomationExecutionHistory() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("admin.system.date")}</TableHead>
-                <TableHead>{t("admin.system.rule_name")}</TableHead>
-                <TableHead>{t("admin.system.event_type")}</TableHead>
-                <TableHead>{t("admin.system.status")}</TableHead>
-                <TableHead>{t("admin.system.processing_time")}</TableHead>
-                <TableHead className="w-20">{t("admin.system.actions")}</TableHead>
+                <TableHead>{t("admin_system_date")}</TableHead>
+                <TableHead>{t("admin_system_rule_name")}</TableHead>
+                <TableHead>{t("admin_system_event_type")}</TableHead>
+                <TableHead>{t("admin_system_status")}</TableHead>
+                <TableHead>{t("admin_system_processing_time")}</TableHead>
+                <TableHead className="w-20">{t("admin_system_actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {executions.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-slate-400">
-                    {loading ? t("admin.system.loading") : t("admin.system.no_executions")}
+                  <TableCell colSpan={6} className="text-center py-8 text-slate-500 dark:text-slate-400">
+                    {loading ? t("admin_system_loading") : t("admin_system_no_executions")}
                   </TableCell>
                 </TableRow>
               ) : executions.map((ex: any) => (
@@ -121,14 +121,14 @@ export default function AutomationExecutionHistory() {
 
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-400">{t("admin.system.total_executions", { count: total })}</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">{t("admin.system.total_executions", { count: total })}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
-                {t("admin.system.previous")}
+                {t("admin_system_previous")}
               </Button>
               <span className="flex items-center text-sm">{page} / {totalPages}</span>
               <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>
-                {t("admin.system.next")}
+                {t("admin_system_next")}
               </Button>
             </div>
           </div>
@@ -138,19 +138,19 @@ export default function AutomationExecutionHistory() {
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>{t("admin.system.execution_details")}</DialogTitle>
+            <DialogTitle>{t("admin_system_execution_details")}</DialogTitle>
           </DialogHeader>
           {selected && (
             <div className="space-y-3 text-sm">
               <div className="grid grid-cols-2 gap-2">
-                <div><span className="font-medium">{t("admin.system.rule_name")}:</span> {selected.rule?.ruleName || selected.ruleId}</div>
-                <div><span className="font-medium">{t("admin.system.status")}:</span> {selected.status}</div>
-                <div><span className="font-medium">{t("admin.system.executed_at")}:</span> {formatDate(selected.executedAt)}</div>
-                <div><span className="font-medium">{t("admin.system.processing_time")}:</span> {selected.processingTimeMs ? `${selected.processingTimeMs}ms` : "-"}</div>
+                <div><span className="font-medium">{t("admin_system_rule_name")}:</span> {selected.rule?.ruleName || selected.ruleId}</div>
+                <div><span className="font-medium">{t("admin_system_status")}:</span> {selected.status}</div>
+                <div><span className="font-medium">{t("admin_system_executed_at")}:</span> {formatDate(selected.executedAt)}</div>
+                <div><span className="font-medium">{t("admin_system_processing_time")}:</span> {selected.processingTimeMs ? `${selected.processingTimeMs}ms` : "-"}</div>
               </div>
               {selected.event?.eventType && (
                 <div>
-                  <span className="font-medium">{t("admin.system.trigger_event")}:</span>
+                  <span className="font-medium">{t("admin_system_trigger_event")}:</span>
                   <div className="mt-1 p-2 bg-white/5 rounded-lg text-xs">
                     Type: {selected.event.eventType}
                     {selected.event.severity && ` | Severity: ${selected.event.severity}`}
@@ -160,7 +160,7 @@ export default function AutomationExecutionHistory() {
               )}
               {selected.triggerEvent && (
                 <div>
-                  <span className="font-medium">{t("admin.system.trigger_data")}:</span>
+                  <span className="font-medium">{t("admin_system_trigger_data")}:</span>
                   <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-32">
                     {JSON.stringify(selected.triggerEvent, null, 2)}
                   </pre>
@@ -168,7 +168,7 @@ export default function AutomationExecutionHistory() {
               )}
               {selected.resultData && (
                 <div>
-                  <span className="font-medium">{t("admin.system.results")}:</span>
+                  <span className="font-medium">{t("admin_system_results")}:</span>
                   <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-48">
                     {JSON.stringify(selected.resultData, null, 2)}
                   </pre>
@@ -176,7 +176,7 @@ export default function AutomationExecutionHistory() {
               )}
               {selected.errorMessage && (
                 <div>
-                  <span className="font-medium">{t("admin.system.error")}:</span>
+                  <span className="font-medium">{t("admin_system_error")}:</span>
                   <pre className="mt-1 p-2 bg-red-50 rounded-lg text-xs text-red-700">
                     {selected.errorMessage}
                   </pre>
@@ -184,7 +184,7 @@ export default function AutomationExecutionHistory() {
               )}
               {selected.executionData && (
                 <div>
-                  <span className="font-medium">{t("admin.system.execution_data")}:</span>
+                  <span className="font-medium">{t("admin_system_execution_data")}:</span>
                   <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-48">
                     {JSON.stringify(selected.executionData, null, 2)}
                   </pre>

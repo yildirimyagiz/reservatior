@@ -38,13 +38,13 @@ const STATUS_CONFIG = (t: any) => {
       icon: AlertCircle
     },
     REFUNDED: {
-      label: t("admin.financial.refunded"),
-      cls: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+      label: t("admin_financial_refunded"),
+      cls: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20",
       icon: TrendingUp
     },
     PARTIAL: {
-      label: t("admin.financial.partial"),
-      cls: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+      label: t("admin_financial_partial"),
+      cls: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20",
       icon: AlertCircle
     }
   };
@@ -84,8 +84,8 @@ export default function Payments() {
       } catch (error) {
         console.error('Error fetching payments:', error);
         toast({
-          title: t("admin.financial.error"),
-          description: t("admin.financial.failed_to_load_payments"),
+          title: t("admin_financial_error"),
+          description: t("admin_financial_failed_to_load_payments"),
           variant: "destructive"
         });
         return [];
@@ -110,14 +110,14 @@ export default function Payments() {
       queryClient.invalidateQueries({ queryKey: ['adminPayments'] });
       setCreateOpen(false);
       toast({
-        title: t("admin.financial.payment_created"),
-        description: t("admin.financial.new_payment_has_been")
+        title: t("admin_financial_payment_created"),
+        description: t("admin_financial_new_payment_has_been")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_create_payment"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_create_payment"),
         variant: "destructive"
       });
     }
@@ -129,14 +129,14 @@ export default function Payments() {
       queryClient.invalidateQueries({ queryKey: ['adminPayments'] });
       setEditOpen(false);
       toast({
-        title: t("admin.financial.payment_updated"),
-        description: t("admin.financial.payment_has_been_updated")
+        title: t("admin_financial_payment_updated"),
+        description: t("admin_financial_payment_has_been_updated")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_update_payment"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_update_payment"),
         variant: "destructive"
       });
     }
@@ -147,14 +147,14 @@ export default function Payments() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['adminPayments'] });
       toast({
-        title: t("admin.financial.payment_deleted"),
-        description: t("admin.financial.payment_has_been_deleted")
+        title: t("admin_financial_payment_deleted"),
+        description: t("admin_financial_payment_has_been_deleted")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_delete_payment"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_delete_payment"),
         variant: "destructive"
       });
     }
@@ -196,7 +196,7 @@ export default function Payments() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("total")}</p>
                 <h3 className="text-xl font-bold text-foreground leading-none">{totalPayments}</h3>
-                <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin.financial.globalflow")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_financial_globalflow")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -217,7 +217,7 @@ export default function Payments() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("paid")}</p>
                 <h3 className="text-xl font-bold text-emerald-400 leading-none">{paidCount}</h3>
-                <p className="text-[10px] font-bold text-emerald-500/60 mt-4 flex items-center gap-1">{t("admin.financial.synccomplete")}</p>
+                <p className="text-[10px] font-bold text-emerald-500/60 mt-4 flex items-center gap-1">{t("admin_financial_synccomplete")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -238,7 +238,7 @@ export default function Payments() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("unpaid")}</p>
                 <h3 className="text-xl font-bold text-orange-400 leading-none">{unpaidCount}</h3>
-                <p className="text-[10px] font-bold text-orange-500/60 mt-4 flex items-center gap-1">{t("admin.financial.awaitingsync")}</p>
+                <p className="text-[10px] font-bold text-orange-500/60 mt-4 flex items-center gap-1">{t("admin_financial_awaitingsync")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -259,7 +259,7 @@ export default function Payments() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("overdue")}</p>
                 <h3 className="text-xl font-bold text-red-400 leading-none">{overdueCount}</h3>
-                <p className="text-[10px] font-bold text-red-500/60 mt-4 flex items-center gap-1">{t("admin.financial.faultynode")}</p>
+                <p className="text-[10px] font-bold text-red-500/60 mt-4 flex items-center gap-1">{t("admin_financial_faultynode")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -277,7 +277,7 @@ export default function Payments() {
                 <SelectValue placeholder={t("financialPaymentsStatus")} />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-xl">
-                 <SelectItem value="all" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground transition-colors">{t("admin.financial.allnodes")}</SelectItem>
+                 <SelectItem value="all" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground transition-colors">{t("admin_financial_allnodes")}</SelectItem>
                  {Object.values(PaymentLedgerStatus).map(status => <SelectItem key={status} value={status} className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground transition-colors">
                     {(statusConfig as any)[status]?.label.toUpperCase() || status}
                   </SelectItem>)}
@@ -295,7 +295,7 @@ export default function Payments() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-xl font-bold text-foreground leading-none">{t("financialPaymentsTitle")}</CardTitle>
-                <CardDescription className="text-[10px] font-bold text-muted-foreground mt-2">{t("admin.financial.realtime_capital_flow_synchronization")}</CardDescription>
+                <CardDescription className="text-[10px] font-bold text-muted-foreground mt-2">{t("admin_financial_realtime_capital_flow_synchronization")}</CardDescription>
               </div>
               <Activity className="w-8 h-8 text-primary opacity-20" />
             </div>
@@ -315,7 +315,7 @@ export default function Payments() {
               </TableHeader>
               <TableBody>
                 {loading ? <TableRow><TableCell colSpan={7} className="text-center py-20"><Loader2 className="w-6 h-6 animate-spin mx-auto text-primary opacity-50" /></TableCell></TableRow> : filteredPayments.length === 0 ? <TableRow>
-                     <TableCell colSpan={7} className="text-center py-20 text-muted-foreground text-[10px] font-bold opacity-30">{t("admin.financial.no_neural_financial_signatures")}</TableCell>
+                     <TableCell colSpan={7} className="text-center py-20 text-muted-foreground text-[10px] font-bold opacity-30">{t("admin_financial_no_neural_financial_signatures")}</TableCell>
                   </TableRow> : filteredPayments.map(payment => {
                 const config = (statusConfig as any)[payment.status];
                 return <TableRow key={payment.id} className="border-b border-border hover:bg-muted/50 transition-all group">
@@ -338,7 +338,7 @@ export default function Payments() {
                         </TableCell>
                         <TableCell className="px-8">
                            <div className="text-[10px] font-bold text-muted-foreground leading-none">{formatDate(payment.dueDate)}</div>
-                           {payment.paymentDate && <div className="text-[9px] font-bold text-emerald-500 mt-1 opacity-50">{t("admin.financial.paid")}{formatDate(payment.paymentDate)}</div>}
+                           {payment.paymentDate && <div className="text-[9px] font-bold text-emerald-500 mt-1 opacity-50">{t("admin_financial_paid")}{formatDate(payment.paymentDate)}</div>}
                         </TableCell>
                         <TableCell className="px-8">
                            <Badge className={cn("text-[9px] font-bold   px-3 py-1 rounded-full  border transition-all", config?.cls)}>
@@ -360,22 +360,22 @@ export default function Payments() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl p-2 w-48 shadow-2xl">
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer" onClick={() => window.location.href = `/checkout?type=TENANT_PAYMENT&amount=${payment.amount}&id=${payment.id}`}>
-                                <CreditCard className="w-4 h-4 mr-3 text-slate-400" />{t("admin.financial.completestripe")}</DropdownMenuItem>
+                                <CreditCard className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" />{t("admin_financial_completestripe")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer" onClick={() => {
                           setSelectedPayment(payment);
                           setEditOpen(true);
                         }}>
-                                <Edit className="h-4 w-4 mr-3 text-emerald-400" />{t("admin.financial.reconfignode")}</DropdownMenuItem>
+                                <Edit className="h-4 w-4 mr-3 text-emerald-400" />{t("admin_financial_reconfignode")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer" onClick={() => {
                           navigator.clipboard.writeText(payment.reference || '');
                           toast({
-                            title: t("admin.financial.copied"),
-                            description: t("admin.financial.reference_copied_to_clipboard")
+                            title: t("admin_financial_copied"),
+                            description: t("admin_financial_reference_copied_to_clipboard")
                           });
                         }}>
-                                <Copy className="w-4 h-4 mr-3 text-slate-400" />{t("admin.financial.syncreference")}</DropdownMenuItem>
+                                <Copy className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" />{t("admin_financial_syncreference")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-red-500/10 focus:text-red-500 rounded-xl py-3 cursor-pointer" onClick={() => handleDeletePayment(payment.id)}>
-                                <Trash2 className="h-4 w-4 mr-3" />{t("admin.financial.terminateflow")}</DropdownMenuItem>
+                                <Trash2 className="h-4 w-4 mr-3" />{t("admin_financial_terminateflow")}</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
@@ -391,33 +391,33 @@ export default function Payments() {
           <DialogContent className="sm:max-w-lg bg-[#14151a] border-border text-foreground rounded-4xl p-0 overflow-hidden shadow-2xl backdrop-blur-2xl">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
             <DialogHeader className="p-10 border-b border-border bg-muted/50">
-              <DialogTitle className="text-2xl font-bold leading-none">{t("admin.financial.initializetransaction")}</DialogTitle>
+              <DialogTitle className="text-2xl font-bold leading-none">{t("admin_financial_initializetransaction")}</DialogTitle>
               <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-2 flex items-center gap-2">
-                <Zap className="w-3 h-3 text-primary" />{t("admin.financial.newfinancialnode")}</DialogDescription>
+                <Zap className="w-3 h-3 text-primary" />{t("admin_financial_newfinancialnode")}</DialogDescription>
             </DialogHeader>
             <div className="p-10 space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.financial.orgidentity")}</Label>
-                  <Input placeholder={t("admin.financial.organization_id")} className="h-12 bg-muted/50 border-border rounded-xl text-[10px] font-bold focus:ring-primary/20" />
+                  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_financial_orgidentity")}</Label>
+                  <Input placeholder={t("admin_financial_organization_id")} className="h-12 bg-muted/50 border-border rounded-xl text-[10px] font-bold focus:ring-primary/20" />
                 </div>
                 <div className="space-y-3">
-                  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.financial.grossamount")}</Label>
+                  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_financial_grossamount")}</Label>
                   <Input type="number" placeholder="0.00" className="h-12 bg-muted/50 border-border rounded-xl text-[10px] font-bold focus:ring-primary/20" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.financial.currencytoken")}</Label>
+                  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_financial_currencytoken")}</Label>
                   <Input defaultValue="USD" className="h-12 bg-muted/50 border-border rounded-xl text-[10px] font-bold focus:ring-primary/20" />
                 </div>
                 <div className="space-y-3">
-                  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.financial.expirypulse")}</Label>
+                  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_financial_expirypulse")}</Label>
                   <Input type="date" className="h-12 bg-muted/50 border-border rounded-xl text-[10px] font-bold focus:ring-primary/20 shadow-none scheme-dark" />
                 </div>
               </div>
               <div className="space-y-3">
-                <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.financial.matrixstatus")}</Label>
+                <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_financial_matrixstatus")}</Label>
                 <Select defaultValue="UNPAID">
                   <SelectTrigger className="h-12 bg-muted/50 border-border rounded-xl text-[10px] font-bold focus:ring-primary/20">
                     <SelectValue />
@@ -429,14 +429,14 @@ export default function Payments() {
               </div>
             </div>
             <DialogFooter className="p-10 pt-0 bg-transparent flex items-center justify-end gap-4 shadow-none">
-              <Button variant="ghost" onClick={() => setCreateOpen(false)} className="h-12 px-8 rounded-xl text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-muted/50">{t("admin.financial.abortinit")}</Button>
+              <Button variant="ghost" onClick={() => setCreateOpen(false)} className="h-12 px-8 rounded-xl text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-muted/50">{t("admin_financial_abortinit")}</Button>
               <Button onClick={() => handleCreatePayment({
               orgId: "org_1",
               amount: 100,
               currency: "USD",
               status: "UNPAID",
               dueDate: new Date().toISOString()
-            })} className="bg-primary hover:bg-primary/90 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] shadow-xl shadow-primary/20">{t("admin.financial.committransaction")}</Button>
+            })} className="bg-primary hover:bg-primary/90 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] shadow-xl shadow-primary/20">{t("admin_financial_committransaction")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -446,19 +446,19 @@ export default function Payments() {
           <DialogContent className="sm:max-w-lg bg-[#14151a] border-border text-foreground rounded-4xl p-0 overflow-hidden shadow-2xl backdrop-blur-2xl">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
             <DialogHeader className="p-10 border-b border-border bg-muted/50">
-              <DialogTitle className="text-2xl font-bold leading-none">{t("admin.financial.reconfigfinancialnode")}</DialogTitle>
-              <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-2">{t("admin.financial.pulseid")}{selectedPayment?.id}
+              <DialogTitle className="text-2xl font-bold leading-none">{t("admin_financial_reconfigfinancialnode")}</DialogTitle>
+              <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-2">{t("admin_financial_pulseid")}{selectedPayment?.id}
               </DialogDescription>
             </DialogHeader>
             <div className="p-10 space-y-6 text-center">
                <div className="flex flex-col items-center justify-center space-y-4 py-10">
                   <Activity className="w-12 h-12 text-primary opacity-20 animate-pulse" />
-                  <p className="text-[10px] font-bold text-muted-foreground">{t("admin.financial.synchronizinginterface")}</p>
+                  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_financial_synchronizinginterface")}</p>
                </div>
             </div>
             <DialogFooter className="p-10 pt-0 bg-transparent flex items-center justify-end gap-4 shadow-none">
-                <Button variant="ghost" onClick={() => setEditOpen(false)} className="h-12 px-8 rounded-xl text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-muted/50">{t("admin.financial.abortreconfig")}</Button>
-                <Button onClick={() => selectedPayment && handleUpdatePayment(selectedPayment.id, {})} className="bg-emerald-600 hover:bg-emerald-500 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] shadow-xl shadow-emerald-600/20">{t("admin.financial.executereconfig")}</Button>
+                <Button variant="ghost" onClick={() => setEditOpen(false)} className="h-12 px-8 rounded-xl text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-muted/50">{t("admin_financial_abortreconfig")}</Button>
+                <Button onClick={() => selectedPayment && handleUpdatePayment(selectedPayment.id, {})} className="bg-emerald-600 hover:bg-emerald-500 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] shadow-xl shadow-emerald-600/20">{t("admin_financial_executereconfig")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

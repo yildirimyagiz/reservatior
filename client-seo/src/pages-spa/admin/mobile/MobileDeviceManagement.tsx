@@ -152,7 +152,7 @@ const MOCK_DEVICES: MobileDevice[] = [{
 const MOCK_POLICIES: DevicePolicy[] = [{
   id: "1",
   name: "Mobile Security Policy",
-  description: t("admin.mobile.enforce_security_requirements_for"),
+  description: t("admin_mobile_enforce_security_requirements_for"),
   type: "SECURITY",
   isActive: true,
   platforms: ["IOS", "ANDROID"],
@@ -169,7 +169,7 @@ const MOCK_POLICIES: DevicePolicy[] = [{
 }, {
   id: "2",
   name: "Data Access Policy",
-  description: t("admin.mobile.control_data_access_on"),
+  description: t("admin_mobile_control_data_access_on"),
   type: "DATA",
   isActive: true,
   platforms: ["IOS", "ANDROID", "MACOS", "WINDOWS"],
@@ -287,11 +287,11 @@ export default function MobileDeviceManagement() {
       case "WINDOWS":
         return <Monitor className="w-4 h-4 text-slate-600" />;
       case "MACOS":
-        return <Laptop className="w-4 h-4 text-slate-400" />;
+        return <Laptop className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
       case "LINUX":
         return <Monitor className="w-4 h-4 text-orange-600" />;
       default:
-        return <Smartphone className="w-4 h-4 text-slate-400" />;
+        return <Smartphone className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const getSecurityColor = (status: string) => {
@@ -313,9 +313,9 @@ export default function MobileDeviceManagement() {
       case "CELLULAR":
         return <Activity className="w-4 h-4 text-green-600" />;
       case "NONE":
-        return <Wifi className="w-4 h-4 text-slate-400" />;
+        return <Wifi className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
       default:
-        return <Wifi className="w-4 h-4 text-slate-400" />;
+        return <Wifi className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const getBatteryColor = (level: number) => {
@@ -329,29 +329,29 @@ export default function MobileDeviceManagement() {
       data: { isActive: !device.isActive }
     });
     toast({
-      title: t("admin.mobile.device_updated"),
-      description: t("admin.mobile.device_status_has_been")
+      title: t("admin_mobile_device_updated"),
+      description: t("admin_mobile_device_status_has_been")
     });
   };
   const toggleDeviceTrust = (deviceId: string) => {
     // Note: isTrusted is not on backend yet, we simulate it
     toast({
-      title: t("admin.mobile.trust_status_updated"),
-      description: t("admin.mobile.device_trust_status_has")
+      title: t("admin_mobile_trust_status_updated"),
+      description: t("admin_mobile_device_trust_status_has")
     });
   };
   const revokeDevice = (device: MobileDevice) => {
     deleteDeviceMutation.mutate(device.id);
     toast({
-      title: t("admin.mobile.device_revoked"),
-      description: t("admin.mobile.device_access_has_been")
+      title: t("admin_mobile_device_revoked"),
+      description: t("admin_mobile_device_access_has_been")
     });
   };
   const syncDevice = () => {
     refetch();
     toast({
-      title: t("admin.mobile.sync_started"),
-      description: t("admin.mobile.device_synchronization_has_been")
+      title: t("admin_mobile_sync_started"),
+      description: t("admin_mobile_device_synchronization_has_been")
     });
   };
   const filteredDevices = devices.filter(device => {
@@ -369,7 +369,7 @@ export default function MobileDeviceManagement() {
     iosDevices: devices.filter(d => d.platform === "IOS").length,
     androidDevices: devices.filter(d => d.platform === "ANDROID").length
   };
-  return <PageShell title={t("admin.mobile.mobile_device_management")} description={t("admin.mobile.manage_and_monitor_mobile")}>
+  return <PageShell title={t("admin_mobile_mobile_device_management")} description={t("admin_mobile_manage_and_monitor_mobile")}>
       <div className="space-y-6">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -377,9 +377,9 @@ export default function MobileDeviceManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.mobile.total_devices")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_mobile_total_devices")}</p>
                   <p className="text-2xl font-bold">{stats.totalDevices}</p>
-                  <p className="text-xs text-slate-400">{t("admin.mobile.all_platforms")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_mobile_all_platforms")}</p>
                 </div>
                 <Smartphone className="w-8 h-8 text-slate-600" />
               </div>
@@ -389,9 +389,9 @@ export default function MobileDeviceManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.mobile.active_devices")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_mobile_active_devices")}</p>
                   <p className="text-2xl font-bold text-green-600">{stats.activeDevices}</p>
-                  <p className="text-xs text-slate-400">{t("admin.mobile.currently_online")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_mobile_currently_online")}</p>
                 </div>
                 <Activity className="w-8 h-8 text-green-600" />
               </div>
@@ -401,9 +401,9 @@ export default function MobileDeviceManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.mobile.security_issues")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_mobile_security_issues")}</p>
                   <p className="text-2xl font-bold text-orange-600">{stats.warningDevices + stats.compromisedDevices}</p>
-                  <p className="text-xs text-orange-500">{t("admin.mobile.requires_attention")}</p>
+                  <p className="text-xs text-orange-500">{t("admin_mobile_requires_attention")}</p>
                 </div>
                 <AlertTriangle className="w-8 h-8 text-orange-600" />
               </div>
@@ -413,9 +413,9 @@ export default function MobileDeviceManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.mobile.trusted_devices")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_mobile_trusted_devices")}</p>
                   <p className="text-2xl font-bold text-slate-600">{stats.trustedDevices}</p>
-                  <p className="text-xs text-slate-400">{t("admin.mobile.verified_devices")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_mobile_verified_devices")}</p>
                 </div>
                 <Shield className="w-8 h-8 text-slate-600" />
               </div>
@@ -428,59 +428,59 @@ export default function MobileDeviceManagement() {
           <div className="flex flex-col sm:flex-row gap-4 flex-1">
             <Select value={filterPlatform} onValueChange={setFilterPlatform}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.mobile.platform")} />
+                <SelectValue placeholder={t("admin_mobile_platform")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.mobile.all_platforms")}</SelectItem>
-                <SelectItem value="IOS">{t("admin.mobile.ios")}</SelectItem>
-                <SelectItem value="ANDROID">{t("admin.mobile.android")}</SelectItem>
-                <SelectItem value="MACOS">{t("admin.mobile.macos")}</SelectItem>
-                <SelectItem value="WINDOWS">{t("admin.mobile.windows")}</SelectItem>
+                <SelectItem value="all">{t("admin_mobile_all_platforms")}</SelectItem>
+                <SelectItem value="IOS">{t("admin_mobile_ios")}</SelectItem>
+                <SelectItem value="ANDROID">{t("admin_mobile_android")}</SelectItem>
+                <SelectItem value="MACOS">{t("admin_mobile_macos")}</SelectItem>
+                <SelectItem value="WINDOWS">{t("admin_mobile_windows")}</SelectItem>
               </SelectContent>
             </Select>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.mobile.status")} />
+                <SelectValue placeholder={t("admin_mobile_status")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.mobile.all_status")}</SelectItem>
-                <SelectItem value="active">{t("admin.mobile.active")}</SelectItem>
-                <SelectItem value="inactive">{t("admin.mobile.inactive")}</SelectItem>
-                <SelectItem value="trusted">{t("admin.mobile.trusted")}</SelectItem>
+                <SelectItem value="all">{t("admin_mobile_all_status")}</SelectItem>
+                <SelectItem value="active">{t("admin_mobile_active")}</SelectItem>
+                <SelectItem value="inactive">{t("admin_mobile_inactive")}</SelectItem>
+                <SelectItem value="trusted">{t("admin_mobile_trusted")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <Button onClick={() => toast({
-          title: t("admin.mobile.policy_editor_coming_soon")
+          title: t("admin_mobile_policy_editor_coming_soon")
         })}>
-            <Settings className="w-4 h-4 mr-2" />{t("admin.mobile.device_policies")}</Button>
+            <Settings className="w-4 h-4 mr-2" />{t("admin_mobile_device_policies")}</Button>
         </div>
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="devices">{t("admin.mobile.devices")}</TabsTrigger>
-            <TabsTrigger value="policies">{t("admin.mobile.policies")}</TabsTrigger>
-            <TabsTrigger value="monitoring">{t("admin.mobile.monitoring")}</TabsTrigger>
+            <TabsTrigger value="devices">{t("admin_mobile_devices")}</TabsTrigger>
+            <TabsTrigger value="policies">{t("admin_mobile_policies")}</TabsTrigger>
+            <TabsTrigger value="monitoring">{t("admin_mobile_monitoring")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="devices" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>{t("admin.mobile.registered_devices")}{filteredDevices.length})</CardTitle>
-                <CardDescription>{t("admin.mobile.manage_and_monitor_all")}</CardDescription>
+                <CardTitle>{t("admin_mobile_registered_devices")}{filteredDevices.length})</CardTitle>
+                <CardDescription>{t("admin_mobile_manage_and_monitor_all")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("admin.mobile.device")}</TableHead>
-                      <TableHead>{t("admin.mobile.user")}</TableHead>
-                      <TableHead>{t("admin.mobile.platform")}</TableHead>
-                      <TableHead>{t("admin.mobile.status")}</TableHead>
-                      <TableHead>{t("admin.mobile.security")}</TableHead>
-                      <TableHead>{t("admin.mobile.last_active")}</TableHead>
-                      <TableHead>{t("admin.mobile.actions")}</TableHead>
+                      <TableHead>{t("admin_mobile_device")}</TableHead>
+                      <TableHead>{t("admin_mobile_user")}</TableHead>
+                      <TableHead>{t("admin_mobile_platform")}</TableHead>
+                      <TableHead>{t("admin_mobile_status")}</TableHead>
+                      <TableHead>{t("admin_mobile_security")}</TableHead>
+                      <TableHead>{t("admin_mobile_last_active")}</TableHead>
+                      <TableHead>{t("admin_mobile_actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -504,8 +504,8 @@ export default function MobileDeviceManagement() {
                             {getDeviceIcon(device.deviceType)}
                             <div>
                               <div className="font-medium">{device.deviceName}</div>
-                              <div className="text-sm text-slate-400">
-                                {device.platform} {device.osVersion}{t("admin.mobile.app_v")}{device.appVersion}
+                              <div className="text-sm text-slate-500 dark:text-slate-400">
+                                {device.platform} {device.osVersion}{t("admin_mobile_app_v")}{device.appVersion}
                               </div>
                             </div>
                           </div>
@@ -513,7 +513,7 @@ export default function MobileDeviceManagement() {
                         <TableCell>
                           <div>
                             <div className="font-medium">{device.userName}</div>
-                            <div className="text-sm text-slate-400">{device.userId}</div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">{device.userId}</div>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -546,7 +546,7 @@ export default function MobileDeviceManagement() {
                         <TableCell>
                           <div className="text-sm">
                             <div>{new Date(device.lastActive).toLocaleDateString()}</div>
-                            <div className="text-slate-400">
+                            <div className="text-slate-500 dark:text-slate-400">
                               {new Date(device.lastActive).toLocaleTimeString()}
                             </div>
                           </div>
@@ -560,19 +560,19 @@ export default function MobileDeviceManagement() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                               <DropdownMenuItem onClick={() => setSelectedDevice(device)}>
-                                <Eye className="w-4 h-4 mr-2" />{t("admin.mobile.view_details")}</DropdownMenuItem>
+                                <Eye className="w-4 h-4 mr-2" />{t("admin_mobile_view_details")}</DropdownMenuItem>
                               <DropdownMenuItem onClick={() => syncDevice()}>
-                                <RefreshCw className="w-4 h-4 mr-2" />{t("admin.mobile.sync_device")}</DropdownMenuItem>
+                                <RefreshCw className="w-4 h-4 mr-2" />{t("admin_mobile_sync_device")}</DropdownMenuItem>
                               <DropdownMenuItem onClick={() => toggleDeviceStatus(device)}>
                                 {device.isActive ? <Ban className="w-4 h-4 mr-2" /> : <CheckCircle className="w-4 h-4 mr-2" />}
-                                {device.isActive ? t("admin.mobile.suspend_access") : t("admin.mobile.activate_access")}
+                                {device.isActive ? t("admin_mobile_suspend_access") : t("admin_mobile_activate_access")}
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => toggleDeviceTrust(device.id)}>
                                 {device.isTrusted ? <Unlock className="w-4 h-4 mr-2" /> : <Lock className="w-4 h-4 mr-2" />}
-                                {device.isTrusted ? t("admin.mobile.revoke_trust") : t("admin.mobile.mark_as_trusted")}
+                                {device.isTrusted ? t("admin_mobile_revoke_trust") : t("admin_mobile_mark_as_trusted")}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="text-red-600" onClick={() => revokeDevice(device)}>
-                                <XCircle className="w-4 h-4 mr-2" />{t("admin.mobile.wipe_device")}
+                                <XCircle className="w-4 h-4 mr-2" />{t("admin_mobile_wipe_device")}
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -587,9 +587,9 @@ export default function MobileDeviceManagement() {
 
           <TabsContent value="policies" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">{t("admin.mobile.device_policies")}</h3>
+              <h3 className="text-lg font-semibold">{t("admin_mobile_device_policies")}</h3>
               <Button>
-                <Plus className="w-4 h-4 mr-2" />{t("admin.mobile.add_policy")}</Button>
+                <Plus className="w-4 h-4 mr-2" />{t("admin_mobile_add_policy")}</Button>
             </div>
 
             <div className="space-y-4">
@@ -604,7 +604,7 @@ export default function MobileDeviceManagement() {
                             {policy.isActive ? "Active" : "Inactive"}
                           </Badge>
                         </div>
-                        <p className="text-sm text-slate-400 mb-3">{policy.description}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{policy.description}</p>
                         <div className="flex flex-wrap gap-2">
                           {policy.platforms.map((platform, index) => <Badge key={index} variant="outline" className="text-xs">
                               {platform}
@@ -626,9 +626,9 @@ export default function MobileDeviceManagement() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
                             <DropdownMenuItem>
-                              <Edit className="w-4 h-4 mr-2" />{t("admin.mobile.edit_policy")}</DropdownMenuItem>
+                              <Edit className="w-4 h-4 mr-2" />{t("admin_mobile_edit_policy")}</DropdownMenuItem>
                             <DropdownMenuItem>
-                              <Eye className="w-4 h-4 mr-2" />{t("admin.mobile.view_settings")}</DropdownMenuItem>
+                              <Eye className="w-4 h-4 mr-2" />{t("admin_mobile_view_settings")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
@@ -642,15 +642,15 @@ export default function MobileDeviceManagement() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>{t("admin.mobile.platform_distribution")}</CardTitle>
-                  <CardDescription>{t("admin.mobile.device_platform_breakdown")}</CardDescription>
+                  <CardTitle>{t("admin_mobile_platform_distribution")}</CardTitle>
+                  <CardDescription>{t("admin_mobile_device_platform_breakdown")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Smartphone className="w-4 h-4 text-slate-600" />
-                        <span>{t("admin.mobile.ios")}</span>
+                        <span>{t("admin_mobile_ios")}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-32 bg-white/5 rounded-full h-2">
@@ -664,7 +664,7 @@ export default function MobileDeviceManagement() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Smartphone className="w-4 h-4 text-green-600" />
-                        <span>{t("admin.mobile.android")}</span>
+                        <span>{t("admin_mobile_android")}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-32 bg-white/5 rounded-full h-2">
@@ -677,8 +677,8 @@ export default function MobileDeviceManagement() {
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Laptop className="w-4 h-4 text-slate-400" />
-                        <span>{t("admin.mobile.desktop")}</span>
+                        <Laptop className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                        <span>{t("admin_mobile_desktop")}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-32 bg-white/5 rounded-full h-2">
@@ -695,29 +695,29 @@ export default function MobileDeviceManagement() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>{t("admin.mobile.security_status")}</CardTitle>
-                  <CardDescription>{t("admin.mobile.device_security_overview")}</CardDescription>
+                  <CardTitle>{t("admin_mobile_security_status")}</CardTitle>
+                  <CardDescription>{t("admin_mobile_device_security_overview")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-green-600" />
-                        <span>{t("admin.mobile.secure")}</span>
+                        <span>{t("admin_mobile_secure")}</span>
                       </div>
                       <Badge className="bg-green-100 text-green-700">{stats.secureDevices}</Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <AlertTriangle className="w-4 h-4 text-yellow-600" />
-                        <span>{t("admin.mobile.warning")}</span>
+                        <span>{t("admin_mobile_warning")}</span>
                       </div>
                       <Badge className="bg-yellow-100 text-yellow-700">{stats.warningDevices}</Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <XCircle className="w-4 h-4 text-red-600" />
-                        <span>{t("admin.mobile.compromised")}</span>
+                        <span>{t("admin_mobile_compromised")}</span>
                       </div>
                       <Badge className="bg-red-100 text-red-700">{stats.compromisedDevices}</Badge>
                     </div>
@@ -733,53 +733,53 @@ export default function MobileDeviceManagement() {
       <Dialog open={!!selectedDevice} onOpenChange={() => setSelectedDevice(null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>{t("admin.mobile.device_details")}</DialogTitle>
-            <DialogDescription>{t("admin.mobile.complete_device_information_and")}</DialogDescription>
+            <DialogTitle>{t("admin_mobile_device_details")}</DialogTitle>
+            <DialogDescription>{t("admin_mobile_complete_device_information_and")}</DialogDescription>
           </DialogHeader>
           {selectedDevice && <div className="py-4 space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.device_name")}</Label>
+                  <Label>{t("admin_mobile_device_name")}</Label>
                   <div className="font-medium">{selectedDevice.deviceName}</div>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.device_type")}</Label>
+                  <Label>{t("admin_mobile_device_type")}</Label>
                   <div className="flex items-center gap-2">
                     {getDeviceIcon(selectedDevice.deviceType)}
                     <span>{selectedDevice.deviceType}</span>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.platform")}</Label>
+                  <Label>{t("admin_mobile_platform")}</Label>
                   <div className="flex items-center gap-2">
                     {getPlatformIcon(selectedDevice.platform)}
                     <span>{selectedDevice.platform} {selectedDevice.osVersion}</span>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.app_version")}</Label>
+                  <Label>{t("admin_mobile_app_version")}</Label>
                   <div className="font-medium">{selectedDevice.appVersion}</div>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.device_id")}</Label>
+                  <Label>{t("admin_mobile_device_id")}</Label>
                   <div className="font-mono text-sm">{selectedDevice.deviceId}</div>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.ip_address")}</Label>
+                  <Label>{t("admin_mobile_ip_address")}</Label>
                   <div className="font-mono text-sm">{selectedDevice.ipAddress}</div>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.network_type")}</Label>
+                  <Label>{t("admin_mobile_network_type")}</Label>
                   <div className="flex items-center gap-2">
                     {getNetworkIcon(selectedDevice.networkType)}
                     <span>{selectedDevice.networkType}</span>
                   </div>
                 </div>
                 {selectedDevice.batteryLevel && <div className="space-y-2">
-                    <Label>{t("admin.mobile.battery_level")}</Label>
+                    <Label>{t("admin_mobile_battery_level")}</Label>
                     <div className="flex items-center gap-2">
                       <Battery className={`w-4 h-4 ${getBatteryColor(selectedDevice.batteryLevel)}`} />
                       <span className={getBatteryColor(selectedDevice.batteryLevel)}>
@@ -788,13 +788,13 @@ export default function MobileDeviceManagement() {
                     </div>
                   </div>}
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.security_status")}</Label>
+                  <Label>{t("admin_mobile_security_status")}</Label>
                   <Badge className={getSecurityColor(selectedDevice.securityStatus)}>
                     {selectedDevice.securityStatus}
                   </Badge>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t("admin.mobile.trust_status")}</Label>
+                  <Label>{t("admin_mobile_trust_status")}</Label>
                   <Badge variant={selectedDevice.isTrusted ? "default" : "secondary"}>
                     {selectedDevice.isTrusted ? "Trusted" : "Untrusted"}
                   </Badge>
@@ -802,7 +802,7 @@ export default function MobileDeviceManagement() {
               </div>
 
               {selectedDevice.location && <div className="space-y-2">
-                  <Label>{t("admin.mobile.last_known_location")}</Label>
+                  <Label>{t("admin_mobile_last_known_location")}</Label>
                   <div className="flex items-center gap-2 p-3 bg-white/5 rounded-lg">
                     <MapPin className="w-4 h-4 text-slate-600" />
                     <span>{selectedDevice.location.address}</span>
@@ -810,7 +810,7 @@ export default function MobileDeviceManagement() {
                 </div>}
 
               <div className="space-y-2">
-                <Label>{t("admin.mobile.permissions")}</Label>
+                <Label>{t("admin_mobile_permissions")}</Label>
                 <div className="flex flex-wrap gap-2">
                   {selectedDevice.permissions.map((permission, index) => <Badge key={index} variant="outline" className="text-xs">
                       {permission}
@@ -819,9 +819,9 @@ export default function MobileDeviceManagement() {
               </div>
             </div>}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setSelectedDevice(null)}>{t("admin.mobile.close")}</Button>
+            <Button variant="outline" onClick={() => setSelectedDevice(null)}>{t("admin_mobile_close")}</Button>
             <Button onClick={() => selectedDevice && syncDevice()}>
-              <RefreshCw className="w-4 h-4 mr-2" />{t("admin.mobile.sync_device")}</Button>
+              <RefreshCw className="w-4 h-4 mr-2" />{t("admin_mobile_sync_device")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

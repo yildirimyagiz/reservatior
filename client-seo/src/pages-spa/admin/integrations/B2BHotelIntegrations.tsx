@@ -66,10 +66,10 @@ export default function B2BHotelIntegrations() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex justify-between items-center">
+      <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10 flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">B2B Otel Toptancıları (Aggregator)</h1>
-          <p className="text-slate-400 mt-2">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">B2B Otel Toptancıları (Aggregator)</h1>
+          <p className="text-slate-500 dark:text-slate-400 mt-2">
             Türkiye ve globaldeki otel envanterlerini sisteme dahil etmek için B2B API bağlantılarını yapılandırın.
           </p>
         </div>
@@ -96,15 +96,15 @@ export default function B2BHotelIntegrations() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {integrations.map((integration) => (
-          <Card key={integration.id} className={`bg-white/5 border-white/10 ${integration.enabled ? "border-slate-500/50 shadow-[0_0_15px_rgba(59,130,246,0.1)]" : "opacity-70"}`}>
+          <Card key={integration.id} className={`bg-white/5 border-slate-200 dark:border-white/10 ${integration.enabled ? "border-slate-500/50 shadow-[0_0_15px_rgba(59,130,246,0.1)]" : "opacity-70"}`}>
             <CardHeader className="flex flex-row justify-between items-start pb-2">
               <div className="flex gap-3 items-center">
                 <div className="p-2 bg-white/5 rounded-lg">
-                  <Globe className={integration.enabled ? "w-6 h-6 text-slate-500" : "w-6 h-6 text-slate-400"} />
+                  <Globe className={integration.enabled ? "w-6 h-6 text-slate-500" : "w-6 h-6 text-slate-500 dark:text-slate-400"} />
                 </div>
                 <div>
-                  <CardTitle className="text-lg text-white">{integration.name}</CardTitle>
-                  <CardDescription className="flex items-center gap-2 mt-1 text-slate-400">
+                  <CardTitle className="text-lg text-slate-900 dark:text-white">{integration.name}</CardTitle>
+                  <CardDescription className="flex items-center gap-2 mt-1 text-slate-500 dark:text-slate-400">
                     <Server className="w-3 h-3" /> Son Eşitleme: {integration.lastSync}
                   </CardDescription>
                 </div>
@@ -116,7 +116,7 @@ export default function B2BHotelIntegrations() {
             </CardHeader>
             <CardContent className="space-y-4 pt-4">
               <div className="space-y-2">
-                <Label className="flex items-center gap-2 text-xs text-slate-400 uppercase tracking-widest">
+                <Label className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest">
                   <Key className="w-3 h-3" /> API Key
                 </Label>
                 <Input
@@ -126,11 +126,11 @@ export default function B2BHotelIntegrations() {
                   ))}
                   disabled={!integration.enabled}
                   placeholder="Enter API Key"
-                  className="bg-white/5 border-white/10 text-white"
+                  className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
                 />
               </div>
               <div className="space-y-2">
-                <Label className="flex items-center gap-2 text-xs text-slate-400 uppercase tracking-widest">
+                <Label className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest">
                   <Key className="w-3 h-3" /> API Secret
                 </Label>
                 <Input
@@ -141,11 +141,11 @@ export default function B2BHotelIntegrations() {
                   ))}
                   disabled={!integration.enabled}
                   placeholder="Enter API Secret"
-                  className="bg-white/5 border-white/10 text-white"
+                  className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
                 />
               </div>
               <div className="space-y-2">
-                <Label className="flex items-center gap-2 text-xs text-slate-400 uppercase tracking-widest font-bold">
+                <Label className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest font-bold">
                   <Percent className="w-3 h-3" /> Kâr Marjı (Markup) %
                 </Label>
                 <div className="flex gap-2 items-center">
@@ -156,9 +156,9 @@ export default function B2BHotelIntegrations() {
                       inv.id === integration.id ? { ...inv, markup: Number(e.target.value) || 0 } : inv
                     ))}
                     disabled={!integration.enabled}
-                    className="bg-slate-500/10 border-slate-500/30 text-slate-400 font-bold"
+                    className="bg-slate-500/10 border-slate-500/30 text-slate-500 dark:text-slate-400 font-bold"
                   />
-                  <span className="text-sm text-slate-400 whitespace-nowrap">
+                  <span className="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
                     Net fiyata eklenecek marj
                   </span>
                 </div>

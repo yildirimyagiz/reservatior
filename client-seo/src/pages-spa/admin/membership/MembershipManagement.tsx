@@ -69,17 +69,17 @@ const MOCK_TIERS: MembershipTier[] = [{
   id: "tier_basic", name: "Basic", price: 29.99, currency: "USD", billingCycle: "MONTHLY",
   features: ["Up to 10 properties", "Basic analytics", "Email support", "Mobile app access"],
   isActive: true, maxProperties: 10, maxUsers: 3, supportLevel: "BASIC",
-  color: "bg-white/10/10 text-slate-400 border-gray-500/20", icon: "Users"
+  color: "bg-white/10/10 text-slate-500 dark:text-slate-400 border-gray-500/20", icon: "Users"
 }, {
   id: "tier_standard", name: "Standard", price: 79.99, currency: "USD", billingCycle: "MONTHLY",
   features: ["Up to 50 properties", "Advanced analytics", "Priority support", "API access", "Custom branding"],
   isActive: true, maxProperties: 50, maxUsers: 10, supportLevel: "STANDARD",
-  color: "bg-slate-500/10 text-slate-400 border-slate-500/20", icon: "Star"
+  color: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20", icon: "Star"
 }, {
   id: "tier_premium", name: "Premium", price: 199.99, currency: "USD", billingCycle: "MONTHLY",
   features: ["Unlimited properties", "AI-powered analytics", "Dedicated support", "White-label options", "Advanced integrations"],
   isActive: true, maxProperties: -1, maxUsers: -1, supportLevel: "PREMIUM",
-  color: "bg-slate-500/10 text-slate-400 border-slate-500/20", icon: "Crown"
+  color: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20", icon: "Crown"
 }, {
   id: "tier_enterprise", name: "Enterprise", price: 499.99, currency: "USD", billingCycle: "MONTHLY",
   features: ["Everything in Premium", "Custom development", "On-premise deployment", "SLA guarantee", "Dedicated account manager"],
@@ -183,10 +183,10 @@ export default function MembershipManagement() {
           m.id === memberId ? { ...m, membershipTier: newTierId, status: 'ACTIVE' as const } : m
         ),
       }));
-      toast({ title: t("admin.membership.membership_upgraded"), description: t("admin.membership.member_has_been_upgraded") });
+      toast({ title: t("admin_membership_membership_upgraded"), description: t("admin_membership_member_has_been_upgraded") });
     },
     onError: () => {
-      toast({ title: t("admin.membership.upgrade_failed"), description: t("admin.membership.failed_to_upgrade_membership"), variant: "destructive" });
+      toast({ title: t("admin_membership_upgrade_failed"), description: t("admin_membership_failed_to_upgrade_membership"), variant: "destructive" });
     }
   });
 
@@ -202,10 +202,10 @@ export default function MembershipManagement() {
           m.id === memberId ? { ...m, status: 'ACTIVE' as const, endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() } : m
         ),
       }));
-      toast({ title: t("admin.membership.membership_renewed"), description: t("admin.membership.membership_has_been_renewed") });
+      toast({ title: t("admin_membership_membership_renewed"), description: t("admin_membership_membership_has_been_renewed") });
     },
     onError: () => {
-      toast({ title: t("admin.membership.renewal_failed"), description: t("admin.membership.failed_to_renew_membership"), variant: "destructive" });
+      toast({ title: t("admin_membership_renewal_failed"), description: t("admin_membership_failed_to_renew_membership"), variant: "destructive" });
     }
   });
 
@@ -221,10 +221,10 @@ export default function MembershipManagement() {
           m.id === memberId ? { ...m, status: 'CANCELLED' as const, autoRenew: false } : m
         ),
       }));
-      toast({ title: t("admin.membership.membership_cancelled"), description: t("admin.membership.membership_has_been_cancelled") });
+      toast({ title: t("admin_membership_membership_cancelled"), description: t("admin_membership_membership_has_been_cancelled") });
     },
     onError: () => {
-      toast({ title: t("admin.membership.cancellation_failed"), description: t("admin.membership.failed_to_cancel_membership"), variant: "destructive" });
+      toast({ title: t("admin_membership_cancellation_failed"), description: t("admin_membership_failed_to_cancel_membership"), variant: "destructive" });
     }
   });
 
@@ -235,11 +235,11 @@ export default function MembershipManagement() {
       case 'EXPIRED':
         return 'bg-red-500/10 text-red-400 border-red-500/20';
       case 'CANCELLED':
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20';
       case 'SUSPENDED':
         return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
       default:
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20';
     }
   };
 
@@ -281,35 +281,35 @@ export default function MembershipManagement() {
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+      <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">{t('membershipTitle')}</h1>
-          <p className="text-sm text-slate-400 mt-1">{t('membershipDescription')}</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t('membershipTitle')}</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('membershipDescription')}</p>
         </div>
         <div className="flex items-center gap-4">
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-slate-600 hover:bg-slate-500 text-white font-bold text-xs">
+              <Button className="bg-slate-600 hover:bg-slate-500 text-slate-900 dark:text-white font-bold text-xs">
                 <Plus className="w-4 h-4 mr-2" />{t('addMember')}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-white/5 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[425px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>Create New Membership</DialogTitle>
-                <DialogDescription className="text-slate-400">Enter the details for the new membership.</DialogDescription>
+                <DialogDescription className="text-slate-500 dark:text-slate-400">Enter the details for the new membership.</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="userId" className="text-right text-xs text-slate-400">User ID</Label>
-                  <Input id="userId" className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={formData.userId} onChange={e => setFormData({ ...formData, userId: e.target.value })} placeholder="Enter user id" />
+                  <Label htmlFor="userId" className="text-right text-xs text-slate-500 dark:text-slate-400">User ID</Label>
+                  <Input id="userId" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.userId} onChange={e => setFormData({ ...formData, userId: e.target.value })} placeholder="Enter user id" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="planId" className="text-right text-xs text-slate-400">Plan ID</Label>
-                  <Input id="planId" className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={formData.planId} onChange={e => setFormData({ ...formData, planId: e.target.value })} placeholder="Enter plan id" />
+                  <Label htmlFor="planId" className="text-right text-xs text-slate-500 dark:text-slate-400">Plan ID</Label>
+                  <Input id="planId" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.planId} onChange={e => setFormData({ ...formData, planId: e.target.value })} placeholder="Enter plan id" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="status" className="text-right text-xs text-slate-400">Status</Label>
-                  <Input id="status" className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
+                  <Label htmlFor="status" className="text-right text-xs text-slate-500 dark:text-slate-400">Status</Label>
+                  <Input id="status" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
                 </div>
               </div>
               <DialogFooter>
@@ -325,40 +325,40 @@ export default function MembershipManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center"><Users className="w-5 h-5 text-emerald-400" /></div>
-            <div><p className="text-[10px] font-bold text-slate-400">{t('activeMembers')}</p><p className="text-2xl font-bold text-white">{activeMembers}</p></div>
+            <div><p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('activeMembers')}</p><p className="text-2xl font-bold text-slate-900 dark:text-white">{activeMembers}</p></div>
           </div>
         </Card>
-        <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center"><DollarSign className="w-5 h-5 text-slate-400" /></div>
-            <div><p className="text-[10px] font-bold text-slate-400">{t('monthlyRevenue')}</p><p className="text-2xl font-bold text-white">${totalRevenue.toLocaleString()}</p></div>
+            <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center"><DollarSign className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
+            <div><p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('monthlyRevenue')}</p><p className="text-2xl font-bold text-slate-900 dark:text-white">${totalRevenue.toLocaleString()}</p></div>
           </div>
         </Card>
-        <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center"><TrendingUp className="w-5 h-5 text-slate-400" /></div>
-            <div><p className="text-[10px] font-bold text-slate-400">{t('expiredMembers')}</p><p className="text-2xl font-bold text-white">{expiredMembers}</p></div>
+            <div className="w-10 h-10 rounded-xl bg-slate-500/20 flex items-center justify-center"><TrendingUp className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
+            <div><p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('expiredMembers')}</p><p className="text-2xl font-bold text-slate-900 dark:text-white">{expiredMembers}</p></div>
           </div>
         </Card>
-        <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center"><Gift className="w-5 h-5 text-orange-400" /></div>
-            <div><p className="text-[10px] font-bold text-slate-400">{t('avgMemberValue')}</p><p className="text-2xl font-bold text-white">${activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(0) : '0'}</p></div>
+            <div><p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('avgMemberValue')}</p><p className="text-2xl font-bold text-slate-900 dark:text-white">${activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(0) : '0'}</p></div>
           </div>
         </Card>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex space-x-1 border-b border-white/10">
+      <div className="flex space-x-1 border-b border-slate-200 dark:border-white/10">
         {[{ id: 'members', label: t('members'), icon: <Users className="w-4 h-4" /> },
           { id: 'tiers', label: t('tiers'), icon: <Crown className="w-4 h-4" /> },
           { id: 'features', label: t('membership'), icon: <Star className="w-4 h-4" /> },
           { id: 'analytics', label: t('membershipAnalytics'), icon: <TrendingUp className="w-4 h-4" /> }
         ].map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ? "text-white border-slate-500" : "text-slate-400 border-transparent hover:text-white")}>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ? "text-slate-900 dark:text-white border-slate-500" : "text-slate-500 dark:text-slate-400 border-transparent hover:text-white")}>
             <div className="flex items-center gap-2">{tab.icon}{tab.label}</div>
           </button>
         ))}
@@ -369,26 +369,26 @@ export default function MembershipManagement() {
         {/* Members Tab */}
         {activeTab === 'members' && (
           <div className="space-y-6">
-            <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-white">{t("admin.membership.filters")}</CardTitle>
+                <CardTitle className="text-lg font-bold text-slate-900 dark:text-white">{t("admin_membership_filters")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="search" className="text-[10px] font-bold text-slate-400">{t("admin.membership.search")}</Label>
-                    <Input id="search" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder={t("admin.membership.search_by_name_or")} className="bg-white/5 border-white/10 text-white" />
+                    <Label htmlFor="search" className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t("admin_membership_search")}</Label>
+                    <Input id="search" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder={t("admin_membership_search_by_name_or")} className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="tier" className="text-[10px] font-bold text-slate-400">{t("admin.membership.membership_tier")}</Label>
+                    <Label htmlFor="tier" className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t("admin_membership_membership_tier")}</Label>
                     <Select value={tierFilter} onValueChange={value => setTierFilter(value)}>
-                      <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue placeholder={t("admin.membership.all_tiers")} /></SelectTrigger>
-                      <SelectContent className="bg-white/5 border-white/10 text-white">
-                        <SelectItem value="ALL">{t("admin.membership.all_tiers")}</SelectItem>
-                        <SelectItem value="tier_basic">{t("admin.membership.basic")}</SelectItem>
-                        <SelectItem value="tier_standard">{t("admin.membership.standard")}</SelectItem>
-                        <SelectItem value="tier_premium">{t("admin.membership.premium")}</SelectItem>
-                        <SelectItem value="tier_enterprise">{t("admin.membership.enterprise")}</SelectItem>
+                      <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"><SelectValue placeholder={t("admin_membership_all_tiers")} /></SelectTrigger>
+                      <SelectContent className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                        <SelectItem value="ALL">{t("admin_membership_all_tiers")}</SelectItem>
+                        <SelectItem value="tier_basic">{t("admin_membership_basic")}</SelectItem>
+                        <SelectItem value="tier_standard">{t("admin_membership_standard")}</SelectItem>
+                        <SelectItem value="tier_premium">{t("admin_membership_premium")}</SelectItem>
+                        <SelectItem value="tier_enterprise">{t("admin_membership_enterprise")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -396,24 +396,24 @@ export default function MembershipManagement() {
               </CardContent>
             </Card>
 
-            <Card className="bg-white/5 border-white/10 rounded-3xl p-8">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                  <Users className="w-5 h-5 text-emerald-500" />{t("admin.membership.members")} ({filteredMembers.length})
+                <CardTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Users className="w-5 h-5 text-emerald-500" />{t("admin_membership_members")} ({filteredMembers.length})
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {filteredMembers.map(member => (
-                    <motion.div key={member.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <motion.div key={member.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/5 rounded-2xl p-4 border border-slate-200 dark:border-white/10">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3 relative">
                           <Image src={member.avatar} alt={member.name} width={48} height={48} className="rounded-full" />
                           <div>
-                            <h4 className="text-sm font-bold text-white">{member.name}</h4>
-                            <p className="text-xs text-slate-400">{member.email}</p>
-                            <p className="text-xs text-slate-400">{member.phone}</p>
-                            <p className="text-xs text-slate-400">{member.propertiesCount}{t("admin.membership.properties")}</p>
+                            <h4 className="text-sm font-bold text-slate-900 dark:text-white">{member.name}</h4>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{member.email}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{member.phone}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">{member.propertiesCount}{t("admin_membership_properties")}</p>
                           </div>
                         </div>
                         <div className="text-right">
@@ -422,30 +422,30 @@ export default function MembershipManagement() {
                       </div>
                       <div className="grid grid-cols-2 gap-4 mt-3 text-xs">
                         <div>
-                          <p className="text-slate-400">{t("admin.membership.tier")}{member.membershipTierName}</p>
-                          <p className="text-slate-400">{t("admin.membership.start")}{new Date(member.startDate).toLocaleDateString()}</p>
-                          <p className="text-slate-400">{t("admin.membership.end")}{new Date(member.endDate).toLocaleDateString()}</p>
+                          <p className="text-slate-500 dark:text-slate-400">{t("admin_membership_tier")}{member.membershipTierName}</p>
+                          <p className="text-slate-500 dark:text-slate-400">{t("admin_membership_start")}{new Date(member.startDate).toLocaleDateString()}</p>
+                          <p className="text-slate-500 dark:text-slate-400">{t("admin_membership_end")}{new Date(member.endDate).toLocaleDateString()}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-slate-400">{t("admin.membership.total_spent")}${(member.totalSpent || 0).toFixed(2)}</p>
-                          <p className="text-slate-400">{t("admin.membership.next_billing")}{member.nextBillingDate ? new Date(member.nextBillingDate).toLocaleDateString() : 'N/A'}</p>
+                          <p className="text-slate-500 dark:text-slate-400">{t("admin_membership_total_spent")}${(member.totalSpent || 0).toFixed(2)}</p>
+                          <p className="text-slate-500 dark:text-slate-400">{t("admin_membership_next_billing")}{member.nextBillingDate ? new Date(member.nextBillingDate).toLocaleDateString() : 'N/A'}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 mt-3">
                         {member.status === 'EXPIRED' && (
                           <Button size="sm" onClick={() => renewMutation.mutate(member.id)} disabled={renewMutation.isPending}>
-                            <CreditCard className="w-3 h-3 mr-1" />{t("admin.membership.renew")}
+                            <CreditCard className="w-3 h-3 mr-1" />{t("admin_membership_renew")}
                           </Button>
                         )}
                         {member.status === 'ACTIVE' && (
                           <Button size="sm" variant="outline" onClick={() => upgradeMutation.mutate({ memberId: member.id, newTierId: 'tier_premium' })} disabled={upgradeMutation.isPending}>
-                            <Zap className="w-3 h-3 mr-1" />{t("admin.membership.upgrade")}
+                            <Zap className="w-3 h-3 mr-1" />{t("admin_membership_upgrade")}
                           </Button>
                         )}
-                        <Button size="sm" variant="outline"><Eye className="w-3 h-3 mr-1" />{t("admin.membership.view_details")}</Button>
-                        <Button size="sm" variant="outline"><Mail className="w-3 h-3 mr-1" />{t("admin.membership.contact")}</Button>
+                        <Button size="sm" variant="outline"><Eye className="w-3 h-3 mr-1" />{t("admin_membership_view_details")}</Button>
+                        <Button size="sm" variant="outline"><Mail className="w-3 h-3 mr-1" />{t("admin_membership_contact")}</Button>
                         <Button size="sm" variant="outline" onClick={() => cancelMutation.mutate(member.id)} disabled={cancelMutation.isPending}>
-                          <Trash2 className="w-3 h-3 mr-1" />{t("admin.membership.cancel")}
+                          <Trash2 className="w-3 h-3 mr-1" />{t("admin_membership_cancel")}
                         </Button>
                       </div>
                     </motion.div>
@@ -459,47 +459,47 @@ export default function MembershipManagement() {
         {/* Tiers Tab */}
         {activeTab === 'tiers' && (
           <div className="space-y-6">
-            <Card className="bg-white/5 border-white/10 rounded-3xl p-8">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                  <Crown className="w-5 h-5 text-slate-500" />{t("admin.membership.membership_tiers")}
+                <CardTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Crown className="w-5 h-5 text-slate-500" />{t("admin_membership_membership_tiers")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {tiers.map(tier => (
-                    <motion.div key={tier.id} whileHover={{ scale: 1.02 }} className={cn("bg-white/5 rounded-2xl p-6 border border-white/10", tier.color)}>
+                    <motion.div key={tier.id} whileHover={{ scale: 1.02 }} className={cn("bg-white/5 rounded-2xl p-6 border border-slate-200 dark:border-white/10", tier.color)}>
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
                           {getTierIcon(tier.icon)}
                           <div>
-                            <h3 className="text-lg font-bold text-white">{tier.name}</h3>
-                            <p className="text-xs text-slate-400 capitalize">{tier.billingCycle.toLowerCase()}</p>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{tier.name}</h3>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{tier.billingCycle.toLowerCase()}</p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <Badge className={cn("text-[9px] font-bold px-2", tier.isActive ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/20" : "bg-slate-500/20 text-slate-400 border-slate-500/20")}>
+                          <Badge className={cn("text-[9px] font-bold px-2", tier.isActive ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/20" : "bg-slate-500/20 text-slate-500 dark:text-slate-400 border-slate-500/20")}>
                             {tier.isActive ? "ACTIVE" : "INACTIVE"}
                           </Badge>
                         </div>
                       </div>
-                      <div className="text-2xl font-bold text-white mb-4">
+                      <div className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
                         ${tier.price.toFixed(2)}/{tier.billingCycle === 'MONTHLY' ? 'mo' : 'yr'}
                       </div>
                       <div className="space-y-2">
-                        <ul className="text-sm text-slate-400">
+                        <ul className="text-sm text-slate-500 dark:text-slate-400">
                           {tier.features.map((feature, index) => (
                             <li key={index} className="flex items-center gap-2"><CheckCircle className="w-3 h-3 text-emerald-400" /><span>{feature}</span></li>
                           ))}
                         </ul>
                       </div>
-                      <div className="grid grid-cols-2 gap-4 text-xs text-slate-400">
+                      <div className="grid grid-cols-2 gap-4 text-xs text-slate-500 dark:text-slate-400">
                         <div>
-                          <p>{t("admin.membership.max_properties")}{tier.maxProperties === -1 ? 'Unlimited' : tier.maxProperties}</p>
-                          <p>{t("admin.membership.max_users")}{tier.maxUsers === -1 ? 'Unlimited' : tier.maxUsers}</p>
+                          <p>{t("admin_membership_max_properties")}{tier.maxProperties === -1 ? 'Unlimited' : tier.maxProperties}</p>
+                          <p>{t("admin_membership_max_users")}{tier.maxUsers === -1 ? 'Unlimited' : tier.maxUsers}</p>
                         </div>
                         <div className="text-right">
-                          <p>{t("admin.membership.support")}{tier.supportLevel}</p>
+                          <p>{t("admin_membership_support")}{tier.supportLevel}</p>
                         </div>
                       </div>
                     </motion.div>
@@ -513,24 +513,24 @@ export default function MembershipManagement() {
         {/* Features Tab */}
         {activeTab === 'features' && (
           <div className="space-y-6">
-            <Card className="bg-white/5 border-white/10 rounded-3xl p-8">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-8">
               <CardHeader>
-                <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-500" />{t("admin.membership.membership_features")}
+                <CardTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-500" />{t("admin_membership_membership_features")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {features.map(feature => (
-                    <motion.div key={feature.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <motion.div key={feature.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/5 rounded-2xl p-4 border border-slate-200 dark:border-white/10">
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
-                          <h4 className="text-sm font-bold text-white">{feature.name}</h4>
-                          <p className="text-xs text-slate-400">{feature.description}</p>
-                          <p className="text-xs text-slate-400">{t("admin.membership.available_for")}{feature.tier}</p>
+                          <h4 className="text-sm font-bold text-slate-900 dark:text-white">{feature.name}</h4>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{feature.description}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_membership_available_for")}{feature.tier}</p>
                         </div>
                         <div className="text-right">
-                          <Badge className={cn("text-[9px] font-bold px-2", feature.isActive ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/20" : "bg-slate-500/20 text-slate-400 border-slate-500/20")}>
+                          <Badge className={cn("text-[9px] font-bold px-2", feature.isActive ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/20" : "bg-slate-500/20 text-slate-500 dark:text-slate-400 border-slate-500/20")}>
                             {feature.isActive ? "ACTIVE" : "INACTIVE"}
                           </Badge>
                         </div>
@@ -538,8 +538,8 @@ export default function MembershipManagement() {
                       {feature.usageLimit && (
                         <div className="mt-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-slate-400">{t("admin.membership.usage")}</span>
-                            <span className="text-white">{feature.currentUsage || 0} / {feature.usageLimit}</span>
+                            <span className="text-slate-500 dark:text-slate-400">{t("admin_membership_usage")}</span>
+                            <span className="text-slate-900 dark:text-white">{feature.currentUsage || 0} / {feature.usageLimit}</span>
                           </div>
                           <Progress value={feature.currentUsage ? feature.currentUsage / feature.usageLimit * 100 : 0} className="h-2 bg-white/5" />
                         </div>
@@ -556,39 +556,39 @@ export default function MembershipManagement() {
         {activeTab === 'analytics' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+              <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
                 <CardHeader>
-                  <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-emerald-500" />{t("admin.membership.revenue_analytics")}
+                  <CardTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5 text-emerald-500" />{t("admin_membership_revenue_analytics")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="text-center">
-                    <div className="text-xl font-bold text-white">${totalRevenue.toLocaleString()}</div>
-                    <p className="text-sm text-slate-400">{t("admin.membership.total_revenue")}</p>
+                    <div className="text-xl font-bold text-slate-900 dark:text-white">${totalRevenue.toLocaleString()}</div>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{t("admin_membership_total_revenue")}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div><p className="text-slate-400">{t("admin.membership.monthly_revenue")}</p><p className="text-lg font-bold text-white">${(totalRevenue / 12).toFixed(2)}</p></div>
-                    <div><p className="text-slate-400">{t("admin.membership.average_revenuemember")}</p><p className="text-lg font-bold text-white">${activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(2) : '0'}</p></div>
+                    <div><p className="text-slate-500 dark:text-slate-400">{t("admin_membership_monthly_revenue")}</p><p className="text-lg font-bold text-slate-900 dark:text-white">${(totalRevenue / 12).toFixed(2)}</p></div>
+                    <div><p className="text-slate-500 dark:text-slate-400">{t("admin_membership_average_revenuemember")}</p><p className="text-lg font-bold text-slate-900 dark:text-white">${activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(2) : '0'}</p></div>
                   </div>
                   <div className="mt-4">
-                    <p className="text-sm text-slate-400">{t("admin.membership.growth_rate")}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{t("admin_membership_growth_rate")}</p>
                     <div className="text-2xl font-bold text-emerald-400">+15.3%</div>
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-white/5 border-white/10 rounded-3xl p-6">
+              <Card className="bg-white/5 border-slate-200 dark:border-white/10 rounded-3xl p-6">
                 <CardHeader>
-                  <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                    <Users className="w-5 h-5 text-slate-500" />{t("admin.membership.member_analytics")}
+                  <CardTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <Users className="w-5 h-5 text-slate-500" />{t("admin_membership_member_analytics")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div><p className="text-slate-400">{t("admin.membership.active_members")}</p><p className="text-lg font-bold text-white">{activeMembers}</p></div>
-                    <div><p className="text-slate-400">{t("admin.membership.expired_members")}</p><p className="text-lg font-bold text-white">{expiredMembers}</p></div>
-                    <div><p className="text-slate-400">{t("admin.membership.churn_rate")}</p><p className="text-lg font-bold text-orange-400">{activeMembers > 0 ? (expiredMembers / activeMembers * 100).toFixed(1) : '0'}%</p></div>
-                    <div><p className="text-slate-400">{t("admin.membership.retention_rate")}</p><p className="text-lg font-bold text-emerald-400">{activeMembers > 0 ? ((activeMembers - expiredMembers) / activeMembers * 100).toFixed(1) : '0'}%</p></div>
+                    <div><p className="text-slate-500 dark:text-slate-400">{t("admin_membership_active_members")}</p><p className="text-lg font-bold text-slate-900 dark:text-white">{activeMembers}</p></div>
+                    <div><p className="text-slate-500 dark:text-slate-400">{t("admin_membership_expired_members")}</p><p className="text-lg font-bold text-slate-900 dark:text-white">{expiredMembers}</p></div>
+                    <div><p className="text-slate-500 dark:text-slate-400">{t("admin_membership_churn_rate")}</p><p className="text-lg font-bold text-orange-400">{activeMembers > 0 ? (expiredMembers / activeMembers * 100).toFixed(1) : '0'}%</p></div>
+                    <div><p className="text-slate-500 dark:text-slate-400">{t("admin_membership_retention_rate")}</p><p className="text-lg font-bold text-emerald-400">{activeMembers > 0 ? ((activeMembers - expiredMembers) / activeMembers * 100).toFixed(1) : '0'}%</p></div>
                   </div>
                 </CardContent>
               </Card>

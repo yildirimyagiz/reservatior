@@ -91,79 +91,79 @@ enum ExportStatus {
 }
 const EXPORT_TYPE_CONFIG = {
   USERS: {
-    label: t("admin.integrations.users"),
+    label: t("admin_integrations_users"),
     icon: Users,
     color: "bg-slate-100 text-slate-700"
   },
   PROPERTIES: {
-    label: t("admin.integrations.properties"),
+    label: t("admin_integrations_properties"),
     icon: Building2,
     color: "bg-green-100 text-green-700"
   },
   LISTINGS: {
-    label: t("admin.integrations.listings"),
+    label: t("admin_integrations_listings"),
     icon: Home,
     color: "bg-slate-100 text-slate-700"
   },
   CONTRACTS: {
-    label: t("admin.integrations.contracts"),
+    label: t("admin_integrations_contracts"),
     icon: FileText,
     color: "bg-orange-100 text-orange-700"
   },
   PAYMENTS: {
-    label: t("admin.integrations.payments"),
+    label: t("admin_integrations_payments"),
     icon: Database,
     color: "bg-red-100 text-red-700"
   },
   REPORTS: {
-    label: t("admin.integrations.reports"),
+    label: t("admin_integrations_reports"),
     icon: FileText,
     color: "bg-slate-100 text-slate-700"
   },
   AUDIT_LOGS: {
-    label: t("admin.integrations.audit_logs"),
+    label: t("admin_integrations_audit_logs"),
     icon: Settings,
     color: "bg-white/5 text-slate-300"
   },
   FINANCIAL_DATA: {
-    label: t("admin.integrations.financial_data"),
+    label: t("admin_integrations_financial_data"),
     icon: Database,
     color: "bg-emerald-100 text-emerald-700"
   },
   CUSTOM: {
-    label: t("admin.integrations.custom"),
+    label: t("admin_integrations_custom"),
     icon: Settings,
     color: "bg-pink-100 text-pink-700"
   }
 };
 const STATUS_CONFIG = {
   PENDING: {
-    label: t("admin.integrations.pending"),
+    label: t("admin_integrations_pending"),
     color: "bg-yellow-100 text-yellow-700",
     icon: Clock
   },
   RUNNING: {
-    label: t("admin.integrations.running"),
+    label: t("admin_integrations_running"),
     color: "bg-slate-100 text-slate-700",
     icon: Play
   },
   COMPLETED: {
-    label: t("admin.integrations.completed"),
+    label: t("admin_integrations_completed"),
     color: "bg-green-100 text-green-700",
     icon: CheckCircle
   },
   FAILED: {
-    label: t("admin.integrations.failed"),
+    label: t("admin_integrations_failed"),
     color: "bg-red-100 text-red-700",
     icon: XCircle
   },
   CANCELLED: {
-    label: t("admin.integrations.cancelled"),
+    label: t("admin_integrations_cancelled"),
     color: "bg-white/5 text-slate-300",
     icon: XCircle
   },
   EXPIRED: {
-    label: t("admin.integrations.expired"),
+    label: t("admin_integrations_expired"),
     color: "bg-orange-100 text-orange-700",
     icon: AlertTriangle
   }
@@ -198,8 +198,8 @@ export default function ExportJobs() {
       } catch (error) {
         console.error('Error fetching export jobs:', error);
         toast({
-          title: t("admin.integrations.error"),
-          description: t("admin.integrations.failed_to_load_export"),
+          title: t("admin_integrations_error"),
+          description: t("admin_integrations_failed_to_load_export"),
           variant: "destructive"
         });
       } finally {
@@ -223,8 +223,8 @@ export default function ExportJobs() {
       await apiClient.post('/export-jobs', data);
       setCreateOpen(false);
       toast({
-        title: t("admin.integrations.export_job_created"),
-        description: t("admin.integrations.new_export_job_has")
+        title: t("admin_integrations_export_job_created"),
+        description: t("admin_integrations_new_export_job_has")
       });
       // Refresh data
       const response = await apiClient.get('/export-jobs', {
@@ -234,8 +234,8 @@ export default function ExportJobs() {
     } catch (error) {
       console.error('Error creating export job:', error);
       toast({
-        title: t("admin.integrations.error"),
-        description: t("admin.integrations.failed_to_create_export"),
+        title: t("admin_integrations_error"),
+        description: t("admin_integrations_failed_to_create_export"),
         variant: "destructive"
       });
     }
@@ -249,8 +249,8 @@ export default function ExportJobs() {
         startedAt: new Date().toISOString()
       } : job));
       toast({
-        title: t("admin.integrations.job_started"),
-        description: t("admin.integrations.export_job_has_been")
+        title: t("admin_integrations_job_started"),
+        description: t("admin_integrations_export_job_has_been")
       });
     } catch (error) {
       console.error('Error starting job:', error);
@@ -264,8 +264,8 @@ export default function ExportJobs() {
         status: ExportStatus.PENDING
       } : job));
       toast({
-        title: t("admin.integrations.job_paused"),
-        description: t("admin.integrations.export_job_has_been")
+        title: t("admin_integrations_job_paused"),
+        description: t("admin_integrations_export_job_has_been")
       });
     } catch (error) {
       console.error('Error pausing job:', error);
@@ -279,8 +279,8 @@ export default function ExportJobs() {
         status: ExportStatus.CANCELLED
       } : job));
       toast({
-        title: t("admin.integrations.job_cancelled"),
-        description: t("admin.integrations.export_job_has_been")
+        title: t("admin_integrations_job_cancelled"),
+        description: t("admin_integrations_export_job_has_been")
       });
     } catch (error) {
       console.error('Error cancelling job:', error);
@@ -291,8 +291,8 @@ export default function ExportJobs() {
       await apiClient.delete(`/export-jobs/${id}`);
       setJobs(jobs.filter(job => job.id !== id));
       toast({
-        title: t("admin.integrations.job_deleted"),
-        description: t("admin.integrations.export_job_has_been")
+        title: t("admin_integrations_job_deleted"),
+        description: t("admin_integrations_export_job_has_been")
       });
     } catch (error) {
       console.error('Error deleting job:', error);
@@ -321,8 +321,8 @@ export default function ExportJobs() {
     } catch (error) {
       console.error('Error downloading result:', error);
       toast({
-        title: t("admin.integrations.download_failed"),
-        description: t("admin.integrations.failed_to_download_export"),
+        title: t("admin_integrations_download_failed"),
+        description: t("admin_integrations_failed_to_download_export"),
         variant: "destructive"
       });
     }
@@ -356,51 +356,51 @@ export default function ExportJobs() {
       color: "bg-white/5 text-slate-300"
     };
   };
-  return <PageShell title={t("admin.integrations.export_jobs")} description={t("admin.integrations.manage_data_export_jobs")}>
+  return <PageShell title={t("admin_integrations_export_jobs")} description={t("admin_integrations_manage_data_export_jobs")}>
       <div className="space-y-6">
         {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.integrations.total_jobs")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_integrations_total_jobs")}</CardTitle>
               <FileDown className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalJobs}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.integrations.all_export_jobs")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_integrations_all_export_jobs")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.integrations.running")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_integrations_running")}</CardTitle>
               <Play className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{runningJobs}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.integrations.currently_processing")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_integrations_currently_processing")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.integrations.completed")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_integrations_completed")}</CardTitle>
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{completedJobs}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.integrations.successfully_exported")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_integrations_successfully_exported")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.integrations.failed")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_integrations_failed")}</CardTitle>
               <XCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">{failedJobs}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.integrations.need_attention")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_integrations_need_attention")}</p>
             </CardContent>
           </Card>
         </div>
@@ -409,15 +409,15 @@ export default function ExportJobs() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
-              <Input placeholder={t("admin.integrations.search_jobs")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-8 w-64" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
+              <Input placeholder={t("admin_integrations_search_jobs")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("admin.integrations.type")} />
+                <SelectValue placeholder={t("admin_integrations_type")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.integrations.all_types")}</SelectItem>
+                <SelectItem value="all">{t("admin_integrations_all_types")}</SelectItem>
                 {Object.entries(EXPORT_TYPE_CONFIG).map(([key, config]) => <SelectItem key={key} value={key}>
                     {config.label}
                   </SelectItem>)}
@@ -425,10 +425,10 @@ export default function ExportJobs() {
             </Select>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("admin.integrations.status")} />
+                <SelectValue placeholder={t("admin_integrations_status")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.integrations.all_status")}</SelectItem>
+                <SelectItem value="all">{t("admin_integrations_all_status")}</SelectItem>
                 {Object.entries(STATUS_CONFIG).map(([key, config]) => <SelectItem key={key} value={key}>
                     {config.label}
                   </SelectItem>)}
@@ -436,34 +436,34 @@ export default function ExportJobs() {
             </Select>
           </div>
           <Button onClick={() => setCreateOpen(true)}>
-            <Plus className="h-4 w-4 mr-2" />{t("admin.integrations.create_export_job")}</Button>
+            <Plus className="h-4 w-4 mr-2" />{t("admin_integrations_create_export_job")}</Button>
         </div>
 
         {/* Export Jobs Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.integrations.export_jobs")}</CardTitle>
-            <CardDescription>{t("admin.integrations.monitor_and_manage_data")}</CardDescription>
+            <CardTitle>{t("admin_integrations_export_jobs")}</CardTitle>
+            <CardDescription>{t("admin_integrations_monitor_and_manage_data")}</CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? <div className="flex items-center justify-center py-8">
-                <div className="text-sm text-muted-foreground">{t("admin.integrations.loading_export_jobs")}</div>
+                <div className="text-sm text-muted-foreground">{t("admin_integrations_loading_export_jobs")}</div>
               </div> : <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>{t("admin.integrations.type")}</TableHead>
-                    <TableHead>{t("admin.integrations.status")}</TableHead>
-                    <TableHead>{t("admin.integrations.progress")}</TableHead>
-                    <TableHead>{t("admin.integrations.created_by")}</TableHead>
-                    <TableHead>{t("admin.integrations.created")}</TableHead>
-                    <TableHead>{t("admin.integrations.completed")}</TableHead>
-                    <TableHead>{t("admin.integrations.result")}</TableHead>
+                    <TableHead>{t("admin_integrations_type")}</TableHead>
+                    <TableHead>{t("admin_integrations_status")}</TableHead>
+                    <TableHead>{t("admin_integrations_progress")}</TableHead>
+                    <TableHead>{t("admin_integrations_created_by")}</TableHead>
+                    <TableHead>{t("admin_integrations_created")}</TableHead>
+                    <TableHead>{t("admin_integrations_completed")}</TableHead>
+                    <TableHead>{t("admin_integrations_result")}</TableHead>
                     <TableHead className="w-[50px]"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredJobs.length === 0 ? <TableRow>
-                      <TableCell colSpan={9} className="text-center py-8">{t("admin.integrations.no_export_jobs_found")}</TableCell>
+                      <TableCell colSpan={9} className="text-center py-8">{t("admin_integrations_no_export_jobs_found")}</TableCell>
                     </TableRow> : filteredJobs.map(job => {
                 const typeConfig = getExportTypeConfig(job.type);
                 const statusConfig = getStatusConfig(job.status);
@@ -475,7 +475,7 @@ export default function ExportJobs() {
                               <TypeIcon className="h-4 w-4" />
                               <div>
                                 <div className="font-medium">{typeConfig.label}</div>
-                                <div className="text-sm text-slate-400">{job.parameters.format}</div>
+                                <div className="text-sm text-slate-500 dark:text-slate-400">{job.parameters.format}</div>
                               </div>
                             </div>
                           </TableCell>
@@ -490,18 +490,18 @@ export default function ExportJobs() {
                           <TableCell>
                             {job.progress ? <div className="w-32">
                                 <Progress value={job.progress.percentage} className="w-full" />
-                                <div className="text-xs text-slate-400 mt-1">
+                                <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                   {job.progress.processed} / {job.progress.total}
                                 </div>
-                                {job.progress.currentStep && <div className="text-xs text-slate-400 truncate">
+                                {job.progress.currentStep && <div className="text-xs text-slate-500 dark:text-slate-400 truncate">
                                     {job.progress.currentStep}
                                   </div>}
-                              </div> : <div className="text-sm text-slate-400">-</div>}
+                              </div> : <div className="text-sm text-slate-500 dark:text-slate-400">-</div>}
                           </TableCell>
                           <TableCell>
                             <div>
                               <div className="font-medium">{job.user?.name}</div>
-                              <div className="text-sm text-slate-400">{job.user?.email}</div>
+                              <div className="text-sm text-slate-500 dark:text-slate-400">{job.user?.email}</div>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -515,12 +515,12 @@ export default function ExportJobs() {
                           <TableCell>
                             {job.result ? <div className="text-sm">
                                 <div>{formatFileSize(job.result.fileSize || 0)}</div>
-                                <div className="text-slate-400">{job.result.recordCount || 0}{t("admin.integrations.records")}</div>
-                                {job.result.expiresAt && <div className="text-xs text-orange-500">{t("admin.integrations.expires")}{formatDate(job.result.expiresAt)}
+                                <div className="text-slate-500 dark:text-slate-400">{job.result.recordCount || 0}{t("admin_integrations_records")}</div>
+                                {job.result.expiresAt && <div className="text-xs text-orange-500">{t("admin_integrations_expires")}{formatDate(job.result.expiresAt)}
                                   </div>}
                               </div> : job.error ? <div className="text-sm text-red-500">
                                 {job.error.message}
-                              </div> : <div className="text-sm text-slate-400">-</div>}
+                              </div> : <div className="text-sm text-slate-500 dark:text-slate-400">-</div>}
                           </TableCell>
                           <TableCell>
                             <DropdownMenu>
@@ -534,17 +534,17 @@ export default function ExportJobs() {
                           setSelectedJob(job);
                           setViewOpen(true);
                         }}>
-                                  <Eye className="h-4 w-4 mr-2" />{t("admin.integrations.view_details")}</DropdownMenuItem>
+                                  <Eye className="h-4 w-4 mr-2" />{t("admin_integrations_view_details")}</DropdownMenuItem>
                                 {job.status === "PENDING" && <DropdownMenuItem onClick={() => handleRunJob(job.id)}>
-                                    <Play className="h-4 w-4 mr-2" />{t("admin.integrations.run_job")}</DropdownMenuItem>}
+                                    <Play className="h-4 w-4 mr-2" />{t("admin_integrations_run_job")}</DropdownMenuItem>}
                                 {job.status === "RUNNING" && <DropdownMenuItem onClick={() => handlePauseJob(job.id)}>
-                                    <Pause className="h-4 w-4 mr-2" />{t("admin.integrations.pause_job")}</DropdownMenuItem>}
+                                    <Pause className="h-4 w-4 mr-2" />{t("admin_integrations_pause_job")}</DropdownMenuItem>}
                                 {(job.status === "RUNNING" || job.status === "PENDING") && <DropdownMenuItem onClick={() => handleCancelJob(job.id)}>
-                                    <XCircle className="h-4 w-4 mr-2" />{t("admin.integrations.cancel_job")}</DropdownMenuItem>}
+                                    <XCircle className="h-4 w-4 mr-2" />{t("admin_integrations_cancel_job")}</DropdownMenuItem>}
                                 {job.status === "COMPLETED" && job.result && <DropdownMenuItem onClick={() => handleDownloadResult(job)}>
-                                    <Download className="h-4 w-4 mr-2" />{t("admin.integrations.download_result")}</DropdownMenuItem>}
+                                    <Download className="h-4 w-4 mr-2" />{t("admin_integrations_download_result")}</DropdownMenuItem>}
                                 <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteJob(job.id)}>
-                                  <Trash2 className="h-4 w-4 mr-2" />{t("admin.integrations.delete_job")}</DropdownMenuItem>
+                                  <Trash2 className="h-4 w-4 mr-2" />{t("admin_integrations_delete_job")}</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </TableCell>
@@ -559,16 +559,16 @@ export default function ExportJobs() {
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>{t("admin.integrations.create_export_job")}</DialogTitle>
-              <DialogDescription>{t("admin.integrations.create_a_new_data")}</DialogDescription>
+              <DialogTitle>{t("admin_integrations_create_export_job")}</DialogTitle>
+              <DialogDescription>{t("admin_integrations_create_a_new_data")}</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="type">{t("admin.integrations.export_type")}</Label>
+                  <Label htmlFor="type">{t("admin_integrations_export_type")}</Label>
                   <Select>
                     <SelectTrigger>
-                      <SelectValue placeholder={t("admin.integrations.select_type")} />
+                      <SelectValue placeholder={t("admin_integrations_select_type")} />
                     </SelectTrigger>
                     <SelectContent>
                       {Object.entries(EXPORT_TYPE_CONFIG).map(([key, config]) => <SelectItem key={key} value={key}>
@@ -578,52 +578,52 @@ export default function ExportJobs() {
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="format">{t("admin.integrations.format")}</Label>
+                  <Label htmlFor="format">{t("admin_integrations_format")}</Label>
                   <Select>
                     <SelectTrigger>
-                      <SelectValue placeholder={t("admin.integrations.select_format")} />
+                      <SelectValue placeholder={t("admin_integrations_select_format")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="csv">{t("admin.integrations.csv")}</SelectItem>
-                      <SelectItem value="json">{t("admin.integrations.json")}</SelectItem>
-                      <SelectItem value="xlsx">{t("admin.integrations.excel")}</SelectItem>
-                      <SelectItem value="pdf">{t("admin.integrations.pdf")}</SelectItem>
+                      <SelectItem value="csv">{t("admin_integrations_csv")}</SelectItem>
+                      <SelectItem value="json">{t("admin_integrations_json")}</SelectItem>
+                      <SelectItem value="xlsx">{t("admin_integrations_excel")}</SelectItem>
+                      <SelectItem value="pdf">{t("admin_integrations_pdf")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div>
-                <Label htmlFor="description">{t("admin.integrations.description")}</Label>
-                <Textarea id="description" placeholder={t("admin.integrations.enter_export_job_description")} rows={3} />
+                <Label htmlFor="description">{t("admin_integrations_description")}</Label>
+                <Textarea id="description" placeholder={t("admin_integrations_enter_export_job_description")} rows={3} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
                   <input type="checkbox" id="includeHeaders" className="rounded-lg" />
-                  <Label htmlFor="includeHeaders">{t("admin.integrations.include_headers")}</Label>
+                  <Label htmlFor="includeHeaders">{t("admin_integrations_include_headers")}</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <input type="checkbox" id="compression" className="rounded-lg" />
-                  <Label htmlFor="compression">{t("admin.integrations.compress_output")}</Label>
+                  <Label htmlFor="compression">{t("admin_integrations_compress_output")}</Label>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="dateStart">{t("admin.integrations.date_range_start")}</Label>
+                  <Label htmlFor="dateStart">{t("admin_integrations_date_range_start")}</Label>
                   <Input id="dateStart" type="date" />
                 </div>
                 <div>
-                  <Label htmlFor="dateEnd">{t("admin.integrations.date_range_end")}</Label>
+                  <Label htmlFor="dateEnd">{t("admin_integrations_date_range_end")}</Label>
                   <Input id="dateEnd" type="date" />
                 </div>
               </div>
               <div>
-                <Label htmlFor="recipients">{t("admin.integrations.email_recipients")}</Label>
-                <Input id="recipients" placeholder={t("admin.integrations.email1examplecom_email2examplecom")} />
+                <Label htmlFor="recipients">{t("admin_integrations_email_recipients")}</Label>
+                <Input id="recipients" placeholder={t("admin_integrations_email1examplecom_email2examplecom")} />
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setCreateOpen(false)}>{t("admin.integrations.cancel")}</Button>
-              <Button onClick={() => handleCreateJob({})}>{t("admin.integrations.create_job")}</Button>
+              <Button variant="outline" onClick={() => setCreateOpen(false)}>{t("admin_integrations_cancel")}</Button>
+              <Button onClick={() => handleCreateJob({})}>{t("admin_integrations_create_job")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -632,12 +632,12 @@ export default function ExportJobs() {
         <Dialog open={viewOpen} onOpenChange={setViewOpen}>
           <DialogContent className="sm:max-w-[800px]">
             <DialogHeader>
-              <DialogTitle>{t("admin.integrations.export_job_details")}</DialogTitle>
+              <DialogTitle>{t("admin_integrations_export_job_details")}</DialogTitle>
             </DialogHeader>
             {selectedJob && <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.integrations.export_type")}</Label>
+                    <Label>{t("admin_integrations_export_type")}</Label>
                     <div className="flex items-center space-x-2">
                       {React.createElement(getExportTypeConfig(selectedJob.type).icon, {
                     className: "h-4 w-4"
@@ -648,7 +648,7 @@ export default function ExportJobs() {
                     </div>
                   </div>
                   <div>
-                    <Label>{t("admin.integrations.status")}</Label>
+                    <Label>{t("admin_integrations_status")}</Label>
                     <div className="flex items-center space-x-2">
                       {React.createElement(getStatusConfig(selectedJob.status).icon, {
                     className: "h-4 w-4"
@@ -661,65 +661,65 @@ export default function ExportJobs() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.integrations.format")}</Label>
+                    <Label>{t("admin_integrations_format")}</Label>
                     <div className="text-sm">{selectedJob.parameters.format}</div>
                   </div>
                   <div>
-                    <Label>{t("admin.integrations.created_by")}</Label>
+                    <Label>{t("admin_integrations_created_by")}</Label>
                     <div>
                       <div className="font-medium">{selectedJob.user?.name}</div>
-                      <div className="text-sm text-slate-400">{selectedJob.user?.email}</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">{selectedJob.user?.email}</div>
                     </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <Label>{t("admin.integrations.created")}</Label>
+                    <Label>{t("admin_integrations_created")}</Label>
                     <div className="text-sm">{formatDateTime(selectedJob.createdAt)}</div>
                   </div>
                   <div>
-                    <Label>{t("admin.integrations.started")}</Label>
+                    <Label>{t("admin_integrations_started")}</Label>
                     <div className="text-sm">
                       {selectedJob.startedAt ? formatDateTime(selectedJob.startedAt) : "Not started"}
                     </div>
                   </div>
                   <div>
-                    <Label>{t("admin.integrations.completed")}</Label>
+                    <Label>{t("admin_integrations_completed")}</Label>
                     <div className="text-sm">
                       {selectedJob.completedAt ? formatDateTime(selectedJob.completedAt) : "Not completed"}
                     </div>
                   </div>
                 </div>
                 {selectedJob.progress && <div>
-                    <Label>{t("admin.integrations.progress")}</Label>
+                    <Label>{t("admin_integrations_progress")}</Label>
                     <div className="space-y-2">
                       <Progress value={selectedJob.progress.percentage} className="w-full" />
                       <div className="text-sm">
                         {selectedJob.progress.processed} / {selectedJob.progress.total} ({selectedJob.progress.percentage}%)
                       </div>
-                      {selectedJob.progress.currentStep && <div className="text-sm text-slate-400">{t("admin.integrations.current")}{selectedJob.progress.currentStep}</div>}
+                      {selectedJob.progress.currentStep && <div className="text-sm text-slate-500 dark:text-slate-400">{t("admin_integrations_current")}{selectedJob.progress.currentStep}</div>}
                     </div>
                   </div>}
                 {selectedJob.result && <div>
-                    <Label>{t("admin.integrations.result")}</Label>
+                    <Label>{t("admin_integrations_result")}</Label>
                     <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>{t("admin.integrations.file_size")}{formatFileSize(selectedJob.result.fileSize || 0)}</div>
-                      <div>{t("admin.integrations.records")}{selectedJob.result.recordCount || 0}</div>
-                      {selectedJob.result.expiresAt && <div>{t("admin.integrations.expires")}{formatDate(selectedJob.result.expiresAt)}</div>}
+                      <div>{t("admin_integrations_file_size")}{formatFileSize(selectedJob.result.fileSize || 0)}</div>
+                      <div>{t("admin_integrations_records")}{selectedJob.result.recordCount || 0}</div>
+                      {selectedJob.result.expiresAt && <div>{t("admin_integrations_expires")}{formatDate(selectedJob.result.expiresAt)}</div>}
                     </div>
                   </div>}
                 {selectedJob.error && <div>
-                    <Label>{t("admin.integrations.error")}</Label>
+                    <Label>{t("admin_integrations_error")}</Label>
                     <div className="text-sm text-red-600">
                       <div className="font-medium">{selectedJob.error.message}</div>
-                      {selectedJob.error.code && <div className="text-xs">{t("admin.integrations.code")}{selectedJob.error.code}</div>}
+                      {selectedJob.error.code && <div className="text-xs">{t("admin_integrations_code")}{selectedJob.error.code}</div>}
                     </div>
                   </div>}
               </div>}
             <DialogFooter>
-              <Button variant="outline" onClick={() => setViewOpen(false)}>{t("admin.integrations.close")}</Button>
+              <Button variant="outline" onClick={() => setViewOpen(false)}>{t("admin_integrations_close")}</Button>
               {selectedJob?.status === "COMPLETED" && selectedJob.result && <Button onClick={() => handleDownloadResult(selectedJob)}>
-                  <Download className="h-4 w-4 mr-2" />{t("admin.integrations.download_result")}</Button>}
+                  <Download className="h-4 w-4 mr-2" />{t("admin_integrations_download_result")}</Button>}
             </DialogFooter>
           </DialogContent>
         </Dialog>

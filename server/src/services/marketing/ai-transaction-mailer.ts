@@ -28,6 +28,21 @@ export class AITransactionMailer {
   }
 
   /**
+   * Send Email Verification
+   */
+  static async sendEmailVerification(email: string, recipientName: string, token: string) {
+    console.log(`[AITransactionMailer] Sending Email Verification to ${email}`);
+    const html = AIEmailTemplates.generateEmailVerification(recipientName, `${process.env.CLIENT_URL || 'http://localhost:3001'}/verify-email?token=${token}&email=${encodeURIComponent(email)}`);
+
+    await transporter.sendMail({
+      from: '"Reservatior" <noreply@reservatior.com>',
+      to: email,
+      subject: "Verify Your Email",
+      html,
+    });
+  }
+
+  /**
    * Send Password Reset Email
    */
   static async sendPasswordReset(email: string, recipientName: string, token: string) {

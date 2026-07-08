@@ -233,7 +233,7 @@ export default function MarketingAutomation() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-center h-64">
-          <Megaphone className="h-8 w-8 animate-spin text-slate-400" />
+          <Megaphone className="h-8 w-8 animate-spin text-slate-500 dark:text-slate-400" />
         </div>
       </div>
     );
@@ -241,105 +241,105 @@ export default function MarketingAutomation() {
 
   return (
     <div className="p-6 space-y-6">
-      <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-        <h1 className="text-3xl font-bold tracking-tight text-white">{t("admin.marketing.marketing_automation")}</h1>
+      <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{t("admin_marketing_marketing_automation")}</h1>
       </div>
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">{t("admin.marketing.active_campaigns")}</CardTitle>
-            <Megaphone className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-slate-900 dark:text-white">{t("admin_marketing_active_campaigns")}</CardTitle>
+            <Megaphone className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{activeCampaigns}</div>
-            <p className="text-xs text-slate-400">{t("admin.marketing.of")}{campaigns.length}{t("admin.marketing.total")}</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">{activeCampaigns}</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_marketing_of")}{campaigns.length}{t("admin_marketing_total")}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">{t("admin.marketing.total_budget")}</CardTitle>
-            <Target className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-slate-900 dark:text-white">{t("admin_marketing_total_budget")}</CardTitle>
+            <Target className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{formatCurrency(totalBudget)}</div>
-            <p className="text-xs text-slate-400">{formatCurrency(totalSpent)}{t("admin.marketing.spent")}</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(totalBudget)}</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{formatCurrency(totalSpent)}{t("admin_marketing_spent")}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">{t("admin.marketing.active_ambassadors")}</CardTitle>
-            <Users className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-slate-900 dark:text-white">{t("admin_marketing_active_ambassadors")}</CardTitle>
+            <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{activeAmbassadors}</div>
-            <p className="text-xs text-slate-400">{t("admin.marketing.of")}{ambassadors.length}{t("admin.marketing.total")}</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">{activeAmbassadors}</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_marketing_of")}{ambassadors.length}{t("admin_marketing_total")}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">{t("admin.marketing.total_conversions")}</CardTitle>
-            <TrendingUp className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-slate-900 dark:text-white">{t("admin_marketing_total_conversions")}</CardTitle>
+            <TrendingUp className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{totalConversions.toLocaleString()}</div>
-            <p className="text-xs text-slate-400">{formatCurrency(totalRevenue)}{t("admin.marketing.revenue")}</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">{totalConversions.toLocaleString()}</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{formatCurrency(totalRevenue)}{t("admin_marketing_revenue")}</p>
           </CardContent>
         </Card>
       </div>
 
       <Tabs defaultValue="campaigns" className="space-y-4">
-        <TabsList className="bg-white/5 border border-white/10">
-          <TabsTrigger value="campaigns" className="text-white data-[state=active]:bg-slate-600">{t("admin.marketing.campaigns")}</TabsTrigger>
-          <TabsTrigger value="ambassadors" className="text-white data-[state=active]:bg-slate-600">{t("admin.marketing.ambassadors")}</TabsTrigger>
-          <TabsTrigger value="contracts" className="text-white data-[state=active]:bg-slate-600">{t("admin.marketing.contracts")}</TabsTrigger>
-          <TabsTrigger value="social-impact" className="text-white data-[state=active]:bg-slate-600">{t("admin.marketing.social_impact")}</TabsTrigger>
+        <TabsList className="bg-white/5 border border-slate-200 dark:border-white/10">
+          <TabsTrigger value="campaigns" className="text-slate-900 dark:text-white data-[state=active]:bg-slate-600">{t("admin_marketing_campaigns")}</TabsTrigger>
+          <TabsTrigger value="ambassadors" className="text-slate-900 dark:text-white data-[state=active]:bg-slate-600">{t("admin_marketing_ambassadors")}</TabsTrigger>
+          <TabsTrigger value="contracts" className="text-slate-900 dark:text-white data-[state=active]:bg-slate-600">{t("admin_marketing_contracts")}</TabsTrigger>
+          <TabsTrigger value="social-impact" className="text-slate-900 dark:text-white data-[state=active]:bg-slate-600">{t("admin_marketing_social_impact")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="campaigns" className="space-y-4">
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
               <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
-                <Input placeholder={t("admin.marketing.search_campaigns")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64 bg-white/5 border-white/10 text-white" />
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
+                <Input placeholder={t("admin_marketing_search_campaigns")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-32 bg-white/5 border-white/10 text-white">
+                <SelectTrigger className="w-32 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white/5 border-white/10 text-white">
-                  <SelectItem value="ALL">{t("admin.marketing.all_status")}</SelectItem>
-                  <SelectItem value="DRAFT">{t("admin.marketing.draft")}</SelectItem>
-                  <SelectItem value="ACTIVE">{t("admin.marketing.active")}</SelectItem>
-                  <SelectItem value="PAUSED">{t("admin.marketing.paused")}</SelectItem>
-                  <SelectItem value="COMPLETED">{t("admin.marketing.completed")}</SelectItem>
+                <SelectContent className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                  <SelectItem value="ALL">{t("admin_marketing_all_status")}</SelectItem>
+                  <SelectItem value="DRAFT">{t("admin_marketing_draft")}</SelectItem>
+                  <SelectItem value="ACTIVE">{t("admin_marketing_active")}</SelectItem>
+                  <SelectItem value="PAUSED">{t("admin_marketing_paused")}</SelectItem>
+                  <SelectItem value="COMPLETED">{t("admin_marketing_completed")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-slate-600 hover:bg-slate-500 text-white">
-                  <Plus className="h-4 w-4 mr-2" />{t("admin.marketing.new_campaign")}
+                <Button className="bg-slate-600 hover:bg-slate-500 text-slate-900 dark:text-white">
+                  <Plus className="h-4 w-4 mr-2" />{t("admin_marketing_new_campaign")}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] bg-white/5 border-white/10 text-white">
+              <DialogContent className="sm:max-w-[425px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                 <DialogHeader>
                   <DialogTitle>Create New Campaign</DialogTitle>
-                  <DialogDescription className="text-slate-400">Enter the details for the new campaign.</DialogDescription>
+                  <DialogDescription className="text-slate-500 dark:text-slate-400">Enter the details for the new campaign.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right text-xs text-slate-400">Campaign Name</Label>
-                    <Input id="name" className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Enter campaign name" />
+                    <Label htmlFor="name" className="text-right text-xs text-slate-500 dark:text-slate-400">Campaign Name</Label>
+                    <Input id="name" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Enter campaign name" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="type" className="text-right text-xs text-slate-400">Type</Label>
-                    <Input id="type" className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter type" />
+                    <Label htmlFor="type" className="text-right text-xs text-slate-500 dark:text-slate-400">Type</Label>
+                    <Input id="type" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter type" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="status" className="text-right text-xs text-slate-400">Status</Label>
-                    <Input id="status" className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
+                    <Label htmlFor="status" className="text-right text-xs text-slate-500 dark:text-slate-400">Status</Label>
+                    <Input id="status" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
                   </div>
                 </div>
                 <DialogFooter>
@@ -352,73 +352,73 @@ export default function MarketingAutomation() {
             </Dialog>
           </div>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.marketing.marketing_campaigns")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_marketing_marketing_campaigns")}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
-                    <TableHead className="text-slate-400">{t("admin.marketing.name")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.type")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.objective")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.status")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.budget")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.performance")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.duration")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.actions")}</TableHead>
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_name")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_type")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_objective")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_status")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_budget")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_performance")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_duration")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredCampaigns.map(campaign => (
-                    <TableRow key={campaign.id} className="border-white/10 hover:bg-white/5">
-                      <TableCell className="font-medium text-white">{campaign.name}</TableCell>
+                    <TableRow key={campaign.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{campaign.name}</TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="border-white/10 text-slate-400">{campaign.platforms.join(', ') || 'N/A'}</Badge>
+                        <Badge variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">{campaign.platforms.join(', ') || 'N/A'}</Badge>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="secondary" className="bg-white/5 text-slate-400">{getLocalizedStatus(campaign.status)}</Badge>
+                        <Badge variant="secondary" className="bg-white/5 text-slate-500 dark:text-slate-400">{getLocalizedStatus(campaign.status)}</Badge>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <div className={`w-2 h-2 rounded-full ${getStatusColor(campaign.status)}`} />
-                          <span className="capitalize text-white">{getLocalizedStatus(campaign.status).toLowerCase()}</span>
+                          <span className="capitalize text-slate-900 dark:text-white">{getLocalizedStatus(campaign.status).toLowerCase()}</span>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div>
-                          <div className="font-semibold text-white">{formatCurrency(campaign.actualSpend || 0)}</div>
-                          <div className="text-xs text-slate-400">{t("admin.marketing.of")}{formatCurrency(campaign.budget || 0)}</div>
+                          <div className="font-semibold text-slate-900 dark:text-white">{formatCurrency(campaign.actualSpend || 0)}</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">{t("admin_marketing_of")}{formatCurrency(campaign.budget || 0)}</div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="space-y-1">
-                          <div className="flex justify-between text-xs text-slate-400">
-                            <span>{t("admin.marketing.reach")}{campaign.actualReach || 0}</span>
-                            <span>{t("admin.marketing.impress")}{campaign.impressions || 0}</span>
+                          <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                            <span>{t("admin_marketing_reach")}{campaign.actualReach || 0}</span>
+                            <span>{t("admin_marketing_impress")}{campaign.impressions || 0}</span>
                           </div>
-                          <div className="flex justify-between text-xs text-slate-400">
-                            <span>{t("admin.marketing.click")}{campaign.clicks || 0}</span>
-                            <span>{t("admin.marketing.conv")}{campaign.conversions || 0}</span>
+                          <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                            <span>{t("admin_marketing_click")}{campaign.clicks || 0}</span>
+                            <span>{t("admin_marketing_conv")}{campaign.conversions || 0}</span>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-sm text-white">
+                        <div className="text-sm text-slate-900 dark:text-white">
                           <div>{campaign.startDate ? new Date(campaign.startDate).toLocaleDateString() : 'N/A'}</div>
-                          {campaign.endDate && <div className="text-slate-400">{t("admin.marketing.to")}{new Date(campaign.endDate).toLocaleDateString()}</div>}
+                          {campaign.endDate && <div className="text-slate-500 dark:text-slate-400">{t("admin_marketing_to")}{new Date(campaign.endDate).toLocaleDateString()}</div>}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-1">
-                          <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white"><Eye className="h-4 w-4" /></Button>
-                          <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white"><BarChart3 className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white"><Eye className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white"><BarChart3 className="h-4 w-4" /></Button>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" className="h-8 w-8 p-0 text-slate-400 hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
+                              <Button variant="ghost" className="h-8 w-8 p-0 text-slate-500 dark:text-slate-400 hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="bg-white/5 border-white/10 text-white">
+                            <DropdownMenuContent align="end" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                               <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => {
                                 setFormData(campaign as any);
                                 setIsAddOpen(true);
@@ -438,80 +438,80 @@ export default function MarketingAutomation() {
 
         <TabsContent value="ambassadors" className="space-y-4">
           <div className="flex justify-end">
-            <Button className="bg-slate-600 hover:bg-slate-500 text-white">
-              <Plus className="h-4 w-4 mr-2" />{t("admin.marketing.add_ambassador")}
+            <Button className="bg-slate-600 hover:bg-slate-500 text-slate-900 dark:text-white">
+              <Plus className="h-4 w-4 mr-2" />{t("admin_marketing_add_ambassador")}
             </Button>
           </div>
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.marketing.brand_ambassadors")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_marketing_brand_ambassadors")}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
-                    <TableHead className="text-slate-400">{t("admin.marketing.name")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.contact")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.tier")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.status")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.performance")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.referrals")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.earnings")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.actions")}</TableHead>
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_name")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_contact")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_tier")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_status")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_performance")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_referrals")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_earnings")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {ambassadors.map(ambassador => (
-                    <TableRow key={ambassador.id} className="border-white/10 hover:bg-white/5">
-                      <TableCell className="font-medium text-white">{ambassador.fullName}</TableCell>
+                    <TableRow key={ambassador.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{ambassador.fullName}</TableCell>
                       <TableCell>
-                        <div className="text-sm text-white">
-                          <div className="flex items-center gap-1"><Mail className="h-3 w-3 text-slate-400" />{ambassador.emailCiphertext ? t("admin.marketing.encrypted", "[Sifreli]") : "N/A"}</div>
-                          <div className="flex items-center gap-1"><Phone className="h-3 w-3 text-slate-400" />{ambassador.phoneCiphertext ? t("admin.marketing.encrypted", "[Sifreli]") : "N/A"}</div>
+                        <div className="text-sm text-slate-900 dark:text-white">
+                          <div className="flex items-center gap-1"><Mail className="h-3 w-3 text-slate-500 dark:text-slate-400" />{ambassador.emailCiphertext ? t("admin.marketing.encrypted", "[Sifreli]") : "N/A"}</div>
+                          <div className="flex items-center gap-1"><Phone className="h-3 w-3 text-slate-500 dark:text-slate-400" />{ambassador.phoneCiphertext ? t("admin.marketing.encrypted", "[Sifreli]") : "N/A"}</div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <div className={`w-2 h-2 rounded-full ${getTierColor(ambassador.tier || "BRONZE")}`} />
-                          <Badge variant="outline" className="border-white/10 text-slate-400">{ambassador.tier || "BRONZE"}</Badge>
+                          <Badge variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">{ambassador.tier || "BRONZE"}</Badge>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <div className={`w-2 h-2 rounded-full ${getStatusColor(ambassador.status)}`} />
-                          <span className="capitalize text-white">{getLocalizedStatus(ambassador.status).toLowerCase()}</span>
+                          <span className="capitalize text-slate-900 dark:text-white">{getLocalizedStatus(ambassador.status).toLowerCase()}</span>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="space-y-1">
                           <div className="flex items-center gap-1">
                             <Star className="h-3 w-3 text-yellow-500" />
-                            <span className="text-sm text-white">{(ambassador.totalRoi || 0).toFixed(1)}{t("admin.marketing.roi")}</span>
+                            <span className="text-sm text-slate-900 dark:text-white">{(ambassador.totalRoi || 0).toFixed(1)}{t("admin_marketing_roi")}</span>
                           </div>
-                          <div className="text-xs text-slate-400">{ambassador.engagementRate || 0}{t("admin.marketing.engagement")}</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">{ambassador.engagementRate || 0}{t("admin_marketing_engagement")}</div>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-sm text-white">
+                        <div className="text-sm text-slate-900 dark:text-white">
                           <div>{ambassador.actualReach || 0}</div>
-                          <div className="text-xs text-slate-400">{t("admin.marketing.actual_reach")}</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">{t("admin_marketing_actual_reach")}</div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div>
-                          <div className="font-semibold text-white">{formatCurrency(ambassador.upfrontFee || 0)}</div>
-                          <div className="text-xs text-slate-400">{t("admin.marketing.upfront_fee")}</div>
+                          <div className="font-semibold text-slate-900 dark:text-white">{formatCurrency(ambassador.upfrontFee || 0)}</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">{t("admin_marketing_upfront_fee")}</div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-1">
-                          <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white"><Eye className="h-4 w-4" /></Button>
-                          <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white"><Edit className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white"><Eye className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white"><Edit className="h-4 w-4" /></Button>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" className="h-8 w-8 p-0 text-slate-400 hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
+                              <Button variant="ghost" className="h-8 w-8 p-0 text-slate-500 dark:text-slate-400 hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="bg-white/5 border-white/10 text-white">
+                            <DropdownMenuContent align="end" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                               <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => {
                                 // Add edit handler if needed
                               }}><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
@@ -529,55 +529,55 @@ export default function MarketingAutomation() {
         </TabsContent>
 
         <TabsContent value="contracts" className="space-y-4">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.marketing.ambassador_contracts")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_marketing_ambassador_contracts")}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
-                    <TableHead className="text-slate-400">{t("admin.marketing.ambassador")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.type")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.commission")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.status")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.period")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.total_payouts")}</TableHead>
-                    <TableHead className="text-slate-400">{t("admin.marketing.actions")}</TableHead>
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_ambassador")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_type")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_commission")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_status")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_period")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_total_payouts")}</TableHead>
+                    <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_marketing_actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {contracts.map(contract => (
-                    <TableRow key={contract.id} className="border-white/10 hover:bg-white/5">
-                      <TableCell className="font-medium text-white">{contract.ambassadorName}</TableCell>
+                    <TableRow key={contract.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{contract.ambassadorName}</TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="border-white/10 text-slate-400">{getLocalizedStatus(contract.status)}</Badge>
+                        <Badge variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">{getLocalizedStatus(contract.status)}</Badge>
                       </TableCell>
                       <TableCell>
-                        <div className="text-white">
+                        <div className="text-slate-900 dark:text-white">
                           {contract.equityPercent && `${contract.equityPercent}% ${t("admin.marketing.equity", "hisse")}`}{contract.upfrontFee && ` + ${formatCurrency(contract.upfrontFee)} ${t("admin.marketing.upfront", "pesin")}`}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <div className={`w-2 h-2 rounded-full ${getStatusColor(contract.status)}`} />
-                          <span className="capitalize text-white">{getLocalizedStatus(contract.status).toLowerCase()}</span>
+                          <span className="capitalize text-slate-900 dark:text-white">{getLocalizedStatus(contract.status).toLowerCase()}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-sm text-white">
+                        <div className="text-sm text-slate-900 dark:text-white">
                           <div>{contract.startDate ? new Date(contract.startDate).toLocaleDateString() : 'N/A'}</div>
-                          {contract.endDate && <div className="text-slate-400">{t("admin.marketing.to")}{new Date(contract.endDate).toLocaleDateString()}</div>}
+                          {contract.endDate && <div className="text-slate-500 dark:text-slate-400">{t("admin_marketing_to")}{new Date(contract.endDate).toLocaleDateString()}</div>}
                         </div>
                       </TableCell>
-                      <TableCell className="text-white">{contract.upfrontFee ? formatCurrency(contract.upfrontFee) : '-'}</TableCell>
+                      <TableCell className="text-slate-900 dark:text-white">{contract.upfrontFee ? formatCurrency(contract.upfrontFee) : '-'}</TableCell>
                       <TableCell>
-                        <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white"><Eye className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white"><Eye className="h-4 w-4" /></Button>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0 text-slate-400 hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
+                            <Button variant="ghost" className="h-8 w-8 p-0 text-slate-500 dark:text-slate-400 hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="bg-white/5 border-white/10 text-white">
+                          <DropdownMenuContent align="end" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                             <DropdownMenuItem className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
                             <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
                           </DropdownMenuContent>
@@ -592,14 +592,14 @@ export default function MarketingAutomation() {
         </TabsContent>
 
         <TabsContent value="social-impact" className="space-y-4">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.marketing.social_impact_tracking")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_marketing_social_impact_tracking")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col items-center justify-center h-48 text-slate-400">
+              <div className="flex flex-col items-center justify-center h-48 text-slate-500 dark:text-slate-400">
                 <BarChart3 className="h-12 w-12 mb-4 opacity-20" />
-                <p>{t("admin.marketing.social_impact_tracking_is")}</p>
+                <p>{t("admin_marketing_social_impact_tracking_is")}</p>
               </div>
             </CardContent>
           </Card>

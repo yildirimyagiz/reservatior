@@ -31,7 +31,7 @@ interface PartnerAgreement {
 
 const STATUS_OPTIONS = ["CREATED", "ACTIVE", "SUSPENDED", "TERMINATED"];
 const STATUS_CONFIG: Record<string, { label: string; cls: string }> = {
-  CREATED: { label: "Created", cls: "bg-slate-500/10 text-slate-400 border-slate-500/20" },
+  CREATED: { label: "Created", cls: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20" },
   ACTIVE: { label: "Active", cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" },
   SUSPENDED: { label: "Suspended", cls: "bg-orange-500/10 text-orange-400 border-orange-500/20" },
   TERMINATED: { label: "Terminated", cls: "bg-red-500/10 text-red-400 border-red-500/20" },
@@ -128,39 +128,39 @@ export const PartnerAgreements: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400 flex items-center gap-3">
-            <Shield className="w-8 h-8 text-slate-400" />
+            <Shield className="w-8 h-8 text-slate-500 dark:text-slate-400" />
             {t("admin.agreements.title", "Partner Agreements")}
           </h1>
-          <p className="text-slate-400 mt-2">
+          <p className="text-slate-500 dark:text-slate-400 mt-2">
             {t("admin.agreements.subtitle", "Monitor and manage agency partner agreement contracts")}
           </p>
         </div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
+            <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
               <Shield className="w-4 h-4 mr-2" />
               {t("admin.agreements.create", "Create Agreement")}
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-slate-900 border-white/10 text-white">
+          <DialogContent className="sm:max-w-[500px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
             <DialogHeader>
               <DialogTitle>{t("admin.agreements.create_title", "Create Partner Agreement")}</DialogTitle>
-              <DialogDescription className="text-slate-400">
+              <DialogDescription className="text-slate-500 dark:text-slate-400">
                 {t("admin.agreements.create_desc", "Set the financial terms for the new partner agreement")}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-4 pt-4">
               <div className="space-y-2">
                 <Label htmlFor="baseCommission" className="text-slate-300">{t("admin.agreements.base_commission", "Base Commission")}</Label>
-                <Input id="baseCommission" type="number" step="0.01" className="bg-white/5 border-white/10 text-white" value={newAgreement.baseCommission} onChange={e => setNewAgreement({...newAgreement, baseCommission: e.target.value})} placeholder="0.10" />
+                <Input id="baseCommission" type="number" step="0.01" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAgreement.baseCommission} onChange={e => setNewAgreement({...newAgreement, baseCommission: e.target.value})} placeholder="0.10" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="loyaltyYield" className="text-slate-300">{t("admin.agreements.loyalty_yield", "Loyalty Yield")}</Label>
-                <Input id="loyaltyYield" type="number" step="0.1" className="bg-white/5 border-white/10 text-white" value={newAgreement.loyaltyYield} onChange={e => setNewAgreement({...newAgreement, loyaltyYield: e.target.value})} placeholder="5.0" />
+                <Input id="loyaltyYield" type="number" step="0.1" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAgreement.loyaltyYield} onChange={e => setNewAgreement({...newAgreement, loyaltyYield: e.target.value})} placeholder="5.0" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="portfolioHealthScore" className="text-slate-300">{t("admin.agreements.health_score", "Health Score")}</Label>
-                <Input id="portfolioHealthScore" type="number" step="0.01" className="bg-white/5 border-white/10 text-white" value={newAgreement.portfolioHealthScore} onChange={e => setNewAgreement({...newAgreement, portfolioHealthScore: e.target.value})} placeholder="0.90" />
+                <Input id="portfolioHealthScore" type="number" step="0.01" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAgreement.portfolioHealthScore} onChange={e => setNewAgreement({...newAgreement, portfolioHealthScore: e.target.value})} placeholder="0.90" />
               </div>
               <DialogFooter className="pt-4">
                 <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)}>{t("common.cancel", "Cancel")}</Button>
@@ -174,49 +174,49 @@ export const PartnerAgreements: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.active_contracts", "Active Contracts")}</CardTitle>
-            <Activity className="w-4 h-4 text-slate-400" />
+            <Activity className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{agreements.filter(a => a.status === 'ACTIVE').length}</div>
-            <p className="text-xs text-slate-400 mt-1">{t("admin.agreements.total_count", "Total: {count}", { count: agreements.length })}</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">{agreements.filter(a => a.status === 'ACTIVE').length}</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("admin.agreements.total_count", "Total: {count}", { count: agreements.length })}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.avg_commission", "Avg Commission")}</CardTitle>
             <TrendingUp className="w-4 h-4 text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">
               {agreements.length > 0
                 ? `${(agreements.reduce((s, a) => s + a.baseCommission, 0) / agreements.length * 100).toFixed(2)}%`
                 : '0%'}
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.avg_health", "Avg Health")}</CardTitle>
             <Award className="w-4 h-4 text-amber-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">
               {agreements.length > 0
                 ? `${(agreements.reduce((s, a) => s + a.portfolioHealthScore, 0) / agreements.length * 100).toFixed(0)}`
                 : '0'}
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.avg_multiplier", "Avg Multiplier")}</CardTitle>
-            <ArrowRight className="w-4 h-4 text-slate-400" />
+            <ArrowRight className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">
               {agreements.length > 0
                 ? `${(agreements.reduce((s, a) => s + a.currentMultiplier, 0) / agreements.length).toFixed(2)}x`
                 : '0x'}
@@ -225,24 +225,24 @@ export const PartnerAgreements: React.FC = () => {
         </Card>
       </div>
 
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white">{t("admin.agreements.agreement_list", "Agreement Contracts")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin.agreements.agreement_list", "Agreement Contracts")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               {t("common.loading", "Loading data...")}
             </div>
           ) : agreements.length === 0 ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               {t("admin.agreements.no_agreements", "No agreements found.")}
             </div>
           ) : (
-            <div className="rounded-xl border border-white/10">
+            <div className="rounded-xl border border-slate-200 dark:border-white/10">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
                     <TableHead className="text-slate-300">{t("admin.agreements.tenant", "Agency")}</TableHead>
                     <TableHead className="text-slate-300">{t("admin.agreements.status", "Status")}</TableHead>
                     <TableHead className="text-slate-300">{t("admin.agreements.commission", "Commission")}</TableHead>
@@ -254,15 +254,15 @@ export const PartnerAgreements: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {agreements.map((agr: PartnerAgreement) => {
-                    const statusCfg = STATUS_CONFIG[agr.status] || { label: agr.status, cls: "bg-slate-500/10 text-slate-400 border-slate-500/20" };
+                    const statusCfg = STATUS_CONFIG[agr.status] || { label: agr.status, cls: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20" };
                     const validTransitions = getValidTransitions(agr.status);
                     return (
-                      <TableRow key={agr.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                        <TableCell className="font-medium text-white">{agr.tenantId}</TableCell>
+                      <TableRow key={agr.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
+                        <TableCell className="font-medium text-slate-900 dark:text-white">{agr.tenantId}</TableCell>
                         <TableCell>
                           <Badge variant="outline" className={`${statusCfg.cls} border`}>{statusCfg.label}</Badge>
                         </TableCell>
-                        <TableCell className="text-white font-semibold">{(agr.baseCommission * 100).toFixed(2)}%</TableCell>
+                        <TableCell className="text-slate-900 dark:text-white font-semibold">{(agr.baseCommission * 100).toFixed(2)}%</TableCell>
                         <TableCell className="text-slate-300">{agr.loyaltyYield.toFixed(1)} pts</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
@@ -278,7 +278,7 @@ export const PartnerAgreements: React.FC = () => {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="text-slate-400 hover:text-slate-300 hover:bg-slate-400/10"
+                              className="text-slate-500 dark:text-slate-400 hover:text-slate-300 hover:bg-slate-400/10"
                               onClick={() => {
                                 setSelectedAgreement(agr);
                                 setTransitionState(validTransitions[0]);
@@ -296,7 +296,7 @@ export const PartnerAgreements: React.FC = () => {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="bg-slate-900 border-white/10 text-white">
+        <DropdownMenuContent align="end" className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
           <DropdownMenuItem className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
           <DropdownMenuItem onClick={() => deleteMutation.mutate(agr.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
         </DropdownMenuContent>
@@ -313,27 +313,27 @@ export const PartnerAgreements: React.FC = () => {
       </Card>
 
       <Dialog open={isTransitionOpen} onOpenChange={setIsTransitionOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-slate-900 border-white/10 text-white">
+        <DialogContent className="sm:max-w-[400px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
           <DialogHeader>
             <DialogTitle>{t("admin.agreements.transition_title", "Transition Agreement State")}</DialogTitle>
-            <DialogDescription className="text-slate-400">
+            <DialogDescription className="text-slate-500 dark:text-slate-400">
               {selectedAgreement && t("admin.agreements.transition_desc", "Change state for {id}", { id: selectedAgreement.tenantId })}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label className="text-slate-300">{t("admin.agreements.current_state", "Current State")}</Label>
-              <div className="p-3 bg-white/5 rounded-lg text-white font-medium">
+              <div className="p-3 bg-white/5 rounded-lg text-slate-900 dark:text-white font-medium">
                 {selectedAgreement && STATUS_CONFIG[selectedAgreement.status]?.label || selectedAgreement?.status}
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="nextState" className="text-slate-300">{t("admin.agreements.next_state", "Next State")}</Label>
               <Select value={transitionState} onValueChange={setTransitionState}>
-                <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                   <SelectValue placeholder={t("admin.agreements.select_state", "Select state")} />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-900 border-white/10 text-white">
+                <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                   {selectedAgreement && getValidTransitions(selectedAgreement.status).map(state => (
                     <SelectItem key={state} value={state} className="hover:bg-white/10">{STATUS_CONFIG[state]?.label || state}</SelectItem>
                   ))}

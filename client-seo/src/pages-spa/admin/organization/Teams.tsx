@@ -105,8 +105,8 @@ export default function Teams() {
       setTeams(response.data);
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_fetch_teams"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_fetch_teams"),
         variant: "destructive"
       });
     } finally {
@@ -121,8 +121,8 @@ export default function Teams() {
       setUsers(response.data);
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_fetch_users"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_fetch_users"),
         variant: "destructive"
       });
     }
@@ -147,13 +147,13 @@ export default function Teams() {
         maxMembers: ''
       });
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.team_created_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_team_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_create_team"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_create_team"),
         variant: "destructive"
       });
     }
@@ -173,13 +173,13 @@ export default function Teams() {
       setIsEditDialogOpen(false);
       setSelectedTeam(null);
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.team_updated_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_team_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_update_team"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_update_team"),
         variant: "destructive"
       });
     }
@@ -196,13 +196,13 @@ export default function Teams() {
         role: 'MEMBER'
       });
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.member_added_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_member_added_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_add_member"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_add_member"),
         variant: "destructive"
       });
     }
@@ -213,13 +213,13 @@ export default function Teams() {
       await apiClient.delete(`/teams/${selectedTeam.id}/members/${memberId}`);
       fetchTeams();
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.member_removed_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_member_removed_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_remove_member"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_remove_member"),
         variant: "destructive"
       });
     }
@@ -229,13 +229,13 @@ export default function Teams() {
       await apiClient.delete(`/teams/${teamId}`);
       setTeams(teams.filter(team => team.id !== teamId));
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.team_deleted_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_team_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_delete_team"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_delete_team"),
         variant: "destructive"
       });
     }
@@ -263,57 +263,57 @@ export default function Teams() {
   const totalMembers = teams.reduce((acc, team) => acc + team.members.length, 0);
   const avgTeamSize = totalTeams > 0 ? Math.round(totalMembers / totalTeams) : 0;
   if (loading) {
-    return <PageShell title={t("admin.organization.teams_management")}>
+    return <PageShell title={t("admin_organization_teams_management")}>
         <div className="flex items-center justify-center h-64">
           <Activity className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.organization.teams_management")}>
+  return <PageShell title={t("admin_organization_teams_management")}>
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_teams")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_teams")}</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalTeams}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.active_teams")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_active_teams")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.active_teams")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_active_teams")}</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{activeTeams}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.currently_active")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_currently_active")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_members")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_members")}</CardTitle>
               <UserPlus className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{totalMembers}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.across_all_teams")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_across_all_teams")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.avg_team_size")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_avg_team_size")}</CardTitle>
               <Settings className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{avgTeamSize}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.members_per_team")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_members_per_team")}</p>
             </CardContent>
           </Card>
         </div>
@@ -322,14 +322,14 @@ export default function Teams() {
         <div className="flex justify-between items-center">
           <div className="flex gap-4">
             <div className="relative">
-              <Input placeholder={t("admin.organization.search_teams")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-64" />
+              <Input placeholder={t("admin_organization_search_teams")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-64" />
             </div>
             <Select value={orgFilter} onValueChange={setOrgFilter}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.organization.organization")} />
+                <SelectValue placeholder={t("admin_organization_organization")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.organization.all_organizations")}</SelectItem>
+                <SelectItem value="all">{t("admin_organization_all_organizations")}</SelectItem>
                 {/* Add organization options here */}
               </SelectContent>
             </Select>
@@ -337,52 +337,52 @@ export default function Teams() {
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.organization.create_team")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_organization_create_team")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
               <DialogHeader>
-                <DialogTitle>{t("admin.organization.create_new_team")}</DialogTitle>
-                <DialogDescription>{t("admin.organization.set_up_a_new")}</DialogDescription>
+                <DialogTitle>{t("admin_organization_create_new_team")}</DialogTitle>
+                <DialogDescription>{t("admin_organization_set_up_a_new")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="teamName">{t("admin.organization.team_name")}</Label>
+                  <Label htmlFor="teamName">{t("admin_organization_team_name")}</Label>
                   <Input id="teamName" value={createData.name} onChange={e => setCreateData({
                   ...createData,
                   name: e.target.value
-                })} placeholder={t("admin.organization.eg_sales_team_alpha")} required />
+                })} placeholder={t("admin_organization_eg_sales_team_alpha")} required />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="teamDescription">{t("admin.organization.description")}</Label>
+                  <Label htmlFor="teamDescription">{t("admin_organization_description")}</Label>
                   <Input id="teamDescription" value={createData.description} onChange={e => setCreateData({
                   ...createData,
                   description: e.target.value
-                })} placeholder={t("admin.organization.optional_team_description")} />
+                })} placeholder={t("admin_organization_optional_team_description")} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="orgId">{t("admin.organization.organization")}</Label>
+                    <Label htmlFor="orgId">{t("admin_organization_organization")}</Label>
                     <Input id="orgId" value={createData.orgId} onChange={e => setCreateData({
                     ...createData,
                     orgId: e.target.value
-                  })} placeholder={t("admin.organization.organization_id")} required />
+                  })} placeholder={t("admin_organization_organization_id")} required />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="maxMembers">{t("admin.organization.max_members")}</Label>
+                    <Label htmlFor="maxMembers">{t("admin_organization_max_members")}</Label>
                     <Input id="maxMembers" type="number" value={createData.maxMembers} onChange={e => setCreateData({
                     ...createData,
                     maxMembers: e.target.value
-                  })} placeholder={t("admin.organization.optional_limit")} />
+                  })} placeholder={t("admin_organization_optional_limit")} />
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="leadId">{t("admin.organization.team_lead")}</Label>
+                  <Label htmlFor="leadId">{t("admin_organization_team_lead")}</Label>
                   <Select value={createData.leadId} onValueChange={value => setCreateData({
                   ...createData,
                   leadId: value
                 })}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t("admin.organization.select_team_lead")} />
+                      <SelectValue placeholder={t("admin_organization_select_team_lead")} />
                     </SelectTrigger>
                     <SelectContent>
                       {users.map(user => <SelectItem key={user.id} value={user.id}>
@@ -393,7 +393,7 @@ export default function Teams() {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createTeam}>{t("admin.organization.create_team")}</Button>
+                <Button onClick={createTeam}>{t("admin_organization_create_team")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -403,32 +403,32 @@ export default function Teams() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>{t("admin.organization.edit_team")}</DialogTitle>
-              <DialogDescription>{t("admin.organization.update_team_information_and")}</DialogDescription>
+              <DialogTitle>{t("admin_organization_edit_team")}</DialogTitle>
+              <DialogDescription>{t("admin_organization_update_team_information_and")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="editTeamName">{t("admin.organization.team_name")}</Label>
+                <Label htmlFor="editTeamName">{t("admin_organization_team_name")}</Label>
                 <Input id="editTeamName" value={editData.name} onChange={e => setEditData({
                 ...editData,
                 name: e.target.value
               })} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="editTeamDescription">{t("admin.organization.description")}</Label>
+                <Label htmlFor="editTeamDescription">{t("admin_organization_description")}</Label>
                 <Input id="editTeamDescription" value={editData.description} onChange={e => setEditData({
                 ...editData,
                 description: e.target.value
               })} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="editLeadId">{t("admin.organization.team_lead")}</Label>
+                <Label htmlFor="editLeadId">{t("admin_organization_team_lead")}</Label>
                 <Select value={editData.leadId} onValueChange={value => setEditData({
                 ...editData,
                 leadId: value
               })}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("admin.organization.select_team_lead")} />
+                    <SelectValue placeholder={t("admin_organization_select_team_lead")} />
                   </SelectTrigger>
                   <SelectContent>
                     {users.map(user => <SelectItem key={user.id} value={user.id}>
@@ -438,7 +438,7 @@ export default function Teams() {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="editMaxMembers">{t("admin.organization.max_members")}</Label>
+                <Label htmlFor="editMaxMembers">{t("admin_organization_max_members")}</Label>
                 <Input id="editMaxMembers" type="number" value={editData.maxMembers} onChange={e => setEditData({
                 ...editData,
                 maxMembers: e.target.value
@@ -446,7 +446,7 @@ export default function Teams() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={updateTeam}>{t("admin.organization.update_team")}</Button>
+              <Button onClick={updateTeam}>{t("admin_organization_update_team")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -455,19 +455,19 @@ export default function Teams() {
         <Dialog open={isMemberDialogOpen} onOpenChange={setIsMemberDialogOpen}>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>{t("admin.organization.add_team_member")}</DialogTitle>
-              <DialogDescription>{t("admin.organization.add_a_new_member")}{selectedTeam?.name}.
+              <DialogTitle>{t("admin_organization_add_team_member")}</DialogTitle>
+              <DialogDescription>{t("admin_organization_add_a_new_member")}{selectedTeam?.name}.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="memberUserId">{t("admin.organization.select_user")}</Label>
+                <Label htmlFor="memberUserId">{t("admin_organization_select_user")}</Label>
                 <Select value={memberData.userId} onValueChange={value => setMemberData({
                 ...memberData,
                 userId: value
               })}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("admin.organization.choose_a_user")} />
+                    <SelectValue placeholder={t("admin_organization_choose_a_user")} />
                   </SelectTrigger>
                   <SelectContent>
                     {users.filter(user => !selectedTeam?.members.some(member => member.user.id === user.id)).map(user => <SelectItem key={user.id} value={user.id}>
@@ -477,7 +477,7 @@ export default function Teams() {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="memberRole">{t("admin.organization.role_in_team")}</Label>
+                <Label htmlFor="memberRole">{t("admin_organization_role_in_team")}</Label>
                 <Select value={memberData.role} onValueChange={value => setMemberData({
                 ...memberData,
                 role: value
@@ -486,15 +486,15 @@ export default function Teams() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="LEAD">{t("admin.organization.lead")}</SelectItem>
-                    <SelectItem value="MEMBER">{t("admin.organization.member")}</SelectItem>
-                    <SelectItem value="VIEWER">{t("admin.organization.viewer")}</SelectItem>
+                    <SelectItem value="LEAD">{t("admin_organization_lead")}</SelectItem>
+                    <SelectItem value="MEMBER">{t("admin_organization_member")}</SelectItem>
+                    <SelectItem value="VIEWER">{t("admin_organization_viewer")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={addTeamMember}>{t("admin.organization.add_member")}</Button>
+              <Button onClick={addTeamMember}>{t("admin_organization_add_member")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -502,20 +502,20 @@ export default function Teams() {
         {/* Teams Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.organization.teams")}</CardTitle>
-            <p className="text-sm text-muted-foreground">{t("admin.organization.manage_teams_and_their")}</p>
+            <CardTitle>{t("admin_organization_teams")}</CardTitle>
+            <p className="text-sm text-muted-foreground">{t("admin_organization_manage_teams_and_their")}</p>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.organization.team")}</TableHead>
-                  <TableHead>{t("admin.organization.organization")}</TableHead>
-                  <TableHead>{t("admin.organization.lead")}</TableHead>
-                  <TableHead>{t("admin.organization.members")}</TableHead>
-                  <TableHead>{t("admin.organization.created")}</TableHead>
-                  <TableHead>{t("admin.organization.status")}</TableHead>
-                  <TableHead className="text-right">{t("admin.organization.actions")}</TableHead>
+                  <TableHead>{t("admin_organization_team")}</TableHead>
+                  <TableHead>{t("admin_organization_organization")}</TableHead>
+                  <TableHead>{t("admin_organization_lead")}</TableHead>
+                  <TableHead>{t("admin_organization_members")}</TableHead>
+                  <TableHead>{t("admin_organization_created")}</TableHead>
+                  <TableHead>{t("admin_organization_status")}</TableHead>
+                  <TableHead className="text-right">{t("admin_organization_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -542,7 +542,7 @@ export default function Teams() {
                           <div className="text-xs text-muted-foreground">
                             {team.lead.email}
                           </div>
-                        </div> : <span className="text-muted-foreground">{t("admin.organization.no_lead_assigned")}</span>}
+                        </div> : <span className="text-muted-foreground">{t("admin_organization_no_lead_assigned")}</span>}
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
@@ -571,14 +571,14 @@ export default function Teams() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.organization.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_organization_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openEditDialog(team)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.organization.edit_team")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_organization_edit_team")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => openMemberDialog(team)}>
-                            <UserPlus className="h-4 w-4 mr-2" />{t("admin.organization.manage_members")}</DropdownMenuItem>
+                            <UserPlus className="h-4 w-4 mr-2" />{t("admin_organization_manage_members")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deleteTeam(team.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.organization.delete_team")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_organization_delete_team")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -591,17 +591,17 @@ export default function Teams() {
         {/* Team Members Management (Expandable) */}
         {selectedTeam && <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.team_members")}{selectedTeam.name}</CardTitle>
-              <p className="text-sm text-muted-foreground">{t("admin.organization.current_team_members_and")}</p>
+              <CardTitle>{t("admin_organization_team_members")}{selectedTeam.name}</CardTitle>
+              <p className="text-sm text-muted-foreground">{t("admin_organization_current_team_members_and")}</p>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>{t("admin.organization.member")}</TableHead>
-                    <TableHead>{t("admin.organization.role")}</TableHead>
-                    <TableHead>{t("admin.organization.joined")}</TableHead>
-                    <TableHead className="text-right">{t("admin.organization.actions")}</TableHead>
+                    <TableHead>{t("admin_organization_member")}</TableHead>
+                    <TableHead>{t("admin_organization_role")}</TableHead>
+                    <TableHead>{t("admin_organization_joined")}</TableHead>
+                    <TableHead className="text-right">{t("admin_organization_actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

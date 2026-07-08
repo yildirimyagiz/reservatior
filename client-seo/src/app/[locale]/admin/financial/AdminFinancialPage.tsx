@@ -38,7 +38,7 @@ const financialMetrics = [
     change: "+25.3%",
     trend: "up",
     icon: PiggyBank,
-    color: "text-slate-400"
+    color: "text-muted-foreground"
   },
   {
     title: "Pending Payments",
@@ -63,7 +63,7 @@ export default function AdminFinancialPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -73,15 +73,15 @@ export default function AdminFinancialPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.financial.title")}</h1>
-              <p className="text-gray-400">{t("admin.financial.description")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_financial_title")}</h1>
+              <p className="text-muted-foreground">{t("admin_financial_description")}</p>
             </div>
             <Button
               onClick={() => router.push('/admin/dashboard')}
-              className="bg-slate-600 hover:bg-slate-700"
+              className="bg-primary hover:bg-primary/90"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.financial.back_to_dashboard")}
+              {t("admin_financial_back_to_dashboard")}
                                       </Button>
           </div>
         </motion.div>
@@ -94,7 +94,7 @@ export default function AdminFinancialPage() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
         >
           {financialMetrics.map((metric, idx) => (
-            <Card key={idx} className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+            <Card key={idx} className="bg-card border-border">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <metric.icon className={`w-6 h-6 ${metric.color}`} />
@@ -103,8 +103,8 @@ export default function AdminFinancialPage() {
                     {metric.change}
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-white mb-1">{metric.value}</div>
-                <div className="text-sm text-gray-400">{metric.title}</div>
+                <div className="text-2xl font-bold text-foreground mb-1">{metric.value}</div>
+                <div className="text-sm text-muted-foreground">{metric.title}</div>
               </CardContent>
             </Card>
           ))}
@@ -116,9 +116,9 @@ export default function AdminFinancialPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.financial.recent_transactions")}</CardTitle>
+              <CardTitle className="text-foreground">{t("admin_financial_recent_transactions")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -128,8 +128,8 @@ export default function AdminFinancialPage() {
                     className="flex items-center justify-between p-4 bg-white/5 rounded-lg"
                   >
                     <div>
-                      <div className="text-white font-medium">{transaction.description}</div>
-                      <div className="text-sm text-gray-400">{transaction.date}</div>
+                      <div className="text-foreground font-medium">{transaction.description}</div>
+                      <div className="text-sm text-muted-foreground">{transaction.date}</div>
                     </div>
                     <div className={`font-bold ${transaction.type === 'RECEIPT' ? 'text-green-400' : 'text-red-400'}`}>
                       {transaction.type === 'RECEIPT' ? '+' : '-'}${transaction.amount.toLocaleString()}

@@ -68,86 +68,86 @@ export default function MLTasks() {
   const getTaskIcon = (type: string) => {
     switch (type) {
       case "REELS_VIDEO_GEN":
-        return <Video className="w-4 h-4 text-slate-400" />;
+        return <Video className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
       case "BROCHURE_GEN":
-        return <FileText className="w-4 h-4 text-slate-400" />;
+        return <FileText className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
       case "SEO_DESCRIPTION":
         return <Search className="w-4 h-4 text-green-400" />;
       case "DOCUMENT_EXTRACT":
         return <Database className="w-4 h-4 text-orange-400" />;
       default:
-        return <RefreshCcw className="w-4 h-4 text-slate-400" />;
+        return <RefreshCcw className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "COMPLETED":
-        return <Badge className="bg-green-500/20 text-green-500 border-green-500/50">{t("admin.ai.completed")}</Badge>;
+        return <Badge className="bg-green-500/20 text-green-500 border-green-500/50">{t("admin_ai_completed")}</Badge>;
       case "PROCESSING":
-        return <Badge className="bg-slate-500/20 text-slate-500 border-slate-500/50 animate-pulse">{t("admin.ai.processing")}</Badge>;
+        return <Badge className="bg-slate-500/20 text-slate-500 border-slate-500/50 animate-pulse">{t("admin_ai_processing")}</Badge>;
       case "FAILED":
-        return <Badge className="bg-red-500/20 text-red-500 border-red-500/50">{t("admin.ai.failed")}</Badge>;
+        return <Badge className="bg-red-500/20 text-red-500 border-red-500/50">{t("admin_ai_failed")}</Badge>;
       default:
-        return <Badge variant="outline" className="text-slate-400">{t("admin.ai.pending")}</Badge>;
+        return <Badge variant="outline" className="text-slate-500 dark:text-slate-400">{t("admin_ai_pending")}</Badge>;
     }
   };
   return <div className="min-h-screen p-4 md:p-8 space-y-6">
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-3">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.active_tasks")}</CardTitle>
-              <Clock className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_active_tasks")}</CardTitle>
+              <Clock className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{tasks.filter((t: AiServiceTask) => t.status === "PROCESSING").length}</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{tasks.filter((t: AiServiceTask) => t.status === "PROCESSING").length}</div>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.completed_24h")}</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_completed_24h")}</CardTitle>
               <CheckCircle2 className="h-4 w-4 text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{tasks.filter((t: AiServiceTask) => t.status === "COMPLETED").length}</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{tasks.filter((t: AiServiceTask) => t.status === "COMPLETED").length}</div>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.failed_tasks")}</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_failed_tasks")}</CardTitle>
               <AlertCircle className="h-4 w-4 text-red-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{tasks.filter((t: AiServiceTask) => t.status === "FAILED").length}</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{tasks.filter((t: AiServiceTask) => t.status === "FAILED").length}</div>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-white">{t("admin.ai.work_order_pipeline")}</CardTitle>
+            <CardTitle className="text-slate-900 dark:text-white">{t("admin_ai_work_order_pipeline")}</CardTitle>
             <div className="flex gap-2">
               <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
                 <DialogTrigger asChild>
                   <Button size="sm">Dispatch Task</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px] bg-white/5 border-white/10 text-white">
+                <DialogContent className="sm:max-w-[425px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                   <DialogHeader>
                     <DialogTitle>Dispatch AI Task</DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-slate-500 dark:text-slate-400">
                       Create a new async task in the background.
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
-                      <Label className="text-right text-xs text-slate-400">Org ID</Label>
-                      <Input className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={newTask.orgId} onChange={e => setNewTask({...newTask, orgId: e.target.value})} placeholder="org_1" />
+                      <Label className="text-right text-xs text-slate-500 dark:text-slate-400">Org ID</Label>
+                      <Input className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newTask.orgId} onChange={e => setNewTask({...newTask, orgId: e.target.value})} placeholder="org_1" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
-                      <Label className="text-right text-xs text-slate-400">Task Type</Label>
+                      <Label className="text-right text-xs text-slate-500 dark:text-slate-400">Task Type</Label>
                       <Select value={newTask.taskType} onValueChange={v => setNewTask({...newTask, taskType: v})}>
-                        <SelectTrigger className="col-span-3 h-10 bg-white/5 border-white/10 text-white"><SelectValue placeholder="Type" /></SelectTrigger>
-                        <SelectContent className="bg-white/5 border-white/10 text-white">
+                        <SelectTrigger className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"><SelectValue placeholder="Type" /></SelectTrigger>
+                        <SelectContent className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                           <SelectItem value="REELS_VIDEO_GEN">Reels Gen</SelectItem>
                           <SelectItem value="PDF_BROCHURE_GEN">Brochure Gen</SelectItem>
                           <SelectItem value="DOCUMENT_OCR">Document OCR</SelectItem>
@@ -158,7 +158,7 @@ export default function MLTasks() {
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button variant="outline" className="border-white/10 text-slate-400" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+                    <Button variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400" onClick={() => setIsAddOpen(false)}>Cancel</Button>
                     <Button onClick={() => createMutation.mutate(newTask)} disabled={createMutation.isPending}>
                       {createMutation.isPending ? "Dispatching..." : "Dispatch"}
                     </Button>
@@ -170,25 +170,25 @@ export default function MLTasks() {
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow className="border-white/10">
-                  <TableHead className="text-slate-400">{t("admin.ai.service_type")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.listing_property")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.status")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.progress")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.submitted")}</TableHead>
-                  <TableHead className="text-right text-slate-400">{t("admin.ai.action")}</TableHead>
+                <TableRow className="border-slate-200 dark:border-white/10">
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_service_type")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_listing_property")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_status")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_progress")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_submitted")}</TableHead>
+                  <TableHead className="text-right text-slate-500 dark:text-slate-400">{t("admin_ai_action")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {tasks.map((task: AiServiceTask) => <TableRow key={task.id} className="border-white/10">
+                {tasks.map((task: AiServiceTask) => <TableRow key={task.id} className="border-slate-200 dark:border-white/10">
                     <TableCell>
                       <div className="flex items-center gap-2">
                         {getTaskIcon(task.taskType)}
-                        <span className="font-medium text-sm text-white">{task.taskType}</span>
+                        <span className="font-medium text-sm text-slate-900 dark:text-white">{task.taskType}</span>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="text-xs text-slate-400 font-mono">
+                      <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">
                         {task.listingId || task.propertyId || "General"}
                       </div>
                     </TableCell>
@@ -196,16 +196,16 @@ export default function MLTasks() {
                     <TableCell className="min-w-[120px]">
                       <div className="flex items-center gap-2">
                         <Progress value={task.progress} className="h-1.5 w-24" />
-                        <span className="text-[10px] text-slate-400">%{task.progress}</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">%{task.progress}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-xs text-slate-400">
+                    <TableCell className="text-xs text-slate-500 dark:text-slate-400">
                       {new Date(task.createdAt).toLocaleString()}
                     </TableCell>
                     <TableCell className="text-right">
                       {task.status === "COMPLETED" && task.outputData?.url && <Button variant="ghost" size="sm" asChild>
                           <a href={task.outputData.url} target="_blank" rel="noreferrer">
-                            <ExternalLink className="w-4 h-4 text-slate-400" />
+                            <ExternalLink className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                           </a>
                         </Button>}
                       {task.status === "FAILED" && <Button variant="ghost" size="sm" onClick={() => alert(task.error)}>
@@ -214,7 +214,7 @@ export default function MLTasks() {
                     </TableCell>
                   </TableRow>)}
                 {!isLoading && tasks.length === 0 && <TableRow>
-                    <TableCell colSpan={6} className="text-center py-12 text-slate-400">{t("admin.ai.no_ml_tasks_found")}</TableCell>
+                    <TableCell colSpan={6} className="text-center py-12 text-slate-500 dark:text-slate-400">{t("admin_ai_no_ml_tasks_found")}</TableCell>
                   </TableRow>}
               </TableBody>
             </Table>

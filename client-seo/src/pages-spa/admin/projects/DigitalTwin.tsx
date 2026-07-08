@@ -70,7 +70,7 @@ export default function DigitalTwinDashboard() {
     switch (status) {
       case "sold": return "bg-green-500/20 border-green-500/50 text-green-400";
       case "dispute": return "bg-red-500/20 border-red-500/50 text-red-400";
-      default: return "bg-slate-800/50 border-slate-700/50 text-slate-500";
+      default: return "bg-slate-50 dark:bg-slate-800/50 border-slate-700/50 text-slate-500";
     }
   };
 
@@ -83,14 +83,14 @@ export default function DigitalTwinDashboard() {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-xl bg-slate-500/10 border border-slate-500/20 flex items-center justify-center">
-                <Building2 className="w-5 h-5 text-slate-400" />
+                <Building2 className="w-5 h-5 text-slate-500 dark:text-slate-400" />
               </div>
-              <h1 className="text-3xl font-light tracking-tight text-white">Digital Twin Matrix</h1>
+              <h1 className="text-3xl font-light tracking-tight text-slate-900 dark:text-white">Digital Twin Matrix</h1>
             </div>
-            <p className="text-slate-400">Gerçek Zamanlı Bina Durumu ve Mal Sahibi Analizi</p>
+            <p className="text-slate-500 dark:text-slate-400">Gerçek Zamanlı Bina Durumu ve Mal Sahibi Analizi</p>
           </div>
           
-          <div className="flex gap-2 bg-[#1A1C20] p-1.5 rounded-xl border border-slate-800/50 overflow-x-auto max-w-[60vw] scrollbar-hide">
+          <div className="flex gap-2 bg-[#1A1C20] p-1.5 rounded-xl border border-slate-200 dark:border-slate-800/50 overflow-x-auto max-w-[60vw] scrollbar-hide">
             {MOCK_PROJECTS.map((proj) => (
               <button
                 key={proj.id}
@@ -100,8 +100,8 @@ export default function DigitalTwinDashboard() {
                 }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   activeProject.id === proj.id
-                    ? "bg-slate-500/10 text-slate-400 border border-slate-500/20"
-                    : "text-slate-400 hover:text-white"
+                    ? "bg-slate-500/10 text-slate-500 dark:text-slate-400 border border-slate-500/20"
+                    : "text-slate-500 dark:text-slate-400 hover:text-white"
                 }`}
               >
                 {proj.name}
@@ -128,8 +128,8 @@ export default function DigitalTwinDashboard() {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Building2 className={`w-5 h-5 ${activeBlock === block ? "text-slate-400" : "text-slate-600"}`} />
-                    <span className={`font-medium ${activeBlock === block ? "text-white" : "text-slate-400"}`}>
+                    <Building2 className={`w-5 h-5 ${activeBlock === block ? "text-slate-500 dark:text-slate-400" : "text-slate-600"}`} />
+                    <span className={`font-medium ${activeBlock === block ? "text-slate-900 dark:text-white" : "text-slate-500 dark:text-slate-400"}`}>
                       {block} Blok
                     </span>
                   </div>
@@ -140,19 +140,19 @@ export default function DigitalTwinDashboard() {
               ))}
             </div>
 
-            <div className="mt-8 p-5 rounded-xl bg-gradient-to-b from-[#1A1C20] to-[#0A0A0B] border border-slate-800/50">
+            <div className="mt-8 p-5 rounded-xl bg-gradient-to-b from-[#1A1C20] to-[#0A0A0B] border border-slate-200 dark:border-slate-800/50">
               <h4 className="text-sm font-medium text-slate-300 mb-4">Gösterge Tablosu</h4>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 text-sm text-slate-400">
+                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
                   <div className="w-3 h-3 rounded-lg bg-green-500/20 border border-green-500/50" />
                   Satıldı / Sahipli
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-400">
+                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
                   <div className="w-3 h-3 rounded-lg bg-red-500/20 border border-red-500/50" />
                   Hukuki İhtilaf (Escrow Blokajı)
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-400">
-                  <div className="w-3 h-3 rounded-lg bg-slate-800 border border-slate-700" />
+                <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+                  <div className="w-3 h-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-700" />
                   Boş / Kiralık
                 </div>
               </div>
@@ -161,13 +161,13 @@ export default function DigitalTwinDashboard() {
 
           {/* Building Facade View */}
           <div className="lg:col-span-3">
-            <div className="bg-[#111315]/80 backdrop-blur-md rounded-2xl border border-slate-800/80 p-8 shadow-2xl relative overflow-hidden">
+            <div className="bg-[#111315]/80 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-800/80 p-8 shadow-2xl relative overflow-hidden">
               {/* Architectural Accents */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent via-slate-500/20 to-transparent" />
               
-              <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-800/50">
-                <h2 className="text-xl font-medium text-white flex items-center gap-2">
-                  <Home className="w-5 h-5 text-slate-400" />
+              <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-200 dark:border-slate-800/50">
+                <h2 className="text-xl font-medium text-slate-900 dark:text-white flex items-center gap-2">
+                  <Home className="w-5 h-5 text-slate-500 dark:text-slate-400" />
                   {activeProject.name} - {activeBlock} Blok Cephesi
                 </h2>
                 <div className="text-sm text-slate-500">{activeProject.totalFloors} Kat</div>
@@ -210,8 +210,8 @@ export default function DigitalTwinDashboard() {
                                 <div className="space-y-4">
                                   <div className="flex justify-between items-start">
                                     <div>
-                                      <h4 className="text-sm font-semibold text-white">{activeBlock}-{apt.aptNo} Numaralı Daire</h4>
-                                      <p className="text-xs text-slate-400">{activeProject.name}</p>
+                                      <h4 className="text-sm font-semibold text-slate-900 dark:text-white">{activeBlock}-{apt.aptNo} Numaralı Daire</h4>
+                                      <p className="text-xs text-slate-500 dark:text-slate-400">{activeProject.name}</p>
                                     </div>
                                     <div className={`px-2 py-1 rounded-lg text-[10px] font-bold uppercase ${apt.status === 'sold' ? 'bg-green-500/20 text-green-400' : apt.status === 'dispute' ? 'bg-red-500/20 text-red-400' : 'bg-slate-700 text-slate-300'}`}>
                                       {apt.status}
@@ -219,10 +219,10 @@ export default function DigitalTwinDashboard() {
                                   </div>
                                   
                                   {apt.owner ? (
-                                    <div className="bg-[#111315] p-3 rounded-lg border border-slate-800 space-y-2">
+                                    <div className="bg-[#111315] p-3 rounded-lg border border-slate-200 dark:border-slate-800 space-y-2">
                                       <div className="flex items-center gap-2 text-sm text-slate-300">
-                                        <User className="w-4 h-4 text-slate-400" />
-                                        <span>Sahibi: <strong className="text-white">{apt.owner}</strong></span>
+                                        <User className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                                        <span>Sahibi: <strong className="text-slate-900 dark:text-white">{apt.owner}</strong></span>
                                       </div>
                                       <div className="flex items-center gap-2 text-sm text-slate-300">
                                         <FileText className="w-4 h-4 text-slate-500" />
@@ -230,7 +230,7 @@ export default function DigitalTwinDashboard() {
                                       </div>
                                     </div>
                                   ) : (
-                                    <div className="text-sm text-slate-400 italic flex items-center gap-2">
+                                    <div className="text-sm text-slate-500 dark:text-slate-400 italic flex items-center gap-2">
                                       <Info className="w-4 h-4" />
                                       Satışa Hazır / Portföyde
                                     </div>
@@ -238,7 +238,7 @@ export default function DigitalTwinDashboard() {
                                   
                                   {apt.status === 'sold' && apt.owner === "MISHARI Z H ALKHALID" && (
                                     <div className="pt-2 border-t border-slate-700/50 flex justify-between items-center text-xs">
-                                      <span className="text-slate-400">Escrow Durumu</span>
+                                      <span className="text-slate-500 dark:text-slate-400">Escrow Durumu</span>
                                       <span className="text-green-400 flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> Fon Onaylandı</span>
                                     </div>
                                   )}

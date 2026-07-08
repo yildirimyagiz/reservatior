@@ -75,17 +75,17 @@ const ACTION_ICONS: Record<string, React.ComponentType<any>> = {
 };
 const SEVERITY_CONFIG = {
   INFO: {
-    label: t("admin.security.info"),
+    label: t("admin_security_info"),
     color: "bg-slate-100 text-slate-700",
     icon: Info
   },
   WARNING: {
-    label: t("admin.security.warning"),
+    label: t("admin_security_warning"),
     color: "bg-yellow-100 text-yellow-700",
     icon: AlertTriangle
   },
   CRITICAL: {
-    label: t("admin.security.critical"),
+    label: t("admin_security_critical"),
     color: "bg-red-100 text-red-700",
     icon: Shield
   }
@@ -179,14 +179,14 @@ export default function AuditLogs() {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
       toast({
-        title: t("admin.security.export_successful"),
+        title: t("admin_security_export_successful"),
         description: `Audit logs exported as ${format}`
       });
     } catch (error) {
       console.error('Error exporting logs:', error);
       toast({
-        title: t("admin.security.export_failed"),
-        description: t("admin.security.failed_to_export_audit"),
+        title: t("admin_security_export_failed"),
+        description: t("admin_security_failed_to_export_audit"),
         variant: "destructive"
       });
     }
@@ -223,7 +223,7 @@ export default function AuditLogs() {
         </div>
       </div>);
   };
-  return <PageShell title={t("admin.security.neuroaudit_trail")} description={t("admin.security.realtime_system_synchronization_and")}>
+  return <PageShell title={t("admin_security_neuroaudit_trail")} description={t("admin_security_realtime_system_synchronization_and")}>
       <div className="space-y-10 pb-20">
         {/* KPI Neural Grid */}
         {stats && <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -232,9 +232,9 @@ export default function AuditLogs() {
                 <Info className="w-12 h-12" />
               </div>
               <CardContent className="p-8">
-                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.security.total_audit_capacity")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_security_total_audit_capacity")}</p>
                 <h3 className="text-xl font-bold text-foreground">{stats.totalLogs.toLocaleString()}</h3>
-                <p className="text-[10px] font-bold text-muted-foreground mt-4">{t("admin.security.synced_nodes")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mt-4">{t("admin_security_synced_nodes")}</p>
               </CardContent>
             </Card>
 
@@ -243,9 +243,9 @@ export default function AuditLogs() {
                 <Activity className="w-12 h-12" />
               </div>
               <CardContent className="p-8">
-                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.security.diurnal_cycle_events")}</p>
-                <h3 className="text-xl font-bold text-slate-400">{stats.todayLogs}</h3>
-                <p className="text-[10px] font-bold text-slate-500 mt-4">{t("admin.security.active_today")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_security_diurnal_cycle_events")}</p>
+                <h3 className="text-xl font-bold text-slate-500 dark:text-slate-400">{stats.todayLogs}</h3>
+                <p className="text-[10px] font-bold text-slate-500 mt-4">{t("admin_security_active_today")}</p>
               </CardContent>
             </Card>
 
@@ -254,9 +254,9 @@ export default function AuditLogs() {
                 <AlertTriangle className="w-12 h-12" />
               </div>
               <CardContent className="p-8">
-                <p className="text-[10px] font-bold text-red-500/70 mb-1">{t("admin.security.critical_neural_alerts")}</p>
+                <p className="text-[10px] font-bold text-red-500/70 mb-1">{t("admin_security_critical_neural_alerts")}</p>
                 <h3 className="text-xl font-bold text-red-500">{stats.criticalLogs}</h3>
-                <p className="text-[10px] font-bold text-red-400 mt-4 animate-pulse">{t("admin.security.action_required")}</p>
+                <p className="text-[10px] font-bold text-red-400 mt-4 animate-pulse">{t("admin_security_action_required")}</p>
               </CardContent>
             </Card>
 
@@ -265,9 +265,9 @@ export default function AuditLogs() {
                 <Users className="w-12 h-12" />
               </div>
               <CardContent className="p-8">
-                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.security.unique_entity_access")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_security_unique_entity_access")}</p>
                 <h3 className="text-xl font-bold text-emerald-400">{stats.uniqueUsers}</h3>
-                <p className="text-[10px] font-bold text-emerald-500 mt-4">{t("admin.security.verified_syncs")}</p>
+                <p className="text-[10px] font-bold text-emerald-500 mt-4">{t("admin_security_verified_syncs")}</p>
               </CardContent>
             </Card>
           </div>}
@@ -277,32 +277,32 @@ export default function AuditLogs() {
           <div className="flex flex-wrap items-center gap-3 flex-1">
             <div className="relative group min-w-[280px]">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-orange-500 transition-colors" />
-              <Input placeholder={t("admin.security.search_neurologs")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-orange-500/20 focus:border-orange-500/40 transition-all" />
+              <Input placeholder={t("admin_security_search_neurologs")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-orange-500/20 focus:border-orange-500/40 transition-all" />
             </div>
             <Select value={filterAction} onValueChange={setFilterAction}>
               <SelectTrigger className="w-40 bg-card border-border rounded-2xl h-14 text-foreground">
-                <SelectValue placeholder={t("admin.security.action")} />
+                <SelectValue placeholder={t("admin_security_action")} />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-2xl text-muted-foreground">
-                <SelectItem value="all">{t("admin.security.all_actions")}</SelectItem>
+                <SelectItem value="all">{t("admin_security_all_actions")}</SelectItem>
                 {Object.keys(ACTION_ICONS).map(action => <SelectItem key={action} value={action} className="rounded-lg">{action}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={filterSeverity} onValueChange={setFilterSeverity}>
               <SelectTrigger className="w-32 bg-card border-border rounded-2xl h-14 text-foreground">
-                <SelectValue placeholder={t("admin.security.severity")} />
+                <SelectValue placeholder={t("admin_security_severity")} />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-2xl text-muted-foreground">
-                <SelectItem value="all">{t("admin.security.all_levels")}</SelectItem>
+                <SelectItem value="all">{t("admin_security_all_levels")}</SelectItem>
                 {Object.keys(SEVERITY_CONFIG).map(severity => <SelectItem key={severity} value={severity} className="rounded-lg">{getSeverityLabel(severity)}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           <div className="flex items-center gap-3">
             <Button variant="outline" onClick={() => handleExportLogs('csv')} className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 gap-2 font-bold text-[10px]">
-              <Download className="h-4 w-4" />{t("admin.security.csv")}</Button>
+              <Download className="h-4 w-4" />{t("admin_security_csv")}</Button>
             <Button variant="outline" onClick={() => handleExportLogs('json')} className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 gap-2 font-bold text-[10px]">
-              <Download className="h-4 w-4" />{t("admin.security.json")}</Button>
+              <Download className="h-4 w-4" />{t("admin_security_json")}</Button>
           </div>
         </div>
 
@@ -313,22 +313,22 @@ export default function AuditLogs() {
             <Table>
               <TableHeader className="bg-muted/50 border-b border-border">
                 <TableRow className="border-none">
-                  <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8">{t("admin.security.neurotimestamp")}</TableHead>
-                  <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.security.origin_entity")}</TableHead>
-                  <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.security.action_pulse")}</TableHead>
-                  <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.security.severity_index")}</TableHead>
-                  <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin.security.interrogate")}</TableHead>
+                  <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8">{t("admin_security_neurotimestamp")}</TableHead>
+                  <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_security_origin_entity")}</TableHead>
+                  <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_security_action_pulse")}</TableHead>
+                  <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_security_severity_index")}</TableHead>
+                  <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin_security_interrogate")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {loading ? <TableRow>
                     <TableCell colSpan={5} className="text-center py-20">
                       <Activity className="w-8 h-8 text-orange-500 animate-spin mx-auto mb-4 opacity-50" />
-                      <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin.security.synchronizing_neural_trail")}</p>
+                      <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin_security_synchronizing_neural_trail")}</p>
                     </TableCell>
                   </TableRow> : filteredLogs.length === 0 ? <TableRow>
                     <TableCell colSpan={5} className="text-center py-20 px-8">
-                       <p className="text-[10px] font-bold text-muted-foreground">{t("admin.security.no_neural_events_detected")}</p>
+                       <p className="text-[10px] font-bold text-muted-foreground">{t("admin_security_no_neural_events_detected")}</p>
                     </TableCell>
                   </TableRow> : filteredLogs.map((log: AuditLog) => <tr key={log.id} className="border-b border-border hover:bg-muted/50 transition-all group">
                       <td className="py-8 px-8">
@@ -353,7 +353,7 @@ export default function AuditLogs() {
                         </div>
                       </td>
                       <td className="px-8">
-                        <Badge className={cn("text-[9px] font-bold   px-3 py-1 rounded-full  border-none shadow-lg", log.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : log.severity === 'WARNING' ? 'bg-orange-500/20 text-orange-400' : 'bg-slate-500/20 text-slate-400')}>
+                        <Badge className={cn("text-[9px] font-bold   px-3 py-1 rounded-full  border-none shadow-lg", log.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : log.severity === 'WARNING' ? 'bg-orange-500/20 text-orange-400' : 'bg-slate-500/20 text-slate-500 dark:text-slate-400')}>
                           {getSeverityLabel(log.severity)}
                         </Badge>
                       </td>
@@ -376,16 +376,16 @@ export default function AuditLogs() {
         <Dialog open={detailOpen} onOpenChange={setDetailOpen}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>{t("admin.security.audit_log_details")}</DialogTitle>
+              <DialogTitle>{t("admin_security_audit_log_details")}</DialogTitle>
             </DialogHeader>
             {selected && <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium">{t("admin.security.timestamp")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_timestamp")}</label>
                     <div className="text-sm">{formatDateTime(selected.createdAt)}</div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium">{t("admin.security.severity")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_severity")}</label>
                     <div className="flex items-center space-x-2">
                       {getSeverityIcon(selected.severity)}
                       <Badge className={getSeverityColor(selected.severity)}>
@@ -396,17 +396,17 @@ export default function AuditLogs() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium">{t("admin.security.user")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_user")}</label>
                     <div>
                       <div className="font-medium">{selected.user?.name}</div>
-                      <div className="text-sm text-slate-400">{selected.user?.email}</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">{selected.user?.email}</div>
                       <Badge variant="outline" className="text-xs">
                         {selected.user?.role}
                       </Badge>
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium">{t("admin.security.action")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_action")}</label>
                     <div className="flex items-center space-x-2">
                       {getActionIcon(selected.action)}
                       <span className="font-medium">{selected.action}</span>
@@ -415,15 +415,15 @@ export default function AuditLogs() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium">{t("admin.security.entity")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_entity")}</label>
                     <div>
                       <div className="font-medium">{selected.entityType}</div>
-                      {selected.entityName && <div className="text-sm text-slate-400">{selected.entityName}</div>}
-                      <div className="text-xs text-slate-400 font-mono">{t("admin.security.id")}{selected.entityId}</div>
+                      {selected.entityName && <div className="text-sm text-slate-500 dark:text-slate-400">{selected.entityName}</div>}
+                      <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">{t("admin_security_id")}{selected.entityId}</div>
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium">{t("admin.security.category")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_category")}</label>
                     <div className="text-sm">
                       {CATEGORIES[selected.category as keyof typeof CATEGORIES] || selected.category}
                     </div>
@@ -431,47 +431,47 @@ export default function AuditLogs() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium">{t("admin.security.ip_address")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_ip_address")}</label>
                     <div className="font-mono text-sm">{selected.ipAddress}</div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium">{t("admin.security.location")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_location")}</label>
                     <div className="text-sm">
                       {selected.location?.city && selected.location?.country ? `${selected.location.city}, ${selected.location.country}` : t("admin.security.unknown", "Bilinmiyor")}
                     </div>
                   </div>
                 </div>
                 {selected.userAgent && <div>
-                    <label className="text-sm font-medium">{t("admin.security.user_agent")}</label>
-                    <div className="text-sm text-slate-400 break-all">{selected.userAgent}</div>
+                    <label className="text-sm font-medium">{t("admin_security_user_agent")}</label>
+                    <div className="text-sm text-slate-500 dark:text-slate-400 break-all">{selected.userAgent}</div>
                   </div>}
                 {selected.description && <div>
-                    <label className="text-sm font-medium">{t("admin.security.description")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_description")}</label>
                     <div className="text-sm">{selected.description}</div>
                   </div>}
                 {selected.changes && Object.keys(selected.changes).length > 0 && <div>
-                    <label className="text-sm font-medium">{t("admin.security.changes")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_changes")}</label>
                     <div className="border rounded-lg p-3 bg-white/5">
                       {formatChanges(selected.changes)}
                     </div>
                   </div>}
                 {(selected.oldValue !== undefined || selected.newValue !== undefined) && <div>
-                    <label className="text-sm font-medium">{t("admin.security.value_change")}</label>
+                    <label className="text-sm font-medium">{t("admin_security_value_change")}</label>
                     <div className="flex items-center space-x-4">
                       <div>
-                        <label className="text-xs text-slate-400">{t("admin.security.before")}</label>
+                        <label className="text-xs text-slate-500 dark:text-slate-400">{t("admin_security_before")}</label>
                         <div className="text-red-600 line-through">{String(selected.oldValue)}</div>
                       </div>
                       <div>→</div>
                       <div>
-                        <label className="text-xs text-slate-400">{t("admin.security.after")}</label>
+                        <label className="text-xs text-slate-500 dark:text-slate-400">{t("admin_security_after")}</label>
                         <div className="text-green-600">{String(selected.newValue)}</div>
                       </div>
                     </div>
                   </div>}
               </div>}
             <DialogFooter>
-              <Button variant="outline" onClick={() => setDetailOpen(false)}>{t("admin.security.close")}</Button>
+              <Button variant="outline" onClick={() => setDetailOpen(false)}>{t("admin_security_close")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

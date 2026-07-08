@@ -69,7 +69,7 @@ export default function AutomationRules() {
     e.preventDefault();
     setCreateOpen(false);
     toast({
-      title: t("admin.ai.automationrules_created")
+      title: t("admin_ai_automationrules_created")
     });
     setForm(EMPTY_FORM);
   };
@@ -77,11 +77,11 @@ export default function AutomationRules() {
     e.preventDefault();
     setEditOpen(false);
     toast({
-      title: t("admin.ai.automationrules_updated")
+      title: t("admin_ai_automationrules_updated")
     });
   };
   const handleDelete = () => toast({
-    title: t("admin.ai.automationrules_deleted"),
+    title: t("admin_ai_automationrules_deleted"),
     variant: "destructive"
   });
   const openEdit = (row: any) => {
@@ -104,36 +104,36 @@ export default function AutomationRules() {
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       <div className="space-y-1.5">
-        <Label>{t("admin.ai.rule_name")}</Label>
+        <Label>{t("admin_ai_rule_name")}</Label>
         <Input type="text" value={form.name} onChange={e => setForm({
           ...form,
           name: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("admin.ai.trigger_event")}</Label>
+        <Label>{t("admin_ai_trigger_event")}</Label>
         <Select value={form.trigger} onValueChange={v => setForm({
           ...form,
           trigger: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="LEAD_CREATED">{t("admin.ai.lead_created")}</SelectItem>
-          <SelectItem value="PAYMENT_DUE">{t("admin.ai.payment_due")}</SelectItem>
-          <SelectItem value="LEASE_EXPIRING">{t("admin.ai.lease_expiring")}</SelectItem>
-          <SelectItem value="BOOKING_CONFIRMED">{t("admin.ai.booking_confirmed")}</SelectItem>
-          <SelectItem value="SCHEDULE_DAILY">{t("admin.ai.daily_schedule")}</SelectItem></SelectContent></Select>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="LEAD_CREATED">{t("admin_ai_lead_created")}</SelectItem>
+          <SelectItem value="PAYMENT_DUE">{t("admin_ai_payment_due")}</SelectItem>
+          <SelectItem value="LEASE_EXPIRING">{t("admin_ai_lease_expiring")}</SelectItem>
+          <SelectItem value="BOOKING_CONFIRMED">{t("admin_ai_booking_confirmed")}</SelectItem>
+          <SelectItem value="SCHEDULE_DAILY">{t("admin_ai_daily_schedule")}</SelectItem></SelectContent></Select>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("admin.ai.action")}</Label>
+        <Label>{t("admin_ai_action")}</Label>
         <Select value={form.action} onValueChange={v => setForm({
           ...form,
           action: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="ASSIGN_AGENT">{t("admin.ai.assign_agent")}</SelectItem>
-          <SelectItem value="SEND_EMAIL">{t("admin.ai.send_email")}</SelectItem>
-          <SelectItem value="NOTIFY_MANAGER">{t("admin.ai.notify_manager")}</SelectItem>
-          <SelectItem value="AI_LEAD_SCORE">{t("admin.ai.ai_lead_score")}</SelectItem>
-          <SelectItem value="CREATE_TASK">{t("admin.ai.create_task")}</SelectItem></SelectContent></Select>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="ASSIGN_AGENT">{t("admin_ai_assign_agent")}</SelectItem>
+          <SelectItem value="SEND_EMAIL">{t("admin_ai_send_email")}</SelectItem>
+          <SelectItem value="NOTIFY_MANAGER">{t("admin_ai_notify_manager")}</SelectItem>
+          <SelectItem value="AI_LEAD_SCORE">{t("admin_ai_ai_lead_score")}</SelectItem>
+          <SelectItem value="CREATE_TASK">{t("admin_ai_create_task")}</SelectItem></SelectContent></Select>
       </div>
       <div className="flex items-center justify-between rounded-lg border border-border p-3">
-        <Label>{t("admin.ai.active")}</Label>
+        <Label>{t("admin_ai_active")}</Label>
         <Switch checked={form.isActive === "true" || form.isActive === true} onCheckedChange={v => setForm({
           ...form,
           isActive: String(v)
@@ -143,34 +143,34 @@ export default function AutomationRules() {
     </form>;
   };
   return <>
-      <PageShell title={t("admin.ai.automation_rules")} description={t("admin.ai.configure_automated_workflows_and")} createLabel={t("admin.ai.add_automation_rules", "Otomasyon Kuralı Ekle")} onCreateClick={() => {
+      <PageShell title={t("admin_ai_automation_rules")} description={t("admin_ai_configure_automated_workflows_and")} createLabel={t("admin.ai.add_automation_rules", "Otomasyon Kuralı Ekle")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.ai.search_automation_rules", "Otomasyon kurallarında ara...")} stats={[{
-      label: t("admin.ai.total_rules"),
+      label: t("admin_ai_total_rules"),
       value: MOCK.length
     }, {
-      label: t("admin.ai.active"),
+      label: t("admin_ai_active"),
       value: MOCK.filter(r => r.isActive).length
     }, {
-      label: t("admin.ai.total_runs"),
+      label: t("admin_ai_total_runs"),
       value: MOCK.reduce((s, r) => s + (r.executionCount || 0), 0)
     }]} filters={null}>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-              <TableHead>{t("admin.ai.rule_name")}</TableHead>
-              <TableHead>{t("admin.ai.trigger")}</TableHead>
-              <TableHead>{t("admin.ai.action")}</TableHead>
-              <TableHead>{t("admin.ai.active")}</TableHead>
-              <TableHead>{t("admin.ai.runs")}</TableHead>
-              <TableHead>{t("admin.ai.last_run")}</TableHead>
+              <TableHead>{t("admin_ai_rule_name")}</TableHead>
+              <TableHead>{t("admin_ai_trigger")}</TableHead>
+              <TableHead>{t("admin_ai_action")}</TableHead>
+              <TableHead>{t("admin_ai_active")}</TableHead>
+              <TableHead>{t("admin_ai_runs")}</TableHead>
+              <TableHead>{t("admin_ai_last_run")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.length === 0 && <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin.ai.no_automation_rules_found")}</TableCell></TableRow>}
+              {filtered.length === 0 && <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin_ai_no_automation_rules_found")}</TableCell></TableRow>}
               {filtered.map(row => <TableRow key={row.id} className="hover:bg-muted/40">
                     <TableCell className="text-sm">{row.name ?? "—"}</TableCell>
                     <TableCell className="text-sm">{row.trigger ?? "—"}</TableCell>
@@ -182,8 +182,8 @@ export default function AutomationRules() {
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin.ai.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -195,14 +195,14 @@ export default function AutomationRules() {
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.ai.add_automationrules")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("admin.ai.create")} />
+          <DialogHeader><DialogTitle>{t("admin_ai_add_automationrules")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleCreate} label={t("admin_ai_create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.ai.edit_automationrules")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("admin.ai.save_changes")} />
+          <DialogHeader><DialogTitle>{t("admin_ai_edit_automationrules")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleEdit} label={t("admin_ai_save_changes")} />
         </DialogContent>
       </Dialog>
     </>;

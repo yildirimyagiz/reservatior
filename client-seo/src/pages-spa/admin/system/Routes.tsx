@@ -40,40 +40,40 @@ interface Route {
 }
 const ROUTE_TYPES = [{
   value: "DRIVING",
-  label: t("admin.system.driving"),
+  label: t("admin_system_driving"),
   icon: Car
 }, {
   value: "WALKING",
-  label: t("admin.system.walking"),
+  label: t("admin_system_walking"),
   icon: Footprints
 }, {
   value: "CYCLING",
-  label: t("admin.system.cycling"),
+  label: t("admin_system_cycling"),
   icon: Bike
 }, {
   value: "TRANSIT",
-  label: t("admin.system.transit"),
+  label: t("admin_system_transit"),
   icon: Bus
 }, {
   value: "FLIGHT",
-  label: t("admin.system.flight"),
+  label: t("admin_system_flight"),
   icon: Plane
 }];
 const MAP_PROVIDERS = [{
   value: "GOOGLE_MAPS",
-  label: t("admin.system.google_maps")
+  label: t("admin_system_google_maps")
 }, {
   value: "MAPBOX",
-  label: t("admin.system.mapbox")
+  label: t("admin_system_mapbox")
 }, {
   value: "OPENSTREETMAP",
-  label: t("admin.system.openstreetmap")
+  label: t("admin_system_openstreetmap")
 }, {
   value: "HERE_MAPS",
-  label: t("admin.system.here_maps")
+  label: t("admin_system_here_maps")
 }, {
   value: "BING_MAPS",
-  label: t("admin.system.bing_maps")
+  label: t("admin_system_bing_maps")
 }];
 export default function Routes() {
   const {
@@ -109,8 +109,8 @@ export default function Routes() {
       setRoutes((response as any).data || []);
     } catch (error) {
       toast({
-        title: t("admin.system.error"),
-        description: t("admin.system.failed_to_load_routes"),
+        title: t("admin_system_error"),
+        description: t("admin_system_failed_to_load_routes"),
         variant: "destructive"
       });
     } finally {
@@ -134,16 +134,16 @@ export default function Routes() {
         opacity: formData.opacity
       });
       toast({
-        title: t("admin.system.success"),
-        description: t("admin.system.route_created_successfully")
+        title: t("admin_system_success"),
+        description: t("admin_system_route_created_successfully")
       });
       setCreateDialogOpen(false);
       resetForm();
       loadRoutes();
     } catch (error) {
       toast({
-        title: t("admin.system.error"),
-        description: t("admin.system.failed_to_create_route"),
+        title: t("admin_system_error"),
+        description: t("admin_system_failed_to_create_route"),
         variant: "destructive"
       });
     }
@@ -165,16 +165,16 @@ export default function Routes() {
         opacity: formData.opacity
       });
       toast({
-        title: t("admin.system.success"),
-        description: t("admin.system.route_updated_successfully")
+        title: t("admin_system_success"),
+        description: t("admin_system_route_updated_successfully")
       });
       setEditDialogOpen(false);
       resetForm();
       loadRoutes();
     } catch (error) {
       toast({
-        title: t("admin.system.error"),
-        description: t("admin.system.failed_to_update_route"),
+        title: t("admin_system_error"),
+        description: t("admin_system_failed_to_update_route"),
         variant: "destructive"
       });
     }
@@ -184,14 +184,14 @@ export default function Routes() {
     try {
       await routesApi.delete(id);
       toast({
-        title: t("admin.system.success"),
-        description: t("admin.system.route_deleted_successfully")
+        title: t("admin_system_success"),
+        description: t("admin_system_route_deleted_successfully")
       });
       loadRoutes();
     } catch (error) {
       toast({
-        title: t("admin.system.error"),
-        description: t("admin.system.failed_to_delete_route"),
+        title: t("admin_system_error"),
+        description: t("admin_system_failed_to_delete_route"),
         variant: "destructive"
       });
     }
@@ -204,8 +204,8 @@ export default function Routes() {
       loadRoutes();
     } catch (error) {
       toast({
-        title: t("admin.system.error"),
-        description: t("admin.system.failed_to_update_route"),
+        title: t("admin_system_error"),
+        description: t("admin_system_failed_to_update_route"),
         variant: "destructive"
       });
     }
@@ -225,13 +225,13 @@ export default function Routes() {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
       toast({
-        title: t("admin.system.success"),
+        title: t("admin_system_success"),
         description: `Route exported as ${format}`
       });
     } catch (error) {
       toast({
-        title: t("admin.system.error"),
-        description: t("admin.system.failed_to_export_route"),
+        title: t("admin_system_error"),
+        description: t("admin_system_failed_to_export_route"),
         variant: "destructive"
       });
     }
@@ -270,17 +270,17 @@ export default function Routes() {
     setCurrentRoute(null);
   };
   if (loading) {
-    return <div className="p-6 flex items-center justify-center min-h-[400px]">{t("admin.system.loading_routes")}</div>;
+    return <div className="p-6 flex items-center justify-center min-h-[400px]">{t("admin_system_loading_routes")}</div>;
   }
   return <div className="p-6">
       <div className="container mx-auto space-y-8">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold">{t("admin.system.routes")}</h1>
-            <p className="text-muted-foreground">{t("admin.system.manage_your_navigation_routes")}</p>
+            <h1 className="text-3xl font-bold">{t("admin_system_routes")}</h1>
+            <p className="text-muted-foreground">{t("admin_system_manage_your_navigation_routes")}</p>
           </div>
           <Button onClick={() => setCreateDialogOpen(true)}>
-            <Plus className="w-4 h-4 mr-2" />{t("admin.system.add_route")}</Button>
+            <Plus className="w-4 h-4 mr-2" />{t("admin_system_add_route")}</Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -311,37 +311,37 @@ export default function Routes() {
                       {routeType?.label || route.type}
                     </Badge>
                     <Badge variant="outline">{route.provider}</Badge>
-                    {!route.isVisible && <Badge variant="destructive">{t("admin.system.hidden")}</Badge>}
+                    {!route.isVisible && <Badge variant="destructive">{t("admin_system_hidden")}</Badge>}
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <MapPin className="w-4 h-4" />{t("admin.system.from")}{route.startLocationId}
+                      <MapPin className="w-4 h-4" />{t("admin_system_from")}{route.startLocationId}
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Navigation className="w-4 h-4" />{t("admin.system.to")}{route.endLocationId}
+                      <Navigation className="w-4 h-4" />{t("admin_system_to")}{route.endLocationId}
                     </div>
-                    {route.distance && <div className="text-sm text-muted-foreground">{t("admin.system.distance")}{route.distance.toFixed(1)}{t("admin.system.miles")}</div>}
-                    {route.duration && <div className="text-sm text-muted-foreground">{t("admin.system.duration")}{Math.floor(route.duration / 60)}m{" "}
+                    {route.distance && <div className="text-sm text-muted-foreground">{t("admin_system_distance")}{route.distance.toFixed(1)}{t("admin_system_miles")}</div>}
+                    {route.duration && <div className="text-sm text-muted-foreground">{t("admin_system_duration")}{Math.floor(route.duration / 60)}m{" "}
                         {route.duration % 60}s
                       </div>}
-                    {route.tolls && <div className="text-sm text-muted-foreground">{t("admin.system.tolls")}{route.tolls.toFixed(2)}
+                    {route.tolls && <div className="text-sm text-muted-foreground">{t("admin_system_tolls")}{route.tolls.toFixed(2)}
                       </div>}
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded-lg" style={{
                     backgroundColor: route.color
                   }} />
-                      <span className="text-sm text-muted-foreground">{t("admin.system.width")}{route.strokeWidth}{t("admin.system.px_opacity")}{route.opacity}
+                      <span className="text-sm text-muted-foreground">{t("admin_system_width")}{route.strokeWidth}{t("admin_system_px_opacity")}{route.opacity}
                       </span>
                     </div>
                     <div className="flex gap-2 pt-2">
                       <Button variant="outline" size="sm" onClick={() => exportRoute(route, "json")}>
-                        <Download className="w-4 h-4 mr-1" />{t("admin.system.json")}</Button>
+                        <Download className="w-4 h-4 mr-1" />{t("admin_system_json")}</Button>
                       <Button variant="outline" size="sm" onClick={() => exportRoute(route, "gpx")}>
-                        <Download className="w-4 h-4 mr-1" />{t("admin.system.gpx")}</Button>
+                        <Download className="w-4 h-4 mr-1" />{t("admin_system_gpx")}</Button>
                       <Button variant="outline" size="sm" onClick={() => exportRoute(route, "kml")}>
-                        <Download className="w-4 h-4 mr-1" />{t("admin.system.kml")}</Button>
+                        <Download className="w-4 h-4 mr-1" />{t("admin_system_kml")}</Button>
                     </div>
                   </div>
                 </CardContent>
@@ -353,25 +353,25 @@ export default function Routes() {
         <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>{t("admin.system.create_route")}</DialogTitle>
-              <DialogDescription>{t("admin.system.add_a_new_navigation")}</DialogDescription>
+              <DialogTitle>{t("admin_system_create_route")}</DialogTitle>
+              <DialogDescription>{t("admin_system_add_a_new_navigation")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="name">{t("admin.system.route_name")}</Label>
+                <Label htmlFor="name">{t("admin_system_route_name")}</Label>
                 <Input id="name" value={formData.name} onChange={e => setFormData({
                 ...formData,
                 name: e.target.value
-              })} placeholder={t("admin.system.route_name")} />
+              })} placeholder={t("admin_system_route_name")} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="type">{t("admin.system.route_type")}</Label>
+                <Label htmlFor="type">{t("admin_system_route_type")}</Label>
                 <Select value={formData.type} onValueChange={value => setFormData({
                 ...formData,
                 type: value
               })}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("admin.system.select_route_type")} />
+                    <SelectValue placeholder={t("admin_system_select_route_type")} />
                   </SelectTrigger>
                   <SelectContent>
                     {ROUTE_TYPES.map(type => <SelectItem key={type.value} value={type.value}>
@@ -384,13 +384,13 @@ export default function Routes() {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="provider">{t("admin.system.map_provider")}</Label>
+                <Label htmlFor="provider">{t("admin_system_map_provider")}</Label>
                 <Select value={formData.provider} onValueChange={value => setFormData({
                 ...formData,
                 provider: value
               })}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("admin.system.select_map_provider")} />
+                    <SelectValue placeholder={t("admin_system_select_map_provider")} />
                   </SelectTrigger>
                   <SelectContent>
                     {MAP_PROVIDERS.map(provider => <SelectItem key={provider.value} value={provider.value}>
@@ -400,43 +400,43 @@ export default function Routes() {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="startLocationId">{t("admin.system.start_location_id")}</Label>
+                <Label htmlFor="startLocationId">{t("admin_system_start_location_id")}</Label>
                 <Input id="startLocationId" value={formData.startLocationId} onChange={e => setFormData({
                 ...formData,
                 startLocationId: e.target.value
-              })} placeholder={t("admin.system.start_location_id")} />
+              })} placeholder={t("admin_system_start_location_id")} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="endLocationId">{t("admin.system.end_location_id")}</Label>
+                <Label htmlFor="endLocationId">{t("admin_system_end_location_id")}</Label>
                 <Input id="endLocationId" value={formData.endLocationId} onChange={e => setFormData({
                 ...formData,
                 endLocationId: e.target.value
-              })} placeholder={t("admin.system.end_location_id")} />
+              })} placeholder={t("admin_system_end_location_id")} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="waypoints">{t("admin.system.waypoints_json_array")}</Label>
+                <Label htmlFor="waypoints">{t("admin_system_waypoints_json_array")}</Label>
                 <Textarea id="waypoints" value={formData.waypoints} onChange={e => setFormData({
                 ...formData,
                 waypoints: e.target.value
-              })} placeholder={t("admin.system.location1_location2")} rows={3} />
+              })} placeholder={t("admin_system_location1_location2")} rows={3} />
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="color">{t("admin.system.color")}</Label>
+                  <Label htmlFor="color">{t("admin_system_color")}</Label>
                   <Input id="color" type="color" value={formData.color} onChange={e => setFormData({
                   ...formData,
                   color: e.target.value
                 })} />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="strokeWidth">{t("admin.system.stroke_width")}</Label>
+                  <Label htmlFor="strokeWidth">{t("admin_system_stroke_width")}</Label>
                   <Input id="strokeWidth" type="number" value={formData.strokeWidth} onChange={e => setFormData({
                   ...formData,
                   strokeWidth: parseInt(e.target.value)
                 })} min="1" max="10" />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="opacity">{t("admin.system.opacity")}</Label>
+                  <Label htmlFor="opacity">{t("admin_system_opacity")}</Label>
                   <Input id="opacity" type="number" value={formData.opacity} onChange={e => setFormData({
                   ...formData,
                   opacity: parseFloat(e.target.value)
@@ -448,12 +448,12 @@ export default function Routes() {
                 ...formData,
                 isVisible: checked
               })} />
-                <Label htmlFor="isVisible">{t("admin.system.visible_on_map")}</Label>
+                <Label htmlFor="isVisible">{t("admin_system_visible_on_map")}</Label>
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>{t("admin.system.cancel")}</Button>
-              <Button onClick={handleCreate}>{t("admin.system.create_route")}</Button>
+              <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>{t("admin_system_cancel")}</Button>
+              <Button onClick={handleCreate}>{t("admin_system_create_route")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -462,25 +462,25 @@ export default function Routes() {
         <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>{t("admin.system.edit_route")}</DialogTitle>
-              <DialogDescription>{t("admin.system.update_route_configuration")}</DialogDescription>
+              <DialogTitle>{t("admin_system_edit_route")}</DialogTitle>
+              <DialogDescription>{t("admin_system_update_route_configuration")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="name">{t("admin.system.route_name")}</Label>
+                <Label htmlFor="name">{t("admin_system_route_name")}</Label>
                 <Input id="name" value={formData.name} onChange={e => setFormData({
                 ...formData,
                 name: e.target.value
-              })} placeholder={t("admin.system.route_name")} />
+              })} placeholder={t("admin_system_route_name")} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="type">{t("admin.system.route_type")}</Label>
+                <Label htmlFor="type">{t("admin_system_route_type")}</Label>
                 <Select value={formData.type} onValueChange={value => setFormData({
                 ...formData,
                 type: value
               })}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("admin.system.select_route_type")} />
+                    <SelectValue placeholder={t("admin_system_select_route_type")} />
                   </SelectTrigger>
                   <SelectContent>
                     {ROUTE_TYPES.map(type => <SelectItem key={type.value} value={type.value}>
@@ -493,13 +493,13 @@ export default function Routes() {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="provider">{t("admin.system.map_provider")}</Label>
+                <Label htmlFor="provider">{t("admin_system_map_provider")}</Label>
                 <Select value={formData.provider} onValueChange={value => setFormData({
                 ...formData,
                 provider: value
               })}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("admin.system.select_map_provider")} />
+                    <SelectValue placeholder={t("admin_system_select_map_provider")} />
                   </SelectTrigger>
                   <SelectContent>
                     {MAP_PROVIDERS.map(provider => <SelectItem key={provider.value} value={provider.value}>
@@ -509,43 +509,43 @@ export default function Routes() {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="startLocationId">{t("admin.system.start_location_id")}</Label>
+                <Label htmlFor="startLocationId">{t("admin_system_start_location_id")}</Label>
                 <Input id="startLocationId" value={formData.startLocationId} onChange={e => setFormData({
                 ...formData,
                 startLocationId: e.target.value
-              })} placeholder={t("admin.system.start_location_id")} />
+              })} placeholder={t("admin_system_start_location_id")} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="endLocationId">{t("admin.system.end_location_id")}</Label>
+                <Label htmlFor="endLocationId">{t("admin_system_end_location_id")}</Label>
                 <Input id="endLocationId" value={formData.endLocationId} onChange={e => setFormData({
                 ...formData,
                 endLocationId: e.target.value
-              })} placeholder={t("admin.system.end_location_id")} />
+              })} placeholder={t("admin_system_end_location_id")} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="waypoints">{t("admin.system.waypoints_json_array")}</Label>
+                <Label htmlFor="waypoints">{t("admin_system_waypoints_json_array")}</Label>
                 <Textarea id="waypoints" value={formData.waypoints} onChange={e => setFormData({
                 ...formData,
                 waypoints: e.target.value
-              })} placeholder={t("admin.system.location1_location2")} rows={3} />
+              })} placeholder={t("admin_system_location1_location2")} rows={3} />
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="color">{t("admin.system.color")}</Label>
+                  <Label htmlFor="color">{t("admin_system_color")}</Label>
                   <Input id="color" type="color" value={formData.color} onChange={e => setFormData({
                   ...formData,
                   color: e.target.value
                 })} />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="strokeWidth">{t("admin.system.stroke_width")}</Label>
+                  <Label htmlFor="strokeWidth">{t("admin_system_stroke_width")}</Label>
                   <Input id="strokeWidth" type="number" value={formData.strokeWidth} onChange={e => setFormData({
                   ...formData,
                   strokeWidth: parseInt(e.target.value)
                 })} min="1" max="10" />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="opacity">{t("admin.system.opacity")}</Label>
+                  <Label htmlFor="opacity">{t("admin_system_opacity")}</Label>
                   <Input id="opacity" type="number" value={formData.opacity} onChange={e => setFormData({
                   ...formData,
                   opacity: parseFloat(e.target.value)
@@ -557,12 +557,12 @@ export default function Routes() {
                 ...formData,
                 isVisible: checked
               })} />
-                <Label htmlFor="isVisible">{t("admin.system.visible_on_map")}</Label>
+                <Label htmlFor="isVisible">{t("admin_system_visible_on_map")}</Label>
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setEditDialogOpen(false)}>{t("admin.system.cancel")}</Button>
-              <Button onClick={handleUpdate}>{t("admin.system.update_route")}</Button>
+              <Button variant="outline" onClick={() => setEditDialogOpen(false)}>{t("admin_system_cancel")}</Button>
+              <Button onClick={handleUpdate}>{t("admin_system_update_route")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

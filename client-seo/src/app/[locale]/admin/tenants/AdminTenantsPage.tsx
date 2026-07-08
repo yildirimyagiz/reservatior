@@ -56,39 +56,39 @@ export default function AdminTenantsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.tenants.title")}</h1>
-              <p className="text-gray-400">{t("admin.tenants.description")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_tenants_title")}</h1>
+              <p className="text-muted-foreground">{t("admin_tenants_description")}</p>
             </div>
-            <Button className="bg-slate-600 hover:bg-slate-700">
+            <Button className="bg-primary hover:bg-primary/90">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.tenants.back_to_dashboard")}
+              {t("admin_tenants_back_to_dashboard")}
             </Button>
           </div>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin.tenants.search_placeholder")}
+                      placeholder={t("admin_tenants_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
-                <Button className="bg-slate-600 hover:bg-slate-700">
+                <Button className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin.tenants.add_tenant")}
+                  {t("admin_tenants_add_tenant")}
                 </Button>
               </div>
             </CardContent>
@@ -96,28 +96,28 @@ export default function AdminTenantsPage() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Users className="w-5 h-5" />
-                {t("admin.tenants.list_title")} ({filtered.length})
+                {t("admin_tenants_list_title")} ({filtered.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {filtered.map((tenant) => (
-                  <div key={tenant.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                  <div key={tenant.id} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-400 font-bold">
+                      <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground font-bold">
                         {tenant.name.split(" ").map(n => n[0]).join("")}
                       </div>
                       <div>
-                        <div className="text-white font-medium">{tenant.name}</div>
-                        <div className="text-sm text-gray-400 flex items-center gap-2">
+                        <div className="text-foreground font-medium">{tenant.name}</div>
+                        <div className="text-sm text-muted-foreground flex items-center gap-2">
                           <Home className="w-3 h-3" />
                           {tenant.property}
                         </div>
-                        <div className="text-xs text-gray-500 flex items-center gap-3 mt-1">
+                        <div className="text-xs text-muted-foreground/70 flex items-center gap-3 mt-1">
                           <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{tenant.email}</span>
                           <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{tenant.phone}</span>
                           <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{tenant.leaseStart} - {tenant.leaseEnd}</span>

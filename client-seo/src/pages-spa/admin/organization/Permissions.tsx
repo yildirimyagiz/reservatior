@@ -62,8 +62,8 @@ export default function Permissions() {
       setPermissions(response.data);
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_fetch_permissions"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_fetch_permissions"),
         variant: "destructive"
       });
     } finally {
@@ -83,13 +83,13 @@ export default function Permissions() {
         description: ''
       });
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.permission_created_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_permission_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_create_permission"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_create_permission"),
         variant: "destructive"
       });
     }
@@ -105,13 +105,13 @@ export default function Permissions() {
       setIsEditDialogOpen(false);
       setSelectedPermission(null);
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.permission_updated_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_permission_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_update_permission"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_update_permission"),
         variant: "destructive"
       });
     }
@@ -121,13 +121,13 @@ export default function Permissions() {
       await apiClient.delete(`/permission/${permissionId}`);
       setPermissions(permissions.filter(perm => perm.id !== permissionId));
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.permission_deleted_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_permission_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_delete_permission"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_delete_permission"),
         variant: "destructive"
       });
     }
@@ -149,57 +149,57 @@ export default function Permissions() {
   const usedPermissions = permissions.filter(perm => perm.roles.length > 0).length;
   const unusedPermissions = permissions.filter(perm => perm.roles.length === 0).length;
   if (loading) {
-    return <PageShell title={t("admin.organization.permissions_management")}>
+    return <PageShell title={t("admin_organization_permissions_management")}>
         <div className="flex items-center justify-center h-64">
           <Activity className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.organization.permissions_management")}>
+  return <PageShell title={t("admin_organization_permissions_management")}>
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_permissions")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_permissions")}</CardTitle>
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalPermissions}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.system_permissions")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_system_permissions")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.active_permissions")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_active_permissions")}</CardTitle>
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{activePermissions}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.not_deleted")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_not_deleted")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.used_permissions")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_used_permissions")}</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{usedPermissions}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.assigned_to_roles")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_assigned_to_roles")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.unused_permissions")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_unused_permissions")}</CardTitle>
               <Settings className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{unusedPermissions}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.not_assigned")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_not_assigned")}</p>
             </CardContent>
           </Card>
         </div>
@@ -208,7 +208,7 @@ export default function Permissions() {
         <div className="flex justify-between items-center">
           <div className="flex gap-4">
             <div className="relative">
-              <Input placeholder={t("admin.organization.search_permissions")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-64" />
+              <Input placeholder={t("admin_organization_search_permissions")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-64" />
             </div>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -216,38 +216,38 @@ export default function Permissions() {
               <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                 <DialogTrigger asChild>
                   <Button>
-                    <Plus className="h-4 w-4 mr-2" />{t("admin.organization.create_permission")}</Button>
+                    <Plus className="h-4 w-4 mr-2" />{t("admin_organization_create_permission")}</Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-lg">
                   <DialogHeader>
-                    <DialogTitle>{t("admin.organization.create_new_permission")}</DialogTitle>
-                    <DialogDescription>{t("admin.organization.define_a_new_system")}</DialogDescription>
+                    <DialogTitle>{t("admin_organization_create_new_permission")}</DialogTitle>
+                    <DialogDescription>{t("admin_organization_define_a_new_system")}</DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                      <Label htmlFor="permissionKey">{t("admin.organization.permission_key")}</Label>
+                      <Label htmlFor="permissionKey">{t("admin_organization_permission_key")}</Label>
                       <Input id="permissionKey" value={createData.key} onChange={e => setCreateData({
                       ...createData,
                       key: e.target.value
-                    })} placeholder={t("admin.organization.eg_propertycreate")} required />
+                    })} placeholder={t("admin_organization_eg_propertycreate")} required />
                     </div>
                     <div className="grid gap-2">
-                      <Label htmlFor="permissionName">{t("admin.organization.display_name")}</Label>
+                      <Label htmlFor="permissionName">{t("admin_organization_display_name")}</Label>
                       <Input id="permissionName" value={createData.name} onChange={e => setCreateData({
                       ...createData,
                       name: e.target.value
-                    })} placeholder={t("admin.organization.eg_create_property")} required />
+                    })} placeholder={t("admin_organization_eg_create_property")} required />
                     </div>
                     <div className="grid gap-2">
-                      <Label htmlFor="permissionDescription">{t("admin.organization.description")}</Label>
+                      <Label htmlFor="permissionDescription">{t("admin_organization_description")}</Label>
                       <Input id="permissionDescription" value={createData.description} onChange={e => setCreateData({
                       ...createData,
                       description: e.target.value
-                    })} placeholder={t("admin.organization.optional_description_of_the")} />
+                    })} placeholder={t("admin_organization_optional_description_of_the")} />
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button onClick={createPermission}>{t("admin.organization.create_permission")}</Button>
+                    <Button onClick={createPermission}>{t("admin_organization_create_permission")}</Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
@@ -259,19 +259,19 @@ export default function Permissions() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>{t("admin.organization.edit_permission")}</DialogTitle>
-              <DialogDescription>{t("admin.organization.update_permission_details")}</DialogDescription>
+              <DialogTitle>{t("admin_organization_edit_permission")}</DialogTitle>
+              <DialogDescription>{t("admin_organization_update_permission_details")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="editPermissionName">{t("admin.organization.display_name")}</Label>
+                <Label htmlFor="editPermissionName">{t("admin_organization_display_name")}</Label>
                 <Input id="editPermissionName" value={editData.name} onChange={e => setEditData({
                 ...editData,
                 name: e.target.value
               })} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="editPermissionDescription">{t("admin.organization.description")}</Label>
+                <Label htmlFor="editPermissionDescription">{t("admin_organization_description")}</Label>
                 <Input id="editPermissionDescription" value={editData.description} onChange={e => setEditData({
                 ...editData,
                 description: e.target.value
@@ -279,7 +279,7 @@ export default function Permissions() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={updatePermission}>{t("admin.organization.update_permission")}</Button>
+              <Button onClick={updatePermission}>{t("admin_organization_update_permission")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -287,20 +287,20 @@ export default function Permissions() {
         {/* Permissions Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.organization.permissions")}</CardTitle>
-            <p className="text-sm text-muted-foreground">{t("admin.organization.system_permissions_and_their")}</p>
+            <CardTitle>{t("admin_organization_permissions")}</CardTitle>
+            <p className="text-sm text-muted-foreground">{t("admin_organization_system_permissions_and_their")}</p>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.organization.permission")}</TableHead>
-                  <TableHead>{t("admin.organization.key")}</TableHead>
-                  <TableHead>{t("admin.organization.description")}</TableHead>
-                  <TableHead>{t("admin.organization.assigned_roles")}</TableHead>
-                  <TableHead>{t("admin.organization.created")}</TableHead>
-                  <TableHead>{t("admin.organization.status")}</TableHead>
-                  <TableHead className="text-right">{t("admin.organization.actions")}</TableHead>
+                  <TableHead>{t("admin_organization_permission")}</TableHead>
+                  <TableHead>{t("admin_organization_key")}</TableHead>
+                  <TableHead>{t("admin_organization_description")}</TableHead>
+                  <TableHead>{t("admin_organization_assigned_roles")}</TableHead>
+                  <TableHead>{t("admin_organization_created")}</TableHead>
+                  <TableHead>{t("admin_organization_status")}</TableHead>
+                  <TableHead className="text-right">{t("admin_organization_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -327,14 +327,14 @@ export default function Permissions() {
                             {role.name}
                           </Badge>)}
                         {permission.roles.length > 2 && <Badge variant="secondary" className="text-xs">
-                            +{permission.roles.length - 2}{t("admin.organization.more")}</Badge>}
+                            +{permission.roles.length - 2}{t("admin_organization_more")}</Badge>}
                       </div>
                     </TableCell>
                     <TableCell>
                       {new Date(permission.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell>
-                      {permission.deletedAt ? <Badge variant="destructive" className="text-xs">{t("admin.organization.deleted")}</Badge> : <Badge variant="default" className="text-xs">{t("admin.organization.active")}</Badge>}
+                      {permission.deletedAt ? <Badge variant="destructive" className="text-xs">{t("admin_organization_deleted")}</Badge> : <Badge variant="default" className="text-xs">{t("admin_organization_active")}</Badge>}
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
@@ -344,14 +344,14 @@ export default function Permissions() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.organization.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_organization_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openEditDialog(permission)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.organization.edit_permission")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_organization_edit_permission")}</DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Users className="h-4 w-4 mr-2" />{t("admin.organization.view_role_assignments")}</DropdownMenuItem>
+                            <Users className="h-4 w-4 mr-2" />{t("admin_organization_view_role_assignments")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deletePermission(permission.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.organization.delete_permission")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_organization_delete_permission")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -365,36 +365,36 @@ export default function Permissions() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.permission_categories")}</CardTitle>
+              <CardTitle>{t("admin_organization_permission_categories")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.property_permissions")}</span>
+                  <span className="text-sm">{t("admin_organization_property_permissions")}</span>
                   <span className="font-medium">
                     {permissions.filter(p => p.key.includes('PROPERTY')).length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.user_permissions")}</span>
+                  <span className="text-sm">{t("admin_organization_user_permissions")}</span>
                   <span className="font-medium">
                     {permissions.filter(p => p.key.includes('USER')).length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.organization_permissions")}</span>
+                  <span className="text-sm">{t("admin_organization_organization_permissions")}</span>
                   <span className="font-medium">
                     {permissions.filter(p => p.key.includes('ORG')).length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.financial_permissions")}</span>
+                  <span className="text-sm">{t("admin_organization_financial_permissions")}</span>
                   <span className="font-medium">
                     {permissions.filter(p => p.key.includes('FINANCE') || p.key.includes('PAYMENT')).length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm">{t("admin.organization.admin_permissions")}</span>
+                  <span className="text-sm">{t("admin_organization_admin_permissions")}</span>
                   <span className="font-medium">
                     {permissions.filter(p => p.key.includes('ADMIN')).length}
                   </span>
@@ -405,7 +405,7 @@ export default function Permissions() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.assignment_statistics")}</CardTitle>
+              <CardTitle>{t("admin_organization_assignment_statistics")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -413,19 +413,19 @@ export default function Permissions() {
                   <div className="text-2xl font-bold text-slate-600">
                     {permissions.reduce((acc, perm) => acc + perm.roles.length, 0)}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.organization.total_assignments")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_organization_total_assignments")}</p>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-green-600">
                     {usedPermissions}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.organization.used_permissions")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_organization_used_permissions")}</p>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-orange-600">
                     {unusedPermissions}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.organization.unused_permissions")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_organization_unused_permissions")}</p>
                 </div>
               </div>
             </CardContent>

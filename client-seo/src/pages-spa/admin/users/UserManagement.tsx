@@ -181,8 +181,8 @@ export default function UserManagement() {
       };
     } catch (error) {
       toast({
-        title: t("admin.users.error"),
-        description: t("admin.users.failed_to_fetch_user"),
+        title: t("admin_users_error"),
+        description: t("admin_users_failed_to_fetch_user"),
         variant: "destructive"
       });
       return {
@@ -273,14 +273,14 @@ const getRoleLevelColor = (level: number) => {
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">{t('admin.users.activeUsers')}</CardTitle>
-              <UserCheck className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-white">{t('admin_users_activeUsers')}</CardTitle>
+              <UserCheck className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{activeUsers}</div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {t('admin.users.ofTotal', {
                 count: permissions.length
               })}
@@ -288,27 +288,27 @@ const getRoleLevelColor = (level: number) => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">{t('admin.users.criticalAlerts')}</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-white">{t('admin_users_criticalAlerts')}</CardTitle>
+              <AlertTriangle className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">{criticalAlerts}</div>
-              <p className="text-xs text-slate-400">
-                {t('admin.users.immediateAttention')}
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                {t('admin_users_immediateAttention')}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">{t('admin.users.totalRoles')}</CardTitle>
-              <Shield className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-white">{t('admin_users_totalRoles')}</CardTitle>
+              <Shield className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalRoles}</div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {t('admin.users.activeCount', {
                 count: roles.filter(r => r.isActive).length
               })}
@@ -316,15 +316,15 @@ const getRoleLevelColor = (level: number) => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">{t('admin.users.recentLogins')}</CardTitle>
-              <Clock className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-white">{t('admin_users_recentLogins')}</CardTitle>
+              <Clock className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{recentLogins}</div>
-              <p className="text-xs text-slate-400">
-                {t('admin.users.last24Hours')}
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                {t('admin_users_last24Hours')}
               </p>
             </CardContent>
           </Card>
@@ -333,9 +333,9 @@ const getRoleLevelColor = (level: number) => {
         <Tabs defaultValue="permissions" className="space-y-4">
           <TabsList>
             <TabsTrigger value="permissions">{t('permissions')}</TabsTrigger>
-            <TabsTrigger value="preferences">{t('admin.users.preferences')}</TabsTrigger>
-            <TabsTrigger value="roles">{t('admin.users.roles')}</TabsTrigger>
-            <TabsTrigger value="access-logs">{t('admin.users.accessLogs')}</TabsTrigger>
+            <TabsTrigger value="preferences">{t('admin_users_preferences')}</TabsTrigger>
+            <TabsTrigger value="roles">{t('admin_users_roles')}</TabsTrigger>
+            <TabsTrigger value="access-logs">{t('admin_users_accessLogs')}</TabsTrigger>
             <TabsTrigger value="security">{t('security')}</TabsTrigger>
           </TabsList>
 
@@ -343,15 +343,15 @@ const getRoleLevelColor = (level: number) => {
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <div className="relative">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
-                  <Input placeholder={t('admin.users.searchUsers')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
+                  <Input placeholder={t('admin_users_searchUsers')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
                 </div>
                 <Select value={roleFilter} onValueChange={setRoleFilter}>
                   <SelectTrigger className="w-40">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">{t('admin.users.allRoles')}</SelectItem>
+                    <SelectItem value="ALL">{t('admin_users_allRoles')}</SelectItem>
                     {roles.map(role => <SelectItem key={role.id} value={role.name}>{role.name}</SelectItem>)}
                   </SelectContent>
                 </Select>
@@ -360,7 +360,7 @@ const getRoleLevelColor = (level: number) => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">{t('admin.users.allStatus')}</SelectItem>
+                    <SelectItem value="ALL">{t('admin_users_allStatus')}</SelectItem>
                     <SelectItem value="ACTIVE">{t('active')}</SelectItem>
                     <SelectItem value="INACTIVE">{t('inactive')}</SelectItem>
                   </SelectContent>
@@ -371,7 +371,7 @@ const getRoleLevelColor = (level: number) => {
                                   <DialogTrigger asChild>
                                     <Button>
                                       <Plus className="h-4 w-4 mr-2" />
-                                      {t('admin.users.grantPermission')}
+                                      {t('admin_users_grantPermission')}
                                     </Button>
                                   </DialogTrigger>
                                   
@@ -431,23 +431,23 @@ const getRoleLevelColor = (level: number) => {
                               
             </div>
 
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-white">{t('permissions')}</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-white">{t('permissions')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t('admin.users.user')}</TableHead>
-                      <TableHead>{t('admin.users.email')}</TableHead>
+                      <TableHead>{t('admin_users_user')}</TableHead>
+                      <TableHead>{t('admin_users_email')}</TableHead>
                       <TableHead>{t('role')}</TableHead>
                       <TableHead>{t('permissions')}</TableHead>
-                      <TableHead>{t('admin.users.status')}</TableHead>
-                      <TableHead>{t('admin.users.grantedBy')}</TableHead>
-                      <TableHead>{t('admin.users.expires')}</TableHead>
-                      <TableHead>{t('admin.users.lastUsed')}</TableHead>
-                      <TableHead>{t('admin.users.actions')}</TableHead>
+                      <TableHead>{t('admin_users_status')}</TableHead>
+                      <TableHead>{t('admin_users_grantedBy')}</TableHead>
+                      <TableHead>{t('admin_users_expires')}</TableHead>
+                      <TableHead>{t('admin_users_lastUsed')}</TableHead>
+                      <TableHead>{t('admin_users_actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -455,7 +455,7 @@ const getRoleLevelColor = (level: number) => {
                         <TableCell className="font-medium">{permission.userName}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            <Mail className="h-3 w-3 text-slate-400" />
+                            <Mail className="h-3 w-3 text-slate-500 dark:text-slate-400" />
                             {permission.userEmail}
                           </div>
                         </TableCell>
@@ -470,8 +470,8 @@ const getRoleLevelColor = (level: number) => {
                             {permission.permissions.slice(0, 2).map((perm, idx) => <div key={idx} className="text-sm">
                                 <span className="font-medium">{perm.module}</span>: {perm.actions.join(', ')}
                               </div>)}
-                            {permission.permissions.length > 2 && <div className="text-xs text-slate-400">
-                                +{permission.permissions.length - 2}{t("admin.users.more")}</div>}
+                            {permission.permissions.length > 2 && <div className="text-xs text-slate-500 dark:text-slate-400">
+                                +{permission.permissions.length - 2}{t("admin_users_more")}</div>}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -484,7 +484,7 @@ const getRoleLevelColor = (level: number) => {
                         <TableCell>
                           {permission.expiresAt ? <div className={new Date(permission.expiresAt) < new Date() ? "text-red-600 font-medium" : ""}>
                               {new Date(permission.expiresAt).toLocaleDateString()}
-                            </div> : <span className="text-slate-400">{t('common.never')}</span>}
+                            </div> : <span className="text-slate-500 dark:text-slate-400">{t('common.never')}</span>}
                         </TableCell>
                         <TableCell>
                           {permission.lastUsed ? new Date(permission.lastUsed).toLocaleDateString() : t('common.never')}
@@ -510,22 +510,22 @@ const getRoleLevelColor = (level: number) => {
           </TabsContent>
 
           <TabsContent value="preferences" className="space-y-4">
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-white">{t("admin.users.user_preferences")}</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-white">{t("admin_users_user_preferences")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t('admin.users.user')}</TableHead>
-                      <TableHead>{t('admin.users.theme')}</TableHead>
-                      <TableHead>{t('admin.users.language')}</TableHead>
-                      <TableHead>{t('admin.users.notifications')}</TableHead>
+                      <TableHead>{t('admin_users_user')}</TableHead>
+                      <TableHead>{t('admin_users_theme')}</TableHead>
+                      <TableHead>{t('admin_users_language')}</TableHead>
+                      <TableHead>{t('admin_users_notifications')}</TableHead>
                       <TableHead>{t('twoFactor')}</TableHead>
-                      <TableHead>{t('admin.users.devices')}</TableHead>
-                      <TableHead>{t('admin.users.lastUpdated')}</TableHead>
-                      <TableHead>{t('admin.users.actions')}</TableHead>
+                      <TableHead>{t('admin_users_devices')}</TableHead>
+                      <TableHead>{t('admin_users_lastUpdated')}</TableHead>
+                      <TableHead>{t('admin_users_actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -539,31 +539,31 @@ const getRoleLevelColor = (level: number) => {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            <Globe className="h-3 w-3 text-slate-400" />
+                            <Globe className="h-3 w-3 text-slate-500 dark:text-slate-400" />
                             {preference.settings.language}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="space-y-1">
                             <div className="flex items-center gap-1">
-                              <Mail className={`h-3 w-3 ${preference.settings.emailNotifications ? 'text-green-600' : 'text-slate-400'}`} />
-                              <span className="text-xs">{t("admin.users.email")}</span>
+                              <Mail className={`h-3 w-3 ${preference.settings.emailNotifications ? 'text-green-600' : 'text-slate-500 dark:text-slate-400'}`} />
+                              <span className="text-xs">{t("admin_users_email")}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <Bell className={`h-3 w-3 ${preference.settings.pushNotifications ? 'text-green-600' : 'text-slate-400'}`} />
-                              <span className="text-xs">{t("admin.users.push")}</span>
+                              <Bell className={`h-3 w-3 ${preference.settings.pushNotifications ? 'text-green-600' : 'text-slate-500 dark:text-slate-400'}`} />
+                              <span className="text-xs">{t("admin_users_push")}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <Phone className={`h-3 w-3 ${preference.settings.smsNotifications ? 'text-green-600' : 'text-slate-400'}`} />
-                              <span className="text-xs">{t("admin.users.sms")}</span>
+                              <Phone className={`h-3 w-3 ${preference.settings.smsNotifications ? 'text-green-600' : 'text-slate-500 dark:text-slate-400'}`} />
+                              <span className="text-xs">{t("admin_users_sms")}</span>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            {preference.settings.twoFactorEnabled ? <Shield className="h-4 w-4 text-green-600" /> : <Shield className="h-4 w-4 text-slate-400" />}
-                            <span className={preference.settings.twoFactorEnabled ? 'text-green-600' : 'text-slate-400'}>
-                              {preference.settings.twoFactorEnabled ? t('admin.users.status.enabled') : t('admin.users.status.disabled')}
+                            {preference.settings.twoFactorEnabled ? <Shield className="h-4 w-4 text-green-600" /> : <Shield className="h-4 w-4 text-slate-500 dark:text-slate-400" />}
+                            <span className={preference.settings.twoFactorEnabled ? 'text-green-600' : 'text-slate-500 dark:text-slate-400'}>
+                              {preference.settings.twoFactorEnabled ? t('admin_users_status_enabled') : t('admin_users_status_disabled')}
                             </span>
                           </div>
                         </TableCell>
@@ -573,8 +573,8 @@ const getRoleLevelColor = (level: number) => {
                                 {device.deviceType === 'MOBILE' ? <Smartphone className="h-3 w-3" /> : device.deviceType === 'TABLET' ? <Tablet className="h-3 w-3" /> : <Monitor className="h-3 w-3" />}
                                 <span className="text-xs">{device.deviceType}</span>
                               </div>)}
-                            {preference.devicePreferences.length > 2 && <div className="text-xs text-slate-400">
-                                +{preference.devicePreferences.length - 2}{t("admin.users.more")}</div>}
+                            {preference.devicePreferences.length > 2 && <div className="text-xs text-slate-500 dark:text-slate-400">
+                                +{preference.devicePreferences.length - 2}{t("admin_users_more")}</div>}
                           </div>
                         </TableCell>
                         <TableCell>{new Date(preference.updatedAt).toLocaleDateString()}</TableCell>
@@ -599,48 +599,48 @@ const getRoleLevelColor = (level: number) => {
             <div className="flex justify-end">
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
-                {t('admin.users.createRole')}
+                {t('admin_users_createRole')}
               </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {roles.map(role => <Card key={role.id} className="bg-white/5 border-white/10">
+              {roles.map(role => <Card key={role.id} className="bg-white/5 border-slate-200 dark:border-white/10">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {role.systemRole ? <Crown className="h-4 w-4 text-yellow-500" /> : <Shield className="h-4 w-4" />}
-                        <CardTitle className="text-lg text-white">{role.name}</CardTitle>
+                        <CardTitle className="text-lg text-slate-900 dark:text-white">{role.name}</CardTitle>
                       </div>
                       <Switch checked={role.isActive} />
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <p className="text-sm text-slate-400">{role.description}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">{role.description}</p>
                       
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-white">{t('admin.users.status.level')}</span>
+                        <span className="text-sm font-medium text-slate-900 dark:text-white">{t('admin_users_status_level')}</span>
                         <Badge className={getRoleLevelColor(role.level)}>{role.level}</Badge>
                       </div>
                       
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-white">{t('users')}</span>
+                        <span className="text-sm font-medium text-slate-900 dark:text-white">{t('users')}</span>
                         <span className="text-sm">{role.userCount}</span>
                       </div>
                       
                       <div>
-                        <span className="text-sm font-medium text-white">{t('permissions')} ({role.permissions.length})</span>
+                        <span className="text-sm font-medium text-slate-900 dark:text-white">{t('permissions')} ({role.permissions.length})</span>
                         <div className="mt-1 space-y-1">
                           {role.permissions.slice(0, 3).map((permission, idx) => <div key={idx} className="text-xs bg-white/5 px-2 py-1 rounded-lg">
                               {permission}
                             </div>)}
-                          {role.permissions.length > 3 && <div className="text-xs text-slate-400">
-                              +{role.permissions.length - 3}{t("admin.users.more")}</div>}
+                          {role.permissions.length > 3 && <div className="text-xs text-slate-500 dark:text-slate-400">
+                              +{role.permissions.length - 3}{t("admin_users_more")}</div>}
                         </div>
                       </div>
                       
                       <div className="flex justify-between items-center pt-2 border-t">
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-slate-500 dark:text-slate-400">
                           {t('common.created')} {new Date(role.createdAt).toLocaleDateString()}
                         </span>
                         <div className="flex gap-1">
@@ -659,22 +659,22 @@ const getRoleLevelColor = (level: number) => {
           </TabsContent>
 
           <TabsContent value="access-logs" className="space-y-4">
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-white">{t('admin.users.accessLogs')}</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-white">{t('admin_users_accessLogs')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t('admin.users.user')}</TableHead>
+                      <TableHead>{t('admin_users_user')}</TableHead>
                       <TableHead>{t('action')}</TableHead>
-                      <TableHead>{t('admin.users.resource')}</TableHead>
-                      <TableHead>{t('admin.users.ipAddress')}</TableHead>
-                      <TableHead>{t('admin.users.location')}</TableHead>
-                      <TableHead>{t('admin.users.status')}</TableHead>
-                      <TableHead>{t('admin.users.timestamp')}</TableHead>
-                      <TableHead>{t('admin.users.actions')}</TableHead>
+                      <TableHead>{t('admin_users_resource')}</TableHead>
+                      <TableHead>{t('admin_users_ipAddress')}</TableHead>
+                      <TableHead>{t('admin_users_location')}</TableHead>
+                      <TableHead>{t('admin_users_status')}</TableHead>
+                      <TableHead>{t('admin_users_timestamp')}</TableHead>
+                      <TableHead>{t('admin_users_actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -689,7 +689,7 @@ const getRoleLevelColor = (level: number) => {
                         <TableCell className="font-mono text-sm">{log.ipAddress}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            <MapPin className="h-3 w-3 text-slate-400" />
+                            <MapPin className="h-3 w-3 text-slate-500 dark:text-slate-400" />
                             <span className="text-sm">{log.location.city}, {log.location.country}</span>
                           </div>
                         </TableCell>
@@ -716,9 +716,9 @@ const getRoleLevelColor = (level: number) => {
 
           <TabsContent value="security" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="bg-white/5 border-white/10">
+              <Card className="bg-white/5 border-slate-200 dark:border-white/10">
                 <CardHeader>
-                  <CardTitle className="text-white">{t('admin.users.security.alerts')}</CardTitle>
+                  <CardTitle className="text-slate-900 dark:text-white">{t('admin_users_security_alerts')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
@@ -729,8 +729,8 @@ const getRoleLevelColor = (level: number) => {
                             <span className="font-medium">{alert.userName}</span>
                             <Badge variant="outline">{getLocalizedType(alert.type)}</Badge>
                           </div>
-                          <p className="text-sm text-slate-400 mb-1">{alert.description}</p>
-                          <div className="flex items-center gap-2 text-xs text-slate-400">
+                          <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">{alert.description}</p>
+                          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                             <span>{alert.ipAddress}</span>
                             <span>•</span>
                             <span>{new Date(alert.timestamp).toLocaleString()}</span>
@@ -747,9 +747,9 @@ const getRoleLevelColor = (level: number) => {
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/5 border-white/10">
+              <Card className="bg-white/5 border-slate-200 dark:border-white/10">
                 <CardHeader>
-                  <CardTitle className="text-white">{t('overview')}</CardTitle>
+                  <CardTitle className="text-slate-900 dark:text-white">{t('overview')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -758,18 +758,18 @@ const getRoleLevelColor = (level: number) => {
                         <div className="text-2xl font-bold text-green-600">
                           {securityAlerts.filter(a => a.status === 'RESOLVED').length}
                         </div>
-                        <div className="text-sm text-slate-400">{t('admin.users.status.resolved')}</div>
+                        <div className="text-sm text-slate-500 dark:text-slate-400">{t('admin_users_status_resolved')}</div>
                       </div>
                       <div className="text-center p-3 border rounded-lg">
                         <div className="text-2xl font-bold text-red-600">
                           {securityAlerts.filter(a => a.status === 'OPEN').length}
                         </div>
-                        <div className="text-sm text-slate-400">{t('admin.users.status.open')}</div>
+                        <div className="text-sm text-slate-500 dark:text-slate-400">{t('admin_users_status_open')}</div>
                       </div>
                     </div>
                     
                     <div className="space-y-2">
-                      <h4 className="font-medium">{t('admin.users.security.alertTypes')}</h4>
+                      <h4 className="font-medium">{t('admin_users_security_alertTypes')}</h4>
                       {['FAILED_LOGIN', 'SUSPICIOUS_ACTIVITY', 'PERMISSION_ESCALATION', 'DATA_ACCESS'].map(type => {
                       const count = securityAlerts.filter(a => a.type === type).length;
                       return <div key={type} className="flex justify-between items-center">

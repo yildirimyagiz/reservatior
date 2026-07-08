@@ -105,58 +105,58 @@ export default function EscrowDashboard() {
   );
 
   const statusConfig: Record<string, { label: string; class: string; icon: any }> = {
-    HOLDING: { label: t("admin.escrow.holding", "HOLDING"), class: "bg-slate-500/20 text-slate-400", icon: Lock },
+    HOLDING: { label: t("admin.escrow.holding", "HOLDING"), class: "bg-slate-500/20 text-slate-500 dark:text-slate-400", icon: Lock },
     RELEASED: { label: t("admin.escrow.released", "RELEASED"), class: "bg-emerald-500/20 text-emerald-400", icon: Unlock },
     DISPUTED: { label: t("admin.escrow.disputed", "DISPUTED"), class: "bg-amber-500/20 text-amber-400", icon: ShieldCheck },
-    REFUNDED: { label: t("admin.escrow.refunded", "REFUNDED"), class: "bg-slate-500/20 text-slate-400", icon: ArrowRightLeft },
+    REFUNDED: { label: t("admin.escrow.refunded", "REFUNDED"), class: "bg-slate-500/20 text-slate-500 dark:text-slate-400", icon: ArrowRightLeft },
   };
 
   return (
     <div className="space-y-6 min-h-screen">
-      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
-            <ShieldCheck className="w-8 h-8 text-white" />
+            <ShieldCheck className="w-8 h-8 text-slate-900 dark:text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
               {t("admin.escrow.title", "Escrow Management")}
             </h1>
-            <p className="text-slate-400">
+            <p className="text-slate-500 dark:text-slate-400">
               {t("admin.escrow.subtitle", "Track and manage SafeStay™ escrow payments")}
             </p>
           </div>
         </div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
+            <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
               <Plus className="w-4 h-4 mr-2" />
               {t("admin.escrow.add", "New Escrow")}
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+          <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
             <DialogHeader>
               <DialogTitle>{t("admin.escrow.add", "New Escrow Account")}</DialogTitle>
-              <DialogDescription className="text-slate-400">
+              <DialogDescription className="text-slate-500 dark:text-slate-400">
                 {t("admin.escrow.add_desc", "Create a new escrow account for a reservation")}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
               <div className="space-y-2">
                 <Label htmlFor="reservationId">{t("admin.escrow.reservation_id", "Reservation ID")}</Label>
-                <Input id="reservationId" className="bg-white/5 border-white/10 text-white" value={newAccount.reservationId} onChange={e => setNewAccount({ ...newAccount, reservationId: e.target.value })} required />
+                <Input id="reservationId" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAccount.reservationId} onChange={e => setNewAccount({ ...newAccount, reservationId: e.target.value })} required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="totalAmount">{t("admin.escrow.total_amount", "Total Amount")}</Label>
-                <Input id="totalAmount" type="number" className="bg-white/5 border-white/10 text-white" value={newAccount.totalAmount} onChange={e => setNewAccount({ ...newAccount, totalAmount: Number(e.target.value) })} required />
+                <Input id="totalAmount" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAccount.totalAmount} onChange={e => setNewAccount({ ...newAccount, totalAmount: Number(e.target.value) })} required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="depositAmount">{t("admin.escrow.deposit_amount", "Deposit Amount")}</Label>
-                <Input id="depositAmount" type="number" className="bg-white/5 border-white/10 text-white" value={newAccount.depositAmount} onChange={e => setNewAccount({ ...newAccount, depositAmount: Number(e.target.value) })} required />
+                <Input id="depositAmount" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAccount.depositAmount} onChange={e => setNewAccount({ ...newAccount, depositAmount: Number(e.target.value) })} required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="currency">{t("admin.escrow.currency", "Currency")}</Label>
-                <Input id="currency" className="bg-white/5 border-white/10 text-white" value={newAccount.currency} onChange={e => setNewAccount({ ...newAccount, currency: e.target.value })} />
+                <Input id="currency" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAccount.currency} onChange={e => setNewAccount({ ...newAccount, currency: e.target.value })} />
               </div>
               <DialogFooter>
                 <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-slate-300">{t("common.cancel", "Cancel")}</Button>
@@ -170,50 +170,50 @@ export default function EscrowDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">{t("admin.escrow.locked_amount", "Locked Amount")}</p>
-                <h3 className="text-2xl font-bold text-white mt-1">${stats.locked.toLocaleString()}</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.escrow.locked_amount", "Locked Amount")}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">${stats.locked.toLocaleString()}</h3>
               </div>
-              <div className="p-3 bg-slate-500/20 rounded-lg"><Lock className="w-5 h-5 text-slate-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><Lock className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
             </div>
             <p className="text-xs text-slate-500 mt-2">{stats.locked > 0 ? t("admin.escrow.awaiting_release", "Awaiting release") : t("admin.escrow.none_locked", "No locked funds")}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">{t("admin.escrow.released_amount", "Released Amount")}</p>
-                <h3 className="text-2xl font-bold text-white mt-1">${stats.released.toLocaleString()}</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.escrow.released_amount", "Released Amount")}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">${stats.released.toLocaleString()}</h3>
               </div>
               <div className="p-3 bg-emerald-500/20 rounded-lg"><Unlock className="w-5 h-5 text-emerald-400" /></div>
             </div>
             <p className="text-xs text-slate-500 mt-2">{t("admin.escrow.transferred", "Transferred to accounts")}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">{t("admin.escrow.disputed_count", "Disputed")}</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{stats.disputed}</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.escrow.disputed_count", "Disputed")}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{stats.disputed}</h3>
               </div>
               <div className="p-3 bg-amber-500/20 rounded-lg"><ShieldCheck className="w-5 h-5 text-amber-400" /></div>
             </div>
             <p className="text-xs text-slate-500 mt-2">{t("admin.escrow.in_dispute", "In dispute resolution")}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-400">{t("admin.escrow.total", "Total Escrows")}</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{stats.total}</h3>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.escrow.total", "Total Escrows")}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{stats.total}</h3>
               </div>
-              <div className="p-3 bg-slate-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-slate-400" /></div>
+              <div className="p-3 bg-slate-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
             </div>
             <p className="text-xs text-slate-500 mt-2">{t("admin.escrow.all_accounts", "All escrow accounts")}</p>
           </CardContent>
@@ -226,25 +226,25 @@ export default function EscrowDashboard() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <Input
               placeholder={t("admin.escrow.search", "Search by ID or reservation...")}
-              className="bg-white/5 border-white/10 pl-10 text-white placeholder:text-slate-500"
+              className="bg-white/5 border-slate-200 dark:border-white/10 pl-10 text-slate-900 dark:text-white placeholder:text-slate-500"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
 
-        <Card className="bg-white/5 border-white/10 overflow-hidden">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 overflow-hidden">
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <Table>
-                <TableHeader className="bg-white/5 border-b border-white/10">
+                <TableHeader className="bg-white/5 border-b border-slate-200 dark:border-white/10">
                   <TableRow className="hover:bg-transparent border-none">
-                    <TableHead className="text-xs font-medium text-slate-400 py-4 px-6">{t("admin.escrow.id", "ID")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.escrow.reservation", "Reservation")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.escrow.amount", "Amount")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.escrow.status", "Status")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.escrow.date", "Date")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-400 px-6">{t("admin.escrow.actions", "Actions")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin.escrow.id", "ID")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.escrow.reservation", "Reservation")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.escrow.amount", "Amount")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.escrow.status", "Status")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.escrow.date", "Date")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.escrow.actions", "Actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -256,31 +256,31 @@ export default function EscrowDashboard() {
                     const cfg = statusConfig[acc.status] || statusConfig.REFUNDED;
                     const Icon = cfg.icon;
                     return (
-                      <TableRow key={acc.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                      <TableRow key={acc.id} className="border-b border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
                         <TableCell className="py-4 px-6">
-                          <span className="text-sm font-mono text-white">{acc.id.slice(0, 8)}...</span>
+                          <span className="text-sm font-mono text-slate-900 dark:text-white">{acc.id.slice(0, 8)}...</span>
                         </TableCell>
                         <TableCell className="px-6 text-sm text-slate-300">{acc.reservationId.slice(0, 12)}...</TableCell>
-                        <TableCell className="px-6 font-bold text-white">${acc.totalAmount.toLocaleString()}</TableCell>
+                        <TableCell className="px-6 font-bold text-slate-900 dark:text-white">${acc.totalAmount.toLocaleString()}</TableCell>
                         <TableCell className="px-6">
                           <Badge className={cn("border-0 gap-1", cfg.class)}>
                             <Icon className="w-3 h-3" /> {cfg.label}
                           </Badge>
                         </TableCell>
-                        <TableCell className="px-6 text-sm text-slate-400">{new Date(acc.heldAt).toLocaleDateString()}</TableCell>
+                        <TableCell className="px-6 text-sm text-slate-500 dark:text-slate-400">{new Date(acc.heldAt).toLocaleDateString()}</TableCell>
                         <TableCell className="px-6">
                           <div className="flex gap-2">
                             {acc.status === "HOLDING" && (
                               <Dialog open={releaseTarget?.id === acc.id} onOpenChange={(open) => !open && setReleaseTarget(null)}>
                                 <DialogTrigger asChild>
-                                  <Button size="sm" variant="outline" className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10" onClick={() => setReleaseTarget(acc)}>
+                                  <Button size="sm" variant="outline" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-300 hover:bg-white/10" onClick={() => setReleaseTarget(acc)}>
                                     <Unlock className="w-3 h-3 mr-1" /> {t("admin.escrow.release", "Release")}
                                   </Button>
                                 </DialogTrigger>
-                                <DialogContent className="sm:max-w-[400px] bg-slate-900 border-white/10 text-white">
+                                <DialogContent className="sm:max-w-[400px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                                   <DialogHeader>
                                     <DialogTitle>{t("admin.escrow.confirm_release", "Confirm Release")}</DialogTitle>
-                                    <DialogDescription className="text-slate-400">
+                                    <DialogDescription className="text-slate-500 dark:text-slate-400">
                                       {t("admin.escrow.release_desc", "Release ${amount} from escrow account {id}", { amount: acc.totalAmount.toLocaleString(), id: acc.id.slice(0, 8) })}
                                     </DialogDescription>
                                   </DialogHeader>

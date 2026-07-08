@@ -64,19 +64,19 @@ interface Booking {
 const STATUS_CONFIG = (t: any) => {
   return {
     PENDING: {
-      label: t("admin.bookings.status.pending"),
+      label: t("admin_bookings_status_pending"),
       color: "bg-orange-500/10 text-orange-400 border-orange-500/20"
     },
     CONFIRMED: {
       label: t("confirmed"),
-      color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
+      color: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20"
     },
     CANCELLED: {
-      label: t("admin.bookings.status.cancelled"),
+      label: t("admin_bookings_status_cancelled"),
       color: "bg-red-500/10 text-red-500 border-red-500/20"
     },
     COMPLETED: {
-      label: t("admin.bookings.status.completed"),
+      label: t("admin_bookings_status_completed"),
       color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
     },
     NO_SHOW: {
@@ -88,11 +88,11 @@ const STATUS_CONFIG = (t: any) => {
 const VERIFICATION_CONFIG = (t: any) => {
   return {
     PENDING: {
-      label: t("admin.bookings.verification.pending"),
+      label: t("admin_bookings_verification_pending"),
       color: "bg-orange-500/10 text-orange-400"
     },
     VERIFIED: {
-      label: t("admin.bookings.verification.verified"),
+      label: t("admin_bookings_verification_verified"),
       color: "bg-emerald-500/10 text-emerald-400"
     },
     FAILED: {
@@ -100,7 +100,7 @@ const VERIFICATION_CONFIG = (t: any) => {
       color: "bg-red-500/10 text-red-500"
     },
     NOT_REQUIRED: {
-      label: t("admin.bookings.verification.notRequired"),
+      label: t("admin_bookings_verification_notRequired"),
       color: "bg-slate-500/10 text-muted-foreground"
     }
   };
@@ -131,7 +131,7 @@ const MOCK_BOOKINGS: Booking[] = [{
   },
   listing: {
     id: "listing-1",
-    title: t("admin.bookingsmanagement.luxury_2br_downtown_apartment"),
+    title: t("admin_bookingsmanagement_luxury_2br_downtown_apartment"),
     property: {
       id: "prop-1",
       addressLine1: "123 Main St",
@@ -170,7 +170,7 @@ const MOCK_BOOKINGS: Booking[] = [{
   },
   listing: {
     id: "listing-2",
-    title: t("admin.bookingsmanagement.cozy_1br_with_garden"),
+    title: t("admin_bookingsmanagement_cozy_1br_with_garden"),
     property: {
       id: "prop-2",
       addressLine1: "456 Oak Ave",
@@ -209,7 +209,7 @@ const MOCK_BOOKINGS: Booking[] = [{
   },
   listing: {
     id: "listing-3",
-    title: t("admin.bookingsmanagement.modern_studio_in_manhattan"),
+    title: t("admin_bookingsmanagement_modern_studio_in_manhattan"),
     property: {
       id: "prop-3",
       addressLine1: "789 Broadway",
@@ -340,7 +340,7 @@ export default function BookingsManagement() {
       status: newStatus
     });
     toast({
-      title: t("admin.bookingsmanagement.status_updated"),
+      title: t("admin_bookingsmanagement_status_updated"),
       description: `Booking status changed to ${newStatus}`
     });
   };
@@ -351,12 +351,12 @@ export default function BookingsManagement() {
     return "text-red-500";
   };
   const getRiskLabel = (score?: number) => {
-    if (!score) return t("admin.bookings.risk.unknown");
+    if (!score) return t("admin_bookings_risk_unknown");
     if (score <= 20) return t("low");
-    if (score <= 50) return t("admin.bookings.risk.moderate");
+    if (score <= 50) return t("admin_bookings_risk_moderate");
     return t("high");
   };
-  return <PageShell title={t("admin.bookings.title")} description={t("admin.bookings.desc")}>
+  return <PageShell title={t("admin_bookings_title")} description={t("admin_bookings_desc")}>
       <div className="space-y-10 pb-20">
         {/* KPI Neural Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -365,7 +365,7 @@ export default function BookingsManagement() {
               <Calendar className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.bookings.stats.totalPulses")}</p>
+              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_bookings_stats_totalPulses")}</p>
               <h3 className="text-3xl font-bold text-foreground leading-none">{stats.total}</h3>
             </CardContent>
           </Card>
@@ -375,7 +375,7 @@ export default function BookingsManagement() {
               <Clock className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.bookings.stats.pendingSync")}</p>
+              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_bookings_stats_pendingSync")}</p>
               <h3 className="text-3xl font-bold text-orange-400 leading-none">{stats.pending}</h3>
             </CardContent>
           </Card>
@@ -385,8 +385,8 @@ export default function BookingsManagement() {
               <CheckCircle className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.bookings.stats.confirmedNodes")}</p>
-              <h3 className="text-3xl font-bold text-slate-400 leading-none">{stats.confirmed}</h3>
+              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_bookings_stats_confirmedNodes")}</p>
+              <h3 className="text-3xl font-bold text-slate-500 dark:text-slate-400 leading-none">{stats.confirmed}</h3>
             </CardContent>
           </Card>
 
@@ -395,7 +395,7 @@ export default function BookingsManagement() {
               <TrendingUp className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.bookings.stats.cycleCompletion")}</p>
+              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_bookings_stats_cycleCompletion")}</p>
               <h3 className="text-3xl font-bold text-emerald-400 leading-none">{stats.completed}</h3>
             </CardContent>
           </Card>
@@ -405,7 +405,7 @@ export default function BookingsManagement() {
               <DollarSign className="w-10 h-10" />
             </div>
             <CardContent className="p-8">
-              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.bookings.stats.grossVelocity")}</p>
+              <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_bookings_stats_grossVelocity")}</p>
               <h3 className="text-3xl font-bold text-foreground leading-none">${stats.totalRevenue.toLocaleString()}</h3>
             </CardContent>
           </Card>
@@ -420,7 +420,7 @@ export default function BookingsManagement() {
             </div>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-44 bg-card border-border rounded-2xl h-14 text-foreground font-bold text-[10px] border-l border-t">
-                <SelectValue placeholder={t("admin.bookingsmanagement.status")} />
+                <SelectValue placeholder={t("admin_bookingsmanagement_status")} />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-2xl text-muted-foreground">
                 <SelectItem value="all">{t("admin.bookings.status.all", "Tümü")}</SelectItem>
@@ -432,7 +432,7 @@ export default function BookingsManagement() {
             </Select>
             <Select value={filterVerification} onValueChange={setFilterVerification}>
               <SelectTrigger className="w-48 bg-card border-border rounded-2xl h-14 text-foreground font-bold text-[10px] border-l border-t">
-                <SelectValue placeholder={t("admin.bookingsmanagement.verification")} />
+                <SelectValue placeholder={t("admin_bookingsmanagement_verification")} />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-2xl text-muted-foreground">
                 <SelectItem value="all">{t("admin.bookings.verification.all", "Tümü")}</SelectItem>
@@ -447,7 +447,7 @@ export default function BookingsManagement() {
             </Button>
             {stats.pendingVerification > 0 && <div className="h-14 px-6 rounded-2xl border border-orange-500/20 bg-orange-500/5 flex items-center gap-3 animate-pulse">
                  <Activity className="w-4 h-4 text-orange-500" />
-                 <span className="text-[10px] font-bold text-orange-400">{stats.pendingVerification}{t("admin.bookingsmanagement.critical_verifications")}</span>
+                 <span className="text-[10px] font-bold text-orange-400">{stats.pendingVerification}{t("admin_bookingsmanagement_critical_verifications")}</span>
               </div>}
           </div>
         </div>
@@ -458,12 +458,12 @@ export default function BookingsManagement() {
               <Table>
                 <TableHeader className="bg-muted/50 border-b border-border">
                   <TableRow className="border-none hover:bg-transparent">
-                    <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8 text-nowrap">{t("admin.bookingsmanagement.entity_node")}</TableHead>
-                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.bookingsmanagement.property_core")}</TableHead>
-                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.bookingsmanagement.temporal_sync")}</TableHead>
-                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.bookingsmanagement.status_arc")}</TableHead>
-                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin.bookingsmanagement.risk_index")}</TableHead>
-                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin.bookingsmanagement.interrogate")}</TableHead>
+                    <TableHead className="text-[10px] font-bold text-muted-foreground py-6 px-8 text-nowrap">{t("admin_bookingsmanagement_entity_node")}</TableHead>
+                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_bookingsmanagement_property_core")}</TableHead>
+                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_bookingsmanagement_temporal_sync")}</TableHead>
+                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_bookingsmanagement_status_arc")}</TableHead>
+                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8">{t("admin_bookingsmanagement_risk_index")}</TableHead>
+                    <TableHead className="text-[10px] font-bold text-muted-foreground px-8 text-right">{t("admin_bookingsmanagement_interrogate")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -513,11 +513,11 @@ export default function BookingsManagement() {
                     })}
                         </div>
                         <p className="text-[10px] font-bold text-muted-foreground leading-none">
-                          {Math.ceil((new Date(booking.endDate).getTime() - new Date(booking.startDate).getTime()) / (1000 * 60 * 60 * 24))}{t("admin.bookingsmanagement.cycles")}</p>
+                          {Math.ceil((new Date(booking.endDate).getTime() - new Date(booking.startDate).getTime()) / (1000 * 60 * 60 * 24))}{t("admin_bookingsmanagement_cycles")}</p>
                       </TableCell>
                       <TableCell className="px-8">
-                        <Badge className={cn("text-[9px] font-bold   px-3 py-1 rounded-full  border-none shadow-lg", statusConfig[booking.status].color)}>
-                          {statusConfig[booking.status].label}
+                        <Badge className={cn("text-[9px] font-bold   px-3 py-1 rounded-full  border-none shadow-lg", (statusConfig[booking.status] || {}).color || "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20")}>
+                          {(statusConfig[booking.status] || {}).label || booking.status}
                         </Badge>
                       </TableCell>
                       <TableCell className="px-8">
@@ -561,14 +561,14 @@ export default function BookingsManagement() {
                   <div>
                     <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-foreground">
                       <Zap className="w-6 h-6 text-orange-500" />
-                      {t("admin.bookings.intel.title")}
+                      {t("admin_bookings_intel_title")}
                     </DialogTitle>
                     <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">
-                      {t("admin.bookings.desc")}
+                      {t("admin_bookings_desc")}
                     </DialogDescription>
                   </div>
-                  <Badge className={cn("text-[8px] font-bold   px-3 py-1 rounded-full  border-none shadow-lg", statusConfig[selectedBooking.status].color)}>
-                    {statusConfig[selectedBooking.status].label}
+                  <Badge className={cn("text-[8px] font-bold   px-3 py-1 rounded-full  border-none shadow-lg", (statusConfig[selectedBooking.status] || {}).color || "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20")}>
+                    {(statusConfig[selectedBooking.status] || {}).label || selectedBooking.status}
                   </Badge>
                 </div>
               </DialogHeader>
@@ -580,7 +580,7 @@ export default function BookingsManagement() {
                   <Card className="bg-card border-border rounded-2xl overflow-hidden">
                     <CardHeader className="p-6 border-b border-border bg-muted/50">
                       <h4 className="text-[10px] font-bold text-muted-foreground flex items-center gap-2">
-                        <UserIcon className="w-3 h-3 text-slate-500" /> {t("admin.bookings.intel.guestIdentity")}
+                        <UserIcon className="w-3 h-3 text-slate-500" /> {t("admin_bookings_intel_guestIdentity")}
                       </h4>
                     </CardHeader>
                     <CardContent className="p-6 space-y-4">
@@ -599,7 +599,7 @@ export default function BookingsManagement() {
                       </div>
                       
                       {selectedBooking.specialRequests && selectedBooking.specialRequests.length > 0 && <div className="pt-4 border-t border-border">
-                          <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin.bookingsmanagement.tactical_requirements")}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin_bookingsmanagement_tactical_requirements")}</p>
                           <div className="flex flex-wrap gap-2">
                             {selectedBooking.specialRequests.map((request, index) => <Badge key={index} variant="outline" className="bg-muted/50 border-border text-muted-foreground text-[8px] font-bold rounded-xl">
                                 {request}
@@ -626,11 +626,11 @@ export default function BookingsManagement() {
                       
                       <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-bold text-muted-foreground">{t("admin.bookingsmanagement.checkin_sequence")}</p>
-                          <p className="text-sm font-bold text-slate-400 font-mono">{new Date(selectedBooking.startDate).toLocaleDateString()}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_checkin_sequence")}</p>
+                          <p className="text-sm font-bold text-slate-500 dark:text-slate-400 font-mono">{new Date(selectedBooking.startDate).toLocaleDateString()}</p>
                         </div>
                         <div className="space-y-1">
-                          <p className="text-[10px] font-bold text-muted-foreground">{t("admin.bookingsmanagement.departure_sync")}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_departure_sync")}</p>
                           <p className="text-sm font-bold text-orange-400 font-mono">{new Date(selectedBooking.endDate).toLocaleDateString()}</p>
                         </div>
                       </div>
@@ -642,25 +642,25 @@ export default function BookingsManagement() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <Card className="bg-muted/50 border-border rounded-2xl p-6 text-center shadow-inner">
                     <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("verification") || "Verification Status"}</p>
-                    <Badge className={cn("text-[9px] font-bold   px-4 py-1.5 rounded-full  border-none shadow-lg", verificationConfig[selectedBooking.verificationStatus].color)}>
-                      {verificationConfig[selectedBooking.verificationStatus].label}
+                    <Badge className={cn("text-[9px] font-bold   px-4 py-1.5 rounded-full  border-none shadow-lg", (verificationConfig[selectedBooking.verificationStatus] || {}).color || "bg-slate-500/10 text-slate-500 dark:text-slate-400")}>
+                      {(verificationConfig[selectedBooking.verificationStatus] || {}).label || selectedBooking.verificationStatus}
                     </Badge>
                   </Card>
 
                   <Card className="bg-muted/50 border-border rounded-2xl p-6 text-center shadow-inner">
-                    <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin.bookingsmanagement.risk_assessment")}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin_bookingsmanagement_risk_assessment")}</p>
                     <div className={cn("text-sm font-bold  ", getRiskColor(selectedBooking.riskScore))}>
                       {getRiskLabel(selectedBooking.riskScore)}
                     </div>
-                    <div className="text-[9px] font-bold text-muted-foreground font-mono mt-1">{t("admin.bookingsmanagement.score")}{selectedBooking.riskScore}</div>
+                    <div className="text-[9px] font-bold text-muted-foreground font-mono mt-1">{t("admin_bookingsmanagement_score")}{selectedBooking.riskScore}</div>
                   </Card>
 
                   <Card className="bg-muted/50 border-border rounded-2xl p-6 text-center shadow-inner">
-                    <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin.bookingsmanagement.gross_velocity")}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin_bookingsmanagement_gross_velocity")}</p>
                     <div className="text-xl font-bold text-foreground font-mono">
                       ${selectedBooking.totalPrice?.toLocaleString()}
                     </div>
-                    <div className="text-[9px] font-bold text-slate-400/60 mt-1">{t("admin.bookingsmanagement.confirmed_revenue")}</div>
+                    <div className="text-[9px] font-bold text-slate-500 dark:text-slate-400/60 mt-1">{t("admin_bookingsmanagement_confirmed_revenue")}</div>
                   </Card>
                 </div>
 
@@ -674,21 +674,21 @@ export default function BookingsManagement() {
                   <CardContent className="p-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                       <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin.bookingsmanagement.base_rate_cycle")}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_base_rate_cycle")}</p>
                         <p className="text-lg font-bold text-foreground font-mono">${selectedBooking.listing.price}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin.bookingsmanagement.temporal_span")}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_temporal_span")}</p>
                         <p className="text-lg font-bold text-foreground font-mono">
-                          {Math.ceil((new Date(selectedBooking.endDate).getTime() - new Date(selectedBooking.startDate).getTime()) / (1000 * 60 * 60 * 24))}{t("admin.bookingsmanagement.cycles")}</p>
+                          {Math.ceil((new Date(selectedBooking.endDate).getTime() - new Date(selectedBooking.startDate).getTime()) / (1000 * 60 * 60 * 24))}{t("admin_bookingsmanagement_cycles")}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin.bookingsmanagement.collateral_held")}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_collateral_held")}</p>
                         <p className="text-lg font-bold text-foreground font-mono">${selectedBooking.depositAmount?.toLocaleString() || '0'}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin.bookingsmanagement.processing_fee")}</p>
-                        <p className="text-lg font-bold text-emerald-400 font-mono">{t("admin.bookingsmanagement.included")}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_processing_fee")}</p>
+                        <p className="text-lg font-bold text-emerald-400 font-mono">{t("admin_bookingsmanagement_included")}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -706,11 +706,11 @@ export default function BookingsManagement() {
               </div>
 
               <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
-                <Button variant="ghost" className="flex-1 h-14 rounded-2xl font-bold text-[10px] hover:bg-muted/50 transition-all text-muted-foreground hover:text-foreground" onClick={() => setDetailsOpen(false)}>{t("admin.bookingsmanagement.close_intel")}</Button>
+                <Button variant="ghost" className="flex-1 h-14 rounded-2xl font-bold text-[10px] hover:bg-muted/50 transition-all text-muted-foreground hover:text-foreground" onClick={() => setDetailsOpen(false)}>{t("admin_bookingsmanagement_close_intel")}</Button>
                 {selectedBooking && selectedBooking.status === "PENDING" && <Button className="flex-2 h-14 rounded-2xl bg-slate-600 hover:bg-slate-500 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30 gap-2" onClick={() => {
               handleStatusChange(selectedBooking.id, "CONFIRMED");
               setDetailsOpen(false);
-            }}>{t("admin.bookingsmanagement.confirm_synchronization")}<ArrowUpRight className="w-3 h-3" />
+            }}>{t("admin_bookingsmanagement_confirm_synchronization")}<ArrowUpRight className="w-3 h-3" />
                   </Button>}
               </DialogFooter>
             </div>}

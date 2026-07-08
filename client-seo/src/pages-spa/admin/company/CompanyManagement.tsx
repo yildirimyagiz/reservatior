@@ -99,7 +99,7 @@ export default function CompanyManagement() {
     status: "APPROVED",
     uploadDate: "2026-03-15T10:00:00Z",
     fileUrl: "/documents/articles_of_incorporation.pdf",
-    description: t("admin.company.delaware_llc_incorporation_documents")
+    description: t("admin_company_delaware_llc_incorporation_documents")
   }, {
     id: "doc_002",
     name: "Terms of Service",
@@ -107,7 +107,7 @@ export default function CompanyManagement() {
     status: "APPROVED",
     uploadDate: "2026-03-20T14:30:00Z",
     fileUrl: "/documents/terms_of_service.pdf",
-    description: t("admin.company.platform_terms_and_conditions")
+    description: t("admin_company_platform_terms_and_conditions")
   }, {
     id: "doc_003",
     name: "Privacy Policy",
@@ -115,19 +115,19 @@ export default function CompanyManagement() {
     status: "APPROVED",
     uploadDate: "2026-03-22T09:15:00Z",
     fileUrl: "/documents/privacy_policy.pdf",
-    description: t("admin.company.user_privacy_protection_policy")
+    description: t("admin_company_user_privacy_protection_policy")
   }, {
     id: "doc_004",
     name: "Business License",
     type: "LICENSE",
     status: "PENDING",
     uploadDate: "2026-03-25T16:45:00Z",
-    description: t("admin.company.real_estate_business_license")
+    description: t("admin_company_real_estate_business_license")
   }]);
   const [milestones, setMilestones] = useState<CompanyMilestone[]>([{
     id: "ms_001",
-    title: t("admin.company.company_registration"),
-    description: t("admin.company.complete_legal_company_registration"),
+    title: t("admin_company_company_registration"),
+    description: t("admin_company_complete_legal_company_registration"),
     status: "COMPLETED",
     dueDate: "2026-03-30T23:59:59Z",
     completedDate: "2026-03-28T15:30:00Z",
@@ -135,8 +135,8 @@ export default function CompanyManagement() {
     priority: "HIGH"
   }, {
     id: "ms_002",
-    title: t("admin.company.bank_account_setup"),
-    description: t("admin.company.open_business_banking_accounts"),
+    title: t("admin_company_bank_account_setup"),
+    description: t("admin_company_open_business_banking_accounts"),
     status: "COMPLETED",
     dueDate: "2026-04-05T23:59:59Z",
     completedDate: "2026-04-02T11:20:00Z",
@@ -144,24 +144,24 @@ export default function CompanyManagement() {
     priority: "HIGH"
   }, {
     id: "ms_003",
-    title: t("admin.company.domain_registration"),
-    description: t("admin.company.register_company_domains"),
+    title: t("admin_company_domain_registration"),
+    description: t("admin_company_register_company_domains"),
     status: "IN_PROGRESS",
     dueDate: "2026-04-10T23:59:59Z",
     progress: 75,
     priority: "MEDIUM"
   }, {
     id: "ms_004",
-    title: t("admin.company.ssl_certificate_setup"),
-    description: t("admin.company.install_ssl_certificates"),
+    title: t("admin_company_ssl_certificate_setup"),
+    description: t("admin_company_install_ssl_certificates"),
     status: "NOT_STARTED",
     dueDate: "2026-04-15T23:59:59Z",
     progress: 0,
     priority: "MEDIUM"
   }, {
     id: "ms_005",
-    title: t("admin.company.google_cloud_deployment"),
-    description: t("admin.company.deploy_to_google_cloud"),
+    title: t("admin_company_google_cloud_deployment"),
+    description: t("admin_company_deploy_to_google_cloud"),
     status: "NOT_STARTED",
     dueDate: "2026-04-20T23:59:59Z",
     progress: 0,
@@ -223,7 +223,7 @@ export default function CompanyManagement() {
       case 'COMPLETED':
         return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'IN_PROGRESS':
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20';
       case 'DELAYED':
         return 'bg-red-500/10 text-red-400 border-red-500/20';
       case 'NOT_STARTED':
@@ -249,21 +249,21 @@ export default function CompanyManagement() {
   const completedMilestones = milestones.filter(m => m.status === 'COMPLETED').length;
   const totalMilestones = milestones.length;
   const overallProgress = completedMilestones / totalMilestones * 100;
-  return <PageShell title={t("admin.company.company_management")} description={t("admin.company.operational_company_setup_and")}>
+  return <PageShell title={t("admin_company_company_management")} description={t("admin_company_operational_company_setup_and")}>
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-10 space-y-8">
         
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">{t("admin.company.company_operations")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">{t("admin.company.manage_company_setup_documents")}</p>
+            <h1 className="text-3xl font-bold text-foreground">{t("admin_company_company_operations")}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{t("admin_company_manage_company_setup_documents")}</p>
           </div>
           
           <div className="flex items-center gap-4">
             <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/20 px-4 py-2">
               <div className="flex items-center gap-2">
                 <Building className="w-4 h-4" />
-                <span className="font-bold text-xs">{t("admin.company.active_setup")}</span>
+                <span className="font-bold text-xs">{t("admin_company_active_setup")}</span>
               </div>
             </Badge>
           </div>
@@ -273,34 +273,34 @@ export default function CompanyManagement() {
         <Card className="bg-card border-border rounded-3xl p-8">
           <CardHeader>
             <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-              <Target className="w-5 h-5 text-slate-500" />{t("admin.company.setup_progress")}</CardTitle>
+              <Target className="w-5 h-5 text-slate-500" />{t("admin_company_setup_progress")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className="text-3xl font-bold text-foreground">{overallProgress.toFixed(0)}%</div>
-                <p className="text-xs text-muted-foreground">{t("admin.company.overall_progress")}</p>
+                <p className="text-xs text-muted-foreground">{t("admin_company_overall_progress")}</p>
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-foreground">{completedMilestones}/{totalMilestones}</div>
-                <p className="text-xs text-muted-foreground">{t("admin.company.milestones")}</p>
+                <p className="text-xs text-muted-foreground">{t("admin_company_milestones")}</p>
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-foreground">{team.filter(t => t.status === 'ACTIVE').length}</div>
-                <p className="text-xs text-muted-foreground">{t("admin.company.team_members")}</p>
+                <p className="text-xs text-muted-foreground">{t("admin_company_team_members")}</p>
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-foreground">{documents.filter(d => d.status === 'APPROVED').length}</div>
-                <p className="text-xs text-muted-foreground">{t("admin.company.documents")}</p>
+                <p className="text-xs text-muted-foreground">{t("admin_company_documents")}</p>
               </div>
             </div>
             
             <div className="mt-6">
               <div className="flex items-center justify-between text-sm mb-2">
-                <span>{t("admin.company.setup_progress")}</span>
+                <span>{t("admin_company_setup_progress")}</span>
                 <span>{overallProgress.toFixed(0)}%</span>
               </div>
               <Progress value={overallProgress} className="h-3" />
@@ -312,19 +312,19 @@ export default function CompanyManagement() {
         <div className="flex space-x-1 border-b border-border">
           {[{
           id: 'overview',
-          label: t("admin.company.overview"),
+          label: t("admin_company_overview"),
           icon: <Target className="w-4 h-4" />
         }, {
           id: 'documents',
-          label: t("admin.company.documents"),
+          label: t("admin_company_documents"),
           icon: <FileText className="w-4 h-4" />
         }, {
           id: 'milestones',
-          label: t("admin.company.milestones"),
+          label: t("admin_company_milestones"),
           icon: <Calendar className="w-4 h-4" />
         }, {
           id: 'team',
-          label: t("admin.company.team"),
+          label: t("admin_company_team"),
           icon: <Users className="w-4 h-4" />
         }].map(tab => <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ? "text-foreground border-slate-500" : "text-muted-foreground border-transparent hover:text-foreground")}>
               <div className="flex items-center gap-2">
@@ -342,31 +342,31 @@ export default function CompanyManagement() {
               <Card className="bg-card border-border rounded-3xl p-8">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <Award className="w-5 h-5 text-emerald-500" />{t("admin.company.recent_achievements")}</CardTitle>
+                    <Award className="w-5 h-5 text-emerald-500" />{t("admin_company_recent_achievements")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <CheckCircle className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <h4 className="text-sm font-bold text-foreground">{t("admin.company.company_registered")}</h4>
-                        <p className="text-xs text-muted-foreground">{t("admin.company.delaware_llc_successfully_incorporated")}</p>
+                        <h4 className="text-sm font-bold text-foreground">{t("admin_company_company_registered")}</h4>
+                        <p className="text-xs text-muted-foreground">{t("admin_company_delaware_llc_successfully_incorporated")}</p>
                       </div>
                     </div>
                     
                     <div className="flex items-center gap-3">
                       <Star className="w-5 h-5 text-yellow-400" />
                       <div>
-                        <h4 className="text-sm font-bold text-foreground">{t("admin.company.bank_accounts_opened")}</h4>
-                        <p className="text-xs text-muted-foreground">{t("admin.company.business_banking_setup_completed")}</p>
+                        <h4 className="text-sm font-bold text-foreground">{t("admin_company_bank_accounts_opened")}</h4>
+                        <p className="text-xs text-muted-foreground">{t("admin_company_business_banking_setup_completed")}</p>
                       </div>
                     </div>
                     
                     <div className="flex items-center gap-3">
-                      <Zap className="w-5 h-5 text-slate-400" />
+                      <Zap className="w-5 h-5 text-slate-500 dark:text-slate-400" />
                       <div>
-                        <h4 className="text-sm font-bold text-foreground">{t("admin.company.domain_secured")}</h4>
-                        <p className="text-xs text-muted-foreground">{t("admin.company.reservatiormaicom_registered")}</p>
+                        <h4 className="text-sm font-bold text-foreground">{t("admin_company_domain_secured")}</h4>
+                        <p className="text-xs text-muted-foreground">{t("admin_company_reservatiormaicom_registered")}</p>
                       </div>
                     </div>
                   </div>
@@ -376,30 +376,30 @@ export default function CompanyManagement() {
               <Card className="bg-card border-border rounded-3xl p-8">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-slate-500" />{t("admin.company.key_metrics")}</CardTitle>
+                    <TrendingUp className="w-5 h-5 text-slate-500" />{t("admin_company_key_metrics")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-xs text-muted-foreground">{t("admin.company.setup_progress")}</p>
+                      <p className="text-xs text-muted-foreground">{t("admin_company_setup_progress")}</p>
                       <p className="text-2xl font-bold text-foreground">{overallProgress.toFixed(0)}%</p>
                     </div>
                     
                     <div>
-                      <p className="text-xs text-muted-foreground">{t("admin.company.time_to_launch")}</p>
-                      <p className="text-2xl font-bold text-foreground">{t("admin.company.21_days")}</p>
+                      <p className="text-xs text-muted-foreground">{t("admin_company_time_to_launch")}</p>
+                      <p className="text-2xl font-bold text-foreground">{t("admin_company_21_days")}</p>
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4 pt-4">
                     <div>
-                      <p className="text-xs text-muted-foreground">{t("admin.company.total_investment")}</p>
+                      <p className="text-xs text-muted-foreground">{t("admin_company_total_investment")}</p>
                       <p className="text-2xl font-bold text-foreground">$25,000</p>
                     </div>
                     
                     <div>
-                      <p className="text-xs text-muted-foreground">{t("admin.company.projected_revenue")}</p>
-                      <p className="text-2xl font-bold text-foreground">{t("admin.company.15000mo")}</p>
+                      <p className="text-xs text-muted-foreground">{t("admin_company_projected_revenue")}</p>
+                      <p className="text-2xl font-bold text-foreground">{t("admin_company_15000mo")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -410,12 +410,12 @@ export default function CompanyManagement() {
           {activeTab === 'documents' && <Card className="bg-card border-border rounded-3xl p-8">
               <CardHeader className="flex items-center justify-between">
                 <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-orange-500" />{t("admin.company.company_documents")}</CardTitle>
+                  <FileText className="w-5 h-5 text-orange-500" />{t("admin_company_company_documents")}</CardTitle>
                 
                                 <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
                                   <DialogTrigger asChild>
                                     <Button size="sm" className="bg-slate-600 hover:bg-slate-500">
-                                        <Plus className="w-4 h-4 mr-2" />{t("admin.company.upload_document")}</Button>
+                                        <Plus className="w-4 h-4 mr-2" />{t("admin_company_upload_document")}</Button>
                                   </DialogTrigger>
                                   
                           <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
@@ -494,16 +494,16 @@ export default function CompanyManagement() {
                           <Badge className={cn("text-[9px] font-bold   px-2", getDocumentStatusColor(document.status))}>
                             {document.status}
                           </Badge>
-                          <span className="text-xs text-muted-foreground">{t("admin.company.uploaded")}{new Date(document.uploadDate).toLocaleDateString()}
+                          <span className="text-xs text-muted-foreground">{t("admin_company_uploaded")}{new Date(document.uploadDate).toLocaleDateString()}
                           </span>
                         </div>
                       </div>
                       
                       <div className="flex items-center gap-2">
                         {document.fileUrl && <Button size="sm" variant="outline">
-                            <Download className="w-3 h-3 mr-1" />{t("admin.company.download")}</Button>}
+                            <Download className="w-3 h-3 mr-1" />{t("admin_company_download")}</Button>}
                         <Button size="sm" variant="ghost">
-                          <Edit className="w-3 h-3 mr-1" />{t("admin.company.edit")}</Button>
+                          <Edit className="w-3 h-3 mr-1" />{t("admin_company_edit")}</Button>
                       </div>
                     </div>
                   </motion.div>)}
@@ -514,9 +514,9 @@ export default function CompanyManagement() {
           {activeTab === 'milestones' && <Card className="bg-card border-border rounded-3xl p-8">
               <CardHeader className="flex items-center justify-between">
                 <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-slate-500" />{t("admin.company.setup_milestones")}</CardTitle>
+                  <Calendar className="w-5 h-5 text-slate-500" />{t("admin_company_setup_milestones")}</CardTitle>
                 <Button size="sm" className="bg-slate-600 hover:bg-slate-500">
-                  <Plus className="w-4 h-4 mr-2" />{t("admin.company.add_milestone")}</Button>
+                  <Plus className="w-4 h-4 mr-2" />{t("admin_company_add_milestone")}</Button>
               </CardHeader>
               <CardContent className="space-y-4">
                 {milestones.map(milestone => <motion.div key={milestone.id} initial={{
@@ -536,7 +536,7 @@ export default function CompanyManagement() {
                         </Badge>
                       </div>
                       
-                      <div className="text-xs text-muted-foreground">{t("admin.company.due")}{new Date(milestone.dueDate).toLocaleDateString()}
+                      <div className="text-xs text-muted-foreground">{t("admin_company_due")}{new Date(milestone.dueDate).toLocaleDateString()}
                       </div>
                     </div>
                     
@@ -547,7 +547,7 @@ export default function CompanyManagement() {
                     
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">{t("admin.company.progress")}</span>
+                        <span className="text-muted-foreground">{t("admin_company_progress")}</span>
                         <span className="text-foreground">{milestone.progress}%</span>
                       </div>
                       <Progress value={milestone.progress} className="h-2" />
@@ -560,9 +560,9 @@ export default function CompanyManagement() {
           {activeTab === 'team' && <Card className="bg-card border-border rounded-3xl p-8">
               <CardHeader className="flex items-center justify-between">
                 <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-                  <Users className="w-5 h-5 text-emerald-500" />{t("admin.company.team_members")}</CardTitle>
+                  <Users className="w-5 h-5 text-emerald-500" />{t("admin_company_team_members")}</CardTitle>
                 <Button size="sm" className="bg-slate-600 hover:bg-slate-500">
-                  <Plus className="w-4 h-4 mr-2" />{t("admin.company.add_team_member")}</Button>
+                  <Plus className="w-4 h-4 mr-2" />{t("admin_company_add_team_member")}</Button>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -575,7 +575,7 @@ export default function CompanyManagement() {
                           <h4 className="text-sm font-bold text-foreground">{member.name}</h4>
                           <p className="text-xs text-muted-foreground">{member.role}</p>
                           <p className="text-xs text-muted-foreground">{member.department}</p>
-                          <p className="text-xs text-muted-foreground">{t("admin.company.joined")}{new Date(member.joinDate).toLocaleDateString()}
+                          <p className="text-xs text-muted-foreground">{t("admin_company_joined")}{new Date(member.joinDate).toLocaleDateString()}
                           </p>
                         </div>
                         

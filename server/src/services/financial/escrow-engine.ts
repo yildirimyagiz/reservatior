@@ -137,10 +137,58 @@ export class EscrowEngine {
       }
     });
 
+    // 4. Recent Transactions (Releases)
+    const recentTransactions = await prisma.escrowRelease.findMany({
+      where: { escrow: { orgId } },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      include: {
+        escrow: true
+      }
+    });
+
+    // 5. Chart Data (Last 7 days of releases)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    
+    const recentReleases = await prisma.escrowRelease.findMany({
+      where: { 
+        escrow: { orgId },
+        createdAt: { gte: sevenDaysAgo }
+      },
+      orderBy: { createdAt: 'asc' }
+    });
+    
+    // Group by day for chart
+    const chartDataMap = new Map();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      chartDataMap.set(dateStr, { name: dateStr, amount: 0 });
+    }
+    
+    recentReleases.forEach(r => {
+      const dateStr = r.createdAt.toISOString().split('T')[0];
+      if (chartDataMap.has(dateStr)) {
+        const current = chartDataMap.get(dateStr);
+        current.amount += Number(r.amount);
+        chartDataMap.set(dateStr, current);
+      }
+    });
+
     return {
       totalEscrowValue: activeHoldingValue,
       pendingPayouts: Number(pendingPayouts._sum?.depositAmount || 0),
-      activeContracts: activeContracts
+      activeContracts: activeContracts,
+      recentTransactions: recentTransactions.map(t => ({
+        id: t.id,
+        amount: Number(t.amount),
+        status: t.status,
+        date: t.createdAt,
+        contractId: t.escrow.reservationId
+      })),
+      chartData: Array.from(chartDataMap.values())
     };
   }
 }

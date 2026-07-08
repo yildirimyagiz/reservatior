@@ -87,33 +87,33 @@ export default function FinancialTransactions() {
 
   return (
     <div className="space-y-6 min-h-screen">
-      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
-            <DollarSign className="w-8 h-8 text-white" />
+            <DollarSign className="w-8 h-8 text-slate-900 dark:text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
               {t("admin.financial.financial_transactions", "Financial Transactions")}
             </h1>
-            <p className="text-slate-400">
+            <p className="text-slate-500 dark:text-slate-400">
               {t("admin.financial.track_and_manage_all", "Track and manage all financial transactions")}
             </p>
           </div>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10">
+          <Button variant="outline" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-300 hover:bg-white/10">
             <Filter className="w-4 h-4 mr-2" />
             {t("admin.financial.filter", "Filter")}
           </Button>
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.financial.new_transaction", "New Transaction")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>{t("admin.financial.new_transaction", "New Transaction")}</DialogTitle>
               </DialogHeader>
@@ -121,8 +121,8 @@ export default function FinancialTransactions() {
                 <div className="space-y-2">
                   <Label>{t("admin.financial.type", "Type")}</Label>
                   <Select value={formData.type} onValueChange={(v: "INCOME" | "EXPENSE") => setFormData({ ...formData, type: v })}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-white/10 text-white">
+                    <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"><SelectValue /></SelectTrigger>
+                    <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                       <SelectItem value="INCOME">{t("admin.financial.income", "Income")}</SelectItem>
                       <SelectItem value="EXPENSE">{t("admin.financial.expense", "Expense")}</SelectItem>
                     </SelectContent>
@@ -130,11 +130,11 @@ export default function FinancialTransactions() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="amount">{t("admin.financial.amount", "Amount")}</Label>
-                  <Input id="amount" type="number" className="bg-white/5 border-white/10 text-white" value={formData.amount} onChange={e => setFormData({ ...formData, amount: Number(e.target.value) })} required />
+                  <Input id="amount" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.amount} onChange={e => setFormData({ ...formData, amount: Number(e.target.value) })} required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="description">{t("admin.financial.description", "Description")}</Label>
-                  <Input id="description" className="bg-white/5 border-white/10 text-white" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
+                  <Input id="description" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
                 </div>
                 <DialogFooter>
                   <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-slate-300">{t("common.cancel", "Cancel")}</Button>
@@ -149,7 +149,7 @@ export default function FinancialTransactions() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.financial.total_revenue", "Total Revenue")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-emerald-400" />
@@ -158,7 +158,7 @@ export default function FinancialTransactions() {
             <div className="text-2xl font-bold text-emerald-400">${totalIncome.toLocaleString()}</div>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.financial.total_expenses", "Total Expenses")}</CardTitle>
             <TrendingDown className="h-4 w-4 text-red-400" />
@@ -167,45 +167,45 @@ export default function FinancialTransactions() {
             <div className="text-2xl font-bold text-red-400">${totalExpense.toLocaleString()}</div>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.financial.net_profit", "Net Profit")}</CardTitle>
-            <DollarSign className="h-4 w-4 text-slate-400" />
+            <DollarSign className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">${netProfit.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">${netProfit.toLocaleString()}</div>
           </CardContent>
         </Card>
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">{t("admin.financial.transactions", "Transactions")}</CardTitle>
-            <Calendar className="h-4 w-4 text-slate-400" />
+            <Calendar className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{records.length}</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">{records.length}</div>
             <p className="text-xs text-slate-500">{t("admin.financial.total", "Total")}</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white">{t("admin.financial.recent_transactions", "Recent Transactions")}</CardTitle>
+            <CardTitle className="text-slate-900 dark:text-white">{t("admin.financial.recent_transactions", "Recent Transactions")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {isLoading ? (
-                <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>
+                <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-slate-500 dark:text-slate-400" /></div>
               ) : records.length === 0 ? (
                 <div className="text-center text-slate-500 p-8">{t("admin.financial.no_records_found", "No records found")}</div>
               ) : records.slice(0, 10).map((transaction) => (
-                <div key={transaction.id} className="flex items-center justify-between border-b border-white/10 pb-4 last:border-0">
+                <div key={transaction.id} className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-4 last:border-0">
                   <div className="flex items-center gap-4">
                     <div className={cn("w-2 h-2 rounded-full", transaction.type === "INCOME" ? "bg-emerald-500" : "bg-red-500")} />
                     <div>
-                      <p className="font-medium text-white">{transaction.description || (transaction.type === "INCOME" ? "Income" : "Expense")}</p>
-                      <p className="text-sm text-slate-400 font-mono">{transaction.id.slice(0, 8)} &bull; {new Date(transaction.occurredAt).toLocaleDateString()}</p>
+                      <p className="font-medium text-slate-900 dark:text-white">{transaction.description || (transaction.type === "INCOME" ? "Income" : "Expense")}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 font-mono">{transaction.id.slice(0, 8)} &bull; {new Date(transaction.occurredAt).toLocaleDateString()}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -224,9 +224,9 @@ export default function FinancialTransactions() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white">{t("admin.financial.transaction_categories", "Categories")}</CardTitle>
+            <CardTitle className="text-slate-900 dark:text-white">{t("admin.financial.transaction_categories", "Categories")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -235,7 +235,7 @@ export default function FinancialTransactions() {
               ) : categoryTotals.slice(0, 8).map((cat, i) => (
                 <div key={cat.category} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <p className="font-medium text-white text-sm capitalize">{cat.category.replace(/_/g, " ").toLowerCase()}</p>
+                    <p className="font-medium text-slate-900 dark:text-white text-sm capitalize">{cat.category.replace(/_/g, " ").toLowerCase()}</p>
                     <p className="font-medium text-emerald-400">${cat.amount.toLocaleString()}</p>
                   </div>
                   <div className="w-full bg-white/5 rounded-full h-2">

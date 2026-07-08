@@ -170,9 +170,9 @@ export default function AISentimentAnalysis() {
       case "negative":
         return <ThumbsDown className="h-4 w-4 text-red-500" />;
       case "neutral":
-        return <MessageSquare className="h-4 w-4 text-slate-400" />;
+        return <MessageSquare className="h-4 w-4 text-slate-500 dark:text-slate-400" />;
       default:
-        return <MessageSquare className="h-4 w-4 text-slate-400" />;
+        return <MessageSquare className="h-4 w-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const getPriorityColor = (priority: string) => {
@@ -202,79 +202,79 @@ export default function AISentimentAnalysis() {
   return <div className="min-h-screen p-4 md:p-8 space-y-6">
       <div className="space-y-6">
         {/* Header */}
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h1 className="text-3xl font-bold text-white">{t("admin.ai.ai_sentiment_analysis")}</h1>
-          <p className="text-slate-400 mt-1">{t("admin.ai.aipowered_sentiment_analysis_of")}</p>
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t("admin_ai_ai_sentiment_analysis")}</h1>
+          <p className="text-slate-500 dark:text-slate-400 mt-1">{t("admin_ai_aipowered_sentiment_analysis_of")}</p>
         </div>
 
         {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-5">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.total_analyzed")}</CardTitle>
-              <MessageSquare className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_total_analyzed")}</CardTitle>
+              <MessageSquare className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{totalSentiments}</div>
-              <p className="text-xs text-slate-400">{t("admin.ai.texts_analyzed")}</p>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{totalSentiments}</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_ai_texts_analyzed")}</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.positive")}</CardTitle>
-              <ThumbsUp className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_positive")}</CardTitle>
+              <ThumbsUp className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">
                 {positiveSentiments}
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {(positiveSentiments / totalSentiments * 100).toFixed(1)}%
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.negative")}</CardTitle>
-              <ThumbsDown className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_negative")}</CardTitle>
+              <ThumbsDown className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">
                 {negativeSentiments}
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {(negativeSentiments / totalSentiments * 100).toFixed(1)}%
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.neutral")}</CardTitle>
-              <MessageSquare className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_neutral")}</CardTitle>
+              <MessageSquare className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-yellow-600">
                 {neutralSentiments}
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {(neutralSentiments / totalSentiments * 100).toFixed(1)}%
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">{t("admin.ai.avg_confidence")}</CardTitle>
-              <TrendingUp className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_avg_confidence")}</CardTitle>
+              <TrendingUp className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">
                 {(avgConfidence * 100).toFixed(1)}%
               </div>
-              <p className="text-xs text-slate-400">{t("admin.ai.model_confidence")}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_ai_model_confidence")}</p>
             </CardContent>
           </Card>
         </div>
@@ -282,41 +282,41 @@ export default function AISentimentAnalysis() {
         {/* Filters */}
         <div className="flex items-center space-x-2">
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
-            <Input placeholder={t("admin.ai.search_sentiments")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-[250px] bg-white/5 border-white/10 text-white" />
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
+            <Input placeholder={t("admin_ai_search_sentiments")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-[250px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="border-white/10 text-slate-400">
-                <Filter className="h-4 w-4 mr-2" />{t("admin.ai.sentiment")}{filterSentiment === "all" ? "All" : filterSentiment}
+              <Button variant="outline" size="sm" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">
+                <Filter className="h-4 w-4 mr-2" />{t("admin_ai_sentiment")}{filterSentiment === "all" ? "All" : filterSentiment}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white/5 border-white/10 text-white">
-              <DropdownMenuItem onClick={() => setFilterSentiment("all")}>{t("admin.ai.all_sentiments")}</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterSentiment("positive")}>{t("admin.ai.positive")}</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterSentiment("negative")}>{t("admin.ai.negative")}</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterSentiment("neutral")}>{t("admin.ai.neutral")}</DropdownMenuItem>
+            <DropdownMenuContent className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+              <DropdownMenuItem onClick={() => setFilterSentiment("all")}>{t("admin_ai_all_sentiments")}</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterSentiment("positive")}>{t("admin_ai_positive")}</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterSentiment("negative")}>{t("admin_ai_negative")}</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterSentiment("neutral")}>{t("admin_ai_neutral")}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="border-white/10 text-slate-400">{t("admin.ai.source")}{filterSource === "all" ? "All" : filterSource}
+              <Button variant="outline" size="sm" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">{t("admin_ai_source")}{filterSource === "all" ? "All" : filterSource}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white/5 border-white/10 text-white">
-              <DropdownMenuItem onClick={() => setFilterSource("all")}>{t("admin.ai.all_sources")}</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterSource("review")}>{t("admin.ai.reviews")}</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterSource("ticket")}>{t("admin.ai.tickets")}</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilterSource("message")}>{t("admin.ai.messages")}</DropdownMenuItem>
+            <DropdownMenuContent className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+              <DropdownMenuItem onClick={() => setFilterSource("all")}>{t("admin_ai_all_sources")}</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterSource("review")}>{t("admin_ai_reviews")}</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterSource("ticket")}>{t("admin_ai_tickets")}</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilterSource("message")}>{t("admin_ai_messages")}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="border-white/10 text-slate-400">{t("admin.ai.category")}{filterCategory === "all" ? "All" : filterCategory}
+              <Button variant="outline" size="sm" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">{t("admin_ai_category")}{filterCategory === "all" ? "All" : filterCategory}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white/5 border-white/10 text-white">
-              <DropdownMenuItem onClick={() => setFilterCategory("all")}>{t("admin.ai.all_categories")}</DropdownMenuItem>
+            <DropdownMenuContent className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+              <DropdownMenuItem onClick={() => setFilterCategory("all")}>{t("admin_ai_all_categories")}</DropdownMenuItem>
               {Array.from(new Set(fallbackSentimentData.map(s => s.category))).map(category => <DropdownMenuItem key={category} onClick={() => setFilterCategory(category)}>
                   {category.replace("-", " ")}
                 </DropdownMenuItem>)}
@@ -325,49 +325,49 @@ export default function AISentimentAnalysis() {
         </div>
 
         {/* Sentiment Analysis Table */}
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white">{t("admin.ai.sentiment_analysis_results")}</CardTitle>
-            <CardDescription className="text-slate-400">{t("admin.ai.aipowered_sentiment_analysis_of")}</CardDescription>
+            <CardTitle className="text-slate-900 dark:text-white">{t("admin_ai_sentiment_analysis_results")}</CardTitle>
+            <CardDescription className="text-slate-500 dark:text-slate-400">{t("admin_ai_aipowered_sentiment_analysis_of")}</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow className="border-white/10">
-                  <TableHead className="text-slate-400">{t("admin.ai.source")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.title")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.content")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.sentiment")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.confidence")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.author")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.property")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.category")}</TableHead>
-                  <TableHead className="text-slate-400">{t("admin.ai.priority")}</TableHead>
+                <TableRow className="border-slate-200 dark:border-white/10">
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_source")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_title")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_content")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_sentiment")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_confidence")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_author")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_property")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_category")}</TableHead>
+                  <TableHead className="text-slate-500 dark:text-slate-400">{t("admin_ai_priority")}</TableHead>
                   <TableHead className="w-[50px]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredSentiments.map(sentiment => <TableRow key={sentiment.id} className="border-white/10">
+                {filteredSentiments.map(sentiment => <TableRow key={sentiment.id} className="border-slate-200 dark:border-white/10">
                     <TableCell>
                       <div className="flex items-center space-x-2">
-                        <span className="text-white">{getSourceIcon(sentiment.sourceType)}</span>
-                        <Badge variant="outline" className="capitalize text-slate-400">
+                        <span className="text-slate-900 dark:text-white">{getSourceIcon(sentiment.sourceType)}</span>
+                        <Badge variant="outline" className="capitalize text-slate-500 dark:text-slate-400">
                           {sentiment.sourceType}
                         </Badge>
                       </div>
                     </TableCell>
-                    <TableCell className="font-medium max-w-[200px] truncate text-white">
+                    <TableCell className="font-medium max-w-[200px] truncate text-slate-900 dark:text-white">
                       {sentiment.sourceTitle}
                     </TableCell>
                     <TableCell className="max-w-[300px]">
-                      <div className="text-sm truncate text-slate-400" title={sentiment.content}>
+                      <div className="text-sm truncate text-slate-500 dark:text-slate-400" title={sentiment.content}>
                         {sentiment.content}
                       </div>
                       {sentiment.keywords.length > 0 && <div className="flex flex-wrap gap-1 mt-1">
-                          {sentiment.keywords.slice(0, 2).map(keyword => <span key={keyword} className="text-xs bg-white/5 text-slate-400 px-1 py-0.5 rounded-lg">
+                          {sentiment.keywords.slice(0, 2).map(keyword => <span key={keyword} className="text-xs bg-white/5 text-slate-500 dark:text-slate-400 px-1 py-0.5 rounded-lg">
                               {keyword}
                             </span>)}
-                          {sentiment.keywords.length > 2 && <span className="text-xs text-slate-400">+{sentiment.keywords.length - 2}</span>}
+                          {sentiment.keywords.length > 2 && <span className="text-xs text-slate-500 dark:text-slate-400">+{sentiment.keywords.length - 2}</span>}
                         </div>}
                     </TableCell>
                     <TableCell>
@@ -379,7 +379,7 @@ export default function AISentimentAnalysis() {
                           </Badge>
                         </div>
                         <Progress value={sentiment.sentimentScore * 100} className="w-[60px]" />
-                        <div className="text-xs text-slate-400">
+                        <div className="text-xs text-slate-500 dark:text-slate-400">
                           {(sentiment.sentimentScore * 100).toFixed(0)}%
                         </div>
                       </div>
@@ -389,12 +389,12 @@ export default function AISentimentAnalysis() {
                         {(sentiment.confidence * 100).toFixed(0)}%
                       </div>
                     </TableCell>
-                    <TableCell className="text-white">{sentiment.author}</TableCell>
-                    <TableCell className="max-w-[150px] truncate text-slate-400">
+                    <TableCell className="text-slate-900 dark:text-white">{sentiment.author}</TableCell>
+                    <TableCell className="max-w-[150px] truncate text-slate-500 dark:text-slate-400">
                       {sentiment.property}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="capitalize text-slate-400">
+                      <Badge variant="outline" className="capitalize text-slate-500 dark:text-slate-400">
                         {sentiment.category.replace("-", " ")}
                       </Badge>
                     </TableCell>
@@ -406,16 +406,16 @@ export default function AISentimentAnalysis() {
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="text-slate-400">
+                          <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400">
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-white/5 border-white/10 text-white">
-                          <DropdownMenuItem>{t("admin.ai.view_full_text")}</DropdownMenuItem>
-                          <DropdownMenuItem>{t("admin.ai.view_analysis_details")}</DropdownMenuItem>
-                          <DropdownMenuItem>{t("admin.ai.respond_to_source")}</DropdownMenuItem>
-                          <DropdownMenuItem>{t("admin.ai.flag_for_review")}</DropdownMenuItem>
-                          <DropdownMenuItem>{t("admin.ai.export_data")}</DropdownMenuItem>
+                        <DropdownMenuContent className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                          <DropdownMenuItem>{t("admin_ai_view_full_text")}</DropdownMenuItem>
+                          <DropdownMenuItem>{t("admin_ai_view_analysis_details")}</DropdownMenuItem>
+                          <DropdownMenuItem>{t("admin_ai_respond_to_source")}</DropdownMenuItem>
+                          <DropdownMenuItem>{t("admin_ai_flag_for_review")}</DropdownMenuItem>
+                          <DropdownMenuItem>{t("admin_ai_export_data")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -427,69 +427,69 @@ export default function AISentimentAnalysis() {
 
         {/* AI Insights */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.ai.sentiment_trends")}</CardTitle>
-              <CardDescription className="text-slate-400">{t("admin.ai.weekly_sentiment_analysis_trends")}</CardDescription>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_ai_sentiment_trends")}</CardTitle>
+              <CardDescription className="text-slate-500 dark:text-slate-400">{t("admin_ai_weekly_sentiment_analysis_trends")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-white">{t("admin.ai.this_week")}</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-white">{t("admin_ai_this_week")}</span>
                   <div className="flex items-center space-x-2">
                     <TrendingUp className="h-4 w-4 text-green-500" />
                     <span className="text-sm font-bold text-green-600">+12%</span>
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-white">{t("admin.ai.positive_trend")}</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-white">{t("admin_ai_positive_trend")}</span>
                   <div className="flex items-center space-x-2">
                     <TrendingUp className="h-4 w-4 text-green-500" />
                     <span className="text-sm font-bold text-green-600">+8%</span>
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-white">{t("admin.ai.negative_trend")}</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-white">{t("admin_ai_negative_trend")}</span>
                   <div className="flex items-center space-x-2">
                     <TrendingDown className="h-4 w-4 text-red-500" />
                     <span className="text-sm font-bold text-red-600">-15%</span>
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-white">{t("admin.ai.response_rate")}</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-white">{t("admin_ai_response_rate")}</span>
                   <span className="text-sm font-bold text-slate-600">87%</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.ai.key_insights")}</CardTitle>
-              <CardDescription className="text-slate-400">{t("admin.ai.aigenerated_insights_from_sentiment")}</CardDescription>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_ai_key_insights")}</CardTitle>
+              <CardDescription className="text-slate-500 dark:text-slate-400">{t("admin_ai_aigenerated_insights_from_sentiment")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
                   <div className="flex items-center space-x-2 mb-1">
                     <ThumbsUp className="h-4 w-4 text-green-600" />
-                    <span className="text-sm font-medium text-green-400">{t("admin.ai.top_positive_driver")}</span>
+                    <span className="text-sm font-medium text-green-400">{t("admin_ai_top_positive_driver")}</span>
                   </div>
-                  <p className="text-sm text-green-300">{t("admin.ai.maintenance_responsiveness_mentioned_in")}</p>
+                  <p className="text-sm text-green-300">{t("admin_ai_maintenance_responsiveness_mentioned_in")}</p>
                 </div>
                 <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
                   <div className="flex items-center space-x-2 mb-1">
                     <ThumbsDown className="h-4 w-4 text-red-600" />
-                    <span className="text-sm font-medium text-red-400">{t("admin.ai.main_concern")}</span>
+                    <span className="text-sm font-medium text-red-400">{t("admin_ai_main_concern")}</span>
                   </div>
-                  <p className="text-sm text-red-300">{t("admin.ai.hvac_and_heating_issues")}</p>
+                  <p className="text-sm text-red-300">{t("admin_ai_hvac_and_heating_issues")}</p>
                 </div>
                 <div className="p-3 bg-slate-500/10 border border-slate-500/20 rounded-lg">
                   <div className="flex items-center space-x-2 mb-1">
                     <MessageSquare className="h-4 w-4 text-slate-600" />
-                    <span className="text-sm font-medium text-slate-400">{t("admin.ai.recommendation")}</span>
+                    <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_recommendation")}</span>
                   </div>
-                  <p className="text-sm text-slate-300">{t("admin.ai.focus_on_hvac_maintenance")}</p>
+                  <p className="text-sm text-slate-300">{t("admin_ai_focus_on_hvac_maintenance")}</p>
                 </div>
               </div>
             </CardContent>

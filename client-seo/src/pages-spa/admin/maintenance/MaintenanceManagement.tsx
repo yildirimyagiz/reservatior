@@ -66,22 +66,22 @@ const MaintenanceManagement = () => {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-orange-400">
             {t("admin.maintenance.title", "Maintenance & Repairs")}
           </h1>
-          <p className="text-slate-400 mt-2">
+          <p className="text-slate-500 dark:text-slate-400 mt-2">
             {t("admin.maintenance.subtitle", "Track work orders, property damage, and predictive maintenance schedules")}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-white/5 border-white/10 hover:bg-white/10">
+          <Button variant="outline" className="bg-white/5 border-slate-200 dark:border-white/10 hover:bg-white/10">
             {t("common.export", "Export Report")}
           </Button>
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-500/20">
+              <Button className="bg-red-600 hover:bg-red-700 text-slate-900 dark:text-white shadow-lg shadow-red-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.maintenance.create", "Create Work Order")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>{t("admin.maintenance.create", "Create Work Order")}</DialogTitle>
               </DialogHeader>
@@ -90,7 +90,7 @@ const MaintenanceManagement = () => {
                   <Label htmlFor="title">Issue Title</Label>
                   <Input 
                     id="title" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newOrder.title}
                     onChange={e => setNewOrder({...newOrder, title: e.target.value})}
                     required
@@ -100,7 +100,7 @@ const MaintenanceManagement = () => {
                   <Label htmlFor="description">Description</Label>
                   <Input 
                     id="description" 
-                    className="bg-white/5 border-white/10" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
                     value={newOrder.description}
                     onChange={e => setNewOrder({...newOrder, description: e.target.value})}
                     required
@@ -111,7 +111,7 @@ const MaintenanceManagement = () => {
                     <Label htmlFor="priority">Priority</Label>
                     <Input 
                       id="priority" 
-                      className="bg-white/5 border-white/10" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
                       value={newOrder.priority}
                       onChange={e => setNewOrder({...newOrder, priority: e.target.value})}
                       placeholder="e.g. HIGH, MEDIUM"
@@ -121,7 +121,7 @@ const MaintenanceManagement = () => {
                     <Label htmlFor="category">Category</Label>
                     <Input 
                       id="category" 
-                      className="bg-white/5 border-white/10" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
                       value={newOrder.category}
                       onChange={e => setNewOrder({...newOrder, category: e.target.value})}
                       placeholder="e.g. PLUMBING"
@@ -141,69 +141,69 @@ const MaintenanceManagement = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Open Tickets</CardTitle>
-            <Wrench className="w-4 h-4 text-slate-400" />
+            <Wrench className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">312</div>
-            <p className="text-xs text-slate-400 mt-1">Pending dispatch</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">312</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Pending dispatch</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">In Progress</CardTitle>
             <AlertTriangle className="w-4 h-4 text-amber-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">84</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">84</div>
             <p className="text-xs text-amber-400 mt-1">Actively being worked</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Emergency</CardTitle>
             <ShieldAlert className="w-4 h-4 text-red-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">12</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">12</div>
             <p className="text-xs text-red-400 mt-1">Requires immediate action</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-300">Resolved</CardTitle>
             <CheckCircle className="w-4 h-4 text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">1,402</div>
-            <p className="text-xs text-slate-400 mt-1">This month</p>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">1,402</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">This month</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white">{t("admin.maintenance.list", "Work Orders Board")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin.maintenance.list", "Work Orders Board")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               {t("common.loading", "Loading maintenance registry...")}
             </div>
           ) : workOrders.length === 0 ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
               No work orders found.
             </div>
           ) : (
-            <div className="rounded-xl border border-white/10">
+            <div className="rounded-xl border border-slate-200 dark:border-white/10">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
                     <TableHead className="text-slate-300">Title</TableHead>
                     <TableHead className="text-slate-300">Priority</TableHead>
                     <TableHead className="text-slate-300">Category</TableHead>
@@ -213,19 +213,19 @@ const MaintenanceManagement = () => {
                 </TableHeader>
                 <TableBody>
                   {workOrders.map((w: any) => (
-                    <TableRow key={w.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                      <TableCell className="font-medium text-white">{w.title}</TableCell>
-                      <TableCell className={`text-slate-400 ${w.priority === 'EMERGENCY' ? 'text-red-400' : ''}`}>
+                    <TableRow key={w.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{w.title}</TableCell>
+                      <TableCell className={`text-slate-500 dark:text-slate-400 ${w.priority === 'EMERGENCY' ? 'text-red-400' : ''}`}>
                         {w.priority}
                       </TableCell>
-                      <TableCell className="text-slate-400">{w.category}</TableCell>
-                      <TableCell className="text-slate-400">
+                      <TableCell className="text-slate-500 dark:text-slate-400">{w.category}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">
                         <span className="px-2 py-1 bg-white/5 rounded-full text-xs">
                           {w.status}
                         </span>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
+                        <Button variant="ghost" size="icon" className="text-slate-500 dark:text-slate-400 hover:text-white">
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 

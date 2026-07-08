@@ -114,14 +114,14 @@ export default function Mortgages() {
     fetchData();
   }, []);
   const getPropertyName = (id: string) => properties.find(p => p.id === id)?.name || "Unknown Property";
-  return <PageShell title={t("admin.financial.property_mortgages")} description={t("admin.financial.track_and_manage_property")} actions={<div className="flex gap-2">
+  return <PageShell title={t("admin_financial_property_mortgages")} description={t("admin_financial_track_and_manage_property")} actions={<div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin.financial.refresh")}</Button>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin_financial_refresh")}</Button>
           
                 <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
                   <DialogTrigger asChild>
                     <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                  <Plus className="w-4 h-4 mr-2" />{t("admin.financial.add_mortgage")}</Button>
+                  <Plus className="w-4 h-4 mr-2" />{t("admin_financial_add_mortgage")}</Button>
                   </DialogTrigger>
                   
           <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
@@ -187,22 +187,22 @@ export default function Mortgages() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <Card className="shadow-sm border-muted">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("admin.financial.total_principal_outstanding")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("admin_financial_total_principal_outstanding")}</CardTitle>
             <Landmark className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${mortgages.reduce((a, b) => a + b.principal, 0).toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground mt-1">{t("admin.financial.across")}{mortgages.length}{t("admin.financial.properties")}</p>
+            <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_across")}{mortgages.length}{t("admin_financial_properties")}</p>
           </CardContent>
         </Card>
         <Card className="shadow-sm border-muted">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("admin.financial.interest_rates_range")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("admin_financial_interest_rates_range")}</CardTitle>
             <Percent className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">3.8% - 4.5%</div>
-            <p className="text-xs text-muted-foreground mt-1">{t("admin.financial.current_market_average_62")}</p>
+            <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_current_market_average_62")}</p>
           </CardContent>
         </Card>
       </div>
@@ -211,12 +211,12 @@ export default function Mortgages() {
         <Table>
           <TableHeader className="bg-muted/30">
             <TableRow>
-              <TableHead className="font-bold text-xs">{t("admin.financial.property")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.lender")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.principal")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.interest_rate")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.start_date")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("admin.financial.status")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("admin_financial_property")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("admin_financial_lender")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("admin_financial_principal")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("admin_financial_interest_rate")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("admin_financial_start_date")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("admin_financial_status")}</TableHead>
               <TableHead className="w-10" />
             </TableRow>
           </TableHeader>
@@ -225,7 +225,7 @@ export default function Mortgages() {
                 <TableCell colSpan={7} className="h-64 text-center">
                   <div className="flex flex-col items-center justify-center gap-2">
                     <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                    <span>{t("admin.financial.loading_mortgage_data")}</span>
+                    <span>{t("admin_financial_loading_mortgage_data")}</span>
                   </div>
                 </TableCell>
               </TableRow> : mortgages.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin.financial.no_mortgages_found", "No mortgages found")}</TableCell></TableRow> : mortgages.map(mort => <TableRow key={mort.id} className="hover:bg-muted/40 transition-colors">

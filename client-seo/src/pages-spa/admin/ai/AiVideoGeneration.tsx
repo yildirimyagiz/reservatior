@@ -69,14 +69,14 @@ export default function AiVideoGenerationPage() {
       setIsCreateDialogOpen(false);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.video_generation_task_created")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_video_generation_task_created")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_video"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_video"),
         variant: "destructive"
       });
     }
@@ -93,14 +93,14 @@ export default function AiVideoGenerationPage() {
       setSelectedVideo(null);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.video_generation_updated_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_video_generation_updated_successfully")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_update_video"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_update_video"),
         variant: "destructive"
       });
     }
@@ -111,14 +111,14 @@ export default function AiVideoGenerationPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['aiVideoGenerations'] });
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.video_generation_deleted_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_video_generation_deleted_successfully")
       });
     },
     onError: () => {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_delete_video"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_delete_video"),
         variant: "destructive"
       });
     }
@@ -180,61 +180,61 @@ export default function AiVideoGenerationPage() {
   };
 
   if (loading) {
-    return <PageShell title={t("admin.ai.ai_video_generation_management")}>
+    return <PageShell title={t("admin_ai_ai_video_generation_management")}>
         <div className="flex items-center justify-center h-64">
           <Video className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
 
-  return <PageShell title={t("admin.ai.ai_video_generation_management")}>
+  return <PageShell title={t("admin_ai_ai_video_generation_management")}>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">{t("admin.ai.ai_video_generation")}</h1>
-            <p className="text-muted-foreground">{t("admin.ai.manage_aigenerated_property_videos")}</p>
+            <h1 className="text-3xl font-bold">{t("admin_ai_ai_video_generation")}</h1>
+            <p className="text-muted-foreground">{t("admin_ai_manage_aigenerated_property_videos")}</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.ai.generate_video")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_ai_generate_video")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>{t("admin.ai.generate_new_property_video")}</DialogTitle>
-                <DialogDescription>{t("admin.ai.create_a_new_aigenerated")}</DialogDescription>
+                <DialogTitle>{t("admin_ai_generate_new_property_video")}</DialogTitle>
+                <DialogDescription>{t("admin_ai_create_a_new_aigenerated")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="propertyId" className="text-right">{t("admin.ai.property_id")}</Label>
+                  <Label htmlFor="propertyId" className="text-right">{t("admin_ai_property_id")}</Label>
                   <Input id="propertyId" value={form.propertyId} onChange={e => setForm({
                   ...form,
                   propertyId: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.prop")} />
+                })} className="col-span-3" placeholder={t("admin_ai_prop")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="listingId" className="text-right">{t("admin.ai.listing_id")}</Label>
+                  <Label htmlFor="listingId" className="text-right">{t("admin_ai_listing_id")}</Label>
                   <Input id="listingId" value={form.listingId} onChange={e => setForm({
                   ...form,
                   listingId: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.listing")} />
+                })} className="col-span-3" placeholder={t("admin_ai_listing")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="videoUrl" className="text-right">{t("admin.ai.video_url")}</Label>
+                  <Label htmlFor="videoUrl" className="text-right">{t("admin_ai_video_url")}</Label>
                   <Input id="videoUrl" value={form.videoUrl} onChange={e => setForm({
                   ...form,
                   videoUrl: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.https")} />
+                })} className="col-span-3" placeholder={t("admin_ai_https")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="thumbnailUrl" className="text-right">{t("admin.ai.thumbnail_url")}</Label>
+                  <Label htmlFor="thumbnailUrl" className="text-right">{t("admin_ai_thumbnail_url")}</Label>
                   <Input id="thumbnailUrl" value={form.thumbnailUrl} onChange={e => setForm({
                   ...form,
                   thumbnailUrl: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.https")} />
+                })} className="col-span-3" placeholder={t("admin_ai_https")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="status" className="text-right">{t("admin.ai.status")}</Label>
+                  <Label htmlFor="status" className="text-right">{t("admin_ai_status")}</Label>
                   <Select value={form.status} onValueChange={value => setForm({
                   ...form,
                   status: value
@@ -243,30 +243,30 @@ export default function AiVideoGenerationPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="PENDING">{t("admin.ai.pending")}</SelectItem>
-                      <SelectItem value="PROCESSING">{t("admin.ai.processing")}</SelectItem>
-                      <SelectItem value="COMPLETED">{t("admin.ai.completed")}</SelectItem>
-                      <SelectItem value="FAILED">{t("admin.ai.failed")}</SelectItem>
+                      <SelectItem value="PENDING">{t("admin_ai_pending")}</SelectItem>
+                      <SelectItem value="PROCESSING">{t("admin_ai_processing")}</SelectItem>
+                      <SelectItem value="COMPLETED">{t("admin_ai_completed")}</SelectItem>
+                      <SelectItem value="FAILED">{t("admin_ai_failed")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="duration" className="text-right">{t("admin.ai.duration_sec")}</Label>
+                  <Label htmlFor="duration" className="text-right">{t("admin_ai_duration_sec")}</Label>
                   <Input id="duration" type="number" value={form.duration} onChange={e => setForm({
                   ...form,
                   duration: parseInt(e.target.value)
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="metadata" className="text-right pt-2">{t("admin.ai.metadata_json")}</Label>
+                  <Label htmlFor="metadata" className="text-right pt-2">{t("admin_ai_metadata_json")}</Label>
                   <Textarea id="metadata" value={form.metadata} onChange={e => setForm({
                   ...form,
                   metadata: e.target.value
-                })} className="col-span-3 min-h-32" placeholder={t("admin.ai.style_modern_music_upbeat")} />
+                })} className="col-span-3 min-h-32" placeholder={t("admin_ai_style_modern_music_upbeat")} />
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={() => createMutation.mutate()} disabled={createMutation.isPending}>{t("admin.ai.generate_video")}</Button>
+                <Button onClick={() => createMutation.mutate()} disabled={createMutation.isPending}>{t("admin_ai_generate_video")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -274,17 +274,17 @@ export default function AiVideoGenerationPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.generated_videos")}</CardTitle>
+            <CardTitle>{t("admin_ai_generated_videos")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.property")}</TableHead>
-                  <TableHead>{t("admin.ai.status")}</TableHead>
-                  <TableHead>{t("admin.ai.duration")}</TableHead>
-                  <TableHead>{t("admin.ai.video_url")}</TableHead>
-                  <TableHead className="text-right">{t("admin.ai.actions")}</TableHead>
+                  <TableHead>{t("admin_ai_property")}</TableHead>
+                  <TableHead>{t("admin_ai_status")}</TableHead>
+                  <TableHead>{t("admin_ai_duration")}</TableHead>
+                  <TableHead>{t("admin_ai_video_url")}</TableHead>
+                  <TableHead className="text-right">{t("admin_ai_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -319,14 +319,14 @@ export default function AiVideoGenerationPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.ai.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_ai_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openView(video)}>
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.ai.view_details")}</DropdownMenuItem>
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => openEdit(video)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deleteMutation.mutate(video.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.ai.delete")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -339,12 +339,12 @@ export default function AiVideoGenerationPage() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.edit_video_generation")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.update_the_video_generation")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_edit_video_generation")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_update_the_video_generation")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-status" className="text-right">{t("admin.ai.status")}</Label>
+                <Label htmlFor="edit-status" className="text-right">{t("admin_ai_status")}</Label>
                 <Select value={form.status} onValueChange={value => setForm({
                 ...form,
                 status: value
@@ -353,22 +353,22 @@ export default function AiVideoGenerationPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="PENDING">{t("admin.ai.pending")}</SelectItem>
-                    <SelectItem value="PROCESSING">{t("admin.ai.processing")}</SelectItem>
-                    <SelectItem value="COMPLETED">{t("admin.ai.completed")}</SelectItem>
-                    <SelectItem value="FAILED">{t("admin.ai.failed")}</SelectItem>
+                    <SelectItem value="PENDING">{t("admin_ai_pending")}</SelectItem>
+                    <SelectItem value="PROCESSING">{t("admin_ai_processing")}</SelectItem>
+                    <SelectItem value="COMPLETED">{t("admin_ai_completed")}</SelectItem>
+                    <SelectItem value="FAILED">{t("admin_ai_failed")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-duration" className="text-right">{t("admin.ai.duration_sec")}</Label>
+                <Label htmlFor="edit-duration" className="text-right">{t("admin_ai_duration_sec")}</Label>
                 <Input id="edit-duration" type="number" value={form.duration} onChange={e => setForm({
                 ...form,
                 duration: parseInt(e.target.value)
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="edit-metadata" className="text-right pt-2">{t("admin.ai.metadata_json")}</Label>
+                <Label htmlFor="edit-metadata" className="text-right pt-2">{t("admin_ai_metadata_json")}</Label>
                 <Textarea id="edit-metadata" value={form.metadata} onChange={e => setForm({
                 ...form,
                 metadata: e.target.value
@@ -376,7 +376,7 @@ export default function AiVideoGenerationPage() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={() => updateMutation.mutate(selectedVideo?.status === 'COMPLETED' ? 100 : 50)} disabled={updateMutation.isPending}>{t("admin.ai.update_video")}</Button>
+              <Button onClick={() => updateMutation.mutate(selectedVideo?.status === 'COMPLETED' ? 100 : 50)} disabled={updateMutation.isPending}>{t("admin_ai_update_video")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -384,28 +384,28 @@ export default function AiVideoGenerationPage() {
         <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.view_video_details")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.detailed_view_of_the")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_view_video_details")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_detailed_view_of_the")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.property_id")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_property_id")}</Label>
                 <span className="col-span-3 font-mono text-sm">{form.propertyId}</span>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.listing_id")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_listing_id")}</Label>
                 <span className="col-span-3 font-mono text-sm">{form.listingId || 'N/A'}</span>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.status")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_status")}</Label>
                 <Badge className={getStatusColor(form.status)}>{form.status}</Badge>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.duration")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_duration")}</Label>
                 <span className="col-span-3">{form.duration}s</span>
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label className="text-right pt-2 font-medium">{t("admin.ai.metadata")}</Label>
+                <Label className="text-right pt-2 font-medium">{t("admin_ai_metadata")}</Label>
                 <pre className="col-span-3 bg-white/5 p-2 rounded-lg text-xs overflow-auto max-h-48">
                   {form.metadata}
                 </pre>

@@ -93,8 +93,8 @@ export default function PropertyPromotions() {
       setPromotions(response.data);
     } catch (error) {
       toast({
-        title: t("admin.property.error"),
-        description: t("admin.property.failed_to_fetch_property"),
+        title: t("admin_property_error"),
+        description: t("admin_property_failed_to_fetch_property"),
         variant: "destructive"
       });
     } finally {
@@ -121,13 +121,13 @@ export default function PropertyPromotions() {
         endDate: ''
       });
       toast({
-        title: t("admin.property.success"),
-        description: t("admin.property.property_promotion_created_successfully")
+        title: t("admin_property_success"),
+        description: t("admin_property_property_promotion_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.property.error"),
-        description: t("admin.property.failed_to_create_property"),
+        title: t("admin_property_error"),
+        description: t("admin_property_failed_to_create_property"),
         variant: "destructive"
       });
     }
@@ -142,13 +142,13 @@ export default function PropertyPromotions() {
         status: status as any
       } : p));
       toast({
-        title: t("admin.property.success"),
-        description: t("admin.property.promotion_status_updated_successfully")
+        title: t("admin_property_success"),
+        description: t("admin_property_promotion_status_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.property.error"),
-        description: t("admin.property.failed_to_update_promotion"),
+        title: t("admin_property_error"),
+        description: t("admin_property_failed_to_update_promotion"),
         variant: "destructive"
       });
     }
@@ -176,57 +176,57 @@ export default function PropertyPromotions() {
   const totalImpressions = promotions.reduce((acc, p) => acc + p.impressions, 0);
   const avgCTR = promotions.length > 0 ? promotions.reduce((acc, p) => acc + p.ctr, 0) / promotions.length : 0;
   if (loading) {
-    return <PageShell title={t("admin.property.property_promotions")}>
+    return <PageShell title={t("admin_property_property_promotions")}>
         <div className="flex items-center justify-center h-64">
           <Activity className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.property.property_promotions")}>
+  return <PageShell title={t("admin_property_property_promotions")}>
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.property.active_promotions")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_property_active_promotions")}</CardTitle>
               <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{activePromotions}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.property.currently_running_campaigns")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_property_currently_running_campaigns")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.property.total_spent")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_property_total_spent")}</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">${totalSpent.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.property.across_all_campaigns")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_property_across_all_campaigns")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.property.total_impressions")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_property_total_impressions")}</CardTitle>
               <Eye className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalImpressions.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.property.campaign_reach")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_property_campaign_reach")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.property.avg_ctr")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_property_avg_ctr")}</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{avgCTR.toFixed(2)}%</div>
-              <p className="text-xs text-muted-foreground">{t("admin.property.clickthrough_rate")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_property_clickthrough_rate")}</p>
             </CardContent>
           </Card>
         </div>
@@ -236,50 +236,50 @@ export default function PropertyPromotions() {
           <div className="flex gap-4">
             <Select value={platformFilter} onValueChange={setPlatformFilter}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.property.platform")} />
+                <SelectValue placeholder={t("admin_property_platform")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.property.all_platforms")}</SelectItem>
-                <SelectItem value="INTERNAL">{t("admin.property.internal")}</SelectItem>
-                <SelectItem value="ZILLOW">{t("admin.property.zillow")}</SelectItem>
-                <SelectItem value="REALTOR">{t("admin.property.realtorcom")}</SelectItem>
-                <SelectItem value="FACEBOOK">{t("admin.property.facebook")}</SelectItem>
-                <SelectItem value="GOOGLE">{t("admin.property.google")}</SelectItem>
+                <SelectItem value="all">{t("admin_property_all_platforms")}</SelectItem>
+                <SelectItem value="INTERNAL">{t("admin_property_internal")}</SelectItem>
+                <SelectItem value="ZILLOW">{t("admin_property_zillow")}</SelectItem>
+                <SelectItem value="REALTOR">{t("admin_property_realtorcom")}</SelectItem>
+                <SelectItem value="FACEBOOK">{t("admin_property_facebook")}</SelectItem>
+                <SelectItem value="GOOGLE">{t("admin_property_google")}</SelectItem>
               </SelectContent>
             </Select>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.property.status")} />
+                <SelectValue placeholder={t("admin_property_status")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.property.all_statuses")}</SelectItem>
-                <SelectItem value="ACTIVE">{t("admin.property.active")}</SelectItem>
-                <SelectItem value="PAUSED">{t("admin.property.paused")}</SelectItem>
-                <SelectItem value="EXPIRED">{t("admin.property.expired")}</SelectItem>
-                <SelectItem value="DRAFT">{t("admin.property.draft")}</SelectItem>
+                <SelectItem value="all">{t("admin_property_all_statuses")}</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_property_active")}</SelectItem>
+                <SelectItem value="PAUSED">{t("admin_property_paused")}</SelectItem>
+                <SelectItem value="EXPIRED">{t("admin_property_expired")}</SelectItem>
+                <SelectItem value="DRAFT">{t("admin_property_draft")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.property.create_promotion")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_property_create_promotion")}</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{t("admin.property.create_property_promotion")}</DialogTitle>
-                <DialogDescription>{t("admin.property.set_up_a_new")}</DialogDescription>
+                <DialogTitle>{t("admin_property_create_property_promotion")}</DialogTitle>
+                <DialogDescription>{t("admin_property_set_up_a_new")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="propertyId" className="text-right">{t("admin.property.property_id")}</Label>
+                  <Label htmlFor="propertyId" className="text-right">{t("admin_property_property_id")}</Label>
                   <Input id="propertyId" value={newPromotion.propertyId} onChange={e => setNewPromotion({
                   ...newPromotion,
                   propertyId: e.target.value
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="promotionType" className="text-right">{t("admin.property.type")}</Label>
+                  <Label htmlFor="promotionType" className="text-right">{t("admin_property_type")}</Label>
                   <Select value={newPromotion.promotionType} onValueChange={value => setNewPromotion({
                   ...newPromotion,
                   promotionType: value
@@ -288,15 +288,15 @@ export default function PropertyPromotions() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="FEATURED">{t("admin.property.featured")}</SelectItem>
-                      <SelectItem value="PREMIUM">{t("admin.property.premium")}</SelectItem>
-                      <SelectItem value="BOOSTED">{t("admin.property.boosted")}</SelectItem>
-                      <SelectItem value="SPONSORED">{t("admin.property.sponsored")}</SelectItem>
+                      <SelectItem value="FEATURED">{t("admin_property_featured")}</SelectItem>
+                      <SelectItem value="PREMIUM">{t("admin_property_premium")}</SelectItem>
+                      <SelectItem value="BOOSTED">{t("admin_property_boosted")}</SelectItem>
+                      <SelectItem value="SPONSORED">{t("admin_property_sponsored")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="platform" className="text-right">{t("admin.property.platform")}</Label>
+                  <Label htmlFor="platform" className="text-right">{t("admin_property_platform")}</Label>
                   <Select value={newPromotion.platform} onValueChange={value => setNewPromotion({
                   ...newPromotion,
                   platform: value
@@ -305,30 +305,30 @@ export default function PropertyPromotions() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="INTERNAL">{t("admin.property.internal")}</SelectItem>
-                      <SelectItem value="ZILLOW">{t("admin.property.zillow")}</SelectItem>
-                      <SelectItem value="REALTOR">{t("admin.property.realtorcom")}</SelectItem>
-                      <SelectItem value="FACEBOOK">{t("admin.property.facebook")}</SelectItem>
-                      <SelectItem value="GOOGLE">{t("admin.property.google")}</SelectItem>
+                      <SelectItem value="INTERNAL">{t("admin_property_internal")}</SelectItem>
+                      <SelectItem value="ZILLOW">{t("admin_property_zillow")}</SelectItem>
+                      <SelectItem value="REALTOR">{t("admin_property_realtorcom")}</SelectItem>
+                      <SelectItem value="FACEBOOK">{t("admin_property_facebook")}</SelectItem>
+                      <SelectItem value="GOOGLE">{t("admin_property_google")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="budget" className="text-right">{t("admin.property.budget")}</Label>
+                  <Label htmlFor="budget" className="text-right">{t("admin_property_budget")}</Label>
                   <Input id="budget" type="number" value={newPromotion.budget} onChange={e => setNewPromotion({
                   ...newPromotion,
                   budget: parseFloat(e.target.value)
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="startDate" className="text-right">{t("admin.property.start_date")}</Label>
+                  <Label htmlFor="startDate" className="text-right">{t("admin_property_start_date")}</Label>
                   <Input id="startDate" type="date" value={newPromotion.startDate} onChange={e => setNewPromotion({
                   ...newPromotion,
                   startDate: e.target.value
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="endDate" className="text-right">{t("admin.property.end_date")}</Label>
+                  <Label htmlFor="endDate" className="text-right">{t("admin_property_end_date")}</Label>
                   <Input id="endDate" type="date" value={newPromotion.endDate} onChange={e => setNewPromotion({
                   ...newPromotion,
                   endDate: e.target.value
@@ -336,7 +336,7 @@ export default function PropertyPromotions() {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createPromotion}>{t("admin.property.create_promotion")}</Button>
+                <Button onClick={createPromotion}>{t("admin_property_create_promotion")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -345,23 +345,23 @@ export default function PropertyPromotions() {
         {/* Promotions Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.property.property_promotions")}</CardTitle>
-            <p className="text-sm text-muted-foreground">{t("admin.property.manage_property_promotion_campaigns")}</p>
+            <CardTitle>{t("admin_property_property_promotions")}</CardTitle>
+            <p className="text-sm text-muted-foreground">{t("admin_property_manage_property_promotion_campaigns")}</p>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.property.property")}</TableHead>
-                  <TableHead>{t("admin.property.type")}</TableHead>
-                  <TableHead>{t("admin.property.platform")}</TableHead>
-                  <TableHead>{t("admin.property.status")}</TableHead>
-                  <TableHead>{t("admin.property.budget")}</TableHead>
-                  <TableHead>{t("admin.property.spent")}</TableHead>
-                  <TableHead>{t("admin.property.impressions")}</TableHead>
-                  <TableHead>{t("admin.property.ctr")}</TableHead>
-                  <TableHead>{t("admin.property.start_date")}</TableHead>
-                  <TableHead className="text-right">{t("admin.property.actions")}</TableHead>
+                  <TableHead>{t("admin_property_property")}</TableHead>
+                  <TableHead>{t("admin_property_type")}</TableHead>
+                  <TableHead>{t("admin_property_platform")}</TableHead>
+                  <TableHead>{t("admin_property_status")}</TableHead>
+                  <TableHead>{t("admin_property_budget")}</TableHead>
+                  <TableHead>{t("admin_property_spent")}</TableHead>
+                  <TableHead>{t("admin_property_impressions")}</TableHead>
+                  <TableHead>{t("admin_property_ctr")}</TableHead>
+                  <TableHead>{t("admin_property_start_date")}</TableHead>
+                  <TableHead className="text-right">{t("admin_property_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -404,13 +404,13 @@ export default function PropertyPromotions() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.property.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_property_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem>
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.property.view_details")}</DropdownMenuItem>
-                          {promotion.status === 'ACTIVE' && <DropdownMenuItem onClick={() => updatePromotionStatus(promotion.id, 'PAUSED')}>{t("admin.property.pause_campaign")}</DropdownMenuItem>}
-                          {promotion.status === 'PAUSED' && <DropdownMenuItem onClick={() => updatePromotionStatus(promotion.id, 'ACTIVE')}>{t("admin.property.resume_campaign")}</DropdownMenuItem>}
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_property_view_details")}</DropdownMenuItem>
+                          {promotion.status === 'ACTIVE' && <DropdownMenuItem onClick={() => updatePromotionStatus(promotion.id, 'PAUSED')}>{t("admin_property_pause_campaign")}</DropdownMenuItem>}
+                          {promotion.status === 'PAUSED' && <DropdownMenuItem onClick={() => updatePromotionStatus(promotion.id, 'ACTIVE')}>{t("admin_property_resume_campaign")}</DropdownMenuItem>}
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-600">{t("admin.property.stop_campaign")}</DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">{t("admin_property_stop_campaign")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -424,7 +424,7 @@ export default function PropertyPromotions() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.property.platform_performance")}</CardTitle>
+              <CardTitle>{t("admin_property_platform_performance")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -438,7 +438,7 @@ export default function PropertyPromotions() {
                       <div className="text-right">
                         <div className="text-sm font-medium">${totalSpent}</div>
                         <div className="text-xs text-muted-foreground">
-                          {totalClicks}{t("admin.property.clicks")}{avgCTR.toFixed(1)}{t("admin.property.ctr")}</div>
+                          {totalClicks}{t("admin_property_clicks")}{avgCTR.toFixed(1)}{t("admin_property_ctr")}</div>
                       </div>
                     </div>;
               })}
@@ -448,7 +448,7 @@ export default function PropertyPromotions() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.property.promotion_types")}</CardTitle>
+              <CardTitle>{t("admin_property_promotion_types")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -461,7 +461,7 @@ export default function PropertyPromotions() {
                       <div className="text-right">
                         <div className="text-sm font-medium">${totalSpent}</div>
                         <div className="text-xs text-muted-foreground">
-                          {totalConversions}{t("admin.property.conversions")}</div>
+                          {totalConversions}{t("admin_property_conversions")}</div>
                       </div>
                     </div>;
               })}
@@ -471,7 +471,7 @@ export default function PropertyPromotions() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.property.campaign_health")}</CardTitle>
+              <CardTitle>{t("admin_property_campaign_health")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -479,19 +479,19 @@ export default function PropertyPromotions() {
                   <div className="text-2xl font-bold text-green-600">
                     {promotions.filter(p => p.ctr > 2).length}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.property.highperforming_campaigns")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_property_highperforming_campaigns")}</p>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-yellow-600">
                     {promotions.filter(p => p.ctr >= 1 && p.ctr <= 2).length}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.property.moderate_performance")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_property_moderate_performance")}</p>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-red-600">
                     {promotions.filter(p => p.ctr < 1).length}
                   </div>
-                  <p className="text-sm text-muted-foreground">{t("admin.property.needs_optimization")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_property_needs_optimization")}</p>
                 </div>
               </div>
             </CardContent>

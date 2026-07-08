@@ -51,8 +51,6 @@ export default function Login() {
       const adminRoles = ['OWNER', 'ORG_ADMIN', 'ADMIN', 'SUPER_ADMIN', 'AGENCY_ADMIN', 'VENDOR_MANAGER', 'ACCOUNTANT'];
       if (user && adminRoles.includes(user.role)) {
         navigate("/admin/dashboard");
-      } else if (user?.role === 'TENANT' || user?.role === 'USER' || user?.role === 'TENANT_GUEST') {
-        navigate("/");
       } else {
         navigate("/dashboard");
       }
@@ -64,7 +62,7 @@ export default function Login() {
   };
 
   const handleSocialLogin = (provider: string) => {
-    window.location.href = `${API_BASE}/api/auth/${provider}`;
+    window.location.href = `${API_BASE}/api/auth/${provider}?origin=${encodeURIComponent(window.location.origin)}`;
   };
 
   return (

@@ -34,6 +34,8 @@ model User {
   originRegion                   String?
   isClone                        Boolean                         @default(false)
   lastSyncedAt                   DateTime?
+  emailVerified                  Boolean                         @default(false)
+  emailVerifiedAt                DateTime?
   accounts                       Account[]
   achievements                   Achievement[]
   agencies                       Agency[]                        @relation("AgencyOwner")
@@ -3285,7 +3287,12 @@ model Commission {
   taxAmount         Decimal          @db.Decimal(14, 2)
   commissionAmount  Decimal          @db.Decimal(14, 2)
   currency          String           @default("USD")
-  status            CommissionStatus @default(PENDING)
+  status            CommissionStatus         @default(PENDING)
+  collectionType    CommissionCollectionType  @default(UPFRONT)
+  upfrontPercent    Decimal                  @default(50.00) @db.Decimal(5, 2)
+  installmentCount  Int                      @default(12)
+  interestRate      Decimal                  @default(10.00) @db.Decimal(5, 2)
+  totalAmount       Decimal?                 @db.Decimal(14, 2)
   ruleData          Json?
   records           Json?
   createdAt         DateTime         @default(now())
@@ -3295,6 +3302,7 @@ model Commission {
   agent             Agent?           @relation(fields: [agentId], references: [id])
   org               Organization     @relation(fields: [orgId], references: [id])
   payouts           Payout[]
+  installments      PaymentInstallment[]
 
   listing Listing? @relation(fields: [listingId], references: [id]) // Managed field
 
@@ -3304,6 +3312,7 @@ model Commission {
   @@index([agentId])
   @@index([agencyId])
   @@index([status])
+  @@index([collectionType])
 }
 
 model PropertyPhoto {
@@ -5106,6 +5115,7 @@ model PaymentInstallment {
   id            String             @id @default(cuid())
   orgId         String
   negotiationId String
+  commissionId  String?
   installmentNo Int
   amount        Decimal            @db.Decimal(14, 2)
   currency      String             @default("USD")
@@ -5119,10 +5129,12 @@ model PaymentInstallment {
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
   negotiation   PaymentNegotiation @relation(fields: [negotiationId], references: [id])
+  commission    Commission?        @relation(fields: [commissionId], references: [id])
   org           Organization       @relation(fields: [orgId], references: [id])
 
   @@index([orgId])
   @@index([negotiationId])
+  @@index([commissionId])
   @@index([dueDate])
   @@index([status])
   @@index([negotiationId, status, dueDate])
@@ -6704,8 +6716,14 @@ model Ticket {
   @@index([status])
 }
 
+enum VerificationType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
 model Verification {
-  id         String    @id @default(cuid())
+  id         String           @id @default(cuid())
+  type       VerificationType @default(EMAIL_VERIFICATION)
   identifier String
   value      String
   expiresAt  DateTime
@@ -10123,6 +10141,11 @@ enum AccessEvent {
   MANUAL_UNLOCKED
   LOW_BATTERY_ALERT
   CONNECTION_LOST
+}
+
+enum CommissionCollectionType {
+  UPFRONT
+  INSTALLMENT
 }
 
 enum CommissionStatus {

@@ -157,15 +157,15 @@ export default function Analytics() {
   }
   return <div className="p-6 space-y-6">
       <Helmet>
-        <title>{t("admin.analytics.analytics_and_reports_reservatior")}</title>
+        <title>{t("admin_analytics_analytics_and_reports_reservatior")}</title>
         <meta name="description" content="Detailed analytics and performance reports." />
       </Helmet>
 
-      <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white">{t("admin.analytics.analytics_dashboard")}</h1>
-            <p className="text-slate-400 mt-1">{t("admin.analytics.monitor_your_business_metrics")}</p>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t("admin_analytics_analytics_dashboard")}</h1>
+            <p className="text-slate-500 dark:text-slate-400 mt-1">{t("admin_analytics_monitor_your_business_metrics")}</p>
           </div>
           <div className="flex items-center gap-4">
             <Select value={timeRange} onValueChange={setTimeRange}>
@@ -173,29 +173,29 @@ export default function Analytics() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="7days">{t("admin.analytics.last_7_days")}</SelectItem>
-                <SelectItem value="30days">{t("admin.analytics.last_30_days")}</SelectItem>
-                <SelectItem value="90days">{t("admin.analytics.last_90_days")}</SelectItem>
-                <SelectItem value="1year">{t("admin.analytics.last_year")}</SelectItem>
+                <SelectItem value="7days">{t("admin_analytics_last_7_days")}</SelectItem>
+                <SelectItem value="30days">{t("admin_analytics_last_30_days")}</SelectItem>
+                <SelectItem value="90days">{t("admin_analytics_last_90_days")}</SelectItem>
+                <SelectItem value="1year">{t("admin_analytics_last_year")}</SelectItem>
               </SelectContent>
             </Select>
             <Button variant="outline">
-              <Download className="w-4 h-4 mr-2" />{t("admin.analytics.export")}</Button>
+              <Download className="w-4 h-4 mr-2" />{t("admin_analytics_export")}</Button>
           </div>
         </div>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="p-2 bg-slate-100 dark:bg-slate-900/20 rounded-lg">
                 <Home className="w-6 h-6 text-slate-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-slate-400">{t("admin.analytics.total_properties")}</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_analytics_total_properties")}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
                   {metrics.totalProperties}
                 </p>
               </div>
@@ -203,15 +203,15 @@ export default function Analytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
                 <Users className="w-6 h-6 text-green-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-slate-400">{t("admin.analytics.total_contacts")}</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_analytics_total_contacts")}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
                   {metrics.totalContacts}
                 </p>
               </div>
@@ -219,15 +219,15 @@ export default function Analytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="p-2 bg-slate-100 dark:bg-slate-900/20 rounded-lg">
                 <Target className="w-6 h-6 text-slate-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-slate-400">{t("admin.analytics.total_deals")}</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_analytics_total_deals")}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
                   {metrics.totalDeals}
                 </p>
               </div>
@@ -235,15 +235,15 @@ export default function Analytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="p-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
                 <DollarSign className="w-6 h-6 text-orange-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-slate-400">{t("admin.analytics.total_value")}</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_analytics_total_value")}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
                   ${metrics.totalValue.toLocaleString()}
                 </p>
               </div>
@@ -254,10 +254,10 @@ export default function Analytics() {
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center text-white">
-              <TrendingUp className="w-5 h-5 mr-2" />{t("admin.analytics.revenue_deals_trend")}</CardTitle>
+            <CardTitle className="flex items-center text-slate-900 dark:text-white">
+              <TrendingUp className="w-5 h-5 mr-2" />{t("admin_analytics_revenue_deals_trend")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -278,10 +278,10 @@ export default function Analytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center text-white">
-              <Zap className="w-5 h-5 mr-2" />{t("admin.analytics.lead_sources")}</CardTitle>
+            <CardTitle className="flex items-center text-slate-900 dark:text-white">
+              <Zap className="w-5 h-5 mr-2" />{t("admin_analytics_lead_sources")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -304,9 +304,9 @@ export default function Analytics() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white">{t("admin.analytics.properties_by_type")}</CardTitle>
+            <CardTitle className="text-slate-900 dark:text-white">{t("admin_analytics_properties_by_type")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={250} minWidth={0}>
@@ -325,9 +325,9 @@ export default function Analytics() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardHeader>
-            <CardTitle className="text-white">{t("admin.analytics.task_status_overview")}</CardTitle>
+            <CardTitle className="text-slate-900 dark:text-white">{t("admin_analytics_task_status_overview")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={250} minWidth={0}>
@@ -347,29 +347,29 @@ export default function Analytics() {
         </Card>
       </div>
 
-      <Card className="bg-white/5 border-white/10">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10">
         <CardHeader>
-          <CardTitle className="text-white">{t("admin.analytics.performance_metrics")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_analytics_performance_metrics")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="text-3xl font-bold text-slate-400">
+              <div className="text-3xl font-bold text-slate-500 dark:text-slate-400">
                 {metrics.conversionRate.toFixed(1)}%
               </div>
-              <p className="text-sm text-slate-400 mt-1">{t("admin.analytics.lead_to_deal_conversion")}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t("admin_analytics_lead_to_deal_conversion")}</p>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-400">
                 ${metrics.avgDealSize.toLocaleString()}
               </div>
-              <p className="text-sm text-slate-400 mt-1">{t("admin.analytics.average_deal_size")}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t("admin_analytics_average_deal_size")}</p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-slate-400">
+              <div className="text-3xl font-bold text-slate-500 dark:text-slate-400">
                 {data.tasks.filter((t: any) => t.status === "COMPLETED").length}
               </div>
-              <p className="text-sm text-slate-400 mt-1">{t("admin.analytics.completed_tasks")}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t("admin_analytics_completed_tasks")}</p>
             </div>
           </div>
         </CardContent>

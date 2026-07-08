@@ -19,6 +19,9 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Guest {
   id: string;
@@ -50,14 +53,38 @@ export default function AdminGuestsPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const [items, setItems] = useState<Guest[]>(mockGuests);
+  const [editingItem, setEditingItem] = useState<Guest | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deletingItem, setDeletingItem] = useState<Guest | null>(null);
 
-  const filteredGuests = mockGuests.filter(guest =>
+  const filteredGuests = items.filter(guest =>
     guest.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     guest.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleCreate = (data: Omit<Guest, "id">) => {
+    const newItem: Guest = { ...data, id: String(Date.now()) };
+    setItems(prev => [...prev, newItem]);
+    setIsCreateOpen(false);
+  };
+
+  const handleEdit = (updatedItem: Guest) => {
+    setItems(prev => prev.map(item => item.id === updatedItem.id ? updatedItem : item));
+    setIsEditOpen(false);
+    setEditingItem(null);
+  };
+
+  const handleDelete = (id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+    setIsDeleteOpen(false);
+    setDeletingItem(null);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -66,15 +93,15 @@ export default function AdminGuestsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.guests.title")}</h1>
-              <p className="text-gray-400">{t("admin.guests.description")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_guests_title")}</h1>
+              <p className="text-muted-foreground">{t("admin_guests_description")}</p>
             </div>
             <Button
               onClick={() => router.push('/admin/dashboard')}
-              className="bg-slate-600 hover:bg-slate-700"
+              className="bg-primary hover:bg-primary/90"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.guests.back_to_dashboard")}
+              {t("admin_guests_back_to_dashboard")}
             </Button>
           </div>
         </motion.div>
@@ -85,23 +112,23 @@ export default function AdminGuestsPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin.guests.search_placeholder")}
+                      placeholder={t("admin_guests_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
-                <Button className="bg-slate-600 hover:bg-slate-700">
+                <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin.guests.add_guest")}
+                  {t("admin_guests_add_guest")}
                 </Button>
               </div>
             </CardContent>
@@ -113,11 +140,11 @@ export default function AdminGuestsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Users className="w-5 h-5" />
-                {t("admin.guests.list_title")}({filteredGuests.length})
+                {t("admin_guests_list_title")}({filteredGuests.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -125,15 +152,15 @@ export default function AdminGuestsPage() {
                 {filteredGuests.map((guest) => (
                   <div
                     key={guest.id}
-                    className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                    className="flex items-center justify-between p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-400 font-bold">
+                      <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground font-bold">
                         {guest.name.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div>
-                        <div className="text-white font-medium">{guest.name}</div>
-                        <div className="text-sm text-gray-400 flex items-center gap-2">
+                        <div className="text-foreground font-medium">{guest.name}</div>
+                        <div className="text-sm text-muted-foreground flex items-center gap-2">
                           <Mail className="w-3 h-3" />
                           {guest.email}
                           <span className="mx-1">&middot;</span>
@@ -144,19 +171,19 @@ export default function AdminGuestsPage() {
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <div className="text-white text-sm">{t("admin.guests.stays_count", { count: guest.totalBookings })}</div>
-                        <div className="text-gray-400 text-xs">{guest.totalSpent}</div>
+                        <div className="text-foreground text-sm">{t("admin.guests.stays_count", { count: guest.totalBookings })}</div>
+                        <div className="text-muted-foreground text-xs">{guest.totalSpent}</div>
                       </div>
                       <Badge className={STATUS_COLORS[guest.status]}>{guest.status}</Badge>
-                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground/70">
                         <Calendar className="w-3 h-3" />
                         {guest.lastStay}
                       </div>
                       <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Button onClick={() => { setEditingItem(guest); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400">
+                        <Button onClick={() => { setDeletingItem(guest); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -167,7 +194,160 @@ export default function AdminGuestsPage() {
             </CardContent>
           </Card>
         </motion.div>
+        {/* Create Dialog */}
+        <CreateGuestDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
+        {/* Edit Dialog */}
+        {editingItem && (
+          <EditGuestDialog open={isEditOpen} onOpenChange={setIsEditOpen} item={editingItem} onSubmit={handleEdit} />
+        )}
+        {/* Delete Dialog */}
+        {deletingItem && (
+          <DeleteGuestDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen} item={deletingItem} onConfirm={() => handleDelete(deletingItem.id)} />
+        )}
       </div>
     </div>
+  );
+}
+
+function CreateGuestDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<Guest, "id">) => void }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [totalBookings, setTotalBookings] = useState(0);
+  const [totalSpent, setTotalSpent] = useState("$0");
+  const [status, setStatus] = useState<Guest["status"]>("ACTIVE");
+  const [lastStay, setLastStay] = useState(new Date().toISOString().split("T")[0]);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Add Guest</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Add a new guest to the system.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Name</Label>
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Email</Label>
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Phone</Label>
+            <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Total Bookings</Label>
+            <Input type="number" value={totalBookings} onChange={e => setTotalBookings(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Total Spent</Label>
+            <Input value={totalSpent} onChange={e => setTotalSpent(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as Guest["status"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="ACTIVE">Active</SelectItem>
+                <SelectItem value="INACTIVE">Inactive</SelectItem>
+                <SelectItem value="BLACKLISTED">Blacklisted</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Last Stay</Label>
+            <Input type="date" value={lastStay} onChange={e => setLastStay(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ name, email, phone, totalBookings, totalSpent, status, lastStay })} className="bg-primary hover:bg-primary/90">Create</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function EditGuestDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: Guest; onSubmit: (data: Guest) => void }) {
+  const [name, setName] = useState(item.name);
+  const [email, setEmail] = useState(item.email);
+  const [phone, setPhone] = useState(item.phone);
+  const [totalBookings, setTotalBookings] = useState(item.totalBookings);
+  const [totalSpent, setTotalSpent] = useState(item.totalSpent);
+  const [status, setStatus] = useState<Guest["status"]>(item.status);
+  const [lastStay, setLastStay] = useState(item.lastStay);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Edit Guest</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Update guest details.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Name</Label>
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Email</Label>
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Phone</Label>
+            <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Total Bookings</Label>
+            <Input type="number" value={totalBookings} onChange={e => setTotalBookings(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Total Spent</Label>
+            <Input value={totalSpent} onChange={e => setTotalSpent(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as Guest["status"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="ACTIVE">Active</SelectItem>
+                <SelectItem value="INACTIVE">Inactive</SelectItem>
+                <SelectItem value="BLACKLISTED">Blacklisted</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Last Stay</Label>
+            <Input type="date" value={lastStay} onChange={e => setLastStay(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ id: item.id, name, email, phone, totalBookings, totalSpent, status, lastStay })} className="bg-primary hover:bg-primary/90">Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DeleteGuestDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: Guest; onConfirm: () => void }) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Delete Guest</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Are you sure you want to delete {item.name}? This action cannot be undone.</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

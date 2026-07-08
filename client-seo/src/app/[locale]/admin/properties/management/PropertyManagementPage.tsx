@@ -67,15 +67,15 @@ export default function PropertyManagementPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("admin.properties.management.title")}</h1>
-              <p className="text-gray-400">{t("admin.properties.management.description")}</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("admin_properties_management_title")}</h1>
+              <p className="text-gray-400">{t("admin_properties_management_description")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-slate-600 hover:bg-slate-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin.properties.management.back_to_dashboard")}
+              {t("admin_properties_management_back_to_dashboard")}
                                       </Button>
           </div>
         </motion.div>
@@ -93,7 +93,7 @@ export default function PropertyManagementPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
-                      placeholder={t("admin.properties.management.search_placeholder")}
+                      placeholder={t("admin_properties_management_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
@@ -102,7 +102,7 @@ export default function PropertyManagementPage() {
                 </div>
                 <Button className="bg-slate-600 hover:bg-slate-700">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin.properties.management.add_property")}
+                  {t("admin_properties_management_add_property")}
                                                   </Button>
               </div>
             </CardContent>
@@ -141,7 +141,7 @@ export default function PropertyManagementPage() {
                     </div>
                     <div className="flex items-center gap-1 text-white">
                       <Building2 className="w-4 h-4" />
-                      <span>{property.area} {t("admin.properties.management.sqft_label")}</span>
+                      <span>{property.area} {t("admin_properties_management_sqft_label")}</span>
                     </div>
                   </div>
 

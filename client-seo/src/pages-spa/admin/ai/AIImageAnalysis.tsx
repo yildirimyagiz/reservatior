@@ -46,8 +46,8 @@ export default function AIImageAnalysisPage() {
       setAnalyses(response);
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_fetch_image"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_fetch_image"),
         variant: "destructive"
       });
     } finally {
@@ -67,13 +67,13 @@ export default function AIImageAnalysisPage() {
       setIsCreateDialogOpen(false);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.image_analysis_created_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_image_analysis_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_image"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_image"),
         variant: "destructive"
       });
     }
@@ -91,13 +91,13 @@ export default function AIImageAnalysisPage() {
       setSelectedAnalysis(null);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.image_analysis_updated_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_image_analysis_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_update_image"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_update_image"),
         variant: "destructive"
       });
     }
@@ -107,13 +107,13 @@ export default function AIImageAnalysisPage() {
       await aiApi.deleteImageAnalysis(id);
       setAnalyses(analyses.filter(analysis => analysis.id !== id));
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.image_analysis_deleted_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_image_analysis_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_delete_image"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_delete_image"),
         variant: "destructive"
       });
     }
@@ -150,68 +150,68 @@ export default function AIImageAnalysisPage() {
     setIsViewDialogOpen(true);
   };
   if (loading) {
-    return <PageShell title={t("admin.ai.ai_image_analysis_management")}>
+    return <PageShell title={t("admin_ai_ai_image_analysis_management")}>
         <div className="flex items-center justify-center h-64">
           <Image className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.ai.ai_image_analysis_management")}>
+  return <PageShell title={t("admin_ai_ai_image_analysis_management")}>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">{t("admin.ai.ai_image_analysis")}</h1>
-            <p className="text-muted-foreground">{t("admin.ai.manage_aipowered_image_analysis")}</p>
+            <h1 className="text-3xl font-bold">{t("admin_ai_ai_image_analysis")}</h1>
+            <p className="text-muted-foreground">{t("admin_ai_manage_aipowered_image_analysis")}</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.ai.add_analysis")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_ai_add_analysis")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>{t("admin.ai.add_new_image_analysis")}</DialogTitle>
-                <DialogDescription>{t("admin.ai.create_a_new_ai")}</DialogDescription>
+                <DialogTitle>{t("admin_ai_add_new_image_analysis")}</DialogTitle>
+                <DialogDescription>{t("admin_ai_create_a_new_ai")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="propertyId" className="text-right">{t("admin.ai.property_id")}</Label>
+                  <Label htmlFor="propertyId" className="text-right">{t("admin_ai_property_id")}</Label>
                   <Input id="propertyId" value={form.propertyId} onChange={e => setForm({
                   ...form,
                   propertyId: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.prop")} />
+                })} className="col-span-3" placeholder={t("admin_ai_prop")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="imageUrl" className="text-right">{t("admin.ai.image_url")}</Label>
+                  <Label htmlFor="imageUrl" className="text-right">{t("admin_ai_image_url")}</Label>
                   <Input id="imageUrl" value={form.imageUrl} onChange={e => setForm({
                   ...form,
                   imageUrl: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.https")} />
+                })} className="col-span-3" placeholder={t("admin_ai_https")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="analysisType" className="text-right">{t("admin.ai.analysis_type")}</Label>
+                  <Label htmlFor="analysisType" className="text-right">{t("admin_ai_analysis_type")}</Label>
                   <Input id="analysisType" value={form.analysisType} onChange={e => setForm({
                   ...form,
                   analysisType: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.eg_roomdetection_damagedetection")} />
+                })} className="col-span-3" placeholder={t("admin_ai_eg_roomdetection_damagedetection")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="confidence" className="text-right">{t("admin.ai.confidence")}</Label>
+                  <Label htmlFor="confidence" className="text-right">{t("admin_ai_confidence")}</Label>
                   <Input id="confidence" type="number" step="0.01" min="0" max="1" value={form.confidence} onChange={e => setForm({
                   ...form,
                   confidence: parseFloat(e.target.value)
                 })} className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="results" className="text-right pt-2">{t("admin.ai.results_json")}</Label>
+                  <Label htmlFor="results" className="text-right pt-2">{t("admin_ai_results_json")}</Label>
                   <Textarea id="results" value={form.results} onChange={e => setForm({
                   ...form,
                   results: e.target.value
-                })} className="col-span-3 min-h-32" placeholder={t("admin.ai.detectedobjects_analysis")} />
+                })} className="col-span-3 min-h-32" placeholder={t("admin_ai_detectedobjects_analysis")} />
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createAnalysis}>{t("admin.ai.create_analysis")}</Button>
+                <Button onClick={createAnalysis}>{t("admin_ai_create_analysis")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -219,17 +219,17 @@ export default function AIImageAnalysisPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.image_analyses")}</CardTitle>
+            <CardTitle>{t("admin_ai_image_analyses")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.property")}</TableHead>
-                  <TableHead>{t("admin.ai.analysis_type")}</TableHead>
-                  <TableHead>{t("admin.ai.confidence")}</TableHead>
-                  <TableHead>{t("admin.ai.processed_at")}</TableHead>
-                  <TableHead className="text-right">{t("admin.ai.actions")}</TableHead>
+                  <TableHead>{t("admin_ai_property")}</TableHead>
+                  <TableHead>{t("admin_ai_analysis_type")}</TableHead>
+                  <TableHead>{t("admin_ai_confidence")}</TableHead>
+                  <TableHead>{t("admin_ai_processed_at")}</TableHead>
+                  <TableHead className="text-right">{t("admin_ai_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -264,14 +264,14 @@ export default function AIImageAnalysisPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.ai.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_ai_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openView(analysis)}>
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.ai.view_details")}</DropdownMenuItem>
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => openEdit(analysis)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deleteAnalysis(analysis.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.ai.delete")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -284,26 +284,26 @@ export default function AIImageAnalysisPage() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.edit_image_analysis")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.update_the_image_analysis")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_edit_image_analysis")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_update_the_image_analysis")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-analysisType" className="text-right">{t("admin.ai.analysis_type")}</Label>
+                <Label htmlFor="edit-analysisType" className="text-right">{t("admin_ai_analysis_type")}</Label>
                 <Input id="edit-analysisType" value={form.analysisType} onChange={e => setForm({
                 ...form,
                 analysisType: e.target.value
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-confidence" className="text-right">{t("admin.ai.confidence")}</Label>
+                <Label htmlFor="edit-confidence" className="text-right">{t("admin_ai_confidence")}</Label>
                 <Input id="edit-confidence" type="number" step="0.01" min="0" max="1" value={form.confidence} onChange={e => setForm({
                 ...form,
                 confidence: parseFloat(e.target.value)
               })} className="col-span-3" />
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="edit-results" className="text-right pt-2">{t("admin.ai.results_json")}</Label>
+                <Label htmlFor="edit-results" className="text-right pt-2">{t("admin_ai_results_json")}</Label>
                 <Textarea id="edit-results" value={form.results} onChange={e => setForm({
                 ...form,
                 results: e.target.value
@@ -311,7 +311,7 @@ export default function AIImageAnalysisPage() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={updateAnalysis}>{t("admin.ai.update_analysis")}</Button>
+              <Button onClick={updateAnalysis}>{t("admin_ai_update_analysis")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -319,28 +319,28 @@ export default function AIImageAnalysisPage() {
         <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.view_image_analysis_details")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.detailed_view_of_the")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_view_image_analysis_details")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_detailed_view_of_the")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.property_id")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_property_id")}</Label>
                 <span className="col-span-3 font-mono text-sm">{form.propertyId}</span>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.image_url")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_image_url")}</Label>
                 <span className="col-span-3 font-mono text-sm break-all">{form.imageUrl}</span>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.analysis_type")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_analysis_type")}</Label>
                 <Badge variant="outline" className="col-span-3 justify-start">{form.analysisType}</Badge>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.confidence")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_confidence")}</Label>
                 <span className="col-span-3">{(form.confidence * 100).toFixed(1)}%</span>
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label className="text-right pt-2 font-medium">{t("admin.ai.results")}</Label>
+                <Label className="text-right pt-2 font-medium">{t("admin_ai_results")}</Label>
                 <pre className="col-span-3 bg-white/5 p-2 rounded-lg text-xs overflow-auto max-h-48">
                   {form.results}
                 </pre>

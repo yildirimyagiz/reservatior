@@ -84,71 +84,71 @@ const AgentsManagement = () => {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-pink-400">
             {t("admin.agents.title", "Agent Management")}
           </h1>
-          <p className="text-slate-400 mt-2">
+          <p className="text-slate-500 dark:text-slate-400 mt-2">
             {t("admin.agents.subtitle", "Monitor agent performance, licenses, and operational status")}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-white/5 border-white/10 hover:bg-white/10">
+          <Button variant="outline" className="bg-white/5 border-slate-200 dark:border-white/10 hover:bg-white/10">
             {t("common.export", "Export")}
           </Button>
           
           <Dialog open={isInviteOpen} onOpenChange={setIsInviteOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-slate-600 hover:bg-slate-700 text-white shadow-lg shadow-slate-500/20">
+              <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("admin.agents.add", "Invite Agent")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 text-white border-white/10">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-slate-200 dark:border-white/10">
               <DialogHeader>
                 <DialogTitle>{t("admin.agents.add", "Invite Agent")}</DialogTitle>
-                <DialogDescription className="text-slate-400">
+                <DialogDescription className="text-slate-500 dark:text-slate-400">
                   Enter the details of the agent you want to invite to the platform.
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={e => { e.preventDefault(); createMutation.mutate(formData); }} className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="name" className="text-right text-slate-300">Name</Label>
-                  <Input id="name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="col-span-3 bg-white/5 border-white/10 text-white" />
+                  <Input id="name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="col-span-3 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="email" className="text-right text-slate-300">Email</Label>
-                  <Input id="email" type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="col-span-3 bg-white/5 border-white/10 text-white" />
+                  <Input id="email" type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="col-span-3 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="license" className="text-right text-slate-300">License</Label>
-                  <Input id="license" value={formData.licenseNumber} onChange={(e) => setFormData({...formData, licenseNumber: e.target.value})} className="col-span-3 bg-white/5 border-white/10 text-white" />
+                  <Input id="license" value={formData.licenseNumber} onChange={(e) => setFormData({...formData, licenseNumber: e.target.value})} className="col-span-3 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
                 </div>
                 <DialogFooter className="mt-4">
-                  <Button type="button" variant="outline" className="bg-transparent border-white/10 text-white hover:bg-white/5" onClick={() => setIsInviteOpen(false)}>Cancel</Button>
-                  <Button type="submit" disabled={createMutation.isPending} className="bg-slate-600 hover:bg-slate-700 text-white">{createMutation.isPending ? 'Saving...' : 'Send Invitation'}</Button>
+                  <Button type="button" variant="outline" className="bg-transparent border-slate-200 dark:border-white/10 text-slate-900 dark:text-white hover:bg-white/5" onClick={() => setIsInviteOpen(false)}>Cancel</Button>
+                  <Button type="submit" disabled={createMutation.isPending} className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white">{createMutation.isPending ? 'Saving...' : 'Send Invitation'}</Button>
                 </DialogFooter>
               </form>
             </DialogContent>
           </Dialog>
 
           <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-            <DialogContent className="sm:max-w-[425px] bg-slate-900 text-white border-white/10">
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-slate-200 dark:border-white/10">
               <DialogHeader>
                 <DialogTitle>Edit Agent</DialogTitle>
               </DialogHeader>
               <form onSubmit={e => { e.preventDefault(); updateMutation.mutate(formData); }} className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="edit-name" className="text-right text-slate-300">Name</Label>
-                  <Input id="edit-name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="col-span-3 bg-white/5 border-white/10 text-white" />
+                  <Input id="edit-name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="col-span-3 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="edit-email" className="text-right text-slate-300">Email</Label>
-                  <Input id="edit-email" type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="col-span-3 bg-white/5 border-white/10 text-white" />
+                  <Input id="edit-email" type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="col-span-3 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="edit-license" className="text-right text-slate-300">License</Label>
-                  <Input id="edit-license" value={formData.licenseNumber} onChange={(e) => setFormData({...formData, licenseNumber: e.target.value})} className="col-span-3 bg-white/5 border-white/10 text-white" />
+                  <Input id="edit-license" value={formData.licenseNumber} onChange={(e) => setFormData({...formData, licenseNumber: e.target.value})} className="col-span-3 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" />
                 </div>
                 <DialogFooter className="mt-4">
-                  <Button type="button" variant="outline" className="bg-transparent border-white/10 text-white hover:bg-white/5" onClick={() => setIsEditOpen(false)}>Cancel</Button>
-                  <Button type="submit" disabled={updateMutation.isPending} className="bg-slate-600 hover:bg-slate-700 text-white">{updateMutation.isPending ? 'Saving...' : 'Update Agent'}</Button>
+                  <Button type="button" variant="outline" className="bg-transparent border-slate-200 dark:border-white/10 text-slate-900 dark:text-white hover:bg-white/5" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+                  <Button type="submit" disabled={updateMutation.isPending} className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white">{updateMutation.isPending ? 'Saving...' : 'Update Agent'}</Button>
                 </DialogFooter>
               </form>
             </DialogContent>
@@ -156,20 +156,20 @@ const AgentsManagement = () => {
         </div>
       </div>
 
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-white">Agent Directory</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">Agent Directory</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">Loading...</div>
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">Loading...</div>
           ) : agents.length === 0 ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">No agents found.</div>
+            <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">No agents found.</div>
           ) : (
-            <div className="rounded-xl border border-white/10">
+            <div className="rounded-xl border border-slate-200 dark:border-white/10">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10 hover:bg-transparent">
+                  <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
                     <TableHead className="text-slate-300">Name</TableHead>
                     <TableHead className="text-slate-300">Email</TableHead>
                     <TableHead className="text-slate-300">License</TableHead>
@@ -178,16 +178,16 @@ const AgentsManagement = () => {
                 </TableHeader>
                 <TableBody>
                   {agents.map((a: any) => (
-                    <TableRow key={a.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                      <TableCell className="font-medium text-white">{a.name}</TableCell>
-                      <TableCell className="text-slate-400">{a.email}</TableCell>
-                      <TableCell className="text-slate-400">{a.licenseNumber || 'N/A'}</TableCell>
+                    <TableRow key={a.id} className="border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">{a.name}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{a.email}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{a.licenseNumber || 'N/A'}</TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4 text-slate-400" /></Button>
+                            <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4 text-slate-500 dark:text-slate-400" /></Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="bg-slate-900 border-white/10 text-white">
+                          <DropdownMenuContent align="end" className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                             <DropdownMenuItem onClick={() => openEdit(a)} className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => deleteMutation.mutate(a.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
                           </DropdownMenuContent>

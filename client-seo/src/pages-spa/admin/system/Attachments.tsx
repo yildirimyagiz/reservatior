@@ -66,104 +66,104 @@ interface Attachment {
 }
 const FILE_TYPE_CONFIG = {
   'image/jpeg': {
-    label: t("admin.system.jpeg"),
+    label: t("admin_system_jpeg"),
     icon: Image,
     color: 'bg-green-100 text-green-700'
   },
   'image/png': {
-    label: t("admin.system.png"),
+    label: t("admin_system_png"),
     icon: Image,
     color: 'bg-green-100 text-green-700'
   },
   'image/gif': {
-    label: t("admin.system.gif"),
+    label: t("admin_system_gif"),
     icon: Image,
     color: 'bg-green-100 text-green-700'
   },
   'video/mp4': {
-    label: t("admin.system.mp4"),
+    label: t("admin_system_mp4"),
     icon: Video,
     color: 'bg-slate-100 text-slate-700'
   },
   'video/avi': {
-    label: t("admin.system.avi"),
+    label: t("admin_system_avi"),
     icon: Video,
     color: 'bg-slate-100 text-slate-700'
   },
   'video/mov': {
-    label: t("admin.system.mov"),
+    label: t("admin_system_mov"),
     icon: Video,
     color: 'bg-slate-100 text-slate-700'
   },
   'application/pdf': {
-    label: t("admin.system.pdf"),
+    label: t("admin_system_pdf"),
     icon: FileText,
     color: 'bg-red-100 text-red-700'
   },
   'application/msword': {
-    label: t("admin.system.doc"),
+    label: t("admin_system_doc"),
     icon: FileText,
     color: 'bg-slate-100 text-slate-700'
   },
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
-    label: t("admin.system.docx"),
+    label: t("admin_system_docx"),
     icon: FileText,
     color: 'bg-slate-100 text-slate-700'
   },
   'application/vnd.ms-excel': {
-    label: t("admin.system.xls"),
+    label: t("admin_system_xls"),
     icon: FileText,
     color: 'bg-green-100 text-green-700'
   },
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
-    label: t("admin.system.xlsx"),
+    label: t("admin_system_xlsx"),
     icon: FileText,
     color: 'bg-green-100 text-green-700'
   },
   'text/plain': {
-    label: t("admin.system.txt"),
+    label: t("admin_system_txt"),
     icon: FileText,
     color: 'bg-white/5 text-slate-300'
   },
   'application/zip': {
-    label: t("admin.system.zip"),
+    label: t("admin_system_zip"),
     icon: File,
     color: 'bg-orange-100 text-orange-700'
   },
   'application/x-rar-compressed': {
-    label: t("admin.system.rar"),
+    label: t("admin_system_rar"),
     icon: File,
     color: 'bg-orange-100 text-orange-700'
   }
 };
 const ENTITY_CONFIG = {
   property: {
-    label: t("admin.system.property"),
+    label: t("admin_system_property"),
     icon: Home,
     color: 'bg-slate-100 text-slate-700'
   },
   listing: {
-    label: t("admin.system.listing"),
+    label: t("admin_system_listing"),
     icon: Home,
     color: 'bg-green-100 text-green-700'
   },
   contract: {
-    label: t("admin.system.contract"),
+    label: t("admin_system_contract"),
     icon: FileSignature,
     color: 'bg-slate-100 text-slate-700'
   },
   task: {
-    label: t("admin.system.task"),
+    label: t("admin_system_task"),
     icon: CheckSquare,
     color: 'bg-orange-100 text-orange-700'
   },
   deal: {
-    label: t("admin.system.deal"),
+    label: t("admin_system_deal"),
     icon: FileText,
     color: 'bg-red-100 text-red-700'
   },
   user: {
-    label: t("admin.system.user"),
+    label: t("admin_system_user"),
     icon: User,
     color: 'bg-white/5 text-slate-300'
   }
@@ -201,8 +201,8 @@ export default function Attachments() {
       } catch (error) {
         console.error('Error fetching attachments:', error);
         toast({
-          title: t("admin.system.error"),
-          description: t("admin.system.failed_to_load_attachments"),
+          title: t("admin_system_error"),
+          description: t("admin_system_failed_to_load_attachments"),
           variant: "destructive"
         });
       } finally {
@@ -236,14 +236,14 @@ export default function Attachments() {
       setUploadOpen(false);
       setUploadProgress(0);
       toast({
-        title: t("admin.system.file_uploaded"),
-        description: t("admin.system.file_has_been_uploaded")
+        title: t("admin_system_file_uploaded"),
+        description: t("admin_system_file_has_been_uploaded")
       });
     } catch (error) {
       console.error('Error uploading file:', error);
       toast({
-        title: t("admin.system.upload_failed"),
-        description: t("admin.system.failed_to_upload_file"),
+        title: t("admin_system_upload_failed"),
+        description: t("admin_system_failed_to_upload_file"),
         variant: "destructive"
       });
     } finally {
@@ -273,14 +273,14 @@ export default function Attachments() {
         downloadCount: a.downloadCount + 1
       } : a));
       toast({
-        title: t("admin.system.download_started"),
-        description: t("admin.system.file_download_has_been")
+        title: t("admin_system_download_started"),
+        description: t("admin_system_file_download_has_been")
       });
     } catch (error) {
       console.error('Error downloading file:', error);
       toast({
-        title: t("admin.system.download_failed"),
-        description: t("admin.system.failed_to_download_file"),
+        title: t("admin_system_download_failed"),
+        description: t("admin_system_failed_to_download_file"),
         variant: "destructive"
       });
     }
@@ -290,14 +290,14 @@ export default function Attachments() {
       await apiClient.delete(`/attachment/${id}`);
       setAttachments(attachments.filter(a => a.id !== id));
       toast({
-        title: t("admin.system.file_deleted"),
-        description: t("admin.system.file_has_been_deleted")
+        title: t("admin_system_file_deleted"),
+        description: t("admin_system_file_has_been_deleted")
       });
     } catch (error) {
       console.error('Error deleting file:', error);
       toast({
-        title: t("admin.system.delete_failed"),
-        description: t("admin.system.failed_to_delete_file"),
+        title: t("admin_system_delete_failed"),
+        description: t("admin_system_failed_to_delete_file"),
         variant: "destructive"
       });
     }
@@ -312,7 +312,7 @@ export default function Attachments() {
         isPublic
       } : a));
       toast({
-        title: t("admin.system.visibility_updated"),
+        title: t("admin_system_visibility_updated"),
         description: `File is now ${isPublic ? 'public' : 'private'}.`
       });
     } catch (error) {
@@ -335,7 +335,7 @@ export default function Attachments() {
   const getFileTypeConfig = (mimeType: string) => {
     const config = FILE_TYPE_CONFIG[mimeType as keyof typeof FILE_TYPE_CONFIG];
     return config || {
-      label: t("admin.system.unknown"),
+      label: t("admin_system_unknown"),
       icon: File,
       color: 'bg-white/5 text-slate-300'
     };
@@ -363,51 +363,51 @@ export default function Attachments() {
     };
     return null;
   };
-  return <PageShell title={t("admin.system.attachments")} description={t("admin.system.manage_files_and_documents")}>
+  return <PageShell title={t("admin_system_attachments")} description={t("admin_system_manage_files_and_documents")}>
       <div className="space-y-6">
         {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.system.total_files")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_system_total_files")}</CardTitle>
               <Paperclip className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalAttachments}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.system.all_attachments")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_system_all_attachments")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.system.public")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_system_public")}</CardTitle>
               <Eye className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{publicAttachments}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.system.accessible_to_all")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_system_accessible_to_all")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.system.private")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_system_private")}</CardTitle>
               <AlertTriangle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{privateAttachments}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.system.restricted_access")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_system_restricted_access")}</p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.system.total_size")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_system_total_size")}</CardTitle>
               <File className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-600">{formatFileSize(totalSize)}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.system.storage_used")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_system_storage_used")}</p>
             </CardContent>
           </Card>
         </div>
@@ -416,27 +416,27 @@ export default function Attachments() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
-              <Input placeholder={t("admin.system.search_files")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-8 w-64" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
+              <Input placeholder={t("admin_system_search_files")} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("admin.system.type")} />
+                <SelectValue placeholder={t("admin_system_type")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.system.all_types")}</SelectItem>
-                <SelectItem value="image">{t("admin.system.images")}</SelectItem>
-                <SelectItem value="video">{t("admin.system.videos")}</SelectItem>
-                <SelectItem value="application">{t("admin.system.documents")}</SelectItem>
-                <SelectItem value="text">{t("admin.system.text")}</SelectItem>
+                <SelectItem value="all">{t("admin_system_all_types")}</SelectItem>
+                <SelectItem value="image">{t("admin_system_images")}</SelectItem>
+                <SelectItem value="video">{t("admin_system_videos")}</SelectItem>
+                <SelectItem value="application">{t("admin_system_documents")}</SelectItem>
+                <SelectItem value="text">{t("admin_system_text")}</SelectItem>
               </SelectContent>
             </Select>
             <Select value={filterEntity} onValueChange={setFilterEntity}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("admin.system.entity")} />
+                <SelectValue placeholder={t("admin_system_entity")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.system.all_entities")}</SelectItem>
+                <SelectItem value="all">{t("admin_system_all_entities")}</SelectItem>
                 {Object.entries(ENTITY_CONFIG).map(([key, config]) => <SelectItem key={key} value={key}>
                     {config.label}
                   </SelectItem>)}
@@ -444,44 +444,44 @@ export default function Attachments() {
             </Select>
             <Select value={filterPublic} onValueChange={setFilterPublic}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("admin.system.visibility")} />
+                <SelectValue placeholder={t("admin_system_visibility")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.system.all")}</SelectItem>
-                <SelectItem value="public">{t("admin.system.public")}</SelectItem>
-                <SelectItem value="private">{t("admin.system.private")}</SelectItem>
+                <SelectItem value="all">{t("admin_system_all")}</SelectItem>
+                <SelectItem value="public">{t("admin_system_public")}</SelectItem>
+                <SelectItem value="private">{t("admin_system_private")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <Button onClick={() => setUploadOpen(true)}>
-            <Upload className="h-4 w-4 mr-2" />{t("admin.system.upload_file")}</Button>
+            <Upload className="h-4 w-4 mr-2" />{t("admin_system_upload_file")}</Button>
         </div>
 
         {/* Attachments Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.system.files_documents")}</CardTitle>
-            <CardDescription>{t("admin.system.manage_all_attachments_across")}</CardDescription>
+            <CardTitle>{t("admin_system_files_documents")}</CardTitle>
+            <CardDescription>{t("admin_system_manage_all_attachments_across")}</CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? <div className="flex items-center justify-center py-8">
-                <div className="text-sm text-muted-foreground">{t("admin.system.loading_attachments")}</div>
+                <div className="text-sm text-muted-foreground">{t("admin_system_loading_attachments")}</div>
               </div> : <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>{t("admin.system.file")}</TableHead>
-                    <TableHead>{t("admin.system.type")}</TableHead>
-                    <TableHead>{t("admin.system.size")}</TableHead>
-                    <TableHead>{t("admin.system.entity")}</TableHead>
-                    <TableHead>{t("admin.system.visibility")}</TableHead>
-                    <TableHead>{t("admin.system.downloads")}</TableHead>
-                    <TableHead>{t("admin.system.uploaded")}</TableHead>
+                    <TableHead>{t("admin_system_file")}</TableHead>
+                    <TableHead>{t("admin_system_type")}</TableHead>
+                    <TableHead>{t("admin_system_size")}</TableHead>
+                    <TableHead>{t("admin_system_entity")}</TableHead>
+                    <TableHead>{t("admin_system_visibility")}</TableHead>
+                    <TableHead>{t("admin_system_downloads")}</TableHead>
+                    <TableHead>{t("admin_system_uploaded")}</TableHead>
                     <TableHead className="w-[50px]"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredAttachments.length === 0 ? <TableRow>
-                      <TableCell colSpan={9} className="text-center py-8">{t("admin.system.no_attachments_found")}</TableCell>
+                      <TableCell colSpan={9} className="text-center py-8">{t("admin_system_no_attachments_found")}</TableCell>
                     </TableRow> : filteredAttachments.map(attachment => {
                 const fileTypeConfig = getFileTypeConfig(attachment.mimeType);
                 const FileTypeIcon = fileTypeConfig.icon;
@@ -489,10 +489,10 @@ export default function Attachments() {
                 return <TableRow key={attachment.id}>
                           <TableCell>
                             <div className="flex items-center space-x-3">
-                              <FileTypeIcon className="h-8 w-8 text-slate-400" />
+                              <FileTypeIcon className="h-8 w-8 text-slate-500 dark:text-slate-400" />
                               <div>
                                 <div className="font-medium">{attachment.originalName}</div>
-                                <div className="text-sm text-slate-400">{attachment.fileName}</div>
+                                <div className="text-sm text-slate-500 dark:text-slate-400">{attachment.fileName}</div>
                               </div>
                             </div>
                           </TableCell>
@@ -511,9 +511,9 @@ export default function Attachments() {
                       })}
                                 <div>
                                   <div className="font-medium">{(entityInfo.item as any).name || (entityInfo.item as any).title}</div>
-                                  <div className="text-sm text-slate-400">{ENTITY_CONFIG[entityInfo.type as keyof typeof ENTITY_CONFIG].label}</div>
+                                  <div className="text-sm text-slate-500 dark:text-slate-400">{ENTITY_CONFIG[entityInfo.type as keyof typeof ENTITY_CONFIG].label}</div>
                                 </div>
-                              </div> : <div className="text-sm text-slate-400">{t("admin.system.no_entity")}</div>}
+                              </div> : <div className="text-sm text-slate-500 dark:text-slate-400">{t("admin_system_no_entity")}</div>}
                           </TableCell>
                           <TableCell>
                             <Badge className={attachment.isPublic ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"}>
@@ -526,7 +526,7 @@ export default function Attachments() {
                           <TableCell>
                             <div>
                               <div className="text-sm">{formatDate(attachment.createdAt)}</div>
-                              <div className="text-xs text-slate-400">{attachment.user?.name}</div>
+                              <div className="text-xs text-slate-500 dark:text-slate-400">{attachment.user?.name}</div>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -538,19 +538,19 @@ export default function Attachments() {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent>
                                 <DropdownMenuItem onClick={() => handleDownloadFile(attachment.id, attachment.originalName)}>
-                                  <Download className="h-4 w-4 mr-2" />{t("admin.system.download")}</DropdownMenuItem>
+                                  <Download className="h-4 w-4 mr-2" />{t("admin_system_download")}</DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => {
                           setSelectedAttachment(attachment);
                           setViewOpen(true);
                         }}>
-                                  <Eye className="h-4 w-4 mr-2" />{t("admin.system.view_details")}</DropdownMenuItem>
+                                  <Eye className="h-4 w-4 mr-2" />{t("admin_system_view_details")}</DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => handleToggleVisibility(attachment.id, !attachment.isPublic)}>
                                   {attachment.isPublic ? <>
-                                      <AlertTriangle className="h-4 w-4 mr-2" />{t("admin.system.make_private")}</> : <>
-                                      <Eye className="h-4 w-4 mr-2" />{t("admin.system.make_public")}</>}
+                                      <AlertTriangle className="h-4 w-4 mr-2" />{t("admin_system_make_private")}</> : <>
+                                      <Eye className="h-4 w-4 mr-2" />{t("admin_system_make_public")}</>}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteFile(attachment.id)}>
-                                  <Trash2 className="h-4 w-4 mr-2" />{t("admin.system.delete")}</DropdownMenuItem>
+                                  <Trash2 className="h-4 w-4 mr-2" />{t("admin_system_delete")}</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </TableCell>
@@ -565,12 +565,12 @@ export default function Attachments() {
         <Dialog open={uploadOpen} onOpenChange={setUploadOpen}>
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>{t("admin.system.upload_file")}</DialogTitle>
-              <DialogDescription>{t("admin.system.upload_a_new_file")}</DialogDescription>
+              <DialogTitle>{t("admin_system_upload_file")}</DialogTitle>
+              <DialogDescription>{t("admin_system_upload_a_new_file")}</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="file">{t("admin.system.choose_file")}</Label>
+                <Label htmlFor="file">{t("admin_system_choose_file")}</Label>
                 <Input id="file" type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 const file = e.target.files?.[0];
                 if (file) {
@@ -579,13 +579,13 @@ export default function Attachments() {
               }} />
               </div>
               {uploading && <div>
-                  <Label>{t("admin.system.upload_progress")}</Label>
+                  <Label>{t("admin_system_upload_progress")}</Label>
                   <Progress value={uploadProgress} className="w-full" />
-                  <div className="text-sm text-slate-400 mt-1">{uploadProgress}%</div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">{uploadProgress}%</div>
                 </div>}
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setUploadOpen(false)}>{t("admin.system.cancel")}</Button>
+              <Button variant="outline" onClick={() => setUploadOpen(false)}>{t("admin_system_cancel")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -594,17 +594,17 @@ export default function Attachments() {
         <Dialog open={viewOpen} onOpenChange={setViewOpen}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
-              <DialogTitle>{t("admin.system.file_details")}</DialogTitle>
+              <DialogTitle>{t("admin_system_file_details")}</DialogTitle>
             </DialogHeader>
             {selectedAttachment && <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.system.file_name")}</Label>
+                    <Label>{t("admin_system_file_name")}</Label>
                     <div className="font-medium">{selectedAttachment.originalName}</div>
-                    <div className="text-sm text-slate-400">{selectedAttachment.fileName}</div>
+                    <div className="text-sm text-slate-500 dark:text-slate-400">{selectedAttachment.fileName}</div>
                   </div>
                   <div>
-                    <Label>{t("admin.system.file_type")}</Label>
+                    <Label>{t("admin_system_file_type")}</Label>
                     <Badge className={getFileTypeConfig(selectedAttachment.mimeType).color}>
                       {getFileTypeConfig(selectedAttachment.mimeType).label}
                     </Badge>
@@ -612,11 +612,11 @@ export default function Attachments() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.system.file_size")}</Label>
+                    <Label>{t("admin_system_file_size")}</Label>
                     <div className="text-sm">{formatFileSize(selectedAttachment.fileSize)}</div>
                   </div>
                   <div>
-                    <Label>{t("admin.system.visibility")}</Label>
+                    <Label>{t("admin_system_visibility")}</Label>
                     <Badge className={selectedAttachment.isPublic ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"}>
                       {selectedAttachment.isPublic ? "Public" : "Private"}
                     </Badge>
@@ -624,52 +624,52 @@ export default function Attachments() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.system.uploaded_by")}</Label>
+                    <Label>{t("admin_system_uploaded_by")}</Label>
                     <div>
                       <div className="font-medium">{selectedAttachment.user?.name}</div>
-                      <div className="text-sm text-slate-400">{selectedAttachment.user?.email}</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">{selectedAttachment.user?.email}</div>
                     </div>
                   </div>
                   <div>
-                    <Label>{t("admin.system.downloads")}</Label>
+                    <Label>{t("admin_system_downloads")}</Label>
                     <div className="text-sm">{selectedAttachment.downloadCount}</div>
                   </div>
                 </div>
                 {getEntityInfo(selectedAttachment) && <div>
-                    <Label>{t("admin.system.linked_entity")}</Label>
+                    <Label>{t("admin_system_linked_entity")}</Label>
                     <div className="flex items-center space-x-2">
                       {React.createElement(ENTITY_CONFIG[getEntityInfo(selectedAttachment)!.type as keyof typeof ENTITY_CONFIG].icon, {
                   className: "h-4 w-4"
                 })}
                       <div>
                         <div className="font-medium">{(getEntityInfo(selectedAttachment)!.item as any).name || (getEntityInfo(selectedAttachment)!.item as any).title}</div>
-                        <div className="text-sm text-slate-400">{ENTITY_CONFIG[getEntityInfo(selectedAttachment)!.type as keyof typeof ENTITY_CONFIG].label}</div>
+                        <div className="text-sm text-slate-500 dark:text-slate-400">{ENTITY_CONFIG[getEntityInfo(selectedAttachment)!.type as keyof typeof ENTITY_CONFIG].label}</div>
                       </div>
                     </div>
                   </div>}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.system.created")}</Label>
+                    <Label>{t("admin_system_created")}</Label>
                     <div className="text-sm">{formatDateTime(selectedAttachment.createdAt)}</div>
                   </div>
                   <div>
-                    <Label>{t("admin.system.last_updated")}</Label>
+                    <Label>{t("admin_system_last_updated")}</Label>
                     <div className="text-sm">{formatDateTime(selectedAttachment.updatedAt)}</div>
                   </div>
                 </div>
                 <div>
-                  <Label>{t("admin.system.file_path")}</Label>
-                  <div className="text-sm font-mono text-slate-400 break-all">{selectedAttachment.filePath}</div>
+                  <Label>{t("admin_system_file_path")}</Label>
+                  <div className="text-sm font-mono text-slate-500 dark:text-slate-400 break-all">{selectedAttachment.filePath}</div>
                 </div>
                 <div>
-                  <Label>{t("admin.system.checksum")}</Label>
-                  <div className="text-sm font-mono text-slate-400">{selectedAttachment.checksum}</div>
+                  <Label>{t("admin_system_checksum")}</Label>
+                  <div className="text-sm font-mono text-slate-500 dark:text-slate-400">{selectedAttachment.checksum}</div>
                 </div>
               </div>}
             <DialogFooter>
-              <Button variant="outline" onClick={() => setViewOpen(false)}>{t("admin.system.close")}</Button>
+              <Button variant="outline" onClick={() => setViewOpen(false)}>{t("admin_system_close")}</Button>
               {selectedAttachment && <Button onClick={() => handleDownloadFile(selectedAttachment.id, selectedAttachment.originalName)}>
-                  <Download className="h-4 w-4 mr-2" />{t("admin.system.download")}</Button>}
+                  <Download className="h-4 w-4 mr-2" />{t("admin_system_download")}</Button>}
             </DialogFooter>
           </DialogContent>
         </Dialog>

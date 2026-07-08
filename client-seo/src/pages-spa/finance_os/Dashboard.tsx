@@ -6,6 +6,7 @@ import { DollarSign, ShieldCheck, FileText } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { financeOSApi } from "@/lib/api/finance-os";
 import { useAuth } from "@/lib/auth";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function FinanceDashboard() {
   const { user } = useAuth();
@@ -19,7 +20,9 @@ export default function FinanceDashboard() {
   const stats = statsData?.data || {
     totalEscrowValue: 0,
     pendingPayouts: 0,
-    activeContracts: 0
+    activeContracts: 0,
+    recentTransactions: [],
+    chartData: []
   };
 
   const formatCurrency = (val: number) => 
@@ -80,8 +83,20 @@ export default function FinanceDashboard() {
             <CardDescription className="text-slate-400">Real-time settlement data feeding from the DAG.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[200px] flex items-center justify-center border border-dashed border-slate-800 rounded-lg bg-slate-900/30 text-slate-500 text-sm">
-              [Settlement Chart Component]
+            <div className="h-[200px] w-full mt-4">
+              {stats.chartData && stats.chartData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={stats.chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                    <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
+                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b' }} itemStyle={{ color: '#10b981' }} />
+                    <Line type="monotone" dataKey="amount" stroke="#10b981" strokeWidth={2} dot={{ r: 4, fill: "#10b981", strokeWidth: 0 }} activeDot={{ r: 6 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-slate-500 text-sm">No recent chart data available.</div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -93,18 +108,20 @@ export default function FinanceDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border-l-2 border-emerald-500">
+              {stats.recentTransactions && stats.recentTransactions.length > 0 ? stats.recentTransactions.map((tx: any) => (
+                <div key={tx.id} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border-l-2 border-emerald-500">
                   <div className="flex flex-col">
-                    <p className="text-sm font-medium text-slate-200">Escrow Release #{1024 + i}</p>
-                    <p className="text-xs text-slate-400">Contract #CTR-{900+i} settled successfully</p>
+                    <p className="text-sm font-medium text-slate-200">Escrow Release</p>
+                    <p className="text-xs text-slate-400">Contract #{tx.contractId} settled ({tx.status})</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-emerald-400">+$2,400.00</p>
-                    <p className="text-xs text-slate-500">2 mins ago</p>
+                    <p className="text-sm font-bold text-emerald-400">+{formatCurrency(tx.amount)}</p>
+                    <p className="text-xs text-slate-500">{new Date(tx.date).toLocaleDateString()}</p>
                   </div>
                 </div>
-              ))}
+              )) : (
+                <div className="text-center text-slate-500 py-4 text-sm">No recent transactions.</div>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -4,6 +4,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { ENCODED_SECRET } from "../lib/jwt";
 import { authMiddleware } from "../middleware/auth";
 import { userSyncService } from "../services/user-sync";
+import { AITransactionMailer } from "../services/marketing/ai-transaction-mailer";
 const CURRENT_REGION = process.env.REGION || "US";
 const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000";
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3001";
@@ -608,12 +609,14 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   })
 
   // GET /auth/google
-  .get("/google", ({ redirect }) => {
+  .get("/google", ({ query, redirect }) => {
+    const origin = query.origin as string || CLIENT_URL;
     const params = new URLSearchParams({
       client_id: process.env.AUTH_GOOGLE_ID || "",
       redirect_uri: `${SERVER_URL}/api/v1/auth/google/callback`,
       response_type: "code",
       scope: "email profile",
+      state: origin, // Pass the origin so we can redirect back to the correct app
     });
     return redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`);
   })
@@ -621,8 +624,10 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
   // GET /auth/google/callback
   .get("/google/callback", async ({ query, redirect }) => {
     const code = query.code as string;
+    const state = (query.state as string) || CLIENT_URL;
+    const redirectTarget = state;
     if (!code) {
-      return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
+      return redirect(`${redirectTarget}/auth/callback?error=NoCode`);
     }
 
     try {
@@ -706,8 +711,8 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
         },
       });
 
-      // Frontend is running on port 3001 based on Vite console output
-      return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      // Frontend is running dynamically based on state origin
+      return redirect(`${redirectTarget}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
         id: user.id,
         email: user.email,
         name: user.name,
@@ -719,7 +724,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       }))}`);
     } catch (e) {
       console.error("Google auth callback error:", e);
-      return redirect(`${CLIENT_URL}/auth/login?error=GoogleAuthFailed`);
+      return redirect(`${redirectTarget}/auth/login?error=GoogleAuthFailed`);
     }
   })
 
@@ -1293,6 +1298,162 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
     await prisma.verification.delete({ where: { id: params.id } });
     return { message: "Verification deleted" };
   })
+
+  // ─── EMAIL VERIFICATION ──────────────────────────────────────────────────────
+
+  // POST /auth/send-verification
+  .post(
+    "/send-verification",
+    async ({ body, set }) => {
+      const { email } = body;
+
+      const user = await prisma.user.findUnique({ where: { email } });
+      if (!user) {
+        set.status = 404;
+        return { error: "User not found" };
+      }
+
+      if (user.emailVerified) {
+        return { message: "Email already verified" };
+      }
+
+      // Invalidate existing verification tokens
+      await prisma.verification.deleteMany({
+        where: { identifier: email, type: "EMAIL_VERIFICATION" },
+      });
+
+      const token = crypto.randomBytes(32).toString("hex");
+      await prisma.verification.create({
+        data: {
+          type: "EMAIL_VERIFICATION",
+          identifier: email,
+          value: token,
+          expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24h
+        },
+      });
+
+      await AITransactionMailer.sendEmailVerification(email, user.name || email, token);
+
+      return { message: "Verification email sent" };
+    },
+    {
+      body: t.Object({ email: t.String({ format: "email" }) }),
+    }
+  )
+
+  // POST /auth/verify-email
+  .post(
+    "/verify-email",
+    async ({ body, set }) => {
+      const { email, token } = body;
+
+      const verification = await prisma.verification.findFirst({
+        where: {
+          type: "EMAIL_VERIFICATION",
+          identifier: email,
+          value: token,
+          expiresAt: { gte: new Date() },
+        },
+      });
+
+      if (!verification) {
+        set.status = 400;
+        return { error: "Invalid or expired verification token" };
+      }
+
+      await prisma.user.update({
+        where: { email },
+        data: { emailVerified: true, emailVerifiedAt: new Date() },
+      });
+
+      await prisma.verification.delete({ where: { id: verification.id } });
+
+      return { message: "Email verified successfully" };
+    },
+    {
+      body: t.Object({
+        email: t.String({ format: "email" }),
+        token: t.String(),
+      }),
+    }
+  )
+
+  // ─── PASSWORD RESET ──────────────────────────────────────────────────────────
+
+  // POST /auth/forgot-password
+  .post(
+    "/forgot-password",
+    async ({ body, set }) => {
+      const { email } = body;
+
+      const user = await prisma.user.findUnique({ where: { email } });
+      if (!user) {
+        // Don't reveal whether email exists
+        return { message: "If the email exists, a reset link has been sent" };
+      }
+
+      // Invalidate existing tokens
+      await prisma.verification.deleteMany({
+        where: { identifier: email, type: "PASSWORD_RESET" },
+      });
+
+      const token = crypto.randomBytes(32).toString("hex");
+      await prisma.verification.create({
+        data: {
+          type: "PASSWORD_RESET",
+          identifier: email,
+          value: token,
+          expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1h
+        },
+      });
+
+      await AITransactionMailer.sendPasswordReset(email, user.name || email, token);
+
+      return { message: "If the email exists, a reset link has been sent" };
+    },
+    {
+      body: t.Object({ email: t.String({ format: "email" }) }),
+    }
+  )
+
+  // POST /auth/reset-password
+  .post(
+    "/reset-password",
+    async ({ body, set }) => {
+      const { email, token, password } = body;
+
+      const verification = await prisma.verification.findFirst({
+        where: {
+          type: "PASSWORD_RESET",
+          identifier: email,
+          value: token,
+          expiresAt: { gte: new Date() },
+        },
+      });
+
+      if (!verification) {
+        set.status = 400;
+        return { error: "Invalid or expired reset token" };
+      }
+
+      const passwordHash = await hashPassword(password);
+      await prisma.account.updateMany({
+        where: { userId: (await prisma.user.findUnique({ where: { email } }))!.id, providerId: "credentials" },
+        data: { accessToken: passwordHash },
+      });
+
+      await prisma.verification.delete({ where: { id: verification.id } });
+
+      return { message: "Password reset successfully" };
+    },
+    {
+      body: t.Object({
+        email: t.String({ format: "email" }),
+        token: t.String(),
+        password: t.String({ minLength: 8 }),
+      }),
+    }
+  )
 
   // ─── ATTACHMENTS ─────────────────────────────────────────────────────────────
 

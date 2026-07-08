@@ -58,8 +58,8 @@ export default function AiBrochureGenerationPage() {
       setBrochures(mockBrochures);
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_fetch_brochure"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_fetch_brochure"),
         variant: "destructive"
       });
     } finally {
@@ -89,13 +89,13 @@ export default function AiBrochureGenerationPage() {
       setIsCreateDialogOpen(false);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.brochure_generation_task_created")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_brochure_generation_task_created")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_create_brochure"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_create_brochure"),
         variant: "destructive"
       });
     }
@@ -116,13 +116,13 @@ export default function AiBrochureGenerationPage() {
       setSelectedBrochure(null);
       resetForm();
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.brochure_generation_updated_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_brochure_generation_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_update_brochure"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_update_brochure"),
         variant: "destructive"
       });
     }
@@ -132,13 +132,13 @@ export default function AiBrochureGenerationPage() {
       await aiApi.cancelServiceTask(id);
       setBrochures(brochures.filter(brochure => brochure.id !== id));
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.brochure_generation_deleted_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_brochure_generation_deleted_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.ai.error"),
-        description: t("admin.ai.failed_to_delete_brochure"),
+        title: t("admin_ai_error"),
+        description: t("admin_ai_failed_to_delete_brochure"),
         variant: "destructive"
       });
     }
@@ -189,71 +189,71 @@ export default function AiBrochureGenerationPage() {
     }
   };
   if (loading) {
-    return <PageShell title={t("admin.ai.ai_brochure_generation_management")}>
+    return <PageShell title={t("admin_ai_ai_brochure_generation_management")}>
         <div className="flex items-center justify-center h-64">
           <FileText className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  return <PageShell title={t("admin.ai.ai_brochure_generation_management")}>
+  return <PageShell title={t("admin_ai_ai_brochure_generation_management")}>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">{t("admin.ai.ai_brochure_generation")}</h1>
-            <p className="text-muted-foreground">{t("admin.ai.manage_aigenerated_property_brochures")}</p>
+            <h1 className="text-3xl font-bold">{t("admin_ai_ai_brochure_generation")}</h1>
+            <p className="text-muted-foreground">{t("admin_ai_manage_aigenerated_property_brochures")}</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.ai.generate_brochure")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_ai_generate_brochure")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>{t("admin.ai.generate_new_property_brochure")}</DialogTitle>
-                <DialogDescription>{t("admin.ai.create_a_new_aigenerated")}</DialogDescription>
+                <DialogTitle>{t("admin_ai_generate_new_property_brochure")}</DialogTitle>
+                <DialogDescription>{t("admin_ai_create_a_new_aigenerated")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="propertyId" className="text-right">{t("admin.ai.property_id")}</Label>
+                  <Label htmlFor="propertyId" className="text-right">{t("admin_ai_property_id")}</Label>
                   <Input id="propertyId" value={form.propertyId} onChange={e => setForm({
                   ...form,
                   propertyId: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.prop")} />
+                })} className="col-span-3" placeholder={t("admin_ai_prop")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="listingId" className="text-right">{t("admin.ai.listing_id")}</Label>
+                  <Label htmlFor="listingId" className="text-right">{t("admin_ai_listing_id")}</Label>
                   <Input id="listingId" value={form.listingId} onChange={e => setForm({
                   ...form,
                   listingId: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.listing")} />
+                })} className="col-span-3" placeholder={t("admin_ai_listing")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="pdfUrl" className="text-right">{t("admin.ai.pdf_url")}</Label>
+                  <Label htmlFor="pdfUrl" className="text-right">{t("admin_ai_pdf_url")}</Label>
                   <Input id="pdfUrl" value={form.pdfUrl} onChange={e => setForm({
                   ...form,
                   pdfUrl: e.target.value
-                })} className="col-span-3" placeholder={t("admin.ai.https")} />
+                })} className="col-span-3" placeholder={t("admin_ai_https")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="language" className="text-right">{t("admin.ai.language")}</Label>
+                  <Label htmlFor="language" className="text-right">{t("admin_ai_language")}</Label>
                   <Select value={form.language} onValueChange={value => setForm({
                   ...form,
                   language: value
                 })}>
                     <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder={t("admin.ai.select_language")} />
+                      <SelectValue placeholder={t("admin_ai_select_language")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="en">{t("admin.ai.english")}</SelectItem>
-                      <SelectItem value="tr">{t("admin.ai.turkish")}</SelectItem>
-                      <SelectItem value="ar">{t("admin.ai.arabic")}</SelectItem>
-                      <SelectItem value="es">{t("admin.ai.spanish")}</SelectItem>
-                      <SelectItem value="fr">{t("admin.ai.french")}</SelectItem>
+                      <SelectItem value="en">{t("admin_ai_english")}</SelectItem>
+                      <SelectItem value="tr">{t("admin_ai_turkish")}</SelectItem>
+                      <SelectItem value="ar">{t("admin_ai_arabic")}</SelectItem>
+                      <SelectItem value="es">{t("admin_ai_spanish")}</SelectItem>
+                      <SelectItem value="fr">{t("admin_ai_french")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="status" className="text-right">{t("admin.ai.status")}</Label>
+                  <Label htmlFor="status" className="text-right">{t("admin_ai_status")}</Label>
                   <Select value={form.status} onValueChange={value => setForm({
                   ...form,
                   status: value
@@ -262,16 +262,16 @@ export default function AiBrochureGenerationPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="PENDING">{t("admin.ai.pending")}</SelectItem>
-                      <SelectItem value="PROCESSING">{t("admin.ai.processing")}</SelectItem>
-                      <SelectItem value="COMPLETED">{t("admin.ai.completed")}</SelectItem>
-                      <SelectItem value="FAILED">{t("admin.ai.failed")}</SelectItem>
+                      <SelectItem value="PENDING">{t("admin_ai_pending")}</SelectItem>
+                      <SelectItem value="PROCESSING">{t("admin_ai_processing")}</SelectItem>
+                      <SelectItem value="COMPLETED">{t("admin_ai_completed")}</SelectItem>
+                      <SelectItem value="FAILED">{t("admin_ai_failed")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createBrochure}>{t("admin.ai.generate_brochure")}</Button>
+                <Button onClick={createBrochure}>{t("admin_ai_generate_brochure")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -279,18 +279,18 @@ export default function AiBrochureGenerationPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.generated_brochures")}</CardTitle>
+            <CardTitle>{t("admin_ai_generated_brochures")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.property")}</TableHead>
-                  <TableHead>{t("admin.ai.language")}</TableHead>
-                  <TableHead>{t("admin.ai.status")}</TableHead>
-                  <TableHead>{t("admin.ai.generated_at")}</TableHead>
-                  <TableHead>{t("admin.ai.pdf")}</TableHead>
-                  <TableHead className="text-right">{t("admin.ai.actions")}</TableHead>
+                  <TableHead>{t("admin_ai_property")}</TableHead>
+                  <TableHead>{t("admin_ai_language")}</TableHead>
+                  <TableHead>{t("admin_ai_status")}</TableHead>
+                  <TableHead>{t("admin_ai_generated_at")}</TableHead>
+                  <TableHead>{t("admin_ai_pdf")}</TableHead>
+                  <TableHead className="text-right">{t("admin_ai_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -317,7 +317,7 @@ export default function AiBrochureGenerationPage() {
                     </TableCell>
                     <TableCell>
                       {brochure.status === 'COMPLETED' ? <Button variant="link" className="p-0 h-auto font-mono text-xs" onClick={() => window.open(brochure.pdfUrl, '_blank')}>
-                          <Download className="h-3 w-3 mr-1 inline" />{t("admin.ai.download")}</Button> : <span className="text-muted-foreground text-xs">{t("admin.ai.pending")}</span>}
+                          <Download className="h-3 w-3 mr-1 inline" />{t("admin_ai_download")}</Button> : <span className="text-muted-foreground text-xs">{t("admin_ai_pending")}</span>}
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
@@ -327,14 +327,14 @@ export default function AiBrochureGenerationPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.ai.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_ai_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => openView(brochure)}>
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.ai.view_details")}</DropdownMenuItem>
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => openEdit(brochure)}>
-                            <Edit className="h-4 w-4 mr-2" />{t("admin.ai.edit")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={() => deleteBrochure(brochure.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />{t("admin.ai.delete")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -347,12 +347,12 @@ export default function AiBrochureGenerationPage() {
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.edit_brochure_generation")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.update_the_brochure_generation")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_edit_brochure_generation")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_update_the_brochure_generation")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-language" className="text-right">{t("admin.ai.language")}</Label>
+                <Label htmlFor="edit-language" className="text-right">{t("admin_ai_language")}</Label>
                 <Select value={form.language} onValueChange={value => setForm({
                 ...form,
                 language: value
@@ -361,16 +361,16 @@ export default function AiBrochureGenerationPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="en">{t("admin.ai.english")}</SelectItem>
-                    <SelectItem value="tr">{t("admin.ai.turkish")}</SelectItem>
-                    <SelectItem value="ar">{t("admin.ai.arabic")}</SelectItem>
-                    <SelectItem value="es">{t("admin.ai.spanish")}</SelectItem>
-                    <SelectItem value="fr">{t("admin.ai.french")}</SelectItem>
+                    <SelectItem value="en">{t("admin_ai_english")}</SelectItem>
+                    <SelectItem value="tr">{t("admin_ai_turkish")}</SelectItem>
+                    <SelectItem value="ar">{t("admin_ai_arabic")}</SelectItem>
+                    <SelectItem value="es">{t("admin_ai_spanish")}</SelectItem>
+                    <SelectItem value="fr">{t("admin_ai_french")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="edit-status" className="text-right">{t("admin.ai.status")}</Label>
+                <Label htmlFor="edit-status" className="text-right">{t("admin_ai_status")}</Label>
                 <Select value={form.status} onValueChange={value => setForm({
                 ...form,
                 status: value
@@ -379,16 +379,16 @@ export default function AiBrochureGenerationPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="PENDING">{t("admin.ai.pending")}</SelectItem>
-                    <SelectItem value="PROCESSING">{t("admin.ai.processing")}</SelectItem>
-                    <SelectItem value="COMPLETED">{t("admin.ai.completed")}</SelectItem>
-                    <SelectItem value="FAILED">{t("admin.ai.failed")}</SelectItem>
+                    <SelectItem value="PENDING">{t("admin_ai_pending")}</SelectItem>
+                    <SelectItem value="PROCESSING">{t("admin_ai_processing")}</SelectItem>
+                    <SelectItem value="COMPLETED">{t("admin_ai_completed")}</SelectItem>
+                    <SelectItem value="FAILED">{t("admin_ai_failed")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={updateBrochure}>{t("admin.ai.update_brochure")}</Button>
+              <Button onClick={updateBrochure}>{t("admin_ai_update_brochure")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -396,28 +396,28 @@ export default function AiBrochureGenerationPage() {
         <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.view_brochure_details")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.detailed_view_of_the")}</DialogDescription>
+              <DialogTitle>{t("admin_ai_view_brochure_details")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_detailed_view_of_the")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.property_id")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_property_id")}</Label>
                 <span className="col-span-3 font-mono text-sm">{form.propertyId}</span>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.listing_id")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_listing_id")}</Label>
                 <span className="col-span-3 font-mono text-sm">{form.listingId || 'N/A'}</span>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.language")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_language")}</Label>
                 <Badge variant="outline" className="col-span-3 justify-start">{form.language || 'en'}</Badge>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.status")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_status")}</Label>
                 <Badge className={getStatusColor(form.status)}>{form.status}</Badge>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right font-medium">{t("admin.ai.pdf_url")}</Label>
+                <Label className="text-right font-medium">{t("admin_ai_pdf_url")}</Label>
                 <span className="col-span-3 font-mono text-sm break-all">{form.pdfUrl}</span>
               </div>
             </div>

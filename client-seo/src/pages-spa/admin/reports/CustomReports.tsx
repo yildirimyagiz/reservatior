@@ -59,7 +59,7 @@ interface ReportTemplate {
 const MOCK_REPORTS: CustomReport[] = [{
   id: "1",
   name: "Monthly Performance Summary",
-  description: t("admin.reports.comprehensive_monthly_performance_report"),
+  description: t("admin_reports_comprehensive_monthly_performance_report"),
   type: "DASHBOARD",
   category: "Performance",
   dataSource: ["agents", "properties", "bookings", "deals"],
@@ -91,7 +91,7 @@ const MOCK_REPORTS: CustomReport[] = [{
 }, {
   id: "2",
   name: "Lead Conversion Analysis",
-  description: t("admin.reports.detailed_analysis_of_lead"),
+  description: t("admin_reports_detailed_analysis_of_lead"),
   type: "CHART",
   category: "Sales",
   dataSource: ["leads", "agents", "deals"],
@@ -128,7 +128,7 @@ const MOCK_REPORTS: CustomReport[] = [{
 }, {
   id: "3",
   name: "Property Inventory Report",
-  description: t("admin.reports.complete_inventory_of_all"),
+  description: t("admin_reports_complete_inventory_of_all"),
   type: "TABULAR",
   category: "Properties",
   dataSource: ["properties"],
@@ -162,7 +162,7 @@ const MOCK_REPORTS: CustomReport[] = [{
 const MOCK_TEMPLATES: ReportTemplate[] = [{
   id: "1",
   name: "Agent Performance Template",
-  description: t("admin.reports.standard_template_for_agent"),
+  description: t("admin_reports_standard_template_for_agent"),
   category: "Performance",
   type: "DASHBOARD",
   query: "SELECT * FROM agent_performance WHERE date BETWEEN :start_date AND :end_date",
@@ -185,7 +185,7 @@ const MOCK_TEMPLATES: ReportTemplate[] = [{
 }, {
   id: "2",
   name: "Financial Summary Template",
-  description: t("admin.reports.financial_performance_summary_template"),
+  description: t("admin_reports_financial_performance_summary_template"),
   category: "Financial",
   type: "SUMMARY",
   query: "SELECT * FROM financial_summary WHERE period = :period",
@@ -267,8 +267,8 @@ export default function CustomReports() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['customReports'] });
       toast({
-        title: t("admin.reports.report_updated"),
-        description: t("admin.reports.report_status_has_been")
+        title: t("admin_reports_report_updated"),
+        description: t("admin_reports_report_status_has_been")
       });
     },
     onError: (error: any) => {
@@ -304,7 +304,7 @@ export default function CustomReports() {
       case "Financial":
         return <DollarSign className="w-4 h-4 text-orange-600" />;
       default:
-        return <FileText className="w-4 h-4 text-slate-400" />;
+        return <FileText className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const getFormatIcon = (format: string) => {
@@ -316,7 +316,7 @@ export default function CustomReports() {
       case "CSV":
         return <FileText className="w-4 h-4 text-slate-600" />;
       case "JSON":
-        return <FileText className="w-4 h-4 text-slate-400" />;
+        return <FileText className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
       default:
         return <FileText className="w-4 h-4" />;
     }
@@ -326,7 +326,7 @@ export default function CustomReports() {
   };
   const runReport = (report: CustomReport) => {
     toast({
-      title: t("admin.reports.report_started"),
+      title: t("admin_reports_report_started"),
       description: `Running ${report.name}...`
     });
   };
@@ -397,8 +397,8 @@ export default function CustomReports() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['customReports'] });
       toast({
-        title: t("admin.reports.report_duplicated"),
-        description: t("admin.reports.report_has_been_duplicated")
+        title: t("admin_reports_report_duplicated"),
+        description: t("admin_reports_report_has_been_duplicated")
       });
     }
   });
@@ -413,8 +413,8 @@ export default function CustomReports() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['customReports'] });
       toast({
-        title: t("admin.reports.report_deleted"),
-        description: t("admin.reports.report_has_been_removed")
+        title: t("admin_reports_report_deleted"),
+        description: t("admin_reports_report_has_been_removed")
       });
     }
   });
@@ -431,7 +431,7 @@ export default function CustomReports() {
     totalTemplates: templates.length,
     publicTemplates: templates.filter(t => t.isPublic).length
   };
-  return <PageShell title={t("admin.reports.custom_reports")} description={t("admin.reports.create_manage_and_schedule")}>
+  return <PageShell title={t("admin_reports_custom_reports")} description={t("admin_reports_create_manage_and_schedule")}>
       <div className="space-y-6">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -439,9 +439,9 @@ export default function CustomReports() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.reports.total_reports")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_reports_total_reports")}</p>
                   <p className="text-2xl font-bold">{stats.totalReports}</p>
-                  <p className="text-xs text-slate-400">{t("admin.reports.all_reports")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_reports_all_reports")}</p>
                 </div>
                 <FileText className="w-8 h-8 text-slate-600" />
               </div>
@@ -451,9 +451,9 @@ export default function CustomReports() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.reports.active_reports")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_reports_active_reports")}</p>
                   <p className="text-2xl font-bold text-green-600">{stats.activeReports}</p>
-                  <p className="text-xs text-slate-400">{t("admin.reports.currently_running")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_reports_currently_running")}</p>
                 </div>
                 <Play className="w-8 h-8 text-green-600" />
               </div>
@@ -463,9 +463,9 @@ export default function CustomReports() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.reports.scheduled_reports")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_reports_scheduled_reports")}</p>
                   <p className="text-2xl font-bold text-slate-600">{stats.scheduledReports}</p>
-                  <p className="text-xs text-slate-400">{t("admin.reports.automated_reports")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_reports_automated_reports")}</p>
                 </div>
                 <Calendar className="w-8 h-8 text-slate-600" />
               </div>
@@ -475,9 +475,9 @@ export default function CustomReports() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.reports.total_runs")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_reports_total_runs")}</p>
                   <p className="text-2xl font-bold text-orange-600">{stats.totalRuns}</p>
-                  <p className="text-xs text-slate-400">{t("admin.reports.all_time")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_reports_all_time")}</p>
                 </div>
                 <RefreshCw className="w-8 h-8 text-orange-600" />
               </div>
@@ -488,16 +488,16 @@ export default function CustomReports() {
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="reports">{t("admin.reports.reports")}</TabsTrigger>
-            <TabsTrigger value="templates">{t("admin.reports.templates")}</TabsTrigger>
-            <TabsTrigger value="scheduling">{t("admin.reports.scheduling")}</TabsTrigger>
+            <TabsTrigger value="reports">{t("admin_reports_reports")}</TabsTrigger>
+            <TabsTrigger value="templates">{t("admin_reports_templates")}</TabsTrigger>
+            <TabsTrigger value="scheduling">{t("admin_reports_scheduling")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="reports" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">{t("admin.reports.custom_reports")}</h3>
+              <h3 className="text-lg font-semibold">{t("admin_reports_custom_reports")}</h3>
               <Button onClick={() => setReportDialogOpen(true)}>
-                <Plus className="w-4 h-4 mr-2" />{t("admin.reports.create_report")}</Button>
+                <Plus className="w-4 h-4 mr-2" />{t("admin_reports_create_report")}</Button>
             </div>
 
             <div className="space-y-4">
@@ -513,7 +513,7 @@ export default function CustomReports() {
                           {getReportIcon(report.type)}
                           <div>
                             <h4 className="font-medium">{report.name}</h4>
-                            <div className="flex items-center gap-2 text-sm text-slate-400">
+                            <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                               {getCategoryIcon(report.category)}
                               <Badge variant="outline">{report.category}</Badge>
                               <Badge variant="outline">{report.type}</Badge>
@@ -523,25 +523,25 @@ export default function CustomReports() {
                           </div>
                         </div>
                         
-                        <p className="text-sm text-slate-400 mb-3">{report.description}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{report.description}</p>
                         
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                           <div>
-                            <span className="text-slate-400">{t("admin.reports.runs")}</span>
+                            <span className="text-slate-500 dark:text-slate-400">{t("admin_reports_runs")}</span>
                             <div className="font-medium">{report.runCount}</div>
                           </div>
                           <div>
-                            <span className="text-slate-400">{t("admin.reports.avg_time")}</span>
+                            <span className="text-slate-500 dark:text-slate-400">{t("admin_reports_avg_time")}</span>
                             <div className="font-medium">{report.avgRunTime}s</div>
                           </div>
                           <div>
-                            <span className="text-slate-400">{t("admin.reports.last_run")}</span>
+                            <span className="text-slate-500 dark:text-slate-400">{t("admin_reports_last_run")}</span>
                             <div className="font-medium">
                               {report.lastRun ? new Date(report.lastRun).toLocaleDateString() : t("admin.reports.never", "Hiç")}
                             </div>
                           </div>
                           <div>
-                            <span className="text-slate-400">{t("admin.reports.next_run")}</span>
+                            <span className="text-slate-500 dark:text-slate-400">{t("admin_reports_next_run")}</span>
                             <div className="font-medium">
                               {report.nextRun ? new Date(report.nextRun).toLocaleDateString() : t("admin.reports.not_scheduled", "Planlanmadı")}
                             </div>
@@ -549,10 +549,10 @@ export default function CustomReports() {
                         </div>
 
                         {report.schedule.enabled && <div className="mt-3 p-3 bg-slate-50 rounded-lg">
-                            <div className="text-sm font-medium mb-1">{t("admin.reports.schedule")}</div>
+                            <div className="text-sm font-medium mb-1">{t("admin_reports_schedule")}</div>
                             <div className="flex items-center gap-4 text-sm">
-                              <span>{report.schedule.frequency}{t("admin.reports.at")}{report.schedule.time}</span>
-                              <span>{report.schedule.recipients.length}{t("admin.reports.recipients")}</span>
+                              <span>{report.schedule.frequency}{t("admin_reports_at")}{report.schedule.time}</span>
+                              <span>{report.schedule.recipients.length}{t("admin_reports_recipients")}</span>
                             </div>
                           </div>}
                       </div>
@@ -567,17 +567,17 @@ export default function CustomReports() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
                             <DropdownMenuItem onClick={() => runReport(report)}>
-                              <Play className="w-4 h-4 mr-2" />{t("admin.reports.run_now")}</DropdownMenuItem>
+                              <Play className="w-4 h-4 mr-2" />{t("admin_reports_run_now")}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => duplicateReport(report)}>
-                              <Copy className="w-4 h-4 mr-2" />{t("admin.reports.duplicate")}</DropdownMenuItem>
+                              <Copy className="w-4 h-4 mr-2" />{t("admin_reports_duplicate")}</DropdownMenuItem>
                             <DropdownMenuItem>
-                              <Edit className="w-4 h-4 mr-2" />{t("admin.reports.edit")}</DropdownMenuItem>
+                              <Edit className="w-4 h-4 mr-2" />{t("admin_reports_edit")}</DropdownMenuItem>
                             <DropdownMenuItem>
-                              <Download className="w-4 h-4 mr-2" />{t("admin.reports.export")}</DropdownMenuItem>
+                              <Download className="w-4 h-4 mr-2" />{t("admin_reports_export")}</DropdownMenuItem>
                             <DropdownMenuItem>
-                              <Share2 className="w-4 h-4 mr-2" />{t("admin.reports.share")}</DropdownMenuItem>
+                              <Share2 className="w-4 h-4 mr-2" />{t("admin_reports_share")}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => deleteReport(report.id)} className="text-red-600">
-                              <Trash2 className="w-4 h-4 mr-2" />{t("admin.reports.delete")}</DropdownMenuItem>
+                              <Trash2 className="w-4 h-4 mr-2" />{t("admin_reports_delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
@@ -589,11 +589,11 @@ export default function CustomReports() {
 
           <TabsContent value="templates" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">{t("admin.reports.report_templates")}</h3>
+              <h3 className="text-lg font-semibold">{t("admin_reports_report_templates")}</h3>
               <Button onClick={() => toast({
-              title: t("admin.reports.template_creator_coming_soon")
+              title: t("admin_reports_template_creator_coming_soon")
             })}>
-                <Plus className="w-4 h-4 mr-2" />{t("admin.reports.create_template")}</Button>
+                <Plus className="w-4 h-4 mr-2" />{t("admin_reports_create_template")}</Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -603,22 +603,22 @@ export default function CustomReports() {
                       {getReportIcon(template.type)}
                       <div className="flex-1">
                         <h4 className="font-medium">{template.name}</h4>
-                        <div className="flex items-center gap-2 text-sm text-slate-400">
+                        <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                           <Badge variant="outline">{template.category}</Badge>
-                          {template.isPublic && <Badge className="bg-green-100 text-green-700">{t("admin.reports.public")}</Badge>}
+                          {template.isPublic && <Badge className="bg-green-100 text-green-700">{t("admin_reports_public")}</Badge>}
                         </div>
                       </div>
                     </div>
                     
-                    <p className="text-sm text-slate-400 mb-3">{template.description}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{template.description}</p>
                     
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-slate-400">{t("admin.reports.used")}{template.usageCount}{t("admin.reports.times")}</span>
+                      <span className="text-slate-500 dark:text-slate-400">{t("admin_reports_used")}{template.usageCount}{t("admin_reports_times")}</span>
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm">
-                          <Eye className="w-3 h-3 mr-1" />{t("admin.reports.preview")}</Button>
+                          <Eye className="w-3 h-3 mr-1" />{t("admin_reports_preview")}</Button>
                         <Button variant="outline" size="sm">
-                          <Copy className="w-3 h-3 mr-1" />{t("admin.reports.use")}</Button>
+                          <Copy className="w-3 h-3 mr-1" />{t("admin_reports_use")}</Button>
                       </div>
                     </div>
                   </CardContent>
@@ -630,8 +630,8 @@ export default function CustomReports() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>{t("admin.reports.schedule_overview")}</CardTitle>
-                  <CardDescription>{t("admin.reports.upcoming_scheduled_reports")}</CardDescription>
+                  <CardTitle>{t("admin_reports_schedule_overview")}</CardTitle>
+                  <CardDescription>{t("admin_reports_upcoming_scheduled_reports")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -640,8 +640,8 @@ export default function CustomReports() {
                           <Calendar className="w-4 h-4 text-slate-600" />
                           <div>
                             <div className="font-medium">{report.name}</div>
-                            <div className="text-sm text-slate-400">
-                              {report.schedule.frequency}{t("admin.reports.at")}{report.schedule.time}
+                            <div className="text-sm text-slate-500 dark:text-slate-400">
+                              {report.schedule.frequency}{t("admin_reports_at")}{report.schedule.time}
                             </div>
                           </div>
                         </div>
@@ -649,7 +649,7 @@ export default function CustomReports() {
                           <div className="font-medium">
                             {report.nextRun ? new Date(report.nextRun).toLocaleDateString() : ""}
                           </div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-slate-500 dark:text-slate-400">
                             {report.nextRun ? new Date(report.nextRun).toLocaleTimeString() : ""}
                           </div>
                         </div>
@@ -660,38 +660,38 @@ export default function CustomReports() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>{t("admin.reports.schedule_settings")}</CardTitle>
-                  <CardDescription>{t("admin.reports.global_scheduling_preferences")}</CardDescription>
+                  <CardTitle>{t("admin_reports_schedule_settings")}</CardTitle>
+                  <CardDescription>{t("admin_reports_global_scheduling_preferences")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="font-medium">{t("admin.reports.default_time_zone")}</div>
-                      <div className="text-sm text-slate-400">{t("admin.reports.time_zone_for_scheduled")}</div>
+                      <div className="font-medium">{t("admin_reports_default_time_zone")}</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">{t("admin_reports_time_zone_for_scheduled")}</div>
                     </div>
                     <Select defaultValue="UTC">
                       <SelectTrigger className="w-[150px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="UTC">{t("admin.reports.utc")}</SelectItem>
-                        <SelectItem value="EST">{t("admin.reports.est")}</SelectItem>
-                        <SelectItem value="PST">{t("admin.reports.pst")}</SelectItem>
-                        <SelectItem value="CET">{t("admin.reports.cet")}</SelectItem>
+                        <SelectItem value="UTC">{t("admin_reports_utc")}</SelectItem>
+                        <SelectItem value="EST">{t("admin_reports_est")}</SelectItem>
+                        <SelectItem value="PST">{t("admin_reports_pst")}</SelectItem>
+                        <SelectItem value="CET">{t("admin_reports_cet")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="font-medium">{t("admin.reports.retry_failed_reports")}</div>
-                      <div className="text-sm text-slate-400">{t("admin.reports.automatically_retry_failed_reports")}</div>
+                      <div className="font-medium">{t("admin_reports_retry_failed_reports")}</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">{t("admin_reports_automatically_retry_failed_reports")}</div>
                     </div>
                     <Switch defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="font-medium">{t("admin.reports.max_concurrent_runs")}</div>
-                      <div className="text-sm text-slate-400">{t("admin.reports.maximum_simultaneous_report_runs")}</div>
+                      <div className="font-medium">{t("admin_reports_max_concurrent_runs")}</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">{t("admin_reports_maximum_simultaneous_report_runs")}</div>
                     </div>
                     <Select defaultValue="5">
                       <SelectTrigger className="w-[100px]">
@@ -707,18 +707,18 @@ export default function CustomReports() {
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="font-medium">{t("admin.reports.retention_period")}</div>
-                      <div className="text-sm text-slate-400">{t("admin.reports.how_long_to_keep")}</div>
+                      <div className="font-medium">{t("admin_reports_retention_period")}</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">{t("admin_reports_how_long_to_keep")}</div>
                     </div>
                     <Select defaultValue="90">
                       <SelectTrigger className="w-[150px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="30">{t("admin.reports.30_days")}</SelectItem>
-                        <SelectItem value="90">{t("admin.reports.90_days")}</SelectItem>
-                        <SelectItem value="180">{t("admin.reports.180_days")}</SelectItem>
-                        <SelectItem value="365">{t("admin.reports.1_year")}</SelectItem>
+                        <SelectItem value="30">{t("admin_reports_30_days")}</SelectItem>
+                        <SelectItem value="90">{t("admin_reports_90_days")}</SelectItem>
+                        <SelectItem value="180">{t("admin_reports_180_days")}</SelectItem>
+                        <SelectItem value="365">{t("admin_reports_1_year")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -733,77 +733,77 @@ export default function CustomReports() {
       <Dialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>{t("admin.reports.create_custom_report")}</DialogTitle>
-            <DialogDescription>{t("admin.reports.design_a_new_custom")}</DialogDescription>
+            <DialogTitle>{t("admin_reports_create_custom_report")}</DialogTitle>
+            <DialogDescription>{t("admin_reports_design_a_new_custom")}</DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
             <div className="space-y-2">
-              <Label>{t("admin.reports.report_name")}</Label>
-              <Input placeholder={t("admin.reports.enter_report_name")} />
+              <Label>{t("admin_reports_report_name")}</Label>
+              <Input placeholder={t("admin_reports_enter_report_name")} />
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.reports.category")}</Label>
+              <Label>{t("admin_reports_category")}</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("admin.reports.select_category")} />
+                  <SelectValue placeholder={t("admin_reports_select_category")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Performance">{t("admin.reports.performance")}</SelectItem>
-                  <SelectItem value="Sales">{t("admin.reports.sales")}</SelectItem>
-                  <SelectItem value="Properties">{t("admin.reports.properties")}</SelectItem>
-                  <SelectItem value="Financial">{t("admin.reports.financial")}</SelectItem>
-                  <SelectItem value="Marketing">{t("admin.reports.marketing")}</SelectItem>
+                  <SelectItem value="Performance">{t("admin_reports_performance")}</SelectItem>
+                  <SelectItem value="Sales">{t("admin_reports_sales")}</SelectItem>
+                  <SelectItem value="Properties">{t("admin_reports_properties")}</SelectItem>
+                  <SelectItem value="Financial">{t("admin_reports_financial")}</SelectItem>
+                  <SelectItem value="Marketing">{t("admin_reports_marketing")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.reports.type")}</Label>
+              <Label>{t("admin_reports_type")}</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("admin.reports.select_type")} />
+                  <SelectValue placeholder={t("admin_reports_select_type")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="TABULAR">{t("admin.reports.tabular")}</SelectItem>
-                  <SelectItem value="CHART">{t("admin.reports.chart")}</SelectItem>
-                  <SelectItem value="DASHBOARD">{t("admin.reports.dashboard")}</SelectItem>
-                  <SelectItem value="SUMMARY">{t("admin.reports.summary")}</SelectItem>
+                  <SelectItem value="TABULAR">{t("admin_reports_tabular")}</SelectItem>
+                  <SelectItem value="CHART">{t("admin_reports_chart")}</SelectItem>
+                  <SelectItem value="DASHBOARD">{t("admin_reports_dashboard")}</SelectItem>
+                  <SelectItem value="SUMMARY">{t("admin_reports_summary")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.reports.format")}</Label>
+              <Label>{t("admin_reports_format")}</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("admin.reports.select_format")} />
+                  <SelectValue placeholder={t("admin_reports_select_format")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="PDF">{t("admin.reports.pdf")}</SelectItem>
-                  <SelectItem value="EXCEL">{t("admin.reports.excel")}</SelectItem>
-                  <SelectItem value="CSV">{t("admin.reports.csv")}</SelectItem>
-                  <SelectItem value="JSON">{t("admin.reports.json")}</SelectItem>
+                  <SelectItem value="PDF">{t("admin_reports_pdf")}</SelectItem>
+                  <SelectItem value="EXCEL">{t("admin_reports_excel")}</SelectItem>
+                  <SelectItem value="CSV">{t("admin_reports_csv")}</SelectItem>
+                  <SelectItem value="JSON">{t("admin_reports_json")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2 col-span-2">
-              <Label>{t("admin.reports.description")}</Label>
-              <Textarea placeholder={t("admin.reports.describe_the_report_purpose")} />
+              <Label>{t("admin_reports_description")}</Label>
+              <Textarea placeholder={t("admin_reports_describe_the_report_purpose")} />
             </div>
             <div className="space-y-2 col-span-2">
-              <Label>{t("admin.reports.sql_query")}</Label>
-              <Textarea placeholder={t("admin.reports.enter_your_sql_query")} rows={4} className="font-mono" />
+              <Label>{t("admin_reports_sql_query")}</Label>
+              <Textarea placeholder={t("admin_reports_enter_your_sql_query")} rows={4} className="font-mono" />
             </div>
             <div className="flex items-center space-x-2 col-span-2">
               <Switch />
-              <Label>{t("admin.reports.enable_scheduling")}</Label>
+              <Label>{t("admin_reports_enable_scheduling")}</Label>
             </div>
             <div className="flex items-center space-x-2 col-span-2">
               <Switch />
-              <Label>{t("admin.reports.activate_report_immediately")}</Label>
+              <Label>{t("admin_reports_activate_report_immediately")}</Label>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setReportDialogOpen(false)}>{t("admin.reports.cancel")}</Button>
-            <Button>{t("admin.reports.create_report")}</Button>
+            <Button variant="outline" onClick={() => setReportDialogOpen(false)}>{t("admin_reports_cancel")}</Button>
+            <Button>{t("admin_reports_create_report")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

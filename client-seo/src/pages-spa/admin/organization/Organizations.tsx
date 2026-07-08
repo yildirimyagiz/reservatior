@@ -125,8 +125,8 @@ export default function Organizations() {
       setOrganizations(response.data);
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_fetch_organizations"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_fetch_organizations"),
         variant: "destructive"
       });
     } finally {
@@ -164,13 +164,13 @@ export default function Organizations() {
         requireApproval: false
       });
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.organization_created_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_organization_created_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_create_organization"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_create_organization"),
         variant: "destructive"
       });
     }
@@ -185,13 +185,13 @@ export default function Organizations() {
         status: status as any
       } : org));
       toast({
-        title: t("admin.organization.success"),
-        description: t("admin.organization.organization_status_updated_successfully")
+        title: t("admin_organization_success"),
+        description: t("admin_organization_organization_status_updated_successfully")
       });
     } catch (error) {
       toast({
-        title: t("admin.organization.error"),
-        description: t("admin.organization.failed_to_update_organization"),
+        title: t("admin_organization_error"),
+        description: t("admin_organization_failed_to_update_organization"),
         variant: "destructive"
       });
     }
@@ -232,7 +232,7 @@ export default function Organizations() {
   const totalMembers = organizations.reduce((acc, org) => acc + org.memberCount, 0);
   const totalProperties = organizations.reduce((acc, org) => acc + org.propertyCount, 0);
   if (loading) {
-    return <PageShell title={t("admin.organization.organizations")}>
+    return <PageShell title={t("admin_organization_organizations")}>
         <div className="flex items-center justify-center h-64">
           <Activity className="h-8 w-8 animate-spin" />
         </div>
@@ -247,16 +247,16 @@ export default function Organizations() {
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="grid gap-2">
-                      <Label htmlFor="edit-name">{t("admin.organization.organization_name")}</Label>
+                      <Label htmlFor="edit-name">{t("admin_organization_organization_name")}</Label>
                       <Input id="edit-name" value={editingOrg.name || ''} onChange={e => setEditingOrg({...editingOrg, name: e.target.value})} required />
                     </div>
                     <div className="grid gap-2">
-                      <Label htmlFor="edit-domain">{t("admin.organization.domain")}</Label>
+                      <Label htmlFor="edit-domain">{t("admin_organization_domain")}</Label>
                       <Input id="edit-domain" value={editingOrg.domain || ''} onChange={e => setEditingOrg({...editingOrg, domain: e.target.value})} />
                     </div>
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="edit-description">{t("admin.organization.description")}</Label>
+                    <Label htmlFor="edit-description">{t("admin_organization_description")}</Label>
                     <Input id="edit-description" value={editingOrg.description || ''} onChange={e => setEditingOrg({...editingOrg, description: e.target.value})} />
                   </div>
                 </div>
@@ -269,51 +269,51 @@ export default function Organizations() {
 
     </PageShell>;
   }
-  return <PageShell title={t("admin.organization.organizations")}>
+  return <PageShell title={t("admin_organization_organizations")}>
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.active_organizations")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_active_organizations")}</CardTitle>
               <Building className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{activeOrgs}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.of")}{organizations.length}{t("admin.organization.total")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_of")}{organizations.length}{t("admin_organization_total")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_members")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_members")}</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalMembers.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.across_all_organizations")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_across_all_organizations")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_properties")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_properties")}</CardTitle>
               <Building className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalProperties.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.managed_properties")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_managed_properties")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.organization.total_revenue")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_organization_total_revenue")}</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.organization.monthly_recurring")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_organization_monthly_recurring")}</p>
             </CardContent>
           </Card>
         </div>
@@ -323,78 +323,78 @@ export default function Organizations() {
           <div className="flex gap-4">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder={t("admin.organization.search_organizations")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
+              <Input placeholder={t("admin_organization_search_organizations")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder={t("admin.organization.status")} />
+                <SelectValue placeholder={t("admin_organization_status")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.organization.all_statuses")}</SelectItem>
-                <SelectItem value="ACTIVE">{t("admin.organization.active")}</SelectItem>
-                <SelectItem value="INACTIVE">{t("admin.organization.inactive")}</SelectItem>
-                <SelectItem value="SUSPENDED">{t("admin.organization.suspended")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin.organization.pending")}</SelectItem>
+                <SelectItem value="all">{t("admin_organization_all_statuses")}</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_organization_active")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_organization_inactive")}</SelectItem>
+                <SelectItem value="SUSPENDED">{t("admin_organization_suspended")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_organization_pending")}</SelectItem>
               </SelectContent>
             </Select>
             <Select value={sizeFilter} onValueChange={setSizeFilter}>
               <SelectTrigger className="w-[120px]">
-                <SelectValue placeholder={t("admin.organization.size")} />
+                <SelectValue placeholder={t("admin_organization_size")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.organization.all_sizes")}</SelectItem>
-                <SelectItem value="STARTUP">{t("admin.organization.startup")}</SelectItem>
-                <SelectItem value="SMALL">{t("admin.organization.small")}</SelectItem>
-                <SelectItem value="MEDIUM">{t("admin.organization.medium")}</SelectItem>
-                <SelectItem value="LARGE">{t("admin.organization.large")}</SelectItem>
-                <SelectItem value="ENTERPRISE">{t("admin.organization.enterprise")}</SelectItem>
+                <SelectItem value="all">{t("admin_organization_all_sizes")}</SelectItem>
+                <SelectItem value="STARTUP">{t("admin_organization_startup")}</SelectItem>
+                <SelectItem value="SMALL">{t("admin_organization_small")}</SelectItem>
+                <SelectItem value="MEDIUM">{t("admin_organization_medium")}</SelectItem>
+                <SelectItem value="LARGE">{t("admin_organization_large")}</SelectItem>
+                <SelectItem value="ENTERPRISE">{t("admin_organization_enterprise")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="h-4 w-4 mr-2" />{t("admin.organization.add_organization")}</Button>
+                <Plus className="h-4 w-4 mr-2" />{t("admin_organization_add_organization")}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>{t("admin.organization.add_new_organization")}</DialogTitle>
-                <DialogDescription>{t("admin.organization.create_a_new_organization")}</DialogDescription>
+                <DialogTitle>{t("admin_organization_add_new_organization")}</DialogTitle>
+                <DialogDescription>{t("admin_organization_create_a_new_organization")}</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="name">{t("admin.organization.organization_name")}</Label>
+                    <Label htmlFor="name">{t("admin_organization_organization_name")}</Label>
                     <Input id="name" value={newOrg.name} onChange={e => setNewOrg({
                     ...newOrg,
                     name: e.target.value
                   })} required />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="domain">{t("admin.organization.domain")}</Label>
+                    <Label htmlFor="domain">{t("admin_organization_domain")}</Label>
                     <Input id="domain" value={newOrg.domain} onChange={e => setNewOrg({
                     ...newOrg,
                     domain: e.target.value
-                  })} placeholder={t("admin.organization.companycom")} />
+                  })} placeholder={t("admin_organization_companycom")} />
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="description">{t("admin.organization.description")}</Label>
+                  <Label htmlFor="description">{t("admin_organization_description")}</Label>
                   <Input id="description" value={newOrg.description} onChange={e => setNewOrg({
                   ...newOrg,
                   description: e.target.value
-                })} placeholder={t("admin.organization.brief_description_of_the")} />
+                })} placeholder={t("admin_organization_brief_description_of_the")} />
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="industry">{t("admin.organization.industry")}</Label>
+                    <Label htmlFor="industry">{t("admin_organization_industry")}</Label>
                     <Input id="industry" value={newOrg.industry} onChange={e => setNewOrg({
                     ...newOrg,
                     industry: e.target.value
-                  })} placeholder={t("admin.organization.real_estate_technology_etc")} />
+                  })} placeholder={t("admin_organization_real_estate_technology_etc")} />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="size">{t("admin.organization.organization_size")}</Label>
+                    <Label htmlFor="size">{t("admin_organization_organization_size")}</Label>
                     <Select value={newOrg.size} onValueChange={value => setNewOrg({
                     ...newOrg,
                     size: value
@@ -403,16 +403,16 @@ export default function Organizations() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="STARTUP">{t("admin.organization.startup_110")}</SelectItem>
-                        <SelectItem value="SMALL">{t("admin.organization.small_1150")}</SelectItem>
-                        <SelectItem value="MEDIUM">{t("admin.organization.medium_51200")}</SelectItem>
-                        <SelectItem value="LARGE">{t("admin.organization.large_2011000")}</SelectItem>
-                        <SelectItem value="ENTERPRISE">{t("admin.organization.enterprise_1000")}</SelectItem>
+                        <SelectItem value="STARTUP">{t("admin_organization_startup_110")}</SelectItem>
+                        <SelectItem value="SMALL">{t("admin_organization_small_1150")}</SelectItem>
+                        <SelectItem value="MEDIUM">{t("admin_organization_medium_51200")}</SelectItem>
+                        <SelectItem value="LARGE">{t("admin_organization_large_2011000")}</SelectItem>
+                        <SelectItem value="ENTERPRISE">{t("admin_organization_enterprise_1000")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="tier">{t("admin.organization.subscription_tier")}</Label>
+                    <Label htmlFor="tier">{t("admin_organization_subscription_tier")}</Label>
                     <Select value={newOrg.subscriptionTier} onValueChange={value => setNewOrg({
                     ...newOrg,
                     subscriptionTier: value
@@ -421,24 +421,24 @@ export default function Organizations() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="FREE">{t("admin.organization.free")}</SelectItem>
-                        <SelectItem value="BASIC">{t("admin.organization.basic")}</SelectItem>
-                        <SelectItem value="PROFESSIONAL">{t("admin.organization.professional")}</SelectItem>
-                        <SelectItem value="ENTERPRISE">{t("admin.organization.enterprise")}</SelectItem>
+                        <SelectItem value="FREE">{t("admin_organization_free")}</SelectItem>
+                        <SelectItem value="BASIC">{t("admin_organization_basic")}</SelectItem>
+                        <SelectItem value="PROFESSIONAL">{t("admin_organization_professional")}</SelectItem>
+                        <SelectItem value="ENTERPRISE">{t("admin_organization_enterprise")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="billingEmail">{t("admin.organization.billing_email")}</Label>
+                    <Label htmlFor="billingEmail">{t("admin_organization_billing_email")}</Label>
                     <Input id="billingEmail" type="email" value={newOrg.billingEmail} onChange={e => setNewOrg({
                     ...newOrg,
                     billingEmail: e.target.value
                   })} />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="timezone">{t("admin.organization.timezone")}</Label>
+                    <Label htmlFor="timezone">{t("admin_organization_timezone")}</Label>
                     <Select value={newOrg.timezone} onValueChange={value => setNewOrg({
                     ...newOrg,
                     timezone: value
@@ -447,18 +447,18 @@ export default function Organizations() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="UTC">{t("admin.organization.utc")}</SelectItem>
-                        <SelectItem value="America/New_York">{t("admin.organization.eastern_time")}</SelectItem>
-                        <SelectItem value="America/Chicago">{t("admin.organization.central_time")}</SelectItem>
-                        <SelectItem value="America/Denver">{t("admin.organization.mountain_time")}</SelectItem>
-                        <SelectItem value="America/Los_Angeles">{t("admin.organization.pacific_time")}</SelectItem>
+                        <SelectItem value="UTC">{t("admin_organization_utc")}</SelectItem>
+                        <SelectItem value="America/New_York">{t("admin_organization_eastern_time")}</SelectItem>
+                        <SelectItem value="America/Chicago">{t("admin_organization_central_time")}</SelectItem>
+                        <SelectItem value="America/Denver">{t("admin_organization_mountain_time")}</SelectItem>
+                        <SelectItem value="America/Los_Angeles">{t("admin_organization_pacific_time")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="currency">{t("admin.organization.currency")}</Label>
+                    <Label htmlFor="currency">{t("admin_organization_currency")}</Label>
                     <Select value={newOrg.currency} onValueChange={value => setNewOrg({
                     ...newOrg,
                     currency: value
@@ -467,15 +467,15 @@ export default function Organizations() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="USD">{t("admin.organization.usd")}</SelectItem>
-                        <SelectItem value="EUR">{t("admin.organization.eur")}</SelectItem>
-                        <SelectItem value="GBP">{t("admin.organization.gbp")}</SelectItem>
-                        <SelectItem value="CAD">{t("admin.organization.cad_c")}</SelectItem>
+                        <SelectItem value="USD">{t("admin_organization_usd")}</SelectItem>
+                        <SelectItem value="EUR">{t("admin_organization_eur")}</SelectItem>
+                        <SelectItem value="GBP">{t("admin_organization_gbp")}</SelectItem>
+                        <SelectItem value="CAD">{t("admin_organization_cad_c")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="language">{t("admin.organization.language")}</Label>
+                    <Label htmlFor="language">{t("admin_organization_language")}</Label>
                     <Select value={newOrg.language} onValueChange={value => setNewOrg({
                     ...newOrg,
                     language: value
@@ -484,10 +484,10 @@ export default function Organizations() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="en">{t("admin.organization.english")}</SelectItem>
-                        <SelectItem value="es">{t("admin.organization.spanish")}</SelectItem>
-                        <SelectItem value="fr">{t("admin.organization.french")}</SelectItem>
-                        <SelectItem value="de">{t("admin.organization.german")}</SelectItem>
+                        <SelectItem value="en">{t("admin_organization_english")}</SelectItem>
+                        <SelectItem value="es">{t("admin_organization_spanish")}</SelectItem>
+                        <SelectItem value="fr">{t("admin_organization_french")}</SelectItem>
+                        <SelectItem value="de">{t("admin_organization_german")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -498,19 +498,19 @@ export default function Organizations() {
                     ...newOrg,
                     allowPublicListings: e.target.checked
                   })} />
-                    <Label htmlFor="allowPublicListings">{t("admin.organization.allow_public_listings")}</Label>
+                    <Label htmlFor="allowPublicListings">{t("admin_organization_allow_public_listings")}</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <input type="checkbox" id="requireApproval" checked={newOrg.requireApproval} onChange={e => setNewOrg({
                     ...newOrg,
                     requireApproval: e.target.checked
                   })} />
-                    <Label htmlFor="requireApproval">{t("admin.organization.require_approval_for_listings")}</Label>
+                    <Label htmlFor="requireApproval">{t("admin_organization_require_approval_for_listings")}</Label>
                   </div>
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={createOrganization}>{t("admin.organization.create_organization")}</Button>
+                <Button onClick={createOrganization}>{t("admin_organization_create_organization")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -519,22 +519,22 @@ export default function Organizations() {
         {/* Organizations Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.organization.organizations")}</CardTitle>
-            <p className="text-sm text-muted-foreground">{t("admin.organization.manage_organization_accounts_subscriptions")}</p>
+            <CardTitle>{t("admin_organization_organizations")}</CardTitle>
+            <p className="text-sm text-muted-foreground">{t("admin_organization_manage_organization_accounts_subscriptions")}</p>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.organization.organization")}</TableHead>
-                  <TableHead>{t("admin.organization.size")}</TableHead>
-                  <TableHead>{t("admin.organization.status")}</TableHead>
-                  <TableHead>{t("admin.organization.tier")}</TableHead>
-                  <TableHead>{t("admin.organization.members")}</TableHead>
-                  <TableHead>{t("admin.organization.properties")}</TableHead>
-                  <TableHead>{t("admin.organization.revenue")}</TableHead>
-                  <TableHead>{t("admin.organization.created")}</TableHead>
-                  <TableHead className="text-right">{t("admin.organization.actions")}</TableHead>
+                  <TableHead>{t("admin_organization_organization")}</TableHead>
+                  <TableHead>{t("admin_organization_size")}</TableHead>
+                  <TableHead>{t("admin_organization_status")}</TableHead>
+                  <TableHead>{t("admin_organization_tier")}</TableHead>
+                  <TableHead>{t("admin_organization_members")}</TableHead>
+                  <TableHead>{t("admin_organization_properties")}</TableHead>
+                  <TableHead>{t("admin_organization_revenue")}</TableHead>
+                  <TableHead>{t("admin_organization_created")}</TableHead>
+                  <TableHead className="text-right">{t("admin_organization_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -589,18 +589,18 @@ export default function Organizations() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.organization.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_organization_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem>
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.organization.view_details")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleEdit(org)}><Edit className="h-4 w-4 mr-2" />{t("admin.organization.edit_organization")}</DropdownMenuItem>
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_organization_view_details")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEdit(org)}><Edit className="h-4 w-4 mr-2" />{t("admin_organization_edit_organization")}</DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Users className="h-4 w-4 mr-2" />{t("admin.organization.manage_members")}</DropdownMenuItem>
+                            <Users className="h-4 w-4 mr-2" />{t("admin_organization_manage_members")}</DropdownMenuItem>
                           {org.status === 'ACTIVE' && <DropdownMenuItem onClick={() => updateOrganizationStatus(org.id, 'SUSPENDED')} className="text-red-600">
-                              <XCircle className="h-4 w-4 mr-2" />{t("admin.organization.suspend")}</DropdownMenuItem>}
+                              <XCircle className="h-4 w-4 mr-2" />{t("admin_organization_suspend")}</DropdownMenuItem>}
                           {org.status === 'SUSPENDED' && <DropdownMenuItem onClick={() => updateOrganizationStatus(org.id, 'ACTIVE')}>
-                              <CheckCircle className="h-4 w-4 mr-2" />{t("admin.organization.activate")}</DropdownMenuItem>}
+                              <CheckCircle className="h-4 w-4 mr-2" />{t("admin_organization_activate")}</DropdownMenuItem>}
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={() => deleteMutation.mutate(org.id)} className="text-red-600"><Trash2 className="h-4 w-4 mr-2" />{t("admin.organization.delete_organization")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => deleteMutation.mutate(org.id)} className="text-red-600"><Trash2 className="h-4 w-4 mr-2" />{t("admin_organization_delete_organization")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -614,7 +614,7 @@ export default function Organizations() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.subscription_distribution")}</CardTitle>
+              <CardTitle>{t("admin_organization_subscription_distribution")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -635,7 +635,7 @@ export default function Organizations() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.organization_sizes")}</CardTitle>
+              <CardTitle>{t("admin_organization_organization_sizes")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -652,32 +652,32 @@ export default function Organizations() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t("admin.organization.status_overview")}</CardTitle>
+              <CardTitle>{t("admin_organization_status_overview")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin.organization.active")}</span>
+                    <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin_organization_active")}</span>
                   <span className="font-medium">{activeOrgs}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-white/10" />{t("admin.organization.inactive")}</span>
+                    <div className="w-2 h-2 rounded-full bg-white/10" />{t("admin_organization_inactive")}</span>
                   <span className="font-medium">
                     {organizations.filter(org => org.status === 'INACTIVE').length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-yellow-500" />{t("admin.organization.pending")}</span>
+                    <div className="w-2 h-2 rounded-full bg-yellow-500" />{t("admin_organization_pending")}</span>
                   <span className="font-medium">
                     {organizations.filter(org => org.status === 'PENDING').length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-red-500" />{t("admin.organization.suspended")}</span>
+                    <div className="w-2 h-2 rounded-full bg-red-500" />{t("admin_organization_suspended")}</span>
                   <span className="font-medium">
                     {organizations.filter(org => org.status === 'SUSPENDED').length}
                   </span>

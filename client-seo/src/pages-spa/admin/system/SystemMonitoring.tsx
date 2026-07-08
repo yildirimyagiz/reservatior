@@ -63,12 +63,12 @@ export default function SystemMonitoring() {
       }));
     };
     return [
-      { id: 'cpu-usage', name: 'CPU Usage', type: 'cpu' as const, value: 45.2, unit: '%', status: 'normal' as const, threshold: { warning: 70, critical: 90 }, history: generateHistory(45, 15), metadata: { description: t("admin.system.total_cpu_usage_rate"), details: { cores: 8, frequency: '2.4GHz' } } },
-      { id: 'memory-usage', name: 'Memory Usage', type: 'memory' as const, value: 68.7, unit: '%', status: 'warning' as const, threshold: { warning: 70, critical: 90 }, history: generateHistory(68, 10), metadata: { description: t("admin.system.system_memory_usage_rate"), details: { total: '32GB', used: '22GB', available: '10GB' } } },
-      { id: 'disk-usage', name: 'Disk Usage', type: 'disk' as const, value: 78.3, unit: '%', status: 'warning' as const, threshold: { warning: 80, critical: 95 }, history: generateHistory(78, 5), metadata: { description: t("admin.system.total_disk_usage_rate"), details: { total: '500GB', used: '391GB', available: '109GB' } } },
-      { id: 'network-in', name: 'Network In', type: 'network' as const, value: 125.4, unit: 'Mbps', status: 'normal' as const, threshold: { warning: 500, critical: 800 }, history: generateHistory(125, 50), metadata: { description: t("admin.system.network_incoming_speed"), details: { interface: 'eth0', packets: '1.2K/s' } } },
-      { id: 'network-out', name: 'Network Out', type: 'network' as const, value: 89.7, unit: 'Mbps', status: 'normal' as const, threshold: { warning: 500, critical: 800 }, history: generateHistory(89, 40), metadata: { description: t("admin.system.network_outgoing_speed"), details: { interface: 'eth0', packets: '950/s' } } },
-      { id: 'database-connections', name: 'Database Connections', type: 'database' as const, value: 45, unit: 'conn', status: 'normal' as const, threshold: { warning: 80, critical: 95 }, history: generateHistory(45, 15), metadata: { description: t("admin.system.active_database_connection_count"), details: { max: 100, pool: 'primary' } } },
+      { id: 'cpu-usage', name: 'CPU Usage', type: 'cpu' as const, value: 45.2, unit: '%', status: 'normal' as const, threshold: { warning: 70, critical: 90 }, history: generateHistory(45, 15), metadata: { description: t("admin_system_total_cpu_usage_rate"), details: { cores: 8, frequency: '2.4GHz' } } },
+      { id: 'memory-usage', name: 'Memory Usage', type: 'memory' as const, value: 68.7, unit: '%', status: 'warning' as const, threshold: { warning: 70, critical: 90 }, history: generateHistory(68, 10), metadata: { description: t("admin_system_system_memory_usage_rate"), details: { total: '32GB', used: '22GB', available: '10GB' } } },
+      { id: 'disk-usage', name: 'Disk Usage', type: 'disk' as const, value: 78.3, unit: '%', status: 'warning' as const, threshold: { warning: 80, critical: 95 }, history: generateHistory(78, 5), metadata: { description: t("admin_system_total_disk_usage_rate"), details: { total: '500GB', used: '391GB', available: '109GB' } } },
+      { id: 'network-in', name: 'Network In', type: 'network' as const, value: 125.4, unit: 'Mbps', status: 'normal' as const, threshold: { warning: 500, critical: 800 }, history: generateHistory(125, 50), metadata: { description: t("admin_system_network_incoming_speed"), details: { interface: 'eth0', packets: '1.2K/s' } } },
+      { id: 'network-out', name: 'Network Out', type: 'network' as const, value: 89.7, unit: 'Mbps', status: 'normal' as const, threshold: { warning: 500, critical: 800 }, history: generateHistory(89, 40), metadata: { description: t("admin_system_network_outgoing_speed"), details: { interface: 'eth0', packets: '950/s' } } },
+      { id: 'database-connections', name: 'Database Connections', type: 'database' as const, value: 45, unit: 'conn', status: 'normal' as const, threshold: { warning: 80, critical: 95 }, history: generateHistory(45, 15), metadata: { description: t("admin_system_active_database_connection_count"), details: { max: 100, pool: 'primary' } } },
     ];
   };
   const generateMockServices = (): ServiceStatus[] => {
@@ -83,10 +83,10 @@ export default function SystemMonitoring() {
   };
   const generateMockAlerts = (): Alert[] => {
     return [
-      { id: '1', type: 'system' as const, severity: 'medium' as const, title: t("admin.system.high_memory_usage"), message: t("admin.system.system_memory_usage_reached"), timestamp: new Date(Date.now() - 1000 * 60 * 15), status: 'active' as const, source: 'system-monitor', metadata: { metric: 'memory-usage', value: 68.7 } },
-      { id: '2', type: 'performance' as const, severity: 'low' as const, title: t("admin.system.slow_api_response"), message: t("admin.system.api_server_response_time"), timestamp: new Date(Date.now() - 1000 * 60 * 30), status: 'acknowledged' as const, source: 'api-monitor', metadata: { endpoint: '/data', responseTime: 145 } },
-      { id: '3', type: 'availability' as const, severity: 'high' as const, title: t("admin.system.monitoring_service_in_maintenance"), message: t("admin.system.monitoring_service_stopped_for"), timestamp: new Date(Date.now() - 1000 * 60 * 45), status: 'resolved' as const, source: 'service-monitor', metadata: { service: 'monitoring' } },
-      { id: '4', type: 'security' as const, severity: 'critical' as const, title: t("admin.system.suspicious_login_attempt"), message: t("admin.system.multiple_failed_login_attempts"), timestamp: new Date(Date.now() - 1000 * 60 * 60), status: 'active' as const, source: 'security-monitor', metadata: { ip: '185.220.101.45', attempts: 5 } },
+      { id: '1', type: 'system' as const, severity: 'medium' as const, title: t("admin_system_high_memory_usage"), message: t("admin_system_system_memory_usage_reached"), timestamp: new Date(Date.now() - 1000 * 60 * 15), status: 'active' as const, source: 'system-monitor', metadata: { metric: 'memory-usage', value: 68.7 } },
+      { id: '2', type: 'performance' as const, severity: 'low' as const, title: t("admin_system_slow_api_response"), message: t("admin_system_api_server_response_time"), timestamp: new Date(Date.now() - 1000 * 60 * 30), status: 'acknowledged' as const, source: 'api-monitor', metadata: { endpoint: '/data', responseTime: 145 } },
+      { id: '3', type: 'availability' as const, severity: 'high' as const, title: t("admin_system_monitoring_service_in_maintenance"), message: t("admin_system_monitoring_service_stopped_for"), timestamp: new Date(Date.now() - 1000 * 60 * 45), status: 'resolved' as const, source: 'service-monitor', metadata: { service: 'monitoring' } },
+      { id: '4', type: 'security' as const, severity: 'critical' as const, title: t("admin_system_suspicious_login_attempt"), message: t("admin_system_multiple_failed_login_attempts"), timestamp: new Date(Date.now() - 1000 * 60 * 60), status: 'active' as const, source: 'security-monitor', metadata: { ip: '185.220.101.45', attempts: 5 } },
     ];
   };
 
@@ -172,7 +172,7 @@ export default function SystemMonitoring() {
     const current = recent[recent.length - 1].value;
     if (current > average * 1.05) return <TrendingUp className="w-4 h-4 text-red-500" />;
     if (current < average * 0.95) return <TrendingDown className="w-4 h-4 text-green-500" />;
-    return <Minus className="w-4 h-4 text-slate-400" />;
+    return <Minus className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
   };
   const exportMonitoringData = () => {
     const data = { timestamp: new Date().toISOString(), metrics: metrics.map(m => ({ name: m.name, type: m.type, value: m.value, unit: m.unit, status: m.status })), services: services.map(s => ({ name: s.name, type: s.type, status: s.status, uptime: s.uptime, responseTime: s.responseTime, errorRate: s.errorRate })), alerts: alerts.map(a => ({ type: a.type, severity: a.severity, title: a.title, message: a.message, status: a.status, timestamp: a.timestamp.toISOString() })) };
@@ -184,9 +184,9 @@ export default function SystemMonitoring() {
   };
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-6">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h1 className="text-xl font-bold text-white">{t("admin.system.system_monitoring")}</h1>
-          <p className="text-sm text-slate-400">{t("admin.system.monitor_system_performance_and")}</p>
+        <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t("admin_system_system_monitoring")}</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{t("admin_system_monitor_system_performance_and")}</p>
         </div>
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -196,33 +196,33 @@ export default function SystemMonitoring() {
               {isLive ? "Live" : "Pause"}
             </Button>
             <Button variant="outline" size="sm" onClick={() => { setMetrics(generateMockMetrics()); setServices(generateMockServices()); setAlerts(generateMockAlerts()); }}>
-              <RefreshCw className="w-4 h-4 mr-2" />{t("admin.system.refresh")}</Button>
+              <RefreshCw className="w-4 h-4 mr-2" />{t("admin_system_refresh")}</Button>
             <Button variant="outline" size="sm" onClick={exportMonitoringData}>
-              <Download className="w-4 h-4 mr-2" />{t("admin.system.download")}</Button>
+              <Download className="w-4 h-4 mr-2" />{t("admin_system_download")}</Button>
           </div>
-          <select className="px-3 py-1 border rounded-xl text-sm bg-white/5 border-white/10 text-white" value={timeRange} onChange={e => setTimeRange(e.target.value as any)}>
-            <option value="1h">{t("admin.system.last_1_hour")}</option>
-            <option value="6h">{t("admin.system.last_6_hours")}</option>
-            <option value="24h">{t("admin.system.last_24_hours")}</option>
-            <option value="7d">{t("admin.system.last_7_days")}</option>
+          <select className="px-3 py-1 border rounded-xl text-sm bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={timeRange} onChange={e => setTimeRange(e.target.value as any)}>
+            <option value="1h">{t("admin_system_last_1_hour")}</option>
+            <option value="6h">{t("admin_system_last_6_hours")}</option>
+            <option value="24h">{t("admin_system_last_24_hours")}</option>
+            <option value="7d">{t("admin_system_last_7_days")}</option>
           </select>
         </div>
 
         <Tabs defaultValue="metrics" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-white/5 border-white/10">
-            <TabsTrigger value="metrics" className="text-white data-[state=active]:bg-white/10">{t("admin.system.metrics")}</TabsTrigger>
-            <TabsTrigger value="services" className="text-white data-[state=active]:bg-white/10">{t("admin.system.services")}</TabsTrigger>
-            <TabsTrigger value="alerts" className="text-white data-[state=active]:bg-white/10">{t("admin.system.alerts")}</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 bg-white/5 border-slate-200 dark:border-white/10">
+            <TabsTrigger value="metrics" className="text-slate-900 dark:text-white data-[state=active]:bg-white/10">{t("admin_system_metrics")}</TabsTrigger>
+            <TabsTrigger value="services" className="text-slate-900 dark:text-white data-[state=active]:bg-white/10">{t("admin_system_services")}</TabsTrigger>
+            <TabsTrigger value="alerts" className="text-slate-900 dark:text-white data-[state=active]:bg-white/10">{t("admin_system_alerts")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="metrics" className="space-y-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {metrics.map(metric => <Card key={metric.id} className="bg-white/5 border-white/10 cursor-pointer" onClick={() => setSelectedMetric(metric)}>
+              {metrics.map(metric => <Card key={metric.id} className="bg-white/5 border-slate-200 dark:border-white/10 cursor-pointer" onClick={() => setSelectedMetric(metric)}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
                         {getMetricIcon(metric.type)}
-                        <h3 className="font-medium text-white">{metric.name}</h3>
+                        <h3 className="font-medium text-slate-900 dark:text-white">{metric.name}</h3>
                       </div>
                       <div className="flex items-center gap-1">
                         {getTrendIcon(metric.history)}
@@ -232,38 +232,38 @@ export default function SystemMonitoring() {
                       </div>
                     </div>
                     <div className="mb-3">
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-2xl font-bold text-slate-900 dark:text-white">
                         {metric.value.toFixed(1)} {metric.unit}
                       </div>
                       <Progress value={metric.value} className="mt-2" />
                     </div>
-                    <div className="text-xs text-slate-400">{metric.metadata?.description}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">{metric.metadata?.description}</div>
                   </CardContent>
                 </Card>)}
             </div>
 
-            {selectedMetric && <Card className="bg-white/5 border-white/10">
+            {selectedMetric && <Card className="bg-white/5 border-slate-200 dark:border-white/10">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-white">{selectedMetric.name}{t("admin.system.detail")}</CardTitle>
-                    <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" onClick={() => setSelectedMetric(null)}>×</Button>
+                    <CardTitle className="text-slate-900 dark:text-white">{selectedMetric.name}{t("admin_system_detail")}</CardTitle>
+                    <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white" onClick={() => setSelectedMetric(null)}>×</Button>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <p className="text-sm font-medium text-slate-400">{t("admin.system.current_value")}</p>
-                      <p className="text-2xl font-bold text-white">{selectedMetric.value.toFixed(2)} {selectedMetric.unit}</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_current_value")}</p>
+                      <p className="text-2xl font-bold text-slate-900 dark:text-white">{selectedMetric.value.toFixed(2)} {selectedMetric.unit}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-400">{t("admin.system.status")}</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_status")}</p>
                       <Badge className={getStatusColor(selectedMetric.status)}>{selectedMetric.status === 'normal' ? t("admin.system.status_normal", "Normal") : selectedMetric.status === 'warning' ? t("admin.system.status_warning", "Uyarı") : t("admin.system.status_critical", "Kritik")}</Badge>
                     </div>
                   </div>
                   {selectedMetric.metadata?.details && <div className="mb-4">
-                      <p className="text-sm font-medium text-slate-400 mb-2">{t("admin.system.details")}</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">{t("admin_system_details")}</p>
                       <div className="bg-white/5 p-3 rounded-xl">
-                        <pre className="text-xs text-white">{JSON.stringify(selectedMetric.metadata.details, null, 2)}</pre>
+                        <pre className="text-xs text-slate-900 dark:text-white">{JSON.stringify(selectedMetric.metadata.details, null, 2)}</pre>
                       </div>
                     </div>}
                 </CardContent>
@@ -272,12 +272,12 @@ export default function SystemMonitoring() {
 
           <TabsContent value="services" className="space-y-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {services.map(service => <Card key={service.id} className="bg-white/5 border-white/10 cursor-pointer" onClick={() => setSelectedService(service)}>
+              {services.map(service => <Card key={service.id} className="bg-white/5 border-slate-200 dark:border-white/10 cursor-pointer" onClick={() => setSelectedService(service)}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
                         {getServiceIcon(service.type)}
-                        <h3 className="font-medium text-white">{service.name}</h3>
+                        <h3 className="font-medium text-slate-900 dark:text-white">{service.name}</h3>
                       </div>
                       <Badge className={getStatusColor(service.status)}>
                         {service.status === 'running' ? t("admin.system.status_running", "Çalışıyor") : service.status === 'stopped' ? t("admin.system.status_stopped", "Durduruldu") : service.status === 'error' ? t("admin.system.status_error", "Hata") : t("admin.system.status_maintenance", "Bakım")}
@@ -285,51 +285,51 @@ export default function SystemMonitoring() {
                     </div>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-slate-400">{t("admin.system.uptime")}</span>
-                        <span className="font-medium text-white">{service.uptime.toFixed(2)}%</span>
+                        <span className="text-slate-500 dark:text-slate-400">{t("admin_system_uptime")}</span>
+                        <span className="font-medium text-slate-900 dark:text-white">{service.uptime.toFixed(2)}%</span>
                       </div>
                       {service.responseTime && <div className="flex justify-between">
-                          <span className="text-slate-400">{t("admin.system.response_time")}</span>
-                          <span className="font-medium text-white">{service.responseTime}{t("admin.system.ms")}</span>
+                          <span className="text-slate-500 dark:text-slate-400">{t("admin_system_response_time")}</span>
+                          <span className="font-medium text-slate-900 dark:text-white">{service.responseTime}{t("admin_system_ms")}</span>
                         </div>}
                       {service.errorRate !== undefined && <div className="flex justify-between">
-                          <span className="text-slate-400">{t("admin.system.error_rate")}</span>
-                          <span className="font-medium text-white">{(service.errorRate * 100).toFixed(2)}%</span>
+                          <span className="text-slate-500 dark:text-slate-400">{t("admin_system_error_rate")}</span>
+                          <span className="font-medium text-slate-900 dark:text-white">{(service.errorRate * 100).toFixed(2)}%</span>
                         </div>}
                     </div>
                   </CardContent>
                 </Card>)}
             </div>
-            {selectedService && <Card className="bg-white/5 border-white/10">
+            {selectedService && <Card className="bg-white/5 border-slate-200 dark:border-white/10">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-white">{selectedService.name}{t("admin.system.detail")}</CardTitle>
-                    <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" onClick={() => setSelectedService(null)}>×</Button>
+                    <CardTitle className="text-slate-900 dark:text-white">{selectedService.name}{t("admin_system_detail")}</CardTitle>
+                    <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white" onClick={() => setSelectedService(null)}>×</Button>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <p className="text-sm font-medium text-slate-400">{t("admin.system.status")}</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_status")}</p>
                       <Badge className={getStatusColor(selectedService.status)}>{selectedService.status === 'running' ? t("admin.system.status_running", "Çalışıyor") : selectedService.status === 'stopped' ? t("admin.system.status_stopped", "Durduruldu") : selectedService.status === 'error' ? t("admin.system.status_error", "Hata") : t("admin.system.status_maintenance", "Bakım")}</Badge>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-400">{t("admin.system.uptime")}</p>
-                      <p className="font-medium text-white">{selectedService.uptime.toFixed(2)}%</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_uptime")}</p>
+                      <p className="font-medium text-slate-900 dark:text-white">{selectedService.uptime.toFixed(2)}%</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-400">{t("admin.system.version")}</p>
-                      <p className="font-medium text-white">{selectedService.version || '-'}</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_version")}</p>
+                      <p className="font-medium text-slate-900 dark:text-white">{selectedService.version || '-'}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-400">{t("admin.system.endpoint")}</p>
-                      <p className="font-medium text-sm text-white">{selectedService.endpoint || '-'}</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_endpoint")}</p>
+                      <p className="font-medium text-sm text-slate-900 dark:text-white">{selectedService.endpoint || '-'}</p>
                     </div>
                   </div>
                   {selectedService.dependencies && selectedService.dependencies.length > 0 && <div>
-                      <p className="text-sm font-medium text-slate-400 mb-2">{t("admin.system.dependencies")}</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">{t("admin_system_dependencies")}</p>
                       <div className="flex gap-2 flex-wrap">
-                        {selectedService.dependencies.map((dep, index) => <Badge key={index} variant="outline" className="border-white/10 text-slate-400">{dep}</Badge>)}
+                        {selectedService.dependencies.map((dep, index) => <Badge key={index} variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">{dep}</Badge>)}
                       </div>
                     </div>}
                 </CardContent>
@@ -337,28 +337,28 @@ export default function SystemMonitoring() {
           </TabsContent>
 
           <TabsContent value="alerts" className="space-y-6">
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-white">{t("admin.system.active_alerts")}</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-white">{t("admin_system_active_alerts")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {alerts.map(alert => <div key={alert.id} className="flex items-start gap-3 p-4 border border-white/10 rounded-lg hover:bg-white/5 transition-colors">
-                      <div className="mt-1 text-slate-400">{getAlertIcon(alert.type)}</div>
+                  {alerts.map(alert => <div key={alert.id} className="flex items-start gap-3 p-4 border border-slate-200 dark:border-white/10 rounded-lg hover:bg-white/5 transition-colors">
+                      <div className="mt-1 text-slate-500 dark:text-slate-400">{getAlertIcon(alert.type)}</div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h4 className="font-medium text-white">{alert.title}</h4>
+                          <h4 className="font-medium text-slate-900 dark:text-white">{alert.title}</h4>
                           <Badge className={getSeverityColor(alert.severity)}>{alert.severity === 'low' ? t("admin.system.severity_low", "Düşük") : alert.severity === 'medium' ? t("admin.system.severity_medium", "Orta") : alert.severity === 'high' ? t("admin.system.severity_high", "Yüksek") : t("admin.system.severity_critical", "Kritik")}</Badge>
                           <Badge className={getStatusColor(alert.status)}>{alert.status === 'active' ? t("admin.system.alert_active", "Aktif") : alert.status === 'acknowledged' ? t("admin.system.alert_acknowledged", "Onaylandı") : t("admin.system.alert_resolved", "Çözüldü")}</Badge>
                         </div>
-                        <p className="text-sm text-slate-400 mb-1">{alert.message}</p>
-                        <div className="flex items-center gap-4 text-xs text-slate-400">
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">{alert.message}</p>
+                        <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
                           <span>{alert.source}</span>
                           <span>{alert.timestamp.toLocaleString()}</span>
                         </div>
                       </div>
                       <div className="flex gap-1">
-                        <Button variant="outline" size="sm" className="border-white/10 text-slate-400"><Settings className="w-4 h-4" /></Button>
+                        <Button variant="outline" size="sm" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400"><Settings className="w-4 h-4" /></Button>
                       </div>
                     </div>)}
                 </div>

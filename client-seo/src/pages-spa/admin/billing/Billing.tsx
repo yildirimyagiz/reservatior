@@ -59,16 +59,16 @@ export default function Billing() {
 
   return (
     <div className="space-y-6 min-h-screen">
-      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="flex justify-between items-center bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
-            <CreditCard className="w-8 h-8 text-white" />
+            <CreditCard className="w-8 h-8 text-slate-900 dark:text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
               {t("admin.billing.billing", "Billing")}
             </h1>
-            <p className="text-slate-400">
+            <p className="text-slate-500 dark:text-slate-400">
               {t("admin.billing.subscription_and_payment_management", "Subscription and payment management")}
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function Billing() {
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="bg-white/5 border border-white/10">
+        <TabsList className="bg-white/5 border border-slate-200 dark:border-white/10">
           <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.overview", "Overview")}</TabsTrigger>
           <TabsTrigger value="plans" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.plans", "Plans")}</TabsTrigger>
           <TabsTrigger value="billing" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.invoices", "Invoices")}</TabsTrigger>
@@ -85,35 +85,35 @@ export default function Billing() {
 
         <TabsContent value="overview" className="space-y-6 mt-6">
           <div className="grid gap-6 md:grid-cols-2">
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-white">{t("admin.billing.current_plan", "Current Plan")}</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-white">{t("admin.billing.current_plan", "Current Plan")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-white">{currentPlan?.name || t("admin.billing.no_plan", "No Plan")}</h3>
-                  <p className="text-3xl font-bold text-white">${currentPlan?.price || 0}<span className="text-lg font-normal text-slate-400">/{currentPlan?.interval || "mo"}</span></p>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{currentPlan?.name || t("admin.billing.no_plan", "No Plan")}</h3>
+                  <p className="text-3xl font-bold text-slate-900 dark:text-white">${currentPlan?.price || 0}<span className="text-lg font-normal text-slate-500 dark:text-slate-400">/{currentPlan?.interval || "mo"}</span></p>
                   <Badge className="bg-emerald-500/20 text-emerald-400 border-0">{t("admin.billing.active", "Active")}</Badge>
-                  <div className="space-y-2 text-sm text-slate-400">
+                  <div className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                     <p>{t("admin.billing.total_paid", "Total Paid")}: ${totalPaid.toLocaleString()}</p>
                     <p>{invoices.length} {t("admin.billing.invoices", "invoices")}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-white/5 border-white/10">
+            <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-white">{t("admin.billing.billing_info", "Billing Info")}</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-white">{t("admin.billing.billing_info", "Billing Info")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4 text-sm">
                   <div>
-                    <p className="text-slate-400">{t("admin.billing.next_billing_date", "Next Billing Date")}</p>
-                    <p className="text-lg font-medium text-white">{invoices.length > 0 ? new Date(invoices[0].dueDate).toLocaleDateString() : "—"}</p>
+                    <p className="text-slate-500 dark:text-slate-400">{t("admin.billing.next_billing_date", "Next Billing Date")}</p>
+                    <p className="text-lg font-medium text-slate-900 dark:text-white">{invoices.length > 0 ? new Date(invoices[0].dueDate).toLocaleDateString() : "—"}</p>
                   </div>
                   <div>
-                    <p className="text-slate-400">{t("admin.billing.total_revenue", "Total Revenue")}</p>
-                    <p className="text-lg font-medium text-white">${totalPaid.toLocaleString()}</p>
+                    <p className="text-slate-500 dark:text-slate-400">{t("admin.billing.total_revenue", "Total Revenue")}</p>
+                    <p className="text-lg font-medium text-slate-900 dark:text-white">${totalPaid.toLocaleString()}</p>
                   </div>
                 </div>
               </CardContent>
@@ -132,14 +132,14 @@ export default function Billing() {
             {plans.length === 0 ? (
               <p className="text-center text-slate-500 col-span-3 py-8">{t("admin.billing.no_plans", "No plans available")}</p>
             ) : plans.map(plan => (
-              <Card key={plan.id} className={`bg-white/5 border-white/10 ${plan.isActive ? 'ring-2 ring-slate-500' : ''}`}>
+              <Card key={plan.id} className={`bg-white/5 border-slate-200 dark:border-white/10 ${plan.isActive ? 'ring-2 ring-slate-500' : ''}`}>
                 <CardHeader>
-                  <CardTitle className="flex items-center justify-between text-white">
+                  <CardTitle className="flex items-center justify-between text-slate-900 dark:text-white">
                     {plan.name}
                     {plan.isActive && <Badge className="bg-slate-600">{t("admin.billing.current", "Current")}</Badge>}
                   </CardTitle>
                   <div>
-                    <p className="text-3xl font-bold text-white">${plan.price}<span className="text-lg font-normal text-slate-400">/{plan.interval}</span></p>
+                    <p className="text-3xl font-bold text-slate-900 dark:text-white">${plan.price}<span className="text-lg font-normal text-slate-500 dark:text-slate-400">/{plan.interval}</span></p>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -153,30 +153,30 @@ export default function Billing() {
         </TabsContent>
 
         <TabsContent value="billing" className="space-y-6 mt-6">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.billing.invoice_history", "Invoice History")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin.billing.invoice_history", "Invoice History")}</CardTitle>
             </CardHeader>
             <CardContent>
               {invoicesLoading ? (
-                <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>
+                <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-slate-500 dark:text-slate-400" /></div>
               ) : invoices.length === 0 ? (
                 <p className="text-center text-slate-500 py-8">{t("admin.billing.no_invoices", "No invoices")}</p>
               ) : (
                 <div className="space-y-4">
                   {invoices.map(invoice => (
-                    <div key={invoice.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
+                    <div key={invoice.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-slate-200 dark:border-white/10">
                       <div>
-                        <p className="font-medium text-white">{invoice.invoiceNumber}</p>
-                        <p className="text-sm text-slate-400">{new Date(invoice.createdAt).toLocaleDateString()}</p>
+                        <p className="font-medium text-slate-900 dark:text-white">{invoice.invoiceNumber}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">{new Date(invoice.createdAt).toLocaleDateString()}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-white">${invoice.total.toLocaleString()}</p>
+                        <p className="font-medium text-slate-900 dark:text-white">${invoice.total.toLocaleString()}</p>
                         <Badge className={invoice.status === "PAID" || invoice.status === "paid" ? "bg-emerald-500/20 text-emerald-400 border-0" : "bg-amber-500/20 text-amber-400 border-0"}>
                           {invoice.status}
                         </Badge>
                       </div>
-                      <Button variant="outline" size="sm" className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10">
+                      <Button variant="outline" size="sm" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-300 hover:bg-white/10">
                         <Download className="w-4 h-4 mr-2" />{t("admin.billing.download", "Download")}
                       </Button>
                     </div>
@@ -188,13 +188,13 @@ export default function Billing() {
         </TabsContent>
 
         <TabsContent value="payment" className="space-y-6 mt-6">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">{t("admin.billing.payment_methods", "Payment Methods")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin.billing.payment_methods", "Payment Methods")}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-center text-slate-500 py-8">{t("admin.billing.no_payment_methods", "No payment methods configured")}</p>
-              <Button className="w-full bg-white/5 border-white/10 text-white hover:bg-white/10">{t("admin.billing.add_payment_method", "Add Payment Method")}</Button>
+              <Button className="w-full bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white hover:bg-white/10">{t("admin.billing.add_payment_method", "Add Payment Method")}</Button>
             </CardContent>
           </Card>
         </TabsContent>

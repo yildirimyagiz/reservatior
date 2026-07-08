@@ -54,12 +54,12 @@ export default function Budgets() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialBudgets'] });
       setCreateOpen(false);
-      toast({ title: t("admin.financial.budget_created") });
+      toast({ title: t("admin_financial_budget_created") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_create_budget"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_create_budget"),
         variant: "destructive"
       });
     }
@@ -70,12 +70,12 @@ export default function Budgets() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialBudgets'] });
       setEditOpen(false);
-      toast({ title: t("admin.financial.budget_updated") });
+      toast({ title: t("admin_financial_budget_updated") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_update_budget"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_update_budget"),
         variant: "destructive"
       });
     }
@@ -85,12 +85,12 @@ export default function Budgets() {
     mutationFn: (id: string) => financialsApi.deleteBudget(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialBudgets'] });
-      toast({ title: t("admin.financial.budget_deleted") });
+      toast({ title: t("admin_financial_budget_deleted") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_delete_budget"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_delete_budget"),
         variant: "destructive"
       });
     }
@@ -150,36 +150,36 @@ export default function Budgets() {
       t
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
-      {!isEdit && <div className="space-y-1.5"><Label>{t("admin.financial.org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
+      {!isEdit && <div className="space-y-1.5"><Label>{t("admin_financial_org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
           ...form,
           orgId: e.target.value
         })} required /></div>}
-      <div className="space-y-1.5"><Label>{t("admin.financial.budget_name")}</Label><Input value={form.name} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_budget_name")}</Label><Input value={form.name} onChange={e => setForm({
           ...form,
           name: e.target.value
-        })} required placeholder={t("admin.financial.eg_annual_maintenance_2024")} /></div>
+        })} required placeholder={t("admin_financial_eg_annual_maintenance_2024")} /></div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("admin.financial.year")}</Label><Input type="number" value={form.year} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_year")}</Label><Input type="number" value={form.year} onChange={e => setForm({
             ...form,
             year: e.target.value
           })} required /></div>
-        <div className="space-y-1.5"><Label>{t("admin.financial.total_amount")}</Label><Input type="number" value={form.totalAmount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_total_amount")}</Label><Input type="number" value={form.totalAmount} onChange={e => setForm({
             ...form,
             totalAmount: e.target.value
           })} required /></div>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("admin.financial.start_date")}</Label><Input type="date" value={form.startDate} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_start_date")}</Label><Input type="date" value={form.startDate} onChange={e => setForm({
             ...form,
             startDate: e.target.value
           })} required /></div>
-        <div className="space-y-1.5"><Label>{t("admin.financial.end_date")}</Label><Input type="date" value={form.endDate} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_end_date")}</Label><Input type="date" value={form.endDate} onChange={e => setForm({
             ...form,
             endDate: e.target.value
           })} required /></div>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("admin.financial.notes")}</Label>
+        <Label>{t("admin_financial_notes")}</Label>
         <Input type="text" value={form.notes} onChange={e => setForm({
           ...form,
           notes: e.target.value
@@ -189,34 +189,34 @@ export default function Budgets() {
     </form>;
   };
   return <>
-      <PageShell title={t("admin.financial.budgets")} description={t("admin.financial.plan_and_track_property")} createLabel={t("admin.financial.add_budget", "Bütçe Ekle")} onCreateClick={() => {
+      <PageShell title={t("admin_financial_budgets")} description={t("admin_financial_plan_and_track_property")} createLabel={t("admin.financial.add_budget", "Bütçe Ekle")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.financial.search_budgets", "Bütçelerde ara...")} stats={[{
-      label: t("admin.financial.budgets"),
+      label: t("admin_financial_budgets"),
       value: budgets.length
     }, {
-      label: t("admin.financial.total_allocated"),
+      label: t("admin_financial_total_allocated"),
       value: `$${budgets.reduce((s: any, r: { totalAmount: any; }) => s + (r.totalAmount || 0), 0).toLocaleString()}`
     }, {
-      label: t("admin.financial.total_spent"),
+      label: t("admin_financial_total_spent"),
       value: `$${budgets.reduce((s: any, r: { spentAmount: any; }) => s + (r.spentAmount || 0), 0).toLocaleString()}`
     }]} actions={<Button variant="outline" size="sm" onClick={() => fetchBudgets()} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin.financial.refresh")}</Button>}>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin_financial_refresh")}</Button>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("admin.financial.year")}</TableHead>
-                <TableHead>{t("admin.financial.notes")}</TableHead>
-                <TableHead>{t("admin.financial.total_amount")}</TableHead>
-                <TableHead>{t("admin.financial.spent_amount")}</TableHead>
-                <TableHead>{t("admin.financial.utilization")}</TableHead>
+                <TableHead>{t("admin_financial_year")}</TableHead>
+                <TableHead>{t("admin_financial_notes")}</TableHead>
+                <TableHead>{t("admin_financial_total_amount")}</TableHead>
+                <TableHead>{t("admin_financial_spent_amount")}</TableHead>
+                <TableHead>{t("admin_financial_utilization")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground">{t("admin.financial.no_budgets_found")}</TableCell></TableRow> : filtered.map((row: Budget) => {
+              {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_budgets_found")}</TableCell></TableRow> : filtered.map((row: Budget) => {
               const util = row.totalAmount > 0 ? (row.spentAmount || 0) / row.totalAmount * 100 : 0;
               return <TableRow key={row.id} className="hover:bg-muted/40">
                       <TableCell className="text-sm font-medium">{row.year}</TableCell>
@@ -237,8 +237,8 @@ export default function Budgets() {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin.financial.edit")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin.financial.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -251,14 +251,14 @@ export default function Budgets() {
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.financial.add_budget")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("admin.financial.create")} />
+          <DialogHeader><DialogTitle>{t("admin_financial_add_budget")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleCreate} label={t("admin_financial_create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.financial.edit_budget")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("admin.financial.save_changes")} isEdit={true} />
+          <DialogHeader><DialogTitle>{t("admin_financial_edit_budget")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleEdit} label={t("admin_financial_save_changes")} isEdit={true} />
         </DialogContent>
       </Dialog>
     </>;

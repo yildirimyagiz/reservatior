@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/auth/hooks";
+import { apiClient } from "@/lib/api/client";
 
 interface Conversation {
   id: string;
@@ -30,16 +31,13 @@ export function MessageDropdown() {
   // Fetch real conversations from API when available
   useEffect(() => {
     if (!user) return;
-    
+
     const fetchConversations = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch("/api/messages/conversations", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setConversations(data);
+        const res = await apiClient.get<{ data: Conversation[] }>("/message/conversations");
+        if (res?.data) {
+          setConversations(res.data);
         }
       } catch {
         // API not yet available — show empty state

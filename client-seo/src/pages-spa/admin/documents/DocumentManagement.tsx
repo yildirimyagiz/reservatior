@@ -199,8 +199,8 @@ export default function DocumentManagement() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['documents'] });
       toast({
-        title: t("admin.documents.document_deleted"),
-        description: t("admin.documents.document_has_been_removed")
+        title: t("admin_documents_document_deleted"),
+        description: t("admin_documents_document_has_been_removed")
       });
     },
     onError: (error: unknown) => {
@@ -221,8 +221,8 @@ export default function DocumentManagement() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['documents'] });
       toast({
-        title: t("admin.documents.visibility_updated"),
-        description: t("admin.documents.document_visibility_has_been")
+        title: t("admin_documents_visibility_updated"),
+        description: t("admin_documents_document_visibility_has_been")
       });
     }
   });
@@ -242,7 +242,7 @@ export default function DocumentManagement() {
       case "PNG":
         return <Image className="w-4 h-4 text-pink-600" />;
       default:
-        return <File className="w-4 h-4 text-slate-400" />;
+        return <File className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const formatFileSize = (bytes: number) => {
@@ -271,7 +271,7 @@ export default function DocumentManagement() {
       await documentsApi.downloadDocument(document.id);
       queryClient.invalidateQueries({ queryKey: ['documents'] });
       toast({
-        title: t("admin.documents.download_started"),
+        title: t("admin_documents_download_started"),
         description: `Downloading ${document.name}`
       });
     } catch (e: unknown) {
@@ -302,7 +302,7 @@ export default function DocumentManagement() {
     encryptedDocuments: documents.filter(d => d.isEncrypted).length,
     totalDownloads: documents.reduce((sum, doc) => sum + doc.downloadCount, 0)
   };
-  return <PageShell title={t("admin.documents.document_management")} description={t("admin.documents.manage_documents_templates_and")}>
+  return <PageShell title={t("admin_documents_document_management")} description={t("admin_documents_manage_documents_templates_and")}>
       <div className="space-y-6">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -310,9 +310,9 @@ export default function DocumentManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.documents.total_documents")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_documents_total_documents")}</p>
                   <p className="text-2xl font-bold">{stats.totalDocuments}</p>
-                  <p className="text-xs text-slate-400">{t("admin.documents.all_files")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_documents_all_files")}</p>
                 </div>
                 <FileText className="w-8 h-8 text-slate-600" />
               </div>
@@ -322,9 +322,9 @@ export default function DocumentManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.documents.total_storage")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_documents_total_storage")}</p>
                   <p className="text-2xl font-bold">{formatFileSize(stats.totalSize)}</p>
-                  <p className="text-xs text-slate-400">{t("admin.documents.used_space")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_documents_used_space")}</p>
                 </div>
                 <HardDrive className="w-8 h-8 text-green-600" />
               </div>
@@ -334,9 +334,9 @@ export default function DocumentManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.documents.public_documents")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_documents_public_documents")}</p>
                   <p className="text-2xl font-bold text-slate-600">{stats.publicDocuments}</p>
-                  <p className="text-xs text-slate-400">{t("admin.documents.accessible_to_all")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_documents_accessible_to_all")}</p>
                 </div>
                 <Unlock className="w-8 h-8 text-slate-600" />
               </div>
@@ -346,9 +346,9 @@ export default function DocumentManagement() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-400">{t("admin.documents.total_downloads")}</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_documents_total_downloads")}</p>
                   <p className="text-2xl font-bold">{stats.totalDownloads}</p>
-                  <p className="text-xs text-slate-400">{t("admin.documents.all_time")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_documents_all_time")}</p>
                 </div>
                 <Download className="w-8 h-8 text-slate-600" />
               </div>
@@ -360,32 +360,32 @@ export default function DocumentManagement() {
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-4 flex-1">
             <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-              <Input placeholder={t("admin.documents.search_documents")} value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-slate-500 dark:text-slate-400" />
+              <Input placeholder={t("admin_documents_search_documents")} value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
             </div>
             <Select value={filterCategory} onValueChange={setFilterCategory}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder={t("admin.documents.category")} />
+                <SelectValue placeholder={t("admin_documents_category")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.documents.all_categories")}</SelectItem>
-                <SelectItem value="Legal">{t("admin.documents.legal")}</SelectItem>
-                <SelectItem value="Media">{t("admin.documents.media")}</SelectItem>
-                <SelectItem value="Financial">{t("admin.documents.financial")}</SelectItem>
-                <SelectItem value="Template">{t("admin.documents.template")}</SelectItem>
+                <SelectItem value="all">{t("admin_documents_all_categories")}</SelectItem>
+                <SelectItem value="Legal">{t("admin_documents_legal")}</SelectItem>
+                <SelectItem value="Media">{t("admin_documents_media")}</SelectItem>
+                <SelectItem value="Financial">{t("admin_documents_financial")}</SelectItem>
+                <SelectItem value="Template">{t("admin_documents_template")}</SelectItem>
               </SelectContent>
             </Select>
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="w-[120px]">
-                <SelectValue placeholder={t("admin.documents.type")} />
+                <SelectValue placeholder={t("admin_documents_type")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("admin.documents.all_types")}</SelectItem>
-                <SelectItem value="PDF">{t("admin.documents.pdf")}</SelectItem>
-                <SelectItem value="DOCX">{t("admin.documents.docx")}</SelectItem>
-                <SelectItem value="XLSX">{t("admin.documents.xlsx")}</SelectItem>
-                <SelectItem value="ZIP">{t("admin.documents.zip")}</SelectItem>
-                <SelectItem value="MP4">{t("admin.documents.mp4")}</SelectItem>
+                <SelectItem value="all">{t("admin_documents_all_types")}</SelectItem>
+                <SelectItem value="PDF">{t("admin_documents_pdf")}</SelectItem>
+                <SelectItem value="DOCX">{t("admin_documents_docx")}</SelectItem>
+                <SelectItem value="XLSX">{t("admin_documents_xlsx")}</SelectItem>
+                <SelectItem value="ZIP">{t("admin_documents_zip")}</SelectItem>
+                <SelectItem value="MP4">{t("admin_documents_mp4")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -394,36 +394,36 @@ export default function DocumentManagement() {
               <FileText className="w-4 h-4 mr-2" />AI Contract
             </Button>
             <Button onClick={() => setFolderDialogOpen(true)} variant="outline">
-              <Folder className="w-4 h-4 mr-2" />{t("admin.documents.new_folder")}</Button>
+              <Folder className="w-4 h-4 mr-2" />{t("admin_documents_new_folder")}</Button>
             <Button onClick={() => setUploadDialogOpen(true)}>
-              <Upload className="w-4 h-4 mr-2" />{t("admin.documents.upload")}</Button>
+              <Upload className="w-4 h-4 mr-2" />{t("admin_documents_upload")}</Button>
           </div>
         </div>
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="documents">{t("admin.documents.documents")}</TabsTrigger>
-            <TabsTrigger value="folders">{t("admin.documents.folders")}</TabsTrigger>
+            <TabsTrigger value="documents">{t("admin_documents_documents")}</TabsTrigger>
+            <TabsTrigger value="folders">{t("admin_documents_folders")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="documents" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>{t("admin.documents.documents")}{filteredDocuments.length})</CardTitle>
-                <CardDescription>{t("admin.documents.manage_and_organize_your")}</CardDescription>
+                <CardTitle>{t("admin_documents_documents")}{filteredDocuments.length})</CardTitle>
+                <CardDescription>{t("admin_documents_manage_and_organize_your")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("admin.documents.name")}</TableHead>
-                      <TableHead>{t("admin.documents.type")}</TableHead>
-                      <TableHead>{t("admin.documents.category")}</TableHead>
-                      <TableHead>{t("admin.documents.size")}</TableHead>
-                      <TableHead>{t("admin.documents.uploaded_by")}</TableHead>
-                      <TableHead>{t("admin.documents.downloads")}</TableHead>
-                      <TableHead>{t("admin.documents.actions")}</TableHead>
+                      <TableHead>{t("admin_documents_name")}</TableHead>
+                      <TableHead>{t("admin_documents_type")}</TableHead>
+                      <TableHead>{t("admin_documents_category")}</TableHead>
+                      <TableHead>{t("admin_documents_size")}</TableHead>
+                      <TableHead>{t("admin_documents_uploaded_by")}</TableHead>
+                      <TableHead>{t("admin_documents_downloads")}</TableHead>
+                      <TableHead>{t("admin_documents_actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -440,7 +440,7 @@ export default function DocumentManagement() {
                             {getFileIcon(document.type)}
                             <div>
                               <div className="font-medium">{document.name}</div>
-                              <div className="flex items-center gap-2 text-xs text-slate-400">
+                              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                                 <span>v{document.version}</span>
                                 {document.isEncrypted && <Lock className="w-3 h-3" />}
                                 {document.isPublic && <Unlock className="w-3 h-3" />}
@@ -485,20 +485,20 @@ export default function DocumentManagement() {
                                 <span className="text-indigo-400 font-medium">AI Analiz (OCR)</span>
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => downloadDocument(document)}>
-                                <Download className="w-4 h-4 mr-2" />{t("admin.documents.download")}</DropdownMenuItem>
+                                <Download className="w-4 h-4 mr-2" />{t("admin_documents_download")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Eye className="w-4 h-4 mr-2" />{t("admin.documents.preview")}</DropdownMenuItem>
+                                <Eye className="w-4 h-4 mr-2" />{t("admin_documents_preview")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Share2 className="w-4 h-4 mr-2" />{t("admin.documents.share")}</DropdownMenuItem>
+                                <Share2 className="w-4 h-4 mr-2" />{t("admin_documents_share")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Edit className="w-4 h-4 mr-2" />{t("admin.documents.edit")}</DropdownMenuItem>
+                                <Edit className="w-4 h-4 mr-2" />{t("admin_documents_edit")}</DropdownMenuItem>
                               <DropdownMenuItem onClick={() => toggleDocumentVisibility(document)}>
                                 {document.isPublic ? <>
-                                    <Lock className="w-4 h-4 mr-2" />{t("admin.documents.make_private")}</> : <>
-                                    <Unlock className="w-4 h-4 mr-2" />{t("admin.documents.make_public")}</>}
+                                    <Lock className="w-4 h-4 mr-2" />{t("admin_documents_make_private")}</> : <>
+                                    <Unlock className="w-4 h-4 mr-2" />{t("admin_documents_make_public")}</>}
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => deleteDocument(document.id)} className="text-red-600">
-                                <Trash2 className="w-4 h-4 mr-2" />{t("admin.documents.delete")}</DropdownMenuItem>
+                                <Trash2 className="w-4 h-4 mr-2" />{t("admin_documents_delete")}</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
@@ -516,30 +516,30 @@ export default function DocumentManagement() {
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        {folder.isPublic ? <FolderOpen className="w-5 h-5 text-slate-600" /> : <Folder className="w-5 h-5 text-slate-400" />}
+                        {folder.isPublic ? <FolderOpen className="w-5 h-5 text-slate-600" /> : <Folder className="w-5 h-5 text-slate-500 dark:text-slate-400" />}
                         <span className="font-medium">{folder.name}</span>
                       </div>
-                      {folder.isPublic && <Badge variant="outline">{t("admin.documents.public")}</Badge>}
+                      {folder.isPublic && <Badge variant="outline">{t("admin_documents_public")}</Badge>}
                     </div>
-                    <div className="space-y-2 text-sm text-slate-400">
+                    <div className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                       <div className="flex justify-between">
-                        <span>{t("admin.documents.documents")}</span>
+                        <span>{t("admin_documents_documents")}</span>
                         <span className="font-medium">{folder.documentCount}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>{t("admin.documents.size")}</span>
+                        <span>{t("admin_documents_size")}</span>
                         <span className="font-medium">{formatFileSize(folder.size)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>{t("admin.documents.created")}</span>
+                        <span>{t("admin_documents_created")}</span>
                         <span className="font-medium">{new Date(folder.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
                     <div className="flex justify-end gap-2 mt-4">
                       <Button variant="outline" size="sm">
-                        <Eye className="w-4 h-4 mr-2" />{t("admin.documents.open")}</Button>
+                        <Eye className="w-4 h-4 mr-2" />{t("admin_documents_open")}</Button>
                       <Button variant="outline" size="sm">
-                        <Edit className="w-4 h-4 mr-2" />{t("admin.documents.edit")}</Button>
+                        <Edit className="w-4 h-4 mr-2" />{t("admin_documents_edit")}</Button>
                     </div>
                   </CardContent>
                 </Card>)}
@@ -552,16 +552,16 @@ export default function DocumentManagement() {
       <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("admin.documents.upload_document")}</DialogTitle>
-            <DialogDescription>{t("admin.documents.upload_a_new_document")}</DialogDescription>
+            <DialogTitle>{t("admin_documents_upload_document")}</DialogTitle>
+            <DialogDescription>{t("admin_documents_upload_a_new_document")}</DialogDescription>
           </DialogHeader>
           <div className="py-4 space-y-4">
             <div className="space-y-2">
-              <Label>{t("admin.documents.select_file")}</Label>
-              <div className="border-2 border-dashed border-white/10 rounded-lg p-6 text-center">
-                <Upload className="w-8 h-8 mx-auto text-slate-400 mb-2" />
-                <p className="text-sm text-slate-400">{t("admin.documents.click_to_upload_or")}</p>
-                <p className="text-xs text-slate-400">{t("admin.documents.pdf_docx_xlsx_zip")}</p>
+              <Label>{t("admin_documents_select_file")}</Label>
+              <div className="border-2 border-dashed border-slate-200 dark:border-white/10 rounded-lg p-6 text-center">
+                <Upload className="w-8 h-8 mx-auto text-slate-500 dark:text-slate-400 mb-2" />
+                <p className="text-sm text-slate-500 dark:text-slate-400">{t("admin_documents_click_to_upload_or")}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_documents_pdf_docx_xlsx_zip")}</p>
               </div>
             </div>
             <div className="space-y-2">
@@ -575,35 +575,35 @@ export default function DocumentManagement() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.documents.category")}</Label>
+              <Label>{t("admin_documents_category")}</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("admin.documents.select_category")} />
+                  <SelectValue placeholder={t("admin_documents_select_category")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Legal">{t("admin.documents.legal")}</SelectItem>
-                  <SelectItem value="Media">{t("admin.documents.media")}</SelectItem>
-                  <SelectItem value="Financial">{t("admin.documents.financial")}</SelectItem>
-                  <SelectItem value="Template">{t("admin.documents.template")}</SelectItem>
+                  <SelectItem value="Legal">{t("admin_documents_legal")}</SelectItem>
+                  <SelectItem value="Media">{t("admin_documents_media")}</SelectItem>
+                  <SelectItem value="Financial">{t("admin_documents_financial")}</SelectItem>
+                  <SelectItem value="Template">{t("admin_documents_template")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.documents.tags")}</Label>
-              <Input placeholder={t("admin.documents.enter_tags_separated_by")} />
+              <Label>{t("admin_documents_tags")}</Label>
+              <Input placeholder={t("admin_documents_enter_tags_separated_by")} />
             </div>
             <div className="flex items-center space-x-2">
               <Switch />
-              <Label>{t("admin.documents.make_this_document_public")}</Label>
+              <Label>{t("admin_documents_make_this_document_public")}</Label>
             </div>
             <div className="flex items-center space-x-2">
               <Switch />
-              <Label>{t("admin.documents.encrypt_this_document")}</Label>
+              <Label>{t("admin_documents_encrypt_this_document")}</Label>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setUploadDialogOpen(false)}>{t("admin.documents.cancel")}</Button>
-            <Button>{t("admin.documents.upload_document")}</Button>
+            <Button variant="outline" onClick={() => setUploadDialogOpen(false)}>{t("admin_documents_cancel")}</Button>
+            <Button>{t("admin_documents_upload_document")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -612,22 +612,22 @@ export default function DocumentManagement() {
       <Dialog open={folderDialogOpen} onOpenChange={setFolderDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("admin.documents.create_new_folder")}</DialogTitle>
-            <DialogDescription>{t("admin.documents.create_a_new_folder")}</DialogDescription>
+            <DialogTitle>{t("admin_documents_create_new_folder")}</DialogTitle>
+            <DialogDescription>{t("admin_documents_create_a_new_folder")}</DialogDescription>
           </DialogHeader>
           <div className="py-4 space-y-4">
             <div className="space-y-2">
-              <Label>{t("admin.documents.folder_name")}</Label>
-              <Input placeholder={t("admin.documents.enter_folder_name")} />
+              <Label>{t("admin_documents_folder_name")}</Label>
+              <Input placeholder={t("admin_documents_enter_folder_name")} />
             </div>
             <div className="space-y-2">
-              <Label>{t("admin.documents.parent_folder_optional")}</Label>
+              <Label>{t("admin_documents_parent_folder_optional")}</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("admin.documents.select_parent_folder")} />
+                  <SelectValue placeholder={t("admin_documents_select_parent_folder")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{t("admin.documents.root_level")}</SelectItem>
+                  <SelectItem value="">{t("admin_documents_root_level")}</SelectItem>
                   {folders.map(folder => <SelectItem key={folder.id} value={folder.id}>
                       {folder.name}
                     </SelectItem>)}
@@ -636,12 +636,12 @@ export default function DocumentManagement() {
             </div>
             <div className="flex items-center space-x-2">
               <Switch />
-              <Label>{t("admin.documents.make_this_folder_public")}</Label>
+              <Label>{t("admin_documents_make_this_folder_public")}</Label>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setFolderDialogOpen(false)}>{t("admin.documents.cancel")}</Button>
-            <Button>{t("admin.documents.create_folder")}</Button>
+            <Button variant="outline" onClick={() => setFolderDialogOpen(false)}>{t("admin_documents_cancel")}</Button>
+            <Button>{t("admin_documents_create_folder")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -657,7 +657,7 @@ export default function DocumentManagement() {
         <DialogContent className="max-w-2xl bg-card border-border text-card-foreground">
           <DialogHeader>
             <DialogTitle>AI Contract Wizard</DialogTitle>
-            <DialogDescription className="text-slate-400">
+            <DialogDescription className="text-slate-500 dark:text-slate-400">
               {contractWizardStep === 1 && "Generate a localized real estate contract."}
               {contractWizardStep === 2 && "Review and export your contract."}
               {contractWizardStep === 3 && "Securely store property media for this contract."}
@@ -670,11 +670,11 @@ export default function DocumentManagement() {
               <>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="text-slate-400">Country Code (e.g. TR, US, UK)</Label>
+                    <Label className="text-slate-500 dark:text-slate-400">Country Code (e.g. TR, US, UK)</Label>
                     <Input id="contract-country" defaultValue="TR" className="bg-background border-border text-foreground" />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-slate-400">Contract Type</Label>
+                    <Label className="text-slate-500 dark:text-slate-400">Contract Type</Label>
                     <Select defaultValue="SALES">
                       <SelectTrigger id="contract-type" className="bg-background border-border text-foreground"><SelectValue /></SelectTrigger>
                       <SelectContent className="bg-card border-border text-card-foreground">
@@ -699,7 +699,7 @@ export default function DocumentManagement() {
                   <CheckCircle className="w-12 h-12" />
                 </div>
                 <h3 className="text-xl font-bold">Contract Ready!</h3>
-                <p className="text-slate-400 text-center max-w-sm">Your AI-generated contract is ready. Choose a format to download.</p>
+                <p className="text-slate-500 dark:text-slate-400 text-center max-w-sm">Your AI-generated contract is ready. Choose a format to download.</p>
                 <div className="flex gap-4">
                   <Button variant="outline" className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10" onClick={() => {
                     const blob = new Blob([contractResult], { type: 'application/pdf' });
@@ -737,7 +737,7 @@ export default function DocumentManagement() {
                     <Upload className="w-8 h-8" />
                   </div>
                   <h3 className="text-lg font-bold mb-2">Drag & Drop Media</h3>
-                  <p className="text-sm text-slate-400 text-center max-w-xs mb-6">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-xs mb-6">
                     Upload MP4 videos or high-res images to the secure media vault.
                   </p>
                   <Button variant="secondary">Browse Files</Button>

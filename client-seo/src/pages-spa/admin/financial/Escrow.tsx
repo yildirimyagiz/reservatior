@@ -17,22 +17,22 @@ import { escrowApi, type EscrowAccount } from "@/lib/api/escrow";
 import { MoreHorizontal, CheckCircle2, AlertCircle, Loader2, RefreshCw } from "lucide-react";
 const STATUS = {
   HOLDING: {
-    label: t("admin.financial.holding"),
+    label: t("admin_financial_holding"),
     cls: "bg-slate-100 text-slate-700",
     icon: "Clock"
   },
   RELEASED: {
-    label: t("admin.financial.released"),
+    label: t("admin_financial_released"),
     cls: "bg-green-100 text-green-700",
     icon: "CheckCircle2"
   },
   DISPUTED: {
-    label: t("admin.financial.disputed"),
+    label: t("admin_financial_disputed"),
     cls: "bg-red-100 text-red-700",
     icon: "AlertCircle"
   },
   REFUNDED: {
-    label: t("admin.financial.refunded"),
+    label: t("admin_financial_refunded"),
     cls: "bg-yellow-100 text-yellow-700",
     icon: "DollarSign"
   }
@@ -64,8 +64,8 @@ export default function Escrow() {
       setAccounts(Array.isArray(response) ? response : response?.data || []);
     } catch (error) {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_load_escrow"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_load_escrow"),
         variant: "destructive"
       });
     } finally {
@@ -89,13 +89,13 @@ export default function Escrow() {
       });
       setCreateOpen(false);
       toast({
-        title: t("admin.financial.escrow_account_created")
+        title: t("admin_financial_escrow_account_created")
       });
       fetchAccounts();
     } catch (error) {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_create_escrow"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_create_escrow"),
         variant: "destructive"
       });
     }
@@ -110,13 +110,13 @@ export default function Escrow() {
         currency: e.currency
       });
       toast({
-        title: t("admin.financial.funds_released")
+        title: t("admin_financial_funds_released")
       });
       fetchAccounts();
     } catch (error) {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_release_funds"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_release_funds"),
         variant: "destructive"
       });
     }
@@ -128,17 +128,17 @@ export default function Escrow() {
         openedBy: "SYSTEM_USER",
         // Mocked user
         disputeType: "SECURITY_DEPOSIT_DISPUTE",
-        description: t("admin.financial.manually_opened_dispute")
+        description: t("admin_financial_manually_opened_dispute")
       });
       toast({
-        title: t("admin.financial.dispute_opened"),
+        title: t("admin_financial_dispute_opened"),
         variant: "destructive"
       });
       fetchAccounts();
     } catch (error) {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_open_dispute"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_open_dispute"),
         variant: "destructive"
       });
     }
@@ -154,25 +154,25 @@ export default function Escrow() {
       t
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
-      <div className="space-y-1.5"><Label>{t("admin.financial.org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
           ...form,
           orgId: e.target.value
         })} required /></div>
-      <div className="space-y-1.5"><Label>{t("admin.financial.reservation_id")}</Label><Input value={form.reservationId} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_reservation_id")}</Label><Input value={form.reservationId} onChange={e => setForm({
           ...form,
           reservationId: e.target.value
         })} required /></div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("admin.financial.total_amount")}</Label><Input type="number" value={form.totalAmount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_total_amount")}</Label><Input type="number" value={form.totalAmount} onChange={e => setForm({
             ...form,
             totalAmount: e.target.value
           })} required min="0" /></div>
-        <div className="space-y-1.5"><Label>{t("admin.financial.deposit_amount")}</Label><Input type="number" value={form.depositAmount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_deposit_amount")}</Label><Input type="number" value={form.depositAmount} onChange={e => setForm({
             ...form,
             depositAmount: e.target.value
           })} required min="0" /></div>
       </div>
-      <div className="space-y-1.5"><Label>{t("admin.financial.currency")}</Label><Input value={form.currency} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_currency")}</Label><Input value={form.currency} onChange={e => setForm({
           ...form,
           currency: e.target.value
         })} /></div>
@@ -181,25 +181,25 @@ export default function Escrow() {
   };
   const holdingTotal = accounts.filter(e => e.status === "HOLDING").reduce((s, e) => s + (e.depositAmount || 0), 0);
   return <>
-      <PageShell title={t("admin.financial.escrow_accounts")} description={t("admin.financial.manage_escrow_funds_releases")} createLabel={t("admin.financial.create_escrow", "Güvenli Ödeme Oluştur")} onCreateClick={() => {
+      <PageShell title={t("admin_financial_escrow_accounts")} description={t("admin_financial_manage_escrow_funds_releases")} createLabel={t("admin.financial.create_escrow", "Güvenli Ödeme Oluştur")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.financial.search_by_reservation", "Rezervasyon ile ara...")} stats={[{
-      label: t("admin.financial.accounts"),
+      label: t("admin_financial_accounts"),
       value: accounts.length
     }, {
-      label: t("admin.financial.holding"),
+      label: t("admin_financial_holding"),
       value: accounts.filter(e => e.status === "HOLDING").length
     }, {
-      label: t("admin.financial.disputed"),
+      label: t("admin_financial_disputed"),
       value: accounts.filter(e => e.status === "DISPUTED").length
     }, {
-      label: t("admin.financial.held_funds"),
+      label: t("admin_financial_held_funds"),
       value: `$${holdingTotal.toLocaleString()}`
     }]} actions={<div className="flex items-center gap-2">
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-36 h-9"><SelectValue placeholder={t("admin.financial.status")} /></SelectTrigger>
-              <SelectContent><SelectItem value="all">{t("admin.financial.all")}</SelectItem>{Object.entries(STATUS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}</SelectContent>
+              <SelectTrigger className="w-36 h-9"><SelectValue placeholder={t("admin_financial_status")} /></SelectTrigger>
+              <SelectContent><SelectItem value="all">{t("admin_financial_all")}</SelectItem>{Object.entries(STATUS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}</SelectContent>
             </Select>
             <Button variant="outline" size="sm" onClick={fetchAccounts} disabled={loading}><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></Button>
           </div>}>
@@ -207,17 +207,17 @@ export default function Escrow() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("admin.financial.reservation")}</TableHead>
-                <TableHead>{t("admin.financial.total_amount")}</TableHead>
-                <TableHead>{t("admin.financial.deposit")}</TableHead>
-                <TableHead>{t("admin.financial.currency")}</TableHead>
-                <TableHead>{t("admin.financial.held_at")}</TableHead>
-                <TableHead>{t("admin.financial.status")}</TableHead>
+                <TableHead>{t("admin_financial_reservation")}</TableHead>
+                <TableHead>{t("admin_financial_total_amount")}</TableHead>
+                <TableHead>{t("admin_financial_deposit")}</TableHead>
+                <TableHead>{t("admin_financial_currency")}</TableHead>
+                <TableHead>{t("admin_financial_held_at")}</TableHead>
+                <TableHead>{t("admin_financial_status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading ? <TableRow><TableCell colSpan={7} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin.financial.no_escrow_accounts_found")}</TableCell></TableRow> : filtered.map(e => {
+              {loading ? <TableRow><TableCell colSpan={7} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_escrow_accounts_found")}</TableCell></TableRow> : filtered.map(e => {
               const s = STATUS[e.status as keyof typeof STATUS] || {
                 label: e.status,
                 cls: "bg-white/5"
@@ -236,8 +236,8 @@ export default function Escrow() {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-40">
-                            {e.status === "HOLDING" && <DropdownMenuItem onClick={() => handleRelease(e)}><CheckCircle2 className="w-4 h-4 mr-2" />{t("admin.financial.release_funds")}</DropdownMenuItem>}
-                            {e.status === "HOLDING" && <DropdownMenuItem onClick={() => handleDispute(e)} className="text-destructive font-medium"><AlertCircle className="w-4 h-4 mr-2" />{t("admin.financial.open_dispute")}</DropdownMenuItem>}
+                            {e.status === "HOLDING" && <DropdownMenuItem onClick={() => handleRelease(e)}><CheckCircle2 className="w-4 h-4 mr-2" />{t("admin_financial_release_funds")}</DropdownMenuItem>}
+                            {e.status === "HOLDING" && <DropdownMenuItem onClick={() => handleDispute(e)} className="text-destructive font-medium"><AlertCircle className="w-4 h-4 mr-2" />{t("admin_financial_open_dispute")}</DropdownMenuItem>}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -248,7 +248,7 @@ export default function Escrow() {
         </div>
       </PageShell>
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="sm:max-w-md"><DialogHeader><DialogTitle>{t("admin.financial.create_escrow_account")}</DialogTitle></DialogHeader><EscrowForm onSubmit={handleCreate} label={t("admin.financial.create")} /></DialogContent>
+        <DialogContent className="sm:max-w-md"><DialogHeader><DialogTitle>{t("admin_financial_create_escrow_account")}</DialogTitle></DialogHeader><EscrowForm onSubmit={handleCreate} label={t("admin_financial_create")} /></DialogContent>
       </Dialog>
     </>;
 }

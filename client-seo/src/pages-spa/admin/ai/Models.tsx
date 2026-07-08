@@ -130,44 +130,44 @@ export default function AIModels() {
   return <div className="min-h-screen p-4 md:p-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">{t("admin.ai.ai_models")}</h1>
-          <p className="text-slate-400">{t("admin.ai.manage_and_monitor_artificial")}</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t("admin_ai_ai_models")}</h1>
+          <p className="text-slate-500 dark:text-slate-400">{t("admin_ai_manage_and_monitor_artificial")}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="border-white/10 text-slate-400">
-            <RefreshCw className="w-4 h-4 mr-2" />{t("admin.ai.refresh_models")}
+          <Button variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">
+            <RefreshCw className="w-4 h-4 mr-2" />{t("admin_ai_refresh_models")}
           </Button>
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
             <DialogTrigger asChild>
               <Button>Register Model</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px] bg-white/5 border-white/10 text-white">
+            <DialogContent className="sm:max-w-[500px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
                 <DialogTitle>Register New AI Model</DialogTitle>
-                <DialogDescription className="text-slate-400">
+                <DialogDescription className="text-slate-500 dark:text-slate-400">
                   Register a new model endpoint and metadata.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right text-xs text-slate-400">Model Name</Label>
-                  <Input className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={newModel.modelName} onChange={e => setNewModel({...newModel, modelName: e.target.value})} placeholder="Property Valuator" />
+                  <Label className="text-right text-xs text-slate-500 dark:text-slate-400">Model Name</Label>
+                  <Input className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newModel.modelName} onChange={e => setNewModel({...newModel, modelName: e.target.value})} placeholder="Property Valuator" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right text-xs text-slate-400">Version</Label>
-                  <Input className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={newModel.modelVersion} onChange={e => setNewModel({...newModel, modelVersion: e.target.value})} placeholder="v1.0" />
+                  <Label className="text-right text-xs text-slate-500 dark:text-slate-400">Version</Label>
+                  <Input className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newModel.modelVersion} onChange={e => setNewModel({...newModel, modelVersion: e.target.value})} placeholder="v1.0" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right text-xs text-slate-400">Type</Label>
-                  <Input className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={newModel.modelType} onChange={e => setNewModel({...newModel, modelType: e.target.value})} placeholder="Regression" />
+                  <Label className="text-right text-xs text-slate-500 dark:text-slate-400">Type</Label>
+                  <Input className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newModel.modelType} onChange={e => setNewModel({...newModel, modelType: e.target.value})} placeholder="Regression" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right text-xs text-slate-400">Provider</Label>
-                  <Input className="col-span-3 h-10 bg-white/5 border-white/10 text-white" value={newModel.provider} onChange={e => setNewModel({...newModel, provider: e.target.value})} placeholder="OpenAI" />
+                  <Label className="text-right text-xs text-slate-500 dark:text-slate-400">Provider</Label>
+                  <Input className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newModel.provider} onChange={e => setNewModel({...newModel, provider: e.target.value})} placeholder="OpenAI" />
                 </div>
               </div>
               <DialogFooter>
-                <Button variant="outline" className="border-white/10 text-slate-400" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+                <Button variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400" onClick={() => setIsAddOpen(false)}>Cancel</Button>
                 <Button onClick={() => createMutation.mutate(newModel)} disabled={createMutation.isPending}>
                   {createMutation.isPending ? "Saving..." : "Register"}
                 </Button>
@@ -178,55 +178,55 @@ export default function AIModels() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {displayModels.map((model, i) => <Card key={i} className="bg-white/5 border-white/10">
+        {displayModels.map((model, i) => <Card key={i} className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg text-white">{model.name}</CardTitle>
+                <CardTitle className="text-lg text-slate-900 dark:text-white">{model.name}</CardTitle>
                 <Badge variant={model.status === "active" ? "default" : model.status === "training" ? "secondary" : "outline"}>
                   {model.status}
                 </Badge>
               </div>
-              <p className="text-sm text-slate-400">{model.type}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{model.type}</p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="font-medium text-slate-400">{t("admin.ai.accuracy")}</p>
-                  <p className="text-white">{model.accuracy}</p>
+                  <p className="font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_accuracy")}</p>
+                  <p className="text-slate-900 dark:text-white">{model.accuracy}</p>
                 </div>
                 <div>
-                  <p className="font-medium text-slate-400">{t("admin.ai.predictions")}</p>
-                  <p className="text-white">{model.predictions}</p>
+                  <p className="font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_predictions")}</p>
+                  <p className="text-slate-900 dark:text-white">{model.predictions}</p>
                 </div>
               </div>
 
               <div className="text-sm">
-                <p className="font-medium text-slate-400">{t("admin.ai.last_trained")}</p>
-                <p className="text-white">{model.lastTrained}</p>
+                <p className="font-medium text-slate-500 dark:text-slate-400">{t("admin_ai_last_trained")}</p>
+                <p className="text-slate-900 dark:text-white">{model.lastTrained}</p>
               </div>
 
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" className="border-white/10 text-slate-400">
-                  <Settings className="w-4 h-4 mr-2" />{t("admin.ai.configure")}</Button>
-                <Button size="sm" variant="outline" className="border-white/10 text-slate-400">
+                <Button size="sm" variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">
+                  <Settings className="w-4 h-4 mr-2" />{t("admin_ai_configure")}</Button>
+                <Button size="sm" variant="outline" className="border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400">
                   {model.status === "active" ? <>
-                      <Pause className="w-4 h-4 mr-2" />{t("admin.ai.pause")}</> : <>
-                      <Play className="w-4 h-4 mr-2" />{t("admin.ai.start")}</>}
+                      <Pause className="w-4 h-4 mr-2" />{t("admin_ai_pause")}</> : <>
+                      <Play className="w-4 h-4 mr-2" />{t("admin_ai_start")}</>}
                 </Button>
               </div>
             </CardContent>
           </Card>)}
       </div>
 
-      <Card className="bg-white/5 border-white/10">
+      <Card className="bg-white/5 border-slate-200 dark:border-white/10">
         <CardHeader>
-          <CardTitle className="text-white">{t("admin.ai.model_training_queue")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_ai_model_training_queue")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {trainingQueue.map((training, i) => <div key={i} className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <p className="font-medium text-white">{training.model}</p>
+                  <p className="font-medium text-slate-900 dark:text-white">{training.model}</p>
                   <Badge variant={training.status === "completed" ? "default" : "secondary"}>
                     {training.status}
                   </Badge>

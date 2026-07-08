@@ -45,65 +45,65 @@ export function AdminLayout({
   } = useTranslation();
   
   const adminNavigation: NavItem[] = [{
-    title: t("admin.layout.switch_to_client_app"),
+    title: t("admin_layout_switch_to_client_app"),
     href: "/dashboard",
     icon: ArrowRightLeft
   }, {
-    title: t("admin.layout.admin_dashboard"),
+    title: t("admin_layout_admin_dashboard"),
     href: "/admin/dashboard",
     icon: LayoutDashboard
   }, {
-    title: t("admin.layout.property_inventory"),
+    title: t("admin_layout_property_inventory"),
     icon: Building2,
     requiredPermission: "PROPERTIES_VIEW_ALL",
     children: [{
-      title: t("admin.layout.portfolio_neural_hub"),
+      title: t("admin_layout_portfolio_neural_hub"),
       href: "/admin/properties",
       icon: Zap,
       badge: "AI"
     }, {
-      title: t("admin.layout.all_properties"),
+      title: t("admin_layout_all_properties"),
       href: "/admin/inventory",
       icon: Building2
     }, {
-      title: t("admin.layout.ownership_verifications"),
+      title: t("admin_layout_ownership_verifications"),
       href: "/admin/ownership-verification",
       icon: ShieldCheck,
       requiredPermission: "PROPERTIES_MANAGE_ALL"
     }, {
-      title: t("admin.layout.channel_manager"),
+      title: t("admin_layout_channel_manager"),
       href: "/admin/channels",
       icon: Share2,
       requiredPermission: "ORG_MANAGE"
     }, {
-      title: t("admin.layout.facilities_management"),
+      title: t("admin_layout_facilities_management"),
       href: "/admin/inventory/facilities",
       icon: Globe
     }]
   }, {
-    title: t("admin.layout.bookings_guests"),
+    title: t("admin_layout_bookings_guests"),
     icon: CalendarCheck,
     requiredPermission: "BOOKINGS_VIEW_ALL",
     children: [{
-      title: t("admin.layout.all_bookings"),
+      title: t("admin_layout_all_bookings"),
       href: "/admin/bookings",
       icon: CalendarCheck
     }, {
-      title: t("admin.layout.guest_database"),
+      title: t("admin_layout_guest_database"),
       href: "/admin/guests",
       icon: UsersRound,
       requiredPermission: "USERS_MANAGE"
     }]
   }, {
-    title: t("admin.layout.users_security"),
+    title: t("admin_layout_users_security"),
     icon: Shield,
     requiredPermission: "USERS_MANAGE",
     children: [{
-      title: t("admin.layout.system_users"),
+      title: t("admin_layout_system_users"),
       href: "/admin/users",
       icon: UsersRound
     }, {
-      title: t("admin.layout.agent_directory"),
+      title: t("admin_layout_agent_directory"),
       href: "/admin/agents",
       icon: Star
     }, {
@@ -112,106 +112,106 @@ export function AdminLayout({
       icon: Building2,
       superOnly: true
     }, {
-      title: t("admin.layout.roles_access"),
+      title: t("admin_layout_roles_access"),
       href: "/admin/roles",
       icon: Shield,
       superOnly: true
     }, {
-      title: t("admin.layout.security_screenings"),
+      title: t("admin_layout_security_screenings"),
       href: "/admin/security-screening",
       icon: ShieldCheck
     }, {
-      title: t("admin.layout.security_events"),
+      title: t("admin_layout_security_events"),
       href: "/admin/security",
       icon: AlertTriangle,
       superOnly: true
     }, {
-      title: t("admin.layout.advanced_security"),
+      title: t("admin_layout_advanced_security"),
       href: "/admin/advanced-security",
       icon: Shield,
       superOnly: true
     }, {
-      title: t("admin.layout.audit_logs"),
+      title: t("admin_layout_audit_logs"),
       href: "/admin/audit-logs",
       icon: FileText,
       superOnly: true
     }, {
-      title: t("admin.layout.api_tokens"),
+      title: t("admin_layout_api_tokens"),
       href: "/admin/api-tokens",
       icon: Zap,
       superOnly: true
     }, {
-      title: t("admin.layout.active_sessions"),
+      title: t("admin_layout_active_sessions"),
       href: "/admin/sessions",
       icon: UsersRound,
       superOnly: true
     }]
   }, {
-    title: t("admin.layout.legal_compliance"),
+    title: t("admin_layout_legal_compliance"),
     icon: Gavel,
     requiredPermission: "GOV_INTEGRATIONS_MANAGE",
     children: [{
-      title: t("admin.layout.compliance_center"),
+      title: t("admin_layout_compliance_center"),
       href: "/admin/compliance",
       icon: ShieldCheck
     }, {
-      title: t("admin.layout.solicitor_management"),
+      title: t("admin_layout_solicitor_management"),
       href: "/admin/solicitors",
       icon: UsersRound
     }, {
-      title: t("admin.layout.immigration_checks"),
+      title: t("admin_layout_immigration_checks"),
       href: "/admin/immigration",
       icon: Globe
     }, {
-      title: t("admin.layout.right_to_rent"),
+      title: t("admin_layout_right_to_rent"),
       href: "/admin/right-to-rent",
       icon: FileText
     }]
   }, {
-    title: t("admin.layout.tenants_leases"),
+    title: t("admin_layout_tenants_leases"),
     icon: FileText,
     requiredPermission: "LEASES_MANAGE_ALL",
     children: [{
-      title: t("admin.layout.tenant_directory"),
+      title: t("admin_layout_tenant_directory"),
       href: "/admin/tenants",
       icon: UsersRound
     }, {
-      title: t("admin.layout.lease_management"),
+      title: t("admin_layout_lease_management"),
       href: "/admin/leases",
       icon: FileText
     }]
   }, {
-    title: t("admin.layout.financials"),
+    title: t("admin_layout_financials"),
     icon: DollarSign,
     requiredPermission: "FINANCE_MANAGE",
     children: [{
-      title: t("admin.layout.financial_reports"),
+      title: t("admin_layout_financial_reports"),
       href: "/admin/financial-reports",
       icon: DollarSign
     }, {
-      title: t("admin.layout.payouts"),
+      title: t("admin_layout_payouts"),
       href: "/admin/payouts",
       icon: Receipt
     }, {
-      title: t("admin.layout.investor_hub"),
+      title: t("admin_layout_investor_hub"),
       href: "/admin/investors",
       icon: Brain
     }, {
-      title: t("admin.layout.escrow"),
+      title: t("admin_layout_escrow"),
       href: "/admin/escrow",
       icon: Shield
     }, {
-      title: t("admin.layout.plans_tiers"),
+      title: t("admin_layout_plans_tiers"),
       href: "/admin/plans",
       icon: Star,
       superOnly: true
     }]
   }, {
-    title: t("admin.layout.ai_automations"),
+    title: t("admin_layout_ai_automations"),
     icon: Brain,
     requiredPermission: "REPORTS_VIEW",
     children: [{
-      title: t("admin.layout.ai_dashboard"),
+      title: t("admin_layout_ai_dashboard"),
       href: "/admin/ai-dashboard",
       icon: LayoutDashboard
     }, {
@@ -219,65 +219,65 @@ export function AdminLayout({
       href: "/client/ai/studio",
       icon: Sparkles
     }, {
-      title: t("admin.layout.ai_models"),
+      title: t("admin_layout_ai_models"),
       href: "/admin/ai-models",
       icon: Brain,
       superOnly: true
     }, {
-      title: t("admin.layout.marketing_automation"),
+      title: t("admin_layout_marketing_automation"),
       href: "/admin/marketing",
       icon: Megaphone
     }, {
-      title: t("admin.layout.scraping_status"),
+      title: t("admin_layout_scraping_status"),
       href: "/admin/scraping",
       icon: Search
     }]
   }, {
-    title: t("admin.layout.integrations_export"),
+    title: t("admin_layout_integrations_export"),
     icon: Download,
     requiredPermission: "EXPORTS_MANAGE",
     children: [{
-      title: t("admin.layout.mls_rules"),
+      title: t("admin_layout_mls_rules"),
       href: "/admin/mls",
       icon: Globe,
       superOnly: true
     }, {
-      title: t("admin.layout.export_jobs"),
+      title: t("admin_layout_export_jobs"),
       href: "/admin/export-jobs",
       icon: Download
     }, {
-      title: t("admin.layout.data_exports"),
+      title: t("admin_layout_data_exports"),
       href: "/admin/exports",
       icon: FileDown
     }]
   }, {
-    title: t("admin.layout.system_setup"),
+    title: t("admin_layout_system_setup"),
     icon: Settings,
     requiredPermission: "SETTINGS_MANAGE",
     children: [{
-      title: t("admin.layout.documents_admin"),
+      title: t("admin_layout_documents_admin"),
       href: "/admin/document-management",
       icon: FileText
     }, {
-      title: t("admin.layout.communication_logs"),
+      title: t("admin_layout_communication_logs"),
       href: "/admin/communication-logs",
       icon: Activity
     }, {
-      title: t("admin.layout.location_db"),
+      title: t("admin_layout_location_db"),
       href: "/admin/location",
       icon: Globe
     }, {
-      title: t("admin.layout.metrics"),
+      title: t("admin_layout_metrics"),
       href: "/admin/metrics",
       icon: BarChart3,
       superOnly: true
     }, {
-      title: t("admin.layout.system_settings"),
+      title: t("admin_layout_system_settings"),
       href: "/admin/system-settings",
       icon: Settings,
       superOnly: true
     }, {
-      title: t("admin.layout.audit_trail"),
+      title: t("admin_layout_audit_trail"),
       href: "/admin/audit-logs",
       icon: Activity
     }]
@@ -322,14 +322,14 @@ export function AdminLayout({
       <div 
         className={cn(
           "flex items-center h-[69px] border-b border-border transition-all duration-300", 
-          sidebarOpen ? "justify-between px-4" : "justify-center px-0 cursor-pointer hover:bg-white/5"
+          sidebarOpen ? "justify-between px-4" : "justify-center px-0 cursor-pointer hover:bg-muted/30"
         )}
         onClick={() => !sidebarOpen && setSidebarOpen(true)}
       >
         <div className="flex items-center overflow-hidden">
           <img src="/logo-r.jpeg" alt="Reservatior Logo" className="w-8 h-8 shrink-0 rounded-lg object-contain bg-white" />
           <span className={cn(
-            "text-lg font-bold text-white tracking-tight whitespace-nowrap transition-all duration-300",
+            "text-lg font-bold text-foreground tracking-tight whitespace-nowrap transition-all duration-300",
             sidebarOpen ? "ml-2 opacity-100 max-w-[150px]" : "ml-0 opacity-0 max-w-0"
           )}>
             Reservatior
@@ -350,7 +350,7 @@ export function AdminLayout({
           const isExpanded = expandedGroups.includes(item.title);
           const anyChildActive = visibleChildren.some(c => isActive(c.href));
           return <div key={item.title}>
-                <button onClick={() => toggleGroup(item.title)} className={cn("w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors", anyChildActive ? "text-primary bg-primary/10 border border-primary/20" : "text-slate-400 hover:text-white hover:bg-white/5")}>
+                <button onClick={() => toggleGroup(item.title)} className={cn("w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors", anyChildActive ? "text-primary bg-primary/10 border border-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-muted/50")}>
                   <item.icon className="w-4 h-4 shrink-0" />
                   {sidebarOpen && <>
                       <span className="flex-1 text-left">{item.title}</span>
@@ -359,7 +359,7 @@ export function AdminLayout({
                 </button>
                 {isExpanded && sidebarOpen && <div className="ml-4 mt-0.5 space-y-0.5 border-l border-border pl-2">
                     {visibleChildren.map(child => <Link key={child.href} to={child.href!}>
-                        <button className={cn("w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors", isActive(child.href) ? "text-primary font-medium bg-primary/10 border border-primary/20" : "text-slate-400 hover:text-white hover:bg-white/5")}>
+                        <button className={cn("w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors", isActive(child.href) ? "text-primary font-medium bg-primary/10 border border-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-muted/50")}>
                           <child.icon className="w-3.5 h-3.5 shrink-0" />
                           <span className="flex-1 text-left">{child.title}</span>
                         </button>
@@ -368,7 +368,7 @@ export function AdminLayout({
               </div>;
         }
         return <Link key={item.href} to={item.href!}>
-              <button className={cn("w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors", isActive(item.href) ? "text-primary bg-primary/20 border border-primary/20" : "text-slate-400 hover:text-white hover:bg-white/5")}>
+              <button className={cn("w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors", isActive(item.href) ? "text-primary bg-primary/20 border border-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-muted/50")}>
                 <item.icon className="w-4 h-4 shrink-0" />
                 {sidebarOpen && <span className="flex-1 text-left">{item.title}</span>}
               </button>
@@ -385,8 +385,8 @@ export function AdminLayout({
             </AvatarFallback>
           </Avatar>
           {sidebarOpen && <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate text-white">{userName}</p>
-              <p className="text-xs text-slate-400 truncate">{userRole}</p>
+              <p className="text-sm font-medium truncate text-foreground">{userName}</p>
+              <p className="text-xs text-muted-foreground truncate">{userRole}</p>
             </div>}
         </div>
       </div>
@@ -409,19 +409,19 @@ export function AdminLayout({
         {/* Floating Oval Top Navbar */}
         <header className="h-16 shrink-0 bg-card/50 backdrop-blur-xl border border-border rounded-full flex items-center justify-between px-6 shadow-sm">
            <div className="flex items-center gap-4">
-              <button className="md:hidden text-slate-400 hover:text-white transition-colors" onClick={() => setMobileSidebarOpen(true)}>
+              <button className="md:hidden text-muted-foreground hover:text-foreground transition-colors" onClick={() => setMobileSidebarOpen(true)}>
                  <LayoutDashboard className="w-5 h-5" />
               </button>
-              <div className="hidden md:flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-2 w-64 md:w-80 transition-colors focus-within:bg-white/10 focus-within:border-white/20">
-                 <Search className="w-4 h-4 text-slate-400 mr-2 shrink-0" />
-                 <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-sm text-white w-full placeholder:text-slate-500" />
+              <div className="hidden md:flex items-center bg-muted/30 border border-border rounded-full px-4 py-2 w-64 md:w-80 transition-colors focus-within:bg-muted/50 focus-within:border-border">
+                 <Search className="w-4 h-4 text-muted-foreground mr-2 shrink-0" />
+                 <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-sm text-foreground w-full placeholder:text-muted-foreground" />
               </div>
            </div>
            
            <div className="flex items-center gap-4">
               {/* Theme Toggle */}
               <button
-                className="relative w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                className="relative w-10 h-10 rounded-full bg-muted/30 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               >
                 <div className="w-4 h-4 flex items-center justify-center">
@@ -435,7 +435,7 @@ export function AdminLayout({
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="relative h-10 px-3 rounded-full bg-white/5 border border-white/10 flex items-center justify-center gap-2 text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+                  <button className="relative h-10 px-3 rounded-full bg-muted/30 border border-border flex items-center justify-center gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
                     <Globe className="w-4 h-4" />
                     <span className="text-xs font-medium uppercase">{currentLang.code}</span>
                   </button>

@@ -28,22 +28,22 @@ const STATUS_CONFIG: Record<string, {
   icon: any;
 }> = {
   paid: {
-    label: t("admin.financial.paid"),
+    label: t("admin_financial_paid"),
     cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     icon: CheckCircle
   },
   pending: {
-    label: t("admin.financial.pending"),
-    cls: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+    label: t("admin_financial_pending"),
+    cls: "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20",
     icon: Clock
   },
   overdue: {
-    label: t("admin.financial.overdue"),
+    label: t("admin_financial_overdue"),
     cls: "bg-red-500/10 text-red-400 border-red-500/20",
     icon: AlertCircle
   },
   draft: {
-    label: t("admin.financial.draft"),
+    label: t("admin_financial_draft"),
     cls: "bg-slate-500/10 text-muted-foreground border-slate-500/20",
     icon: FileText
   }
@@ -138,7 +138,7 @@ export default function FinancialInvoices() {
     paidThisMonth: records.filter(r => r.paymentStatus === 'paid').reduce((s, r) => s + r.amount, 0),
     overdue: records.filter(r => r.paymentStatus === 'overdue').reduce((s, r) => s + r.amount, 0)
   };
-  return <PageShell title={t("admin.financial.invoices")} description={t("admin.financial.manage_and_track_all")}>
+  return <PageShell title={t("admin_financial_invoices")} description={t("admin_financial_manage_and_track_all")}>
       <div className="space-y-10 pb-20 selection:bg-primary/30">
         {/* KPI Neural Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
@@ -156,7 +156,7 @@ export default function FinancialInvoices() {
                 <FileText className="w-10 h-10" />
               </div>
               <CardContent className="p-8">
-                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.financial.totalinvoices")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_totalinvoices")}</p>
                 <h3 className="text-xl font-bold text-foreground leading-none">{stats.total}</h3>
               </CardContent>
             </Card>
@@ -176,7 +176,7 @@ export default function FinancialInvoices() {
                 <Clock className="w-10 h-10" />
               </div>
               <CardContent className="p-8">
-                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.financial.outstanding")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_outstanding")}</p>
                 <h3 className="text-xl font-bold text-orange-400 leading-none">${stats.outstanding.toLocaleString()}</h3>
               </CardContent>
             </Card>
@@ -196,7 +196,7 @@ export default function FinancialInvoices() {
                 <CheckCircle className="w-10 h-10" />
               </div>
               <CardContent className="p-8">
-                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.financial.paidtotal")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_paidtotal")}</p>
                 <h3 className="text-xl font-bold text-emerald-400 leading-none">${stats.paidThisMonth.toLocaleString()}</h3>
               </CardContent>
             </Card>
@@ -216,7 +216,7 @@ export default function FinancialInvoices() {
                 <AlertCircle className="w-10 h-10" />
               </div>
               <CardContent className="p-8">
-                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin.financial.overduedebt")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_overduedebt")}</p>
                 <h3 className="text-xl font-bold text-red-400 leading-none">${stats.overdue.toLocaleString()}</h3>
               </CardContent>
             </Card>
@@ -228,10 +228,10 @@ export default function FinancialInvoices() {
           <div className="flex flex-wrap items-center gap-4 flex-1">
              <div className="relative group min-w-[320px]">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-              <Input placeholder={t("admin.financial.search_invoices")} value={search} onChange={e => setSearch(e.target.value)} className="pl-12 w-full h-12 bg-muted/50 border-border rounded-xl text-foreground placeholder:text-slate-600 font-bold text-[10px] focus:ring-primary/20 transition-all" />
+              <Input placeholder={t("admin_financial_search_invoices")} value={search} onChange={e => setSearch(e.target.value)} className="pl-12 w-full h-12 bg-muted/50 border-border rounded-xl text-foreground placeholder:text-slate-600 font-bold text-[10px] focus:ring-primary/20 transition-all" />
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" onClick={() => setFilterStatus("all")} className={cn("h-12 px-6 rounded-xl text-[10px] font-bold    transition-all", filterStatus === "all" ? "bg-primary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted/50")}>{t("admin.financial.all")}</Button>
+              <Button variant="ghost" onClick={() => setFilterStatus("all")} className={cn("h-12 px-6 rounded-xl text-[10px] font-bold    transition-all", filterStatus === "all" ? "bg-primary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted/50")}>{t("admin_financial_all")}</Button>
               {Object.entries(STATUS_CONFIG).map(([key, config]) => <Button key={key} variant="ghost" onClick={() => setFilterStatus(key)} className={cn("h-12 px-6 rounded-xl text-[10px] font-bold    transition-all", filterStatus === key ? "bg-muted/50 text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted/50")}>
                   <config.icon className="w-4 h-4 mr-2" />
                   {config.label}
@@ -246,7 +246,7 @@ export default function FinancialInvoices() {
                             <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
                               <DialogTrigger asChild>
                                 <Button className="bg-primary hover:bg-primary/90 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] gap-3 shadow-xl shadow-primary/20">
-                                  <Plus className="w-4 h-4" />{t("admin.financial.createinvoice")}</Button>
+                                  <Plus className="w-4 h-4" />{t("admin_financial_createinvoice")}</Button>
                               </DialogTrigger>
                               
                       <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
@@ -319,8 +319,8 @@ export default function FinancialInvoices() {
           <CardHeader className="px-8 py-8 border-b border-border bg-muted/50">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-xl font-bold text-foreground leading-none">{t("admin.financial.invoiceledger")}</CardTitle>
-                <CardDescription className="text-[10px] font-bold text-muted-foreground mt-2">{t("admin.financial.global_billing_and_payment")}</CardDescription>
+                <CardTitle className="text-xl font-bold text-foreground leading-none">{t("admin_financial_invoiceledger")}</CardTitle>
+                <CardDescription className="text-[10px] font-bold text-muted-foreground mt-2">{t("admin_financial_global_billing_and_payment")}</CardDescription>
               </div>
               <Activity className="w-8 h-8 text-primary opacity-20" />
             </div>
@@ -329,17 +329,17 @@ export default function FinancialInvoices() {
             <Table>
               <TableHeader className="bg-muted/50 border-b border-border">
                 <TableRow className="hover:bg-transparent border-none">
-                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin.financial.invoiceid_client")}</TableHead>
-                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin.financial.propertynode")}</TableHead>
-                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin.financial.grossamount")}</TableHead>
-                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin.financial.expirypulse")}</TableHead>
-                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin.financial.matrixstatus")}</TableHead>
+                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin_financial_invoiceid_client")}</TableHead>
+                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin_financial_propertynode")}</TableHead>
+                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin_financial_grossamount")}</TableHead>
+                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin_financial_expirypulse")}</TableHead>
+                  <TableHead className="text-[10px] font-bold px-8 h-16 text-muted-foreground">{t("admin_financial_matrixstatus")}</TableHead>
                   <TableHead className="w-[80px]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {loading ? <TableRow><TableCell colSpan={6} className="text-center py-20"><Loader2 className="w-6 h-6 animate-spin mx-auto text-primary opacity-50" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow>
-                     <TableCell colSpan={6} className="text-center py-20 text-muted-foreground text-[10px] font-bold opacity-30">{t("admin.financial.no_invoice_signatures_found")}</TableCell>
+                     <TableCell colSpan={6} className="text-center py-20 text-muted-foreground text-[10px] font-bold opacity-30">{t("admin_financial_no_invoice_signatures_found")}</TableCell>
                   </TableRow> : filtered.map(r => {
                 const meta = getMeta(r);
                 const status = (r.paymentStatus || 'pending').toLowerCase();
@@ -377,11 +377,11 @@ export default function FinancialInvoices() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl p-2 w-48 shadow-2xl">
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer">
-                                <Download className="w-4 h-4 mr-3 text-slate-400" />{t("admin.financial.downloadpdf")}</DropdownMenuItem>
+                                <Download className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" />{t("admin_financial_downloadpdf")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer">
-                                <Send className="w-4 h-4 mr-3 text-emerald-400" />{t("admin.financial.resendpulse")}</DropdownMenuItem>
+                                <Send className="w-4 h-4 mr-3 text-emerald-400" />{t("admin_financial_resendpulse")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-[10px] font-bold focus:bg-red-500/10 focus:text-red-500 rounded-xl py-3 cursor-pointer">
-                                <Trash2 className="w-4 h-4 mr-3" />{t("admin.financial.terminate")}</DropdownMenuItem>
+                                <Trash2 className="w-4 h-4 mr-3" />{t("admin_financial_terminate")}</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>

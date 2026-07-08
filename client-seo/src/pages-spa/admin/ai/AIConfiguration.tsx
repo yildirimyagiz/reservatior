@@ -89,7 +89,7 @@ const MOCK_MODELS: AIModel[] = [{
   provider: "OPENAI",
   version: "4.0-turbo",
   status: "ACTIVE",
-  description: t("admin.ai.highperformance_text_generation_model"),
+  description: t("admin_ai_highperformance_text_generation_model"),
   capabilities: ["text-generation", "summarization", "translation", "analysis"],
   parameters: {
     temperature: 0.7,
@@ -118,7 +118,7 @@ const MOCK_MODELS: AIModel[] = [{
   provider: "ANTHROPIC",
   version: "3.0-opus",
   status: "ACTIVE",
-  description: t("admin.ai.advanced_reasoning_model_for"),
+  description: t("admin_ai_advanced_reasoning_model_for"),
   capabilities: ["text-generation", "analysis", "reasoning", "coding"],
   parameters: {
     temperature: 0.5,
@@ -145,7 +145,7 @@ const MOCK_MODELS: AIModel[] = [{
   provider: "CUSTOM",
   version: "1.2.0",
   status: "TRAINING",
-  description: t("admin.ai.custom_trained_model_for"),
+  description: t("admin_ai_custom_trained_model_for"),
   capabilities: ["property-analysis", "price-prediction", "market-trends"],
   parameters: {
     confidence: 0.85,
@@ -173,7 +173,7 @@ const MOCK_MODELS: AIModel[] = [{
 const MOCK_WORKFLOWS: AIWorkflow[] = [{
   id: "1",
   name: "Property Description Generator",
-  description: t("admin.ai.generate_compelling_property_descriptions"),
+  description: t("admin_ai_generate_compelling_property_descriptions"),
   trigger: "property_created",
   models: ["1", "2"],
   status: "ACTIVE",
@@ -190,7 +190,7 @@ const MOCK_WORKFLOWS: AIWorkflow[] = [{
 }, {
   id: "2",
   name: "Lead Scoring",
-  description: t("admin.ai.score_and_prioritize_leads"),
+  description: t("admin_ai_score_and_prioritize_leads"),
   trigger: "lead_created",
   models: ["3"],
   status: "ACTIVE",
@@ -299,7 +299,7 @@ export default function AIConfiguration() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.ai.error"),
+        title: t("admin_ai_error"),
         description: error.message,
         variant: "destructive"
       });
@@ -329,7 +329,7 @@ export default function AIConfiguration() {
       case "INACTIVE":
         return "bg-slate-500/10 text-muted-foreground border-none";
       case "TRAINING":
-        return "bg-slate-500/10 text-slate-400 border-none";
+        return "bg-slate-500/10 text-slate-500 dark:text-slate-400 border-none";
       case "ERROR":
       case "UNHEALTHY":
         return "bg-red-500/10 text-red-500 border-none";
@@ -352,9 +352,9 @@ export default function AIConfiguration() {
       case "HUGGING_FACE":
         return <Brain className="w-4 h-4 text-yellow-600" />;
       case "CUSTOM":
-        return <Cpu className="w-4 h-4 text-slate-400" />;
+        return <Cpu className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
       default:
-        return <Brain className="w-4 h-4 text-slate-400" />;
+        return <Brain className="w-4 h-4 text-slate-500 dark:text-slate-400" />;
     }
   };
   const toggleModel = (model: AIModel) => {
@@ -363,8 +363,8 @@ export default function AIConfiguration() {
       data: { status: model.status === "ACTIVE" ? "INACTIVE" : "ACTIVE" }
     });
     toast({
-      title: t("admin.ai.model_updated"),
-      description: t("admin.ai.model_status_has_been")
+      title: t("admin_ai_model_updated"),
+      description: t("admin_ai_model_status_has_been")
     });
   };
   const toggleWorkflow = (workflowId: string) => {
@@ -373,8 +373,8 @@ export default function AIConfiguration() {
       status: w.status === "ACTIVE" ? "INACTIVE" : "ACTIVE" as any
     } : w));
     toast({
-      title: t("admin.ai.workflow_updated"),
-      description: t("admin.ai.workflow_status_has_been")
+      title: t("admin_ai_workflow_updated"),
+      description: t("admin_ai_workflow_status_has_been")
     });
   };
   const toggleService = (serviceId: string) => {
@@ -383,13 +383,13 @@ export default function AIConfiguration() {
       isActive: !s.isActive
     } : s));
     toast({
-      title: t("admin.ai.service_updated"),
-      description: t("admin.ai.service_status_has_been")
+      title: t("admin_ai_service_updated"),
+      description: t("admin_ai_service_status_has_been")
     });
   };
   const testModel = (model: AIModel) => {
     toast({
-      title: t("admin.ai.test_started"),
+      title: t("admin_ai_test_started"),
       description: `Testing ${model.name}...`
     });
   };
@@ -399,8 +399,8 @@ export default function AIConfiguration() {
       data: { status: "TRAINING" }
     });
     toast({
-      title: t("admin.ai.training_started"),
-      description: t("admin.ai.model_training_has_been")
+      title: t("admin_ai_training_started"),
+      description: t("admin_ai_model_training_has_been")
     });
   };
   const stats = {
@@ -434,7 +434,7 @@ export default function AIConfiguration() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('activeModels')}</p>
                 <h3 className="text-xl font-bold text-foreground leading-none">{stats.activeModels}</h3>
-                <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin.ai.of")}{stats.totalModels}{t("admin.ai.total")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_ai_of")}{stats.totalModels}{t("admin_ai_total")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -455,7 +455,7 @@ export default function AIConfiguration() {
               <CardContent className="p-8">
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('activeWorkflows')}</p>
                 <h3 className="text-xl font-bold text-foreground leading-none">{stats.activeWorkflows}</h3>
-                <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin.ai.of")}{stats.totalWorkflows}{t("admin.ai.total")}</p>
+                <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_ai_of")}{stats.totalWorkflows}{t("admin_ai_total")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -477,7 +477,7 @@ export default function AIConfiguration() {
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('tokensUsed')}</p>
                 <h3 className="text-xl font-bold text-foreground leading-none">{stats.totalTokens.toLocaleString()}</h3>
                 <p className="text-[10px] font-bold text-orange-400 mt-4 flex items-center gap-1">
-                  <Activity className="w-3 h-3" />{t("admin.ai.alltimesync")}</p>
+                  <Activity className="w-3 h-3" />{t("admin_ai_alltimesync")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -499,7 +499,7 @@ export default function AIConfiguration() {
                 <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('totalCost')}</p>
                 <h3 className="text-xl font-bold text-foreground leading-none">${stats.totalCost.toFixed(2)}</h3>
                 <p className="text-[10px] font-bold text-red-400 mt-4 flex items-center gap-1">
-                  <TrendingUp className="w-3 h-3" />{t("admin.ai.monthlyburn")}</p>
+                  <TrendingUp className="w-3 h-3" />{t("admin_ai_monthlyburn")}</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -519,7 +519,7 @@ export default function AIConfiguration() {
 
             <TabsContent value="models" className="p-8 space-y-8 mt-0">
               <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-bold text-foreground">{t('admin.ai.models.title')}</h3>
+                <h3 className="text-2xl font-bold text-foreground">{t('admin_ai_models_title')}</h3>
                 <Button onClick={() => setModelDialogOpen(true)} className="bg-primary hover:bg-primary/90 text-foreground font-bold rounded-2xl text-[10px] h-12 px-8 shadow-xl shadow-primary/20">
                   <Plus className="w-4 h-4 mr-2" />
                   {t('addModel')}
@@ -556,26 +556,26 @@ export default function AIConfiguration() {
                         
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                           <div>
-                            <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin.ai.models.requests')}</p>
+                            <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin_ai_models_requests')}</p>
                             <p className="text-lg font-bold text-foreground leading-none">{model.usage.requests.toLocaleString()}</p>
                           </div>
                           <div>
-                            <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin.ai.models.tokens')}</p>
+                            <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin_ai_models_tokens')}</p>
                             <p className="text-lg font-bold text-foreground leading-none">{model.usage.tokens.toLocaleString()}</p>
                           </div>
                           <div>
-                            <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin.ai.models.accuracy')}</p>
+                            <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin_ai_models_accuracy')}</p>
                             <p className="text-lg font-bold text-foreground leading-none">{model.performance.accuracy}%</p>
                           </div>
                           <div>
-                            <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin.ai.models.latency')}</p>
-                            <p className="text-lg font-bold text-foreground leading-none">{model.performance.latency}{t("admin.ai.ms")}</p>
+                            <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin_ai_models_latency')}</p>
+                            <p className="text-lg font-bold text-foreground leading-none">{model.performance.latency}{t("admin_ai_ms")}</p>
                           </div>
                         </div>
 
                         {model.trainingData && <div className="p-6 bg-card rounded-2xl border border-border space-y-4">
                             <div className="flex items-center justify-between">
-                                <span className="text-[10px] font-bold text-slate-400">{t('trainingProgress')}</span>
+                                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('trainingProgress')}</span>
                                 <span className="text-xs font-bold text-foreground">{model.trainingData.accuracy}%</span>
                             </div>
                             <Progress value={model.trainingData.accuracy} className="h-1.5 bg-muted/50" indicatorClassName="bg-slate-500 shadow-[0_0_10px_#3b82f6]" />
@@ -595,13 +595,13 @@ export default function AIConfiguration() {
                               <Play className="w-4 h-4 mr-3 text-emerald-500" /> {t('testModel')}
                             </DropdownMenuItem>
                             {model.provider === "CUSTOM" && <DropdownMenuItem onClick={() => trainModel(model.id)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <RefreshCw className="w-4 h-4 mr-3 text-slate-400" /> {t('retrain')}
+                                <RefreshCw className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" /> {t('retrain')}
                               </DropdownMenuItem>}
                             <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                              <Settings className="w-4 h-4 mr-3 text-muted-foreground" /> {t('admin.ai.models.configure')}
+                              <Settings className="w-4 h-4 mr-3 text-muted-foreground" /> {t('admin_ai_models_configure')}
                             </DropdownMenuItem>
                             <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                              <Eye className="w-4 h-4 mr-3 text-slate-400" /> {t('viewDetails')}
+                              <Eye className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" /> {t('viewDetails')}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -614,10 +614,10 @@ export default function AIConfiguration() {
 
             <TabsContent value="workflows" className="p-8 space-y-8">
               <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-bold text-foreground">{t('admin.ai.workflows.title')}</h3>
+                <h3 className="text-2xl font-bold text-foreground">{t('admin_ai_workflows_title')}</h3>
                 <Button className="bg-primary hover:bg-primary/90 text-foreground font-bold rounded-2xl text-[10px] h-12 px-8 shadow-xl shadow-primary/20">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t('admin.ai.workflows.create')}
+                  {t('admin_ai_workflows_create')}
                 </Button>
               </div>
 
@@ -651,7 +651,7 @@ export default function AIConfiguration() {
                               <p className="text-lg font-bold text-foreground leading-none">{workflow.executionCount.toLocaleString()}</p>
                             </div>
                             <div>
-                              <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin.ai.workflows.avgTime')}</p>
+                              <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin_ai_workflows_avgTime')}</p>
                               <p className="text-lg font-bold text-foreground leading-none">{workflow.avgExecutionTime}s</p>
                             </div>
                             <div>
@@ -678,10 +678,10 @@ export default function AIConfiguration() {
                                 <Play className="w-4 h-4 mr-3 text-emerald-500" /> {t('runNow')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <Edit className="w-4 h-4 mr-3 text-slate-400" /> {t('edit')}
+                                <Edit className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" /> {t('edit')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <Eye className="w-4 h-4 mr-3 text-slate-400" /> {t('viewLogs')}
+                                <Eye className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" /> {t('viewLogs')}
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -694,10 +694,10 @@ export default function AIConfiguration() {
 
             <TabsContent value="services" className="p-8 space-y-8">
               <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-bold text-foreground">{t('admin.ai.services.title')}</h3>
+                <h3 className="text-2xl font-bold text-foreground">{t('admin_ai_services_title')}</h3>
                 <Button className="bg-primary hover:bg-primary/90 text-foreground font-bold rounded-2xl text-[10px] h-12 px-8 shadow-xl shadow-primary/20">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t('admin.ai.services.add')}
+                  {t('admin_ai_services_add')}
                 </Button>
               </div>
 
@@ -756,13 +756,13 @@ export default function AIConfiguration() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl shadow-2xl p-2 min-w-[180px]">
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <RefreshCw className="w-4 h-4 mr-3 text-slate-400" /> {t('test')}
+                                <RefreshCw className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" /> {t('test')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
                                 <Edit className="w-4 h-4 mr-3 text-orange-500" /> {t('edit')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
-                                <Eye className="w-4 h-4 mr-3 text-slate-400" /> {t('viewLogs')}
+                                <Eye className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" /> {t('viewLogs')}
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -778,7 +778,7 @@ export default function AIConfiguration() {
                 <Card className="bg-muted/50 border-border rounded-3xl border-l border-t shadow-xl">
                   <CardHeader className="p-8 border-b border-border">
                     <CardTitle className="text-xl font-bold text-foreground tracking-[0.2em]">{t('monitoring')}</CardTitle>
-                    <CardDescription className="text-[10px] font-bold text-muted-foreground">{t("admin.ai.realtime_performance_metrics")}</CardDescription>
+                    <CardDescription className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_realtime_performance_metrics")}</CardDescription>
                   </CardHeader>
                   <CardContent className="p-8">
                     <div className="space-y-6">
@@ -792,15 +792,15 @@ export default function AIConfiguration() {
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                               <div className="flex justify-between text-[10px] font-bold text-muted-foreground">
-                                <span>{t("admin.ai.accuracy")}</span>
+                                <span>{t("admin_ai_accuracy")}</span>
                                 <span className={cn(model.performance.accuracy > 90 ? 'text-emerald-400' : 'text-amber-400')}>{model.performance.accuracy}%</span>
                               </div>
                               <Progress value={model.performance.accuracy} className="h-1 bg-muted/50" indicatorClassName={cn(model.performance.accuracy > 90 ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 'bg-amber-500')} />
                             </div>
                             <div className="space-y-2">
                               <div className="flex justify-between text-[10px] font-bold text-muted-foreground">
-                                <span>{t("admin.ai.latency")}</span>
-                                <span className="text-slate-400">{model.performance.latency}{t("admin.ai.ms")}</span>
+                                <span>{t("admin_ai_latency")}</span>
+                                <span className="text-slate-500 dark:text-slate-400">{model.performance.latency}{t("admin_ai_ms")}</span>
                               </div>
                               <Progress value={(1 - model.performance.latency / 4000) * 100} className="h-1 bg-muted/50" indicatorClassName="bg-slate-500 shadow-[0_0_8px_#8b5cf6]" />
                             </div>
@@ -812,8 +812,8 @@ export default function AIConfiguration() {
 
                 <Card className="bg-muted/50 border-border rounded-3xl border-l border-t shadow-xl">
                   <CardHeader className="p-8 border-b border-border">
-                    <CardTitle className="text-xl font-bold text-foreground tracking-[0.2em]">{t("admin.ai.cost_analysis")}</CardTitle>
-                    <CardDescription className="text-[10px] font-bold text-muted-foreground">{t("admin.ai.ai_service_cost_breakdown")}</CardDescription>
+                    <CardTitle className="text-xl font-bold text-foreground tracking-[0.2em]">{t("admin_ai_cost_analysis")}</CardTitle>
+                    <CardDescription className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_ai_service_cost_breakdown")}</CardDescription>
                   </CardHeader>
                   <CardContent className="p-8">
                     <div className="space-y-6">
@@ -821,7 +821,7 @@ export default function AIConfiguration() {
                           <div className="space-y-1">
                             <div className="text-sm font-bold text-foreground tracking-tight">{model.name}</div>
                             <div className="text-[10px] font-bold text-muted-foreground">
-                              {model.usage.tokens.toLocaleString()}{t("admin.ai.tokensconsumed")}</div>
+                              {model.usage.tokens.toLocaleString()}{t("admin_ai_tokensconsumed")}</div>
                           </div>
                           <div className="text-xl font-bold text-emerald-400">
                             ${model.usage.cost.toFixed(2)}
@@ -842,35 +842,35 @@ export default function AIConfiguration() {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-transparent to-transparent opacity-30"></div>
           <DialogHeader>
             <DialogTitle className="text-3xl font-bold text-foreground">{t('addModel')}</DialogTitle>
-            <DialogDescription className="text-[10px] font-bold text-muted-foreground">{t("admin.ai.register_a_new_neural")}</DialogDescription>
+            <DialogDescription className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_register_a_new_neural")}</DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-8 py-8">
              <div className="space-y-4">
-                <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.ai.node_name")}</Label>
-                <Input placeholder={t("admin.ai.gpt4x_neural_engine")} className="h-12 bg-muted/50 border-border rounded-xl px-4 text-foreground placeholder:text-slate-600 font-bold text-[10px]" />
+                <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_node_name")}</Label>
+                <Input placeholder={t("admin_ai_gpt4x_neural_engine")} className="h-12 bg-muted/50 border-border rounded-xl px-4 text-foreground placeholder:text-slate-600 font-bold text-[10px]" />
              </div>
              <div className="space-y-4">
-                <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.ai.provider_atlas")}</Label>
+                <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_provider_atlas")}</Label>
                 <Select>
                   <SelectTrigger className="h-12 bg-muted/50 border-border rounded-xl px-4 text-foreground font-bold text-[10px]">
-                    <SelectValue placeholder={t("admin.ai.selectprovider")} />
+                    <SelectValue placeholder={t("admin_ai_selectprovider")} />
                   </SelectTrigger>
                   <SelectContent className="bg-[#14151a] border-border rounded-xl">
-                    <SelectItem value="OPENAI" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground">{t("admin.ai.openaicore")}</SelectItem>
-                    <SelectItem value="ANTHROPIC" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground">{t("admin.ai.anthropicpulse")}</SelectItem>
-                    <SelectItem value="GOOGLE" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground">{t("admin.ai.googlevertex")}</SelectItem>
-                    <SelectItem value="AZURE" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground">{t("admin.ai.azurecloud")}</SelectItem>
+                    <SelectItem value="OPENAI" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground">{t("admin_ai_openaicore")}</SelectItem>
+                    <SelectItem value="ANTHROPIC" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground">{t("admin_ai_anthropicpulse")}</SelectItem>
+                    <SelectItem value="GOOGLE" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground">{t("admin_ai_googlevertex")}</SelectItem>
+                    <SelectItem value="AZURE" className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground">{t("admin_ai_azurecloud")}</SelectItem>
                   </SelectContent>
                 </Select>
              </div>
              <div className="col-span-2 space-y-4">
-                <Label className="text-[10px] font-bold text-muted-foreground">{t("admin.ai.operational_logic_description")}</Label>
-                <Textarea placeholder={t("admin.ai.define_the_primary_focus")} className="bg-muted/50 border-border rounded-xl p-4 text-foreground placeholder:text-slate-600 min-h-[100px] font-bold text-[10px]" />
+                <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_operational_logic_description")}</Label>
+                <Textarea placeholder={t("admin_ai_define_the_primary_focus")} className="bg-muted/50 border-border rounded-xl p-4 text-foreground placeholder:text-slate-600 min-h-[100px] font-bold text-[10px]" />
              </div>
           </div>
           <DialogFooter className="pt-4 gap-4">
-            <Button variant="ghost" className="h-14 px-8 rounded-2xl text-[10px] font-bold text-muted-foreground hover:text-foreground" onClick={() => setModelDialogOpen(false)}>{t("admin.ai.terminateinit")}</Button>
-            <Button className="h-14 px-10 rounded-2xl bg-primary hover:bg-primary/90 text-foreground font-bold text-[10px] shadow-xl shadow-primary/20">{t("admin.ai.executedeployment")}</Button>
+            <Button variant="ghost" className="h-14 px-8 rounded-2xl text-[10px] font-bold text-muted-foreground hover:text-foreground" onClick={() => setModelDialogOpen(false)}>{t("admin_ai_terminateinit")}</Button>
+            <Button className="h-14 px-10 rounded-2xl bg-primary hover:bg-primary/90 text-foreground font-bold text-[10px] shadow-xl shadow-primary/20">{t("admin_ai_executedeployment")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

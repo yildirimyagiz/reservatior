@@ -44,10 +44,6 @@ export default function AuthCallback() {
           navigate("/admin/dashboard", {
             replace: true
           });
-        } else if (user?.role === 'TENANT' || user?.role === 'USER' || user?.role === 'TENANT_GUEST') {
-          navigate("/", {
-            replace: true
-          });
         } else {
           navigate("/dashboard", {
             replace: true

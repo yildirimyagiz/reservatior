@@ -161,13 +161,13 @@ export default function AIChatManagement() {
         queryKey: ['aiChatbotSessions']
       });
       toast({
-        title: t("admin.ai.success"),
-        description: t("admin.ai.status_updated_successfully")
+        title: t("admin_ai_success"),
+        description: t("admin_ai_status_updated_successfully")
       });
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.ai.error"),
+        title: t("admin_ai_error"),
         description: error.message,
         variant: "destructive"
       });
@@ -201,62 +201,62 @@ export default function AIChatManagement() {
   const totalMessagesCount = sessions.reduce((acc: number, s: any) => acc + (s.messagesCount || 0), 0);
   const avgSatisfaction = sessions.filter((s: any) => s.satisfaction !== undefined).reduce((acc: number, s: any, _: any, arr: any[]) => arr.length > 0 ? acc + (s.satisfaction || 0) / arr.length : 0, 0);
   if (loadingSessions) {
-    return <PageShell title={t("admin.ai.ai_chat_management")}>
+    return <PageShell title={t("admin_ai_ai_chat_management")}>
         <div className="flex items-center justify-center h-64">
           <Activity className="h-8 w-8 animate-spin" />
         </div>
       </PageShell>;
   }
-  if (sessionError) return <div>{t("admin.ai.error")}{sessionError.message}</div>;
-  return <PageShell title={t("admin.ai.ai_chat_management")}>
+  if (sessionError) return <div>{t("admin_ai_error")}{sessionError.message}</div>;
+  return <PageShell title={t("admin_ai_ai_chat_management")}>
       <div className="space-y-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.active_sessions")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_active_sessions")}</CardTitle>
               <MessageSquare className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{activeSessionsCount}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.of")}{sessions.length}{t("admin.ai.total_sessions")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_of")}{sessions.length}{t("admin_ai_total_sessions")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.total_messages")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_total_messages")}</CardTitle>
               <MessageSquare className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalMessagesCount}</div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.across_all_sessions")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_across_all_sessions")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.avg_satisfaction")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_avg_satisfaction")}</CardTitle>
               <User className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 {avgSatisfaction > 0 ? `${avgSatisfaction.toFixed(1)}/5` : 'N/A'}
               </div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.user_satisfaction_rating")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_user_satisfaction_rating")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("admin.ai.transfer_rate")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("admin_ai_transfer_rate")}</CardTitle>
               <Phone className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 {sessions.length > 0 ? `${(sessions.filter((s: any) => s.status === 'TRANSFERRED').length / sessions.length * 100).toFixed(1)}%` : '0%'}
               </div>
-              <p className="text-xs text-muted-foreground">{t("admin.ai.sessions_requiring_human_assistance")}</p>
+              <p className="text-xs text-muted-foreground">{t("admin_ai_sessions_requiring_human_assistance")}</p>
             </CardContent>
           </Card>
         </div>
@@ -268,18 +268,18 @@ export default function AIChatManagement() {
               <div className="flex-1">
                 <div className="relative">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder={t("admin.ai.search_sessions")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8" />
+                  <Input placeholder={t("admin_ai_search_sessions")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8" />
                 </div>
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder={t("admin.ai.filter_by_status")} />
+                  <SelectValue placeholder={t("admin_ai_filter_by_status")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">{t("admin.ai.all_statuses")}</SelectItem>
-                  <SelectItem value="ACTIVE">{t("admin.ai.active")}</SelectItem>
-                  <SelectItem value="ENDED">{t("admin.ai.ended")}</SelectItem>
-                  <SelectItem value="TRANSFERRED">{t("admin.ai.transferred")}</SelectItem>
+                  <SelectItem value="all">{t("admin_ai_all_statuses")}</SelectItem>
+                  <SelectItem value="ACTIVE">{t("admin_ai_active")}</SelectItem>
+                  <SelectItem value="ENDED">{t("admin_ai_ended")}</SelectItem>
+                  <SelectItem value="TRANSFERRED">{t("admin_ai_transferred")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -289,20 +289,20 @@ export default function AIChatManagement() {
         {/* Sessions Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t("admin.ai.ai_chat_sessions")}</CardTitle>
+            <CardTitle>{t("admin_ai_ai_chat_sessions")}</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.ai.session_id")}</TableHead>
-                  <TableHead>{t("admin.ai.status")}</TableHead>
-                  <TableHead>{t("admin.ai.intent")}</TableHead>
-                  <TableHead>{t("admin.ai.messages")}</TableHead>
-                  <TableHead>{t("admin.ai.started_at")}</TableHead>
-                  <TableHead>{t("admin.ai.last_activity")}</TableHead>
-                  <TableHead>{t("admin.ai.satisfaction")}</TableHead>
-                  <TableHead className="text-right">{t("admin.ai.actions")}</TableHead>
+                  <TableHead>{t("admin_ai_session_id")}</TableHead>
+                  <TableHead>{t("admin_ai_status")}</TableHead>
+                  <TableHead>{t("admin_ai_intent")}</TableHead>
+                  <TableHead>{t("admin_ai_messages")}</TableHead>
+                  <TableHead>{t("admin_ai_started_at")}</TableHead>
+                  <TableHead>{t("admin_ai_last_activity")}</TableHead>
+                  <TableHead>{t("admin_ai_satisfaction")}</TableHead>
+                  <TableHead className="text-right">{t("admin_ai_actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -337,23 +337,23 @@ export default function AIChatManagement() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>{t("admin.ai.actions")}</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t("admin_ai_actions")}</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => {
                         setSelectedSession(session);
                         setIsSessionDialogOpen(true);
                       }}>
-                            <Eye className="h-4 w-4 mr-2" />{t("admin.ai.view_details")}</DropdownMenuItem>
+                            <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details")}</DropdownMenuItem>
                           {session.status === 'ACTIVE' && <>
                               <DropdownMenuItem onClick={() => updateStatusMutation.mutate({
                           id: session.id,
                           status: 'ENDED'
-                        })}>{t("admin.ai.end_session")}</DropdownMenuItem>
+                        })}>{t("admin_ai_end_session")}</DropdownMenuItem>
                               <DropdownMenuItem onClick={() => updateStatusMutation.mutate({
                           id: session.id,
                           status: 'TRANSFERRED',
                           transferredTo: 'human_agent'
                         })}>
-                                <Phone className="h-4 w-4 mr-2" />{t("admin.ai.transfer_to_agent")}</DropdownMenuItem>
+                                <Phone className="h-4 w-4 mr-2" />{t("admin_ai_transfer_to_agent")}</DropdownMenuItem>
                             </>}
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -368,8 +368,8 @@ export default function AIChatManagement() {
         <Dialog open={isSessionDialogOpen} onOpenChange={setIsSessionDialogOpen}>
           <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>{t("admin.ai.chat_session_details")}</DialogTitle>
-              <DialogDescription>{t("admin.ai.session_id")}{selectedSession?.sessionId}
+              <DialogTitle>{t("admin_ai_chat_session_details")}</DialogTitle>
+              <DialogDescription>{t("admin_ai_session_id")}{selectedSession?.sessionId}
               </DialogDescription>
             </DialogHeader>
 
@@ -377,29 +377,29 @@ export default function AIChatManagement() {
                 {/* Session Info */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>{t("admin.ai.status")}</Label>
+                    <Label>{t("admin_ai_status")}</Label>
                     <div className="flex items-center gap-2 mt-1">
                       <div className={`w-2 h-2 rounded-full ${getStatusColor(selectedSession.status)}`} />
                       <span className="capitalize">{selectedSession.status.toLowerCase()}</span>
                     </div>
                   </div>
                   <div>
-                    <Label>{t("admin.ai.intent")}</Label>
+                    <Label>{t("admin_ai_intent")}</Label>
                     <p className="mt-1">{selectedSession.intent || 'Unknown'}</p>
                   </div>
                   <div>
-                    <Label>{t("admin.ai.confidence")}</Label>
+                    <Label>{t("admin_ai_confidence")}</Label>
                     <p className="mt-1">{selectedSession.confidence ? `${selectedSession.confidence}%` : 'N/A'}</p>
                   </div>
                   <div>
-                    <Label>{t("admin.ai.satisfaction")}</Label>
+                    <Label>{t("admin_ai_satisfaction")}</Label>
                     <p className="mt-1">{selectedSession.satisfaction ? `${selectedSession.satisfaction}/5` : 'N/A'}</p>
                   </div>
                 </div>
 
                 {/* Messages */}
                 <div>
-                  <Label className="text-base font-semibold">{t("admin.ai.messages")}</Label>
+                  <Label className="text-base font-semibold">{t("admin_ai_messages")}</Label>
                   <div className="mt-2 space-y-2 max-h-64 overflow-y-auto">
                     {messages.map((message: AIChatMessage) => <div key={message.id} className={`p-3 rounded-lg ${message.role === 'USER' ? 'bg-slate-50/50' : message.role === 'ASSISTANT' ? 'bg-green-50/50' : 'bg-white/5/50'}`}>
                         <div className="flex items-center gap-2 mb-1">
@@ -408,7 +408,7 @@ export default function AIChatManagement() {
                           <span className="text-xs text-muted-foreground">
                             {new Date(message.createdAt).toLocaleTimeString()}
                           </span>
-                          {message.piiDetected && <Badge variant="destructive" className="text-xs h-4 px-1">{t("admin.ai.pii")}</Badge>}
+                          {message.piiDetected && <Badge variant="destructive" className="text-xs h-4 px-1">{t("admin_ai_pii")}</Badge>}
                         </div>
                         <p className="text-sm">{message.content}</p>
                       </div>)}
@@ -417,21 +417,21 @@ export default function AIChatManagement() {
 
                 {/* Handoffs */}
                 {handoffs.length > 0 && <div>
-                    <Label className="text-base font-semibold">{t("admin.ai.handoffs")}</Label>
+                    <Label className="text-base font-semibold">{t("admin_ai_handoffs")}</Label>
                     <div className="mt-2 space-y-2">
                       {handoffs.map((handoff: AIChatHandoff) => <div key={handoff.id} className="p-3 border rounded-lg text-sm">
                           <div className="flex justify-between items-start">
                             <p className="font-medium">{handoff.handoffReason}</p>
                             <span className="text-xs text-muted-foreground">{new Date(handoff.handoffAt).toLocaleString()}</span>
                           </div>
-                          <p className="text-muted-foreground mt-1">{t("admin.ai.to")}{handoff.handoffTo}</p>
+                          <p className="text-muted-foreground mt-1">{t("admin_ai_to")}{handoff.handoffTo}</p>
                         </div>)}
                     </div>
                   </div>}
               </div>}
 
             <DialogFooter>
-              <Button onClick={() => setIsSessionDialogOpen(false)}>{t("admin.ai.close")}</Button>
+              <Button onClick={() => setIsSessionDialogOpen(false)}>{t("admin_ai_close")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

@@ -1,5 +1,5 @@
 // Otomatik üretilmiş Valibot schema'ları (TR)
-// Generated: 2026-07-06T02:23:48.619Z
+// Generated: 2026-07-07T07:57:03.792Z
 
 import * as v from 'valibot';
 
@@ -529,7 +529,8 @@ export enum LocationAccuracy {
 export const LocationAccuracySchema = v.enum_(LocationAccuracy);
 
 export enum SocialPlatform {
-  TWITTER_X = "TWITTER_X"
+  TWITTER_X = "TWITTER_X",
+  LINKEDIN = "LINKEDIN"
 }
 export const SocialPlatformSchema = v.enum_(SocialPlatform);
 
@@ -542,6 +543,12 @@ export enum LegalComplianceStatus {
   BLOCKLISTED = "BLOCKLISTED"
 }
 export const LegalComplianceStatusSchema = v.enum_(LegalComplianceStatus);
+
+export enum CommissionCollectionType {
+  UPFRONT = "UPFRONT",
+  INSTALLMENT = "INSTALLMENT"
+}
+export const CommissionCollectionTypeSchema = v.enum_(CommissionCollectionType);
 
 export enum AddOnType {
   GOVERNMENT_REPORTING = "GOVERNMENT_REPORTING",
@@ -2611,6 +2618,11 @@ export const commissionUpdateSchema = v.partial(v.object({
   transactionId: v.optional(v.string()),
   beneficiaryUserId: v.optional(v.string()),
   beneficiaryOrgId: v.optional(v.string()),
+  collectionType: v.optional(v.enum_(CommissionCollectionType)),
+  upfrontPercent: v.optional(v.number()),
+  installmentCount: v.optional(v.number()),
+  interestRate: v.optional(v.number()),
+  totalAmount: v.optional(v.number()),
   ruleData: v.optional(v.unknown())
 }));
 
@@ -4156,7 +4168,7 @@ export const paymentInstallmentCreateSchema = v.object({
 });
 
 export const paymentInstallmentUpdateSchema = v.partial(v.object({
-  // No updatable fields
+  commissionId: v.optional(v.string())
 }));
 
 export type PaymentInstallmentCreate = v.InferOutput<typeof paymentInstallmentCreateSchema>;
@@ -5666,6 +5678,10 @@ export const escrowSplitConfigUpdateSchema = v.partial(v.object({
   agentPayoutRate: v.optional(v.number()),
   reservatiorFeeRate: v.optional(v.number()),
   blockageDays: v.optional(v.number()),
+  installmentEnabled: v.optional(v.boolean()),
+  upfrontPercent: v.optional(v.number()),
+  installmentCount: v.optional(v.number()),
+  interestRate: v.optional(v.number()),
   isActive: v.optional(v.boolean())
 }));
 

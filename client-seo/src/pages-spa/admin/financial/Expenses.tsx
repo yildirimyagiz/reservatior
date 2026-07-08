@@ -77,12 +77,12 @@ export default function Expenses() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialExpenses'] });
       setCreateOpen(false);
-      toast({ title: t("admin.financial.expense_recorded") });
+      toast({ title: t("admin_financial_expense_recorded") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_save_expense"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_save_expense"),
         variant: "destructive"
       });
     }
@@ -93,12 +93,12 @@ export default function Expenses() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialExpenses'] });
       setEditOpen(false);
-      toast({ title: t("admin.financial.expense_updated") });
+      toast({ title: t("admin_financial_expense_updated") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_update_expense"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_update_expense"),
         variant: "destructive"
       });
     }
@@ -108,12 +108,12 @@ export default function Expenses() {
     mutationFn: (id: string) => financialsApi.deleteExpense(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['financialExpenses'] });
-      toast({ title: t("admin.financial.expense_deleted") });
+      toast({ title: t("admin_financial_expense_deleted") });
     },
     onError: () => {
       toast({
-        title: t("admin.financial.error"),
-        description: t("admin.financial.failed_to_delete_expense"),
+        title: t("admin_financial_error"),
+        description: t("admin_financial_failed_to_delete_expense"),
         variant: "destructive"
       });
     }
@@ -167,24 +167,24 @@ export default function Expenses() {
       t
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
-      {!isEdit && <div className="space-y-1.5"><Label>{t("admin.financial.org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
+      {!isEdit && <div className="space-y-1.5"><Label>{t("admin_financial_org_id")}</Label><Input value={form.orgId} onChange={e => setForm({
           ...form,
           orgId: e.target.value
         })} required /></div>}
       <div className="space-y-1.5">
-        <Label>{t("admin.financial.property")}</Label>
+        <Label>{t("admin_financial_property")}</Label>
         <Select value={form.propertyId} onValueChange={v => setForm({
           ...form,
           propertyId: v
         })}>
-          <SelectTrigger><SelectValue placeholder={t("admin.financial.select_property")} /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("admin_financial_select_property")} /></SelectTrigger>
           <SelectContent>
             {properties.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
           </SelectContent>
         </Select>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("admin.financial.category")}</Label>
+        <Label>{t("admin_financial_category")}</Label>
         <Select value={form.category} onValueChange={v => setForm({
           ...form,
           category: v as ExpenseCategory
@@ -196,26 +196,26 @@ export default function Expenses() {
         </Select>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("admin.financial.amount")}</Label><Input type="number" step="0.01" value={form.amount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("admin_financial_amount")}</Label><Input type="number" step="0.01" value={form.amount} onChange={e => setForm({
             ...form,
             amount: e.target.value
           })} required /></div>
         <div className="space-y-1.5">
-          <Label>{t("admin.financial.currency")}</Label>
+          <Label>{t("admin_financial_currency")}</Label>
           <Select value={form.currency} onValueChange={v => setForm({
             ...form,
             currency: v
           })}>
             <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent><SelectItem value="USD">{t("admin.financial.usd")}</SelectItem><SelectItem value="EUR">{t("admin.financial.eur")}</SelectItem></SelectContent>
+            <SelectContent><SelectItem value="USD">{t("admin_financial_usd")}</SelectItem><SelectItem value="EUR">{t("admin_financial_eur")}</SelectItem></SelectContent>
           </Select>
         </div>
       </div>
-      <div className="space-y-1.5"><Label>{t("admin.financial.date")}</Label><Input type="date" value={form.date} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_date")}</Label><Input type="date" value={form.date} onChange={e => setForm({
           ...form,
           date: e.target.value
         })} required /></div>
-      <div className="space-y-1.5"><Label>{t("admin.financial.description")}</Label><Textarea value={form.description} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("admin_financial_description")}</Label><Textarea value={form.description} onChange={e => setForm({
           ...form,
           description: e.target.value
         })} rows={3} /></div>
@@ -283,9 +283,9 @@ export default function Expenses() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {loading && expenses.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground font-bold text-[10px]">{t("admin.financial.no_active_drain_signals")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="border-border hover:bg-muted/50 transition-all group">
+                {loading && expenses.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground font-bold text-[10px]">{t("admin_financial_no_active_drain_signals")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="border-border hover:bg-muted/50 transition-all group">
                       <TableCell className="px-8">
-                         <Badge className="bg-slate-800 text-muted-foreground text-[9px] font-bold px-4 py-1.5 rounded-full border-none shadow-lg">
+                         <Badge className="bg-slate-50 dark:bg-slate-800 text-muted-foreground text-[9px] font-bold px-4 py-1.5 rounded-full border-none shadow-lg">
                            {t(`admin.financial.expenses.categories.${row.category}`)}
                          </Badge>
                       </TableCell>
@@ -305,8 +305,8 @@ export default function Expenses() {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="bg-[#14151a] border-border rounded-2xl">
-                            <DropdownMenuItem onClick={() => openEdit(row)} className="font-bold text-[10px]"><Edit className="w-4 h-4 mr-2" />{t("admin.financial.edit")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-red-400 font-bold text-[10px]"><Trash2 className="w-4 h-4 mr-2" />{t("admin.financial.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(row)} className="font-bold text-[10px]"><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-red-400 font-bold text-[10px]"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -319,14 +319,14 @@ export default function Expenses() {
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.financial.add_expense")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("admin.financial.create")} />
+          <DialogHeader><DialogTitle>{t("admin_financial_add_expense")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleCreate} label={t("admin_financial_create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{t("admin.financial.edit_expense")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("admin.financial.save_changes")} isEdit={true} />
+          <DialogHeader><DialogTitle>{t("admin_financial_edit_expense")}</DialogTitle></DialogHeader>
+          <EntityForm onSubmit={handleEdit} label={t("admin_financial_save_changes")} isEdit={true} />
         </DialogContent>
       </Dialog>
     </>;

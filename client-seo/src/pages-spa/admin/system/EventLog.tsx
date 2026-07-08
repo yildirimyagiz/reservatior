@@ -79,13 +79,13 @@ export default function EventLog() {
   };
 
   return (
-    <PageShell title={t("admin.system.event_log")}>
+    <PageShell title={t("admin_system_event_log")}>
       <div className="space-y-4">
         <div className="flex flex-wrap gap-3 items-center">
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-slate-400" />
             <Input
-              placeholder={t("admin.system.search_events")}
+              placeholder={t("admin_system_search_events")}
               className="pl-9"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -93,10 +93,10 @@ export default function EventLog() {
           </div>
           <Select value={eventType} onValueChange={(v) => { setEventType(v); setPage(1); }}>
             <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder={t("admin.system.all_event_types")} />
+              <SelectValue placeholder={t("admin_system_all_event_types")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">{t("admin.system.all_event_types")}</SelectItem>
+              <SelectItem value="">{t("admin_system_all_event_types")}</SelectItem>
               {EVENT_TYPES.map((et) => (
                 <SelectItem key={et} value={et}>{et}</SelectItem>
               ))}
@@ -104,7 +104,7 @@ export default function EventLog() {
           </Select>
           <Button variant="outline" onClick={loadEvents} disabled={loading}>
             <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
-            {t("admin.system.refresh")}
+            {t("admin_system_refresh")}
           </Button>
         </div>
 
@@ -112,19 +112,19 @@ export default function EventLog() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("admin.system.date")}</TableHead>
-                <TableHead>{t("admin.system.event_type")}</TableHead>
-                <TableHead>{t("admin.system.severity")}</TableHead>
-                <TableHead>{t("admin.system.entity")}</TableHead>
-                <TableHead>{t("admin.system.source")}</TableHead>
-                <TableHead className="w-20">{t("admin.system.actions")}</TableHead>
+                <TableHead>{t("admin_system_date")}</TableHead>
+                <TableHead>{t("admin_system_event_type")}</TableHead>
+                <TableHead>{t("admin_system_severity")}</TableHead>
+                <TableHead>{t("admin_system_entity")}</TableHead>
+                <TableHead>{t("admin_system_source")}</TableHead>
+                <TableHead className="w-20">{t("admin_system_actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-slate-400">
-                    {loading ? t("admin.system.loading") : t("admin.system.no_events")}
+                  <TableCell colSpan={6} className="text-center py-8 text-slate-500 dark:text-slate-400">
+                    {loading ? t("admin_system_loading") : t("admin_system_no_events")}
                   </TableCell>
                 </TableRow>
               ) : filtered.map((event: any) => (
@@ -157,14 +157,14 @@ export default function EventLog() {
 
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-400">{t("admin.system.total_events", { count: total })}</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">{t("admin.system.total_events", { count: total })}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
-                {t("admin.system.previous")}
+                {t("admin_system_previous")}
               </Button>
               <span className="flex items-center text-sm">{page} / {totalPages}</span>
               <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>
-                {t("admin.system.next")}
+                {t("admin_system_next")}
               </Button>
             </div>
           </div>
@@ -174,29 +174,29 @@ export default function EventLog() {
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>{t("admin.system.event_details")}</DialogTitle>
+            <DialogTitle>{t("admin_system_event_details")}</DialogTitle>
           </DialogHeader>
           {selected && (
             <div className="space-y-3 text-sm">
               <div className="grid grid-cols-2 gap-2">
-                <div><span className="font-medium">{t("admin.system.event_type")}:</span> {selected.eventType}</div>
-                <div><span className="font-medium">{t("admin.system.severity")}:</span> {selected.severity}</div>
-                <div><span className="font-medium">{t("admin.system.date")}:</span> {formatDate(selected.createdAt)}</div>
-                <div><span className="font-medium">{t("admin.system.source")}:</span> {selected.source || "-"}</div>
+                <div><span className="font-medium">{t("admin_system_event_type")}:</span> {selected.eventType}</div>
+                <div><span className="font-medium">{t("admin_system_severity")}:</span> {selected.severity}</div>
+                <div><span className="font-medium">{t("admin_system_date")}:</span> {formatDate(selected.createdAt)}</div>
+                <div><span className="font-medium">{t("admin_system_source")}:</span> {selected.source || "-"}</div>
                 {selected.entityType && (
-                  <div><span className="font-medium">{t("admin.system.entity_type")}:</span> {selected.entityType}</div>
+                  <div><span className="font-medium">{t("admin_system_entity_type")}:</span> {selected.entityType}</div>
                 )}
                 {selected.entityId && (
-                  <div><span className="font-medium">{t("admin.system.entity_id")}:</span> {selected.entityId}</div>
+                  <div><span className="font-medium">{t("admin_system_entity_id")}:</span> {selected.entityId}</div>
                 )}
                 {selected.entityLabel && (
-                  <div><span className="font-medium">{t("admin.system.entity_label")}:</span> {selected.entityLabel}</div>
+                  <div><span className="font-medium">{t("admin_system_entity_label")}:</span> {selected.entityLabel}</div>
                 )}
-                <div><span className="font-medium">{t("admin.system.org_id")}:</span> {selected.orgId}</div>
+                <div><span className="font-medium">{t("admin_system_org_id")}:</span> {selected.orgId}</div>
               </div>
               {selected.payload && (
                 <div>
-                  <span className="font-medium">{t("admin.system.payload")}:</span>
+                  <span className="font-medium">{t("admin_system_payload")}:</span>
                   <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-48">
                     {JSON.stringify(selected.payload, null, 2)}
                   </pre>
@@ -204,7 +204,7 @@ export default function EventLog() {
               )}
               {selected.metadata && (
                 <div>
-                  <span className="font-medium">{t("admin.system.metadata")}:</span>
+                  <span className="font-medium">{t("admin_system_metadata")}:</span>
                   <pre className="mt-1 p-2 bg-white/5 rounded-lg text-xs overflow-auto max-h-32">
                     {JSON.stringify(selected.metadata, null, 2)}
                   </pre>
@@ -212,7 +212,7 @@ export default function EventLog() {
               )}
               {selected.executions && selected.executions.length > 0 && (
                 <div>
-                  <span className="font-medium">{t("admin.system.triggered_executions")}:</span>
+                  <span className="font-medium">{t("admin_system_triggered_executions")}:</span>
                   <div className="mt-1 space-y-1">
                     {selected.executions.map((ex: any) => (
                       <div key={ex.id} className="p-2 bg-white/5 rounded-lg text-xs">

@@ -63,7 +63,7 @@ const PERMISSION_GROUPS = (t: any) => {
       color: "bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
     },
     admin: {
-      label: t("admin.roles.groups.admin"),
+      label: t("admin_roles_groups_admin"),
       color: "bg-red-500/10 text-red-600 dark:text-red-500 border-red-500/20"
     },
     integrations: {
@@ -116,8 +116,8 @@ export default function Roles() {
         return (rolesRes as any).data || [];
       } catch (e) {
         toast({
-          title: t("admin.users.sync_failure"),
-          description: t("admin.users.global_permission_matrix_unreachable"),
+          title: t("admin_users_sync_failure"),
+          description: t("admin_users_global_permission_matrix_unreachable"),
           variant: "destructive"
         });
         return [];
@@ -161,8 +161,8 @@ export default function Roles() {
     try {
       if (!roleName) {
         toast({
-          title: t("admin.users.validationerror"),
-          description: t("admin.users.role_designation_requires_a"),
+          title: t("admin_users_validationerror"),
+          description: t("admin_users_role_designation_requires_a"),
           variant: "destructive"
         });
         return;
@@ -178,14 +178,14 @@ export default function Roles() {
       setCreateOpen(false);
       resetForm();
       toast({
-        title: t("admin.users.node_provisioned"),
-        description: t("admin.users.new_authorization_role_has")
+        title: t("admin_users_node_provisioned"),
+        description: t("admin_users_new_authorization_role_has")
       });
       queryClient.invalidateQueries({ queryKey: ['adminRoles'] });
     } catch (error) {
       toast({
-        title: t("admin.users.provisioning_error"),
-        description: t("admin.users.failed_to_initialize_new"),
+        title: t("admin_users_provisioning_error"),
+        description: t("admin_users_failed_to_initialize_new"),
         variant: "destructive"
       });
     }
@@ -201,14 +201,14 @@ export default function Roles() {
       setEditOpen(false);
       resetForm();
       toast({
-        title: t("admin.users.role_reconfigured"),
-        description: t("admin.users.authorization_parameters_updated_successfully")
+        title: t("admin_users_role_reconfigured"),
+        description: t("admin_users_authorization_parameters_updated_successfully")
       });
       queryClient.invalidateQueries({ queryKey: ['adminRoles'] });
     } catch (error) {
       toast({
-        title: t("admin.users.sync_error"),
-        description: t("admin.users.failed_to_reconfigure_role"),
+        title: t("admin_users_sync_error"),
+        description: t("admin_users_failed_to_reconfigure_role"),
         variant: "destructive"
       });
     }
@@ -225,13 +225,13 @@ export default function Roles() {
       await apiClient.delete(`/role/${id}`);
       queryClient.invalidateQueries({ queryKey: ['adminRoles'] });
       toast({
-        title: t("admin.users.node_terminated"),
-        description: t("admin.users.role_removed_from_global")
+        title: t("admin_users_node_terminated"),
+        description: t("admin_users_role_removed_from_global")
       });
     } catch (error) {
       toast({
-        title: t("admin.users.termination_error"),
-        description: t("admin.users.failed_to_remove_role"),
+        title: t("admin_users_termination_error"),
+        description: t("admin_users_failed_to_remove_role"),
         variant: "destructive"
       });
     }
@@ -252,17 +252,17 @@ export default function Roles() {
           icon: Shield,
           color: "text-slate-500"
         }, {
-          label: t('admin.roles.systemCores'),
+          label: t('admin_roles_systemCores'),
           value: stats.system,
           icon: Lock,
           color: "text-red-500"
         }, {
-          label: t('admin.roles.customNodes'),
+          label: t('admin_roles_customNodes'),
           value: stats.custom,
           icon: Zap,
           color: "text-emerald-500"
         }, {
-          label: t('admin.roles.authorizedUsers'),
+          label: t('admin_roles_authorizedUsers'),
           value: stats.users,
           icon: Users,
           color: "text-slate-500"
@@ -295,12 +295,12 @@ export default function Roles() {
             </div>
             <Select value={filterSystem} onValueChange={setFilterSystem}>
                 <SelectTrigger className="w-48 bg-card/60 backdrop-blur-md border-border dark:border-border rounded-2xl h-14 text-foreground font-bold text-[10px] tracking-[0.2em] border-l-2 border-t-2">
-                  <SelectValue placeholder={t('admin.roles.nodeType')} />
+                  <SelectValue placeholder={t('admin_roles_nodeType')} />
                 </SelectTrigger>
                 <SelectContent className="bg-card border-border rounded-2xl">
-                  <SelectItem value="all">{t('admin.roles.allNodes')}</SelectItem>
-                  <SelectItem value="system">{t('admin.roles.coreSystem')}</SelectItem>
-                  <SelectItem value="custom">{t('admin.roles.userDefined')}</SelectItem>
+                  <SelectItem value="all">{t('admin_roles_allNodes')}</SelectItem>
+                  <SelectItem value="system">{t('admin_roles_coreSystem')}</SelectItem>
+                  <SelectItem value="custom">{t('admin_roles_userDefined')}</SelectItem>
                 </SelectContent>
             </Select>
           </div>
@@ -334,7 +334,7 @@ export default function Roles() {
                   {loading ? <TableRow>
                       <TableCell colSpan={5} className="py-24 text-center">
                         <Activity className="w-12 h-12 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
-                        <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t('admin.roles.syncing')}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t('admin_roles_syncing')}</p>
                       </TableCell>
                     </TableRow> : filteredRoles.map((role: Role) => <TableRow key={role.id} className="border-b border-border hover:bg-muted/20 transition-all group">
                          <TableCell className="py-8 px-8">
@@ -347,7 +347,7 @@ export default function Roles() {
                                     {role.name}
                                     {role.isSystem && <Lock className="w-3 h-3 text-muted-foreground/30" />}
                                  </div>
-                                 <div className="text-[10px] font-bold text-muted-foreground max-w-sm truncate">{role.description || t('admin.roles.noDesignation')}</div>
+                                 <div className="text-[10px] font-bold text-muted-foreground max-w-sm truncate">{role.description || t('admin_roles_noDesignation')}</div>
                               </div>
                            </div>
                          </TableCell>
@@ -408,27 +408,27 @@ export default function Roles() {
                  <DialogHeader className="p-8 border-b border-border bg-muted/20">
                     <DialogTitle className="text-3xl font-bold flex items-center gap-3 text-foreground leading-none">
                        <ShieldAlert className="w-8 h-8 text-primary" />
-                       {createOpen ? t('admin.roles.initTitle') : t('editTitle')}
+                       {createOpen ? t('admin_roles_initTitle') : t('editTitle')}
                     </DialogTitle>
                     <DialogDescription className="text-[10px] font-bold text-muted-foreground tracking-[0.2em] mt-2">
-                       {t('admin.roles.description')}
+                       {t('admin_roles_description')}
                     </DialogDescription>
                  </DialogHeader>
 
                  <div className="p-10 grid grid-cols-1 lg:grid-cols-2 gap-10 max-h-[60vh] overflow-y-auto custom-scrollbar">
                     <div className="space-y-8">
                        <div className="space-y-3">
-                          <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t('admin.roles.formalDesignation')}</Label>
-                          <Input value={roleName} onChange={e => setRoleName(e.target.value)} placeholder={t("admin.users.designationid")} className="bg-background/40 border-border rounded-2xl h-16 font-bold tracking-tight px-6 text-xl focus:ring-primary/20 shadow-inner" />
+                          <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t('admin_roles_formalDesignation')}</Label>
+                          <Input value={roleName} onChange={e => setRoleName(e.target.value)} placeholder={t("admin_users_designationid")} className="bg-background/40 border-border rounded-2xl h-16 font-bold tracking-tight px-6 text-xl focus:ring-primary/20 shadow-inner" />
                        </div>
                        <div className="space-y-3">
-                          <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t('admin.roles.functionalDescription')}</Label>
-                          <Textarea value={roleDescription} onChange={e => setRoleDescription(e.target.value)} rows={4} placeholder={t('admin.roles.descriptionPlaceholder')} className="bg-background/40 border-border rounded-2xl p-6 font-medium tracking-tight focus:ring-primary/20 shadow-inner resize-none min-h-[160px]" />
+                          <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t('admin_roles_functionalDescription')}</Label>
+                          <Textarea value={roleDescription} onChange={e => setRoleDescription(e.target.value)} rows={4} placeholder={t('admin_roles_descriptionPlaceholder')} className="bg-background/40 border-border rounded-2xl p-6 font-medium tracking-tight focus:ring-primary/20 shadow-inner resize-none min-h-[160px]" />
                        </div>
                     </div>
 
                     <div className="space-y-6">
-                       <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t('admin.roles.syncMatrix')}</Label>
+                       <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t('admin_roles_syncMatrix')}</Label>
                        <div className="space-y-8">
                           {Object.entries(groupedPermissions).map(([group, groupPermissions]) => <div key={group} className="space-y-3">
                                <div className="flex items-center gap-3">
@@ -458,7 +458,7 @@ export default function Roles() {
                 resetForm();
               }}>{t('abort')}</Button>
                     <Button onClick={createOpen ? handleCreateRole : () => selectedRole && handleUpdateRole(selectedRole.id)} className="flex-2 h-16 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-[10px] tracking-[0.3em] shadow-xl shadow-primary/20 gap-3">
-                       {createOpen ? t('admin.roles.execInit') : t('commit')} <ChevronRight className="w-4 h-4 shadow-sm" />
+                       {createOpen ? t('admin_roles_execInit') : t('commit')} <ChevronRight className="w-4 h-4 shadow-sm" />
                     </Button>
                  </DialogFooter>
               </DialogContent>

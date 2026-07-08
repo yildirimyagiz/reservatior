@@ -80,11 +80,11 @@ export default function DynamicAdminPage() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+      <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-white">{schema.name} Management</h1>
-            <p className="text-slate-400">Dynamically generated interface for {schema.name}</p>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{schema.name} Management</h1>
+            <p className="text-slate-500 dark:text-slate-400">Dynamically generated interface for {schema.name}</p>
           </div>
           <div className="flex space-x-2">
             <Button variant="outline" onClick={() => refetch()}><RefreshCw className="w-4 h-4 mr-2" />Refresh</Button>
@@ -94,29 +94,29 @@ export default function DynamicAdminPage() {
                   <Plus className="w-4 h-4 mr-2" />Add {schema.name}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] bg-white/5 border-white/10 text-white">
+              <DialogContent className="sm:max-w-[425px] bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                 <DialogHeader>
                   <DialogTitle>Create New Dynamic Record</DialogTitle>
-                  <DialogDescription className="text-slate-400">
+                  <DialogDescription className="text-slate-500 dark:text-slate-400">
                     Enter the details for the new dynamic record.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right text-xs text-slate-400">Name</Label>
+                    <Label htmlFor="name" className="text-right text-xs text-slate-500 dark:text-slate-400">Name</Label>
                     <Input
                       id="name"
-                      className="col-span-3 h-10 bg-white/5 border-white/10 text-white"
+                      className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
                       value={formData.name}
                       onChange={e => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Enter name"
                     />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="type" className="text-right text-xs text-slate-400">Type</Label>
+                    <Label htmlFor="type" className="text-right text-xs text-slate-500 dark:text-slate-400">Type</Label>
                     <Input
                       id="type"
-                      className="col-span-3 h-10 bg-white/5 border-white/10 text-white"
+                      className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
                       value={formData.type}
                       onChange={e => setFormData({ ...formData, type: e.target.value })}
                       placeholder="Enter type"
@@ -135,14 +135,14 @@ export default function DynamicAdminPage() {
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-lg overflow-hidden">
+      <div className="bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="border-white/10 hover:bg-white/5">
+            <TableRow className="border-slate-200 dark:border-white/10 hover:bg-white/5">
               {displayFields.map((f: any) => (
-                <TableHead key={f.name} className="text-slate-400">{f.name}</TableHead>
+                <TableHead key={f.name} className="text-slate-500 dark:text-slate-400">{f.name}</TableHead>
               ))}
-              <TableHead className="text-right text-slate-400">Actions</TableHead>
+              <TableHead className="text-right text-slate-500 dark:text-slate-400">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -152,9 +152,9 @@ export default function DynamicAdminPage() {
               <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8 text-slate-500">No records found</TableCell></TableRow>
             ) : (
               (records as any)?.data?.map((row: any, i: number) => (
-                <TableRow key={row.id || i} className="border-white/10 hover:bg-white/5">
+                <TableRow key={row.id || i} className="border-slate-200 dark:border-white/10 hover:bg-white/5">
                   {displayFields.map((f: any) => (
-                    <TableCell key={f.name} className="text-slate-400">
+                    <TableCell key={f.name} className="text-slate-500 dark:text-slate-400">
                       {row[f.name] !== null ? String(row[f.name]) : <span className="text-slate-600">null</span>}
                     </TableCell>
                   ))}
