@@ -327,6 +327,7 @@ import { tax1099Routes } from "./routes/tax-1099";
 import { financeOSRoutes } from "./routes/finance-os";
 import { bookingOSRoutes } from "./routes/booking-os";
 import { listingOSRoutes } from "./routes/listing-os";
+import { agentOSRoutes } from "./routes/agent-os";
 import { cleaningStandardRoutes } from "./routes/cleaning-standard";
 import { reputationRoutes } from "./routes/reputation";
 
@@ -701,6 +702,7 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(financeOSRoutes)
   .use(bookingOSRoutes)
   .use(listingOSRoutes)
+  .use(agentOSRoutes)
   .use(cleaningStandardRoutes)
   .use(reputationRoutes)
 ;
