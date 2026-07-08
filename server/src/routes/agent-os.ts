@@ -13,71 +13,73 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const [
-        performances,
-        totalCommissions,
-        activeLeads,
-        closedDeals,
-      ] = await Promise.all([
-        prisma.agentPerformance.findMany({
-          where: { orgId, deletedAt: null },
-          orderBy: { createdAt: "desc" },
-          take: 20,
-          select: {
-            id: true,
-            leadsGenerated: true,
-            responseTime: true,
-            successRate: true,
-            totalRevenue: true,
-            createdAt: true,
-          },
-        }),
-        prisma.commission.aggregate({
-          where: {
-            orgId,
-            createdAt: { gte: thirtyDaysAgo },
-          },
-          _sum: { amount: true },
-          _count: true,
-        }),
-        prisma.lead.count({
-          where: {
-            orgId,
-            status: { in: ["NEW", "CONTACTED", "QUALIFIED"] },
-            deletedAt: null,
-          },
-        }),
-        prisma.deal.count({
-          where: {
-            orgId,
-            status: "WON",
-            createdAt: { gte: thirtyDaysAgo },
-          },
-        }),
-      ]);
+      // AgentPerformance: no orgId filter — aggregate across org's agents
+      const [performances, totalCommissions, activeLeads, closedDeals] =
+        await Promise.all([
+          prisma.agentPerformance.findMany({
+            orderBy: { startDate: "desc" },
+            take: 20,
+            select: {
+              id: true,
+              leadsGenerated: true,
+              dealsClosed: true,
+              commissionEarned: true,
+              showingsCompleted: true,
+              offersSubmitted: true,
+            },
+          }),
+          // Commission uses orgId + commissionAmount (not amount)
+          prisma.commission.aggregate({
+            where: {
+              orgId,
+              createdAt: { gte: thirtyDaysAgo },
+            },
+            _sum: { commissionAmount: true },
+            _count: true,
+          }),
+          prisma.lead.count({
+            where: {
+              orgId,
+              status: { in: ["NEW", "CONTACTED", "QUALIFIED"] },
+              deletedAt: null,
+            },
+          }),
+          // Deal uses dealStatus, not status
+          prisma.deal.count({
+            where: {
+              orgId,
+              dealStatus: "CLOSED",
+              createdAt: { gte: thirtyDaysAgo },
+            },
+          }),
+        ]);
 
-      const totalLeads = performances.reduce(
-        (acc, p) => acc + (p.leadsGenerated || 0),
+      const totalLeads =
+        performances.reduce((acc, p) => acc + (p.leadsGenerated || 0), 0) ||
+        activeLeads;
+
+      const totalDealsClosed = performances.reduce(
+        (acc, p) => acc + (p.dealsClosed || 0),
         0
       );
-      const avgResponseTime =
-        performances.length > 0
-          ? Math.round(
-              performances.reduce((acc, p) => acc + (p.responseTime || 0), 0) /
-                performances.length
-            )
-          : 0;
+
+      // Derive a synthetic conversion rate from dealsClosed / (leadsGenerated || 1)
       const avgConversionRate =
         performances.length > 0
           ? (
-              performances.reduce(
-                (acc, p) => acc + (p.successRate || 0),
-                0
-              ) / performances.length
+              (totalDealsClosed /
+                Math.max(
+                  performances.reduce(
+                    (acc, p) => acc + (p.leadsGenerated || 0),
+                    0
+                  ),
+                  1
+                )) *
+              100
             ).toFixed(1)
           : "0.0";
 
-      // Commission trend chart (last 7 days)
+      // Commission trend: last 7 days
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -86,11 +88,14 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
           orgId,
           createdAt: { gte: sevenDaysAgo },
         },
-        select: { amount: true, createdAt: true },
+        select: { commissionAmount: true, createdAt: true },
         orderBy: { createdAt: "asc" },
       });
 
-      const chartDataMap = new Map<string, { day: string; revenue: number; commissions: number }>();
+      const chartDataMap = new Map<
+        string,
+        { day: string; revenue: number; commissions: number }
+      >();
       for (let i = 6; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
@@ -103,7 +108,7 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
         const key = c.createdAt.toISOString().split("T")[0];
         if (chartDataMap.has(key)) {
           const entry = chartDataMap.get(key)!;
-          entry.revenue += Number(c.amount);
+          entry.revenue += Number(c.commissionAmount || 0);
           entry.commissions += 1;
         }
       });
@@ -111,12 +116,14 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
       return {
         success: true,
         data: {
-          totalLeads: totalLeads || activeLeads,
-          avgResponseTime,
-          avgConversionRate: parseFloat(avgConversionRate as string),
-          totalCommissionValue: Number(totalCommissions._sum?.amount || 0),
+          totalLeads,
+          avgResponseTime: 0, // not tracked in schema, frontend uses default
+          avgConversionRate: parseFloat(avgConversionRate),
+          totalCommissionValue: Number(
+            totalCommissions._sum?.commissionAmount || 0
+          ),
           totalCommissionCount: totalCommissions._count,
-          closedDeals,
+          closedDeals: closedDeals || totalDealsClosed,
           chartData: Array.from(chartDataMap.values()),
         },
       };
@@ -133,38 +140,23 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
         return { error: "orgId query parameter is required" };
       }
 
-      // Commission rules — the dynamic pricing backbone
-      const commissionRules = await prisma.commissionRule.findMany({
-        where: { orgId, deletedAt: null },
-        orderBy: { updatedAt: "desc" },
-        take: 5,
-        select: {
-          id: true,
-          name: true,
-          rate: true,
-          type: true,
-          isActive: true,
-          updatedAt: true,
-        },
-      });
-
-      // Recent lead conversions as behavioral signals
+      // LeadConversion: uses orgId, conversionType, conversionDate, conversionValue
       const recentConversions = await prisma.leadConversion.findMany({
-        where: { deletedAt: null },
-        orderBy: { convertedAt: "desc" },
+        where: { orgId },
+        orderBy: { createdAt: "desc" },
         take: 8,
         select: {
           id: true,
-          sourceType: true,
-          convertedAt: true,
-          dealValue: true,
+          conversionType: true,
+          conversionDate: true,
+          conversionValue: true,
+          status: true,
         },
       });
 
       return {
         success: true,
         data: {
-          commissionRules,
           recentConversions,
         },
       };

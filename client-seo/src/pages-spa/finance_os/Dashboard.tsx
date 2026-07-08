@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { financeOSApi } from "@/lib/api/finance-os";
 import { useAuth } from "@/lib/auth";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
+  XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, AreaChart, Area, ReferenceLine,
 } from "recharts";
 import { motion } from "framer-motion";
@@ -154,7 +154,7 @@ export default function FinanceDashboard() {
                   <Tooltip
                     contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px" }}
                     itemStyle={{ color: "#10b981" }}
-                    formatter={(v: number) => [fmt(v), "Settlement"]}
+                    formatter={(v: number | string | undefined) => [fmt(Number(v ?? 0)), "Settlement"]}
                   />
                   <ReferenceLine y={0} stroke="#334155" />
                   <Area type="monotone" dataKey="amount" stroke="#10b981" strokeWidth={2} fill="url(#finGrad)" dot={false} activeDot={{ r: 4, fill: "#10b981" }} />
@@ -176,7 +176,7 @@ export default function FinanceDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3 max-h-[220px] overflow-auto pr-1">
-              {transactions.map((tx: any, i: number) => (
+              {transactions.map((tx: { id: string; amount: number; status: string; date: string; contractId: string }, i: number) => (
                 <motion.div
                   key={tx.id}
                   initial={{ opacity: 0, x: -8 }}

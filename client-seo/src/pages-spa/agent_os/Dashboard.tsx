@@ -46,19 +46,19 @@ export default function AgentDashboard() {
 
   const totalLeads =
     osStats?.totalLeads ||
-    perfList.reduce((acc: number, p: any) => acc + (p.leadsGenerated || 0), 0) ||
+    perfList.reduce((acc: number, p: { leadsGenerated?: number }) => acc + (p.leadsGenerated || 0), 0) ||
     342;
 
   const avgLatency =
     osStats?.avgResponseTime ||
     (perfList.length > 0
-      ? Math.round(perfList.reduce((acc: number, p: any) => acc + (p.responseTime || 0), 0) / perfList.length)
+      ? Math.round(perfList.reduce((acc: number, p: { responseTime?: number }) => acc + (p.responseTime || 0), 0) / perfList.length)
       : 18);
 
   const conversionRate =
     osStats?.avgConversionRate ||
     (perfList.length > 0
-      ? (perfList.reduce((acc: number, p: any) => acc + (p.successRate || 0), 0) / perfList.length).toFixed(1)
+      ? (perfList.reduce((acc: number, p: { successRate?: number }) => acc + (p.successRate || 0), 0) / perfList.length).toFixed(1)
       : "34.2");
 
   const commissionValue = osStats?.totalCommissionValue || 186450;
@@ -128,7 +128,10 @@ export default function AgentDashboard() {
                   <YAxis stroke="#475569" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `$${v >= 1000 ? (v/1000).toFixed(0)+"k" : v}`} />
                   <Tooltip
                     contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px" }}
-                    formatter={(v: number, name: string) => [name === "revenue" ? fmt(v) : v, name === "revenue" ? "Revenue" : "Commissions"]}
+                    formatter={(v: number | string | undefined, name: string) => [
+                      name === "revenue" ? fmt(Number(v ?? 0)) : v,
+                      name === "revenue" ? "Revenue" : "Commissions",
+                    ]}
                   />
                   <Bar dataKey="revenue" fill="#10b981" radius={[4, 4, 0, 0]} opacity={0.85} />
                   <Bar dataKey="commissions" fill="#6366f1" radius={[4, 4, 0, 0]} opacity={0.6} />
