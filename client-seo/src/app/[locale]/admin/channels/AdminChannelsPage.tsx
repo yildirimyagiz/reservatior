@@ -174,7 +174,7 @@ export default function AdminChannelsPage() {
                         <div className="text-foreground font-medium">{channel.name}</div>
                         <div className="text-sm text-muted-foreground flex items-center gap-2">
                           <Building2 className="w-3 h-3" />
-                          {t("admin.channels.properties_count", { count: channel.properties })} &middot; {t("admin.channels.commission_rate", { rate: channel.commission })}
+                          {t("admin_channels_properties_count", { count: channel.properties })} &middot; {t("admin_channels_commission_rate", { rate: channel.commission })}
                         </div>
                       </div>
                     </div>

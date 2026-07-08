@@ -163,7 +163,7 @@ export default function Payments() {
   const handleCreatePayment = (data: any) => createPaymentMutation.mutate(data);
   const handleUpdatePayment = (id: string, data: any) => updatePaymentMutation.mutate({ id, data });
   const handleDeletePayment = (id: string) => {
-    if (!confirm(t("admin.financial.are_you_sure", "Emin misiniz?"))) return;
+    if (!confirm(t("admin_financial_are_you_sure", "Emin misiniz?"))) return;
     deletePaymentMutation.mutate(id);
   };
   const formatDate = (dateString?: string) => {

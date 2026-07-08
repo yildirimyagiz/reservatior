@@ -66,10 +66,10 @@ export default function FinancialReports() {
                 <Globe className="w-4 h-4 text-slate-500" />{t("admin_reports_revenue_verticals")}</CardTitle>
             </CardHeader>
             <CardContent className="p-8 space-y-8">
-              {[{ name: t("admin.reports.entity_agencies", "Varlık Acenteleri"), value: "$280k", pct: 62, color: "bg-slate-500 shadow-slate-500/40" },
-                { name: t("admin.reports.premium_nodes", "Premium Düğümler"), value: "$94k", pct: 21, color: "bg-slate-500 shadow-slate-500/40" },
-                { name: t("admin.reports.api_stream_access", "API Akış Erişimi"), value: "$52k", pct: 12, color: "bg-emerald-500 shadow-emerald-500/40" },
-                { name: t("admin.reports.protocol_fees", "Protokol Ücretleri"), value: "$26k", pct: 5, color: "bg-orange-500 shadow-orange-500/40" }
+              {[{ name: t("admin_reports_entity_agencies", "Varlık Acenteleri"), value: "$280k", pct: 62, color: "bg-slate-500 shadow-slate-500/40" },
+                { name: t("admin_reports_premium_nodes", "Premium Düğümler"), value: "$94k", pct: 21, color: "bg-slate-500 shadow-slate-500/40" },
+                { name: t("admin_reports_api_stream_access", "API Akış Erişimi"), value: "$52k", pct: 12, color: "bg-emerald-500 shadow-emerald-500/40" },
+                { name: t("admin_reports_protocol_fees", "Protokol Ücretleri"), value: "$26k", pct: 5, color: "bg-orange-500 shadow-orange-500/40" }
               ].map((item, i) => <div key={i} className="space-y-3">
                     <div className="flex justify-between items-end">
                       <span className="text-[10px] font-bold text-slate-900 dark:text-white tracking-tight">{item.name}</span>

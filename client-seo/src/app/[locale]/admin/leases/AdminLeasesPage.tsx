@@ -147,7 +147,7 @@ export default function AdminLeasesPage() {
                         <div className="text-xs text-muted-foreground/70 flex items-center gap-3 mt-1">
                           <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{lease.startDate} - {lease.endDate}</span>
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{
-                            t("admin.leases.days_remaining", { days: Math.ceil((new Date(lease.endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) })
+                            t("admin_leases_days_remaining", { days: Math.ceil((new Date(lease.endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) })
                           }</span>
                         </div>
                       </div>

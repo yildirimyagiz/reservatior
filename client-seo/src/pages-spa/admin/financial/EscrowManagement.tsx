@@ -182,10 +182,10 @@ export default function EscrowManagement() {
           </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t("admin.financial.escrow_title", "Escrow Management")}
+              {t("admin_financial_escrow_title", "Escrow Management")}
             </h1>
             <p className="text-slate-500 dark:text-slate-400">
-              {t("admin.financial.escrow_desc", "Manage secure payment transactions, releases and disputes")}
+              {t("admin_financial_escrow_desc", "Manage secure payment transactions, releases and disputes")}
             </p>
           </div>
         </div>
@@ -193,25 +193,25 @@ export default function EscrowManagement() {
           <DialogTrigger asChild>
             <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
               <Plus className="w-4 h-4 mr-2" />
-              {t("admin.financial.new_escrow", "New Escrow")}
+              {t("admin_financial_new_escrow", "New Escrow")}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
             <DialogHeader>
-              <DialogTitle>{t("admin.financial.new_escrow", "New Escrow Account")}</DialogTitle>
-              <DialogDescription className="text-slate-500 dark:text-slate-400">{t("admin.financial.escrow_add_desc", "Enter the escrow account details")}</DialogDescription>
+              <DialogTitle>{t("admin_financial_new_escrow", "New Escrow Account")}</DialogTitle>
+              <DialogDescription className="text-slate-500 dark:text-slate-400">{t("admin_financial_escrow_add_desc", "Enter the escrow account details")}</DialogDescription>
             </DialogHeader>
             <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
               <div className="space-y-2">
-                <Label htmlFor="reservationId">{t("admin.financial.reservation_id", "Reservation ID")}</Label>
+                <Label htmlFor="reservationId">{t("admin_financial_reservation_id", "Reservation ID")}</Label>
                 <Input id="reservationId" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.reservationId} onChange={e => setFormData({ ...formData, reservationId: e.target.value })} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="totalAmount">{t("admin.financial.total_amount", "Total Amount")}</Label>
+                <Label htmlFor="totalAmount">{t("admin_financial_total_amount", "Total Amount")}</Label>
                 <Input id="totalAmount" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.totalAmount} onChange={e => setFormData({ ...formData, totalAmount: Number(e.target.value) })} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="depositAmount">{t("admin.financial.deposit_amount", "Deposit Amount")}</Label>
+                <Label htmlFor="depositAmount">{t("admin_financial_deposit_amount", "Deposit Amount")}</Label>
                 <Input id="depositAmount" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.depositAmount} onChange={e => setFormData({ ...formData, depositAmount: Number(e.target.value) })} required />
               </div>
               <DialogFooter>
@@ -230,48 +230,48 @@ export default function EscrowManagement() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.total", "Total")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_total", "Total")}</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">${totalEscrowAmount.toLocaleString()}</h3>
               </div>
               <div className="p-3 bg-slate-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
             </div>
-            <p className="text-xs text-slate-500 mt-2">{accounts.length} {t("admin.financial.active_accounts", "accounts")}</p>
+            <p className="text-xs text-slate-500 mt-2">{accounts.length} {t("admin_financial_active_accounts", "accounts")}</p>
           </CardContent>
         </Card>
         <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.balance", "Balance")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_balance", "Balance")}</p>
                 <h3 className="text-2xl font-bold text-emerald-400 mt-1">${totalCurrentBalance.toLocaleString()}</h3>
               </div>
               <div className="p-3 bg-emerald-500/20 rounded-lg"><Shield className="w-5 h-5 text-emerald-400" /></div>
             </div>
-            <p className="text-xs text-slate-500 mt-2">{t("admin.financial.held_funds", "Held in escrow")}</p>
+            <p className="text-xs text-slate-500 mt-2">{t("admin_financial_held_funds", "Held in escrow")}</p>
           </CardContent>
         </Card>
         <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.disputes", "Disputes")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_disputes", "Disputes")}</p>
                 <h3 className="text-2xl font-bold text-red-400 mt-1">{activeDisputes}</h3>
               </div>
               <div className="p-3 bg-red-500/20 rounded-lg"><AlertTriangle className="w-5 h-5 text-red-400" /></div>
             </div>
-            <p className="text-xs text-slate-500 mt-2">{t("admin.financial.require_attention", "Requires attention")}</p>
+            <p className="text-xs text-slate-500 mt-2">{t("admin_financial_require_attention", "Requires attention")}</p>
           </CardContent>
         </Card>
         <Card className="bg-white/5 border-slate-200 dark:border-white/10">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.pending_releases", "Pending Releases")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_pending_releases", "Pending Releases")}</p>
                 <h3 className="text-2xl font-bold text-orange-400 mt-1">{pendingReleases}</h3>
               </div>
               <div className="p-3 bg-orange-500/20 rounded-lg"><Clock className="w-5 h-5 text-orange-400" /></div>
             </div>
-            <p className="text-xs text-slate-500 mt-2">{t("admin.financial.awaiting_approval", "Awaiting approval")}</p>
+            <p className="text-xs text-slate-500 mt-2">{t("admin_financial_awaiting_approval", "Awaiting approval")}</p>
           </CardContent>
         </Card>
       </div>
@@ -279,13 +279,13 @@ export default function EscrowManagement() {
       <Tabs defaultValue="accounts" className="space-y-6">
         <TabsList className="bg-white/5 border border-slate-200 dark:border-white/10">
           <TabsTrigger value="accounts" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
-            {t("admin.financial.accounts", "Accounts")}
+            {t("admin_financial_accounts", "Accounts")}
           </TabsTrigger>
           <TabsTrigger value="releases" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
-            {t("admin.financial.releases", "Releases")}
+            {t("admin_financial_releases", "Releases")}
           </TabsTrigger>
           <TabsTrigger value="disputes" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
-            {t("admin.financial.disputes", "Disputes")}
+            {t("admin_financial_disputes", "Disputes")}
           </TabsTrigger>
         </TabsList>
 
@@ -294,12 +294,12 @@ export default function EscrowManagement() {
             <div className="flex flex-wrap items-center gap-3 flex-1">
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                <Input placeholder={t("admin.financial.search", "Search...")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="bg-white/5 border-slate-200 dark:border-white/10 pl-10 text-slate-900 dark:text-white placeholder:text-slate-500" />
+                <Input placeholder={t("admin_financial_search", "Search...")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="bg-white/5 border-slate-200 dark:border-white/10 pl-10 text-slate-900 dark:text-white placeholder:text-slate-500" />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-36 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"><SelectValue /></SelectTrigger>
                 <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
-                  <SelectItem value="ALL">{t("admin.financial.all_status", "All")}</SelectItem>
+                  <SelectItem value="ALL">{t("admin_financial_all_status", "All")}</SelectItem>
                   <SelectItem value="PENDING">Pending</SelectItem>
                   <SelectItem value="FUNDED">Funded</SelectItem>
                   <SelectItem value="RELEASED">Released</SelectItem>
@@ -315,13 +315,13 @@ export default function EscrowManagement() {
               <Table>
                 <TableHeader className="bg-white/5 border-b border-slate-200 dark:border-white/10">
                   <TableRow className="hover:bg-transparent border-none">
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin.financial.account", "Account")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.property", "Property")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.parties", "Parties")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.amount", "Amount")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.balance", "Balance")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.status", "Status")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.created", "Created")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin_financial_account", "Account")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_property", "Property")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_parties", "Parties")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_amount", "Amount")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_balance", "Balance")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_status", "Status")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_created", "Created")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -356,7 +356,7 @@ export default function EscrowManagement() {
                     </TableRow>
                   ))}
                   {filteredAccounts.length === 0 && (
-                    <TableRow><TableCell colSpan={8} className="text-center py-8 text-slate-500">{t("admin.financial.no_accounts", "No accounts found")}</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={8} className="text-center py-8 text-slate-500">{t("admin_financial_no_accounts", "No accounts found")}</TableCell></TableRow>
                   )}
                 </TableBody>
               </Table>
@@ -370,12 +370,12 @@ export default function EscrowManagement() {
               <Table>
                 <TableHeader className="bg-white/5 border-b border-slate-200 dark:border-white/10">
                   <TableRow className="hover:bg-transparent border-none">
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin.financial.account", "Account")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.amount", "Amount")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.type", "Type")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.recipient", "Recipient")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.status", "Status")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.requested", "Requested")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin_financial_account", "Account")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_amount", "Amount")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_type", "Type")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_recipient", "Recipient")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_status", "Status")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_requested", "Requested")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -403,7 +403,7 @@ export default function EscrowManagement() {
                     </TableRow>
                   ))}
                   {releases.length === 0 && (
-                    <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin.financial.no_releases", "No releases found")}</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin_financial_no_releases", "No releases found")}</TableCell></TableRow>
                   )}
                 </TableBody>
               </Table>
@@ -417,12 +417,12 @@ export default function EscrowManagement() {
               <Table>
                 <TableHeader className="bg-white/5 border-b border-slate-200 dark:border-white/10">
                   <TableRow className="hover:bg-transparent border-none">
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin.financial.account", "Account")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.initiated_by", "Initiated By")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.type", "Type")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.description", "Description")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.status", "Status")}</TableHead>
-                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.created", "Created")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin_financial_account", "Account")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_initiated_by", "Initiated By")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_type", "Type")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_description", "Description")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_status", "Status")}</TableHead>
+                    <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_created", "Created")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -450,7 +450,7 @@ export default function EscrowManagement() {
                     </TableRow>
                   ))}
                   {disputes.length === 0 && (
-                    <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin.financial.no_disputes", "No disputes found")}</TableCell></TableRow>
+                    <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin_financial_no_disputes", "No disputes found")}</TableCell></TableRow>
                   )}
                 </TableBody>
               </Table>

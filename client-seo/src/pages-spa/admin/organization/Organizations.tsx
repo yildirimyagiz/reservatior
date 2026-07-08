@@ -241,7 +241,7 @@ export default function Organizations() {
           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>{t("admin.organization.edit_organization", "Edit Organization")}</DialogTitle>
+                <DialogTitle>{t("admin_organization_edit_organization", "Edit Organization")}</DialogTitle>
               </DialogHeader>
               {editingOrg && (
                 <div className="grid gap-4 py-4">
@@ -262,7 +262,7 @@ export default function Organizations() {
                 </div>
               )}
               <DialogFooter>
-                <Button onClick={() => updateMutation.mutate(editingOrg)} disabled={updateMutation.isPending}>{t("admin.organization.update_organization", "Update Organization")}</Button>
+                <Button onClick={() => updateMutation.mutate(editingOrg)} disabled={updateMutation.isPending}>{t("admin_organization_update_organization", "Update Organization")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

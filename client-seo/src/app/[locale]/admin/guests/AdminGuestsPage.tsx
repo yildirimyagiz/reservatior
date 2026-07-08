@@ -171,7 +171,7 @@ export default function AdminGuestsPage() {
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <div className="text-foreground text-sm">{t("admin.guests.stays_count", { count: guest.totalBookings })}</div>
+                        <div className="text-foreground text-sm">{t("admin_guests_stays_count", { count: guest.totalBookings })}</div>
                         <div className="text-muted-foreground text-xs">{guest.totalSpent}</div>
                       </div>
                       <Badge className={STATUS_COLORS[guest.status]}>{guest.status}</Badge>

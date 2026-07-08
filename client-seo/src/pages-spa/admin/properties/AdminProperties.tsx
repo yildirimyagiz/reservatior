@@ -101,10 +101,10 @@ export default function AdminProperties() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-properties'] });
-      toast({ title: t('success'), description: t('admin.property.archiveSuccess', 'Property has been archived successfully.') });
+      toast({ title: t('success'), description: t('admin_property_archiveSuccess', 'Property has been archived successfully.') });
     },
     onError: () => {
-      toast({ title: t('error'), description: t('admin.property.archiveFailed', 'Failed to archive property.'), variant: "destructive" });
+      toast({ title: t('error'), description: t('admin_property_archiveFailed', 'Failed to archive property.'), variant: "destructive" });
     }
   });
 
@@ -113,10 +113,10 @@ export default function AdminProperties() {
       await apiClient.post('/crm/generate-brochure', { propertyId });
     },
     onSuccess: () => {
-      toast({ title: t('admin.brochure.title', "AI Brochure"), description: t('admin.brochure.success', "AI brochure generation triggered. You will be notified via email.") });
+      toast({ title: t('admin_brochure_title', "AI Brochure"), description: t('admin_brochure_success', "AI brochure generation triggered. You will be notified via email.") });
     },
     onError: () => {
-      toast({ title: t('error'), description: t('admin.brochure.error', "Failed to generate brochure."), variant: "destructive" });
+      toast({ title: t('error'), description: t('admin_brochure_error', "Failed to generate brochure."), variant: "destructive" });
     }
   });
 
@@ -131,10 +131,10 @@ export default function AdminProperties() {
   };
   const getLocalizedStatus = (status: string) => {
     const map: Record<string, string> = {
-      'AVAILABLE': t('admin.property.available', 'Müsait'),
-      'SOLD': t('admin.property.sold', 'Satıldı'),
-      'PENDING': t('admin.property.pending', 'Bekliyor'),
-      'RENTED': t('admin.property.rented', 'Kiralandı')
+      'AVAILABLE': t('admin_property_available', 'Müsait'),
+      'SOLD': t('admin_property_sold', 'Satıldı'),
+      'PENDING': t('admin_property_pending', 'Bekliyor'),
+      'RENTED': t('admin_property_rented', 'Kiralandı')
     };
     return map[status.toUpperCase()] || status;
   };
@@ -410,7 +410,7 @@ export default function AdminProperties() {
                                     <Users className="w-4 h-4 mr-3 text-slate-500 dark:text-slate-400" /> {t('manageRequests')}
                                  </DropdownMenuItem>
                                  <DropdownMenuItem onClick={() => brochureMutation.mutate(property.id)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-white transition-all cursor-pointer">
-                                    <FileText className="w-4 h-4 mr-3 text-[#C5A059]" /> {t('admin.brochure.generate', 'Generate AI Brochure')}
+                                    <FileText className="w-4 h-4 mr-3 text-[#C5A059]" /> {t('admin_brochure_generate', 'Generate AI Brochure')}
                                  </DropdownMenuItem>
                                  <DropdownMenuItem onClick={() => navigate('/admin/financial-reports')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-white transition-all cursor-pointer">
                                     <DollarSign className="w-4 h-4 mr-3 text-emerald-400" /> {t('viewPL')}

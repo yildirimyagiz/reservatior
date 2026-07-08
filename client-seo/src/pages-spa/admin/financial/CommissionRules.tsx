@@ -106,10 +106,10 @@ export default function CommissionRules() {
           </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t("admin.financial.commission_rules", "Commission Rules")}
+              {t("admin_financial_commission_rules", "Commission Rules")}
             </h1>
             <p className="text-slate-500 dark:text-slate-400">
-              {t("admin.financial.define_and_track_commission", "Define and track commission rules")}
+              {t("admin_financial_define_and_track_commission", "Define and track commission rules")}
             </p>
           </div>
         </div>
@@ -117,40 +117,40 @@ export default function CommissionRules() {
           <DialogTrigger asChild>
             <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20" onClick={() => { setIsAddOpen(true); setFormData({ providerId: "", ruleType: "PERCENTAGE", commission: 0, minVolume: 0 }); }}>
               <Plus className="w-4 h-4 mr-2" />
-              {t("admin.financial.new_rule", "New Rule")}
+              {t("admin_financial_new_rule", "New Rule")}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
             <DialogHeader>
               <DialogTitle>
-                {editingRule ? t("admin.financial.edit_rule", "Edit Rule") : t("admin.financial.new_rule", "New Rule")}
+                {editingRule ? t("admin_financial_edit_rule", "Edit Rule") : t("admin_financial_new_rule", "New Rule")}
               </DialogTitle>
               <DialogDescription className="text-slate-500 dark:text-slate-400">
-                {editingRule ? t("admin.financial.edit_rule_desc", "Update the commission rule details") : t("admin.financial.new_rule_desc", "Enter the details for the new rule")}
+                {editingRule ? t("admin_financial_edit_rule_desc", "Update the commission rule details") : t("admin_financial_new_rule_desc", "Enter the details for the new rule")}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4 pt-4">
               <div className="space-y-2">
-                <Label htmlFor="providerId">{t("admin.financial.provider", "Provider")}</Label>
+                <Label htmlFor="providerId">{t("admin_financial_provider", "Provider")}</Label>
                 <Input id="providerId" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.providerId} onChange={e => setFormData({ ...formData, providerId: e.target.value })} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="ruleType">{t("admin.financial.rule_type", "Rule Type")}</Label>
+                <Label htmlFor="ruleType">{t("admin_financial_rule_type", "Rule Type")}</Label>
                 <Select value={formData.ruleType} onValueChange={(v: CommissionRule["ruleType"]) => setFormData({ ...formData, ruleType: v })}>
                   <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"><SelectValue /></SelectTrigger>
                   <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
-                    <SelectItem value="PERCENTAGE">{t("admin.financial.percentage", "Percentage")}</SelectItem>
-                    <SelectItem value="FLAT">{t("admin.financial.flat", "Flat")}</SelectItem>
-                    <SelectItem value="TIERED">{t("admin.financial.tiered", "Tiered")}</SelectItem>
+                    <SelectItem value="PERCENTAGE">{t("admin_financial_percentage", "Percentage")}</SelectItem>
+                    <SelectItem value="FLAT">{t("admin_financial_flat", "Flat")}</SelectItem>
+                    <SelectItem value="TIERED">{t("admin_financial_tiered", "Tiered")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="commission">{t("admin.financial.commission", "Commission")}</Label>
+                <Label htmlFor="commission">{t("admin_financial_commission", "Commission")}</Label>
                 <Input id="commission" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.commission} onChange={e => setFormData({ ...formData, commission: Number(e.target.value) })} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="minVolume">{t("admin.financial.min_volume", "Min Volume")}</Label>
+                <Label htmlFor="minVolume">{t("admin_financial_min_volume", "Min Volume")}</Label>
                 <Input id="minVolume" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.minVolume} onChange={e => setFormData({ ...formData, minVolume: Number(e.target.value) })} />
               </div>
               <DialogFooter>
@@ -169,7 +169,7 @@ export default function CommissionRules() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.avg_commission", "Avg Commission")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_avg_commission", "Avg Commission")}</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{avgCommission}%</h3>
               </div>
               <div className="p-3 bg-slate-500/20 rounded-lg"><Percent className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
@@ -180,7 +180,7 @@ export default function CommissionRules() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.total_payouts", "Total Payouts")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_total_payouts", "Total Payouts")}</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">${(rules.reduce((s, r) => s + r.commission, 0)).toLocaleString()}</h3>
               </div>
               <div className="p-3 bg-emerald-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-emerald-400" /></div>
@@ -191,7 +191,7 @@ export default function CommissionRules() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.active_rules", "Active Rules")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_active_rules", "Active Rules")}</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{rules.length}</h3>
               </div>
               <div className="p-3 bg-slate-500/20 rounded-lg"><ShieldCheck className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
@@ -205,19 +205,19 @@ export default function CommissionRules() {
           <Table>
             <TableHeader className="bg-white/5 border-b border-slate-200 dark:border-white/10">
               <TableRow className="hover:bg-transparent border-none">
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin.financial.provider_source", "Provider")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.rule_type", "Type")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.commission", "Commission")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.min_volume", "Min Volume")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.created", "Created")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.actions", "Actions")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin_financial_provider_source", "Provider")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_rule_type", "Type")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_commission", "Commission")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_min_volume", "Min Volume")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_created", "Created")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_actions", "Actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow><TableCell colSpan={6} className="text-center py-8 text-slate-500"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow>
               ) : rules.length === 0 ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8 text-slate-500">{t("admin.financial.no_rules", "No commission rules found")}</TableCell></TableRow>
+                <TableRow><TableCell colSpan={6} className="text-center py-8 text-slate-500">{t("admin_financial_no_rules", "No commission rules found")}</TableCell></TableRow>
               ) : rules.map(rule => (
                 <TableRow key={rule.id} className="border-b border-slate-200 dark:border-white/10 hover:bg-white/5 transition-colors">
                   <TableCell className="py-4 px-6 font-medium text-slate-900 dark:text-white">{rule.providerId}</TableCell>

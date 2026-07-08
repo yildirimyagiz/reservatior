@@ -82,10 +82,10 @@ const AgentsManagement = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-pink-400">
-            {t("admin.agents.title", "Agent Management")}
+            {t("admin_agents_title", "Agent Management")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            {t("admin.agents.subtitle", "Monitor agent performance, licenses, and operational status")}
+            {t("admin_agents_subtitle", "Monitor agent performance, licenses, and operational status")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -97,12 +97,12 @@ const AgentsManagement = () => {
             <DialogTrigger asChild>
               <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
-                {t("admin.agents.add", "Invite Agent")}
+                {t("admin_agents_add", "Invite Agent")}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-slate-200 dark:border-white/10">
               <DialogHeader>
-                <DialogTitle>{t("admin.agents.add", "Invite Agent")}</DialogTitle>
+                <DialogTitle>{t("admin_agents_add", "Invite Agent")}</DialogTitle>
                 <DialogDescription className="text-slate-500 dark:text-slate-400">
                   Enter the details of the agent you want to invite to the platform.
                 </DialogDescription>

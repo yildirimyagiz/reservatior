@@ -190,7 +190,7 @@ export default function SystemManagement() {
               </CardHeader>
               <CardContent>
                 <div className={`text-2xl font-bold ${systemMetrics.systemHealth === 'HEALTHY' ? 'text-green-400' : systemMetrics.systemHealth === 'WARNING' ? 'text-yellow-400' : 'text-red-400'}`}>
-                  {systemMetrics.systemHealth === 'HEALTHY' ? t("admin.system.health_healthy", "Sağlıklı") : systemMetrics.systemHealth === 'WARNING' ? t("admin.system.health_warning", "Uyarı") : t("admin.system.health_critical", "Kritik")}
+                  {systemMetrics.systemHealth === 'HEALTHY' ? t("admin_system_health_healthy", "Sağlıklı") : systemMetrics.systemHealth === 'WARNING' ? t("admin_system_health_warning", "Uyarı") : t("admin_system_health_critical", "Kritik")}
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400">{Math.floor(systemMetrics.uptime / 3600)}{t("admin_system_h_uptime")}</p>
               </CardContent>
@@ -329,7 +329,7 @@ export default function SystemManagement() {
                         <TableCell className="text-slate-500 dark:text-slate-400">{new Date(execution.startedAt).toLocaleString()}</TableCell>
                         <TableCell className="text-slate-500 dark:text-slate-400">{execution.duration ? `${execution.duration}ms` : '-'}</TableCell>
                         <TableCell>
-                          {execution.error ? <span className="text-red-400 text-sm truncate max-w-xs">{execution.error}</span> : <span className="text-green-400 text-sm">{execution.status === 'COMPLETED' ? t("admin.system.success", "Başarılı") : t(`admin.system.status_${execution.status.toLowerCase()}`, execution.status)}</span>}
+                          {execution.error ? <span className="text-red-400 text-sm truncate max-w-xs">{execution.error}</span> : <span className="text-green-400 text-sm">{execution.status === 'COMPLETED' ? t("admin_system_success", "Başarılı") : t(`admin.system.status_${execution.status.toLowerCase()}`, execution.status)}</span>}
                         </TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400">

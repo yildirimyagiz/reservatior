@@ -105,11 +105,11 @@ function buildRadar(records: AgentPerformanceRecord[], topNames: string[], t: (k
   const baseline = totals[top[0]];
   if (!baseline) return [];
   const metrics = [
-    { key: t("admin.reports.metrics.leads", "Adaylar"), prop: "leads" as const },
-    { key: t("admin.reports.metrics.showings", "Gösterimler"), prop: "showings" as const },
-    { key: t("admin.reports.metrics.offers", "Teklifler"), prop: "offers" as const },
-    { key: t("admin.reports.metrics.deals", "Anlaşmalar"), prop: "deals" as const },
-    { key: t("admin.reports.metrics.revenue", "Gelir"), prop: "commission" as const },
+    { key: t("admin_reports_metrics_leads", "Adaylar"), prop: "leads" as const },
+    { key: t("admin_reports_metrics_showings", "Gösterimler"), prop: "showings" as const },
+    { key: t("admin_reports_metrics_offers", "Teklifler"), prop: "offers" as const },
+    { key: t("admin_reports_metrics_deals", "Anlaşmalar"), prop: "deals" as const },
+    { key: t("admin_reports_metrics_revenue", "Gelir"), prop: "commission" as const },
   ];
   return metrics.map(({ key: metric, prop }) => {
     const point: RadarPoint = { metric };
@@ -203,7 +203,7 @@ export default function AgentPerformance() {
           <div className="relative flex-1 w-full lg:max-w-md group">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400 group-focus-within:text-primary transition-colors" />
             <Input
-              placeholder={t("admin.reports.search_agents", "Temsilcilerde ara...")}
+              placeholder={t("admin_reports_search_agents", "Temsilcilerde ara...")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="h-11 pl-10 bg-[#1a1b1e]/60 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:border-primary/50 transition-all shadow-sm"
@@ -246,7 +246,7 @@ export default function AgentPerformance() {
                       <XAxis type="number" tickFormatter={v => `$${(v / 1000).toFixed(0)}k`} tick={{ fontSize: 11, fill: '#94a3b8' }} tickLine={false} axisLine={false} />
                       <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: '#94a3b8' }} tickLine={false} axisLine={false} width={80} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Bar dataKey="commission" name={t("admin.reports.commission", "Komisyon")} radius={[0, 4, 4, 0]} maxBarSize={28}>
+                      <Bar dataKey="commission" name={t("admin_reports_commission", "Komisyon")} radius={[0, 4, 4, 0]} maxBarSize={28}>
                         {filtered.map((_, i) => <Cell key={i} fill={AGENT_COLORS[i % AGENT_COLORS.length]} />)}
                       </Bar>
                     </BarChart>
@@ -272,7 +272,7 @@ export default function AgentPerformance() {
                         <p className="text-sm font-semibold text-slate-900 dark:text-white">{agent.name}</p>
                         {idx === 0 && <Badge className="bg-amber-100 text-amber-700 border-0 text-[10px]">{t("admin_reports_top_agent")}</Badge>}
                         <Badge className={`border-0 text-[10px] ${agent.status === "ACTIVE" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-500"}`}>
-                          {agent.status === "ACTIVE" ? t("admin.reports.status_active", "Aktif") : agent.status}
+                          {agent.status === "ACTIVE" ? t("admin_reports_status_active", "Aktif") : agent.status}
                         </Badge>
                       </div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">{agent.agency} · {period}</p>
@@ -330,15 +330,15 @@ export default function AgentPerformance() {
                       <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 11, fill: '#94a3b8' }} tickLine={false} axisLine={false} />
                       <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: '#94a3b8' }} tickLine={false} axisLine={false} width={80} />
                       <Tooltip formatter={(v: any) => `${v}%`} />
-                      <Bar dataKey="leadsToShowings" name={t("admin.reports.leads_to_showings", "Adaylar→Gösterimler")} fill="#6366f1" radius={[0, 2, 2, 0]} maxBarSize={14} />
-                      <Bar dataKey="showingsToOffers" name={t("admin.reports.showings_to_offers", "Gösterimler→Teklifler")} fill="#8b5cf6" radius={[0, 2, 2, 0]} maxBarSize={14} />
-                      <Bar dataKey="offersToDeals" name={t("admin.reports.offers_to_deals", "Teklifler→Anlaşmalar")} fill="#10b981" radius={[0, 2, 2, 0]} maxBarSize={14} />
+                      <Bar dataKey="leadsToShowings" name={t("admin_reports_leads_to_showings", "Adaylar→Gösterimler")} fill="#6366f1" radius={[0, 2, 2, 0]} maxBarSize={14} />
+                      <Bar dataKey="showingsToOffers" name={t("admin_reports_showings_to_offers", "Gösterimler→Teklifler")} fill="#8b5cf6" radius={[0, 2, 2, 0]} maxBarSize={14} />
+                      <Bar dataKey="offersToDeals" name={t("admin_reports_offers_to_deals", "Teklifler→Anlaşmalar")} fill="#10b981" radius={[0, 2, 2, 0]} maxBarSize={14} />
                     </BarChart>
                   </ResponsiveContainer>
                   <div className="flex flex-wrap gap-4 mt-2">
-                    {[["#6366f1", t("admin.reports.leads_to_showings", "Adaylar→Gösterimler")],
-                     ["#8b5cf6", t("admin.reports.showings_to_offers", "Gösterimler→Teklifler")],
-                     ["#10b981", t("admin.reports.offers_to_deals", "Teklifler→Anlaşmalar")]].map(([c, l]) => <div key={l} className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+                    {[["#6366f1", t("admin_reports_leads_to_showings", "Adaylar→Gösterimler")],
+                     ["#8b5cf6", t("admin_reports_showings_to_offers", "Gösterimler→Teklifler")],
+                     ["#10b981", t("admin_reports_offers_to_deals", "Teklifler→Anlaşmalar")]].map(([c, l]) => <div key={l} className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                         <span className="w-2 h-2 rounded-sm inline-block" style={{ background: c }} />{l}
                       </div>)}
                   </div>

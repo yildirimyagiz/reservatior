@@ -136,7 +136,7 @@ export default function TaxRecords() {
     });
   };
   const handleDelete = (id: string) => {
-    if (!confirm(t("admin.financial.are_you_sure", "Emin misiniz?"))) return;
+    if (!confirm(t("admin_financial_are_you_sure", "Emin misiniz?"))) return;
     deleteMutation.mutate(id);
   };
   const openEdit = (row: FinancialRecord) => {
@@ -198,10 +198,10 @@ export default function TaxRecords() {
     </form>;
   };
   return <>
-      <PageShell title={t("admin_financial_tax_records")} description={t("admin_financial_manage_property_tax_records")} createLabel={t("admin.financial.add_tax_record", "Vergi Kaydı Ekle")} onCreateClick={() => {
+      <PageShell title={t("admin_financial_tax_records")} description={t("admin_financial_manage_property_tax_records")} createLabel={t("admin_financial_add_tax_record", "Vergi Kaydı Ekle")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
-    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.financial.search_tax_records", "Vergi kayıtlarında ara...")} stats={[{
+    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin_financial_search_tax_records", "Vergi kayıtlarında ara...")} stats={[{
       label: t("admin_financial_total"),
       value: records.length
     }, {

@@ -97,13 +97,13 @@ export default function ComplianceDashboard() {
 
   const getLocalizedStatus = (status: string) => {
     const map: Record<string, string> = {
-      'completed': t('admin.compliance.status.completed', 'Tamamlandı'),
-      'approved': t('admin.compliance.status.approved', 'Onaylandı'),
-      'verified': t('admin.compliance.status.verified', 'Doğrulandı'),
-      'pending': t('admin.compliance.status.pending', 'Bekliyor'),
-      'queued': t('admin.compliance.status.queued', 'Sırada'),
-      'expired': t('admin.compliance.status.expired', 'Süresi Doldu'),
-      'failed': t('admin.compliance.status.failed', 'Başarısız')
+      'completed': t('admin_compliance_status_completed', 'Tamamlandı'),
+      'approved': t('admin_compliance_status_approved', 'Onaylandı'),
+      'verified': t('admin_compliance_status_verified', 'Doğrulandı'),
+      'pending': t('admin_compliance_status_pending', 'Bekliyor'),
+      'queued': t('admin_compliance_status_queued', 'Sırada'),
+      'expired': t('admin_compliance_status_expired', 'Süresi Doldu'),
+      'failed': t('admin_compliance_status_failed', 'Başarısız')
     };
     return map[status.toLowerCase()] || status;
   };
@@ -277,9 +277,9 @@ export default function ComplianceDashboard() {
                       <TableCell className="text-slate-500 dark:text-slate-400">{check.visaType || "N/A"}</TableCell>
                       <TableCell>{renderStepper(check.checkStatus || 'pending')}</TableCell>
                       <TableCell className="text-slate-500 dark:text-slate-400">{check.documentNumber || "-"}</TableCell>
-                      <TableCell className="text-slate-500 dark:text-slate-400">{check.documentVerified ? t('admin.compliance.yes', 'Evet') : t('admin.compliance.no', 'Hayır')}</TableCell>
+                      <TableCell className="text-slate-500 dark:text-slate-400">{check.documentVerified ? t('admin_compliance_yes', 'Evet') : t('admin_compliance_no', 'Hayır')}</TableCell>
                       <TableCell className="text-right text-slate-500 dark:text-slate-400">
-                        {check.validUntil ? new Date(check.validUntil).toLocaleDateString() : t('admin.compliance.permanent', 'Kalıcı')}
+                        {check.validUntil ? new Date(check.validUntil).toLocaleDateString() : t('admin_compliance_permanent', 'Kalıcı')}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -356,7 +356,7 @@ export default function ComplianceDashboard() {
                         <TableCell className="text-slate-500 dark:text-slate-400">%{tax.taxRate || 0}</TableCell>
                         <TableCell>
                           <Badge variant={tax.isAutomated ? "default" : "outline"}>
-                            {tax.isAutomated ? t('admin.compliance.auto', 'Oto') : t('admin.compliance.manual', 'Manuel')}
+                            {tax.isAutomated ? t('admin_compliance_auto', 'Oto') : t('admin_compliance_manual', 'Manuel')}
                           </Badge>
                         </TableCell>
                       </TableRow>

@@ -64,22 +64,22 @@ enum PredictionStatus {
 }
 const getRiskConfig = (t: any) => ({
   LOW: {
-    label: t("admin.ai.low", "Düşük"),
+    label: t("admin_ai_low", "Düşük"),
     color: "bg-green-100 text-green-700",
     icon: CheckCircle
   },
   MEDIUM: {
-    label: t("admin.ai.medium", "Orta"),
+    label: t("admin_ai_medium", "Orta"),
     color: "bg-yellow-100 text-yellow-700",
     icon: Clock
   },
   HIGH: {
-    label: t("admin.ai.high", "Yüksek"),
+    label: t("admin_ai_high", "Yüksek"),
     color: "bg-orange-100 text-orange-700",
     icon: AlertTriangle
   },
   CRITICAL: {
-    label: t("admin.ai.critical", "Kritik"),
+    label: t("admin_ai_critical", "Kritik"),
     color: "bg-red-100 text-red-700",
     icon: AlertTriangle
   }
@@ -87,40 +87,40 @@ const getRiskConfig = (t: any) => ({
 
 const getUrgencyConfig = (t: any) => ({
   ROUTINE: {
-    label: t("admin.ai.routine", "Rutin"),
+    label: t("admin_ai_routine", "Rutin"),
     color: "bg-slate-100 text-slate-700"
   },
   SCHEDULED: {
-    label: t("admin.ai.scheduled", "Planlı"),
+    label: t("admin_ai_scheduled", "Planlı"),
     color: "bg-slate-100 text-slate-700"
   },
   URGENT: {
-    label: t("admin.ai.urgent", "Acil"),
+    label: t("admin_ai_urgent", "Acil"),
     color: "bg-orange-100 text-orange-700"
   },
   IMMEDIATE: {
-    label: t("admin.ai.immediate", "Derhal"),
+    label: t("admin_ai_immediate", "Derhal"),
     color: "bg-red-100 text-red-700"
   }
 });
 
 const getLocalizedStatus = (status: string, t: any) => {
   const map: Record<string, string> = {
-    'ACTIVE': t('admin.ai.status.active', 'Aktif'),
-    'ADDRESSED': t('admin.ai.status.addressed', 'Ele Alındı'),
-    'IGNORED': t('admin.ai.status.ignored', 'Görmezden Gelindi'),
-    'COMPLETED': t('admin.ai.status.completed', 'Tamamlandı')
+    'ACTIVE': t('admin_ai_status_active', 'Aktif'),
+    'ADDRESSED': t('admin_ai_status_addressed', 'Ele Alındı'),
+    'IGNORED': t('admin_ai_status_ignored', 'Görmezden Gelindi'),
+    'COMPLETED': t('admin_ai_status_completed', 'Tamamlandı')
   };
   return map[status] || status;
 };
 
 const getLocalizedSystemType = (type: string, t: any) => {
   const map: Record<string, string> = {
-    'HVAC': t('admin.ai.system.hvac', 'İklimlendirme (HVAC)'),
-    'PLUMBING': t('admin.ai.system.plumbing', 'Sıhhi Tesisat'),
-    'ELECTRICAL': t('admin.ai.system.electrical', 'Elektrik'),
-    'STRUCTURAL': t('admin.ai.system.structural', 'Yapısal'),
-    'APPLIANCE': t('admin.ai.system.appliance', 'Eşya/Cihaz')
+    'HVAC': t('admin_ai_system_hvac', 'İklimlendirme (HVAC)'),
+    'PLUMBING': t('admin_ai_system_plumbing', 'Sıhhi Tesisat'),
+    'ELECTRICAL': t('admin_ai_system_electrical', 'Elektrik'),
+    'STRUCTURAL': t('admin_ai_system_structural', 'Yapısal'),
+    'APPLIANCE': t('admin_ai_system_appliance', 'Eşya/Cihaz')
   };
   return map[type] || type;
 };

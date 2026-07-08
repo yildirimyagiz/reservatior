@@ -181,10 +181,10 @@ export default function Escrow() {
   };
   const holdingTotal = accounts.filter(e => e.status === "HOLDING").reduce((s, e) => s + (e.depositAmount || 0), 0);
   return <>
-      <PageShell title={t("admin_financial_escrow_accounts")} description={t("admin_financial_manage_escrow_funds_releases")} createLabel={t("admin.financial.create_escrow", "Güvenli Ödeme Oluştur")} onCreateClick={() => {
+      <PageShell title={t("admin_financial_escrow_accounts")} description={t("admin_financial_manage_escrow_funds_releases")} createLabel={t("admin_financial_create_escrow", "Güvenli Ödeme Oluştur")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
-    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.financial.search_by_reservation", "Rezervasyon ile ara...")} stats={[{
+    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin_financial_search_by_reservation", "Rezervasyon ile ara...")} stats={[{
       label: t("admin_financial_accounts"),
       value: accounts.length
     }, {

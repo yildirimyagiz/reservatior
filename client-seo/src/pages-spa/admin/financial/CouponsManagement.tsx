@@ -89,8 +89,8 @@ export default function CouponsManagement() {
 
   return (
     <PageShell 
-      title={t("admin.financial.coupons_management", "Coupons & Promotions")}
-      description={t("admin.financial.coupons_desc", "Manage global and regional promotional codes for users.")}
+      title={t("admin_financial_coupons_management", "Coupons & Promotions")}
+      description={t("admin_financial_coupons_desc", "Manage global and regional promotional codes for users.")}
     >
       <div className="space-y-8 pb-20">
         
@@ -102,7 +102,7 @@ export default function CouponsManagement() {
                 <Tag className="w-8 h-8" />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">{t("admin.financial.active_campaigns", "Active Campaigns")}</p>
+                <p className="text-sm font-medium text-muted-foreground">{t("admin_financial_active_campaigns", "Active Campaigns")}</p>
                 <h3 className="text-3xl font-bold">2</h3>
               </div>
             </CardContent>
@@ -113,7 +113,7 @@ export default function CouponsManagement() {
                 <CheckCircle className="w-8 h-8" />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">{t("admin.financial.total_usages", "Total Usages")}</p>
+                <p className="text-sm font-medium text-muted-foreground">{t("admin_financial_total_usages", "Total Usages")}</p>
                 <h3 className="text-3xl font-bold">534</h3>
               </div>
             </CardContent>
@@ -124,7 +124,7 @@ export default function CouponsManagement() {
                 <Globe className="w-8 h-8" />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">{t("admin.financial.regions_targeted", "Regions Targeted")}</p>
+                <p className="text-sm font-medium text-muted-foreground">{t("admin_financial_regions_targeted", "Regions Targeted")}</p>
                 <h3 className="text-3xl font-bold">3</h3>
               </div>
             </CardContent>
@@ -137,27 +137,27 @@ export default function CouponsManagement() {
             <div className="relative group w-full lg:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input 
-                placeholder={t("admin.financial.search_coupons", "Search coupons...")} 
+                placeholder={t("admin_financial_search_coupons", "Search coupons...")} 
                 value={searchTerm} 
                 onChange={e => setSearchTerm(e.target.value)} 
                 className="bg-card border-border rounded-2xl pl-12 h-14 shadow-sm" 
               />
             </div>
             <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl font-bold gap-2">
-              <Plus className="w-4 h-4" />{t("admin.financial.create_coupon", "Create Coupon")}</Button>
+              <Plus className="w-4 h-4" />{t("admin_financial_create_coupon", "Create Coupon")}</Button>
           </div>
 
           <Card className="rounded-3xl shadow-sm border-border">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("admin.financial.code", "Code")}</TableHead>
-                  <TableHead>{t("admin.financial.type", "Type")}</TableHead>
-                  <TableHead>{t("admin.financial.value", "Value")}</TableHead>
-                  <TableHead>{t("admin.financial.region", "Region")}</TableHead>
-                  <TableHead>{t("admin.financial.status", "Status")}</TableHead>
-                  <TableHead>{t("admin.financial.usages", "Usages")}</TableHead>
-                  <TableHead>{t("admin.financial.expires", "Expires")}</TableHead>
+                  <TableHead>{t("admin_financial_code", "Code")}</TableHead>
+                  <TableHead>{t("admin_financial_type", "Type")}</TableHead>
+                  <TableHead>{t("admin_financial_value", "Value")}</TableHead>
+                  <TableHead>{t("admin_financial_region", "Region")}</TableHead>
+                  <TableHead>{t("admin_financial_status", "Status")}</TableHead>
+                  <TableHead>{t("admin_financial_usages", "Usages")}</TableHead>
+                  <TableHead>{t("admin_financial_expires", "Expires")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -192,45 +192,45 @@ export default function CouponsManagement() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("admin.financial.create_new_coupon", "Create New Coupon")}</DialogTitle>
+            <DialogTitle>{t("admin_financial_create_new_coupon", "Create New Coupon")}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">{t("admin.financial.coupon_code", "Coupon Code")}</label>
+              <label className="text-sm font-medium">{t("admin_financial_coupon_code", "Coupon Code")}</label>
               <Input placeholder="e.g. SUMMER2026" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">{t("admin.financial.discount_value", "Discount Value")}</label>
+                <label className="text-sm font-medium">{t("admin_financial_discount_value", "Discount Value")}</label>
                 <Input type="number" placeholder="10" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">{t("admin.financial.discount_type", "Discount Type")}</label>
+                <label className="text-sm font-medium">{t("admin_financial_discount_type", "Discount Type")}</label>
                 <Select defaultValue="PERCENTAGE">
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="PERCENTAGE">{t("admin.financial.percentage", "Percentage")}</SelectItem>
-                    <SelectItem value="FIXED">{t("admin.financial.fixed_amount", "Fixed Amount")}</SelectItem>
+                    <SelectItem value="PERCENTAGE">{t("admin_financial_percentage", "Percentage")}</SelectItem>
+                    <SelectItem value="FIXED">{t("admin_financial_fixed_amount", "Fixed Amount")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">{t("admin.financial.target_region", "Target Region")}</label>
+              <label className="text-sm font-medium">{t("admin_financial_target_region", "Target Region")}</label>
               <Select defaultValue="GLOBAL">
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="GLOBAL">{t("admin.financial.global_regions", "Global (All Regions)")}</SelectItem>
-                  <SelectItem value="US">{t("admin.financial.us_region", "United States (US)")}</SelectItem>
-                  <SelectItem value="TR">{t("admin.financial.tr_region", "Turkey (TR)")}</SelectItem>
-                  <SelectItem value="UK">{t("admin.financial.uk_region", "United Kingdom (UK)")}</SelectItem>
+                  <SelectItem value="GLOBAL">{t("admin_financial_global_regions", "Global (All Regions)")}</SelectItem>
+                  <SelectItem value="US">{t("admin_financial_us_region", "United States (US)")}</SelectItem>
+                  <SelectItem value="TR">{t("admin_financial_tr_region", "Turkey (TR)")}</SelectItem>
+                  <SelectItem value="UK">{t("admin_financial_uk_region", "United Kingdom (UK)")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateOpen(false)}>{t("admin.financial.cancel", "Cancel")}</Button>
-            <Button onClick={() => setCreateOpen(false)}>{t("admin.financial.create_campaign", "Create Campaign")}</Button>
+            <Button variant="outline" onClick={() => setCreateOpen(false)}>{t("admin_financial_cancel", "Cancel")}</Button>
+            <Button onClick={() => setCreateOpen(false)}>{t("admin_financial_create_campaign", "Create Campaign")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -238,7 +238,7 @@ export default function CouponsManagement() {
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{t("admin.financial.edit_coupon", "Edit Discount/Coupon")}</DialogTitle>
+            <DialogTitle>{t("admin_financial_edit_coupon", "Edit Discount/Coupon")}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">

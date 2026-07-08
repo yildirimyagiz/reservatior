@@ -74,11 +74,11 @@ export const PartnerAgreements: React.FC = () => {
     onSuccess: () => {
       setIsAddOpen(false);
       queryClient.invalidateQueries({ queryKey: ['partner-agreements'] });
-      toast({ title: t("common.success", "Success"), description: t("admin.agreements.created", "Agreement created successfully") });
+      toast({ title: t("common.success", "Success"), description: t("admin_agreements_created", "Agreement created successfully") });
       setNewAgreement({ baseCommission: '0.10', loyaltyYield: '5.0', portfolioHealthScore: '0.90' });
     },
     onError: (err: any) => {
-      toast({ title: t("common.error", "Error"), description: err.message || t("admin.agreements.create_error", "Failed to create agreement"), variant: "destructive" });
+      toast({ title: t("common.error", "Error"), description: err.message || t("admin_agreements_create_error", "Failed to create agreement"), variant: "destructive" });
     }
   });
 
@@ -91,10 +91,10 @@ export const PartnerAgreements: React.FC = () => {
       setSelectedAgreement(null);
       setTransitionState("");
       queryClient.invalidateQueries({ queryKey: ['partner-agreements'] });
-      toast({ title: t("common.success", "Success"), description: t("admin.agreements.transitioned", "Agreement state updated") });
+      toast({ title: t("common.success", "Success"), description: t("admin_agreements_transitioned", "Agreement state updated") });
     },
     onError: (err: any) => {
-      toast({ title: t("common.error", "Error"), description: err.message || t("admin.agreements.transition_error", "Failed to update state"), variant: "destructive" });
+      toast({ title: t("common.error", "Error"), description: err.message || t("admin_agreements_transition_error", "Failed to update state"), variant: "destructive" });
     }
   });
 
@@ -102,7 +102,7 @@ export const PartnerAgreements: React.FC = () => {
     mutationFn: async (id: string) => apiClient.delete(`/partner-agreement/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['partner-agreements'] });
-      toast({ title: t("common.success", "Success"), description: t("admin.agreements.deleted", "Agreement deleted") });
+      toast({ title: t("common.success", "Success"), description: t("admin_agreements_deleted", "Agreement deleted") });
     },
     onError: (err: any) => toast({ title: t("common.error", "Error"), description: err.message, variant: "destructive" })
   });
@@ -129,37 +129,37 @@ export const PartnerAgreements: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400 flex items-center gap-3">
             <Shield className="w-8 h-8 text-slate-500 dark:text-slate-400" />
-            {t("admin.agreements.title", "Partner Agreements")}
+            {t("admin_agreements_title", "Partner Agreements")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            {t("admin.agreements.subtitle", "Monitor and manage agency partner agreement contracts")}
+            {t("admin_agreements_subtitle", "Monitor and manage agency partner agreement contracts")}
           </p>
         </div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
             <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
               <Shield className="w-4 h-4 mr-2" />
-              {t("admin.agreements.create", "Create Agreement")}
+              {t("admin_agreements_create", "Create Agreement")}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[500px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
             <DialogHeader>
-              <DialogTitle>{t("admin.agreements.create_title", "Create Partner Agreement")}</DialogTitle>
+              <DialogTitle>{t("admin_agreements_create_title", "Create Partner Agreement")}</DialogTitle>
               <DialogDescription className="text-slate-500 dark:text-slate-400">
-                {t("admin.agreements.create_desc", "Set the financial terms for the new partner agreement")}
+                {t("admin_agreements_create_desc", "Set the financial terms for the new partner agreement")}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-4 pt-4">
               <div className="space-y-2">
-                <Label htmlFor="baseCommission" className="text-slate-300">{t("admin.agreements.base_commission", "Base Commission")}</Label>
+                <Label htmlFor="baseCommission" className="text-slate-300">{t("admin_agreements_base_commission", "Base Commission")}</Label>
                 <Input id="baseCommission" type="number" step="0.01" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAgreement.baseCommission} onChange={e => setNewAgreement({...newAgreement, baseCommission: e.target.value})} placeholder="0.10" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="loyaltyYield" className="text-slate-300">{t("admin.agreements.loyalty_yield", "Loyalty Yield")}</Label>
+                <Label htmlFor="loyaltyYield" className="text-slate-300">{t("admin_agreements_loyalty_yield", "Loyalty Yield")}</Label>
                 <Input id="loyaltyYield" type="number" step="0.1" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAgreement.loyaltyYield} onChange={e => setNewAgreement({...newAgreement, loyaltyYield: e.target.value})} placeholder="5.0" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="portfolioHealthScore" className="text-slate-300">{t("admin.agreements.health_score", "Health Score")}</Label>
+                <Label htmlFor="portfolioHealthScore" className="text-slate-300">{t("admin_agreements_health_score", "Health Score")}</Label>
                 <Input id="portfolioHealthScore" type="number" step="0.01" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={newAgreement.portfolioHealthScore} onChange={e => setNewAgreement({...newAgreement, portfolioHealthScore: e.target.value})} placeholder="0.90" />
               </div>
               <DialogFooter className="pt-4">
@@ -176,17 +176,17 @@ export const PartnerAgreements: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.active_contracts", "Active Contracts")}</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-300">{t("admin_agreements_active_contracts", "Active Contracts")}</CardTitle>
             <Activity className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-slate-900 dark:text-white">{agreements.filter(a => a.status === 'ACTIVE').length}</div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("admin.agreements.total_count", "Total: {count}", { count: agreements.length })}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("admin_agreements_total_count", "Total: {count}", { count: agreements.length })}</p>
           </CardContent>
         </Card>
         <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.avg_commission", "Avg Commission")}</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-300">{t("admin_agreements_avg_commission", "Avg Commission")}</CardTitle>
             <TrendingUp className="w-4 h-4 text-emerald-400" />
           </CardHeader>
           <CardContent>
@@ -199,7 +199,7 @@ export const PartnerAgreements: React.FC = () => {
         </Card>
         <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.avg_health", "Avg Health")}</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-300">{t("admin_agreements_avg_health", "Avg Health")}</CardTitle>
             <Award className="w-4 h-4 text-amber-400" />
           </CardHeader>
           <CardContent>
@@ -212,7 +212,7 @@ export const PartnerAgreements: React.FC = () => {
         </Card>
         <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-300">{t("admin.agreements.avg_multiplier", "Avg Multiplier")}</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-300">{t("admin_agreements_avg_multiplier", "Avg Multiplier")}</CardTitle>
             <ArrowRight className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
@@ -227,7 +227,7 @@ export const PartnerAgreements: React.FC = () => {
 
       <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-white">{t("admin.agreements.agreement_list", "Agreement Contracts")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_agreements_agreement_list", "Agreement Contracts")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -236,19 +236,19 @@ export const PartnerAgreements: React.FC = () => {
             </div>
           ) : agreements.length === 0 ? (
             <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
-              {t("admin.agreements.no_agreements", "No agreements found.")}
+              {t("admin_agreements_no_agreements", "No agreements found.")}
             </div>
           ) : (
             <div className="rounded-xl border border-slate-200 dark:border-white/10">
               <Table>
                 <TableHeader>
                   <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
-                    <TableHead className="text-slate-300">{t("admin.agreements.tenant", "Agency")}</TableHead>
-                    <TableHead className="text-slate-300">{t("admin.agreements.status", "Status")}</TableHead>
-                    <TableHead className="text-slate-300">{t("admin.agreements.commission", "Commission")}</TableHead>
-                    <TableHead className="text-slate-300">{t("admin.agreements.loyalty", "Loyalty")}</TableHead>
-                    <TableHead className="text-slate-300">{t("admin.agreements.health", "Health")}</TableHead>
-                    <TableHead className="text-slate-300">{t("admin.agreements.multiplier", "Multiplier")}</TableHead>
+                    <TableHead className="text-slate-300">{t("admin_agreements_tenant", "Agency")}</TableHead>
+                    <TableHead className="text-slate-300">{t("admin_agreements_status", "Status")}</TableHead>
+                    <TableHead className="text-slate-300">{t("admin_agreements_commission", "Commission")}</TableHead>
+                    <TableHead className="text-slate-300">{t("admin_agreements_loyalty", "Loyalty")}</TableHead>
+                    <TableHead className="text-slate-300">{t("admin_agreements_health", "Health")}</TableHead>
+                    <TableHead className="text-slate-300">{t("admin_agreements_multiplier", "Multiplier")}</TableHead>
                     <TableHead className="text-slate-300 text-right">{t("common.actions", "Actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -286,7 +286,7 @@ export const PartnerAgreements: React.FC = () => {
                               }}
                             >
                               <ArrowRight className="w-4 h-4 mr-1" />
-                              {t("admin.agreements.transition", "Transition")}
+                              {t("admin_agreements_transition", "Transition")}
                             </Button>
                           )}
                         </TableCell>
@@ -315,23 +315,23 @@ export const PartnerAgreements: React.FC = () => {
       <Dialog open={isTransitionOpen} onOpenChange={setIsTransitionOpen}>
         <DialogContent className="sm:max-w-[400px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
           <DialogHeader>
-            <DialogTitle>{t("admin.agreements.transition_title", "Transition Agreement State")}</DialogTitle>
+            <DialogTitle>{t("admin_agreements_transition_title", "Transition Agreement State")}</DialogTitle>
             <DialogDescription className="text-slate-500 dark:text-slate-400">
-              {selectedAgreement && t("admin.agreements.transition_desc", "Change state for {id}", { id: selectedAgreement.tenantId })}
+              {selectedAgreement && t("admin_agreements_transition_desc", "Change state for {id}", { id: selectedAgreement.tenantId })}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label className="text-slate-300">{t("admin.agreements.current_state", "Current State")}</Label>
+              <Label className="text-slate-300">{t("admin_agreements_current_state", "Current State")}</Label>
               <div className="p-3 bg-white/5 rounded-lg text-slate-900 dark:text-white font-medium">
                 {selectedAgreement && STATUS_CONFIG[selectedAgreement.status]?.label || selectedAgreement?.status}
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="nextState" className="text-slate-300">{t("admin.agreements.next_state", "Next State")}</Label>
+              <Label htmlFor="nextState" className="text-slate-300">{t("admin_agreements_next_state", "Next State")}</Label>
               <Select value={transitionState} onValueChange={setTransitionState}>
                 <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
-                  <SelectValue placeholder={t("admin.agreements.select_state", "Select state")} />
+                  <SelectValue placeholder={t("admin_agreements_select_state", "Select state")} />
                 </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
                   {selectedAgreement && getValidTransitions(selectedAgreement.status).map(state => (
@@ -350,7 +350,7 @@ export const PartnerAgreements: React.FC = () => {
               onClick={() => selectedAgreement && transitionMutation.mutate({ id: selectedAgreement.id, nextState: transitionState })}
               disabled={transitionMutation.isPending || !transitionState}
             >
-              {transitionMutation.isPending ? t("common.processing", "Processing...") : t("admin.agreements.transition_btn", "Transition")}
+              {transitionMutation.isPending ? t("common.processing", "Processing...") : t("admin_agreements_transition_btn", "Transition")}
             </Button>
           </DialogFooter>
         </DialogContent>

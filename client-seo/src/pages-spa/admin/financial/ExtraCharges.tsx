@@ -125,7 +125,7 @@ export default function ExtraCharges() {
     }
   };
   const handleDelete = async (id: string) => {
-    if (!confirm(t("admin.financial.are_you_sure", "Emin misiniz?"))) return;
+    if (!confirm(t("admin_financial_are_you_sure", "Emin misiniz?"))) return;
     try {
       await extraChargeApi.deleteCharge(id);
       toast({
@@ -240,10 +240,10 @@ export default function ExtraCharges() {
     </form>;
   };
   return <>
-      <PageShell title={t("admin_financial_extra_charges")} description={t("admin_financial_manage_additional_fees_damage")} createLabel={t("admin.financial.add_extra_charge", "Ek Ücret Ekle")} onCreateClick={() => {
+      <PageShell title={t("admin_financial_extra_charges")} description={t("admin_financial_manage_additional_fees_damage")} createLabel={t("admin_financial_add_extra_charge", "Ek Ücret Ekle")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
-    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.financial.search_charges", "Ücretlerde ara...")} stats={[{
+    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin_financial_search_charges", "Ücretlerde ara...")} stats={[{
       label: t("admin_financial_total_charges"),
       value: charges.length
     }, {

@@ -124,25 +124,25 @@ export const adminRoutes = [
 {
   path: '/admin/agencies',
   component: 'AgenciesManagement',
-  label: t("admin.index.agencies", "Agencies"),
+  label: t("admin_index_agencies", "Agencies"),
   icon: 'Building2',
   category: 'crm'
 }, {
   path: '/admin/agents',
   component: 'AgentsManagement',
-  label: t("admin.index.agents", "Agents"),
+  label: t("admin_index_agents", "Agents"),
   icon: 'UserCheck',
   category: 'crm'
 }, {
   path: '/admin/vendors',
   component: 'VendorsManagement',
-  label: t("admin.index.vendors", "Vendors"),
+  label: t("admin_index_vendors", "Vendors"),
   icon: 'Wrench',
   category: 'crm'
 }, {
   path: '/admin/contacts',
   component: 'ContactsManagement',
-  label: t("admin.index.contacts", "Contacts"),
+  label: t("admin_index_contacts", "Contacts"),
   icon: 'Users',
   category: 'crm'
 },
@@ -150,19 +150,19 @@ export const adminRoutes = [
 {
   path: '/admin/tasks',
   component: 'TasksManagement',
-  label: t("admin.index.tasks", "Tasks"),
+  label: t("admin_index_tasks", "Tasks"),
   icon: 'Activity',
   category: 'operations'
 }, {
   path: '/admin/facilities',
   component: 'FacilitiesManagement',
-  label: t("admin.index.facilities", "Facilities"),
+  label: t("admin_index_facilities", "Facilities"),
   icon: 'Building',
   category: 'operations'
 }, {
   path: '/admin/maintenance',
   component: 'MaintenanceManagement',
-  label: t("admin.index.maintenance", "Maintenance"),
+  label: t("admin_index_maintenance", "Maintenance"),
   icon: 'Wrench',
   category: 'operations'
 },
@@ -476,14 +476,14 @@ export const adminRoutes = [
 }];
 export const adminCategories = {
   crm: {
-    label: t("admin.index.crm_agencies", "CRM & Agencies"),
+    label: t("admin_index_crm_agencies", "CRM & Agencies"),
     icon: 'Users',
-    description: t("admin.index.manage_contacts_agents", "Manage contacts, agents, and vendors")
+    description: t("admin_index_manage_contacts_agents", "Manage contacts, agents, and vendors")
   },
   operations: {
-    label: t("admin.index.operations", "Operations"),
+    label: t("admin_index_operations", "Operations"),
     icon: 'Activity',
-    description: t("admin.index.operations_desc", "Manage tasks, facilities, and maintenance")
+    description: t("admin_index_operations_desc", "Manage tasks, facilities, and maintenance")
   },
   core: {
     label: t("admin_index_core"),

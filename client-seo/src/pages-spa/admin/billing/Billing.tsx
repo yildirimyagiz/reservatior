@@ -66,10 +66,10 @@ export default function Billing() {
           </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t("admin.billing.billing", "Billing")}
+              {t("admin_billing_billing", "Billing")}
             </h1>
             <p className="text-slate-500 dark:text-slate-400">
-              {t("admin.billing.subscription_and_payment_management", "Subscription and payment management")}
+              {t("admin_billing_subscription_and_payment_management", "Subscription and payment management")}
             </p>
           </div>
         </div>
@@ -77,42 +77,42 @@ export default function Billing() {
 
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="bg-white/5 border border-slate-200 dark:border-white/10">
-          <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.overview", "Overview")}</TabsTrigger>
-          <TabsTrigger value="plans" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.plans", "Plans")}</TabsTrigger>
-          <TabsTrigger value="billing" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.invoices", "Invoices")}</TabsTrigger>
-          <TabsTrigger value="payment" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin.billing.payment_methods", "Payment Methods")}</TabsTrigger>
+          <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin_billing_overview", "Overview")}</TabsTrigger>
+          <TabsTrigger value="plans" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin_billing_plans", "Plans")}</TabsTrigger>
+          <TabsTrigger value="billing" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin_billing_invoices", "Invoices")}</TabsTrigger>
+          <TabsTrigger value="payment" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin_billing_payment_methods", "Payment Methods")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6 mt-6">
           <div className="grid gap-6 md:grid-cols-2">
             <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-white">{t("admin.billing.current_plan", "Current Plan")}</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-white">{t("admin_billing_current_plan", "Current Plan")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{currentPlan?.name || t("admin.billing.no_plan", "No Plan")}</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{currentPlan?.name || t("admin_billing_no_plan", "No Plan")}</h3>
                   <p className="text-3xl font-bold text-slate-900 dark:text-white">${currentPlan?.price || 0}<span className="text-lg font-normal text-slate-500 dark:text-slate-400">/{currentPlan?.interval || "mo"}</span></p>
-                  <Badge className="bg-emerald-500/20 text-emerald-400 border-0">{t("admin.billing.active", "Active")}</Badge>
+                  <Badge className="bg-emerald-500/20 text-emerald-400 border-0">{t("admin_billing_active", "Active")}</Badge>
                   <div className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                    <p>{t("admin.billing.total_paid", "Total Paid")}: ${totalPaid.toLocaleString()}</p>
-                    <p>{invoices.length} {t("admin.billing.invoices", "invoices")}</p>
+                    <p>{t("admin_billing_total_paid", "Total Paid")}: ${totalPaid.toLocaleString()}</p>
+                    <p>{invoices.length} {t("admin_billing_invoices", "invoices")}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
             <Card className="bg-white/5 border-slate-200 dark:border-white/10">
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-white">{t("admin.billing.billing_info", "Billing Info")}</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-white">{t("admin_billing_billing_info", "Billing Info")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4 text-sm">
                   <div>
-                    <p className="text-slate-500 dark:text-slate-400">{t("admin.billing.next_billing_date", "Next Billing Date")}</p>
+                    <p className="text-slate-500 dark:text-slate-400">{t("admin_billing_next_billing_date", "Next Billing Date")}</p>
                     <p className="text-lg font-medium text-slate-900 dark:text-white">{invoices.length > 0 ? new Date(invoices[0].dueDate).toLocaleDateString() : "—"}</p>
                   </div>
                   <div>
-                    <p className="text-slate-500 dark:text-slate-400">{t("admin.billing.total_revenue", "Total Revenue")}</p>
+                    <p className="text-slate-500 dark:text-slate-400">{t("admin_billing_total_revenue", "Total Revenue")}</p>
                     <p className="text-lg font-medium text-slate-900 dark:text-white">${totalPaid.toLocaleString()}</p>
                   </div>
                 </div>
@@ -124,19 +124,19 @@ export default function Billing() {
         <TabsContent value="plans" className="space-y-6 mt-6">
           <div className="flex justify-center mb-6">
             <div className="flex items-center gap-2 bg-white/5 p-1 rounded-lg">
-              <Button variant={billingCycle === "monthly" ? "default" : "ghost"} size="sm" onClick={() => setBillingCycle("monthly")} className={billingCycle === "monthly" ? "bg-slate-600" : "text-slate-300"}>{t("admin.billing.monthly", "Monthly")}</Button>
-              <Button variant={billingCycle === "yearly" ? "default" : "ghost"} size="sm" onClick={() => setBillingCycle("yearly")} className={billingCycle === "yearly" ? "bg-slate-600" : "text-slate-300"}>{t("admin.billing.yearly_20_discount", "Yearly")}</Button>
+              <Button variant={billingCycle === "monthly" ? "default" : "ghost"} size="sm" onClick={() => setBillingCycle("monthly")} className={billingCycle === "monthly" ? "bg-slate-600" : "text-slate-300"}>{t("admin_billing_monthly", "Monthly")}</Button>
+              <Button variant={billingCycle === "yearly" ? "default" : "ghost"} size="sm" onClick={() => setBillingCycle("yearly")} className={billingCycle === "yearly" ? "bg-slate-600" : "text-slate-300"}>{t("admin_billing_yearly_20_discount", "Yearly")}</Button>
             </div>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {plans.length === 0 ? (
-              <p className="text-center text-slate-500 col-span-3 py-8">{t("admin.billing.no_plans", "No plans available")}</p>
+              <p className="text-center text-slate-500 col-span-3 py-8">{t("admin_billing_no_plans", "No plans available")}</p>
             ) : plans.map(plan => (
               <Card key={plan.id} className={`bg-white/5 border-slate-200 dark:border-white/10 ${plan.isActive ? 'ring-2 ring-slate-500' : ''}`}>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between text-slate-900 dark:text-white">
                     {plan.name}
-                    {plan.isActive && <Badge className="bg-slate-600">{t("admin.billing.current", "Current")}</Badge>}
+                    {plan.isActive && <Badge className="bg-slate-600">{t("admin_billing_current", "Current")}</Badge>}
                   </CardTitle>
                   <div>
                     <p className="text-3xl font-bold text-slate-900 dark:text-white">${plan.price}<span className="text-lg font-normal text-slate-500 dark:text-slate-400">/{plan.interval}</span></p>
@@ -144,7 +144,7 @@ export default function Billing() {
                 </CardHeader>
                 <CardContent>
                   <Button className="w-full" variant={plan.isActive ? "outline" : "default"} disabled={plan.isActive}>
-                    {plan.isActive ? t("admin.billing.current_plan", "Current Plan") : t("admin.billing.select", "Select")}
+                    {plan.isActive ? t("admin_billing_current_plan", "Current Plan") : t("admin_billing_select", "Select")}
                   </Button>
                 </CardContent>
               </Card>
@@ -155,13 +155,13 @@ export default function Billing() {
         <TabsContent value="billing" className="space-y-6 mt-6">
           <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-slate-900 dark:text-white">{t("admin.billing.invoice_history", "Invoice History")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_billing_invoice_history", "Invoice History")}</CardTitle>
             </CardHeader>
             <CardContent>
               {invoicesLoading ? (
                 <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-slate-500 dark:text-slate-400" /></div>
               ) : invoices.length === 0 ? (
-                <p className="text-center text-slate-500 py-8">{t("admin.billing.no_invoices", "No invoices")}</p>
+                <p className="text-center text-slate-500 py-8">{t("admin_billing_no_invoices", "No invoices")}</p>
               ) : (
                 <div className="space-y-4">
                   {invoices.map(invoice => (
@@ -177,7 +177,7 @@ export default function Billing() {
                         </Badge>
                       </div>
                       <Button variant="outline" size="sm" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-300 hover:bg-white/10">
-                        <Download className="w-4 h-4 mr-2" />{t("admin.billing.download", "Download")}
+                        <Download className="w-4 h-4 mr-2" />{t("admin_billing_download", "Download")}
                       </Button>
                     </div>
                   ))}
@@ -190,11 +190,11 @@ export default function Billing() {
         <TabsContent value="payment" className="space-y-6 mt-6">
           <Card className="bg-white/5 border-slate-200 dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-slate-900 dark:text-white">{t("admin.billing.payment_methods", "Payment Methods")}</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-white">{t("admin_billing_payment_methods", "Payment Methods")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-slate-500 py-8">{t("admin.billing.no_payment_methods", "No payment methods configured")}</p>
-              <Button className="w-full bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white hover:bg-white/10">{t("admin.billing.add_payment_method", "Add Payment Method")}</Button>
+              <p className="text-center text-slate-500 py-8">{t("admin_billing_no_payment_methods", "No payment methods configured")}</p>
+              <Button className="w-full bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white hover:bg-white/10">{t("admin_billing_add_payment_method", "Add Payment Method")}</Button>
             </CardContent>
           </Card>
         </TabsContent>

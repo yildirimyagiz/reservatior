@@ -159,7 +159,7 @@ export default function AILeadScoring() {
       <span className="text-sm font-semibold w-6 text-right">{score}</span>
     </div>;
   return <>
-      <PageShell title={t("admin_ai_ai_lead_scoring")} description={t("admin_ai_machine_learningpowered_lead_prioritization")} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.ai.search_leads", "Müşteri adaylarında ara...")} actions={<Button variant="outline" size="sm" onClick={handleRerun} disabled={rerunning}>
+      <PageShell title={t("admin_ai_ai_lead_scoring")} description={t("admin_ai_machine_learningpowered_lead_prioritization")} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin_ai_search_leads", "Müşteri adaylarında ara...")} actions={<Button variant="outline" size="sm" onClick={handleRerun} disabled={rerunning}>
             <RefreshCw className={`w-4 h-4 mr-1.5 ${rerunning ? "animate-spin" : ""}`} />
             {rerunning ? "Scoring..." : "Re-score All"}
           </Button>} stats={[{

@@ -250,7 +250,7 @@ export default function LocationServices() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.location.error", "Error"),
+        title: t("admin_location_error", "Error"),
         description: error.message,
         variant: "destructive"
       });

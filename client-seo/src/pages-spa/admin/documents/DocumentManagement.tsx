@@ -205,7 +205,7 @@ export default function DocumentManagement() {
     },
     onError: (error: unknown) => {
       toast({
-        title: t("admin.documents.error", "Hata"),
+        title: t("admin_documents_error", "Hata"),
         description: error.message,
         variant: "destructive"
       });
@@ -276,7 +276,7 @@ export default function DocumentManagement() {
       });
     } catch (e: unknown) {
       toast({
-        title: t("admin.documents.error", "Hata"),
+        title: t("admin_documents_error", "Hata"),
         description: e.message,
         variant: "destructive"
       });
@@ -474,9 +474,9 @@ export default function DocumentManagement() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                               <DropdownMenuItem onClick={() => {
-                                toast({ title: t("admin.documents.ai_analysis_started", "AI Analysis Started"), description: t("admin.documents.ai_analysis_desc", "Document is being processed by ML OCR Engine.") });
+                                toast({ title: t("admin_documents_ai_analysis_started", "AI Analysis Started"), description: t("admin_documents_ai_analysis_desc", "Document is being processed by ML OCR Engine.") });
                                 documentsApi.analyzeDocumentWithAI(document.id).then(() => {
-                                  toast({ title: t("admin.documents.ai_analysis_complete", "AI Analysis Complete"), description: t("admin.documents.ai_analysis_success", "Data successfully extracted.") });
+                                  toast({ title: t("admin_documents_ai_analysis_complete", "AI Analysis Complete"), description: t("admin_documents_ai_analysis_success", "Data successfully extracted.") });
                                 }).catch((err: unknown) => {
                                   toast({ title: "Error", description: err.message, variant: "destructive" });
                                 });

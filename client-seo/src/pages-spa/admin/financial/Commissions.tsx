@@ -120,10 +120,10 @@ export default function Commissions() {
           </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t("admin.financial.commission_management", "Commission Management")}
+              {t("admin_financial_commission_management", "Commission Management")}
             </h1>
             <p className="text-slate-500 dark:text-slate-400">
-              {t("admin.financial.define_and_track_commission", "Track and manage commissions")}
+              {t("admin_financial_define_and_track_commission", "Track and manage commissions")}
             </p>
           </div>
         </div>
@@ -131,37 +131,37 @@ export default function Commissions() {
           <DialogTrigger asChild>
             <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20" onClick={() => { setIsAddOpen(true); setFormData({ agentId: "", amountBase: 0, commissionRate: 0, currency: "USD", status: "PENDING" }); }}>
               <Plus className="w-4 h-4 mr-2" />
-              {t("admin.financial.new_commission", "New Commission")}
+              {t("admin_financial_new_commission", "New Commission")}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
             <DialogHeader>
               <DialogTitle>
-                {editingCommission ? t("admin.financial.edit_commission", "Edit Commission") : t("admin.financial.new_commission", "New Commission")}
+                {editingCommission ? t("admin_financial_edit_commission", "Edit Commission") : t("admin_financial_new_commission", "New Commission")}
               </DialogTitle>
               <DialogDescription className="text-slate-500 dark:text-slate-400">
-                {editingCommission ? t("admin.financial.edit_commission_desc", "Update the commission status") : t("admin.financial.new_commission_desc", "Enter the commission details")}
+                {editingCommission ? t("admin_financial_edit_commission_desc", "Update the commission status") : t("admin_financial_new_commission_desc", "Enter the commission details")}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4 pt-4">
               {!editingCommission && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="agentId">{t("admin.financial.agent_id", "Agent ID")}</Label>
+                    <Label htmlFor="agentId">{t("admin_financial_agent_id", "Agent ID")}</Label>
                     <Input id="agentId" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.agentId} onChange={e => setFormData({ ...formData, agentId: e.target.value })} />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="amountBase">{t("admin.financial.base_amount", "Base Amount")}</Label>
+                    <Label htmlFor="amountBase">{t("admin_financial_base_amount", "Base Amount")}</Label>
                     <Input id="amountBase" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.amountBase} onChange={e => setFormData({ ...formData, amountBase: Number(e.target.value) })} required />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="commissionRate">{t("admin.financial.commission_rate", "Rate (%)")}</Label>
+                    <Label htmlFor="commissionRate">{t("admin_financial_commission_rate", "Rate (%)")}</Label>
                     <Input id="commissionRate" type="number" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.commissionRate} onChange={e => setFormData({ ...formData, commissionRate: Number(e.target.value) })} required />
                   </div>
                 </>
               )}
               <div className="space-y-2">
-                <Label htmlFor="status">{t("admin.financial.status", "Status")}</Label>
+                <Label htmlFor="status">{t("admin_financial_status", "Status")}</Label>
                 <Select value={formData.status} onValueChange={(v: string) => setFormData({ ...formData, status: v })}>
                   <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"><SelectValue /></SelectTrigger>
                   <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
@@ -187,7 +187,7 @@ export default function Commissions() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.total_commissions", "Total Commissions")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_total_commissions", "Total Commissions")}</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{commissions.length}</h3>
               </div>
               <div className="p-3 bg-slate-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-slate-500 dark:text-slate-400" /></div>
@@ -198,7 +198,7 @@ export default function Commissions() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.total_paid", "Total Paid")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_total_paid", "Total Paid")}</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">${totalPaid.toLocaleString()}</h3>
               </div>
               <div className="p-3 bg-emerald-500/20 rounded-lg"><TrendingUp className="w-5 h-5 text-emerald-400" /></div>
@@ -209,7 +209,7 @@ export default function Commissions() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin.financial.pending_amount", "Pending")}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("admin_financial_pending_amount", "Pending")}</p>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">${totalPending.toLocaleString()}</h3>
               </div>
               <div className="p-3 bg-amber-500/20 rounded-lg"><ShieldCheck className="w-5 h-5 text-amber-400" /></div>
@@ -223,20 +223,20 @@ export default function Commissions() {
           <Table>
             <TableHeader className="bg-white/5 border-b border-slate-200 dark:border-white/10">
               <TableRow className="hover:bg-transparent border-none">
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin.financial.id", "ID")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.amount", "Amount")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.rate", "Rate")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.base", "Base")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.status", "Status")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.created", "Created")}</TableHead>
-                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin.financial.actions", "Actions")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 py-4 px-6">{t("admin_financial_id", "ID")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_amount", "Amount")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_rate", "Rate")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_base", "Base")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_status", "Status")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_created", "Created")}</TableHead>
+                <TableHead className="text-xs font-medium text-slate-500 dark:text-slate-400 px-6">{t("admin_financial_actions", "Actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow>
               ) : commissions.length === 0 ? (
-                <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin.financial.no_commissions", "No commissions found")}</TableCell></TableRow>
+                <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin_financial_no_commissions", "No commissions found")}</TableCell></TableRow>
               ) : commissions.map(c => {
                 const cfg = statusConfig[c.status] || statusConfig.PENDING;
                 return (

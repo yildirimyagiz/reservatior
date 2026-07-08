@@ -66,7 +66,7 @@ export function Expenses() {
   };
 
   return <>
-      <PageShell title={t("admin_financial_expenses")} description={t("admin_financial_track_property_expenses_and")} createLabel={t("admin.financial.add_expense", "Gider Ekle")} onCreateClick={() => setCreateOpen(true)} stats={[{
+      <PageShell title={t("admin_financial_expenses")} description={t("admin_financial_track_property_expenses_and")} createLabel={t("admin_financial_add_expense", "Gider Ekle")} onCreateClick={() => setCreateOpen(true)} stats={[{
       label: t("admin_financial_total_expenses"),
       value: expenses.length
     }, {

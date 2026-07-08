@@ -67,22 +67,22 @@ export default function PropertyInventoryManagement() {
 
   const getLocalizedType = (type: string) => {
     const map: Record<string, string> = {
-      'CHECK_IN': t('admin.inventory.type.check_in', 'Giriş'),
-      'CHECK_OUT': t('admin.inventory.type.check_out', 'Çıkış'),
-      'INTERIM': t('admin.inventory.type.interim', 'Ara Kontrol'),
-      'MAINTENANCE': t('admin.inventory.type.maintenance', 'Bakım')
+      'CHECK_IN': t('admin_inventory_type_check_in', 'Giriş'),
+      'CHECK_OUT': t('admin_inventory_type_check_out', 'Çıkış'),
+      'INTERIM': t('admin_inventory_type_interim', 'Ara Kontrol'),
+      'MAINTENANCE': t('admin_inventory_type_maintenance', 'Bakım')
     };
     return map[type] || type;
   };
 
   const getLocalizedCondition = (condition: string) => {
     const map: Record<string, string> = {
-      'new': t('admin.inventory.condition.new', 'Yeni'),
-      'excellent': t('admin.inventory.condition.excellent', 'Mükemmel'),
-      'good': t('admin.inventory.condition.good', 'İyi'),
-      'fair': t('admin.inventory.condition.fair', 'Orta'),
-      'poor': t('admin.inventory.condition.poor', 'Kötü'),
-      'damaged': t('admin.inventory.condition.damaged', 'Hasarlı')
+      'new': t('admin_inventory_condition_new', 'Yeni'),
+      'excellent': t('admin_inventory_condition_excellent', 'Mükemmel'),
+      'good': t('admin_inventory_condition_good', 'İyi'),
+      'fair': t('admin_inventory_condition_fair', 'Orta'),
+      'poor': t('admin_inventory_condition_poor', 'Kötü'),
+      'damaged': t('admin_inventory_condition_damaged', 'Hasarlı')
     };
     return map[condition.toLowerCase()] || condition;
   };
@@ -113,7 +113,7 @@ export default function PropertyInventoryManagement() {
           color: "text-emerald-400"
         }, {
           label: t("admin_inventory_sync_status"),
-          val: t("admin.inventory.optimal", "Optimal"),
+          val: t("admin_inventory_optimal", "Optimal"),
           icon: Activity,
           color: "text-slate-500 dark:text-slate-400"
         }].map((stat, i) => (
@@ -256,13 +256,13 @@ export default function PropertyInventoryManagement() {
                         <Camera className="w-5 h-5" />
                       </Button>
                       <Button variant="ghost" onClick={() => {
-                        toast({ title: t("admin.inventory.ai_staging_started", "AI Staging Started"), description: t("admin.inventory.ai_processing", "Visuals are being processed by AI models.") });
+                        toast({ title: t("admin_inventory_ai_staging_started", "AI Staging Started"), description: t("admin_inventory_ai_processing", "Visuals are being processed by AI models.") });
                         propertiesApi.runAIStaging(inventory.propertyId).then(() => {
-                          toast({ title: t("admin.inventory.ai_staging_complete", "AI Staging Complete"), description: t("admin.inventory.ai_staging_success", "Images have been successfully staged.") });
+                          toast({ title: t("admin_inventory_ai_staging_complete", "AI Staging Complete"), description: t("admin_inventory_ai_staging_success", "Images have been successfully staged.") });
                         }).catch((err: any) => {
                           toast({ title: "Error", description: err.message, variant: "destructive" });
                         });
-                      }} className="h-12 w-12 rounded-2xl hover:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-indigo-400" title={t("admin.inventory.run_ai_staging", "Run AI Staging")}>
+                      }} className="h-12 w-12 rounded-2xl hover:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-indigo-400" title={t("admin_inventory_run_ai_staging", "Run AI Staging")}>
                         <Sparkles className="w-5 h-5 text-indigo-400" />
                       </Button>
                       <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}`)} className="h-12 w-12 rounded-2xl hover:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-white">

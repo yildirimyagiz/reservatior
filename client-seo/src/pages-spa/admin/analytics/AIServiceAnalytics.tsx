@@ -187,8 +187,8 @@ export default function AIServiceAnalytics() {
                   color: '#f8fafc'
                 }} />
                 <Legend />
-                <Area type="monotone" dataKey="aiGroup" name={t("admin.analytics.ai_enhanced", "Yapay Zeka Destekli")} stroke="#8b5cf6" fill="url(#colorStaged)" strokeWidth={3} />
-                <Area type="monotone" dataKey="controlGroup" name={t("admin.analytics.standard", "Standart")} stroke="#64748b" fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
+                <Area type="monotone" dataKey="aiGroup" name={t("admin_analytics_ai_enhanced", "Yapay Zeka Destekli")} stroke="#8b5cf6" fill="url(#colorStaged)" strokeWidth={3} />
+                <Area type="monotone" dataKey="controlGroup" name={t("admin_analytics_standard", "Standart")} stroke="#64748b" fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
               </AreaChart>
             </ResponsiveContainer>
           </CardContent>
@@ -210,7 +210,7 @@ export default function AIServiceAnalytics() {
                   borderColor: '#334155'
                 }} />
                 <Legend />
-                <Bar dataKey="value" name={t("admin.analytics.roi_score", "ROI Skoru")} fill="#10b981" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="value" name={t("admin_analytics_roi_score", "ROI Skoru")} fill="#10b981" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

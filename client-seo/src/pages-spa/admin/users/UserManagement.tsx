@@ -217,31 +217,31 @@ export default function UserManagement() {
 
   const getLocalizedType = (type: string) => {
     const map: Record<string, string> = {
-      'FAILED_LOGIN': t('admin.users.type.failed_login', 'Başarısız Giriş'),
-      'SUSPICIOUS_ACTIVITY': t('admin.users.type.suspicious', 'Şüpheli Aktivite'),
-      'PERMISSION_ESCALATION': t('admin.users.type.permission_escalation', 'Yetki Yükseltme'),
-      'DATA_ACCESS': t('admin.users.type.data_access', 'Veri Erişimi'),
-      'BRUTE_FORCE': t('admin.users.type.brute_force', 'Kaba Kuvvet Saldırısı')
+      'FAILED_LOGIN': t('admin_users_type_failed_login', 'Başarısız Giriş'),
+      'SUSPICIOUS_ACTIVITY': t('admin_users_type_suspicious', 'Şüpheli Aktivite'),
+      'PERMISSION_ESCALATION': t('admin_users_type_permission_escalation', 'Yetki Yükseltme'),
+      'DATA_ACCESS': t('admin_users_type_data_access', 'Veri Erişimi'),
+      'BRUTE_FORCE': t('admin_users_type_brute_force', 'Kaba Kuvvet Saldırısı')
     };
     return map[type] || type.replace('_', ' ');
   };
 
   const getLocalizedSeverity = (severity: string) => {
     const map: Record<string, string> = {
-      'LOW': t('admin.users.severity.low', 'Düşük'),
-      'MEDIUM': t('admin.users.severity.medium', 'Orta'),
-      'HIGH': t('admin.users.severity.high', 'Yüksek'),
-      'CRITICAL': t('admin.users.severity.critical', 'Kritik')
+      'LOW': t('admin_users_severity_low', 'Düşük'),
+      'MEDIUM': t('admin_users_severity_medium', 'Orta'),
+      'HIGH': t('admin_users_severity_high', 'Yüksek'),
+      'CRITICAL': t('admin_users_severity_critical', 'Kritik')
     };
     return map[severity] || severity;
   };
 
   const getLocalizedStatus = (status: string) => {
     const map: Record<string, string> = {
-      'OPEN': t('admin.users.status.open', 'Açık'),
-      'INVESTIGATING': t('admin.users.status.investigating', 'İnceleniyor'),
-      'RESOLVED': t('admin.users.status.resolved', 'Çözüldü'),
-      'FALSE_POSITIVE': t('admin.users.status.false_positive', 'Hatalı Alarm')
+      'OPEN': t('admin_users_status_open', 'Açık'),
+      'INVESTIGATING': t('admin_users_status_investigating', 'İnceleniyor'),
+      'RESOLVED': t('admin_users_status_resolved', 'Çözüldü'),
+      'FALSE_POSITIVE': t('admin_users_status_false_positive', 'Hatalı Alarm')
     };
     return map[status] || status.replace('_', ' ');
   };
@@ -281,7 +281,7 @@ const getRoleLevelColor = (level: number) => {
             <CardContent>
               <div className="text-2xl font-bold text-green-600">{activeUsers}</div>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {t('admin.users.ofTotal', {
+                {t('admin_users_ofTotal', {
                 count: permissions.length
               })}
               </p>
@@ -309,7 +309,7 @@ const getRoleLevelColor = (level: number) => {
             <CardContent>
               <div className="text-2xl font-bold">{totalRoles}</div>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {t('admin.users.activeCount', {
+                {t('admin_users_activeCount', {
                 count: roles.filter(r => r.isActive).length
               })}
               </p>

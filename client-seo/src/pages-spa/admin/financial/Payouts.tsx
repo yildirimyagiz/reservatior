@@ -136,7 +136,7 @@ export default function Payouts() {
     });
   };
   const handleDelete = (id: string) => {
-    if (!confirm(t("admin.financial.are_you_sure", "Emin misiniz?"))) return;
+    if (!confirm(t("admin_financial_are_you_sure", "Emin misiniz?"))) return;
     deleteMutation.mutate(id);
   };
   const openEdit = (row: Payout) => {

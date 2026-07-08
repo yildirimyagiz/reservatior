@@ -46,10 +46,10 @@ const VendorsManagement = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-400">
-            {t("admin.vendors.title", "Vendor Management")}
+            {t("admin_vendors_title", "Vendor Management")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            {t("admin.vendors.subtitle", "Manage service providers, contractors, and maintenance teams")}
+            {t("admin_vendors_subtitle", "Manage service providers, contractors, and maintenance teams")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -61,7 +61,7 @@ const VendorsManagement = () => {
                               <DialogTrigger asChild>
                                 <Button className="bg-amber-600 hover:bg-amber-700 text-slate-900 dark:text-white shadow-lg shadow-amber-500/20">
                               <Plus className="w-4 h-4 mr-2" />
-                              {t("admin.vendors.add", "Add Vendor")}
+                              {t("admin_vendors_add", "Add Vendor")}
                             </Button>
                               </DialogTrigger>
                               
@@ -140,7 +140,7 @@ const VendorsManagement = () => {
 
       <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-white">{t("admin.vendors.list", "Vendor Network")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_vendors_list", "Vendor Network")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">

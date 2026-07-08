@@ -376,8 +376,8 @@ export default function AnalyticsDashboard() {
                       stroke: '#3b82f6',
                       strokeWidth: 2
                     }} />
-                      <Area type="monotone" dataKey="activeUsers" stroke="#3b82f6" strokeWidth={4} fillOpacity={1} fill="url(#colorUsers)" name={t("admin.analytics.active_users", "Aktif Kullanıcılar")} />
-                      <Area type="monotone" dataKey="sessions" stroke="#10b981" strokeWidth={4} fillOpacity={0} name={t("admin.analytics.total_sessions", "Toplam Oturumlar")} />
+                      <Area type="monotone" dataKey="activeUsers" stroke="#3b82f6" strokeWidth={4} fillOpacity={1} fill="url(#colorUsers)" name={t("admin_analytics_active_users", "Aktif Kullanıcılar")} />
+                      <Area type="monotone" dataKey="sessions" stroke="#10b981" strokeWidth={4} fillOpacity={0} name={t("admin_analytics_total_sessions", "Toplam Oturumlar")} />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -406,7 +406,7 @@ export default function AnalyticsDashboard() {
                        <Tooltip content={<CustomTooltip />} cursor={{
                       fill: 'rgba(255,255,255,0.05)'
                     }} />
-                       <Bar dataKey="views" fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} name={t("admin.analytics.page_views", "Sayfa Görüntülemeleri")} />
+                       <Bar dataKey="views" fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} name={t("admin_analytics_page_views", "Sayfa Görüntülemeleri")} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -463,8 +463,8 @@ export default function AnalyticsDashboard() {
                     fontWeight: 900
                   }} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Area type="monotone" dataKey="activeUsers" stackId="1" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} name={t("admin.analytics.active_nodes", "Aktif Düğümler")} />
-                      <Area type="monotone" dataKey="newUsers" stackId="1" stroke="#10b981" fill="#10b981" fillOpacity={0.4} name={t("admin.analytics.new_nodes", "Yeni Düğümler")} />
+                      <Area type="monotone" dataKey="activeUsers" stackId="1" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} name={t("admin_analytics_active_nodes", "Aktif Düğümler")} />
+                      <Area type="monotone" dataKey="newUsers" stackId="1" stroke="#10b981" fill="#10b981" fillOpacity={0.4} name={t("admin_analytics_new_nodes", "Yeni Düğümler")} />
                     </AreaChart>
                   </ResponsiveContainer>
                </div>

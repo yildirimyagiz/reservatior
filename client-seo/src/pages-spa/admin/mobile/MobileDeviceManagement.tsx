@@ -247,7 +247,7 @@ export default function MobileDeviceManagement() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.mobile.error", "Hata"),
+        title: t("admin_mobile_error", "Hata"),
         description: error.message,
         variant: "destructive"
       });
@@ -488,13 +488,13 @@ export default function MobileDeviceManagement() {
                         <TableRow>
                           <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
                             <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
-                            {t("admin.mobile.loading", "Yükleniyor...")}
+                            {t("admin_mobile_loading", "Yükleniyor...")}
                           </TableCell>
                         </TableRow>
                       ) : filteredDevices.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
-                            {t("admin.mobile.no_devices_found", "Cihaz bulunamadı")}
+                            {t("admin_mobile_no_devices_found", "Cihaz bulunamadı")}
                           </TableCell>
                         </TableRow>
                       ) : (

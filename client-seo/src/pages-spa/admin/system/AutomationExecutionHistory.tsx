@@ -121,7 +121,7 @@ export default function AutomationExecutionHistory() {
 
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-500 dark:text-slate-400">{t("admin.system.total_executions", { count: total })}</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">{t("admin_system_total_executions", { count: total })}</span>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                 {t("admin_system_previous")}

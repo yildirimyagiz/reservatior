@@ -206,11 +206,11 @@ export default function CustomerInvoices() {
 
   const getLocalizedStatus = (status: string) => {
     const map: Record<string, string> = {
-      'PAID': t('admin.invoices.paid_status', 'Odendi'),
-      'SENT': t('admin.invoices.sent_status', 'Gonderildi'),
-      'OVERDUE': t('admin.invoices.overdue_status', 'Gecikmis'),
-      'DRAFT': t('admin.invoices.draft_status', 'Taslak'),
-      'CANCELLED': t('admin.invoices.cancelled_status', 'Iptal Edildi')
+      'PAID': t('admin_invoices_paid_status', 'Odendi'),
+      'SENT': t('admin_invoices_sent_status', 'Gonderildi'),
+      'OVERDUE': t('admin_invoices_overdue_status', 'Gecikmis'),
+      'DRAFT': t('admin_invoices_draft_status', 'Taslak'),
+      'CANCELLED': t('admin_invoices_cancelled_status', 'Iptal Edildi')
     };
     return map[status] || status;
   };
@@ -486,7 +486,7 @@ export default function CustomerInvoices() {
                             <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_invoices_invoice")}{invoice.id}</p>
                             <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_invoices_due")}{new Date(invoice.dueDate).toLocaleDateString()}</p>
                             <p className="text-xs text-slate-500 dark:text-slate-400">
-                              {invoice.sentDate ? `${t("admin.invoices.sent_on", "Gonderildi:")} ${new Date(invoice.sentDate).toLocaleDateString()}` : t("admin.invoices.not_sent", "Gonderilmedi")}
+                              {invoice.sentDate ? `${t("admin_invoices_sent_on", "Gonderildi:")} ${new Date(invoice.sentDate).toLocaleDateString()}` : t("admin_invoices_not_sent", "Gonderilmedi")}
                             </p>
                           </div>
                           <div className="flex items-center justify-between">
@@ -571,15 +571,15 @@ export default function CustomerInvoices() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {[{
-                    name: "Standard Service", type: t("admin.invoices.management_type", "Yonetim"), color: "slate", usage: 124
+                    name: "Standard Service", type: t("admin_invoices_management_type", "Yonetim"), color: "slate", usage: 124
                   }, {
-                    name: "Premium Rental", type: t("admin.invoices.booking_type", "Rezervasyon"), color: "emerald", usage: 89
+                    name: "Premium Rental", type: t("admin_invoices_booking_type", "Rezervasyon"), color: "emerald", usage: 89
                   }, {
-                    name: "Late Penalty", type: t("admin.invoices.legal_type", "Hukuki"), color: "red", usage: 12
+                    name: "Late Penalty", type: t("admin_invoices_legal_type", "Hukuki"), color: "red", usage: 12
                   }, {
-                    name: "Utility Rebate", type: t("admin.invoices.credit_type", "Kredi"), color: "orange", usage: 45
+                    name: "Utility Rebate", type: t("admin_invoices_credit_type", "Kredi"), color: "orange", usage: 45
                   }, {
-                    name: "Bulk Deposit", type: t("admin.invoices.brokerage_type", "Komisyon"), color: "slate", usage: 67
+                    name: "Bulk Deposit", type: t("admin_invoices_brokerage_type", "Komisyon"), color: "slate", usage: 67
                   }].map((template, i) => (
                     <motion.div key={i} whileHover={{ y: -5 }} className="bg-card border border-border rounded-xl p-6 group cursor-pointer relative overflow-hidden">
                       <div className={cn("absolute top-0 left-0 w-1 h-full opacity-30 group-hover:w-full transition-all duration-500", template.color === 'slate' ? "bg-slate-500" : template.color === 'emerald' ? "bg-emerald-500" : template.color === 'red' ? "bg-red-500" : template.color === 'orange' ? "bg-orange-500" : "bg-slate-500")} />
@@ -700,20 +700,20 @@ export default function CustomerInvoices() {
                 </div>
                 <div className="space-y-3">
                   {[{
-                    event: t("admin.invoices.invoice_sent", "Fatura Gonderildi"),
-                    user: "John Doe Properties", sub: "$2,700.00", time: t("admin.invoices.2_min_ago", "2 dk once"),
+                    event: t("admin_invoices_invoice_sent", "Fatura Gonderildi"),
+                    user: "John Doe Properties", sub: "$2,700.00", time: t("admin_invoices_2_min_ago", "2 dk once"),
                     icon: <Send className="w-3 h-3" />, color: "slate"
                   }, {
-                    event: t("admin.invoices.payment_received", "Odeme Alindi"),
-                    user: "Jane Smith Realty", sub: "$1,296.00", time: t("admin.invoices.14_min_ago", "14 dk once"),
+                    event: t("admin_invoices_payment_received", "Odeme Alindi"),
+                    user: "Jane Smith Realty", sub: "$1,296.00", time: t("admin_invoices_14_min_ago", "14 dk once"),
                     icon: <CheckCircle className="w-3 h-3" />, color: "emerald"
                   }, {
-                    event: t("admin.invoices.auto_alert_overdue", "Otomatik Uyari: Gecikmis"),
-                    user: "Johnson Commercial", sub: "$12,500.00", time: t("admin.invoices.1_hour_ago", "1 saat once"),
+                    event: t("admin_invoices_auto_alert_overdue", "Otomatik Uyari: Gecikmis"),
+                    user: "Johnson Commercial", sub: "$12,500.00", time: t("admin_invoices_1_hour_ago", "1 saat once"),
                     icon: <AlertTriangle className="w-3 h-3" />, color: "red"
                   }, {
-                    event: t("admin.invoices.draft_generated", "Taslak Olusturuldu"),
-                    user: "New Prospect LP", sub: "$4,500.00", time: t("admin.invoices.3_hours_ago", "3 saat once"),
+                    event: t("admin_invoices_draft_generated", "Taslak Olusturuldu"),
+                    user: "New Prospect LP", sub: "$4,500.00", time: t("admin_invoices_3_hours_ago", "3 saat once"),
                     icon: <FileText className="w-3 h-3" />, color: "slate"
                   }].map((log, i) => (
                     <div key={i} className="flex items-center justify-between p-3 bg-card rounded-xl border border-border hover:bg-card transition-colors">

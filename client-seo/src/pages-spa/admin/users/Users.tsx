@@ -112,7 +112,7 @@ export default function Users() {
       });
       toast({
         title: t("admin_users_status_synchronized"),
-        description: t("admin.users.node_is_now", { status: user.status === "ACTIVE" ? t("admin.users.offline", "ÇEVRİMDIŞI") : t("admin.users.active", "AKTİF") })
+        description: t("admin_users_node_is_now", { status: user.status === "ACTIVE" ? t("admin_users_offline", "ÇEVRİMDIŞI") : t("admin_users_active", "AKTİF") })
       });
       refetch();
     } catch (error) {
@@ -124,7 +124,7 @@ export default function Users() {
     }
   };
   const handleDelete = async (id: string) => {
-    if (!confirm(t("admin.users.terminate_confirm", "Bu kimlik düğümünü kalıcı olarak sonlandırmak istiyor musunuz?"))) return;
+    if (!confirm(t("admin_users_terminate_confirm", "Bu kimlik düğümünü kalıcı olarak sonlandırmak istiyor musunuz?"))) return;
     try {
       await usersApi.delete(id);
       toast({
@@ -288,7 +288,7 @@ export default function Users() {
                     e.stopPropagation();
                     handleToggleStatus(user);
                   }} className={cn("text-[9px] font-bold  tracking-[0.2em]  h-8 px-0 gap-2 transition-colors", user.status === 'ACTIVE' ? "text-muted-foreground hover:text-red-500" : "text-muted-foreground hover:text-emerald-500")}>
-                             <UserCheck className="w-3 h-3" /> {user.status === 'ACTIVE' ? t('admin.users.kill_signal', 'SİNYALİ KES') : t('admin.users.awaken', 'UYANDIR')}
+                             <UserCheck className="w-3 h-3" /> {user.status === 'ACTIVE' ? t('admin_users_kill_signal', 'SİNYALİ KES') : t('admin_users_awaken', 'UYANDIR')}
                           </Button>
                        </div>
                        

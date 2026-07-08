@@ -324,7 +324,7 @@ export default function SystemSettings() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.system.error", "Error"),
+        title: t("admin_system_error", "Error"),
         description: error.message,
         variant: "destructive"
       });

@@ -91,11 +91,11 @@ export default function WisePaymentIntegration() {
   };
 
   const statusConfig: Record<string, { label: string; class: string }> = {
-    COMPLETED: { label: t("admin.payments.completed", "Completed"), class: "bg-emerald-500/20 text-emerald-400 border-emerald-500/20" },
-    PROCESSING: { label: t("admin.payments.processing", "Processing"), class: "bg-slate-500/20 text-slate-500 dark:text-slate-400 border-slate-500/20" },
-    FAILED: { label: t("admin.payments.failed", "Failed"), class: "bg-red-500/20 text-red-400 border-red-500/20" },
-    CANCELLED: { label: t("admin.payments.cancelled", "Cancelled"), class: "bg-slate-500/20 text-slate-500 dark:text-slate-400 border-slate-500/20" },
-    PENDING: { label: t("admin.payments.pending", "Pending"), class: "bg-amber-500/20 text-amber-400 border-amber-500/20" },
+    COMPLETED: { label: t("admin_payments_completed", "Completed"), class: "bg-emerald-500/20 text-emerald-400 border-emerald-500/20" },
+    PROCESSING: { label: t("admin_payments_processing", "Processing"), class: "bg-slate-500/20 text-slate-500 dark:text-slate-400 border-slate-500/20" },
+    FAILED: { label: t("admin_payments_failed", "Failed"), class: "bg-red-500/20 text-red-400 border-red-500/20" },
+    CANCELLED: { label: t("admin_payments_cancelled", "Cancelled"), class: "bg-slate-500/20 text-slate-500 dark:text-slate-400 border-slate-500/20" },
+    PENDING: { label: t("admin_payments_pending", "Pending"), class: "bg-amber-500/20 text-amber-400 border-amber-500/20" },
   };
 
   const monthlyVolume = transactions.filter(t => t.status === "COMPLETED").reduce((s, t) => s + t.amount, 0);
@@ -110,15 +110,15 @@ export default function WisePaymentIntegration() {
           </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t("admin.payments.wise_payment_hub", "Wise Payment Hub")}
+              {t("admin_payments_wise_payment_hub", "Wise Payment Hub")}
             </h1>
             <p className="text-slate-500 dark:text-slate-400">
-              {t("admin.payments.global_payment_processing_with", "Global payment processing with Wise")}
+              {t("admin_payments_global_payment_processing_with", "Global payment processing with Wise")}
             </p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.total_sent", "Total Sent")}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_total_sent", "Total Sent")}</p>
           <p className="text-2xl font-bold text-slate-900 dark:text-white">${monthlyVolume.toLocaleString()}</p>
         </div>
       </div>
@@ -128,16 +128,16 @@ export default function WisePaymentIntegration() {
           <CardHeader className="px-0 pt-0">
             <CardTitle className="text-slate-900 dark:text-white flex items-center gap-2">
               <CreditCard className="w-5 h-5 text-slate-500 dark:text-slate-400" />
-              {t("admin.payments.send_payment", "Send Payment")}
+              {t("admin_payments_send_payment", "Send Payment")}
             </CardTitle>
           </CardHeader>
           <CardContent className="px-0 pb-0 space-y-4">
             <div className="space-y-2">
-              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.amount", "Amount")}</Label>
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_amount", "Amount")}</Label>
               <Input type="number" value={paymentForm.amount} onChange={e => setPaymentForm(prev => ({ ...prev, amount: e.target.value }))} placeholder="1000.00" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.currency", "Currency")}</Label>
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_currency", "Currency")}</Label>
               <Select value={paymentForm.currency} onValueChange={value => setPaymentForm(prev => ({ ...prev, currency: value }))}>
                 <SelectTrigger className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"><SelectValue /></SelectTrigger>
                 <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
@@ -149,23 +149,23 @@ export default function WisePaymentIntegration() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.recipient_name", "Recipient Name")}</Label>
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_recipient_name", "Recipient Name")}</Label>
               <Input value={paymentForm.recipientName} onChange={e => setPaymentForm(prev => ({ ...prev, recipientName: e.target.value }))} placeholder="John Doe" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.recipient_email", "Recipient Email")}</Label>
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_recipient_email", "Recipient Email")}</Label>
               <Input type="email" value={paymentForm.recipientEmail} onChange={e => setPaymentForm(prev => ({ ...prev, recipientEmail: e.target.value }))} placeholder="john@example.com" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.description", "Description")}</Label>
+              <Label className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_description", "Description")}</Label>
               <Input value={paymentForm.description} onChange={e => setPaymentForm(prev => ({ ...prev, description: e.target.value }))} placeholder="Payment for services" className="bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500" />
             </div>
             <div className="bg-white/5 rounded-xl p-4 space-y-2">
-              <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">{t("admin.payments.transfer_fee", "Transfer Fee")}</span><span className="text-slate-900 dark:text-white font-bold">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 0.015).toFixed(2) : '0.00'}</span></div>
-              <div className="flex justify-between text-sm font-bold border-t border-slate-200 dark:border-white/10 pt-2"><span className="text-slate-900 dark:text-white">{t("admin.payments.total", "Total")}</span><span className="text-slate-900 dark:text-white">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 1.015).toFixed(2) : '0.00'}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-slate-500 dark:text-slate-400">{t("admin_payments_transfer_fee", "Transfer Fee")}</span><span className="text-slate-900 dark:text-white font-bold">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 0.015).toFixed(2) : '0.00'}</span></div>
+              <div className="flex justify-between text-sm font-bold border-t border-slate-200 dark:border-white/10 pt-2"><span className="text-slate-900 dark:text-white">{t("admin_payments_total", "Total")}</span><span className="text-slate-900 dark:text-white">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 1.015).toFixed(2) : '0.00'}</span></div>
             </div>
             <Button onClick={handlePayment} disabled={createMutation.isPending} className="w-full bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
-              {createMutation.isPending ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("admin.payments.processing", "Processing")}</> : <><DollarSign className="w-4 h-4 mr-2" />{t("admin.payments.send_payment", "Send Payment")}</>}
+              {createMutation.isPending ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("admin_payments_processing", "Processing")}</> : <><DollarSign className="w-4 h-4 mr-2" />{t("admin_payments_send_payment", "Send Payment")}</>}
             </Button>
           </CardContent>
         </Card>
@@ -178,7 +178,7 @@ export default function WisePaymentIntegration() {
                   <TrendingUp className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.monthly_volume", "Monthly Volume")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_monthly_volume", "Monthly Volume")}</p>
                   <p className="text-xl font-bold text-slate-900 dark:text-white">${monthlyVolume.toLocaleString()}</p>
                 </div>
               </div>
@@ -189,7 +189,7 @@ export default function WisePaymentIntegration() {
                   <Zap className="w-5 h-5 text-orange-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.avg_transaction", "Avg Transaction")}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_avg_transaction", "Avg Transaction")}</p>
                   <p className="text-xl font-bold text-slate-900 dark:text-white">${avgTransaction.toFixed(2)}</p>
                 </div>
               </div>
@@ -200,14 +200,14 @@ export default function WisePaymentIntegration() {
             <CardHeader className="px-0 pt-0">
               <CardTitle className="text-slate-900 dark:text-white flex items-center gap-2">
                 <Globe className="w-5 h-5 text-slate-500 dark:text-slate-400" />
-                {t("admin.payments.recent_transactions", "Recent Transactions")}
+                {t("admin_payments_recent_transactions", "Recent Transactions")}
               </CardTitle>
             </CardHeader>
             <CardContent className="px-0 pb-0 space-y-4">
               {isLoading ? (
                 <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-slate-500 dark:text-slate-400" /></div>
               ) : transactions.length === 0 ? (
-                <p className="text-center text-slate-500 py-8">{t("admin.payments.no_transactions", "No transactions")}</p>
+                <p className="text-center text-slate-500 py-8">{t("admin_payments_no_transactions", "No transactions")}</p>
               ) : transactions.slice(0, 10).map(transaction => {
                 const cfg = statusConfig[transaction.status] || statusConfig.PENDING;
                 return (
@@ -226,7 +226,7 @@ export default function WisePaymentIntegration() {
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold text-slate-900 dark:text-white">${transaction.amount.toLocaleString()}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin.payments.fee", "Fee")}: ${transaction.fee.toFixed(2)}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{t("admin_payments_fee", "Fee")}: ${transaction.fee.toFixed(2)}</p>
                         <p className="text-xs text-slate-500">{new Date(transaction.createdAt).toLocaleDateString()}</p>
                       </div>
                     </div>
@@ -242,8 +242,8 @@ export default function WisePaymentIntegration() {
                 <Shield className="w-5 h-5 text-slate-500 dark:text-slate-400" />
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                <strong className="text-slate-900 dark:text-white">{t("admin.payments.security_notice", "Security Notice")}: </strong>
-                {t("admin.payments.all_payments_secured", "All payments are processed securely through Wise")}
+                <strong className="text-slate-900 dark:text-white">{t("admin_payments_security_notice", "Security Notice")}: </strong>
+                {t("admin_payments_all_payments_secured", "All payments are processed securely through Wise")}
               </p>
             </div>
           </Card>

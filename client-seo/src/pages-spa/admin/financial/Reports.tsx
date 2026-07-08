@@ -180,7 +180,7 @@ export default function FinancialReports() {
             <CardContent>
               <div className="space-y-4">
                 {(d?.revenueData || []).length === 0 ? (
-                  <p className="text-center text-slate-500 py-4">{t("admin.financial.no_data", "No data available")}</p>
+                  <p className="text-center text-slate-500 py-4">{t("admin_financial_no_data", "No data available")}</p>
                 ) : (d?.revenueData || []).map((month, i) => (
                   <div key={i} className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-4 last:border-0">
                     <div className="flex items-center gap-4">
@@ -266,7 +266,7 @@ export default function FinancialReports() {
                 {reportsLoading ? (
                   <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-slate-500 dark:text-slate-400" /></div>
                 ) : reports.length === 0 ? (
-                  <p className="text-center text-slate-500 py-8">{t("admin.financial.no_reports", "No reports")}</p>
+                  <p className="text-center text-slate-500 py-8">{t("admin_financial_no_reports", "No reports")}</p>
                 ) : (
                   <div className="space-y-4">
                     {reports.map((report) => (

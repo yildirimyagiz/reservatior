@@ -158,7 +158,7 @@ export default function FinancialReports() {
             </div>
             <div className="mt-3 flex items-center gap-2">
               {formatChange(metrics?.revenueGrowth || 0)}
-              <span className="text-xs text-slate-500">{t("admin.financial.vs_prev_period", "vs prev period")}</span>
+              <span className="text-xs text-slate-500">{t("admin_financial_vs_prev_period", "vs prev period")}</span>
             </div>
           </CardContent>
         </Card>
@@ -173,7 +173,7 @@ export default function FinancialReports() {
             </div>
             <div className="mt-3 flex items-center gap-2">
               {formatChange(metrics?.expenseGrowth || 0)}
-              <span className="text-xs text-slate-500">{t("admin.financial.burn_optimization", "burn rate")}</span>
+              <span className="text-xs text-slate-500">{t("admin_financial_burn_optimization", "burn rate")}</span>
             </div>
           </CardContent>
         </Card>
@@ -188,7 +188,7 @@ export default function FinancialReports() {
             </div>
             <div className="mt-3 flex items-center gap-2">
               {formatChange(metrics?.profitGrowth || 0)}
-              <span className="text-xs text-slate-500">{t("admin.financial.efficiency_gain", "efficiency gain")}</span>
+              <span className="text-xs text-slate-500">{t("admin_financial_efficiency_gain", "efficiency gain")}</span>
             </div>
           </CardContent>
         </Card>
@@ -208,16 +208,16 @@ export default function FinancialReports() {
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList className="bg-white/5 border border-slate-200 dark:border-white/10">
           <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
-            {t("admin.financial.performance_core", "Overview")}
+            {t("admin_financial_performance_core", "Overview")}
           </TabsTrigger>
           <TabsTrigger value="revenue" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
-            {t("admin.financial.yield_dynamics", "Revenue")}
+            {t("admin_financial_yield_dynamics", "Revenue")}
           </TabsTrigger>
           <TabsTrigger value="expenses" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
-            {t("admin.financial.drain_analysis", "Expenses")}
+            {t("admin_financial_drain_analysis", "Expenses")}
           </TabsTrigger>
           <TabsTrigger value="payments" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
-            {t("admin.financial.gateway_logic", "Payments")}
+            {t("admin_financial_gateway_logic", "Payments")}
           </TabsTrigger>
         </TabsList>
 

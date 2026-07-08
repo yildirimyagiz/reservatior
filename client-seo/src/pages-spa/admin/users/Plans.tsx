@@ -470,7 +470,7 @@ export default function Plans() {
              </DialogHeader>
              <div className="py-6 space-y-4">
                 <p className="text-sm font-medium text-muted-foreground leading-relaxed">
-                   {t('admin.plans.delete.description', {
+                   {t('admin_plans_delete_description', {
                 name: selectedPlan?.name
               })}
                 </p>

@@ -227,7 +227,7 @@ export default function SystemMonitoring() {
                       <div className="flex items-center gap-1">
                         {getTrendIcon(metric.history)}
                         <Badge className={getStatusColor(metric.status)}>
-                           {metric.status === 'normal' ? t("admin.system.status_normal", "Normal") : metric.status === 'warning' ? t("admin.system.status_warning", "Uyarı") : t("admin.system.status_critical", "Kritik")}
+                           {metric.status === 'normal' ? t("admin_system_status_normal", "Normal") : metric.status === 'warning' ? t("admin_system_status_warning", "Uyarı") : t("admin_system_status_critical", "Kritik")}
                         </Badge>
                       </div>
                     </div>
@@ -257,7 +257,7 @@ export default function SystemMonitoring() {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_status")}</p>
-                      <Badge className={getStatusColor(selectedMetric.status)}>{selectedMetric.status === 'normal' ? t("admin.system.status_normal", "Normal") : selectedMetric.status === 'warning' ? t("admin.system.status_warning", "Uyarı") : t("admin.system.status_critical", "Kritik")}</Badge>
+                      <Badge className={getStatusColor(selectedMetric.status)}>{selectedMetric.status === 'normal' ? t("admin_system_status_normal", "Normal") : selectedMetric.status === 'warning' ? t("admin_system_status_warning", "Uyarı") : t("admin_system_status_critical", "Kritik")}</Badge>
                     </div>
                   </div>
                   {selectedMetric.metadata?.details && <div className="mb-4">
@@ -280,7 +280,7 @@ export default function SystemMonitoring() {
                         <h3 className="font-medium text-slate-900 dark:text-white">{service.name}</h3>
                       </div>
                       <Badge className={getStatusColor(service.status)}>
-                        {service.status === 'running' ? t("admin.system.status_running", "Çalışıyor") : service.status === 'stopped' ? t("admin.system.status_stopped", "Durduruldu") : service.status === 'error' ? t("admin.system.status_error", "Hata") : t("admin.system.status_maintenance", "Bakım")}
+                        {service.status === 'running' ? t("admin_system_status_running", "Çalışıyor") : service.status === 'stopped' ? t("admin_system_status_stopped", "Durduruldu") : service.status === 'error' ? t("admin_system_status_error", "Hata") : t("admin_system_status_maintenance", "Bakım")}
                       </Badge>
                     </div>
                     <div className="space-y-2 text-sm">
@@ -311,7 +311,7 @@ export default function SystemMonitoring() {
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_status")}</p>
-                      <Badge className={getStatusColor(selectedService.status)}>{selectedService.status === 'running' ? t("admin.system.status_running", "Çalışıyor") : selectedService.status === 'stopped' ? t("admin.system.status_stopped", "Durduruldu") : selectedService.status === 'error' ? t("admin.system.status_error", "Hata") : t("admin.system.status_maintenance", "Bakım")}</Badge>
+                      <Badge className={getStatusColor(selectedService.status)}>{selectedService.status === 'running' ? t("admin_system_status_running", "Çalışıyor") : selectedService.status === 'stopped' ? t("admin_system_status_stopped", "Durduruldu") : selectedService.status === 'error' ? t("admin_system_status_error", "Hata") : t("admin_system_status_maintenance", "Bakım")}</Badge>
                     </div>
                     <div>
                       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t("admin_system_uptime")}</p>
@@ -348,8 +348,8 @@ export default function SystemMonitoring() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <h4 className="font-medium text-slate-900 dark:text-white">{alert.title}</h4>
-                          <Badge className={getSeverityColor(alert.severity)}>{alert.severity === 'low' ? t("admin.system.severity_low", "Düşük") : alert.severity === 'medium' ? t("admin.system.severity_medium", "Orta") : alert.severity === 'high' ? t("admin.system.severity_high", "Yüksek") : t("admin.system.severity_critical", "Kritik")}</Badge>
-                          <Badge className={getStatusColor(alert.status)}>{alert.status === 'active' ? t("admin.system.alert_active", "Aktif") : alert.status === 'acknowledged' ? t("admin.system.alert_acknowledged", "Onaylandı") : t("admin.system.alert_resolved", "Çözüldü")}</Badge>
+                          <Badge className={getSeverityColor(alert.severity)}>{alert.severity === 'low' ? t("admin_system_severity_low", "Düşük") : alert.severity === 'medium' ? t("admin_system_severity_medium", "Orta") : alert.severity === 'high' ? t("admin_system_severity_high", "Yüksek") : t("admin_system_severity_critical", "Kritik")}</Badge>
+                          <Badge className={getStatusColor(alert.status)}>{alert.status === 'active' ? t("admin_system_alert_active", "Aktif") : alert.status === 'acknowledged' ? t("admin_system_alert_acknowledged", "Onaylandı") : t("admin_system_alert_resolved", "Çözüldü")}</Badge>
                         </div>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">{alert.message}</p>
                         <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">

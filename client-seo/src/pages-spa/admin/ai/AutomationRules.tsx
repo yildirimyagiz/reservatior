@@ -143,10 +143,10 @@ export default function AutomationRules() {
     </form>;
   };
   return <>
-      <PageShell title={t("admin_ai_automation_rules")} description={t("admin_ai_configure_automated_workflows_and")} createLabel={t("admin.ai.add_automation_rules", "Otomasyon Kuralı Ekle")} onCreateClick={() => {
+      <PageShell title={t("admin_ai_automation_rules")} description={t("admin_ai_configure_automated_workflows_and")} createLabel={t("admin_ai_add_automation_rules", "Otomasyon Kuralı Ekle")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
-    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.ai.search_automation_rules", "Otomasyon kurallarında ara...")} stats={[{
+    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin_ai_search_automation_rules", "Otomasyon kurallarında ara...")} stats={[{
       label: t("admin_ai_total_rules"),
       value: MOCK.length
     }, {

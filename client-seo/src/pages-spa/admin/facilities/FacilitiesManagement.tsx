@@ -66,10 +66,10 @@ const FacilitiesManagement = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
-            {t("admin.facilities.title", "Facilities Management")}
+            {t("admin_facilities_title", "Facilities Management")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            {t("admin.facilities.subtitle", "Monitor and configure amenities, common areas, and shared spaces")}
+            {t("admin_facilities_subtitle", "Monitor and configure amenities, common areas, and shared spaces")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -80,12 +80,12 @@ const FacilitiesManagement = () => {
             <DialogTrigger asChild>
               <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
-                {t("admin.facilities.add", "Add Facility")}
+                {t("admin_facilities_add", "Add Facility")}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
-                <DialogTitle>{t("admin.facilities.add", "Add Facility")}</DialogTitle>
+                <DialogTitle>{t("admin_facilities_add", "Add Facility")}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
                 <div className="space-y-2">
@@ -172,7 +172,7 @@ const FacilitiesManagement = () => {
 
       <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-white">{t("admin.facilities.list", "Facilities Index")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_facilities_list", "Facilities Index")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -181,7 +181,7 @@ const FacilitiesManagement = () => {
             </div>
           ) : facilities.length === 0 ? (
             <div className="flex items-center justify-center py-20 text-slate-500 dark:text-slate-400">
-              {t("admin.facilities.noData", "No facilities found.")}
+              {t("admin_facilities_noData", "No facilities found.")}
             </div>
           ) : (
             <div className="rounded-xl border border-slate-200 dark:border-white/10">

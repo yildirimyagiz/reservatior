@@ -228,7 +228,7 @@ export default function Mortgages() {
                     <span>{t("admin_financial_loading_mortgage_data")}</span>
                   </div>
                 </TableCell>
-              </TableRow> : mortgages.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin.financial.no_mortgages_found", "No mortgages found")}</TableCell></TableRow> : mortgages.map(mort => <TableRow key={mort.id} className="hover:bg-muted/40 transition-colors">
+              </TableRow> : mortgages.length === 0 ? <TableRow><TableCell colSpan={7} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_mortgages_found", "No mortgages found")}</TableCell></TableRow> : mortgages.map(mort => <TableRow key={mort.id} className="hover:bg-muted/40 transition-colors">
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Building2 className="w-4 h-4 text-primary" />

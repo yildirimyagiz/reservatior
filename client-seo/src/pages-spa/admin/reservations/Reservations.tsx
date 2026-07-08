@@ -22,19 +22,19 @@ const getStatusConfig = (t: any): Record<string, {
   cls: string;
 }> => ({
   CONFIRMED: {
-    label: t("admin.reservations.confirmed", "Onaylandı"),
+    label: t("admin_reservations_confirmed", "Onaylandı"),
     cls: "bg-green-100 text-green-700"
   },
   PENDING: {
-    label: t("admin.reservations.pending", "Bekliyor"),
+    label: t("admin_reservations_pending", "Bekliyor"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   COMPLETED: {
-    label: t("admin.reservations.completed", "Tamamlandı"),
+    label: t("admin_reservations_completed", "Tamamlandı"),
     cls: "bg-slate-100 text-slate-700"
   },
   CANCELLED: {
-    label: t("admin.reservations.cancelled", "İptal Edildi"),
+    label: t("admin_reservations_cancelled", "İptal Edildi"),
     cls: "bg-red-100 text-red-700"
   }
 });
@@ -212,10 +212,10 @@ export default function Reservations() {
     </form>;
   };
   return <>
-      <PageShell title={t("admin_reservations_reservations")} description={t("admin_reservations_manage_property_reservations")} createLabel={t("admin.reservations.add_reservations", "Yeni Rezervasyon")} onCreateClick={() => {
+      <PageShell title={t("admin_reservations_reservations")} description={t("admin_reservations_manage_property_reservations")} createLabel={t("admin_reservations_add_reservations", "Yeni Rezervasyon")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
-    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.reservations.search_placeholder", "Rezervasyon ara...")} stats={[{
+    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin_reservations_search_placeholder", "Rezervasyon ara...")} stats={[{
       label: t("admin_reservations_total"),
       value: MOCK.length
     }, {

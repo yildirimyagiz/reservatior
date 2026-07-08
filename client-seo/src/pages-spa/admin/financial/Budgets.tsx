@@ -118,7 +118,7 @@ export default function Budgets() {
     });
   };
   const handleDelete = (id: string) => {
-    if (!confirm(t("admin.financial.are_you_sure", "Emin misiniz?"))) return;
+    if (!confirm(t("admin_financial_are_you_sure", "Emin misiniz?"))) return;
     deleteMutation.mutate(id);
   };
   const openEdit = (row: Budget) => {
@@ -189,10 +189,10 @@ export default function Budgets() {
     </form>;
   };
   return <>
-      <PageShell title={t("admin_financial_budgets")} description={t("admin_financial_plan_and_track_property")} createLabel={t("admin.financial.add_budget", "Bütçe Ekle")} onCreateClick={() => {
+      <PageShell title={t("admin_financial_budgets")} description={t("admin_financial_plan_and_track_property")} createLabel={t("admin_financial_add_budget", "Bütçe Ekle")} onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
-    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin.financial.search_budgets", "Bütçelerde ara...")} stats={[{
+    }} searchValue={search} onSearchChange={setSearch} searchPlaceholder={t("admin_financial_search_budgets", "Bütçelerde ara...")} stats={[{
       label: t("admin_financial_budgets"),
       value: budgets.length
     }, {

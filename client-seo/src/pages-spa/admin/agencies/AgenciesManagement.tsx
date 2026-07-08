@@ -94,10 +94,10 @@ const AgenciesManagement = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
-            {t("admin.agencies.title", "Agencies Management")}
+            {t("admin_agencies_title", "Agencies Management")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            {t("admin.agencies.subtitle", "Manage real estate agencies, brokerage firms, and corporate accounts")}
+            {t("admin_agencies_subtitle", "Manage real estate agencies, brokerage firms, and corporate accounts")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -109,12 +109,12 @@ const AgenciesManagement = () => {
             <DialogTrigger asChild>
               <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
-                {t("admin.agencies.add", "Add Agency")}
+                {t("admin_agencies_add", "Add Agency")}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
-                <DialogTitle>{t("admin.agencies.add", "Add Agency")}</DialogTitle>
+                <DialogTitle>{t("admin_agencies_add", "Add Agency")}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
                 <div className="space-y-2">
@@ -184,7 +184,7 @@ const AgenciesManagement = () => {
           <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
             <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
-                <DialogTitle>{t("admin.agencies.edit", "Edit Agency")}</DialogTitle>
+                <DialogTitle>{t("admin_agencies_edit", "Edit Agency")}</DialogTitle>
               </DialogHeader>
               <form onSubmit={(e) => { e.preventDefault(); updateMutation.mutate(newAgency); }} className="space-y-4 pt-4">
                 <div className="space-y-2">
@@ -261,7 +261,7 @@ const AgenciesManagement = () => {
 
       <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-white">{t("admin.agencies.list", "Agency Directory")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_agencies_list", "Agency Directory")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (

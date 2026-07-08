@@ -311,7 +311,7 @@ export default function BookingsManagement() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.bookingsmanagement.error", "Hata"),
+        title: t("admin_bookingsmanagement_error", "Hata"),
         description: error.message,
         variant: "destructive"
       });
@@ -423,7 +423,7 @@ export default function BookingsManagement() {
                 <SelectValue placeholder={t("admin_bookingsmanagement_status")} />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-2xl text-muted-foreground">
-                <SelectItem value="all">{t("admin.bookings.status.all", "Tümü")}</SelectItem>
+                <SelectItem value="all">{t("admin_bookings_status_all", "Tümü")}</SelectItem>
                 <SelectItem value="PENDING">{statusConfig.PENDING.label}</SelectItem>
                 <SelectItem value="CONFIRMED">{statusConfig.CONFIRMED.label}</SelectItem>
                 <SelectItem value="COMPLETED">{statusConfig.COMPLETED.label}</SelectItem>
@@ -435,7 +435,7 @@ export default function BookingsManagement() {
                 <SelectValue placeholder={t("admin_bookingsmanagement_verification")} />
               </SelectTrigger>
               <SelectContent className="bg-[#14151a] border-border rounded-2xl text-muted-foreground">
-                <SelectItem value="all">{t("admin.bookings.verification.all", "Tümü")}</SelectItem>
+                <SelectItem value="all">{t("admin_bookings_verification_all", "Tümü")}</SelectItem>
                 <SelectItem value="PENDING">{verificationConfig.PENDING.label}</SelectItem>
                 <SelectItem value="VERIFIED">{verificationConfig.VERIFIED.label}</SelectItem>
               </SelectContent>
@@ -471,7 +471,7 @@ export default function BookingsManagement() {
                     <TableRow>
                       <TableCell colSpan={6} className="text-center py-12 text-muted-foreground">
                         <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
-                        {t("admin.bookingsmanagement.loading", "Yükleniyor...")}
+                        {t("admin_bookingsmanagement_loading", "Yükleniyor...")}
                       </TableCell>
                     </TableRow>
                   ) : filteredBookings.map(booking => <TableRow key={booking.id} className="border-b border-border hover:bg-muted/50 transition-all group">

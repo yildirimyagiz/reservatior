@@ -437,7 +437,7 @@ export default function AuditLogs() {
                   <div>
                     <label className="text-sm font-medium">{t("admin_security_location")}</label>
                     <div className="text-sm">
-                      {selected.location?.city && selected.location?.country ? `${selected.location.city}, ${selected.location.country}` : t("admin.security.unknown", "Bilinmiyor")}
+                      {selected.location?.city && selected.location?.country ? `${selected.location.city}, ${selected.location.country}` : t("admin_security_unknown", "Bilinmiyor")}
                     </div>
                   </div>
                 </div>

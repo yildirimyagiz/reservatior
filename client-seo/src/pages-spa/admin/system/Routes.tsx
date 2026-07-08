@@ -180,7 +180,7 @@ export default function Routes() {
     }
   };
   const handleDelete = async (id: string) => {
-    if (!confirm(t("admin.system.are_you_sure_delete", "Silmek istediğinize emin misiniz?"))) return;
+    if (!confirm(t("admin_system_are_you_sure_delete", "Silmek istediğinize emin misiniz?"))) return;
     try {
       await routesApi.delete(id);
       toast({

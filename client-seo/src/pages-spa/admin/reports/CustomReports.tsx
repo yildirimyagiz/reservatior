@@ -273,7 +273,7 @@ export default function CustomReports() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.reports.error", "Hata"),
+        title: t("admin_reports_error", "Hata"),
         description: error.message,
         variant: "destructive"
       });
@@ -537,13 +537,13 @@ export default function CustomReports() {
                           <div>
                             <span className="text-slate-500 dark:text-slate-400">{t("admin_reports_last_run")}</span>
                             <div className="font-medium">
-                              {report.lastRun ? new Date(report.lastRun).toLocaleDateString() : t("admin.reports.never", "Hiç")}
+                              {report.lastRun ? new Date(report.lastRun).toLocaleDateString() : t("admin_reports_never", "Hiç")}
                             </div>
                           </div>
                           <div>
                             <span className="text-slate-500 dark:text-slate-400">{t("admin_reports_next_run")}</span>
                             <div className="font-medium">
-                              {report.nextRun ? new Date(report.nextRun).toLocaleDateString() : t("admin.reports.not_scheduled", "Planlanmadı")}
+                              {report.nextRun ? new Date(report.nextRun).toLocaleDateString() : t("admin_reports_not_scheduled", "Planlanmadı")}
                             </div>
                           </div>
                         </div>

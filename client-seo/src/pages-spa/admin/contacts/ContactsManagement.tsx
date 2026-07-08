@@ -62,16 +62,16 @@ const ContactsManagement = () => {
 
   const handleSendContract = async (contact: any, contractType: string) => {
     try {
-      toast({ title: t('admin.contracts.sending', "Sending..."), description: t('admin.contracts.sendingDesc', "{{type}} is being sent.", { type: contractType }) });
+      toast({ title: t('admin_contracts_sending', "Sending..."), description: t('admin_contracts_sendingDesc', "{{type}} is being sent.", { type: contractType }) });
       await apiClient.post('/crm/request-contract-signature', {
         email: contact.email,
         name: contact.fullName,
         contractType: contractType,
         propertyId: "default_property_id" // Placeholder
       });
-      toast({ title: t('success'), description: t('admin.contracts.success', "Legal document successfully sent to client via email.") });
+      toast({ title: t('success'), description: t('admin_contracts_success', "Legal document successfully sent to client via email.") });
     } catch (error) {
-      toast({ title: t('error'), description: t('admin.contracts.error', "Failed to send contract."), variant: "destructive" });
+      toast({ title: t('error'), description: t('admin_contracts_error', "Failed to send contract."), variant: "destructive" });
     }
   };
 
@@ -82,10 +82,10 @@ const ContactsManagement = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-slate-400">
-            {t("admin.contacts.title", "Contacts & Leads")}
+            {t("admin_contacts_title", "Contacts & Leads")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            {t("admin.contacts.subtitle", "Centralized CRM for all property inquiries, leads, and client relations")}
+            {t("admin_contacts_subtitle", "Centralized CRM for all property inquiries, leads, and client relations")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -96,12 +96,12 @@ const ContactsManagement = () => {
             <DialogTrigger asChild>
               <Button className="bg-emerald-600 hover:bg-emerald-700 text-slate-900 dark:text-white shadow-lg shadow-emerald-500/20">
                 <Plus className="w-4 h-4 mr-2" />
-                {t("admin.contacts.add", "New Contact")}
+                {t("admin_contacts_add", "New Contact")}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
-                <DialogTitle>{t("admin.contacts.add", "New Contact")}</DialogTitle>
+                <DialogTitle>{t("admin_contacts_add", "New Contact")}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
                 <div className="space-y-2">
@@ -205,7 +205,7 @@ const ContactsManagement = () => {
 
       <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-white">{t("admin.contacts.list", "Global Directory")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_contacts_list", "Global Directory")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -243,18 +243,18 @@ const ContactsManagement = () => {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm" className="text-slate-500 dark:text-slate-400 hover:text-white bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 mr-2">
-                              <FileSignature className="w-4 h-4 mr-2" /> {t('admin.contracts.actions', 'Process')}
+                              <FileSignature className="w-4 h-4 mr-2" /> {t('admin_contracts_actions', 'Process')}
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
-                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin.contracts.salesType', "Sales Contract"))}>
-                              <FileText className="w-4 h-4 mr-2 text-slate-500 dark:text-slate-400" /> {t('admin.contracts.sendSales', 'Send Sales Contract')}
+                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_salesType', "Sales Contract"))}>
+                              <FileText className="w-4 h-4 mr-2 text-slate-500 dark:text-slate-400" /> {t('admin_contracts_sendSales', 'Send Sales Contract')}
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin.contracts.evictionType', "Eviction Agreement"))}>
-                              <FileText className="w-4 h-4 mr-2 text-orange-400" /> {t('admin.contracts.sendEviction', 'Send Eviction Agreement')}
+                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_evictionType', "Eviction Agreement"))}>
+                              <FileText className="w-4 h-4 mr-2 text-orange-400" /> {t('admin_contracts_sendEviction', 'Send Eviction Agreement')}
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin.contracts.rentalType', "Rental Contract"))}>
-                              <FileText className="w-4 h-4 mr-2 text-emerald-400" /> {t('admin.contracts.sendRental', 'Send Rental Contract')}
+                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_rentalType', "Rental Contract"))}>
+                              <FileText className="w-4 h-4 mr-2 text-emerald-400" /> {t('admin_contracts_sendRental', 'Send Rental Contract')}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

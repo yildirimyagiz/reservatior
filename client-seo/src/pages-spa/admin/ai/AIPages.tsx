@@ -359,7 +359,7 @@ export function Automation() {
     });
   };
   return <>
-      <PageShell title={t("admin_ai_automation_rules")} description={t("admin_ai_triggerbased_workflows_that_run")} createLabel={t("admin.ai.new_rule", "Yeni Kural")} onCreateClick={() => setCreateOpen(true)} stats={[{
+      <PageShell title={t("admin_ai_automation_rules")} description={t("admin_ai_triggerbased_workflows_that_run")} createLabel={t("admin_ai_new_rule", "Yeni Kural")} onCreateClick={() => setCreateOpen(true)} stats={[{
       label: t("admin_ai_total_rules"),
       value: MOCK_RULES.length
     }, {

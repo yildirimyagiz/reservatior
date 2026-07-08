@@ -153,25 +153,25 @@ export default function MarketingAutomation() {
 
   const getLocalizedStatus = (status: string) => {
     const map: Record<string, string> = {
-      'DRAFT': t('admin.marketing.status.draft', 'Taslak'),
-      'PLANNED': t('admin.marketing.status.planned', 'Planlandi'),
-      'ACTIVE': t('admin.marketing.status.active', 'Aktif'),
-      'PAUSED': t('admin.marketing.status.paused', 'Duraklatildi'),
-      'COMPLETED': t('admin.marketing.status.completed', 'Tamamlandi'),
-      'CANCELLED': t('admin.marketing.status.cancelled', 'Iptal Edildi'),
-      'PROSPECT': t('admin.marketing.status.prospect', 'Aday'),
-      'CONTACTED': t('admin.marketing.status.contacted', 'Iletisime Gecildi'),
-      'NEGOTIATING': t('admin.marketing.status.negotiating', 'Gorusuluyor'),
-      'SIGNED': t('admin.marketing.status.signed', 'Imzalandi'),
-      'INACTIVE': t('admin.marketing.status.inactive', 'Pasif'),
-      'RESTRICTED': t('admin.marketing.status.restricted', 'Kisitli'),
-      'REVIEW': t('admin.marketing.status.review', 'Incelemede'),
-      'APPROVED': t('admin.marketing.status.approved', 'Onaylandi'),
-      'SIGNING': t('admin.marketing.status.signing', 'Imza Asamasinda'),
-      'EXPIRING': t('admin.marketing.status.expiring', 'Suresi Doluyor'),
-      'RENEWED': t('admin.marketing.status.renewed', 'Yenilendi'),
-      'TERMINATED': t('admin.marketing.status.terminated', 'Feshedildi'),
-      'ARCHIVED': t('admin.marketing.status.archived', 'Arsivlendi')
+      'DRAFT': t('admin_marketing_status_draft', 'Taslak'),
+      'PLANNED': t('admin_marketing_status_planned', 'Planlandi'),
+      'ACTIVE': t('admin_marketing_status_active', 'Aktif'),
+      'PAUSED': t('admin_marketing_status_paused', 'Duraklatildi'),
+      'COMPLETED': t('admin_marketing_status_completed', 'Tamamlandi'),
+      'CANCELLED': t('admin_marketing_status_cancelled', 'Iptal Edildi'),
+      'PROSPECT': t('admin_marketing_status_prospect', 'Aday'),
+      'CONTACTED': t('admin_marketing_status_contacted', 'Iletisime Gecildi'),
+      'NEGOTIATING': t('admin_marketing_status_negotiating', 'Gorusuluyor'),
+      'SIGNED': t('admin_marketing_status_signed', 'Imzalandi'),
+      'INACTIVE': t('admin_marketing_status_inactive', 'Pasif'),
+      'RESTRICTED': t('admin_marketing_status_restricted', 'Kisitli'),
+      'REVIEW': t('admin_marketing_status_review', 'Incelemede'),
+      'APPROVED': t('admin_marketing_status_approved', 'Onaylandi'),
+      'SIGNING': t('admin_marketing_status_signing', 'Imza Asamasinda'),
+      'EXPIRING': t('admin_marketing_status_expiring', 'Suresi Doluyor'),
+      'RENEWED': t('admin_marketing_status_renewed', 'Yenilendi'),
+      'TERMINATED': t('admin_marketing_status_terminated', 'Feshedildi'),
+      'ARCHIVED': t('admin_marketing_status_archived', 'Arsivlendi')
     };
     return map[status] || status;
   };
@@ -466,8 +466,8 @@ export default function MarketingAutomation() {
                       <TableCell className="font-medium text-slate-900 dark:text-white">{ambassador.fullName}</TableCell>
                       <TableCell>
                         <div className="text-sm text-slate-900 dark:text-white">
-                          <div className="flex items-center gap-1"><Mail className="h-3 w-3 text-slate-500 dark:text-slate-400" />{ambassador.emailCiphertext ? t("admin.marketing.encrypted", "[Sifreli]") : "N/A"}</div>
-                          <div className="flex items-center gap-1"><Phone className="h-3 w-3 text-slate-500 dark:text-slate-400" />{ambassador.phoneCiphertext ? t("admin.marketing.encrypted", "[Sifreli]") : "N/A"}</div>
+                          <div className="flex items-center gap-1"><Mail className="h-3 w-3 text-slate-500 dark:text-slate-400" />{ambassador.emailCiphertext ? t("admin_marketing_encrypted", "[Sifreli]") : "N/A"}</div>
+                          <div className="flex items-center gap-1"><Phone className="h-3 w-3 text-slate-500 dark:text-slate-400" />{ambassador.phoneCiphertext ? t("admin_marketing_encrypted", "[Sifreli]") : "N/A"}</div>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -555,7 +555,7 @@ export default function MarketingAutomation() {
                       </TableCell>
                       <TableCell>
                         <div className="text-slate-900 dark:text-white">
-                          {contract.equityPercent && `${contract.equityPercent}% ${t("admin.marketing.equity", "hisse")}`}{contract.upfrontFee && ` + ${formatCurrency(contract.upfrontFee)} ${t("admin.marketing.upfront", "pesin")}`}
+                          {contract.equityPercent && `${contract.equityPercent}% ${t("admin_marketing_equity", "hisse")}`}{contract.upfrontFee && ` + ${formatCurrency(contract.upfrontFee)} ${t("admin_marketing_upfront", "pesin")}`}
                         </div>
                       </TableCell>
                       <TableCell>

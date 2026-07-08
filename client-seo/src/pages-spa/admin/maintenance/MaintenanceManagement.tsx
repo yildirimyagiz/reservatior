@@ -64,10 +64,10 @@ const MaintenanceManagement = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-orange-400">
-            {t("admin.maintenance.title", "Maintenance & Repairs")}
+            {t("admin_maintenance_title", "Maintenance & Repairs")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            {t("admin.maintenance.subtitle", "Track work orders, property damage, and predictive maintenance schedules")}
+            {t("admin_maintenance_subtitle", "Track work orders, property damage, and predictive maintenance schedules")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -78,12 +78,12 @@ const MaintenanceManagement = () => {
             <DialogTrigger asChild>
               <Button className="bg-red-600 hover:bg-red-700 text-slate-900 dark:text-white shadow-lg shadow-red-500/20">
                 <Plus className="w-4 h-4 mr-2" />
-                {t("admin.maintenance.create", "Create Work Order")}
+                {t("admin_maintenance_create", "Create Work Order")}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
-                <DialogTitle>{t("admin.maintenance.create", "Create Work Order")}</DialogTitle>
+                <DialogTitle>{t("admin_maintenance_create", "Create Work Order")}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
                 <div className="space-y-2">
@@ -188,7 +188,7 @@ const MaintenanceManagement = () => {
 
       <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-white">{t("admin.maintenance.list", "Work Orders Board")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_maintenance_list", "Work Orders Board")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (

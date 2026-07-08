@@ -62,10 +62,10 @@ const TasksManagement = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
-            {t("admin.tasks.title", "Tasks & Workflow")}
+            {t("admin_tasks_title", "Tasks & Workflow")}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
-            {t("admin.tasks.subtitle", "Centralized workflow management for internal teams and operations")}
+            {t("admin_tasks_subtitle", "Centralized workflow management for internal teams and operations")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -76,12 +76,12 @@ const TasksManagement = () => {
             <DialogTrigger asChild>
               <Button className="bg-slate-600 hover:bg-slate-700 text-slate-900 dark:text-white shadow-lg shadow-slate-500/20">
                 <Plus className="w-4 h-4 mr-2" />
-                {t("admin.tasks.add", "New Task")}
+                {t("admin_tasks_add", "New Task")}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
               <DialogHeader>
-                <DialogTitle>{t("admin.tasks.add", "New Task")}</DialogTitle>
+                <DialogTitle>{t("admin_tasks_add", "New Task")}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
                 <div className="space-y-2">
@@ -185,7 +185,7 @@ const TasksManagement = () => {
 
       <Card className="bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-white">{t("admin.tasks.list", "Global Task Board")}</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-white">{t("admin_tasks_list", "Global Task Board")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (

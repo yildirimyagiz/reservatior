@@ -192,7 +192,7 @@ export default function CommunicationTemplates() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.communication.error", "Hata"),
+        title: t("admin_communication_error", "Hata"),
         description: error.message,
         variant: "destructive"
       });
@@ -242,7 +242,7 @@ export default function CommunicationTemplates() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.communication.error", "Hata"),
+        title: t("admin_communication_error", "Hata"),
         description: error.message,
         variant: "destructive"
       });
@@ -267,7 +267,7 @@ export default function CommunicationTemplates() {
     },
     onError: (error: any) => {
       toast({
-        title: t("admin.communication.error", "Hata"),
+        title: t("admin_communication_error", "Hata"),
         description: error.message,
         variant: "destructive"
       });

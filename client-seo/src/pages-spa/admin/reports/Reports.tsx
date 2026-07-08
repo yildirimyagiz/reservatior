@@ -381,8 +381,8 @@ export default function Reports() {
                            </TableCell>
                            <TableCell className="px-8 text-right">
                               <div className="flex flex-col items-end">
-                                <div className="text-sm font-bold text-slate-900 dark:text-white font-mono">{report.lastRunAt ? new Date(report.lastRunAt).toLocaleDateString() : t("admin.reports.never_synced", "HİÇ SENKRONİZE EDİLMEDİ")}</div>
-                                <div className="text-[9px] font-bold text-slate-500 dark:text-slate-400 leading-none mt-1">{t("admin_reports_nextsync")}{report.nextRunAt ? new Date(report.nextRunAt).toLocaleDateString() : t("admin.reports.manual_only", "SADECE MANUEL")}</div>
+                                <div className="text-sm font-bold text-slate-900 dark:text-white font-mono">{report.lastRunAt ? new Date(report.lastRunAt).toLocaleDateString() : t("admin_reports_never_synced", "HİÇ SENKRONİZE EDİLMEDİ")}</div>
+                                <div className="text-[9px] font-bold text-slate-500 dark:text-slate-400 leading-none mt-1">{t("admin_reports_nextsync")}{report.nextRunAt ? new Date(report.nextRunAt).toLocaleDateString() : t("admin_reports_manual_only", "SADECE MANUEL")}</div>
                               </div>
                            </TableCell>
                            <TableCell className="px-8 text-right">
