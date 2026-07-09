@@ -1384,6 +1384,7 @@ model Lease {
   securityDepositProtection SecurityDepositProtection?
   tasks                     Task[]
   Contact                   Contact[]                  @relation("LeaseContacts")
+  contractFinancials        ContractFinancials?
 
   @@index([orgId])
   @@index([listingId])
@@ -12501,4 +12502,176 @@ model KnowledgeEdge {
   @@index([targetId])
   @@index([relationType])
   @@unique([sourceId, relationType, targetId, version])
+}
+
+// ==========================================
+// FinTech v2 — Hybrid Payment Orchestration
+// Reservatior Embedded Finance Infrastructure
+// ==========================================
+
+enum DepositStrategy {
+  INSURANCE_BACKED       // Kiracı sigorta ile güvence verir
+  FLEXIBLE_INSTALLMENT   // v2 default — kredi kartı taksit (6 billing cycle)
+  TRADITIONAL_CASH       // Nakit depozito
+}
+
+enum PaymentRail {
+  A2A_FAST               // Türkiye FAST/ÖHVPS — sıfır komisyon
+  A2A_ACH                // ABD ACH/FedNow — sıfır komisyon
+  A2A_PROMPTPAY          // Tayland PromptPay
+  A2A_SEPA               // Avrupa SEPA Instant
+  CARD_INSTALLMENT       // Kredi kartı taksit (depozito/komisyon için)
+  CARD_DIRECT            // Kredi kartı tek seferlik
+  WIRE                   // Havale/EFT/SWIFT
+}
+
+enum SplitDisbursementStatus {
+  PENDING_CAPTURE    // Henüz yakalanmadı
+  CAPTURED           // Early capture gerçekleşti (ör: 20. gün)
+  IN_FLOAT           // Gateway'de float'ta — interchange üretiliyor
+  DISBURSED          // 3 tarafa ödendi
+  FAILED             // Ödeme başarısız — retry gerekli
+  CANCELLED          // İptal edildi
+}
+
+// ContractFinancials: Lease başına finansal yapılandırma
+// Hybrid Settlement Pipeline'ı tanımlar
+model ContractFinancials {
+  id                     String           @id @default(uuid())
+  leaseId                String           @unique
+  lease                  Lease            @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+
+  // Kira bilgileri
+  rentAmount             Decimal          @db.Decimal(12, 2)
+  currency               String           @default("USD")
+
+  // Depozito yapılandırması
+  depositStrategy        DepositStrategy  @default(FLEXIBLE_INSTALLMENT)
+  depositTotal           Decimal?         @db.Decimal(12, 2)
+  depositInstallments    Int              @default(6)    // Kaç taksitte ödeniyor
+  depositPerInstallment  Decimal?         @db.Decimal(12, 2) // ~16.5% per cycle
+
+  // Komisyon yapılandırması (7% toplam)
+  commissionRateBps      Int              @default(700)  // 700 bps = 7%
+  commissionTotal        Decimal?         @db.Decimal(12, 2)
+  commissionInstallments Int              @default(6)
+
+  // Ödeme kanalları
+  rentPaymentRail        PaymentRail      @default(A2A_FAST)
+  depositPaymentRail     PaymentRail      @default(CARD_INSTALLMENT)
+
+  // "20th of the Month" Early Capture Engine
+  earlyCaptureDayOfMonth Int              @default(20)   // Ayın hangi günü capture?
+  captureBufferDays      Int              @default(15)   // Pre-emptive buffer (gün)
+  firstCaptureDate       DateTime?        // İlk taksit yakalama tarihi
+
+  // Sigorta katmanı
+  hasRentalInsurance     Boolean          @default(false)
+  insuranceProvider      String?
+  insurancePolicyNo      String?
+  insuranceCoverageLimit Decimal?         @db.Decimal(12, 2)
+
+  // Gateway
+  gatewayProvider        String?          // "PAYTR" | "STRIPE" | "IYZICO"
+
+  isActive               Boolean          @default(true)
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+
+  splitPayout            SplitPayoutSchedule?
+  earlyCaptureCycles     EarlyCaptureCycle[]
+
+  @@index([leaseId])
+}
+
+// SplitPayoutSchedule: Tri-party 3'lü bölüşüm planı
+// Ofis %35 / Acente %35 / Platform %30
+model SplitPayoutSchedule {
+  id                       String                  @id @default(uuid())
+  contractFinancialsId     String                  @unique
+  contractFinancials       ContractFinancials      @relation(fields: [contractFinancialsId], references: [id], onDelete: Cascade)
+
+  // Toplam komisyon havuzu (7% brüt)
+  totalCommissionCollected Decimal                 @db.Decimal(12, 2)
+  currency                 String                  @default("USD")
+
+  // Ofis payı (35%)
+  officeId                 String
+  officeIban               String?
+  officeShareRate          Float                   @default(0.35)
+  officeShareAmount        Decimal                 @db.Decimal(12, 2)
+  officeDisbursedAt        DateTime?
+
+  // Acente payı (35%)
+  agentId                  String
+  agentWalletId            String?
+  agentShareRate           Float                   @default(0.35)
+  agentShareAmount         Decimal                 @db.Decimal(12, 2)
+  agentDisbursedAt         DateTime?
+
+  // Platform payı (30% — sıfır maliyet net kar)
+  platformShareRate        Float                   @default(0.30)
+  platformShareAmount      Decimal                 @db.Decimal(12, 2)
+  platformDisbursedAt      DateTime?
+
+  // Float Architecture
+  gatewayProvider          String?                 // "PAYTR" | "STRIPE"
+  gatewayReference         String?                 // Gateway işlem referansı
+  floatStartDate           DateTime?               // Early capture tarihi (ör: 20 Mayıs)
+  valorEndDate             DateTime?               // Disbursement tarihi (ör: 3 Haziran)
+  floatDurationDays        Int?                    // Genellikle 14-15 gün
+
+  status                   SplitDisbursementStatus @default(PENDING_CAPTURE)
+  isDisbursed              Boolean                 @default(false)
+  disbursedAt              DateTime?
+  failureReason            String?
+
+  capturedAt               DateTime                @default(now())
+  updatedAt                DateTime                @updatedAt
+
+  @@index([officeId])
+  @@index([agentId])
+  @@index([status])
+}
+
+// EarlyCaptureCycle: Her aylık erken yakalama döngüsü kaydı
+// "20th of the Month" engine'in her iterasyonu
+model EarlyCaptureCycle {
+  id                   String                  @id @default(uuid())
+  contractFinancialsId String
+  contractFinancials   ContractFinancials      @relation(fields: [contractFinancialsId], references: [id], onDelete: Cascade)
+
+  cycleNumber          Int                     // 1, 2, 3... (kaçıncı taksit)
+  cycleMonth           Int                     // 1-12
+  cycleYear            Int
+
+  // Tarihler
+  captureAttemptDate   DateTime                // Planlanan yakalama (ör: 20 Mayıs)
+  actualCaptureDate    DateTime?               // Gerçek başarılı yakalama
+  dueDate              DateTime                // Kira vadesi (ör: 1 Haziran)
+  statementDate        DateTime?               // Kartın ekstre tarihi
+
+  // Tutarlar
+  rentAmount           Decimal                 @db.Decimal(12, 2)
+  installmentAmount    Decimal?                @db.Decimal(12, 2) // Depozito/komisyon taksiti
+  totalAmount          Decimal                 @db.Decimal(12, 2) // Kira + taksit
+
+  // Gateway
+  paymentRail          PaymentRail             @default(A2A_FAST)
+  gatewayReference     String?
+
+  // Durum & Risk
+  status               SplitDisbursementStatus @default(PENDING_CAPTURE)
+  failureReason        String?
+  retryCount           Int                     @default(0)
+  maxRetries           Int                     @default(3)
+  riskFlag             Boolean                 @default(false) // Decline varsa true
+
+  createdAt            DateTime                @default(now())
+  updatedAt            DateTime                @updatedAt
+
+  @@unique([contractFinancialsId, cycleMonth, cycleYear])
+  @@index([captureAttemptDate])
+  @@index([status])
+  @@index([contractFinancialsId])
 }

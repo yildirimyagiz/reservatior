@@ -7,6 +7,7 @@ import { disputeResolver } from "../core/dispute/resolver";
 import { distributionEngine } from "../services/distribution/distribution-engine";
 import { demandGenerator } from "../services/demand/demand-generator";
 import prismaManager from "@/lib/prisma";
+import { runEarlyCaptureScheduler } from "../services/fintech/early-capture-scheduler";
 
 export const cronScheduler = new Elysia({ name: "cron-scheduler" })
   // 1. LEASE_EXPIRY_APPROACHING (Runs daily at 02:00 AM)
@@ -156,6 +157,23 @@ export const cronScheduler = new Elysia({ name: "cron-scheduler" })
         }
       }
     })
+  )
+
+  // 11. EARLY CAPTURE ENGINE (Runs daily at 08:00 AM)
+  // "20th of the Month" — pre-emptive payment capture before due date
+  .use(
+    cron({
+      name: "early-capture-engine",
+      pattern: process.env.NODE_ENV === "production" ? "0 8 * * *" : "*/30 * * * *",
+      async run() {
+        console.log("[Cron] Running EARLY_CAPTURE_ENGINE...");
+        try {
+          await runEarlyCaptureScheduler();
+        } catch (e) {
+          console.error("[Cron] EARLY_CAPTURE_ENGINE error:", e);
+        }
+      }
+    })
   );
 
-console.log("[CronScheduler] Registered 10 background cron jobs (5 new).");
+console.log("[CronScheduler] Registered 11 background cron jobs.");

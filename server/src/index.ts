@@ -18,6 +18,8 @@ import { rateLimitMiddleware } from "./middleware/rate-limit";
 import { csrfMiddleware } from "./middleware/csrf";
 import { auditLogMiddleware } from "./middleware/audit-log";
 import { shareToLinkedInCompany } from "./services/linkedin";
+import { fintechRoutes } from "./routes/fintech";
+import { runEarlyCaptureScheduler } from "./services/fintech/early-capture-scheduler";
 import { RegionManager } from "./lib/config/RegionManager";
 
 // ── Environment-based configuration ─────────────────────────────────────────
@@ -571,6 +573,7 @@ const app = new Elysia()
   })
 
   .use(router)
+  .use(fintechRoutes)
   .use(cronScheduler)
 
   // GET /api/plan and /api/v1/plan — public pricing plans
