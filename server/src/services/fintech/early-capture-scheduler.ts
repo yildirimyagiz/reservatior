@@ -16,7 +16,7 @@ import {
   markCycleCaptured,
   markCycleFailed,
 } from "./hybrid-settlement";
-import { db } from "../../lib/db";
+import { prisma as db } from "../../lib/prisma";
 
 // ── Main Scheduler Function ────────────────────────────────────────────────
 

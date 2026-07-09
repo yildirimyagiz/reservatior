@@ -14,7 +14,7 @@ import {
   markCycleFailed,
 } from "../services/fintech/hybrid-settlement";
 import { processDisbursement } from "../services/fintech/early-capture-scheduler";
-import { db } from "../lib/db";
+import { prisma as db } from "../lib/prisma";
 
 export const fintechRoutes = new Elysia({ prefix: "/api/v1/fintech" })
 

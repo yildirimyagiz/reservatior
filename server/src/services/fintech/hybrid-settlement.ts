@@ -7,7 +7,7 @@
  * - ContractFinancials CRUD
  */
 
-import { db } from "../../lib/db";
+import { prisma as db } from "../../lib/prisma";
 import type { DepositStrategy, PaymentRail, Prisma } from "@prisma/client";
 
 // ── Types ──────────────────────────────────────────────────────────────────
