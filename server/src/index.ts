@@ -670,7 +670,7 @@ console.log("🦊 Elysia server is running at http://localhost:" + (process.env.
 console.log("📚 Swagger docs available at http://localhost:" + (process.env.PORT || 3000) + "/docs");
 
 // Initialize AI Mail Auto-Responder polling
-AIMailResponderService.startPolling();
+// AIMailResponderService.startPolling();
 
 // Initialize MLS RabbitMQ Consumer
 import { initMlsConsumer } from "./services/mls-sync-consumer";
