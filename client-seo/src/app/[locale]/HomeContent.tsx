@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
-import { City } from "react-country-state-city";
+import { Country, City } from "react-country-state-city";
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, Menu, X, 
   ArrowRight, ShieldCheck, Key, Compass, Star, ChevronDown, Monitor, Watch, Gem, CheckCircle2
@@ -62,8 +62,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const [searchLocation, setSearchLocation] = useState("");
   const [searchDate, setSearchDate] = useState("");
   const [searchGuests, setSearchGuests] = useState(1);
+  const [selectedCountry, setSelectedCountry] = useState<string>("TR");
+  const [countries, setCountries] = useState<Country[]>([]);
   const [locationSuggestions, setLocationSuggestions] = useState<City[]>([]);
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
+  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
 
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { provider, apiKey } = useMapProvider();
@@ -76,18 +79,31 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Load cities for autocomplete
+  // Load countries
+  useEffect(() => {
+    const loadCountries = async () => {
+      try {
+        const allCountries = await Country.getAllCountries();
+        setCountries(allCountries.slice(0, 50)); // Load first 50 countries
+      } catch (error) {
+        console.error('Error loading countries:', error);
+      }
+    };
+    loadCountries();
+  }, []);
+
+  // Load cities for autocomplete based on selected country
   useEffect(() => {
     const loadCities = async () => {
       try {
-        const cities = await City.getCitiesOfCountry('TR');
+        const cities = await City.getCitiesOfCountry(selectedCountry);
         setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
       } catch (error) {
         console.error('Error loading cities:', error);
       }
     };
     loadCities();
-  }, []);
+  }, [selectedCountry]);
 
   useEffect(() => {
     if (provider === "google") {
@@ -187,6 +203,37 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
 
             {/* Search Input Bar */}
             <form onSubmit={handleSearch} className="bg-white dark:bg-[#111] p-3 rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] relative">
+              {/* Country Selector */}
+              <div className="relative px-4 py-3 hover:bg-slate-50 dark:hover:bg-white/5 rounded-full transition-colors group">
+                <button
+                  type="button"
+                  onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                  className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white"
+                >
+                  <span>{countries.find(c => c.isoCode === selectedCountry)?.name || 'Turkey'}</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                {showCountryDropdown && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 max-h-60 overflow-y-auto">
+                    {countries.map((country) => (
+                      <button
+                        key={country.isoCode}
+                        type="button"
+                        onClick={() => {
+                          setSelectedCountry(country.isoCode);
+                          setShowCountryDropdown(false);
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-sm font-medium text-slate-900 dark:text-white"
+                      >
+                        {country.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="hidden md:block w-[1px] h-10 bg-slate-200 dark:bg-white/10" />
+
               <div className="flex-[1.5] px-6 py-3 w-full hover:bg-slate-50 dark:hover:bg-white/5 rounded-full transition-colors group cursor-text relative">
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.where', { defaultValue: 'Location' })}</label>
                 <input 
