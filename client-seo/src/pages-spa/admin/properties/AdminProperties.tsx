@@ -50,6 +50,7 @@ export default function AdminProperties() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState({ title: "", type: "", price: "" });
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProperty, setSelectedProperty] = useState<AdminProperty | null>(null);
   const [activeTab, setActiveTab] = useState("portfolio");
@@ -71,9 +72,20 @@ export default function AdminProperties() {
 
   const updateMutation = useMutation({
     mutationFn: async (data: any) => apiClient.put(`/admin/adminproperties/${data.id}`, data),
-    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries({ queryKey: ['admin-properties'] }); setEditingId(null); },
+    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries({ queryKey: ['admin-properties'] }); setEditingId(null); setIsEditOpen(false); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
+
+  const openEditModal = (property: AdminProperty) => {
+    setEditingId(property.id);
+    setFormData({
+      title: property.name,
+      type: property.type,
+      price: property.listingPrice.toString()
+    });
+    setSelectedProperty(property);
+    setIsEditOpen(true);
+  };
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => apiClient.delete(`/admin/adminproperties/${id}`),
@@ -166,8 +178,8 @@ export default function AdminProperties() {
   return <div className="min-h-screen bg-background">
       <div className="p-6 space-y-10 pb-20">
         <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t('propertyTitle')}</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('propertyDesc')}</p>
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t('admin_properties_title')}</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('admin_properties_description')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -254,9 +266,9 @@ export default function AdminProperties() {
             <Card className="bg-gradient-to-br from-slate-600/20 to-transparent border-slate-200 dark:border-white/10 rounded-4xl p-8 relative overflow-hidden shadow-2xl">
               <div className="relative z-10 space-y-4">
                 <Star className="w-10 h-10 text-slate-500 dark:text-slate-400" />
-                <h4 className="text-xl font-bold text-slate-900 dark:text-white">{t('propertyAiinsightTitle')}</h4>
+                <h4 className="text-xl font-bold text-slate-900 dark:text-white">{t('admin_properties_ai_insight_title')}</h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                  {t('propertyAiinsightDesc', { percent: "12.5" })}
+                  {t('admin_properties_ai_insight_description', { percent: "12.5" })}
                 </p>
                 <Button className="w-full bg-slate-600 hover:bg-slate-500 text-slate-900 dark:text-white font-bold h-12 rounded-2xl text-[10px] shadow-xl shadow-slate-600/20">{t('viewAnalytics')}</Button>
               </div>
@@ -315,6 +327,35 @@ export default function AdminProperties() {
                       <Button variant="outline" className="border-slate-200 dark:border-white/10 text-slate-900 dark:text-white bg-white/5" onClick={() => setIsAddOpen(false)}>Cancel</Button>
                       <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending} className="bg-orange-600 hover:bg-orange-500 text-slate-900 dark:text-white">
                         {createMutation.isPending ? "Saving..." : "Save Changes"}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+                  <DialogContent className="sm:max-w-[425px] bg-[#14151a] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                    <DialogHeader>
+                      <DialogTitle className="text-slate-900 dark:text-white">Edit Property</DialogTitle>
+                      <DialogDescription className="text-slate-500 dark:text-slate-400">Update the property details.</DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="edit-title" className="text-right text-xs text-slate-500 dark:text-slate-400">Title</Label>
+                        <Input id="edit-title" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="Enter title" />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="edit-type" className="text-right text-xs text-slate-500 dark:text-slate-400">Property Type</Label>
+                        <Input id="edit-type" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter property type" />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="edit-price" className="text-right text-xs text-slate-500 dark:text-slate-400">Price</Label>
+                        <Input id="edit-price" className="col-span-3 h-10 bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder="Enter price" />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button variant="outline" className="border-slate-200 dark:border-white/10 text-slate-900 dark:text-white bg-white/5" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+                      <Button onClick={() => updateMutation.mutate({ id: editingId, ...formData })} disabled={updateMutation.isPending} className="bg-orange-600 hover:bg-orange-500 text-slate-900 dark:text-white">
+                        {updateMutation.isPending ? "Saving..." : "Save Changes"}
                       </Button>
                     </DialogFooter>
                   </DialogContent>
@@ -403,7 +444,7 @@ export default function AdminProperties() {
                                </DropdownMenuTrigger>
                                <DropdownMenuContent align="end" className="bg-[#14151a] border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl p-2 min-w-[180px]">
                                  <DropdownMenuLabel className="text-[10px] font-bold text-slate-500 dark:text-slate-400 p-3">{t('administrative')}</DropdownMenuLabel>
-                                 <DropdownMenuItem onClick={() => navigate('/admin/inventory')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-white transition-all cursor-pointer">
+                                 <DropdownMenuItem onClick={() => openEditModal(property)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-white transition-all cursor-pointer">
                                     <Edit className="w-4 h-4 mr-3 text-orange-500" /> {t('editMetadata')}
                                  </DropdownMenuItem>
                                  <DropdownMenuItem onClick={() => navigate('/admin/leads')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-white transition-all cursor-pointer">
@@ -443,8 +484,8 @@ export default function AdminProperties() {
                        <TrendingUp className="w-10 h-10 text-orange-400" />
                     </div>
                     <div>
-                       <h3 className="text-3xl font-bold text-slate-900 dark:text-white">{t('propertyVelocityTitle')}</h3>
-                       <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('propertyVelocityDesc')}</p>
+                       <h3 className="text-3xl font-bold text-slate-900 dark:text-white">{t('admin_properties_velocity_title')}</h3>
+                       <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('admin_properties_velocity_description')}</p>
                     </div>
                  </div>
                  <div className="grid grid-cols-3 gap-6">
@@ -496,8 +537,8 @@ export default function AdminProperties() {
                        <DollarSign className="w-10 h-10 text-emerald-400" />
                     </div>
                     <div>
-                       <h3 className="text-3xl font-bold text-slate-900 dark:text-white">{t('propertyFinancialTitle')}</h3>
-                       <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('propertyFinancialDesc')}</p>
+                       <h3 className="text-3xl font-bold text-slate-900 dark:text-white">{t('admin_properties_financial_title')}</h3>
+                       <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">{t('admin_properties_financial_description')}</p>
                     </div>
                  </div>
                  <div className="space-y-6">

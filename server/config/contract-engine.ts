@@ -1,17 +1,38 @@
 // server/config/contract-engine.ts
 // AI-Driven Legal Document & Smart Contract Generator
-// Automatically generates region-specific legal documents by injecting real-time transaction data.
+// Supports: Multi-language (TR/EN/AR/DE/FR/ES/RU), Lease + Sales contracts,
+// 3 Commission Models: INSTALLMENT_12 (%4/ay) / HYBRID_50_6 (%50+%60x6) / TRADITIONAL_1M
 
 import { RegionCode } from './ai-yield-optimization';
 
+// Supported contract languages
+export enum ContractLanguage {
+  TR = 'tr',
+  EN = 'en',
+  AR = 'ar',
+  DE = 'de',
+  FR = 'fr',
+  ES = 'es',
+  RU = 'ru',
+  PT = 'pt',
+  JA = 'ja',
+}
+
+// Commission models (inline to avoid circular import)
+export enum ContractCommissionModel {
+  INSTALLMENT_12  = 'INSTALLMENT_12',   // A: 12 ay %4/ay carry + %2 platform
+  HYBRID_50_6     = 'HYBRID_50_6',      // B: %50 pesin + %60'i 6 taksit + %2 platform
+  TRADITIONAL_1M  = 'TRADITIONAL_1M',   // C: 1 ay kira pesinen + %2 platform
+}
+
 export enum ContractType {
-  RESIDENTIAL_LEASE = 'RESIDENTIAL_LEASE',       // Konut Kira Sözleşmesi
-  COMMERCIAL_LEASE = 'COMMERCIAL_LEASE',         // Ticari Kira Sözleşmesi
-  SHORT_TERM_BOOKING = 'SHORT_TERM_BOOKING',     // Kısa Dönem / Tatil Rezervasyonu
-  SALES_AGREEMENT = 'SALES_AGREEMENT',           // Gayrimenkul Satış Sözleşmesi
-  EARNEST_MONEY = 'EARNEST_MONEY',               // Kaparo / Cayma Akçesi Sözleşmesi
-  EVICTION_COMMITMENT = 'EVICTION_COMMITMENT',   // Tahliye Taahhütnamesi (Çok Önemli - TR)
-  AGENCY_REPRESENTATION = 'AGENCY_REPRESENTATION'// Acente/Emlakçı Yetki Belgesi
+  RESIDENTIAL_LEASE    = 'RESIDENTIAL_LEASE',
+  COMMERCIAL_LEASE     = 'COMMERCIAL_LEASE',
+  SHORT_TERM_BOOKING   = 'SHORT_TERM_BOOKING',
+  SALES_AGREEMENT      = 'SALES_AGREEMENT',
+  EARNEST_MONEY        = 'EARNEST_MONEY',
+  EVICTION_COMMITMENT  = 'EVICTION_COMMITMENT',
+  AGENCY_REPRESENTATION = 'AGENCY_REPRESENTATION',
 }
 
 export interface ContractData {
@@ -19,7 +40,7 @@ export interface ContractData {
     id: string;
     address: string;
     city: string;
-    parcelId?: string; // Ada/Parsel
+    parcelId?: string;
     type: string;
   };
   landlordOrSeller: {
@@ -43,96 +64,158 @@ export interface ContractData {
     depositAmount?: number;
     startDate: string;
     endDate?: string;
-    isZeroDeposit: boolean; // Obligo/Rhino Entegrasyonu
+    isZeroDeposit: boolean;
+    commissionModel?: ContractCommissionModel;
+    commissionTotal?: number;
+    platformInsuranceFee?: number;
+    commissionInstallments?: number;
+    monthlyInstallment?: number;
+    downPayment?: number;
+  };
+  legal?: {
+    officialLanguage?: ContractLanguage;
+    additionalLanguage?: ContractLanguage;
   };
 }
 
-/**
- * Contract Template Registry by Region and Type
- * The {VARIABLES} will be replaced dynamically by the engine.
- */
-const ContractTemplates: Record<string, Record<ContractType, string>> = {
-  [RegionCode.TR]: {
-    [ContractType.RESIDENTIAL_LEASE]: `
-      <h1 style="text-align:center;">KONUT KİRA SÖZLEŞMESİ</h1>
-      <p><strong>Kiraya Veren:</strong> {LANDLORD_NAME} (TC/VKN: {LANDLORD_ID})</p>
-      <p><strong>Kiracı:</strong> {TENANT_NAME} (TC/VKN: {TENANT_ID})</p>
-      <p><strong>Kiralanan Mecur:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY} (Ada/Parsel: {PROPERTY_PARCEL})</p>
-      <p><strong>Kira Bedeli:</strong> {PRICE} {CURRENCY} / Ay</p>
-      <p><strong>Başlangıç Tarihi:</strong> {START_DATE}</p>
-      <h3>Madde 1 - Depozito ve Güvence</h3>
-      <p>{DEPOSIT_CLAUSE}</p>
-      <p>İşbu sözleşme tarafların dijital onayı (Reservatior Escrow Sistemi) ile {START_DATE} tarihinde akdedilmiştir.</p>
-    `,
-    [ContractType.EVICTION_COMMITMENT]: `
-      <h1 style="text-align:center;">TAHLİYE TAAHHÜTNAMESİ</h1>
-      <p><strong>Taahhüt Eden (Kiracı):</strong> {TENANT_NAME}</p>
-      <p><strong>Malik (Kiraya Veren):</strong> {LANDLORD_NAME}</p>
-      <p>Halen kiracı olarak kullanmakta olduğum <em>{PROPERTY_ADDRESS}</em> adresindeki mecuru, hiçbir ihtara ve ihbara gerek kalmaksızın <strong>{END_DATE}</strong> tarihinde kayıtsız şartsız boşaltıp, sağlam ve eksiksiz olarak teslim edeceğimi beyan ve taahhüt ederim.</p>
-    `,
-    [ContractType.EARNEST_MONEY]: `
-      <h1 style="text-align:center;">KAPARO VE REZERVASYON SÖZLEŞMESİ</h1>
-      <p>Alıcı/Kiracı {TENANT_NAME}, {PROPERTY_ADDRESS} adresindeki taşınmazın işlemi için {PRICE} {CURRENCY} tutarında kaparoyu Reservatior Escrow Havuzuna yatırmıştır. Taraflardan biri haksız cayarsa, Reservatior Akıllı Sözleşme kuralları gereği kaparo irat kaydedilir veya iade edilir.</p>
-    `,
-    [ContractType.AGENCY_REPRESENTATION]: `
-      <h1 style="text-align:center;">EMLAK YETKİ VE TEMSİL SÖZLEŞMESİ</h1>
-      <p><strong>Yetkilendirilen Acente:</strong> {AGENT_NAME} (Lisans: {AGENT_LICENSE})</p>
-      <p>Yukarıda bilgileri verilen mülkün pazarlanması ve işleme dönüştürülmesi için, işlem bedelinin %{AGENT_COMMISSION}'u oranında hizmet bedeli ödenecektir.</p>
-    `,
-    // Diğer sözleşmeler buraya eklenebilir (Ticari, Satış vb.)
-    [ContractType.COMMERCIAL_LEASE]: `<p>Ticari Kira Sözleşmesi Şablonu...</p>`,
-    [ContractType.SHORT_TERM_BOOKING]: `<p>Kısa Dönem Konaklama Sözleşmesi...</p>`,
-    [ContractType.SALES_AGREEMENT]: `<p>Gayrimenkul Satış Vaadi Sözleşmesi...</p>`,
+// Commission model clause templates per language
+const CommissionModelClauses: Record<ContractCommissionModel, Record<ContractLanguage, string>> = {
+  [ContractCommissionModel.INSTALLMENT_12]: {
+    [ContractLanguage.TR]: `Komisyon toplam {COMMISSION_TOTAL} {CURRENCY} olup {INSTALLMENTS} esit aylik taksitte odenir ({MONTHLY_INSTALLMENT} {CURRENCY}/ay). Aylik %4 tasima bedeli uygulanir. %2 Platform Guvencesi ve Sigorta Bedeli ({PLATFORM_FEE} {CURRENCY}) ayrica tahsil edilir.`,
+    [ContractLanguage.EN]: `Commission totals {COMMISSION_TOTAL} {CURRENCY}, payable in {INSTALLMENTS} equal monthly installments of {MONTHLY_INSTALLMENT} {CURRENCY}. A 4% monthly carry fee applies. A 2% Platform Guarantee & Insurance Fee of {PLATFORM_FEE} {CURRENCY} is also collected.`,
+    [ContractLanguage.AR]: `العمولة الكلية {COMMISSION_TOTAL} {CURRENCY}، تسدد على {INSTALLMENTS} قسطا شهريا بقيمة {MONTHLY_INSTALLMENT} {CURRENCY}. رسوم 4% شهريا. ورسوم ضمان المنصة 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.DE]: `Die Provision betraegt insgesamt {COMMISSION_TOTAL} {CURRENCY}, zahlbar in {INSTALLMENTS} gleichen Monatsraten à {MONTHLY_INSTALLMENT} {CURRENCY}. Monatliche Bereitstellungsgebuehr 4%. Plattformgebuehr 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.FR]: `Commission totale {COMMISSION_TOTAL} {CURRENCY}, payable en {INSTALLMENTS} mensualites de {MONTHLY_INSTALLMENT} {CURRENCY}. Frais mensuels 4%. Frais plateforme 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.ES]: `Comision total {COMMISSION_TOTAL} {CURRENCY}, pagadera en {INSTALLMENTS} cuotas de {MONTHLY_INSTALLMENT} {CURRENCY}/mes. Cargo mensual 4%. Tarifa plataforma 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.RU]: `Общая комиссия {COMMISSION_TOTAL} {CURRENCY}, выплачивается {INSTALLMENTS} равными платежами по {MONTHLY_INSTALLMENT} {CURRENCY}. Ежемесячный сбор 4%. Плата за платформу 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.PT]: `Comissao total {COMMISSION_TOTAL} {CURRENCY}, pagavel em {INSTALLMENTS} parcelas de {MONTHLY_INSTALLMENT} {CURRENCY}. Taxa mensal 4%. Taxa plataforma 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.JA]: `手数料合計 {COMMISSION_TOTAL} {CURRENCY}、{INSTALLMENTS}回分割 {MONTHLY_INSTALLMENT} {CURRENCY}/月。月次4%運用手数料。プラットフォーム保証2% ({PLATFORM_FEE} {CURRENCY})。`,
   },
-  [RegionCode.USA]: {
-    [ContractType.RESIDENTIAL_LEASE]: `
-      <h1 style="text-align:center;">RESIDENTIAL LEASE AGREEMENT</h1>
-      <p><strong>Landlord:</strong> {LANDLORD_NAME}</p>
-      <p><strong>Tenant:</strong> {TENANT_NAME}</p>
-      <p><strong>Premises:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY}</p>
-      <p><strong>Rent:</strong> {PRICE} {CURRENCY} / Month</p>
-      <h3>Security Deposit</h3>
-      <p>{DEPOSIT_CLAUSE}</p>
-    `,
-    [ContractType.EVICTION_COMMITMENT]: `<p>Not strictly applicable in US in advance (requires court), mapped to Notice of Intent to Vacate.</p>`,
-    [ContractType.EARNEST_MONEY]: `<p>Earnest Money Escrow Agreement...</p>`,
-    [ContractType.AGENCY_REPRESENTATION]: `<p>Exclusive Right to Sell/Lease Agreement...</p>`,
-    [ContractType.COMMERCIAL_LEASE]: `<p>Commercial NNN Lease Agreement...</p>`,
-    [ContractType.SHORT_TERM_BOOKING]: `<p>Short-Term Vacation Rental Agreement...</p>`,
-    [ContractType.SALES_AGREEMENT]: `<p>Real Estate Purchase and Sale Agreement...</p>`,
-  }
+  [ContractCommissionModel.HYBRID_50_6]: {
+    [ContractLanguage.TR]: `Komisyonun %50si ({DOWN_PAYMENT} {CURRENCY}) imzada pesinen Reservatior Escrow'a yatirilir. Kalan bakiye +%10 servis bedeliyle 6 taksitte odenir ({MONTHLY_INSTALLMENT} {CURRENCY}/ay). %2 Platform Guvencesi ({PLATFORM_FEE} {CURRENCY}) pesinate dahildir. Bu model yaklasik 1 aylik kira tutarini gecis esigi olarak kullanir.`,
+    [ContractLanguage.EN]: `50% of commission ({DOWN_PAYMENT} {CURRENCY}) is due upfront into Reservatior Escrow at signing. The remaining balance + 10% service fee is paid over 6 installments of {MONTHLY_INSTALLMENT} {CURRENCY}/month. The 2% Platform & Insurance Fee ({PLATFORM_FEE} {CURRENCY}) is collected with the down payment. This model uses ~1 month rent as the transition threshold.`,
+    [ContractLanguage.AR]: `50% من العمولة ({DOWN_PAYMENT} {CURRENCY}) مسبقا عند التوقيع. الباقي +10% على 6 اقساط ({MONTHLY_INSTALLMENT} {CURRENCY}/شهر). رسوم المنصة 2% ({PLATFORM_FEE} {CURRENCY}) مع الدفعة الاولى.`,
+    [ContractLanguage.DE]: `50% der Provision ({DOWN_PAYMENT} {CURRENCY}) bei Unterzeichnung. Rest +10% auf 6 Raten ({MONTHLY_INSTALLMENT} {CURRENCY}/Monat). Plattformgebuehr 2% ({PLATFORM_FEE} {CURRENCY}) mit Anzahlung.`,
+    [ContractLanguage.FR]: `50% de commission ({DOWN_PAYMENT} {CURRENCY}) a la signature. Solde +10% sur 6 mensualites ({MONTHLY_INSTALLMENT} {CURRENCY}/mois). Frais plateforme 2% ({PLATFORM_FEE} {CURRENCY}) avec acompte.`,
+    [ContractLanguage.ES]: `50% de comision ({DOWN_PAYMENT} {CURRENCY}) al firmar. Resto +10% en 6 cuotas ({MONTHLY_INSTALLMENT} {CURRENCY}/mes). Tarifa plataforma 2% ({PLATFORM_FEE} {CURRENCY}) con pago inicial.`,
+    [ContractLanguage.RU]: `50% комиссии ({DOWN_PAYMENT} {CURRENCY}) при подписании. Остаток +10% в 6 платежей ({MONTHLY_INSTALLMENT} {CURRENCY}/мес). Плата платформы 2% ({PLATFORM_FEE} {CURRENCY}) с авансом.`,
+    [ContractLanguage.PT]: `50% da comissao ({DOWN_PAYMENT} {CURRENCY}) na assinatura. Saldo +10% em 6 parcelas ({MONTHLY_INSTALLMENT} {CURRENCY}/mes). Taxa plataforma 2% ({PLATFORM_FEE} {CURRENCY}) com entrada.`,
+    [ContractLanguage.JA]: `手数料の50%（{DOWN_PAYMENT} {CURRENCY}）を署名時に前払い。残額+10%を6回分割（{MONTHLY_INSTALLMENT} {CURRENCY}/月）。プラットフォーム料2%（{PLATFORM_FEE} {CURRENCY}）は頭金と同時徴収。`,
+  },
+  [ContractCommissionModel.TRADITIONAL_1M]: {
+    [ContractLanguage.TR]: `Komisyon olarak 1 aylik kira bedeli ({DOWN_PAYMENT} {CURRENCY}) imzada pesinen odenir. %2 Platform Guvencesi ve Sigorta Bedeli ({PLATFORM_FEE} {CURRENCY}) ayrica tahsil edilir.`,
+    [ContractLanguage.EN]: `A commission equal to one month's rent ({DOWN_PAYMENT} {CURRENCY}) is due at signing. A 2% Platform Guarantee & Insurance Fee ({PLATFORM_FEE} {CURRENCY}) is also collected.`,
+    [ContractLanguage.AR]: `عمولة تعادل شهر ايجار ({DOWN_PAYMENT} {CURRENCY}) عند التوقيع. رسوم منصة 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.DE]: `Provision in Hoehe einer Monatsmiete ({DOWN_PAYMENT} {CURRENCY}) bei Unterzeichnung. Plattformgebuehr 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.FR]: `Commission egale a un mois de loyer ({DOWN_PAYMENT} {CURRENCY}) a la signature. Frais plateforme 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.ES]: `Comision equivalente a un mes de alquiler ({DOWN_PAYMENT} {CURRENCY}) al firmar. Tarifa plataforma 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.RU]: `Комиссия равная одному месяцу аренды ({DOWN_PAYMENT} {CURRENCY}) при подписании. Плата платформы 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.PT]: `Comissao equivalente a um mes de aluguel ({DOWN_PAYMENT} {CURRENCY}) na assinatura. Taxa plataforma 2% ({PLATFORM_FEE} {CURRENCY}).`,
+    [ContractLanguage.JA]: `署名時に1ヶ月分賃料（{DOWN_PAYMENT} {CURRENCY}）相当の手数料。プラットフォーム料2%（{PLATFORM_FEE} {CURRENCY}）も徴収。`,
+  },
 };
 
-/**
- * Engine to compile the contract by replacing markers with real data
- */
+// Region + Type + Language template map
+type TemplateMap = Partial<Record<ContractLanguage, string>>;
+const ContractTemplates: Record<string, Partial<Record<ContractType, TemplateMap>>> = {
+  [RegionCode.TR]: {
+    [ContractType.RESIDENTIAL_LEASE]: {
+      [ContractLanguage.TR]: `<h1 style="text-align:center;">KONUT KIRA SOZLESMESI</h1><p><strong>Kiraya Veren:</strong> {LANDLORD_NAME} (TC/VKN: {LANDLORD_ID})</p><p><strong>Kiraci:</strong> {TENANT_NAME} (TC/VKN: {TENANT_ID})</p><p><strong>Kiralanan:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY} (Ada/Parsel: {PROPERTY_PARCEL})</p><p><strong>Kira:</strong> {PRICE} {CURRENCY}/Ay</p><p><strong>Baslangic:</strong> {START_DATE}</p><h3>Depozito</h3><p>{DEPOSIT_CLAUSE}</p>`,
+      [ContractLanguage.EN]: `<p><em>Note: The legally binding version of this agreement is in Turkish.</em></p><h1 style="text-align:center;">RESIDENTIAL LEASE AGREEMENT (Turkey)</h1><p><strong>Landlord:</strong> {LANDLORD_NAME}</p><p><strong>Tenant:</strong> {TENANT_NAME}</p><p><strong>Premises:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY}</p><p><strong>Rent:</strong> {PRICE} {CURRENCY}/Month</p><h3>Security Deposit</h3><p>{DEPOSIT_CLAUSE}</p>`,
+      [ContractLanguage.RU]: `<p><em>Примечание: юридически обязывающей версией является турецкий текст.</em></p><h1 style="text-align:center;">ДОГОВОР АРЕНДЫ (Турция)</h1><p><strong>Арендодатель:</strong> {LANDLORD_NAME}</p><p><strong>Арендатор:</strong> {TENANT_NAME}</p><p><strong>Адрес:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY}</p><p><strong>Аренда:</strong> {PRICE} {CURRENCY}/мес</p><h3>Залог</h3><p>{DEPOSIT_CLAUSE}</p>`,
+    },
+    [ContractType.SALES_AGREEMENT]: {
+      [ContractLanguage.TR]: `<h1 style="text-align:center;">GAYRIMENKUL SATIS VAADI SOZLESMESI</h1><p><strong>Satici:</strong> {LANDLORD_NAME} (TC/VKN: {LANDLORD_ID})</p><p><strong>Alici:</strong> {TENANT_NAME} (TC/VKN: {TENANT_ID})</p><p><strong>Tasinmaz:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY} (Ada/Parsel: {PROPERTY_PARCEL})</p><p><strong>Satis Bedeli:</strong> {PRICE} {CURRENCY}</p><p><strong>Sozlesme Tarihi:</strong> {START_DATE}</p><h3>Odeme ve Komisyon</h3><p>{COMMISSION_CLAUSE}</p><h3>Devir</h3><p>Satis bedelinin Reservatior Escrow hesabina yatmasini mUteakip tapu devri gerceklestirilecektir.</p>`,
+      [ContractLanguage.EN]: `<p><em>Note: Turkish version is legally binding where required.</em></p><h1 style="text-align:center;">REAL ESTATE PURCHASE & SALE AGREEMENT</h1><p><strong>Seller:</strong> {LANDLORD_NAME}</p><p><strong>Buyer:</strong> {TENANT_NAME}</p><p><strong>Property:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY}</p><p><strong>Sale Price:</strong> {PRICE} {CURRENCY}</p><p><strong>Date:</strong> {START_DATE}</p><h3>Commission & Payment</h3><p>{COMMISSION_CLAUSE}</p>`,
+      [ContractLanguage.AR]: `<h1 style="text-align:center;">عقد بيع عقار</h1><p><strong>البائع:</strong> {LANDLORD_NAME}</p><p><strong>المشتري:</strong> {TENANT_NAME}</p><p><strong>العقار:</strong> {PROPERTY_ADDRESS}</p><p><strong>سعر البيع:</strong> {PRICE} {CURRENCY}</p><h3>العمولة والدفع</h3><p>{COMMISSION_CLAUSE}</p>`,
+      [ContractLanguage.DE]: `<h1 style="text-align:center;">IMMOBILIENKAUFVERTRAG</h1><p><strong>Verkaeufer:</strong> {LANDLORD_NAME}</p><p><strong>Kaeufer:</strong> {TENANT_NAME}</p><p><strong>Objekt:</strong> {PROPERTY_ADDRESS}</p><p><strong>Kaufpreis:</strong> {PRICE} {CURRENCY}</p><h3>Provision</h3><p>{COMMISSION_CLAUSE}</p>`,
+      [ContractLanguage.RU]: `<h1 style="text-align:center;">ДОГОВОР КУПЛИ-ПРОДАЖИ</h1><p><strong>Продавец:</strong> {LANDLORD_NAME}</p><p><strong>Покупатель:</strong> {TENANT_NAME}</p><p><strong>Объект:</strong> {PROPERTY_ADDRESS}</p><p><strong>Цена:</strong> {PRICE} {CURRENCY}</p><h3>Комиссия</h3><p>{COMMISSION_CLAUSE}</p>`,
+    },
+    [ContractType.EVICTION_COMMITMENT]: {
+      [ContractLanguage.TR]: `<h1 style="text-align:center;">TAHLIYE TAAHHUTNAMESE</h1><p>Taahhut Eden: {TENANT_NAME}</p><p>Malik: {LANDLORD_NAME}</p><p>{PROPERTY_ADDRESS} adresindeki mecuru {END_DATE} tarihinde kayitsiz sartsiz bosaltacagimi taahhut ederim.</p>`,
+    },
+    [ContractType.EARNEST_MONEY]: {
+      [ContractLanguage.TR]: `<h1>KAPARO VE REZERVASYON SOZLESMESI</h1><p>{TENANT_NAME}, {PROPERTY_ADDRESS} icin {PRICE} {CURRENCY} kaparo Reservatior Escrow'a yatirmistir.</p>`,
+    },
+    [ContractType.AGENCY_REPRESENTATION]: {
+      [ContractLanguage.TR]: `<h1>EMLAK YETKI VE TEMSIL SOZLESMESI</h1><p><strong>Acente:</strong> {AGENT_NAME} (Lisans: {AGENT_LICENSE})</p><p>Is bedelinin %{AGENT_COMMISSION}'u hizmet bedeli.</p>`,
+    },
+    [ContractType.COMMERCIAL_LEASE]: { [ContractLanguage.TR]: `<p>Ticari Kira Sozlesmesi...</p>` },
+    [ContractType.SHORT_TERM_BOOKING]: { [ContractLanguage.TR]: `<p>Kisa Donem Konaklama...</p>` },
+  },
+  [RegionCode.USA]: {
+    [ContractType.RESIDENTIAL_LEASE]: {
+      [ContractLanguage.EN]: `<h1 style="text-align:center;">RESIDENTIAL LEASE AGREEMENT</h1><p><strong>Landlord:</strong> {LANDLORD_NAME}</p><p><strong>Tenant:</strong> {TENANT_NAME}</p><p><strong>Premises:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY}</p><p><strong>Rent:</strong> {PRICE} {CURRENCY}/Month</p><h3>Security Deposit</h3><p>{DEPOSIT_CLAUSE}</p>`,
+      [ContractLanguage.ES]: `<h1 style="text-align:center;">CONTRATO DE ARRENDAMIENTO</h1><p><strong>Arrendador:</strong> {LANDLORD_NAME}</p><p><strong>Arrendatario:</strong> {TENANT_NAME}</p><p><strong>Propiedad:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY}</p><p><strong>Renta:</strong> {PRICE} {CURRENCY}/Mes</p><h3>Deposito de Seguridad</h3><p>{DEPOSIT_CLAUSE}</p>`,
+    },
+    [ContractType.SALES_AGREEMENT]: {
+      [ContractLanguage.EN]: `<h1 style="text-align:center;">REAL ESTATE PURCHASE & SALE AGREEMENT</h1><p><strong>Seller:</strong> {LANDLORD_NAME}</p><p><strong>Buyer:</strong> {TENANT_NAME}</p><p><strong>Property:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY}</p><p><strong>Sale Price:</strong> {PRICE} {CURRENCY}</p><p><strong>Date:</strong> {START_DATE}</p><h3>Commission & Fees</h3><p>{COMMISSION_CLAUSE}</p>`,
+    },
+    [ContractType.EVICTION_COMMITMENT]: { [ContractLanguage.EN]: `<p>Notice of Intent to Vacate (US courts required for eviction).</p>` },
+    [ContractType.EARNEST_MONEY]: { [ContractLanguage.EN]: `<p>Earnest Money Escrow Agreement...</p>` },
+    [ContractType.AGENCY_REPRESENTATION]: { [ContractLanguage.EN]: `<p>Exclusive Right to Sell/Lease Agreement...</p>` },
+    [ContractType.COMMERCIAL_LEASE]: { [ContractLanguage.EN]: `<p>Commercial NNN Lease Agreement...</p>` },
+    [ContractType.SHORT_TERM_BOOKING]: { [ContractLanguage.EN]: `<p>Short-Term Vacation Rental Agreement...</p>` },
+  },
+  [RegionCode.AE]: {
+    [ContractType.RESIDENTIAL_LEASE]: {
+      [ContractLanguage.EN]: `<h1 style="text-align:center;">TENANCY CONTRACT (UAE / RERA)</h1><p><strong>Landlord:</strong> {LANDLORD_NAME}</p><p><strong>Tenant:</strong> {TENANT_NAME}</p><p><strong>Premises:</strong> {PROPERTY_ADDRESS}, {PROPERTY_CITY}</p><p><strong>Annual Rent:</strong> {PRICE} {CURRENCY}</p><h3>Security Deposit</h3><p>{DEPOSIT_CLAUSE}</p>`,
+      [ContractLanguage.AR]: `<h1 style="text-align:center;">عقد ايجار (الامارات / ريرا)</h1><p><strong>المؤجر:</strong> {LANDLORD_NAME}</p><p><strong>المستأجر:</strong> {TENANT_NAME}</p><p><strong>العقار:</strong> {PROPERTY_ADDRESS}</p><p><strong>الايجار السنوي:</strong> {PRICE} {CURRENCY}</p><h3>مبلغ التامين</h3><p>{DEPOSIT_CLAUSE}</p>`,
+    },
+    [ContractType.SALES_AGREEMENT]: {
+      [ContractLanguage.EN]: `<p>UAE Real Estate Sale Agreement (DLD Compliant)...</p>`,
+      [ContractLanguage.AR]: `<p>عقد بيع عقار (متوافق مع دائرة الاراضي)...</p>`,
+    },
+    [ContractType.EVICTION_COMMITMENT]: { [ContractLanguage.EN]: `<p>UAE Eviction Notice (RERA Form C)...</p>` },
+    [ContractType.EARNEST_MONEY]: { [ContractLanguage.EN]: `<p>MOU & Deposit Agreement (UAE)...</p>` },
+    [ContractType.AGENCY_REPRESENTATION]: { [ContractLanguage.EN]: `<p>Form A - Listing Agreement (RERA)...</p>` },
+    [ContractType.COMMERCIAL_LEASE]: { [ContractLanguage.EN]: `<p>Commercial Lease (RERA compliant)...</p>` },
+    [ContractType.SHORT_TERM_BOOKING]: { [ContractLanguage.EN]: `<p>Short-Term Rental - DTCM License Required...</p>` },
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 export class ContractEngine {
-  static generateContract(type: ContractType, region: RegionCode, data: ContractData): string {
-    // 1. Ülkeye uygun şablonu al (Bulunamazsa ABD/Global varsayılanı kullan)
-    const regionalTemplates = ContractTemplates[region] || ContractTemplates[RegionCode.USA];
-    let template = regionalTemplates[type];
+  static generateContract(
+    type: ContractType,
+    region: RegionCode,
+    data: ContractData,
+    language: ContractLanguage = ContractLanguage.EN
+  ): string {
+    const regionalTemplates = ContractTemplates[region] ?? ContractTemplates[RegionCode.USA];
+    const typeTemplates = regionalTemplates?.[type] ?? ContractTemplates[RegionCode.USA]?.[type];
+    if (!typeTemplates) throw new Error(`Template for ${type} / ${region} not found.`);
 
-    if (!template) {
-      throw new Error(`Template for \${type} in region \${region} not found.`);
-    }
+    let template = typeTemplates[language]
+      ?? typeTemplates[ContractLanguage.EN]
+      ?? Object.values(typeTemplates)[0];
+    if (!template) throw new Error(`No template for language ${language} / ${type}.`);
 
-    // 2. Dinamik Depozito Maddesi (Zero-Deposit vs Nakit)
-    let depositClause = "";
+    // Deposit clause
+    let depositClause = '';
     if (data.financials.isZeroDeposit) {
-      if (region === RegionCode.TR) {
-        depositClause = `Kiracı, nakit depozito ödemek yerine yetkili bir sigorta kuruluşundan <strong>Kefalet/Kira Garanti Sigortası</strong> yaptırmış olup, ilgili poliçe işbu sözleşmenin ayrılmaz bir parçasıdır. Nakit depozito alınmamıştır.`;
-      } else {
-        depositClause = `Tenant has opted for a Zero-Deposit Surety Bond via Obligo/Rhino. No cash deposit is held in escrow. Policy attached.`;
-      }
+      depositClause = language === ContractLanguage.TR
+        ? 'Kiraci, nakit depozito yerine Kefalet/Kira Garanti Sigortasi yaptirilmistir. Police sozlesmenin ekidir.'
+        : 'Tenant opted for a Zero-Deposit Surety Bond. No cash deposit held. Policy attached as Exhibit A.';
     } else {
-      if (region === RegionCode.TR) {
-        depositClause = `Kiracı, güvence bedeli olarak <strong>\${data.financials.depositAmount} \${data.financials.currency}</strong> tutarını Reservatior Escrow (Emanet) hesabına yatırmıştır.`;
-      } else {
-        depositClause = `A security deposit of <strong>\${data.financials.depositAmount} \${data.financials.currency}</strong> is held in a trusted Escrow account.`;
-      }
+      depositClause = language === ContractLanguage.TR
+        ? `Kiraci, guvence bedeli olarak <strong>${data.financials.depositAmount} ${data.financials.currency}</strong> Reservatior Escrow hesabina yatirmistir.`
+        : `A security deposit of <strong>${data.financials.depositAmount} ${data.financials.currency}</strong> is held in a regulated Escrow account.`;
     }
 
-    // 3. Verileri Enjekte Et (String Replace)
+    // Commission clause
+    let commissionClause = '';
+    if (type === ContractType.SALES_AGREEMENT && data.financials.commissionModel) {
+      const clauseMap = CommissionModelClauses[data.financials.commissionModel];
+      const raw = clauseMap[language] ?? clauseMap[ContractLanguage.EN] ?? '';
+      commissionClause = raw
+        .replace(/{COMMISSION_TOTAL}/g, String(data.financials.commissionTotal ?? 0))
+        .replace(/{PLATFORM_FEE}/g, String(data.financials.platformInsuranceFee ?? 0))
+        .replace(/{INSTALLMENTS}/g, String(data.financials.commissionInstallments ?? 0))
+        .replace(/{MONTHLY_INSTALLMENT}/g, String(data.financials.monthlyInstallment ?? 0))
+        .replace(/{DOWN_PAYMENT}/g, String(data.financials.downPayment ?? 0));
+    }
+
     return template
       .replace(/{LANDLORD_NAME}/g, data.landlordOrSeller.fullName)
       .replace(/{LANDLORD_ID}/g, data.landlordOrSeller.nationalIdOrTaxNo)
@@ -140,24 +223,29 @@ export class ContractEngine {
       .replace(/{TENANT_ID}/g, data.tenantOrBuyer.nationalIdOrTaxNo)
       .replace(/{PROPERTY_ADDRESS}/g, data.property.address)
       .replace(/{PROPERTY_CITY}/g, data.property.city)
-      .replace(/{PROPERTY_PARCEL}/g, data.property.parcelId || 'Bilinmiyor')
-      .replace(/{PRICE}/g, data.financials.price.toString())
+      .replace(/{PROPERTY_PARCEL}/g, data.property.parcelId || 'N/A')
+      .replace(/{PRICE}/g, String(data.financials.price))
       .replace(/{CURRENCY}/g, data.financials.currency)
       .replace(/{START_DATE}/g, data.financials.startDate)
-      .replace(/{END_DATE}/g, data.financials.endDate || 'Belirtilmedi')
+      .replace(/{END_DATE}/g, data.financials.endDate || 'N/A')
       .replace(/{DEPOSIT_CLAUSE}/g, depositClause)
+      .replace(/{COMMISSION_CLAUSE}/g, commissionClause)
       .replace(/{AGENT_NAME}/g, data.agent?.fullName || 'N/A')
       .replace(/{AGENT_LICENSE}/g, data.agent?.licenseNo || 'N/A')
-      .replace(/{AGENT_COMMISSION}/g, data.agent?.commissionRate?.toString() || '0');
+      .replace(/{AGENT_COMMISSION}/g, String(data.agent?.commissionRate ?? 0));
+  }
+
+  /** Ayni sozlesmeyi birden fazla dilde uret */
+  static generateMultiLanguage(
+    type: ContractType,
+    region: RegionCode,
+    data: ContractData,
+    languages: ContractLanguage[]
+  ): Record<ContractLanguage, string> {
+    const results: Partial<Record<ContractLanguage, string>> = {};
+    for (const lang of languages) {
+      results[lang] = this.generateContract(type, region, data, lang);
+    }
+    return results as Record<ContractLanguage, string>;
   }
 }
-
-/*
-// Örnek Kullanım:
-const htmlDoc = ContractEngine.generateContract(ContractType.RESIDENTIAL_LEASE, RegionCode.TR, {
-  property: { id: "p-1", address: "Kanyon Residans No:4", city: "İstanbul", type: "Daire" },
-  landlordOrSeller: { fullName: "Ahmet Yılmaz", nationalIdOrTaxNo: "12345678901", address: "" },
-  tenantOrBuyer: { fullName: "Mehmet Demir", nationalIdOrTaxNo: "98765432109", address: "" },
-  financials: { price: 35000, currency: "TL", isZeroDeposit: true, startDate: "01.06.2026" }
-});
-*/

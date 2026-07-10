@@ -138,6 +138,18 @@ export default function ListingManagement() {
     }
   });
 
+  const applyTagMutation = useMutation({
+    mutationFn: async ({ listingId, tagName }: { listingId: string; tagName: string }) => {
+      return listingTagsApi.addTagToListing({ listingId, tagId: tagName, orgId: selectedListing?.orgId || '' } as any);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['listing-tags'] });
+      queryClient.invalidateQueries({ queryKey: ['listings'] });
+      toast({ title: t('success'), description: t('tagApplied') });
+      setPromotionDialogOpen(false);
+    }
+  });
+
   const promoteMutation = useMutation({
     mutationFn: async ({ listingId, tier, days }: { listingId: string; tier: number; days: number }) => {
       // This would call the promotion API
@@ -553,50 +565,48 @@ export default function ListingManagement() {
         </DialogContent>
       </Dialog>
 
-      {/* Promotion Dialog */}
+      {/* Promotion Dialog - Tag Based */}
       <Dialog open={promotionDialogOpen} onOpenChange={setPromotionDialogOpen}>
-        <DialogContent className="max-w-md bg-slate-900/95 border-white/10 text-white rounded-3xl p-0 overflow-hidden backdrop-blur-3xl shadow-2xl">
+        <DialogContent className="max-w-lg bg-slate-900/95 border-white/10 text-white rounded-3xl p-0 overflow-hidden backdrop-blur-3xl shadow-2xl">
           <DialogHeader className="p-8 pb-0">
             <DialogTitle className="text-2xl font-black italic tracking-tighter bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
               Boost Your Listing
             </DialogTitle>
             <DialogDescription className="text-slate-400 font-black italic tracking-widest text-[10px] pt-4">
-              Choose a promotion tier to increase visibility
+              Choose a tag to increase visibility and engagement
             </DialogDescription>
           </DialogHeader>
           <div className="p-8 space-y-6">
-            <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
               {[
-                { tier: 1, days: 7, price: 10, icon: Sparkles, color: "from-blue-500 to-blue-600", label: "Starter" },
-                { tier: 2, days: 14, price: 20, icon: Flame, color: "from-purple-500 to-purple-600", label: "Pro" },
-                { tier: 3, days: 21, price: 30, icon: Crown, color: "from-amber-500 to-amber-600", label: "Elite" }
+                { name: "FEATURED", price: 49.99, duration: 7, icon: Sparkles, color: "from-amber-500 to-amber-600", label: "Featured" },
+                { name: "URGENT", price: 29.99, duration: 3, icon: TrendingUp, color: "from-rose-500 to-rose-600", label: "Urgent" },
+                { name: "PRICE_DROP", price: 19.99, duration: 5, icon: ArrowUpRight, color: "from-blue-500 to-blue-600", label: "Price Drop" },
+                { name: "DISCOUNT", price: 14.99, duration: 7, icon: TagIcon, color: "from-emerald-500 to-emerald-600", label: "Discount" }
               ].map((option) => (
                 <button
-                  key={option.tier}
+                  key={option.name}
                   onClick={() => {
                     if (selectedListing) {
-                      promoteMutation.mutate({ 
+                      applyTagMutation.mutate({ 
                         listingId: selectedListing.id, 
-                        tier: option.tier,
-                        days: option.days 
+                        tagName: option.name
                       });
                     }
                   }}
-                  className="w-full p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all text-left group"
+                  className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all text-left group"
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
-                      <div className={cn("w-10 h-10 rounded-xl bg-gradient-to-br flex items-center justify-center shadow-lg", option.color)}>
-                        <option.icon className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <span className="font-black text-white italic tracking-tighter block">
-                          Tier {option.tier} - {option.label}
-                        </span>
-                        <span className="text-[10px] text-slate-500 font-black italic tracking-wider">
-                          {option.days} days
-                        </span>
-                      </div>
+                  <div className="flex flex-col gap-3">
+                    <div className={cn("w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center shadow-lg", option.color)}>
+                      <option.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <span className="font-black text-white italic tracking-tighter block text-lg">
+                        {option.label}
+                      </span>
+                      <span className="text-[9px] text-slate-500 font-black italic tracking-wider">
+                        {option.duration} days
+                      </span>
                     </div>
                     <span className="font-black bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent italic tracking-tighter text-xl">
                       ${option.price}
@@ -605,6 +615,20 @@ export default function ListingManagement() {
                 </button>
               ))}
             </div>
+            
+            <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+              <div className="flex items-center gap-2 mb-3">
+                <Flame className="w-4 h-4 text-orange-400" />
+                <span className="text-[9px] font-black tracking-widest text-slate-400 uppercase">Benefits</span>
+              </div>
+              <ul className="space-y-2 text-[9px] text-slate-500 italic">
+                <li>• 3x more visibility in search results</li>
+                <li>• Priority placement in featured section</li>
+                <li>• Increased engagement by 40%</li>
+                <li>• Analytics dashboard access</li>
+              </ul>
+            </div>
+            
             <DialogFooter className="pt-4">
               <Button
                 variant="ghost"

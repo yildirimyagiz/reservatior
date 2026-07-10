@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from 'react';
@@ -19,6 +19,8 @@ const FacilitiesManagement = () => {
   const { isFieldAllowed } = useCountryGuard(undefined); // Could be hooked to a global admin country selector
   const queryClient = useQueryClient();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingFacility, setEditingFacility] = useState<any>(null);
   const [newFacility, setNewFacility] = useState({ name: '', feeAmount: '', feeCurrency: 'USD' });
 
   const { data: facilitiesRes, isLoading } = useQuery({
@@ -50,6 +52,17 @@ const FacilitiesManagement = () => {
     }
   });
 
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => {
+      return apiClient.put(`/facility/${data.id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-facilities'] });
+      setIsEditModalOpen(false);
+      setEditingFacility(null);
+    }
+  });
+
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createMutation.mutate({
@@ -57,6 +70,16 @@ const FacilitiesManagement = () => {
       feeAmount: parseFloat(newFacility.feeAmount) || 0,
       feeCurrency: newFacility.feeCurrency
     });
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateMutation.mutate(editingFacility);
+  };
+
+  const openEditModal = (facility: any) => {
+    setEditingFacility(facility);
+    setIsEditModalOpen(true);
   };
 
   const facilities = facilitiesRes?.data || [];
@@ -127,6 +150,56 @@ const FacilitiesManagement = () => {
                   <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
                   <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
                     {createMutation.isPending ? "Saving..." : "Save Facility"}
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+          <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+              <DialogHeader>
+                <DialogTitle>{t("admin_facilities_edit", "Edit Facility")}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleEditSubmit} className="space-y-4 pt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-name">Facility Name</Label>
+                  <Input 
+                    id="edit-name" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
+                    value={editingFacility?.name || ''}
+                    onChange={e => setEditingFacility({...editingFacility, name: e.target.value})}
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  {isFieldAllowed('Facility', 'feeAmount') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-feeAmount">Fee Amount</Label>
+                    <Input 
+                      id="edit-feeAmount" 
+                      type="number"
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
+                      value={editingFacility?.feeAmount || ''}
+                      onChange={e => setEditingFacility({...editingFacility, feeAmount: parseFloat(e.target.value) || 0})}
+                    />
+                  </div>
+                  )}
+                  {isFieldAllowed('Facility', 'feeCurrency') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-feeCurrency">Currency</Label>
+                    <Input 
+                      id="edit-feeCurrency" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
+                      value={editingFacility?.feeCurrency || 'USD'}
+                      onChange={e => setEditingFacility({...editingFacility, feeCurrency: e.target.value})}
+                    />
+                  </div>
+                  )}
+                </div>
+                <div className="pt-4 flex justify-end gap-2">
+                  <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+                  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={updateMutation.isPending}>
+                    {updateMutation.isPending ? "Saving..." : "Save Changes"}
                   </Button>
                 </div>
               </form>
@@ -203,7 +276,12 @@ const FacilitiesManagement = () => {
                         {f.feeAmount ? `${f.feeAmount} ${f.feeCurrency || 'USD'}` : 'Free'}
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="icon" className="text-slate-500 dark:text-slate-400 hover:text-white">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="text-slate-500 dark:text-slate-400 hover:text-white"
+                          onClick={() => openEditModal(f)}
+                        >
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 

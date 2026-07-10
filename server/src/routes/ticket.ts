@@ -5,9 +5,127 @@ import {
   TicketPlainInputCreate, 
   TicketPlainInputUpdate 
 } from "../../generated/prismabox/Ticket";
+import { spawn } from "child_process";
+import path from "path";
 
 export const ticketRoutes = new Elysia({ prefix: "/tickets" })
   .use(authMiddleware)
+
+  /**
+   * POST /ticket/ai-suggest
+   * AI-powered ticket suggestion and analysis using ML services
+   */
+  .post("/ai-suggest", async ({ body }) => {
+    try {
+      // Call Python ML service for analysis
+      const mlServicePath = path.join(process.cwd(), 'server', 'ml-services', 'backend', 'app', 'services', 'support_analysis_service.py');
+      
+      const pythonProcess = spawn('python3', [
+        '-c',
+        `
+import sys
+sys.path.insert(0, '${path.join(process.cwd(), 'server', 'ml-services', 'backend')}')
+from app.services.support_analysis_service import support_analyzer
+import asyncio
+import json
+
+message = """${body.message}"""
+attachments = ${JSON.stringify(body.attachments || [])}
+
+result = asyncio.run(support_analyzer.analyze_with_gemini(message, attachments))
+print(json.dumps(result))
+        `
+      ]);
+
+      let output = '';
+      let error = '';
+
+      pythonProcess.stdout.on('data', (data) => {
+        output += data.toString();
+      });
+
+      pythonProcess.stderr.on('data', (data) => {
+        error += data.toString();
+      });
+
+      return new Promise((resolve) => {
+        pythonProcess.on('close', (code) => {
+          if (code !== 0 || error) {
+            // Fallback to basic analysis if ML service fails
+            resolve({
+              suggestion: "I understand your issue. Based on your description, I recommend creating a support ticket.",
+              subject: "Support Request",
+              priority: "MEDIUM",
+              createTicket: true,
+              category: "other",
+              assigned_team: "general_support",
+              fallback: true
+            });
+          } else {
+            try {
+              const analysisResult = JSON.parse(output.trim());
+              resolve({
+                suggestion: analysisResult.summary || "I understand your issue. Based on your description, I recommend creating a support ticket.",
+                subject: analysisResult.category === 'technical' ? 'Technical Support Request' : 
+                        analysisResult.category === 'billing' ? 'Billing Inquiry' :
+                        analysisResult.category === 'legal' ? 'Legal Matter' :
+                        'Support Request',
+                priority: analysisResult.priority?.toUpperCase() || "MEDIUM",
+                createTicket: true,
+                category: analysisResult.category,
+                assigned_team: analysisResult.assigned_team,
+                suggested_solution: analysisResult.suggested_solution,
+                response_time: analysisResult.response_time,
+                escalation: analysisResult.escalation,
+                file_analysis: analysisResult.file_analysis,
+                ai_analyzed: analysisResult.ai_analyzed,
+                confidence: analysisResult.confidence
+              });
+            } catch (e) {
+              resolve({
+                suggestion: "I understand your issue. Based on your description, I recommend creating a support ticket.",
+                subject: "Support Request",
+                priority: "MEDIUM",
+                createTicket: true,
+                fallback: true
+              });
+            }
+          }
+        });
+      });
+    } catch (error) {
+      // Fallback response
+      return {
+        suggestion: "I understand your issue. Based on your description, I recommend creating a support ticket.",
+        subject: "Support Request",
+        priority: "MEDIUM",
+        createTicket: true,
+        fallback: true
+      };
+    }
+  }, {
+    body: t.Object({
+      message: t.String(),
+      attachments: t.Optional(t.Array(t.String()))
+    })
+  })
+
+  /**
+   * POST /ticket/upload
+   * Upload file attachment for tickets
+   */
+  .post("/upload", async ({ body, set }) => {
+    // TODO: Implement file upload to storage service
+    // For now, return a mock URL
+    return {
+      url: "https://storage.example.com/uploads/mock-file.pdf",
+      filename: body.file?.name || "uploaded-file"
+    };
+  }, {
+    body: t.Object({
+      file: t.Optional(t.Any())
+    })
+  })
 
   /**
    * GET /ticket

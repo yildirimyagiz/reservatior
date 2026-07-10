@@ -16,3 +16,5 @@ jinja2
 qrcode
 Pillow
 python-amazon-paapi
+google-generativeai>=0.3.0
+langdetect>=1.0.9

@@ -616,6 +616,53 @@ model AgentAssignment {
   @@index([agentUserId])
 }
 
+enum KYCStrictness {
+  LIGHT
+  MODERATE
+  STRICT
+}
+
+enum PaymentGatewayType {
+  STRIPE
+  STRIPE_CONNECT
+  PAYTR
+  OPEN_BANKING
+  ACH_FEDNOW
+  FAST
+}
+
+model CountryFintechConfig {
+  isoCode                String               @id @db.VarChar(2)
+  name                   String
+  baseCurrency           String               @default("USD")
+  
+  requiresDepositEscrow  Boolean              @default(false)
+  allowsDepositYield     Boolean              @default(true)
+  maxRentInstallments    Int                  @default(1)
+  
+  allowsSalesCommissionInstallments Boolean   @default(true)
+  maxSalesCommissionInstallments    Int       @default(12)
+  maxSalesCommissionRateBps         Int       @default(600)
+  
+  supportedGateways      PaymentGatewayType[]
+  kycStrictnessLevel     KYCStrictness        @default(MODERATE)
+  
+  properties             Property[]
+  states                 StateFintechConfig[]
+}
+
+model StateFintechConfig {
+  id                     String               @id @default(uuid())
+  stateCode              String               @db.VarChar(10)
+  countryIsoCode         String
+  country                CountryFintechConfig @relation(fields: [countryIsoCode], references: [isoCode])
+  
+  maxRentCapPercent      Float?               
+  evictionNoticeDays     Int?                 
+  
+  @@unique([countryIsoCode, stateCode])
+}
+
 model Property {
   id                       String                          @id @default(cuid())
   orgId                    String
@@ -629,6 +676,8 @@ model Property {
   state                    String?
   zip                      String?
   country                  String
+  countryIsoCode           String?              @db.VarChar(2)
+  countryConfig            CountryFintechConfig? @relation(fields: [countryIsoCode], references: [isoCode])
   lat                      Float?
   lng                      Float?
   neighborhoodId           String?
@@ -1227,6 +1276,10 @@ model Tag {
   orgId       String
   name        String
   color       String?
+  basePrice   Float?                          // Standart fiyat
+  duration    Int?                            // Duration in days
+  isActive    Boolean      @default(true)
+  tierPricing Json?                           // Paket bazlı fiyatlar { BASIC: 29.99, PRO: 19.99, ENTERPRISE: 0 }
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   deletedAt   DateTime?
@@ -1235,6 +1288,7 @@ model Tag {
 
   @@unique([orgId, name])
   @@index([orgId])
+  @@index([isActive])
 }
 
 model ListingTag {
@@ -1242,6 +1296,7 @@ model ListingTag {
   listingId String
   tagId     String
   orgId     String
+  expiryDate DateTime?    // When the tag expires
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   deletedAt DateTime?
@@ -1252,6 +1307,7 @@ model ListingTag {
   @@index([listingId])
   @@index([tagId])
   @@index([orgId])
+  @@index([expiryDate])
 }
 
 model Booking {
@@ -2819,6 +2875,11 @@ model Subscription {
   maxProperties      Int            @default(1)
   maxListings        Int            @default(5)
   featuredListings   Int            @default(0)
+  boostedListings    Int            @default(0)     // Doping/boost hakkı
+  socialMediaPosts    Int            @default(0)     // Aylık oto-post hakkı
+  googleAdsCredits    Decimal        @default(0)     @db.Decimal(10, 2) // Google ads kredisi
+  tagAllowances      Json?                        // Tag kullanım hakları (FEATURED: 5, URGENT: 3 vb.)
+  adCredits          Decimal        @default(0)     @db.Decimal(10, 2) // Genel reklam kredisi
   prioritySupport    Boolean        @default(false)
   apiAccess          Boolean        @default(false)
   commissionDiscount Float          @default(0.0)

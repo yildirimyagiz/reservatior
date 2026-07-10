@@ -88,3 +88,86 @@ export const loyaltyAccountRoutes = new Elysia({ prefix: "/loyalty-accounts" })
   }, {
     params: t.Object({ id: t.String() })
   });
+
+// Frontend-compatible loyalty routes
+export const loyaltyRoutes = new Elysia({ prefix: "/loyalty" })
+  .use(authMiddleware)
+
+  /**
+   * GET /loyalty/account
+   * Get current user's loyalty account
+   */
+  .get("/account", async ({ user }) => {
+    const accounts = await loyaltyAccountService.getAll({
+      where: { userId: user?.id },
+      take: 1
+    });
+    const account = accounts[0];
+    if (!account) {
+      return { 
+        points: 0, 
+        level: 'BRONZE', 
+        nextLevelPoints: 1000,
+        currentTier: 'BRONZE'
+      };
+    }
+    return {
+      points: account.currentPoints,
+      level: account.currentTier,
+      nextLevelPoints: getNextLevelThreshold(account.currentTier),
+      currentTier: account.currentTier
+    };
+  })
+
+  /**
+   * GET /loyalty/achievements
+   * Get user achievements
+   */
+  .get("/achievements", async ({ user }) => {
+    const account = await loyaltyAccountService.getAll({
+      where: { userId: user?.id },
+      take: 1
+    });
+    if (!account[0]) return [];
+    
+    const rewards = (account[0].rewards as any) || [];
+    return rewards.map((reward: any, index: number) => ({
+      id: `ach_${index}`,
+      title: reward.title || 'Achievement',
+      description: reward.description || '',
+      unlockedAt: reward.unlockedAt,
+      points: reward.points || 0,
+      icon: reward.icon || 'Trophy'
+    }));
+  })
+
+  /**
+   * GET /loyalty/activities
+   * Get loyalty activity history
+   */
+  .get("/activities", async ({ user }) => {
+    const account = await loyaltyAccountService.getAll({
+      where: { userId: user?.id },
+      take: 1
+    });
+    if (!account[0]) return [];
+    
+    const history = (account[0].pointsHistory as any) || [];
+    return history.map((activity: any) => ({
+      type: activity.type,
+      desc: activity.description,
+      pts: activity.points > 0 ? `+${activity.points}` : `${activity.points}`,
+      date: activity.date
+    }));
+  });
+
+function getNextLevelThreshold(currentTier: string): number {
+  const thresholds: Record<string, number> = {
+    BRONZE: 1000,
+    SILVER: 5000,
+    GOLD: 15000,
+    PLATINUM: 50000,
+    DIAMOND: 999999
+  };
+  return thresholds[currentTier] || 1000;
+}

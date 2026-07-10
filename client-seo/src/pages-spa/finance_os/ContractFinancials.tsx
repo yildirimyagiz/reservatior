@@ -157,7 +157,7 @@ export default function ContractFinancials() {
         </div>
         <div>
           <h1 className="text-2xl font-bold text-white">FinTech v2 — Hybrid Settlement</h1>
-          <p className="text-zinc-400 text-sm">Depozito Taksitlendirme & 3'lü Komisyon Bölüşümü</p>
+          <p className="text-zinc-400 text-sm">Depozito Taksitlendirme & 3&apos;lü Komisyon Bölüşümü</p>
         </div>
       </div>
 
@@ -301,7 +301,7 @@ export default function ContractFinancials() {
           <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-5">
             <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-amber-400" />
-              3'lü Komisyon Bölüşümü
+              3&apos;lü Komisyon Bölüşümü
             </h2>
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
@@ -398,7 +398,7 @@ export default function ContractFinancials() {
                 <span className="text-xs font-semibold text-cyan-400">Float Architecture</span>
               </div>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Capture ({captureDay}. gün) → 14-15 gün gateway'de → Disbursement.
+                Capture ({captureDay}. gün) → 14-15 gün gateway&apos;de → Disbursement.
                 Bu sürede gateway overnight repo geliri ile <strong className="text-cyan-300">interchange = %0</strong>.
               </p>
             </div>

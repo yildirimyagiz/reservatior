@@ -17,6 +17,9 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface User {
   id: string;
@@ -48,15 +51,182 @@ const STATUS_COLORS: Record<string, string> = {
   PENDING: "bg-yellow-500/20 text-yellow-400"
 };
 
+function CreateUserDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<User, "id">) => void }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState<User["role"]>("USER");
+  const [status, setStatus] = useState<User["status"]>("ACTIVE");
+  const [createdAt, setCreatedAt] = useState(new Date().toISOString().split("T")[0]);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Add User</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Add a new user to the system.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Name</Label>
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Email</Label>
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Role</Label>
+            <Select value={role} onValueChange={v => setRole(v as User["role"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="ADMIN">Admin</SelectItem>
+                <SelectItem value="USER">User</SelectItem>
+                <SelectItem value="AGENT">Agent</SelectItem>
+                <SelectItem value="TENANT">Tenant</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as User["status"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="ACTIVE">Active</SelectItem>
+                <SelectItem value="INACTIVE">Inactive</SelectItem>
+                <SelectItem value="PENDING">Pending</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Created At</Label>
+            <Input type="date" value={createdAt} onChange={e => setCreatedAt(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ name, email, role, status, createdAt })} className="bg-primary hover:bg-primary/90">Create</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function EditUserDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: User; onSubmit: (data: User) => void }) {
+  const [name, setName] = useState(item.name);
+  const [email, setEmail] = useState(item.email);
+  const [role, setRole] = useState<User["role"]>(item.role);
+  const [status, setStatus] = useState<User["status"]>(item.status);
+  const [createdAt, setCreatedAt] = useState(item.createdAt);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Edit User</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Update user details.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Name</Label>
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Email</Label>
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Role</Label>
+            <Select value={role} onValueChange={v => setRole(v as User["role"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="ADMIN">Admin</SelectItem>
+                <SelectItem value="USER">User</SelectItem>
+                <SelectItem value="AGENT">Agent</SelectItem>
+                <SelectItem value="TENANT">Tenant</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as User["status"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="ACTIVE">Active</SelectItem>
+                <SelectItem value="INACTIVE">Inactive</SelectItem>
+                <SelectItem value="PENDING">Pending</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Created At</Label>
+            <Input type="date" value={createdAt} onChange={e => setCreatedAt(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ id: item.id, name, email, role, status, createdAt })} className="bg-primary hover:bg-primary/90">Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DeleteUserDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: User; onConfirm: () => void }) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Delete User</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Are you sure you want to delete {item.name}? This action cannot be undone.</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function AdminUsersPage() {
     const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const [items, setItems] = useState<User[]>(mockUsers);
+  const [editingItem, setEditingItem] = useState<User | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deletingItem, setDeletingItem] = useState<User | null>(null);
 
-  const filteredUsers = mockUsers.filter(user => 
+  const filteredUsers = items.filter(user => 
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleCreate = (data: Omit<User, "id">) => {
+    const newItem: User = { ...data, id: String(Date.now()) };
+    setItems(prev => [...prev, newItem]);
+    setIsCreateOpen(false);
+  };
+
+  const handleEdit = (updatedItem: User) => {
+    setItems(prev => prev.map(item => item.id === updatedItem.id ? updatedItem : item));
+    setIsEditOpen(false);
+    setEditingItem(null);
+  };
+
+  const handleDelete = (id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+    setIsDeleteOpen(false);
+    setDeletingItem(null);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -103,7 +273,7 @@ export default function AdminUsersPage() {
                     />
                   </div>
                 </div>
-                <Button className="bg-primary hover:bg-primary/90">
+                <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
                   {t("admin_users_add_user")}
                                                   </Button>
@@ -148,10 +318,10 @@ export default function AdminUsersPage() {
                       <Badge className={ROLE_COLORS[user.role]}>{user.role}</Badge>
                       <Badge className={STATUS_COLORS[user.status]}>{user.status}</Badge>
                       <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Button onClick={() => { setEditingItem(user); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400">
+                        <Button onClick={() => { setDeletingItem(user); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -162,6 +332,16 @@ export default function AdminUsersPage() {
             </CardContent>
           </Card>
         </motion.div>
+        {/* Create Dialog */}
+        <CreateUserDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
+        {/* Edit Dialog */}
+        {editingItem && (
+          <EditUserDialog open={isEditOpen} onOpenChange={setIsEditOpen} item={editingItem} onSubmit={handleEdit} />
+        )}
+        {/* Delete Dialog */}
+        {deletingItem && (
+          <DeleteUserDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen} item={deletingItem} onConfirm={() => handleDelete(deletingItem.id)} />
+        )}
       </div>
     </div>
   );

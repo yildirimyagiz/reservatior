@@ -18,6 +18,7 @@ import {
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { AIChatModal } from "@/components/home/AIChatModal";
+import { SupportChatModal } from "@/components/home/SupportChatModal";
 
 /* ───── Fallback Slides for Hero & Properties ───── */
 const FALLBACK_SLIDES = [
@@ -53,6 +54,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [aiModalOpen, setAiModalOpen] = useState(false);
+  const [supportModalOpen, setSupportModalOpen] = useState(false);
 
   // Search State
   const [searchMode, setSearchMode] = useState<"STAYS" | "EXPERIENCES" | "BUY">("STAYS");
@@ -371,6 +373,15 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
       </footer>
       
       <AIChatModal isOpen={aiModalOpen} onClose={() => setAiModalOpen(false)} />
+      <SupportChatModal isOpen={supportModalOpen} onClose={() => setSupportModalOpen(false)} />
+      
+      {/* Floating Support Button */}
+      <button
+        onClick={() => setSupportModalOpen(true)}
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform"
+      >
+        <Sparkles className="w-6 h-6 text-white" />
+      </button>
     </div>
   );
 }

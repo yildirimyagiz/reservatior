@@ -68,6 +68,8 @@ export default function CompanyManagement() {
   
     
     const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editingDoc, setEditingDoc] = useState<CompanyDocument | null>(null);
   const {
     t
   } = useTranslation();
@@ -502,7 +504,7 @@ export default function CompanyManagement() {
                       <div className="flex items-center gap-2">
                         {document.fileUrl && <Button size="sm" variant="outline">
                             <Download className="w-3 h-3 mr-1" />{t("admin_company_download")}</Button>}
-                        <Button size="sm" variant="ghost">
+                        <Button size="sm" variant="ghost" onClick={() => { setEditingDoc(document); setIsEditOpen(true); }}>
                           <Edit className="w-3 h-3 mr-1" />{t("admin_company_edit")}</Button>
                       </div>
                     </div>
@@ -591,5 +593,47 @@ export default function CompanyManagement() {
             </Card>}
         </div>
       </div>
+
+      {/* Edit Document Dialog */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="max-w-md bg-card text-card-foreground">
+          <DialogHeader>
+            <DialogTitle>Edit Document</DialogTitle>
+            <DialogDescription>Update document details</DialogDescription>
+          </DialogHeader>
+          {editingDoc && (
+            <div className="py-4 space-y-4">
+              <div className="space-y-2">
+                <Label>Document Name</Label>
+                <Input value={editingDoc.name} onChange={e => setEditingDoc({...editingDoc, name: e.target.value})} />
+              </div>
+              <div className="space-y-2">
+                <Label>Status</Label>
+                <Select value={editingDoc.status} onValueChange={v => setEditingDoc({...editingDoc, status: v as any})}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="DRAFT">Draft</SelectItem>
+                    <SelectItem value="PENDING">Pending</SelectItem>
+                    <SelectItem value="APPROVED">Approved</SelectItem>
+                    <SelectItem value="EXPIRED">Expired</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Description</Label>
+                <Input value={editingDoc.description} onChange={e => setEditingDoc({...editingDoc, description: e.target.value})} />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+            <Button onClick={() => { setDocuments(documents.map(d => d.id === editingDoc?.id ? editingDoc : d)); setIsEditOpen(false); toast({ title: "Success", description: "Document updated successfully" }); }}>
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </PageShell>;
 }

@@ -140,7 +140,7 @@ export default function SystemMetrics() {
         console.error('Error fetching system metrics:', error);
         toast({
           title: t("admin_system_errorsync"),
-          description: t('systemMetricsDesc'),
+          description: t('admin_system_metrics_description'),
           variant: "destructive"
         });
       } finally {
@@ -263,7 +263,7 @@ export default function SystemMetrics() {
         {config.label}
       </Badge>;
   };
-  return <PageShell title={t('systemMetricsTitle')} description={t('systemMetricsDesc')}>
+  return <PageShell title={t('admin_system_metrics_title')} description={t('admin_system_metrics_description')}>
       <div className="space-y-10 pb-20 selection:bg-primary/30">
         {/* Summary Cards - Neural Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

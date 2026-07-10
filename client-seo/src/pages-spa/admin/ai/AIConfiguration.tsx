@@ -414,7 +414,7 @@ export default function AIConfiguration() {
     totalTokens: models.reduce((sum, m) => sum + m.usage.tokens, 0),
     totalCost: models.reduce((sum, m) => sum + m.usage.cost, 0)
   };
-  return <PageShell title={t('aiTitle')} description={t('aiDesc')}>
+  return <PageShell title={t('admin_ai_title')} description={t('admin_ai_description')}>
       <div className="space-y-10 pb-20 selection:bg-primary/30">
         {/* Stats Cards - Neural Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

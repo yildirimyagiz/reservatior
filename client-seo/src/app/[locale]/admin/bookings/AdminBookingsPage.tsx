@@ -18,6 +18,10 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Plus, Edit, Trash2 } from "lucide-react";
 
 interface Booking {
   id: string;
@@ -55,11 +59,35 @@ export default function AdminBookingsPage() {
     const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const [items, setItems] = useState<Booking[]>(mockBookings);
+  const [editingItem, setEditingItem] = useState<Booking | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deletingItem, setDeletingItem] = useState<Booking | null>(null);
 
-  const filteredBookings = mockBookings.filter(booking => 
+  const filteredBookings = items.filter(booking => 
     booking.guestName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     booking.propertyName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleCreate = (data: Omit<Booking, "id">) => {
+    const newItem: Booking = { ...data, id: String(Date.now()) };
+    setItems(prev => [...prev, newItem]);
+    setIsCreateOpen(false);
+  };
+
+  const handleEdit = (updatedItem: Booking) => {
+    setItems(prev => prev.map(item => item.id === updatedItem.id ? updatedItem : item));
+    setIsEditOpen(false);
+    setEditingItem(null);
+  };
+
+  const handleDelete = (id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+    setIsDeleteOpen(false);
+    setDeletingItem(null);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -107,7 +135,11 @@ export default function AdminBookingsPage() {
                 <Button variant="outline" className="bg-muted/30 border-border text-foreground">
                   <Filter className="w-4 h-4 mr-2" />
                   {t("admin_bookings_filter")}
-                                                  </Button>
+                </Button>
+                <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
+                  <Plus className="w-4 h-4 mr-2" />
+                  {t("admin_bookings_add_booking")}
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -128,7 +160,6 @@ export default function AdminBookingsPage() {
             <CardContent>
               <div className="space-y-4">
                 {filteredBookings.map((booking) => {
-                    const { t } = useTranslation();
                   const StatusIcon = STATUS_ICONS[booking.status];
                   return (
                     <div
@@ -159,6 +190,10 @@ export default function AdminBookingsPage() {
                         <div className="text-foreground font-bold">
                           ${booking.totalAmount.toLocaleString()}
                         </div>
+                        <div className="flex gap-2">
+                          <Button onClick={() => { setEditingItem(booking); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
+                          <Button onClick={() => { setDeletingItem(booking); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                        </div>
                       </div>
                     </div>
                   );
@@ -167,7 +202,152 @@ export default function AdminBookingsPage() {
             </CardContent>
           </Card>
         </motion.div>
+        {/* Create Dialog */}
+        <CreateBookingDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
+        {/* Edit Dialog */}
+        {editingItem && (
+          <EditBookingDialog open={isEditOpen} onOpenChange={setIsEditOpen} item={editingItem} onSubmit={handleEdit} />
+        )}
+        {/* Delete Dialog */}
+        {deletingItem && (
+          <DeleteBookingDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen} item={deletingItem} onConfirm={() => handleDelete(deletingItem.id)} />
+        )}
       </div>
     </div>
+  );
+}
+
+function CreateBookingDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<Booking, "id">) => void }) {
+  const [guestName, setGuestName] = useState("");
+  const [propertyName, setPropertyName] = useState("");
+  const [checkIn, setCheckIn] = useState(new Date().toISOString().split("T")[0]);
+  const [checkOut, setCheckOut] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [status, setStatus] = useState<Booking["status"]>("PENDING");
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Add Booking</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Add a new booking.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Guest Name</Label>
+            <Input value={guestName} onChange={e => setGuestName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Property Name</Label>
+            <Input value={propertyName} onChange={e => setPropertyName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Check In</Label>
+            <Input type="date" value={checkIn} onChange={e => setCheckIn(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Check Out</Label>
+            <Input type="date" value={checkOut} onChange={e => setCheckOut(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Total Amount ($)</Label>
+            <Input type="number" value={totalAmount} onChange={e => setTotalAmount(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as Booking["status"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="CONFIRMED">Confirmed</SelectItem>
+                <SelectItem value="PENDING">Pending</SelectItem>
+                <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                <SelectItem value="COMPLETED">Completed</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ guestName, propertyName, checkIn, checkOut, totalAmount, status })} className="bg-primary hover:bg-primary/90">Create</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function EditBookingDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: Booking; onSubmit: (data: Booking) => void }) {
+  const [guestName, setGuestName] = useState(item.guestName);
+  const [propertyName, setPropertyName] = useState(item.propertyName);
+  const [checkIn, setCheckIn] = useState(item.checkIn);
+  const [checkOut, setCheckOut] = useState(item.checkOut);
+  const [totalAmount, setTotalAmount] = useState(item.totalAmount);
+  const [status, setStatus] = useState<Booking["status"]>(item.status);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Edit Booking</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Update booking details.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Guest Name</Label>
+            <Input value={guestName} onChange={e => setGuestName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Property Name</Label>
+            <Input value={propertyName} onChange={e => setPropertyName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Check In</Label>
+            <Input type="date" value={checkIn} onChange={e => setCheckIn(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Check Out</Label>
+            <Input type="date" value={checkOut} onChange={e => setCheckOut(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Total Amount ($)</Label>
+            <Input type="number" value={totalAmount} onChange={e => setTotalAmount(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-foreground">Status</Label>
+            <Select value={status} onValueChange={v => setStatus(v as Booking["status"])}>
+              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
+                <SelectItem value="CONFIRMED">Confirmed</SelectItem>
+                <SelectItem value="PENDING">Pending</SelectItem>
+                <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                <SelectItem value="COMPLETED">Completed</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={() => onSubmit({ id: item.id, guestName, propertyName, checkIn, checkOut, totalAmount, status })} className="bg-primary hover:bg-primary/90">Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DeleteBookingDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: Booking; onConfirm: () => void }) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-background border-border text-foreground">
+        <DialogHeader>
+          <DialogTitle className="text-foreground">Delete Booking</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Are you sure you want to delete the booking for {item.guestName}? This action cannot be undone.</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

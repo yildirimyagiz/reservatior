@@ -121,12 +121,40 @@ export default function UserManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    email: '',
+    name: '',
+    phone: '',
+    locale: 'en-US',
+    timezone: 'America/New_York'
+  });
 
   const updateMutation = useMutation({
     mutationFn: async (data: any) => apiClient.put(`/admin/usermanagement/${data.id}`, data),
     onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
+
+  const openEditDialog = (permission: UserPermission) => {
+    setEditingId(permission.id);
+    setEditFormData({
+      email: permission.userEmail,
+      name: permission.userName,
+      phone: '',
+      locale: 'en-US',
+      timezone: 'America/New_York'
+    });
+    setIsEditOpen(true);
+  };
+
+  const handleEditSubmit = () => {
+    updateMutation.mutate({
+      id: editingId,
+      ...editFormData
+    });
+    setIsEditOpen(false);
+  };
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => apiClient.delete(`/admin/usermanagement/${id}`),
@@ -428,6 +456,60 @@ const getRoleLevelColor = (level: number) => {
                           </DialogContent>
                                 
                                 </Dialog>
+
+                                <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+                                  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
+                                    <DialogHeader>
+                                      <DialogTitle>Edit User</DialogTitle>
+                                      <DialogDescription>
+                                        Update the user details.
+                                      </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                      <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="edit-email" className="text-right text-xs">Email *</Label>
+                                        <Input id="edit-email" type="email" className="col-span-3 h-10" value={editFormData.email} onChange={e => setEditFormData({...editFormData, email: e.target.value})} placeholder="user@example.com" />
+                                      </div>
+                                      <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="edit-name" className="text-right text-xs">Name</Label>
+                                        <Input id="edit-name" className="col-span-3 h-10" value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} placeholder="John Doe" />
+                                      </div>
+                                      <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="edit-phone" className="text-right text-xs">Phone</Label>
+                                        <Input id="edit-phone" className="col-span-3 h-10" value={editFormData.phone} onChange={e => setEditFormData({...editFormData, phone: e.target.value})} placeholder="+1 555-0123" />
+                                      </div>
+                                      <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="edit-locale" className="text-right text-xs">Locale</Label>
+                                        <Select value={editFormData.locale} onValueChange={(v) => setEditFormData({...editFormData, locale: v})}>
+                                          <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Locale" /></SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="en-US">English (US)</SelectItem>
+                                            <SelectItem value="tr-TR">Turkish</SelectItem>
+                                            <SelectItem value="fr-FR">French</SelectItem>
+                                            <SelectItem value="de-DE">German</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                      <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="edit-timezone" className="text-right text-xs">Timezone</Label>
+                                        <Select value={editFormData.timezone} onValueChange={(v) => setEditFormData({...editFormData, timezone: v})}>
+                                          <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Timezone" /></SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="America/New_York">Eastern Time (ET)</SelectItem>
+                                            <SelectItem value="Europe/Istanbul">Istanbul (TRT)</SelectItem>
+                                            <SelectItem value="Europe/London">London (GMT)</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                    </div>
+                                    <DialogFooter>
+                                      <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+                                      <Button onClick={handleEditSubmit} disabled={updateMutation.isPending}>
+                                        {updateMutation.isPending ? "Saving..." : "Save Changes"}
+                                      </Button>
+                                    </DialogFooter>
+                                  </DialogContent>
+                                </Dialog>
                               
             </div>
 
@@ -491,13 +573,13 @@ const getRoleLevelColor = (level: number) => {
                         </TableCell>
                         <TableCell>
                           <div className="flex gap-1">
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" onClick={() => setEditingId(permission.id)}>
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" onClick={() => openEditDialog(permission)}>
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(permission.id)}>
                               {permission.isActive ? <Ban className="h-4 w-4" /> : <Unlock className="h-4 w-4" />}
                             </Button>
                           </div>

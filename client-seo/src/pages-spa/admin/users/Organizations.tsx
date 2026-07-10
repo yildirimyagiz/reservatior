@@ -77,10 +77,12 @@ export default function Organizations() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [editingId, setEditingId] = React.useState<string | null>(null);
+  const [editOpen, setEditOpen] = React.useState(false);
+  const [editFormData, setEditFormData] = React.useState<any>({});
 
   const updateMutation = useMutation({
     mutationFn: async (data: any) => apiClient.put(`/admin/organizations/${data.id}`, data),
-    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); },
+    onSuccess: () => { toast({ title: "Updated", description: "Record updated successfully" }); queryClient.invalidateQueries(); setEditingId(null); setEditOpen(false); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
 
@@ -89,6 +91,24 @@ export default function Organizations() {
     onSuccess: () => { toast({ title: "Deleted", description: "Record deleted successfully" }); queryClient.invalidateQueries(); },
     onError: (err: any) => toast({ title: "Error", description: err.message, variant: "destructive" })
   });
+
+  const openEditModal = (org: Organization) => {
+    setEditingId(org.id);
+    setEditFormData({
+      id: org.id,
+      name: org.name,
+      type: org.type,
+      plan: org.plan,
+      status: org.status,
+      maxUsers: org.maxUsers,
+      maxProperties: org.maxProperties,
+      billingEmail: org.billingEmail,
+      phone: org.phone,
+      address: org.address,
+      domain: org.domain
+    });
+    setEditOpen(true);
+  };
   
   const {
     t
@@ -258,10 +278,10 @@ export default function Organizations() {
                               </TableCell>
                               <TableCell className="px-8 text-right">
                                  <div className="flex items-center justify-end gap-2">
-                                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground">
+                                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground" onClick={() => openEditModal(org)}>
                                        <Edit className="w-4 h-4" />
                                     </Button>
-                                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-red-500 transition-all">
+                                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-red-500 transition-all" onClick={() => deleteMutation.mutate(org.id)}>
                                        <Trash2 className="w-4 h-4" />
                                     </Button>
                                     <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground">
@@ -326,6 +346,74 @@ export default function Organizations() {
            <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
               <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setCreateOpen(false)}>{t('organizations.abortMod')}</Button>
               <Button className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-slate-500 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">{t('organizations.execInit')}</Button>
+           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Organization Dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-2xl bg-[#14151a] border-border text-foreground rounded-4xl p-0 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent"></div>
+           <DialogHeader className="p-8 border-b border-border bg-muted/50">
+              <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-foreground">
+                <Edit className="w-6 h-6 text-slate-500" />
+                Edit Organization
+              </DialogTitle>
+              <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">Update organization details and settings</DialogDescription>
+           </DialogHeader>
+
+           <form onSubmit={(e) => { e.preventDefault(); updateMutation.mutate(editFormData); }} className="p-10 space-y-8">
+              <div className="grid grid-cols-2 gap-8">
+                 <div className="col-span-2 space-y-2">
+                    <Label className="text-[10px] font-bold text-muted-foreground ml-3">Organization Name</Label>
+                    <Input value={editFormData.name || ''} onChange={e => setEditFormData({...editFormData, name: e.target.value})} className="bg-card border-border rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-slate-500/20" />
+                 </div>
+                 <div className="space-y-2">
+                    <Label className="text-[10px] font-bold text-muted-foreground ml-3">Status</Label>
+                    <Select value={editFormData.status} onValueChange={v => setEditFormData({...editFormData, status: v})}>
+                       <SelectTrigger className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
+                          <SelectValue />
+                       </SelectTrigger>
+                       <SelectContent className="bg-[#14151a] border-border text-foreground rounded-2xl">
+                          <SelectItem value="ACTIVE">Active</SelectItem>
+                          <SelectItem value="SUSPENDED">Suspended</SelectItem>
+                          <SelectItem value="TRIAL">Trial</SelectItem>
+                       </SelectContent>
+                    </Select>
+                 </div>
+                 <div className="space-y-2">
+                    <Label className="text-[10px] font-bold text-muted-foreground ml-3">Plan</Label>
+                    <Select value={editFormData.plan} onValueChange={v => setEditFormData({...editFormData, plan: v})}>
+                       <SelectTrigger className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
+                          <SelectValue />
+                       </SelectTrigger>
+                       <SelectContent className="bg-[#14151a] border-border text-foreground rounded-2xl">
+                          <SelectItem value="STARTER">Starter</SelectItem>
+                          <SelectItem value="PRO">Pro</SelectItem>
+                          <SelectItem value="ENTERPRISE">Enterprise</SelectItem>
+                       </SelectContent>
+                    </Select>
+                 </div>
+                 <div className="space-y-2">
+                    <Label className="text-[10px] font-bold text-muted-foreground ml-3">Max Users</Label>
+                    <Input type="number" value={editFormData.maxUsers || ''} onChange={e => setEditFormData({...editFormData, maxUsers: parseInt(e.target.value)})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
+                 </div>
+                 <div className="space-y-2">
+                    <Label className="text-[10px] font-bold text-muted-foreground ml-3">Max Properties</Label>
+                    <Input type="number" value={editFormData.maxProperties || ''} onChange={e => setEditFormData({...editFormData, maxProperties: parseInt(e.target.value)})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
+                 </div>
+                 <div className="col-span-2 space-y-2">
+                    <Label className="text-[10px] font-bold text-muted-foreground ml-3">Billing Email</Label>
+                    <Input type="email" value={editFormData.billingEmail || ''} onChange={e => setEditFormData({...editFormData, billingEmail: e.target.value})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
+                 </div>
+              </div>
+           </form>
+
+           <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
+              <Button type="button" variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setEditOpen(false)}>Cancel</Button>
+              <Button type="button" onClick={() => updateMutation.mutate(editFormData)} disabled={updateMutation.isPending} className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-slate-500 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">
+                {updateMutation.isPending ? "Saving..." : "Save Changes"}
+              </Button>
            </DialogFooter>
         </DialogContent>
       </Dialog>

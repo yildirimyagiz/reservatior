@@ -241,7 +241,7 @@ export default function Roles() {
     acc[permission.group].push(permission);
     return acc;
   }, {} as Record<string, Permission[]>);
-  return <PageShell title={t('rolesTitle')} description={t('rolesDesc')}>
+  return <PageShell title={t('admin_roles_title')} description={t('admin_roles_description')}>
       <div className="space-y-10 pb-20 selection:bg-primary/30">
         
         {/* KPI Neural Grid */}
@@ -408,7 +408,7 @@ export default function Roles() {
                  <DialogHeader className="p-8 border-b border-border bg-muted/20">
                     <DialogTitle className="text-3xl font-bold flex items-center gap-3 text-foreground leading-none">
                        <ShieldAlert className="w-8 h-8 text-primary" />
-                       {createOpen ? t('admin_roles_initTitle') : t('editTitle')}
+                       {createOpen ? t('admin_roles_initTitle') : t('admin_roles_editTitle')}
                     </DialogTitle>
                     <DialogDescription className="text-[10px] font-bold text-muted-foreground tracking-[0.2em] mt-2">
                        {t('admin_roles_description')}

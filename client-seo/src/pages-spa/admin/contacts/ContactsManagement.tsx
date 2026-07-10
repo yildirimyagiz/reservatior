@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from 'react';
@@ -22,6 +22,8 @@ const ContactsManagement = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingContact, setEditingContact] = useState<any>(null);
   const [newContact, setNewContact] = useState({ fullName: '', email: '', phone: '', type: 'OTHER' });
 
   const { data: contactsRes, isLoading } = useQuery({
@@ -55,9 +57,30 @@ const ContactsManagement = () => {
     }
   });
 
+  const updateMutation = useMutation({
+    mutationFn: async (data: any) => {
+      return apiClient.put(`/contact/${data.id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-contacts'] });
+      setIsEditModalOpen(false);
+      setEditingContact(null);
+    }
+  });
+
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createMutation.mutate(newContact);
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateMutation.mutate(editingContact);
+  };
+
+  const openEditModal = (contact: any) => {
+    setEditingContact(contact);
+    setIsEditModalOpen(true);
   };
 
   const handleSendContract = async (contact: any, contractType: string) => {
@@ -149,6 +172,62 @@ const ContactsManagement = () => {
                   <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
                   <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={createMutation.isPending}>
                     {createMutation.isPending ? "Saving..." : "Create Contact"}
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+          <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+              <DialogHeader>
+                <DialogTitle>{t("admin_contacts_edit", "Edit Contact")}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleEditSubmit} className="space-y-4 pt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-fullName">Full Name</Label>
+                  <Input 
+                    id="edit-fullName" 
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
+                    value={editingContact?.fullName || ''}
+                    onChange={e => setEditingContact({...editingContact, fullName: e.target.value})}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-email">Email</Label>
+                  <Input 
+                    id="edit-email" 
+                    type="email"
+                    className="bg-white/5 border-slate-200 dark:border-white/10" 
+                    value={editingContact?.email || ''}
+                    onChange={e => setEditingContact({...editingContact, email: e.target.value})}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-phone">Phone</Label>
+                    <Input 
+                      id="edit-phone" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
+                      value={editingContact?.phone || ''}
+                      onChange={e => setEditingContact({...editingContact, phone: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-type">Contact Type</Label>
+                    <Input 
+                      id="edit-type" 
+                      className="bg-white/5 border-slate-200 dark:border-white/10" 
+                      value={editingContact?.type || 'OTHER'}
+                      onChange={e => setEditingContact({...editingContact, type: e.target.value})}
+                      placeholder="TENANT, OWNER_CONTACT..."
+                    />
+                  </div>
+                </div>
+                <div className="pt-4 flex justify-end gap-2">
+                  <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+                  <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={updateMutation.isPending}>
+                    {updateMutation.isPending ? "Saving..." : "Save Changes"}
                   </Button>
                 </div>
               </form>
@@ -259,7 +338,12 @@ const ContactsManagement = () => {
                           </DropdownMenuContent>
                         </DropdownMenu>
 
-                        <Button variant="ghost" size="icon" className="text-slate-500 dark:text-slate-400 hover:text-white">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="text-slate-500 dark:text-slate-400 hover:text-white"
+                          onClick={() => openEditModal(c)}
+                        >
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 

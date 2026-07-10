@@ -207,7 +207,7 @@ export default function Plans() {
   const filtered = plans.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.key.toLowerCase().includes(search.toLowerCase()));
   const totalSubscribers = plans.reduce((s, p) => s + (p._count?.orgSubscriptions ?? 0), 0);
   const monthlyRevenue = plans.reduce((s, p) => s + (p.priceMonthlyCents ?? 0) * (p._count?.orgSubscriptions ?? 0), 0);
-  return <PageShell title={t('plansTitle')} description={t('plansDesc')}>
+  return <PageShell title={t('admin_plans_title')} description={t('admin_plans_description')}>
       <div className="space-y-10 pb-20 selection:bg-primary/30">
         
         {/* KPI Neural Grid */}
@@ -354,7 +354,7 @@ export default function Plans() {
                  <DialogHeader className="p-8 border-b border-border bg-muted/20">
                     <DialogTitle className="text-3xl font-bold flex items-center gap-3 text-foreground leading-none">
                        <CreditCard className="w-8 h-8 text-primary" />
-                       {createOpen ? t('admin_plans_initTitle') : t('editTitle')}
+                       {createOpen ? t('admin_plans_initTitle') : t('admin_plans_editTitle')}
                     </DialogTitle>
                     <DialogDescription className="text-[10px] font-bold text-muted-foreground tracking-[0.2em] mt-2">
                        {t('admin_plans_description')}

@@ -31,11 +31,11 @@ export async function runEarlyCaptureScheduler(): Promise<void> {
   console.log(`[EarlyCapture] Processing ${cycles.length} cycle(s) for today.`);
 
   const results = await Promise.allSettled(
-    cycles.map((cycle) => processSingleCycle(cycle.id, cycle))
+    cycles.map((cycle: any) => processSingleCycle(cycle.id, cycle))
   );
 
-  const succeeded = results.filter((r) => r.status === "fulfilled").length;
-  const failed = results.filter((r) => r.status === "rejected").length;
+  const succeeded = results.filter((r: any) => r.status === "fulfilled").length;
+  const failed = results.filter((r: any) => r.status === "rejected").length;
 
   console.log(`[EarlyCapture] Done. Succeeded: ${succeeded}, Failed: ${failed}`);
 }

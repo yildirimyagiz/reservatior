@@ -144,3 +144,192 @@ export const GLOBAL_COMPLIANCE_RULES: Record<string, RegionalComplianceRule> = {
     preferredCreditCardProcessor: 'CHECKOUT' // BAE regülasyonlarına Checkout.com veya Stripe AE uygundur
   }
 };
+
+// ─── Ek 15 Ülke Kuralları ────────────────────────────────────────────────────
+// (TR, ES, UK, DE, NL, FR, IT, AE yukarıda mevcut)
+
+export const ADDITIONAL_COMPLIANCE_RULES: Record<string, RegionalComplianceRule> = {
+  'US': {
+    countryCode: 'US',
+    laws: ['State-by-state (CA/NY/TX)', 'TRID (RESPA)', 'Fair Housing Act'],
+    maxDepositMonths: 2,
+    landlordCommissionFixedPct: 3.0,
+    tenantCommissionFixedPct: 0.0, // Buyer commission post-NAR settlement (Aug 2024) must be negotiated separately
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: true, maxInstallments: 12, requiresMandate: false },
+    preferredCreditCardProcessor: 'STRIPE',
+  },
+  'CA': {
+    countryCode: 'CA',
+    laws: ['REBBA (Ontario)', 'RESA (BC)', 'DPA (Alberta)'],
+    maxDepositMonths: 1,
+    landlordCommissionFixedPct: 2.5,
+    tenantCommissionFixedPct: 2.5,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: true, maxInstallments: 6, requiresMandate: false },
+    preferredCreditCardProcessor: 'STRIPE',
+  },
+  'AU': {
+    countryCode: 'AU',
+    laws: ['Property, Stock and Business Agents Act (NSW)', 'Estate Agents Act (VIC)'],
+    maxDepositMonths: 1,
+    landlordCommissionFixedPct: 2.75,
+    tenantCommissionFixedPct: 0.0, // AU'da kiracıdan komisyon almak yasaklanma eğiliminde
+    allowsTenantServiceFee: false,
+    maxTenantServiceFeePct: 0.0,
+    openBanking: { enabled: true, maxInstallments: 4, requiresMandate: true },
+    preferredCreditCardProcessor: 'STRIPE',
+  },
+  'NZ': {
+    countryCode: 'NZ',
+    laws: ['Real Estate Agents Act 2008'],
+    maxDepositMonths: 2,
+    landlordCommissionFixedPct: 3.0,
+    tenantCommissionFixedPct: 0.0,
+    allowsTenantServiceFee: false,
+    maxTenantServiceFeePct: 0.0,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'STRIPE',
+  },
+  'JP': {
+    countryCode: 'JP',
+    laws: ['Real Estate Transaction Act (宅建業法)', 'Civil Code (民法)'],
+    maxDepositMonths: 2, // Shikikin (敷金)
+    landlordCommissionFixedPct: 3.0,
+    tenantCommissionFixedPct: 3.0, // Her iki taraftan alınabilir; toplamı 1 ay kira bedeli
+    allowsTenantServiceFee: true, // Reikin (礼金) sisteminde geleneksel
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'STRIPE',
+  },
+  'KR': {
+    countryCode: 'KR',
+    laws: ['Housing Lease Protection Act (주택임대차보호법)'],
+    maxDepositMonths: null, // Jeonse sistemi (전세): yüklü depozito modeli
+    landlordCommissionFixedPct: 0.4, // Yasal sınır (bölgeye göre 0.4-0.9%)
+    tenantCommissionFixedPct: 0.4,
+    allowsTenantServiceFee: false,
+    maxTenantServiceFeePct: 0.0,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'CHECKOUT',
+  },
+  'SG': {
+    countryCode: 'SG',
+    laws: ['Estate Agents Act', 'Council for Estate Agencies (CEA) Rules'],
+    maxDepositMonths: 2,
+    landlordCommissionFixedPct: 1.0, // HDB: 1 ay / Private: müzakere
+    tenantCommissionFixedPct: 1.0,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'STRIPE',
+  },
+  'MY': {
+    countryCode: 'MY',
+    laws: ['Valuers, Appraisers and Estate Agents Act 1981'],
+    maxDepositMonths: 2,
+    landlordCommissionFixedPct: 3.0, // LHDN standart
+    tenantCommissionFixedPct: 0.0,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'CHECKOUT',
+  },
+  'TH': {
+    countryCode: 'TH',
+    laws: ['Civil and Commercial Code', 'Land Department Regulations'],
+    maxDepositMonths: 3,
+    landlordCommissionFixedPct: 2.5,
+    tenantCommissionFixedPct: 2.5,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: true, maxInstallments: 6, requiresMandate: false }, // PromptPay A2A
+    preferredCreditCardProcessor: 'CHECKOUT',
+  },
+  'SA': {
+    countryCode: 'SA',
+    laws: ['Real Estate General Authority (REGA)', 'Vision 2030 Housing Initiatives'],
+    maxDepositMonths: 1,
+    landlordCommissionFixedPct: 2.0,
+    tenantCommissionFixedPct: 0.0,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'CHECKOUT',
+  },
+  'BR': {
+    countryCode: 'BR',
+    laws: ['Lei do Inquilinato (Lei 8.245/91)', 'CRECI Regulations'],
+    maxDepositMonths: 3,
+    landlordCommissionFixedPct: 6.0, // CRECI standart 6%
+    tenantCommissionFixedPct: 0.0,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: true, maxInstallments: 12, requiresMandate: false }, // Pix instant payment
+    preferredCreditCardProcessor: 'CHECKOUT',
+  },
+  'AR': {
+    countryCode: 'AR',
+    laws: ['Ley 27.551 (Ley de Alquileres)', 'CUCICBA Regulations'],
+    maxDepositMonths: 1,
+    landlordCommissionFixedPct: 4.0,
+    tenantCommissionFixedPct: 4.0,
+    allowsTenantServiceFee: false, // 2020 reformu sonrası kısıtlandı
+    maxTenantServiceFeePct: 0.0,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'CHECKOUT',
+  },
+  'MX': {
+    countryCode: 'MX',
+    laws: ['Código Civil Federal', 'NOM-247-SE-2021'],
+    maxDepositMonths: 2,
+    landlordCommissionFixedPct: 5.0, // Meksika standart
+    tenantCommissionFixedPct: 0.0,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'STRIPE', // Stripe Mexico mevcut
+  },
+  'IN': {
+    countryCode: 'IN',
+    laws: ['Model Tenancy Act 2021', 'RERA (Real Estate Regulation Act)'],
+    maxDepositMonths: 3, // Model law cap; states vary
+    landlordCommissionFixedPct: 1.0,
+    tenantCommissionFixedPct: 1.0,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: null,
+    openBanking: { enabled: true, maxInstallments: 6, requiresMandate: false }, // UPI A2A
+    preferredCreditCardProcessor: 'CHECKOUT',
+  },
+  'CN': {
+    countryCode: 'CN',
+    laws: ['Urban Real Estate Administration Law', 'Ministry of Housing (住建部) Regulations'],
+    maxDepositMonths: 1, // '押一付三' modeli yaygın (1 depozito + 3 ay ön ödeme)
+    landlordCommissionFixedPct: 3.0,
+    tenantCommissionFixedPct: 0.0,
+    allowsTenantServiceFee: false, // 2022 düzenlemesiyle kısıtlandı
+    maxTenantServiceFeePct: 0.0,
+    openBanking: { enabled: false, maxInstallments: 0, requiresMandate: false },
+    preferredCreditCardProcessor: 'CHECKOUT', // WeChat Pay/Alipay entegrasyonu ayrıca
+  },
+  'ES': {
+    // Zaten mevcut ama üzerine yaz (daha geniş kural seti)
+    countryCode: 'ES',
+    laws: ['Ley 12/2023', 'LAU'],
+    maxDepositMonths: 3,
+    landlordCommissionFixedPct: 3.5,
+    tenantCommissionFixedPct: 0.0,
+    allowsTenantServiceFee: true,
+    maxTenantServiceFeePct: 3.5,
+    openBanking: { enabled: true, maxInstallments: 6, requiresMandate: true },
+    preferredCreditCardProcessor: 'LEMONWAY',
+  },
+};
+
+// Birleşik kural haritası (tüm 23 ülke)
+export const ALL_COMPLIANCE_RULES: Record<string, RegionalComplianceRule> = {
+  ...GLOBAL_COMPLIANCE_RULES,
+  ...ADDITIONAL_COMPLIANCE_RULES,
+};

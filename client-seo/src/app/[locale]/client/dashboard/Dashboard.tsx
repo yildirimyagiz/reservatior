@@ -2,51 +2,64 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Building, Users, DollarSign, ArrowUpRight, ArrowDownRight, Brain, Sparkles, TrendingUp, LayoutDashboard, Crown, Star } from "lucide-react";
+import { Building, DollarSign, ArrowUpRight, ArrowDownRight, Sparkles, Plus, Calendar, MessageSquare, Home, CheckCircle, AlertCircle, Star, TrendingUp, LayoutDashboard, Crown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { useAuth } from "@/lib/auth/hooks";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
+const quickActions = [
+  { icon: Plus, label: "New Property", href: "/property/new", color: "bg-blue-500/10 text-blue-400" },
+  { icon: Calendar, label: "New Booking", href: "/client/bookings", color: "bg-purple-500/10 text-purple-400" },
+  { icon: MessageSquare, label: "Messages", href: "/client/messages", color: "bg-emerald-500/10 text-emerald-400" },
+  { icon: Home, label: "My Properties", href: "/client/properties", color: "bg-amber-500/10 text-amber-400" },
+];
+
+const recentActivities = [
+  { type: "booking", title: "New booking received", property: "Villa Sunset", time: "2 hours ago", status: "pending" },
+  { type: "message", title: "New inquiry", property: "Beach House", time: "4 hours ago", status: "unread" },
+  { type: "booking", title: "Booking confirmed", property: "Mountain Retreat", time: "1 day ago", status: "confirmed" },
+  { type: "property", title: "Property updated", property: "City Apartment", time: "2 days ago", status: "completed" },
+];
+
 const stats = (t: (key: string) => string) => [
   {
-    label: t("dashboardRevenue"),
-    value: "$45,231",
-    change: "+12.5%",
-    trending: "up",
-    icon: DollarSign,
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10"
-  },
-  {
-    label: t("client.dashboard.stats.nodes"),
-    value: "128",
-    change: "+4.3%",
+    label: t("Total Properties"),
+    value: "12",
+    change: "+2",
     trending: "up",
     icon: Building,
     color: "text-blue-400",
     bg: "bg-blue-500/10"
   },
   {
-    label: t("engagement"),
-    value: "342",
-    change: "-2.1%",
-    trending: "down",
-    icon: Users,
+    label: t("Active Bookings"),
+    value: "8",
+    change: "+3",
+    trending: "up",
+    icon: Calendar,
     color: "text-purple-400",
     bg: "bg-purple-500/10"
   },
   {
-    label: t("verification"),
-    value: "98.2%",
-    change: "+0.5%",
+    label: t("This Month Revenue"),
+    value: "$12,450",
+    change: "+18.5%",
     trending: "up",
-    icon: Brain,
+    icon: DollarSign,
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10"
+  },
+  {
+    label: t("Pending Messages"),
+    value: "5",
+    change: "-1",
+    trending: "down",
+    icon: MessageSquare,
     color: "text-amber-400",
     bg: "bg-amber-500/10"
   }
@@ -83,7 +96,6 @@ export default function Dashboard() {
   if (!mounted) return null;
 
   const currentStats = stats(t);
-  const IconComponent = PLAN_CONFIG["professional-50"]?.icon;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -109,6 +121,39 @@ export default function Dashboard() {
               {t("dashboard.dashboard.auto_ext_3")}
                                       </Button>
           </div>
+        </motion.div>
+
+        {/* Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-8"
+        >
+          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <CardHeader>
+              <CardTitle className="text-white">Quick Actions</CardTitle>
+              <CardDescription className="text-gray-400">Frequently used actions</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {quickActions.map((action, index) => (
+                  <motion.button
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => router.push(action.href)}
+                    className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/10"
+                  >
+                    <div className={cn("p-3 rounded-lg", action.color)}>
+                      <action.icon className="w-6 h-6" />
+                    </div>
+                    <span className="text-sm font-medium text-white">{action.label}</span>
+                  </motion.button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
 
         {/* Stats Grid */}
@@ -145,6 +190,46 @@ export default function Dashboard() {
           ))}
         </div>
 
+        {/* Recent Activities */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mb-8"
+        >
+          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <CardHeader>
+              <CardTitle className="text-white">Recent Activities</CardTitle>
+              <CardDescription className="text-gray-400">Latest updates on your properties and bookings</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {recentActivities.map((activity, index) => (
+                  <div key={index} className="flex items-center gap-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                    <div className={cn(
+                      "p-2 rounded-lg",
+                      activity.status === "pending" ? "bg-amber-500/10 text-amber-400" :
+                      activity.status === "unread" ? "bg-blue-500/10 text-blue-400" :
+                      activity.status === "confirmed" ? "bg-emerald-500/10 text-emerald-400" :
+                      "bg-purple-500/10 text-purple-400"
+                    )}>
+                      {activity.status === "pending" ? <AlertCircle className="w-4 h-4" /> :
+                       activity.status === "unread" ? <MessageSquare className="w-4 h-4" /> :
+                       activity.status === "confirmed" ? <CheckCircle className="w-4 h-4" /> :
+                       <Calendar className="w-4 h-4" />}
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-white">{activity.title}</div>
+                      <div className="text-xs text-gray-400">{activity.property}</div>
+                    </div>
+                    <div className="text-xs text-gray-500">{activity.time}</div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
         {/* Revenue Chart */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -176,47 +261,6 @@ export default function Dashboard() {
                   <Area type="monotone" dataKey="value" stroke="#8b5cf6" fillOpacity={1} fill="url(#colorRevenue)" />
                 </AreaChart>
               </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Plan Usage */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
-            <CardHeader>
-              <CardTitle className="text-white">{t("dashboard.dashboard.auto_ext_6")}</CardTitle>
-              <CardDescription className="text-gray-400">{t("dashboard.dashboard.auto_ext_7")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-3 rounded-lg bg-purple-500/10">
-                  {IconComponent && <IconComponent className="w-6 h-6 text-purple-400" />}
-                </div>
-                <div>
-                  <div className="text-lg font-bold text-white">{t("dashboard.dashboard.auto_ext_8")}</div>
-                  <div className="text-sm text-gray-400">{t("dashboard.dashboard.auto_ext_9")}</div>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-400">{t("dashboard.dashboard.auto_ext_10")}</span>
-                    <span className="text-white">12 / 50</span>
-                  </div>
-                  <Progress value={24} className="bg-purple-500/20" />
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-400">{t("dashboard.dashboard.auto_ext_11")}</span>
-                    <span className="text-white">2 / 5</span>
-                  </div>
-                  <Progress value={40} className="bg-purple-500/20" />
-                </div>
-              </div>
             </CardContent>
           </Card>
         </motion.div>

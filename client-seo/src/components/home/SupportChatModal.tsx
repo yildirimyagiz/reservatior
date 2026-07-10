@@ -7,6 +7,19 @@ interface SupportMessage {
   role: "user" | "support" | "ai";
   text: string;
   attachments?: string[];
+  metadata?: {
+    category?: string;
+    priority?: string;
+    assignedTeam?: string;
+    suggestedSolution?: string;
+    responseTime?: string;
+    escalation?: any;
+    fileAnalysis?: any[];
+    aiAnalyzed?: boolean;
+    confidence?: number;
+    detectedLanguage?: string;
+    localizedGreeting?: string;
+  };
 }
 
 export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -40,7 +53,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
 
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-      const response = await fetch(`${API_URL}/api/v1/ticket/ai-suggest`, {
+      const response = await fetch(`${API_URL}/tickets/ai-suggest`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMessage.text, attachments: userMessage.attachments })
@@ -52,10 +65,23 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
         id: (Date.now() + 1).toString(),
         role: "ai",
         text: data.suggestion || "Sorununuzu anladım. Size yardımcı olmak için bir destek talebi oluşturuluyor...",
+        metadata: {
+          category: data.category,
+          priority: data.priority,
+          assignedTeam: data.assigned_team,
+          suggestedSolution: data.suggested_solution,
+          responseTime: data.response_time,
+          escalation: data.escalation,
+          fileAnalysis: data.file_analysis,
+          aiAnalyzed: data.ai_analyzed,
+          confidence: data.confidence,
+          detectedLanguage: data.detected_language,
+          localizedGreeting: data.localized_greeting
+        }
       }]);
 
       if (data.createTicket) {
-        const ticketResponse = await fetch(`${API_URL}/api/v1/ticket`, {
+        const ticketResponse = await fetch(`${API_URL}/tickets`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -69,7 +95,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
         setSupportMessages((prev) => [...prev, {
           id: (Date.now() + 2).toString(),
           role: "support",
-          text: `Talebiniz oluşturuldu. Ticket ID: ${ticketData.id}. En kısa sürede size dönüş yapacağız.`
+          text: `Talebiniz oluşturuldu. Ticket ID: ${ticketData.data?.id || ticketData.id}. En kısa sürede size dönüş yapacağız.`
         }]);
       }
     } catch {
@@ -157,9 +183,53 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
                     <div className="flex items-center gap-2 mb-2">
                       <Sparkles className="w-3 h-3" />
                       <span className="text-xs font-bold opacity-80">AI Assistant</span>
+                      {msg.metadata?.detectedLanguage && (
+                        <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full uppercase">
+                          {msg.metadata.detectedLanguage}
+                        </span>
+                      )}
+                      {msg.metadata?.aiAnalyzed && (
+                        <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">
+                          {msg.metadata.confidence && `${Math.round(msg.metadata.confidence * 100)}% confidence`}
+                        </span>
+                      )}
                     </div>
                   )}
-                  <p className="text-sm">{msg.text}</p>
+                  <p className="text-sm">{msg.metadata?.localizedGreeting || msg.text}</p>
+                  {msg.metadata && (
+                    <div className="mt-2 space-y-1">
+                      {msg.metadata.category && (
+                        <div className="text-xs bg-white/20 rounded px-2 py-1">
+                          Category: <span className="font-semibold">{msg.metadata.category}</span>
+                        </div>
+                      )}
+                      {msg.metadata.priority && (
+                        <div className={`text-xs rounded px-2 py-1 ${
+                          msg.metadata.priority === 'CRITICAL' ? 'bg-red-500/30' :
+                          msg.metadata.priority === 'HIGH' ? 'bg-orange-500/30' :
+                          msg.metadata.priority === 'MEDIUM' ? 'bg-yellow-500/30' :
+                          'bg-green-500/30'
+                        }`}>
+                          Priority: <span className="font-semibold">{msg.metadata.priority}</span>
+                        </div>
+                      )}
+                      {msg.metadata.assignedTeam && (
+                        <div className="text-xs bg-white/20 rounded px-2 py-1">
+                          Assigned to: <span className="font-semibold">{msg.metadata.assignedTeam}</span>
+                        </div>
+                      )}
+                      {msg.metadata.responseTime && (
+                        <div className="text-xs bg-white/20 rounded px-2 py-1">
+                          Response time: <span className="font-semibold">{msg.metadata.responseTime}</span>
+                        </div>
+                      )}
+                      {msg.metadata.suggestedSolution && (
+                        <div className="text-xs bg-white/10 rounded px-2 py-1 mt-2">
+                          <span className="font-semibold">Suggested:</span> {msg.metadata.suggestedSolution}
+                        </div>
+                      )}
+                    </div>
+                  )}
                   {msg.attachments && msg.attachments.length > 0 && (
                     <div className="mt-2 space-y-1">
                       {msg.attachments.map((url, idx) => (

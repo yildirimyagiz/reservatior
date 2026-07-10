@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
 
+const locales = ["en","tr","ar","es","fr","de","ru","pt","zh","ja","ko","it","nl","pl","sv","da","fi","el","hi","id","gr","se","no"];
+
 const languages = [
   { code: "en", name: "English", flag: "🇺🇸" },
   { code: "tr", name: "Türkçe", flag: "🇹🇷" },
@@ -43,6 +45,16 @@ export default function LanguageSelector() {
     const newLanguage = languages.find(lang => lang.code === languageCode);
     if (newLanguage) {
       setCurrentLanguage(newLanguage);
+    }
+    // Cookie'ye kaydet (middleware için)
+    document.cookie = `NEXT_LOCALE=${languageCode}; path=/; max-age=31536000`;
+    // URL'i güncelle
+    const currentPath = window.location.pathname;
+    const pathParts = currentPath.split('/').filter(Boolean);
+    if (pathParts.length > 0 && locales.some(l => l === pathParts[0])) {
+      pathParts[0] = languageCode;
+      const newPath = '/' + pathParts.join('/');
+      window.location.href = newPath;
     }
   };
 

@@ -51,6 +51,11 @@ interface Subscription {
   commissionDiscount: number;
   loyaltyMultiplier: number;
   isActive: boolean;
+  boostedListings?: number;
+  socialMediaPosts?: number;
+  googleAdsCredits?: number;
+  tagAllowances?: any;
+  adCredits?: number;
   userSubscriptions?: any;
   createdBy?: string;
   createdAt: Date;
@@ -454,6 +459,9 @@ export default function SubscriptionManagement() {
                   <TableHead>{t("admin_organization_plan")}</TableHead>
                   <TableHead>{t("admin_organization_status")}</TableHead>
                   <TableHead>{t("admin_organization_monthly_price")}</TableHead>
+                  <TableHead>{t("admin_organization_boosted_listings")}</TableHead>
+                  <TableHead>{t("admin_organization_social_posts")}</TableHead>
+                  <TableHead>{t("admin_organization_ad_credits")}</TableHead>
                   <TableHead>{t("admin_organization_period_end")}</TableHead>
                   <TableHead>{t("admin_organization_stripe_id")}</TableHead>
                   <TableHead>{t("admin_organization_created")}</TableHead>
@@ -480,6 +488,21 @@ export default function SubscriptionManagement() {
                     </TableCell>
                     <TableCell>
                       {subscription.plan?.priceMonthlyCents ? `$${(subscription.plan.priceMonthlyCents / 100).toFixed(2)}` : 'Free'}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="bg-orange-500/10 text-orange-400 border-orange-500/20">
+                        {subscription.boostedListings || 0}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/20">
+                        {subscription.socialMediaPosts || 0}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+                        {subscription.adCredits || 0}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       {subscription.currentPeriodEnd ? new Date(subscription.currentPeriodEnd).toLocaleDateString() : '-'}

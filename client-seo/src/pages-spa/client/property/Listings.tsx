@@ -512,7 +512,7 @@ export default function Listings() {
 
         {/* Doping Modal */}
         <Dialog open={dopingModalOpen} onOpenChange={setDopingModalOpen}>
-          <DialogContent className="max-w-md bg-[#1a1b1e] border-white/10 text-white rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
+          <DialogContent className="max-w-lg bg-[#1a1b1e] border-white/10 text-white rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
             <DialogHeader>
               <DialogTitle className="text-2xl font-black italic tracking-tighter text-amber-400 flex items-center gap-3">
                 <Zap className="w-6 h-6" />
@@ -526,32 +526,49 @@ export default function Listings() {
             <div className="grid grid-cols-2 gap-4 my-6">
               <Button 
                 onClick={() => applyDopingMutation("FEATURED")}
-                className="h-24 flex flex-col items-center justify-center gap-2 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500 hover:text-black text-amber-400 rounded-2xl transition-all"
+                className="h-28 flex flex-col items-center justify-center gap-2 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500 hover:text-black text-amber-400 rounded-2xl transition-all"
               >
                 <Zap className="w-6 h-6" />
                 <span className="text-[10px] font-black tracking-widest uppercase">Featured</span>
+                <span className="text-[8px] text-amber-400/60">$49.99 / 7 days</span>
               </Button>
               <Button 
                 onClick={() => applyDopingMutation("URGENT")}
-                className="h-24 flex flex-col items-center justify-center gap-2 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500 hover:text-black text-rose-400 rounded-2xl transition-all"
+                className="h-28 flex flex-col items-center justify-center gap-2 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500 hover:text-black text-rose-400 rounded-2xl transition-all"
               >
                 <TrendingUp className="w-6 h-6" />
                 <span className="text-[10px] font-black tracking-widest uppercase">Urgent</span>
+                <span className="text-[8px] text-rose-400/60">$29.99 / 3 days</span>
               </Button>
               <Button 
                 onClick={() => applyDopingMutation("PRICE_DROP")}
-                className="h-24 flex flex-col items-center justify-center gap-2 bg-blue-500/10 border border-blue-500/20 hover:bg-blue-500 hover:text-white text-blue-400 rounded-2xl transition-all"
+                className="h-28 flex flex-col items-center justify-center gap-2 bg-blue-500/10 border border-blue-500/20 hover:bg-blue-500 hover:text-white text-blue-400 rounded-2xl transition-all"
               >
                 <TrendingDown className="w-6 h-6" />
                 <span className="text-[10px] font-black tracking-widest uppercase">Price Drop</span>
+                <span className="text-[8px] text-blue-400/60">$19.99 / 5 days</span>
               </Button>
               <Button 
                 onClick={() => applyDopingMutation("DISCOUNT")}
-                className="h-24 flex flex-col items-center justify-center gap-2 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500 hover:text-white text-emerald-400 rounded-2xl transition-all"
+                className="h-28 flex flex-col items-center justify-center gap-2 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500 hover:text-white text-emerald-400 rounded-2xl transition-all"
               >
                 <Tag className="w-6 h-6" />
                 <span className="text-[10px] font-black tracking-widest uppercase">Discount</span>
+                <span className="text-[8px] text-emerald-400/60">$14.99 / 7 days</span>
               </Button>
+            </div>
+
+            <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="w-4 h-4 text-purple-400" />
+                <span className="text-[9px] font-black tracking-widest text-slate-400 uppercase">Benefits</span>
+              </div>
+              <ul className="space-y-1 text-[9px] text-slate-500 italic">
+                <li>• 3x more visibility in search results</li>
+                <li>• Priority placement in featured section</li>
+                <li>• Increased engagement by 40%</li>
+                <li>• Analytics dashboard access</li>
+              </ul>
             </div>
 
             <DialogFooter>

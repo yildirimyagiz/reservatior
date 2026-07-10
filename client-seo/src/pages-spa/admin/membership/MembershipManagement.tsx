@@ -35,6 +35,11 @@ interface MembershipTier {
   supportLevel: 'BASIC' | 'STANDARD' | 'PREMIUM' | 'ENTERPRISE';
   color: string;
   icon: string;
+  boostedListings?: number;
+  socialMediaPosts?: number;
+  googleAdsCredits?: number;
+  tagAllowances?: any;
+  adCredits?: number;
 }
 
 interface Member {
@@ -283,8 +288,8 @@ export default function MembershipManagement() {
       {/* Header */}
       <div className="bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t('membershipTitle')}</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('membershipDescription')}</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{t('admin_membership_title')}</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('admin_membership_description')}</p>
         </div>
         <div className="flex items-center gap-4">
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
