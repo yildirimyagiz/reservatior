@@ -145,7 +145,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
 
         <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col items-center justify-center h-full gap-12 mt-16">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="text-center w-full">
-            <h1 className="text-6xl sm:text-7xl lg:text-[7rem] font-black tracking-tighter leading-[0.9] text-white drop-shadow-2xl mb-6">
+            <h1 className="text-6xl sm:text-7xl lg:text-[7rem] font-black tracking-tighter leading-[0.9] text-white drop-shadow-2xl mb-6" suppressHydrationWarning>
               {t('home.hero.title1', { defaultValue: 'Discover' })} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40">
                 {t('home.hero.title2', { defaultValue: 'Extraordinary.' })}
