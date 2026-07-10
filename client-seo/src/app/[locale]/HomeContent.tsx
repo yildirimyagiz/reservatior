@@ -84,7 +84,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
     const loadCountries = async () => {
       try {
         const allCountries = await Country.getAllCountries();
-        setCountries(allCountries.slice(0, 50)); // Load first 50 countries
+        setCountries(allCountries); // Load all countries
       } catch (error) {
         console.error('Error loading countries:', error);
       }
