@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
+import { City } from "react-country-state-city";
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, Menu, X, 
   ArrowRight, ShieldCheck, Key, Compass, Star, ChevronDown, Monitor, Watch, Gem, CheckCircle2
@@ -61,6 +62,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const [searchLocation, setSearchLocation] = useState("");
   const [searchDate, setSearchDate] = useState("");
   const [searchGuests, setSearchGuests] = useState(1);
+  const [locationSuggestions, setLocationSuggestions] = useState<City[]>([]);
+  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
 
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { provider, apiKey } = useMapProvider();
@@ -71,6 +74,19 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Load cities for autocomplete
+  useEffect(() => {
+    const loadCities = async () => {
+      try {
+        const cities = await City.getCitiesOfCountry('TR');
+        setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
+      } catch (error) {
+        console.error('Error loading cities:', error);
+      }
+    };
+    loadCities();
   }, []);
 
   useEffect(() => {
@@ -170,12 +186,43 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
             </div>
 
             {/* Search Input Bar */}
-            <form onSubmit={handleSearch} className="bg-white dark:bg-[#111] p-3 rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)]">
-              <div className="flex-[1.5] px-6 py-3 w-full hover:bg-slate-50 dark:hover:bg-white/5 rounded-full transition-colors group cursor-text">
+            <form onSubmit={handleSearch} className="bg-white dark:bg-[#111] p-3 rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] relative">
+              <div className="flex-[1.5] px-6 py-3 w-full hover:bg-slate-50 dark:hover:bg-white/5 rounded-full transition-colors group cursor-text relative">
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.where', { defaultValue: 'Location' })}</label>
-                <input ref={locationInputRef} type="text" value={searchLocation} onChange={(e) => setSearchLocation(e.target.value)}
+                <input 
+                  ref={locationInputRef} 
+                  type="text" 
+                  value={searchLocation} 
+                  onChange={(e) => {
+                    setSearchLocation(e.target.value);
+                    setShowLocationSuggestions(e.target.value.length > 0);
+                  }}
+                  onFocus={() => setShowLocationSuggestions(searchLocation.length > 0)}
+                  onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
                   placeholder={t('home.search.where_hint', { defaultValue: 'Search destinations' }) as string}
-                  className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 placeholder:font-medium placeholder:text-slate-300" />
+                  className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 placeholder:font-medium placeholder:text-slate-300" 
+                />
+                {showLocationSuggestions && locationSuggestions.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 max-h-60 overflow-y-auto">
+                    {locationSuggestions
+                      .filter(city => city.name.toLowerCase().includes(searchLocation.toLowerCase()))
+                      .slice(0, 10)
+                      .map((city, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => {
+                            setSearchLocation(city.name);
+                            setShowLocationSuggestions(false);
+                          }}
+                          className="w-full px-6 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors flex items-center gap-3"
+                        >
+                          <MapPin className="w-4 h-4 text-slate-400" />
+                          <span className="text-sm font-medium text-slate-900 dark:text-white">{city.name}</span>
+                        </button>
+                      ))}
+                  </div>
+                )}
               </div>
               
               <div className="hidden md:block w-[1px] h-10 bg-slate-200 dark:bg-white/10" />
