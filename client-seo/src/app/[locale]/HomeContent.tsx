@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
-import { Country, City } from "react-country-state-city";
+import { GetCountries, GetAllCities } from "react-country-state-city";
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, Menu, X, 
   ArrowRight, ShieldCheck, Key, Compass, Star, ChevronDown, Monitor, Watch, Gem, CheckCircle2
@@ -63,8 +63,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const [searchDate, setSearchDate] = useState("");
   const [searchGuests, setSearchGuests] = useState(1);
   const [selectedCountry, setSelectedCountry] = useState<string>("TR");
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [locationSuggestions, setLocationSuggestions] = useState<City[]>([]);
+  const [countries, setCountries] = useState<any[]>([]);
+  const [locationSuggestions, setLocationSuggestions] = useState<any[]>([]);
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
 
@@ -83,7 +83,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   useEffect(() => {
     const loadCountries = async () => {
       try {
-        const allCountries = await Country.getAllCountries();
+        const allCountries = await GetCountries();
         setCountries(allCountries); // Load all countries
       } catch (error) {
         console.error('Error loading countries:', error);
@@ -96,7 +96,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   useEffect(() => {
     const loadCities = async () => {
       try {
-        const cities = await City.getCitiesOfCountry(selectedCountry);
+        const cities = await GetAllCities(selectedCountry);
         setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
       } catch (error) {
         console.error('Error loading cities:', error);
