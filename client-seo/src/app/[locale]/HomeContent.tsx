@@ -20,6 +20,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { AppHeader } from "@/components/layout/AppHeader";
 import { AIChatModal } from "@/components/home/AIChatModal";
 import { SupportChatModal } from "@/components/home/SupportChatModal";
+import { City } from "react-country-state-city/dist/esm/types";
 
 /* ───── Fallback Slides for Hero & Properties ───── */
 const FALLBACK_SLIDES = [

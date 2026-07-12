@@ -12,8 +12,8 @@
 | **Facebook**  | ✅          | ❌         | ❌          | ✅ (SocialPost) | **Aktif** (Meta API)    |
 | **LinkedIn**  | ✅          | ❌         | ❌          | ❌              | **Pasif** (token eksik) |
 | **Twitter/X** | ✅          | ❌         | ✅ (mevcut) | ❌ (enum yok)   | **Aktif**               |
-| **TikTok**    | ❌          | ❌         | ❌          | ❌              | **Geliştirilmedi**     |
-| **YouTube**   | ❌          | ❌         | ❌          | ❌              | **Geliştirilmedi**     |
+| **TikTok**    | ✅          | ❌         | ❌          | ✅ (SocialPost) | **Aktif** (TikTok API)  |
+| **YouTube**   | ✅          | ❌         | ❌          | ✅ (SocialPost) | **Aktif** (Google API)  |
 
 ---
 

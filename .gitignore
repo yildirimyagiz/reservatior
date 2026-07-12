@@ -9,6 +9,11 @@
 **/dist
 **/chrome
 **/data
+**/*_members*.csv
+**/*_emails*.json
+**/*whatsapp*.csv
+**/invitation_template*
+**/grup üyeleri
 **/.telegram_session
 
 # testing

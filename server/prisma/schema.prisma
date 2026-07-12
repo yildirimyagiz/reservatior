@@ -9606,6 +9606,8 @@ enum SocialPlatform {
   WHATSAPP
   TWITTER_X
   LINKEDIN
+  TIKTOK
+  YOUTUBE
 }
 
 enum SocialPostType {

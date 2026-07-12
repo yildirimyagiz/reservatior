@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Link, useLocation } from "@/lib/react-router-shim";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LayoutDashboard, ArrowRightLeft, ChevronRight, DollarSign, Receipt, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, ArrowRightLeft, ChevronRight, DollarSign, Receipt, ShieldCheck, Handshake } from "lucide-react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,11 @@ export function FinanceLayout({ children }: { children: React.ReactNode }) {
       title: "Revenue Operations",
       href: "/finance-os/revenue",
       icon: DollarSign
+    },
+    {
+      title: "Sales Deal Creator",
+      href: "/finance-os/sales-deal",
+      icon: Handshake
     }
   ];
 

@@ -99,7 +99,7 @@ async function createAuthSessionAndRedirect(
   return { token, userData };
 }
 
-const app = new Elysia()
+const appBase = new Elysia()
   // Public health endpoint
   .get("/health", () => ({
     status: "ok",
@@ -144,8 +144,9 @@ const app = new Elysia()
     headers: {
       'Cache-Control': 'public, max-age=31536000'
     }
-  }))
+  })) as unknown as Elysia;
 
+const app = appBase
   // GET /api/auth/google — redirect to Google OAuth
   .get("/api/auth/google", ({ query, redirect }) => {
     const origin = query.origin as string || CLIENT_URL;
@@ -698,6 +699,10 @@ startTwitterAutoPoster();
 // Initialize Facebook Auto-Poster
 import { startFacebookAutoPoster } from "./services/facebook-auto-poster";
 startFacebookAutoPoster();
+
+// Initialize Video Auto-Poster (TikTok & YouTube Shorts)
+import { startVideoAutoPoster } from "./services/video-auto-poster";
+startVideoAutoPoster();
 
 export type App = typeof app;
 export default app;

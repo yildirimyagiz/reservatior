@@ -71,6 +71,9 @@ export interface ContractData {
     commissionInstallments?: number;
     monthlyInstallment?: number;
     downPayment?: number;
+    landlordFeeLabel?: string;
+    tenantFeeLabel?: string;
+    loadShiftedToLandlord?: boolean;
   };
   legal?: {
     officialLanguage?: ContractLanguage;
@@ -207,7 +210,27 @@ export class ContractEngine {
     let commissionClause = '';
     if (type === ContractType.SALES_AGREEMENT && data.financials.commissionModel) {
       const clauseMap = CommissionModelClauses[data.financials.commissionModel];
-      const raw = clauseMap[language] ?? clauseMap[ContractLanguage.EN] ?? '';
+      let raw = clauseMap[language] ?? clauseMap[ContractLanguage.EN] ?? '';
+      
+      // Dynamic Fee Labels & Legal Load Shifting Waivers
+      if (data.financials.loadShiftedToLandlord) {
+        if (language === ContractLanguage.TR) {
+          raw += `\n[Yasal Feragatname] Alicidan/Kiracidan yerel mevzuat geregi hicbir ucret talep edilmemis olup, tum maliyetler Satici/Ev Sahibi tarafindan "${data.financials.landlordFeeLabel}" adi altinda karsilanmistir.`;
+        } else if (language === ContractLanguage.DE) {
+          raw += `\n[Haftungsausschluss] Gesetzlich bedingt wurden dem Kaeufer/Mieter keine Gebuehren in Rechnung gestellt. Alle Kosten werden vom Verkaeufer/Vermieter als "${data.financials.landlordFeeLabel}" getragen.`;
+        } else {
+          raw += `\n[Legal Waiver] By local law, no fees have been charged to the Buyer/Tenant. All costs are covered by the Seller/Landlord under the label "${data.financials.landlordFeeLabel}".`;
+        }
+      } else {
+        if (data.financials.tenantFeeLabel && data.financials.tenantFeeLabel !== "Sales Commission") {
+           if (language === ContractLanguage.TR) {
+             raw += `\nAlici/Kiraci tarafindan odenen tutar "${data.financials.tenantFeeLabel}" olarak faturalandirilmistir.`;
+           } else {
+             raw += `\nThe amount paid by the Buyer/Tenant is billed as "${data.financials.tenantFeeLabel}".`;
+           }
+        }
+      }
+
       commissionClause = raw
         .replace(/{COMMISSION_TOTAL}/g, String(data.financials.commissionTotal ?? 0))
         .replace(/{PLATFORM_FEE}/g, String(data.financials.platformInsuranceFee ?? 0))

@@ -37,6 +37,7 @@ export interface CommissionParty {
   amount:    number;
   carryFee:  number;  // Taşıma/servis bedeli bu taraftan alınan kısım
   total:     number;  // amount + carryFee
+  feeLabel?: string;  // Ücretin faturada/sözleşmede nasıl görüneceği
 }
 
 export interface CommissionBreakdown {
@@ -45,6 +46,7 @@ export interface CommissionBreakdown {
   fallbackReason?:         string;           // Neden fallback yapıldı?
   countryCode:             string;
   complianceRule:          { maxInstallments: number; tenantCanPay: boolean; landlordCanPay: boolean; };
+  loadShiftedToLandlord?:  boolean;          // Kiracı ücret ödeyemediği için ev sahibine kaydırıldı mı?
 
   grossCommission:         number;           // Acentenin baz komisyonu
   platformInsuranceFee:    number;           // %2 Reservatior payı (satış fiyatından)
@@ -87,7 +89,7 @@ export class SalesCommissionManager {
     // Ülke kurallarını çöz
     const maxInstallments = rule?.openBanking?.maxInstallments ?? 0;
     const landlordCanPay  = (rule?.landlordCommissionFixedPct ?? 3.5) > 0;
-    const tenantCanPay    = (rule?.tenantCommissionFixedPct ?? 3.5) > 0;
+    let   tenantCanPay    = (rule?.tenantCommissionFixedPct ?? 3.5) > 0;
 
     // Fallback: Taksit yoksa TRADITIONAL_1M'e yönlendir
     let appliedModel    = input.model;
@@ -104,22 +106,48 @@ export class SalesCommissionManager {
     // Platform ücreti → satış fiyatının %2'si
     const platformInsuranceFee = Math.round(input.salePrice * PLATFORM_INSURANCE_RATE);
 
-    // Her tarafın baz komisyonu
-    const landlordRatePct = rule?.landlordCommissionFixedPct ?? input.baseRateBps / 200;
-    const tenantRatePct   = rule?.tenantCommissionFixedPct   ?? input.baseRateBps / 200;
+    // Her tarafın baz komisyonu ve dinamik etiketler
+    let landlordRatePct = rule?.landlordCommissionFixedPct ?? input.baseRateBps / 200;
+    let tenantRatePct   = rule?.tenantCommissionFixedPct   ?? input.baseRateBps / 200;
+    
+    let loadShiftedToLandlord = false;
+    let landlordFeeLabel = "Sales Commission";
+    let tenantFeeLabel = "Sales Commission";
+
+    const allowsTenantServiceFee = rule?.allowsTenantServiceFee ?? true;
+
+    if (tenantRatePct === 0) {
+      if (allowsTenantServiceFee) {
+        // İsimlendirme Değişikliği (Platform & Service Fees)
+        tenantRatePct = rule?.maxTenantServiceFeePct ?? (input.baseRateBps / 200);
+        tenantFeeLabel = "Platform Transaction & Concierge Fee";
+        tenantCanPay = true; // Servis bedeli olarak ödeyebiliyor
+      } else {
+        // Yük Kaydırma (Load Shifting to Landlord)
+        loadShiftedToLandlord = true;
+        landlordFeeLabel = "Premium Liquidity & Guarantee Fee";
+      }
+    }
+
     const landlordBase    = Math.round(input.salePrice * landlordRatePct / 100);
     const tenantBase      = Math.round(input.salePrice * tenantRatePct   / 100);
     const grossCommission = landlordBase + tenantBase; // Toplam ajan komisyonu
 
     const complianceRule = { maxInstallments, tenantCanPay, landlordCanPay };
 
+    const p: ModelParams = { 
+      input, appliedModel, fallbackReason, grossCommission, 
+      landlordBase, tenantBase, platformInsuranceFee, complianceRule,
+      landlordFeeLabel, tenantFeeLabel, loadShiftedToLandlord
+    };
+
     switch (appliedModel) {
       case CommissionModel.INSTALLMENT_12:
-        return this._model_INSTALLMENT_12({ input, appliedModel, fallbackReason, grossCommission, landlordBase, tenantBase, platformInsuranceFee, complianceRule });
+        return this._model_INSTALLMENT_12(p);
       case CommissionModel.HYBRID_50_6:
-        return this._model_HYBRID_50_6({ input, appliedModel, fallbackReason, grossCommission, landlordBase, tenantBase, platformInsuranceFee, complianceRule });
+        return this._model_HYBRID_50_6(p);
       default:
-        return this._model_TRADITIONAL_1M({ input, appliedModel, fallbackReason, grossCommission, landlordBase, tenantBase, platformInsuranceFee, complianceRule });
+        return this._model_TRADITIONAL_1M(p);
     }
   }
 
@@ -140,10 +168,10 @@ export class SalesCommissionManager {
     const schedule  = this._schedule(12, installmentLandlord, installmentTenant, 0, 'Monthly Installment (4% carry each party)');
 
     return {
-      model: input.model, appliedModel, fallbackReason, countryCode: input.countryCode, complianceRule,
+      model: input.model, appliedModel, fallbackReason, countryCode: input.countryCode, complianceRule, loadShiftedToLandlord: p.loadShiftedToLandlord,
       grossCommission, platformInsuranceFee,
-      landlordSide: { amount: landlordBase, carryFee: landlordCarry, total: landlordTotal },
-      tenantSide:   { amount: tenantBase,   carryFee: tenantCarry,   total: tenantTotal   },
+      landlordSide: { amount: landlordBase, carryFee: landlordCarry, total: landlordTotal, feeLabel: p.landlordFeeLabel },
+      tenantSide:   { amount: tenantBase,   carryFee: tenantCarry,   total: tenantTotal, feeLabel: p.tenantFeeLabel },
       downPayment: 0, installmentAmount, numberOfInstallments: 12, totalCost, schedule,
     };
   }
@@ -174,10 +202,10 @@ export class SalesCommissionManager {
     ];
 
     return {
-      model: input.model, appliedModel, fallbackReason, countryCode: input.countryCode, complianceRule,
+      model: input.model, appliedModel, fallbackReason, countryCode: input.countryCode, complianceRule, loadShiftedToLandlord: p.loadShiftedToLandlord,
       grossCommission, platformInsuranceFee,
-      landlordSide: { amount: landlordBase, carryFee: Math.round(landlordDeferred - (landlordBase * 0.5)), total: landlordDown + landlordDeferred },
-      tenantSide:   { amount: tenantBase,   carryFee: Math.round(tenantDeferred   - (tenantBase   * 0.5)), total: tenantDown   + tenantDeferred   },
+      landlordSide: { amount: landlordBase, carryFee: Math.round(landlordDeferred - (landlordBase * 0.5)), total: landlordDown + landlordDeferred, feeLabel: p.landlordFeeLabel },
+      tenantSide:   { amount: tenantBase,   carryFee: Math.round(tenantDeferred   - (tenantBase   * 0.5)), total: tenantDown   + tenantDeferred, feeLabel: p.tenantFeeLabel },
       downPayment, installmentAmount, numberOfInstallments: 6, totalCost, rentEquivalentLabel, schedule,
     };
   }
@@ -191,10 +219,10 @@ export class SalesCommissionManager {
     const totalCost   = downPayment;
 
     return {
-      model: input.model, appliedModel, fallbackReason, countryCode: input.countryCode, complianceRule,
+      model: input.model, appliedModel, fallbackReason, countryCode: input.countryCode, complianceRule, loadShiftedToLandlord: p.loadShiftedToLandlord,
       grossCommission, platformInsuranceFee,
-      landlordSide: { amount: landlordBase, carryFee: 0, total: landlordBase },
-      tenantSide:   { amount: tenantBase,   carryFee: 0, total: tenantBase   },
+      landlordSide: { amount: landlordBase, carryFee: 0, total: landlordBase, feeLabel: p.landlordFeeLabel },
+      tenantSide:   { amount: tenantBase,   carryFee: 0, total: tenantBase, feeLabel: p.tenantFeeLabel },
       downPayment, totalCost,
       rentEquivalentLabel: input.tenantMonthlyRent ? '1 Month Rent + Platform Guarantee' : undefined,
       schedule: [
@@ -215,12 +243,15 @@ export class SalesCommissionManager {
 
 // Helper type
 interface ModelParams {
-  input: SalesCommissionInput;
-  appliedModel: CommissionModel;
-  fallbackReason?: string;
-  grossCommission: number;
-  landlordBase: number;
-  tenantBase: number;
+  input:                SalesCommissionInput;
+  appliedModel:         CommissionModel;
+  fallbackReason?:      string;
+  grossCommission:      number;
+  landlordBase:         number;
+  tenantBase:           number;
   platformInsuranceFee: number;
-  complianceRule: { maxInstallments: number; tenantCanPay: boolean; landlordCanPay: boolean; };
+  complianceRule:       { maxInstallments: number; tenantCanPay: boolean; landlordCanPay: boolean; };
+  landlordFeeLabel:     string;
+  tenantFeeLabel:       string;
+  loadShiftedToLandlord: boolean;
 }
