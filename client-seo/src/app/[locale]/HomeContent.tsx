@@ -14,7 +14,7 @@ import { useRegionsStore } from "@/lib/store/regions-store";
 import { GetCountries, GetAllCities } from "react-country-state-city";
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, Menu, X, 
-  ArrowRight, ShieldCheck, Key, Compass, Star, ChevronDown, Monitor, Watch, Gem, CheckCircle2
+  ArrowRight, ShieldCheck, Key, Compass, Star, ChevronDown, Monitor, Watch, Gem, CheckCircle2, Mouse
 } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
@@ -63,6 +63,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const [scrolled, setScrolled] = useState(false);
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [supportModalOpen, setSupportModalOpen] = useState(false);
+  const [heroRevealed, setHeroRevealed] = useState(false);
 
   // Search State
   const [searchMode, setSearchMode] = useState<"STAYS" | "EXPERIENCES" | "BUY">("STAYS");
@@ -82,9 +83,19 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+      // Also trigger reveal on scroll
+      if (window.scrollY > 10 && !heroRevealed) setHeroRevealed(true);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, [heroRevealed]);
+
+  // Cinematic reveal timer
+  useEffect(() => {
+    const timer = setTimeout(() => setHeroRevealed(true), 2500);
+    return () => clearTimeout(timer);
   }, []);
 
   // Load countries
@@ -181,174 +192,337 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
       <AppHeader />
 
-      {/* ══════ EDGE-TO-EDGE HERO ══════ */}
-      <section className="relative h-[100svh] w-full flex flex-col justify-end pb-12 md:pb-24 pt-32 overflow-hidden bg-black always-dark">
+      {/* ══════ CINEMATIC HERO ══════ */}
+      <section className="relative h-[100svh] w-full flex flex-col overflow-hidden bg-black always-dark">
+        {/* Video Background */}
         <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
-          <video
-            key={bgVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover transform scale-105"
-          >
-            <source src={bgVideo} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+          <AnimatePresence mode="wait">
+            <motion.video
+              key={bgVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1.05 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="w-full h-full object-cover"
+            >
+              <source src={bgVideo} type="video/mp4" />
+            </motion.video>
+          </AnimatePresence>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />
         </motion.div>
 
-        <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col items-center justify-center h-full gap-12 mt-16">
+        {/* ─── FAZ 1: LOGO + SCROLL ICON (Başlangıç) ─── */}
+        <AnimatePresence>
+          {!heroRevealed && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center"
+            >
+              {/* Logo */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="text-center"
+              >
+                <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter">
+                  Reservatior
+                </h1>
+                <p className="text-white/50 text-sm md:text-base font-medium tracking-[0.3em] uppercase mt-4">
+                  {t("home.hero.tagline", { defaultValue: "Global Luxury Real Estate OS" })}
+                </p>
+              </motion.div>
 
-          {/* FLOATING SEARCH PILL */}
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5 }} className="w-full max-w-4xl mx-auto">
-            {/* Search Tabs */}
-            <div className="flex justify-center items-center gap-6 mb-4">
-              {(["STAYS", "EXPERIENCES", "BUY"] as const).map(mode => (
-                <button key={mode} onClick={() => setSearchMode(mode)}
-                  className={`relative text-sm font-bold tracking-widest uppercase transition-all duration-300 ${searchMode === mode ? "text-white" : "text-white/50 hover:text-white/80"}`}>
-                  {t(`home.search.mode_${mode.toLowerCase()}`, { defaultValue: mode })}
-                  {searchMode === mode && <motion.div layoutId="searchTabIndicator" className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white rounded-full" />}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Input Bar */}
-            <form onSubmit={handleSearch} className="bg-white dark:bg-[#111] p-3 rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] relative">
-              {/* Country Selector */}
-              <div className="relative px-4 py-3 hover:bg-slate-50 dark:hover:bg-white/5 rounded-full transition-colors group">
-                <button
-                  type="button"
-                  onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                  className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white"
+              {/* Scroll Down Indicator */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer"
+                onClick={() => setHeroRevealed(true)}
+              >
+                <motion.div
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <span>{countries.find(c => c.isoCode === selectedCountry)?.name || 'Turkey'}</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                {showCountryDropdown && (
-                  <div className="absolute top-full left-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 w-64 max-h-80 overflow-hidden flex flex-col">
-                    <div className="p-3 border-b border-slate-100 dark:border-white/10">
-                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                        <input
-                          type="text"
-                          placeholder={t('home.search.country_search', { defaultValue: 'Search country...' }) as string}
-                          value={countrySearch}
-                          onChange={(e) => setCountrySearch(e.target.value)}
-                          className="w-full bg-slate-50 dark:bg-white/5 border-none rounded-xl py-2 pl-9 pr-4 text-sm font-medium focus:ring-2 focus:ring-black dark:focus:ring-white outline-none"
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      </div>
-                    </div>
-                    <div className="overflow-y-auto flex-1 py-2">
-                      {countries
-                        .filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase()))
-                        .map((country) => (
-                          <button
-                            key={country.isoCode}
-                            type="button"
-                            onClick={() => {
-                              setSelectedCountry(country.isoCode);
-                              setShowCountryDropdown(false);
-                              setCountrySearch("");
-                            }}
-                            className="w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-sm font-medium text-slate-900 dark:text-white flex items-center justify-between"
-                          >
-                            <span>{country.name}</span>
-                            {selectedCountry === country.isoCode && <CheckCircle2 className="w-4 h-4 text-black dark:text-white" />}
-                          </button>
-                        ))}
-                      {countries.filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase())).length === 0 && (
-                        <div className="px-4 py-3 text-sm text-slate-500 text-center">
-                          {t('home.search.no_country_found', { defaultValue: 'No country found' })}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
+                  <Mouse className="w-6 h-6 text-white/60" />
+                </motion.div>
+                <span className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
+                  {t("home.hero.scroll", { defaultValue: "Scroll to explore" })}
+                </span>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-              <div className="hidden md:block w-[1px] h-10 bg-slate-200 dark:bg-white/10" />
+        {/* ─── FAZ 2 & 3: SEARCH + PROJECT INFO (Reveal sonrası) ─── */}
+        <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end h-full pb-12 md:pb-20">
 
-              <div className="flex-[1.5] px-6 py-3 w-full hover:bg-slate-50 dark:hover:bg-white/5 rounded-full transition-colors group cursor-text relative">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.where', { defaultValue: 'Location' })}</label>
-                <input 
-                  ref={locationInputRef} 
-                  type="text" 
-                  value={searchLocation} 
-                  onChange={(e) => {
-                    setSearchLocation(e.target.value);
-                    setShowLocationSuggestions(e.target.value.length > 0);
-                  }}
-                  onFocus={() => setShowLocationSuggestions(searchLocation.length > 0)}
-                  onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
-                  placeholder={t('home.search.where_hint', { defaultValue: 'Search destinations' }) as string}
-                  className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 placeholder:font-medium placeholder:text-slate-300" 
-                />
-                {showLocationSuggestions && locationSuggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 max-h-60 overflow-y-auto">
-                    {locationSuggestions
-                      .filter(city => city.name.toLowerCase().includes(searchLocation.toLowerCase()))
-                      .slice(0, 10)
-                      .map((city, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => {
-                            setSearchLocation(city.name);
-                            setShowLocationSuggestions(false);
-                          }}
-                          className="w-full px-6 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors flex items-center gap-3"
-                        >
-                          <MapPin className="w-4 h-4 text-slate-400" />
-                          <span className="text-sm font-medium text-slate-900 dark:text-white">{city.name}</span>
-                        </button>
-                      ))}
-                  </div>
-                )}
-              </div>
-              
-              <div className="hidden md:block w-[1px] h-10 bg-slate-200 dark:bg-white/10" />
-
-              {searchMode !== "BUY" && (
-                <>
-                  <div className="flex-1 px-6 py-3 w-full hover:bg-slate-50 dark:hover:bg-white/5 rounded-full transition-colors group">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.dates', { defaultValue: 'Dates' })}</label>
-                    <input type="date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)}
-                      className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0" />
-                  </div>
-                  <div className="hidden md:block w-[1px] h-10 bg-slate-200 dark:bg-white/10" />
-                </>
-              )}
-
-              {searchMode !== "BUY" && (
-                <div className="flex-1 px-6 py-3 w-full hover:bg-slate-50 dark:hover:bg-white/5 rounded-full transition-colors group relative">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.who', { defaultValue: 'Guests' })}</label>
-                  <select value={searchGuests} onChange={(e) => setSearchGuests(Number(e.target.value))}
-                    className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 cursor-pointer appearance-none">
-                    <option value={1}>{t('home.search.guest_1', { defaultValue: '1 Guest' })}</option>
-                    <option value={2}>{t('home.search.guest_2', { defaultValue: '2 Guests' })}</option>
-                    <option value={3}>{t('home.search.guest_3', { defaultValue: '3 Guests' })}</option>
-                    <option value={4}>{t('home.search.guest_4', { defaultValue: '4+ Guests' })}</option>
-                  </select>
-                  <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+          {/* FLOATING SEARCH PILL (Faz 2) */}
+          <AnimatePresence>
+            {heroRevealed && (
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full max-w-4xl mx-auto mb-12"
+              >
+                {/* Search Tabs */}
+                <div className="flex justify-center items-center gap-6 mb-4">
+                  {(["STAYS", "EXPERIENCES", "BUY"] as const).map(mode => (
+                    <button key={mode} onClick={() => setSearchMode(mode)}
+                      className={`relative text-sm font-bold tracking-widest uppercase transition-all duration-300 ${searchMode === mode ? "text-white" : "text-white/50 hover:text-white/80"}`}>
+                      {t(`home.search.mode_${mode.toLowerCase()}`, { defaultValue: mode })}
+                      {searchMode === mode && <motion.div layoutId="searchTabIndicator" className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white rounded-full" />}
+                    </button>
+                  ))}
                 </div>
-              )}
 
-              <div className="flex gap-2 w-full md:w-auto">
-                <Button type="submit" className="w-full md:w-16 h-14 rounded-full bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 dark:text-black text-white shadow-xl transition-all flex items-center justify-center shrink-0">
-                  <Search className="w-6 h-6" />
-                </Button>
-                <Button 
-                  type="button" 
-                  onClick={() => setAiModalOpen(true)} 
-                  className="w-full md:w-16 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl transition-all flex items-center justify-center shrink-0"
-                  title="AI Search"
-                >
-                  <Sparkles className="w-6 h-6 animate-pulse" />
-                </Button>
-              </div>
-            </form>
-          </motion.div>
+                {/* Search Input Bar — Glassmorphism */}
+                <form onSubmit={handleSearch} className="bg-white/80 dark:bg-black/60 backdrop-blur-2xl p-3 rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] border border-white/30 dark:border-white/10 relative">
+                  {/* Country Selector */}
+                  <div className="relative px-4 py-3 hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group">
+                    <button
+                      type="button"
+                      onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                      className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white"
+                    >
+                      <span>{countries.find(c => c.isoCode === selectedCountry)?.name || 'Turkey'}</span>
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+                    {showCountryDropdown && (
+                      <div className="absolute top-full left-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 w-64 max-h-80 overflow-hidden flex flex-col">
+                        <div className="p-3 border-b border-slate-100 dark:border-white/10">
+                          <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                            <input
+                              type="text"
+                              placeholder={t('home.search.country_search', { defaultValue: 'Search country...' }) as string}
+                              value={countrySearch}
+                              onChange={(e) => setCountrySearch(e.target.value)}
+                              className="w-full bg-slate-50 dark:bg-white/5 border-none rounded-xl py-2 pl-9 pr-4 text-sm font-medium focus:ring-2 focus:ring-black dark:focus:ring-white outline-none"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          </div>
+                        </div>
+                        <div className="overflow-y-auto flex-1 py-2">
+                          {countries
+                            .filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase()))
+                            .map((country) => (
+                              <button
+                                key={country.isoCode}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedCountry(country.isoCode);
+                                  setShowCountryDropdown(false);
+                                  setCountrySearch("");
+                                }}
+                                className="w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-sm font-medium text-slate-900 dark:text-white flex items-center justify-between"
+                              >
+                                <span>{country.name}</span>
+                                {selectedCountry === country.isoCode && <CheckCircle2 className="w-4 h-4 text-black dark:text-white" />}
+                              </button>
+                            ))}
+                          {countries.filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase())).length === 0 && (
+                            <div className="px-4 py-3 text-sm text-slate-500 text-center">
+                              {t('home.search.no_country_found', { defaultValue: 'No country found' })}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="hidden md:block w-[1px] h-10 bg-slate-300/50 dark:bg-white/10" />
+
+                  <div className="flex-[1.5] px-6 py-3 w-full hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group cursor-text relative">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.where', { defaultValue: 'Location' })}</label>
+                    <input 
+                      ref={locationInputRef} 
+                      type="text" 
+                      value={searchLocation} 
+                      onChange={(e) => {
+                        setSearchLocation(e.target.value);
+                        setShowLocationSuggestions(e.target.value.length > 0);
+                      }}
+                      onFocus={() => setShowLocationSuggestions(searchLocation.length > 0)}
+                      onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
+                      placeholder={t('home.search.where_hint', { defaultValue: 'Search destinations' }) as string}
+                      className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 placeholder:font-medium placeholder:text-slate-400" 
+                    />
+                    {showLocationSuggestions && locationSuggestions.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 max-h-60 overflow-y-auto">
+                        {locationSuggestions
+                          .filter(city => city.name.toLowerCase().includes(searchLocation.toLowerCase()))
+                          .slice(0, 10)
+                          .map((city, index) => (
+                            <button
+                              key={index}
+                              type="button"
+                              onClick={() => {
+                                setSearchLocation(city.name);
+                                setShowLocationSuggestions(false);
+                              }}
+                              className="w-full px-6 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors flex items-center gap-3"
+                            >
+                              <MapPin className="w-4 h-4 text-slate-400" />
+                              <span className="text-sm font-medium text-slate-900 dark:text-white">{city.name}</span>
+                            </button>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="hidden md:block w-[1px] h-10 bg-slate-300/50 dark:bg-white/10" />
+
+                  {searchMode !== "BUY" && (
+                    <>
+                      <div className="flex-1 px-6 py-3 w-full hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.dates', { defaultValue: 'Dates' })}</label>
+                        <input type="date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)}
+                          className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0" />
+                      </div>
+                      <div className="hidden md:block w-[1px] h-10 bg-slate-300/50 dark:bg-white/10" />
+                    </>
+                  )}
+
+                  {searchMode !== "BUY" && (
+                    <div className="flex-1 px-6 py-3 w-full hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group relative">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.who', { defaultValue: 'Guests' })}</label>
+                      <select value={searchGuests} onChange={(e) => setSearchGuests(Number(e.target.value))}
+                        className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 cursor-pointer appearance-none">
+                        <option value={1}>{t('home.search.guest_1', { defaultValue: '1 Guest' })}</option>
+                        <option value={2}>{t('home.search.guest_2', { defaultValue: '2 Guests' })}</option>
+                        <option value={3}>{t('home.search.guest_3', { defaultValue: '3 Guests' })}</option>
+                        <option value={4}>{t('home.search.guest_4', { defaultValue: '4+ Guests' })}</option>
+                      </select>
+                      <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    </div>
+                  )}
+
+                  <div className="flex gap-2 w-full md:w-auto">
+                    <Button type="submit" className="w-full md:w-16 h-14 rounded-full bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 dark:text-black text-white shadow-xl transition-all flex items-center justify-center shrink-0">
+                      <Search className="w-6 h-6" />
+                    </Button>
+                    <Button 
+                      type="button" 
+                      onClick={() => setAiModalOpen(true)} 
+                      className="w-full md:w-16 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl transition-all flex items-center justify-center shrink-0"
+                      title="AI Search"
+                    >
+                      <Sparkles className="w-6 h-6 animate-pulse" />
+                    </Button>
+                  </div>
+                </form>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* PROJECT INFO + SLIDE CONTROLS (Faz 3) */}
+          <AnimatePresence>
+            {heroRevealed && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full"
+              >
+                <div className="flex items-end justify-between gap-6">
+                  {/* Left: Project Info */}
+                  <div className="flex-1 min-w-0">
+                    {/* Tag */}
+                    <motion.span
+                      key={`tag-${currentSlide}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="inline-block px-4 py-1.5 bg-white/15 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4"
+                    >
+                      {slide.tag}
+                    </motion.span>
+
+                    {/* Project Name */}
+                    <AnimatePresence mode="wait">
+                      <motion.h2
+                        key={`title-${currentSlide}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-4xl md:text-6xl font-black text-white tracking-tight leading-none mb-2"
+                      >
+                        {slide.title}
+                      </motion.h2>
+                    </AnimatePresence>
+
+                    {/* Location */}
+                    <motion.div
+                      key={`loc-${currentSlide}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="flex items-center gap-2 text-white/70 font-medium text-sm mb-4"
+                    >
+                      <MapPin className="w-4 h-4" />
+                      <span>{slide.location}</span>
+                    </motion.div>
+
+                    {/* Specs */}
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {[slide.beds, slide.baths, slide.sqm].map((spec, i) => (
+                        <span key={i} className="px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/10 text-white text-xs font-bold rounded-full">
+                          {spec}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Right: Price + Navigation */}
+                  <div className="hidden md:flex flex-col items-end gap-4">
+                    {/* Price */}
+                    <span className="text-2xl font-black text-white bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10">
+                      {slide.price}
+                    </span>
+
+                    {/* Navigation Arrows */}
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setCurrentSlide(c => (c - 1 + slides.length) % slides.length)}
+                        className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all"
+                      >
+                        <ChevronLeft className="w-5 h-5 text-white" />
+                      </button>
+                      <button
+                        onClick={() => setCurrentSlide(c => (c + 1) % slides.length)}
+                        className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all"
+                      >
+                        <ChevronRight className="w-5 h-5 text-white" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Slide Indicators (Dots) */}
+                <div className="flex items-center justify-center gap-2 mt-8">
+                  {slides.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentSlide(i)}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${
+                        i === currentSlide ? "w-8 bg-white" : "w-3 bg-white/30 hover:bg-white/50"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 

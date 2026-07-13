@@ -8,6 +8,7 @@ import { apiClient } from "@/lib/api/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "@/lib/react-router-shim";
 import { Award, Gift, Star, Users, Zap, CheckCircle2, ChevronRight, Sparkles, Trophy, Target, Heart } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 interface LoyaltyAccount {
@@ -239,7 +240,9 @@ export default function LoyaltyRewards() {
            <CardHeader className="border-b bg-slate-50/50 px-8 py-6">
               <div className="flex justify-between items-center">
                  <CardTitle className="text-xl font-black text-slate-800 tracking-tighter">{t("client.src.earnings_history")}</CardTitle>
-                 <Button variant="ghost" size="sm" className="font-black text-xs text-indigo-600">{t("client.src.view_all_activities")}<ChevronRight className="w-4 h-4 ml-1" /></Button>
+                 <Link to="/client/loyalty">
+                   <Button variant="ghost" size="sm" className="font-black text-xs text-indigo-600">{t("client.src.view_all_activities")}<ChevronRight className="w-4 h-4 ml-1" /></Button>
+                 </Link>
               </div>
            </CardHeader>
            <CardContent className="p-0">

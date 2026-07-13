@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, TrendingUp, Users, DollarSign, Calendar } from "lucide-react";
+import { Link } from "@/lib/react-router-shim";
 export default function Reports() {
   const {
     t
@@ -151,7 +152,9 @@ export default function Reports() {
                       <p className="text-sm text-muted-foreground">{cat.count}{t("client.src.reports")}</p>
                     </div>
                   </div>
-                  <Button size="sm" variant="outline">{t("client.src.view_all")}</Button>
+                  <Link to="/client/reports/analytics">
+                    <Button size="sm" variant="outline">{t("client.src.view_all")}</Button>
+                  </Link>
                 </div>)}
             </div>
           </CardContent>

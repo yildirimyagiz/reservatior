@@ -6,6 +6,7 @@ import { useState, FormEvent } from "react";
 import { PageShell } from "../layout/PageShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "@/lib/react-router-shim";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -250,7 +251,9 @@ export function FinancialRecords() {
                         <Badge className="bg-emerald-500/10 text-emerald-600 border-0 text-[9px] font-bold">{t("client.src.285_roi")}</Badge>
                     </div>
                 </div>
-                <Button variant="ghost" className="w-full mt-4 text-[10px] font-black tracking-widest text-slate-500">{t("client.src.view_all_assets")}</Button>
+                <Link to="/client/property">
+                  <Button variant="ghost" className="w-full mt-4 text-[10px] font-black tracking-widest text-slate-500">{t("client.src.view_all_assets")}</Button>
+                </Link>
             </div>
         </div>
       </div>

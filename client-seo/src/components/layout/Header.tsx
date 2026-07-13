@@ -129,7 +129,9 @@ export default function Header() {
                     </div>)}
                 </div>
                 <div className="p-4 border-t border-gray-200">
-                  <Button variant="ghost" size="sm" className="w-full">{t("client.src.view_all_notifications")}</Button>
+                  <Link to="/client/messages">
+                    <Button variant="ghost" size="sm" className="w-full">{t("client.src.view_all_notifications")}</Button>
+                  </Link>
                 </div>
               </div>}
           </div>
