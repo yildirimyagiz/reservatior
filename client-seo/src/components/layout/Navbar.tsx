@@ -83,7 +83,7 @@ export function Navbar() {
           <div className={`hidden md:flex items-center gap-6 overflow-hidden transition-all duration-500 ease-in-out
             ${isMinimized ? "w-0 opacity-0 pointer-events-none" : "w-auto opacity-100"}`}>
             <Link href={`/${currentLang.code}`} className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
-              Home
+              {t("mobile.nav.home")}
             </Link>
             <Link href={`/${currentLang.code}/features`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/features") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
               {t("nav.features")}
@@ -186,7 +186,7 @@ export function Navbar() {
     }} className="absolute top-20 inset-x-4 bg-card border border-border rounded-2xl p-6 flex flex-col gap-4 shadow-2xl md:hidden z-50">
           <Link href={`/${currentLang.code}`}>
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
-              Home
+              {t("mobile.nav.home")}
             </span>
           </Link>
           <Link href={`/${currentLang.code}/features`} suppressHydrationWarning>
@@ -194,9 +194,9 @@ export function Navbar() {
               {t("nav.features")}
             </span>
           </Link>
-          <Link href={`/${currentLang.code}/showcase`} suppressHydrationWarning>
+          <Link href={`/${currentLang.code}/property`} suppressHydrationWarning>
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
-              {t("nav.showcase")}
+              {t("nav.listings")}
             </span>
           </Link>
           <Link href={`/${currentLang.code}/pricing`} suppressHydrationWarning>
@@ -278,10 +278,16 @@ export function Navbar() {
 
           <div className="h-px bg-border my-2" />
 
-          <div className="grid grid-cols-4 gap-2">
-            {LANGUAGES.map(lang => <button key={lang.code} onClick={() => setLanguage(lang.code)} className={`p-2 rounded-lg text-center text-xl hover:bg-white/5 ${currentLang.code === lang.code ? "bg-white/10" : ""}`}>
+          <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide snap-x">
+            {LANGUAGES.map(lang => (
+              <button 
+                key={lang.code} 
+                onClick={() => setLanguage(lang.code)} 
+                className={`shrink-0 flex items-center justify-center w-12 h-12 rounded-full text-2xl transition-all snap-center ${currentLang.code === lang.code ? "bg-primary/20 border border-primary/50 shadow-sm" : "bg-white/5 hover:bg-white/10"}`}
+              >
                 {lang.flag}
-              </button>)}
+              </button>
+            ))}
           </div>
 
           {!isAuthenticated && (
