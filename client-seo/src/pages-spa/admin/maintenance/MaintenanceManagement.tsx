@@ -110,7 +110,7 @@ const MaintenanceManagement = () => {
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="title">Issue Title</Label>
+ <Label htmlFor="title">{t("admin_auto_issue_title", "Issue Title")}</Label>
  <Input 
  id="title" 
  className="bg-card border-border" 
@@ -120,7 +120,7 @@ const MaintenanceManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="description">Description</Label>
+ <Label htmlFor="description">{t("admin_auto_description", "Description")}</Label>
  <Input 
  id="description" 
  className="bg-card border-border" 
@@ -131,7 +131,7 @@ const MaintenanceManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="priority">Priority</Label>
+ <Label htmlFor="priority">{t("admin_auto_priority", "Priority")}</Label>
  <Input 
  id="priority" 
  className="bg-card border-border" 
@@ -141,7 +141,7 @@ const MaintenanceManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="category">Category</Label>
+ <Label htmlFor="category">{t("admin_auto_category", "Category")}</Label>
  <Input 
  id="category" 
  className="bg-card border-border" 
@@ -167,7 +167,7 @@ const MaintenanceManagement = () => {
  </DialogHeader>
  <form onSubmit={handleEditSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="edit-title">Issue Title</Label>
+ <Label htmlFor="edit-title">{t("admin_auto_issue_title", "Issue Title")}</Label>
  <Input 
  id="edit-title" 
  className="bg-card border-border" 
@@ -177,7 +177,7 @@ const MaintenanceManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-description">Description</Label>
+ <Label htmlFor="edit-description">{t("admin_auto_description", "Description")}</Label>
  <Input 
  id="edit-description" 
  className="bg-card border-border" 
@@ -188,7 +188,7 @@ const MaintenanceManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="edit-priority">Priority</Label>
+ <Label htmlFor="edit-priority">{t("admin_auto_priority", "Priority")}</Label>
  <Input 
  id="edit-priority" 
  className="bg-card border-border" 
@@ -198,7 +198,7 @@ const MaintenanceManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-category">Category</Label>
+ <Label htmlFor="edit-category">{t("admin_auto_category", "Category")}</Label>
  <Input 
  id="edit-category" 
  className="bg-card border-border" 

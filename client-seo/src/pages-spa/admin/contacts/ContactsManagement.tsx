@@ -128,7 +128,7 @@ const ContactsManagement = () => {
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="fullName">Full Name</Label>
+ <Label htmlFor="fullName">{t("admin_auto_full_name", "Full Name")}</Label>
  <Input 
  id="fullName" 
  className="bg-card border-border" 
@@ -138,7 +138,7 @@ const ContactsManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="email">Email</Label>
+ <Label htmlFor="email">{t("admin_auto_email", "Email")}</Label>
  <Input 
  id="email" 
  type="email"
@@ -149,7 +149,7 @@ const ContactsManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="phone">Phone</Label>
+ <Label htmlFor="phone">{t("admin_auto_phone", "Phone")}</Label>
  <Input 
  id="phone" 
  className="bg-card border-border" 
@@ -158,7 +158,7 @@ const ContactsManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="type">Contact Type</Label>
+ <Label htmlFor="type">{t("admin_auto_contact_type", "Contact Type")}</Label>
  <Input 
  id="type" 
  className="bg-card border-border" 
@@ -184,7 +184,7 @@ const ContactsManagement = () => {
  </DialogHeader>
  <form onSubmit={handleEditSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="edit-fullName">Full Name</Label>
+ <Label htmlFor="edit-fullName">{t("admin_auto_full_name", "Full Name")}</Label>
  <Input 
  id="edit-fullName" 
  className="bg-card border-border" 
@@ -194,7 +194,7 @@ const ContactsManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-email">Email</Label>
+ <Label htmlFor="edit-email">{t("admin_auto_email", "Email")}</Label>
  <Input 
  id="edit-email" 
  type="email"
@@ -205,7 +205,7 @@ const ContactsManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="edit-phone">Phone</Label>
+ <Label htmlFor="edit-phone">{t("admin_auto_phone", "Phone")}</Label>
  <Input 
  id="edit-phone" 
  className="bg-card border-border" 
@@ -214,7 +214,7 @@ const ContactsManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-type">Contact Type</Label>
+ <Label htmlFor="edit-type">{t("admin_auto_contact_type", "Contact Type")}</Label>
  <Input 
  id="edit-type" 
  className="bg-card border-border" 

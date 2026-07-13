@@ -306,20 +306,20 @@ export default function AdminProperties() {
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle className="text-foreground">Create New Property</DialogTitle>
- <DialogDescription className="text-muted-foreground">Enter the details for the new property.</DialogDescription>
+ <DialogTitle className="text-foreground">{t("admin_auto_create_new_property", "Create New Property")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_property", "Enter the details for the new property.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="title" className="text-right text-xs text-muted-foreground">Title</Label>
+ <Label htmlFor="title" className="text-right text-xs text-muted-foreground">{t("admin_auto_title", "Title")}</Label>
  <Input id="title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="Enter title" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs text-muted-foreground">Property Type</Label>
+ <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_type", "Property Type")}</Label>
  <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter property type" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="price" className="text-right text-xs text-muted-foreground">Price</Label>
+ <Label htmlFor="price" className="text-right text-xs text-muted-foreground">{t("admin_auto_price", "Price")}</Label>
  <Input id="price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder="Enter price" />
  </div>
  </div>
@@ -335,20 +335,20 @@ export default function AdminProperties() {
  <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle className="text-foreground">Edit Property</DialogTitle>
- <DialogDescription className="text-muted-foreground">Update the property details.</DialogDescription>
+ <DialogTitle className="text-foreground">{t("admin_auto_edit_property", "Edit Property")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_update_the_property_details", "Update the property details.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-title" className="text-right text-xs text-muted-foreground">Title</Label>
+ <Label htmlFor="edit-title" className="text-right text-xs text-muted-foreground">{t("admin_auto_title", "Title")}</Label>
  <Input id="edit-title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="Enter title" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-type" className="text-right text-xs text-muted-foreground">Property Type</Label>
+ <Label htmlFor="edit-type" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_type", "Property Type")}</Label>
  <Input id="edit-type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter property type" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-price" className="text-right text-xs text-muted-foreground">Price</Label>
+ <Label htmlFor="edit-price" className="text-right text-xs text-muted-foreground">{t("admin_auto_price", "Price")}</Label>
  <Input id="edit-price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder="Enter price" />
  </div>
  </div>

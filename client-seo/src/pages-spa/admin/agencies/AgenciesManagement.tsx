@@ -118,7 +118,7 @@ const AgenciesManagement = () => {
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="name">Agency Name</Label>
+ <Label htmlFor="name">{t("admin_auto_agency_name", "Agency Name")}</Label>
  <Input 
  id="name" 
  className="bg-card border-border" 
@@ -128,7 +128,7 @@ const AgenciesManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="email">Email</Label>
+ <Label htmlFor="email">{t("admin_auto_email", "Email")}</Label>
  <Input 
  id="email" 
  type="email"
@@ -138,7 +138,7 @@ const AgenciesManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="phoneNumber">Phone Number</Label>
+ <Label htmlFor="phoneNumber">{t("admin_auto_phone_number", "Phone Number")}</Label>
  <Input 
  id="phoneNumber" 
  className="bg-card border-border" 
@@ -148,7 +148,7 @@ const AgenciesManagement = () => {
  </div>
  
  <div className="space-y-2">
- <Label htmlFor="website">Website</Label>
+ <Label htmlFor="website">{t("admin_auto_website", "Website")}</Label>
  <Input 
  id="website" 
  className="bg-card border-border" 
@@ -157,7 +157,7 @@ const AgenciesManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>Status</Label>
+ <Label>{t("admin_auto_status", "Status")}</Label>
  <Select value={newAgency.status} onValueChange={v => setNewAgency({...newAgency, status: v})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue placeholder="Select status" />
@@ -188,19 +188,19 @@ const AgenciesManagement = () => {
  </DialogHeader>
  <form onSubmit={(e) => { e.preventDefault(); updateMutation.mutate(newAgency); }} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="edit-name">Agency Name</Label>
+ <Label htmlFor="edit-name">{t("admin_auto_agency_name", "Agency Name")}</Label>
  <Input id="edit-name" className="bg-card border-border" value={newAgency.name} onChange={e => setNewAgency({...newAgency, name: e.target.value})} required />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-email">Email</Label>
+ <Label htmlFor="edit-email">{t("admin_auto_email", "Email")}</Label>
  <Input id="edit-email" type="email" className="bg-card border-border" value={newAgency.email} onChange={e => setNewAgency({...newAgency, email: e.target.value})} />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-phoneNumber">Phone Number</Label>
+ <Label htmlFor="edit-phoneNumber">{t("admin_auto_phone_number", "Phone Number")}</Label>
  <Input id="edit-phoneNumber" className="bg-card border-border" value={newAgency.phoneNumber} onChange={e => setNewAgency({...newAgency, phoneNumber: e.target.value})} />
  </div>
  <div className="space-y-2">
- <Label>Status</Label>
+ <Label>{t("admin_auto_status", "Status")}</Label>
  <Select value={newAgency.status} onValueChange={v => setNewAgency({...newAgency, status: v})}>
  <SelectTrigger className="bg-card border-border"><SelectValue placeholder="Select status" /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">

@@ -67,22 +67,20 @@ const VendorsManagement = () => {
  
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>Add New Vendor</DialogTitle>
- <DialogDescription>
- Register a new vendor in the system mapped to the backend.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_add_new_vendor", "Add New Vendor")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_register_a_new_vendor_in_the_system_mapp", "Register a new vendor in the system mapped to the backend.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="legalName" className="text-right text-xs">Legal Name</Label>
+ <Label htmlFor="legalName" className="text-right text-xs">{t("admin_auto_legal_name", "Legal Name")}</Label>
  <Input id="legalName" className="col-span-3 h-10" value={newVendor.legalName} onChange={e => setNewVendor({...newVendor, legalName: e.target.value})} placeholder="Acme Services LLC" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="orgId" className="text-right text-xs">Org ID</Label>
+ <Label htmlFor="orgId" className="text-right text-xs">{t("admin_auto_org_id", "Org ID")}</Label>
  <Input id="orgId" className="col-span-3 h-10" value={newVendor.orgId} onChange={e => setNewVendor({...newVendor, orgId: e.target.value})} placeholder="org_1" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="serviceAreas" className="text-right text-xs">Service Areas</Label>
+ <Label htmlFor="serviceAreas" className="text-right text-xs">{t("admin_auto_service_areas", "Service Areas")}</Label>
  <Input id="serviceAreas" className="col-span-3 h-10" value={newVendor.serviceAreas} onChange={e => setNewVendor({...newVendor, serviceAreas: e.target.value})} placeholder="Plumbing, Electrical" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">

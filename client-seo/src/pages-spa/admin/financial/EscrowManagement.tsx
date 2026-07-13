@@ -467,11 +467,11 @@ export default function EscrowManagement() {
  }}>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Edit Escrow Status</DialogTitle>
+ <DialogTitle>{t("admin_auto_edit_escrow_status", "Edit Escrow Status")}</DialogTitle>
  </DialogHeader>
  <div className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label>Status</Label>
+ <Label>{t("admin_auto_status", "Status")}</Label>
  <Select value={editingAccount?.status ||"HOLDING"} onValueChange={v => setEditingAccount({ ...editingAccount, status: v })}>
  <SelectTrigger className="bg-card border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">

@@ -325,20 +325,20 @@ export default function MarketingAutomation() {
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Create New Campaign</DialogTitle>
- <DialogDescription className="text-muted-foreground">Enter the details for the new campaign.</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_campaign", "Create New Campaign")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_campaign", "Enter the details for the new campaign.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs text-muted-foreground">Campaign Name</Label>
+ <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_campaign_name", "Campaign Name")}</Label>
  <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Enter campaign name" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs text-muted-foreground">Type</Label>
+ <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
  <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter type" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs text-muted-foreground">Status</Label>
+ <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
  <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
  </div>
  </div>

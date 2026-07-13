@@ -123,30 +123,28 @@ export default function FraudDetection() {
  </div>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button className="bg-red-600 hover:bg-red-700 text-foreground">Simulate Alert</Button>
+ <Button className="bg-red-600 hover:bg-red-700 text-foreground">{t("admin_auto_simulate_alert", "Simulate Alert")}</Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[500px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Simulate Fraud Alert</DialogTitle>
- <DialogDescription className="text-muted-foreground">
- Manually trigger a fraud detection alert for testing or manual logging.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_simulate_fraud_alert", "Simulate Fraud Alert")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_manually_trigger_a_fraud_detection_alert", "Manually trigger a fraud detection alert for testing or manual logging.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Entity Type</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_entity_type", "Entity Type")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityType} onChange={e => setNewAlert({...newAlert, entityType: e.target.value})} placeholder="USER" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Entity ID</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_entity_id", "Entity ID")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityId} onChange={e => setNewAlert({...newAlert, entityId: e.target.value})} placeholder="USR-1234" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Risk Score</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_risk_score", "Risk Score")}</Label>
  <Input type="number" className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.riskScore} onChange={e => setNewAlert({...newAlert, riskScore: parseInt(e.target.value)})} placeholder="85" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Category</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_category", "Category")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.riskCategory} onChange={e => setNewAlert({...newAlert, riskCategory: e.target.value})} placeholder="HIGH" />
  </div>
  </div>

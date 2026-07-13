@@ -656,7 +656,7 @@ export default function DocumentManagement() {
  }}>
  <DialogContent className="max-w-2xl bg-card border-border text-card-foreground">
  <DialogHeader>
- <DialogTitle>AI Contract Wizard</DialogTitle>
+ <DialogTitle>{t("admin_auto_ai_contract_wizard", "AI Contract Wizard")}</DialogTitle>
  <DialogDescription className="text-muted-foreground">
  {contractWizardStep === 1 &&"Generate a localized real estate contract."}
  {contractWizardStep === 2 &&"Review and export your contract."}
@@ -674,7 +674,7 @@ export default function DocumentManagement() {
  <Input id="contract-country" defaultValue="TR" className="bg-background border-border text-foreground" />
  </div>
  <div className="space-y-2">
- <Label className="text-muted-foreground">Contract Type</Label>
+ <Label className="text-muted-foreground">{t("admin_auto_contract_type", "Contract Type")}</Label>
  <Select defaultValue="SALES">
  <SelectTrigger id="contract-type" className="bg-background border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-card border-border text-card-foreground">
@@ -740,7 +740,7 @@ export default function DocumentManagement() {
  <p className="text-sm text-muted-foreground text-center max-w-xs mb-6">
  Upload MP4 videos or high-res images to the secure media vault.
  </p>
- <Button variant="secondary">Browse Files</Button>
+ <Button variant="secondary">{t("admin_auto_browse_files", "Browse Files")}</Button>
  </div>
  </div>
  )}

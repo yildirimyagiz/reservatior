@@ -242,20 +242,20 @@ export default function CouponsManagement() {
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid gap-2">
- <Label htmlFor="edit-name">Name</Label>
+ <Label htmlFor="edit-name">{t("admin_auto_name", "Name")}</Label>
  <Input id="edit-name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
  </div>
  <div className="grid gap-2">
- <Label htmlFor="edit-code">Code</Label>
+ <Label htmlFor="edit-code">{t("admin_auto_code", "Code")}</Label>
  <Input id="edit-code" value={formData.code} onChange={e => setFormData({...formData, code: e.target.value})} />
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="grid gap-2">
- <Label htmlFor="edit-value">Value</Label>
+ <Label htmlFor="edit-value">{t("admin_auto_value", "Value")}</Label>
  <Input id="edit-value" type="number" value={formData.value} onChange={e => setFormData({...formData, value: parseFloat(e.target.value)})} />
  </div>
  <div className="grid gap-2">
- <Label htmlFor="edit-type">Type</Label>
+ <Label htmlFor="edit-type">{t("admin_auto_type", "Type")}</Label>
  <Select value={formData.type} onValueChange={v => setFormData({...formData, type: v})}>
  <SelectTrigger><SelectValue /></SelectTrigger>
  <SelectContent>

@@ -98,20 +98,20 @@ export default function ProjectDashboard() {
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Create New Project</DialogTitle>
- <DialogDescription className="text-muted-foreground">Enter the details for the new project.</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_project", "Create New Project")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_project", "Enter the details for the new project.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs text-muted-foreground">Project Name</Label>
+ <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_project_name", "Project Name")}</Label>
  <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Enter project name" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs text-muted-foreground">Status</Label>
+ <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
  <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="budget" className="text-right text-xs text-muted-foreground">Budget</Label>
+ <Label htmlFor="budget" className="text-right text-xs text-muted-foreground">{t("admin_auto_budget", "Budget")}</Label>
  <Input id="budget" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.budget} onChange={e => setFormData({ ...formData, budget: e.target.value })} placeholder="Enter budget" />
  </div>
  </div>

@@ -129,22 +129,20 @@ export default function MLTasks() {
  <div className="flex gap-2">
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button size="sm">Dispatch Task</Button>
+ <Button size="sm">{t("admin_auto_dispatch_task", "Dispatch Task")}</Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Dispatch AI Task</DialogTitle>
- <DialogDescription className="text-muted-foreground">
- Create a new async task in the background.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_dispatch_ai_task", "Dispatch AI Task")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_create_a_new_async_task_in_the_backgroun", "Create a new async task in the background.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Org ID</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_org_id", "Org ID")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newTask.orgId} onChange={e => setNewTask({...newTask, orgId: e.target.value})} placeholder="org_1" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Task Type</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_task_type", "Task Type")}</Label>
  <Select value={newTask.taskType} onValueChange={v => setNewTask({...newTask, taskType: v})}>
  <SelectTrigger className="col-span-3 h-10 bg-card border-border text-foreground"><SelectValue placeholder="Type" /></SelectTrigger>
  <SelectContent className="bg-card border-border text-foreground">

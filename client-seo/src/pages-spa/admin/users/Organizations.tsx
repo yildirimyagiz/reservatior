@@ -359,17 +359,17 @@ export default function Organizations() {
  <Edit className="w-6 h-6 text-slate-500" />
  Edit Organization
  </DialogTitle>
- <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">Update organization details and settings</DialogDescription>
+ <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin_auto_update_organization_details_and_settings", "Update organization details and settings")}</DialogDescription>
  </DialogHeader>
 
  <form onSubmit={(e) => { e.preventDefault(); updateMutation.mutate(editFormData); }} className="p-10 space-y-8">
  <div className="grid grid-cols-2 gap-8">
  <div className="col-span-2 space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">Organization Name</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_organization_name", "Organization Name")}</Label>
  <Input value={editFormData.name || ''} onChange={e => setEditFormData({...editFormData, name: e.target.value})} className="bg-card border-border rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-slate-500/20" />
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">Status</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_status", "Status")}</Label>
  <Select value={editFormData.status} onValueChange={v => setEditFormData({...editFormData, status: v})}>
  <SelectTrigger className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
  <SelectValue />
@@ -382,7 +382,7 @@ export default function Organizations() {
  </Select>
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">Plan</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_plan", "Plan")}</Label>
  <Select value={editFormData.plan} onValueChange={v => setEditFormData({...editFormData, plan: v})}>
  <SelectTrigger className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
  <SelectValue />
@@ -395,15 +395,15 @@ export default function Organizations() {
  </Select>
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">Max Users</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_max_users", "Max Users")}</Label>
  <Input type="number" value={editFormData.maxUsers || ''} onChange={e => setEditFormData({...editFormData, maxUsers: parseInt(e.target.value)})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">Max Properties</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_max_properties", "Max Properties")}</Label>
  <Input type="number" value={editFormData.maxProperties || ''} onChange={e => setEditFormData({...editFormData, maxProperties: parseInt(e.target.value)})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
  </div>
  <div className="col-span-2 space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">Billing Email</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_billing_email", "Billing Email")}</Label>
  <Input type="email" value={editFormData.billingEmail || ''} onChange={e => setEditFormData({...editFormData, billingEmail: e.target.value})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
  </div>
  </div>

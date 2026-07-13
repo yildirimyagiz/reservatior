@@ -139,30 +139,28 @@ export default function AIModels() {
  </Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button>Register Model</Button>
+ <Button>{t("admin_auto_register_model", "Register Model")}</Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[500px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Register New AI Model</DialogTitle>
- <DialogDescription className="text-muted-foreground">
- Register a new model endpoint and metadata.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_register_new_ai_model", "Register New AI Model")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_register_a_new_model_endpoint_and_metada", "Register a new model endpoint and metadata.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Model Name</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_model_name", "Model Name")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelName} onChange={e => setNewModel({...newModel, modelName: e.target.value})} placeholder="Property Valuator" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Version</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_version", "Version")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelVersion} onChange={e => setNewModel({...newModel, modelVersion: e.target.value})} placeholder="v1.0" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Type</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelType} onChange={e => setNewModel({...newModel, modelType: e.target.value})} placeholder="Regression" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">Provider</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_provider", "Provider")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.provider} onChange={e => setNewModel({...newModel, provider: e.target.value})} placeholder="OpenAI" />
  </div>
  </div>

@@ -112,7 +112,7 @@ const FacilitiesManagement = () => {
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="name">Facility Name</Label>
+ <Label htmlFor="name">{t("admin_auto_facility_name", "Facility Name")}</Label>
  <Input 
  id="name" 
  className="bg-card border-border" 
@@ -124,7 +124,7 @@ const FacilitiesManagement = () => {
  <div className="grid grid-cols-2 gap-4">
  {isFieldAllowed('Facility', 'feeAmount') && (
  <div className="space-y-2">
- <Label htmlFor="feeAmount">Fee Amount</Label>
+ <Label htmlFor="feeAmount">{t("admin_auto_fee_amount", "Fee Amount")}</Label>
  <Input 
  id="feeAmount" 
  type="number"
@@ -136,7 +136,7 @@ const FacilitiesManagement = () => {
  )}
  {isFieldAllowed('Facility', 'feeCurrency') && (
  <div className="space-y-2">
- <Label htmlFor="feeCurrency">Currency</Label>
+ <Label htmlFor="feeCurrency">{t("admin_auto_currency", "Currency")}</Label>
  <Input 
  id="feeCurrency" 
  className="bg-card border-border" 
@@ -162,7 +162,7 @@ const FacilitiesManagement = () => {
  </DialogHeader>
  <form onSubmit={handleEditSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="edit-name">Facility Name</Label>
+ <Label htmlFor="edit-name">{t("admin_auto_facility_name", "Facility Name")}</Label>
  <Input 
  id="edit-name" 
  className="bg-card border-border" 
@@ -174,7 +174,7 @@ const FacilitiesManagement = () => {
  <div className="grid grid-cols-2 gap-4">
  {isFieldAllowed('Facility', 'feeAmount') && (
  <div className="space-y-2">
- <Label htmlFor="edit-feeAmount">Fee Amount</Label>
+ <Label htmlFor="edit-feeAmount">{t("admin_auto_fee_amount", "Fee Amount")}</Label>
  <Input 
  id="edit-feeAmount" 
  type="number"
@@ -186,7 +186,7 @@ const FacilitiesManagement = () => {
  )}
  {isFieldAllowed('Facility', 'feeCurrency') && (
  <div className="space-y-2">
- <Label htmlFor="edit-feeCurrency">Currency</Label>
+ <Label htmlFor="edit-feeCurrency">{t("admin_auto_currency", "Currency")}</Label>
  <Input 
  id="edit-feeCurrency" 
  className="bg-card border-border" 

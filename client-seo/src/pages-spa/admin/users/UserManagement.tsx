@@ -405,26 +405,24 @@ const getRoleLevelColor = (level: number) => {
  
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>Create New User</DialogTitle>
- <DialogDescription>
- Fill in the user details. This maps directly to the backend User model.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_user", "Create New User")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_fill_in_the_user_details_this_maps_direc", "Fill in the user details. This maps directly to the backend User model.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="email" className="text-right text-xs">Email *</Label>
+ <Label htmlFor="email" className="text-right text-xs">{t("admin_auto_email", "Email *")}</Label>
  <Input id="email" type="email" className="col-span-3 h-10" value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} placeholder="user@example.com" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs">Name</Label>
+ <Label htmlFor="name" className="text-right text-xs">{t("admin_auto_name", "Name")}</Label>
  <Input id="name" className="col-span-3 h-10" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} placeholder="John Doe" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="phone" className="text-right text-xs">Phone</Label>
+ <Label htmlFor="phone" className="text-right text-xs">{t("admin_auto_phone", "Phone")}</Label>
  <Input id="phone" className="col-span-3 h-10" value={newUser.phone} onChange={e => setNewUser({...newUser, phone: e.target.value})} placeholder="+1 555-0123" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="locale" className="text-right text-xs">Locale</Label>
+ <Label htmlFor="locale" className="text-right text-xs">{t("admin_auto_locale", "Locale")}</Label>
  <Select value={newUser.locale} onValueChange={(v) => setNewUser({...newUser, locale: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Locale" /></SelectTrigger>
  <SelectContent>
@@ -436,7 +434,7 @@ const getRoleLevelColor = (level: number) => {
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="timezone" className="text-right text-xs">Timezone</Label>
+ <Label htmlFor="timezone" className="text-right text-xs">{t("admin_auto_timezone", "Timezone")}</Label>
  <Select value={newUser.timezone} onValueChange={(v) => setNewUser({...newUser, timezone: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Timezone" /></SelectTrigger>
  <SelectContent>
@@ -460,26 +458,24 @@ const getRoleLevelColor = (level: number) => {
  <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>Edit User</DialogTitle>
- <DialogDescription>
- Update the user details.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_edit_user", "Edit User")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_update_the_user_details", "Update the user details.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-email" className="text-right text-xs">Email *</Label>
+ <Label htmlFor="edit-email" className="text-right text-xs">{t("admin_auto_email", "Email *")}</Label>
  <Input id="edit-email" type="email" className="col-span-3 h-10" value={editFormData.email} onChange={e => setEditFormData({...editFormData, email: e.target.value})} placeholder="user@example.com" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-name" className="text-right text-xs">Name</Label>
+ <Label htmlFor="edit-name" className="text-right text-xs">{t("admin_auto_name", "Name")}</Label>
  <Input id="edit-name" className="col-span-3 h-10" value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} placeholder="John Doe" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-phone" className="text-right text-xs">Phone</Label>
+ <Label htmlFor="edit-phone" className="text-right text-xs">{t("admin_auto_phone", "Phone")}</Label>
  <Input id="edit-phone" className="col-span-3 h-10" value={editFormData.phone} onChange={e => setEditFormData({...editFormData, phone: e.target.value})} placeholder="+1 555-0123" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-locale" className="text-right text-xs">Locale</Label>
+ <Label htmlFor="edit-locale" className="text-right text-xs">{t("admin_auto_locale", "Locale")}</Label>
  <Select value={editFormData.locale} onValueChange={(v) => setEditFormData({...editFormData, locale: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Locale" /></SelectTrigger>
  <SelectContent>
@@ -491,7 +487,7 @@ const getRoleLevelColor = (level: number) => {
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-timezone" className="text-right text-xs">Timezone</Label>
+ <Label htmlFor="edit-timezone" className="text-right text-xs">{t("admin_auto_timezone", "Timezone")}</Label>
  <Select value={editFormData.timezone} onValueChange={(v) => setEditFormData({...editFormData, timezone: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Timezone" /></SelectTrigger>
  <SelectContent>

@@ -103,21 +103,19 @@ const AgentsManagement = () => {
  <DialogContent className="sm:max-w-[425px] bg-background text-foreground border-border">
  <DialogHeader>
  <DialogTitle>{t("admin_agents_add","Invite Agent")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">
- Enter the details of the agent you want to invite to the platform.
- </DialogDescription>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_of_the_agent_you_want", "Enter the details of the agent you want to invite to the platform.")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={e => { e.preventDefault(); createMutation.mutate(formData); }} className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-slate-300">Name</Label>
+ <Label htmlFor="name" className="text-right text-slate-300">{t("admin_auto_name", "Name")}</Label>
  <Input id="name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="email" className="text-right text-slate-300">Email</Label>
+ <Label htmlFor="email" className="text-right text-slate-300">{t("admin_auto_email", "Email")}</Label>
  <Input id="email" type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="license" className="text-right text-slate-300">License</Label>
+ <Label htmlFor="license" className="text-right text-slate-300">{t("admin_auto_license", "License")}</Label>
  <Input id="license" value={formData.licenseNumber} onChange={(e) => setFormData({...formData, licenseNumber: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <DialogFooter className="mt-4">
@@ -131,19 +129,19 @@ const AgentsManagement = () => {
  <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
  <DialogContent className="sm:max-w-[425px] bg-background text-foreground border-border">
  <DialogHeader>
- <DialogTitle>Edit Agent</DialogTitle>
+ <DialogTitle>{t("admin_auto_edit_agent", "Edit Agent")}</DialogTitle>
  </DialogHeader>
  <form onSubmit={e => { e.preventDefault(); updateMutation.mutate(formData); }} className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-name" className="text-right text-slate-300">Name</Label>
+ <Label htmlFor="edit-name" className="text-right text-slate-300">{t("admin_auto_name", "Name")}</Label>
  <Input id="edit-name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-email" className="text-right text-slate-300">Email</Label>
+ <Label htmlFor="edit-email" className="text-right text-slate-300">{t("admin_auto_email", "Email")}</Label>
  <Input id="edit-email" type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-license" className="text-right text-slate-300">License</Label>
+ <Label htmlFor="edit-license" className="text-right text-slate-300">{t("admin_auto_license", "License")}</Label>
  <Input id="edit-license" value={formData.licenseNumber} onChange={(e) => setFormData({...formData, licenseNumber: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <DialogFooter className="mt-4">

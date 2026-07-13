@@ -149,14 +149,12 @@ export default function PropertyInventoryManagement() {
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Create New Inventory</DialogTitle>
- <DialogDescription className="text-muted-foreground">
- Enter the details for the new inventory.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_inventory", "Create New Inventory")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_inventory", "Enter the details for the new inventory.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="propertyId" className="text-right text-xs text-muted-foreground">Property ID</Label>
+ <Label htmlFor="propertyId" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_id", "Property ID")}</Label>
  <Input
  id="propertyId"
  className="col-span-3 h-10 bg-card border-border text-foreground"
@@ -166,7 +164,7 @@ export default function PropertyInventoryManagement() {
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs text-muted-foreground">Type</Label>
+ <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
  <Input
  id="type"
  className="col-span-3 h-10 bg-card border-border text-foreground"
@@ -176,7 +174,7 @@ export default function PropertyInventoryManagement() {
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="quantity" className="text-right text-xs text-muted-foreground">Quantity</Label>
+ <Label htmlFor="quantity" className="text-right text-xs text-muted-foreground">{t("admin_auto_quantity", "Quantity")}</Label>
  <Input
  id="quantity"
  className="col-span-3 h-10 bg-card border-border text-foreground"

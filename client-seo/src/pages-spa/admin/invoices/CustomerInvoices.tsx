@@ -309,22 +309,20 @@ export default function CustomerInvoices() {
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-card-foreground">
  <DialogHeader>
- <DialogTitle>Create New Customer Invoice</DialogTitle>
- <DialogDescription className="text-muted-foreground">
- Enter the details for the new customer invoice.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_customer_invoice", "Create New Customer Invoice")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_customer_i", "Enter the details for the new customer invoice.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="customerId" className="text-right text-xs text-muted-foreground">Customer ID</Label>
+ <Label htmlFor="customerId" className="text-right text-xs text-muted-foreground">{t("admin_auto_customer_id", "Customer ID")}</Label>
  <Input id="customerId" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.customerId} onChange={e => setFormData({ ...formData, customerId: e.target.value })} placeholder="Enter customer id" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="amount" className="text-right text-xs text-muted-foreground">Amount</Label>
+ <Label htmlFor="amount" className="text-right text-xs text-muted-foreground">{t("admin_auto_amount", "Amount")}</Label>
  <Input id="amount" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.amount} onChange={e => setFormData({ ...formData, amount: e.target.value })} placeholder="Enter amount" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs text-muted-foreground">Status</Label>
+ <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
  <Input id="status" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
  </div>
  </div>

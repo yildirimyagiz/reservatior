@@ -96,14 +96,12 @@ export default function DynamicAdminPage() {
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Create New Dynamic Record</DialogTitle>
- <DialogDescription className="text-muted-foreground">
- Enter the details for the new dynamic record.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_dynamic_record", "Create New Dynamic Record")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_dynamic_re", "Enter the details for the new dynamic record.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs text-muted-foreground">Name</Label>
+ <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_name", "Name")}</Label>
  <Input
  id="name"
  className="col-span-3 h-10 bg-card border-border text-foreground"
@@ -113,7 +111,7 @@ export default function DynamicAdminPage() {
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs text-muted-foreground">Type</Label>
+ <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
  <Input
  id="type"
  className="col-span-3 h-10 bg-card border-border text-foreground"

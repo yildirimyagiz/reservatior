@@ -126,14 +126,12 @@ export default function Mortgages() {
  
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>Add New Mortgage</DialogTitle>
- <DialogDescription>
- Register a new mortgage for a property mapping to the backend.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_add_new_mortgage", "Add New Mortgage")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_register_a_new_mortgage_for_a_property_m", "Register a new mortgage for a property mapping to the backend.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="propertyId" className="text-right text-xs">Property</Label>
+ <Label htmlFor="propertyId" className="text-right text-xs">{t("admin_auto_property", "Property")}</Label>
  <Select value={newMortgage.propertyId} onValueChange={(v) => setNewMortgage({...newMortgage, propertyId: v})}>
  <SelectTrigger className="col-span-3 h-10">
  <SelectValue placeholder="Select Property" />
@@ -146,7 +144,7 @@ export default function Mortgages() {
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="lender" className="text-right text-xs">Lender Bank</Label>
+ <Label htmlFor="lender" className="text-right text-xs">{t("admin_auto_lender_bank", "Lender Bank")}</Label>
  <Input id="lender" className="col-span-3 h-10" value={newMortgage.lender} onChange={e => setNewMortgage({...newMortgage, lender: e.target.value})} placeholder="e.g. Chase Bank" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
@@ -158,11 +156,11 @@ export default function Mortgages() {
  <Input id="interestRate" type="number" step="0.1" className="col-span-3 h-10" value={newMortgage.interestRate} onChange={e => setNewMortgage({...newMortgage, interestRate: e.target.value})} placeholder="4.5" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="startDate" className="text-right text-xs">Start Date</Label>
+ <Label htmlFor="startDate" className="text-right text-xs">{t("admin_auto_start_date", "Start Date")}</Label>
  <Input id="startDate" type="date" className="col-span-3 h-10" value={newMortgage.startDate} onChange={e => setNewMortgage({...newMortgage, startDate: e.target.value})} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs">Status</Label>
+ <Label htmlFor="status" className="text-right text-xs">{t("admin_auto_status", "Status")}</Label>
  <Select value={newMortgage.status} onValueChange={(v) => setNewMortgage({...newMortgage, status: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Status" /></SelectTrigger>
  <SelectContent>

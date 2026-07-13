@@ -264,9 +264,7 @@ export default function SubscriptionManagement() {
  Custom negotiated rates, time-decay amortization schedules, and behavioral loyalty multipliers are encrypted. Core financial calculations are run internally on the server event stream to prevent competitive reverse-engineering.
  </p>
  </div>
- <Button variant="outline" className="border-orange-500/20 hover:border-orange-500/40 text-xs font-black text-orange-400 hover:text-orange-300 bg-orange-500/5 h-10 px-4 rounded-xl">
- Audit Contracts
- </Button>
+ <Button variant="outline" className="border-orange-500/20 hover:border-orange-500/40 text-xs font-black text-orange-400 hover:text-orange-300 bg-orange-500/5 h-10 px-4 rounded-xl">{t("admin_auto_audit_contracts", "Audit Contracts")}</Button>
  </div>
  </Card>
 

@@ -300,20 +300,20 @@ export default function MembershipManagement() {
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>Create New Membership</DialogTitle>
- <DialogDescription className="text-muted-foreground">Enter the details for the new membership.</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_membership", "Create New Membership")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_membership", "Enter the details for the new membership.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="userId" className="text-right text-xs text-muted-foreground">User ID</Label>
+ <Label htmlFor="userId" className="text-right text-xs text-muted-foreground">{t("admin_auto_user_id", "User ID")}</Label>
  <Input id="userId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.userId} onChange={e => setFormData({ ...formData, userId: e.target.value })} placeholder="Enter user id" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="planId" className="text-right text-xs text-muted-foreground">Plan ID</Label>
+ <Label htmlFor="planId" className="text-right text-xs text-muted-foreground">{t("admin_auto_plan_id", "Plan ID")}</Label>
  <Input id="planId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.planId} onChange={e => setFormData({ ...formData, planId: e.target.value })} placeholder="Enter plan id" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs text-muted-foreground">Status</Label>
+ <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
  <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
  </div>
  </div>

@@ -85,7 +85,7 @@ const TasksManagement = () => {
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="title">Task Title</Label>
+ <Label htmlFor="title">{t("admin_auto_task_title", "Task Title")}</Label>
  <Input 
  id="title" 
  className="bg-card border-border" 
@@ -95,7 +95,7 @@ const TasksManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="description">Description</Label>
+ <Label htmlFor="description">{t("admin_auto_description", "Description")}</Label>
  <Input 
  id="description" 
  className="bg-card border-border" 
@@ -105,7 +105,7 @@ const TasksManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="priority">Priority</Label>
+ <Label htmlFor="priority">{t("admin_auto_priority", "Priority")}</Label>
  <Input 
  id="priority" 
  className="bg-card border-border" 
@@ -115,7 +115,7 @@ const TasksManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="type">Task Type</Label>
+ <Label htmlFor="type">{t("admin_auto_task_type", "Task Type")}</Label>
  <Input 
  id="type" 
  className="bg-card border-border" 

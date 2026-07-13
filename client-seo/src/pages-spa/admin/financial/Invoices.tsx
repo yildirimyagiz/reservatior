@@ -251,30 +251,28 @@ export default function FinancialInvoices() {
  
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>Create New Invoice</DialogTitle>
- <DialogDescription>
- Fill in the invoice details mapped to the backend.
- </DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_invoice", "Create New Invoice")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_fill_in_the_invoice_details_mapped_to_th", "Fill in the invoice details mapped to the backend.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="customerName" className="text-right text-xs">Customer Name</Label>
+ <Label htmlFor="customerName" className="text-right text-xs">{t("admin_auto_customer_name", "Customer Name")}</Label>
  <Input id="customerName" className="col-span-3 h-10" value={newInvoice.customerName} onChange={e => setNewInvoice({...newInvoice, customerName: e.target.value})} placeholder="John Doe" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="customerEmail" className="text-right text-xs">Email</Label>
+ <Label htmlFor="customerEmail" className="text-right text-xs">{t("admin_auto_email", "Email")}</Label>
  <Input id="customerEmail" type="email" className="col-span-3 h-10" value={newInvoice.customerEmail} onChange={e => setNewInvoice({...newInvoice, customerEmail: e.target.value})} placeholder="john@example.com" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="customerId" className="text-right text-xs">Customer ID</Label>
+ <Label htmlFor="customerId" className="text-right text-xs">{t("admin_auto_customer_id", "Customer ID")}</Label>
  <Input id="customerId" className="col-span-3 h-10" value={newInvoice.customerId} onChange={e => setNewInvoice({...newInvoice, customerId: e.target.value})} placeholder="CUST-123" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="amount" className="text-right text-xs">Amount</Label>
+ <Label htmlFor="amount" className="text-right text-xs">{t("admin_auto_amount", "Amount")}</Label>
  <Input id="amount" type="number" className="col-span-3 h-10" value={newInvoice.amount} onChange={e => setNewInvoice({...newInvoice, amount: e.target.value})} placeholder="1000" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="currency" className="text-right text-xs">Currency</Label>
+ <Label htmlFor="currency" className="text-right text-xs">{t("admin_auto_currency", "Currency")}</Label>
  <Select value={newInvoice.currency} onValueChange={(v) => setNewInvoice({...newInvoice, currency: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Currency" /></SelectTrigger>
  <SelectContent>
@@ -286,11 +284,11 @@ export default function FinancialInvoices() {
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="dueDate" className="text-right text-xs">Due Date</Label>
+ <Label htmlFor="dueDate" className="text-right text-xs">{t("admin_auto_due_date", "Due Date")}</Label>
  <Input id="dueDate" type="date" className="col-span-3 h-10" value={newInvoice.dueDate} onChange={e => setNewInvoice({...newInvoice, dueDate: e.target.value})} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs">Status</Label>
+ <Label htmlFor="status" className="text-right text-xs">{t("admin_auto_status", "Status")}</Label>
  <Select value={newInvoice.status} onValueChange={(v) => setNewInvoice({...newInvoice, status: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Status" /></SelectTrigger>
  <SelectContent>

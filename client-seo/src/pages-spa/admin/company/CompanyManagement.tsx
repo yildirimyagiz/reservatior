@@ -422,18 +422,18 @@ export default function CompanyManagement() {
  
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>Create New Organization</DialogTitle>
+ <DialogTitle>{t("admin_auto_create_new_organization", "Create New Organization")}</DialogTitle>
  <DialogDescription>
  Register a new organization (company, agency, vendor) mapped to the backend.
  </DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs">Org Name</Label>
+ <Label htmlFor="name" className="text-right text-xs">{t("admin_auto_org_name", "Org Name")}</Label>
  <Input id="name" className="col-span-3 h-10" value={newOrg.name} onChange={e => setNewOrg({...newOrg, name: e.target.value})} placeholder="Acme Corporation" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs">Org Type</Label>
+ <Label htmlFor="type" className="text-right text-xs">{t("admin_auto_org_type", "Org Type")}</Label>
  <Select value={newOrg.type} onValueChange={(v) => setNewOrg({...newOrg, type: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Type" /></SelectTrigger>
  <SelectContent>
@@ -446,7 +446,7 @@ export default function CompanyManagement() {
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="region" className="text-right text-xs">Region</Label>
+ <Label htmlFor="region" className="text-right text-xs">{t("admin_auto_region", "Region")}</Label>
  <Select value={newOrg.region} onValueChange={(v) => setNewOrg({...newOrg, region: v})}>
  <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Region" /></SelectTrigger>
  <SelectContent>
@@ -598,17 +598,17 @@ export default function CompanyManagement() {
  <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
  <DialogContent className="max-w-md bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>Edit Document</DialogTitle>
- <DialogDescription>Update document details</DialogDescription>
+ <DialogTitle>{t("admin_auto_edit_document", "Edit Document")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_update_document_details", "Update document details")}</DialogDescription>
  </DialogHeader>
  {editingDoc && (
  <div className="py-4 space-y-4">
  <div className="space-y-2">
- <Label>Document Name</Label>
+ <Label>{t("admin_auto_document_name", "Document Name")}</Label>
  <Input value={editingDoc.name} onChange={e => setEditingDoc({...editingDoc, name: e.target.value})} />
  </div>
  <div className="space-y-2">
- <Label>Status</Label>
+ <Label>{t("admin_auto_status", "Status")}</Label>
  <Select value={editingDoc.status} onValueChange={v => setEditingDoc({...editingDoc, status: v as any})}>
  <SelectTrigger>
  <SelectValue />
@@ -622,7 +622,7 @@ export default function CompanyManagement() {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>Description</Label>
+ <Label>{t("admin_auto_description", "Description")}</Label>
  <Input value={editingDoc.description} onChange={e => setEditingDoc({...editingDoc, description: e.target.value})} />
  </div>
  </div>
