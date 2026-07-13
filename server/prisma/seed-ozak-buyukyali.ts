@@ -6,11 +6,11 @@ const PROJECT_ID = "tr-ozak-buyukyali";
 const PROP_ID = `tr_prop_${PROJECT_ID}`;
 
 const UNIT_TYPES = [
-  { name: "2+1 Standard", area: 110, beds: 2, baths: 1.5, level: 3, priceUSD: 310000, rentTRY: 45000 },
-  { name: "3+1 Family",   area: 150, beds: 3, baths: 2,   level: 5, priceUSD: 450000, rentTRY: 60000 },
-  { name: "4+1 Premium",  area: 190, beds: 4, baths: 2.5, level: 8, priceUSD: 600000, rentTRY: 75000 },
-  { name: "Loft Suite",   area: 180, beds: 3, baths: 2,   level: 11, priceUSD: 750000, rentTRY: 90000 },
-  { name: "5.5+1 Penthouse", area: 310, beds: 5, baths: 4, level: 14, priceUSD: 980000, rentTRY: 110000 },
+  { name: "2+1 Standard", area: 110, beds: 2, baths: 1.5, level: 3, priceUSD: 310000, rentTRY: 45000, floorPlanUrl: "/images/buyukyali/floorplans/buyukyali-2-1-792JP.webp" },
+  { name: "3+1 Family",   area: 150, beds: 3, baths: 2,   level: 5, priceUSD: 450000, rentTRY: 60000, floorPlanUrl: "/images/buyukyali/buyukyali_galeri-FG1IH.webp" },
+  { name: "4+1 Premium",  area: 190, beds: 4, baths: 2.5, level: 8, priceUSD: 600000, rentTRY: 75000, floorPlanUrl: "/images/buyukyali/floorplans/buyukyali-4-1-V7DDA.webp" },
+  { name: "Loft Suite",   area: 180, beds: 3, baths: 2,   level: 11, priceUSD: 750000, rentTRY: 90000, floorPlanUrl: "/images/buyukyali/buyukyali_galeri-FG1IH.webp" },
+  { name: "5.5+1 Penthouse", area: 310, beds: 5, baths: 4, level: 14, priceUSD: 980000, rentTRY: 110000, floorPlanUrl: "/images/buyukyali/buyukyali_galeri-FG1IH.webp" },
 ];
 
 const FACILITIES = [
@@ -29,8 +29,11 @@ const FACILITIES = [
 
 const PHOTOS = [
   "/videos/ozak-buyukyali-bg.mp4",
-  "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80",
-  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
+  "/images/buyukyali/buyukyali_galeri-FG1IH.webp",
+  "/images/buyukyali/buyukyali_galeri-12EBC.webp",
+  "/images/buyukyali/buyukyali_galeri-1OLU9.webp",
+  "/images/buyukyali/buyukyali_galeri-80347.webp",
+  "/images/buyukyali/buyukyali_galeri-JCKK8.webp",
 ];
 
 // Zeytinburnu, Kennedy Avenue coordinates
@@ -164,7 +167,7 @@ async function main() {
         name: u.name,
         description: `${u.area} m² | ${u.beds} Yatak | ${u.baths} Banyo`,
         floorLevel: u.level,
-        imageUrl: PHOTOS[1],
+        imageUrl: u.floorPlanUrl,
       },
     });
 
