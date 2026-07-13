@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 export default async function Home() {
   // Fetch properties on the server for initial render (SEO)
