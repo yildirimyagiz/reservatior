@@ -152,6 +152,7 @@ label.italic, span.italic, p.italic {
    ========================================================================== */
 html:not(.dark) {
   /* Main Dark Backgrounds -> Light Background */
+  .bg-\[\#050505\],
   .bg-\[\#14151a\],
   .bg-\[\#0a0b0d\],
   .bg-\[\#0f1013\],
@@ -218,10 +219,25 @@ html:not(.dark) {
     color: hsl(var(--foreground)) !important;
   }
 
+  .text-white\/80,
+  .text-white\/90 {
+    color: hsl(var(--foreground) / 0.8) !important;
+  }
+
+  .text-white\/50,
+  .text-white\/60,
+  .text-white\/70,
   .text-slate-300,
   .text-slate-400,
   .text-slate-500 {
     color: hsl(var(--muted-foreground)) !important;
+  }
+
+  .text-white\/10,
+  .text-white\/20,
+  .text-white\/30,
+  .text-white\/40 {
+    color: hsl(var(--muted-foreground) / 0.5) !important;
   }
 
   /* Preserve white labels inside solid colored elements (buttons, badges) */
@@ -245,4 +261,23 @@ html:not(.dark) {
   .shadow-lg.shadow-primary\/20 * {
     color: #ffffff !important;
   }
+
+  /* ESCAPE HATCH: Force Dark sections (like Hero videos or Image overlays) to remain white */
+  .always-dark .text-white { color: #ffffff !important; }
+  .always-dark .text-white\/90 { color: rgba(255, 255, 255, 0.9) !important; }
+  .always-dark .text-white\/80 { color: rgba(255, 255, 255, 0.8) !important; }
+  .always-dark .text-white\/70 { color: rgba(255, 255, 255, 0.7) !important; }
+  .always-dark .text-white\/60 { color: rgba(255, 255, 255, 0.6) !important; }
+  .always-dark .text-white\/50 { color: rgba(255, 255, 255, 0.5) !important; }
+  .always-dark .text-white\/40 { color: rgba(255, 255, 255, 0.4) !important; }
+  .always-dark .text-white\/30 { color: rgba(255, 255, 255, 0.3) !important; }
+  .always-dark .text-white\/20 { color: rgba(255, 255, 255, 0.2) !important; }
+  .always-dark .text-white\/10 { color: rgba(255, 255, 255, 0.1) !important; }
+  
+  .always-dark .bg-black { background-color: #000000 !important; }
+  .always-dark .bg-black\/80 { background-color: rgba(0, 0, 0, 0.8) !important; }
+  .always-dark .bg-black\/60 { background-color: rgba(0, 0, 0, 0.6) !important; }
+  .always-dark .bg-black\/40 { background-color: rgba(0, 0, 0, 0.4) !important; }
+  .always-dark .bg-black\/20 { background-color: rgba(0, 0, 0, 0.2) !important; }
+  .always-dark .bg-black\/10 { background-color: rgba(0, 0, 0, 0.1) !important; }
 }

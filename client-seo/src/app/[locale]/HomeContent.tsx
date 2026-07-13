@@ -182,7 +182,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
       <AppHeader />
 
       {/* ══════ EDGE-TO-EDGE HERO ══════ */}
-      <section className="relative h-[100svh] w-full flex flex-col justify-end pb-12 md:pb-24 pt-32 overflow-hidden bg-black">
+      <section className="relative h-[100svh] w-full flex flex-col justify-end pb-12 md:pb-24 pt-32 overflow-hidden bg-black always-dark">
         <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
           <video
             key={bgVideo}
@@ -396,7 +396,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
       </section>
 
       {/* ══════ ECOSYSTEM (HOSPITALITY OS) ══════ */}
-      <section className="py-32 bg-[#050505] text-white overflow-hidden relative">
+      <section className="py-32 bg-[#050505] text-white overflow-hidden relative always-dark">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -520,7 +520,7 @@ function BentoCard({ prop, className, large = false }: { prop: any; className?: 
   const { t } = useTranslation();
   if (!prop) return null;
   return (
-    <Link href={`/properties/${prop.id || "#"}`} className={`group relative rounded-3xl overflow-hidden block ${className}`}>
+    <Link href={`/properties/${prop.id || "#"}`} className={`group relative rounded-3xl overflow-hidden block always-dark ${className}`}>
       <Image src={prop.image} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 transition-opacity duration-500 group-hover:opacity-80" />
       
