@@ -22,6 +22,12 @@ import { AIChatModal } from "@/components/home/AIChatModal";
 import { SupportChatModal } from "@/components/home/SupportChatModal";
 import { City } from "react-country-state-city/dist/esm/types";
 
+// Supported countries based on Prisma configurations in server/config
+const SUPPORTED_COUNTRIES = [
+  "AE", "AR", "AU", "BR", "CA", "CN", "DE", "ES", "FR", "GB", "IN", 
+  "IT", "JP", "KR", "MX", "MY", "NL", "NZ", "SA", "SG", "TH", "TR", "US"
+];
+
 /* ───── Fallback Slides for Hero & Properties ───── */
 const FALLBACK_SLIDES = [
   { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: "50% Down Payment", beds: "1+1 to 3+1", baths: "1 Block", sqm: "6,500 m²", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: "NEW LAUNCH" },
@@ -68,6 +74,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const [locationSuggestions, setLocationSuggestions] = useState<any[]>([]);
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+  const [countrySearch, setCountrySearch] = useState("");
 
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { provider, apiKey } = useMapProvider();
@@ -85,7 +92,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
     const loadCountries = async () => {
       try {
         const allCountries = await GetCountries();
-        setCountries(allCountries); // Load all countries
+        // Filter out only the countries we have Prisma configurations for
+        const supported = allCountries.filter((c: any) => SUPPORTED_COUNTRIES.includes(c.isoCode));
+        setCountries(supported);
       } catch (error) {
         console.error('Error loading countries:', error);
       }
@@ -216,20 +225,44 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
                   <ChevronDown className="w-4 h-4" />
                 </button>
                 {showCountryDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 max-h-60 overflow-y-auto">
-                    {countries.map((country) => (
-                      <button
-                        key={country.isoCode}
-                        type="button"
-                        onClick={() => {
-                          setSelectedCountry(country.isoCode);
-                          setShowCountryDropdown(false);
-                        }}
-                        className="w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-sm font-medium text-slate-900 dark:text-white"
-                      >
-                        {country.name}
-                      </button>
-                    ))}
+                  <div className="absolute top-full left-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 w-64 max-h-80 overflow-hidden flex flex-col">
+                    <div className="p-3 border-b border-slate-100 dark:border-white/10">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                        <input
+                          type="text"
+                          placeholder={t('home.search.country_search', { defaultValue: 'Search country...' }) as string}
+                          value={countrySearch}
+                          onChange={(e) => setCountrySearch(e.target.value)}
+                          className="w-full bg-slate-50 dark:bg-white/5 border-none rounded-xl py-2 pl-9 pr-4 text-sm font-medium focus:ring-2 focus:ring-black dark:focus:ring-white outline-none"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
+                    </div>
+                    <div className="overflow-y-auto flex-1 py-2">
+                      {countries
+                        .filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase()))
+                        .map((country) => (
+                          <button
+                            key={country.isoCode}
+                            type="button"
+                            onClick={() => {
+                              setSelectedCountry(country.isoCode);
+                              setShowCountryDropdown(false);
+                              setCountrySearch("");
+                            }}
+                            className="w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-sm font-medium text-slate-900 dark:text-white flex items-center justify-between"
+                          >
+                            <span>{country.name}</span>
+                            {selectedCountry === country.isoCode && <CheckCircle2 className="w-4 h-4 text-black dark:text-white" />}
+                          </button>
+                        ))}
+                      {countries.filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase())).length === 0 && (
+                        <div className="px-4 py-3 text-sm text-slate-500 text-center">
+                          {t('home.search.no_country_found', { defaultValue: 'No country found' })}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
