@@ -598,8 +598,10 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 ))}
               </div>
 
-              <Button className="mt-12 rounded-full h-14 px-8 bg-white text-black hover:bg-white/90 font-bold text-base transition-all hover:scale-105">
-                {t("home.ecosystem.cta", { defaultValue: "Explore The Platform" })}
+              <Button className="mt-12 rounded-full h-14 px-8 bg-white text-black hover:bg-white/90 font-bold text-base transition-all hover:scale-105" asChild>
+                <Link href="/admin/dashboard">
+                  {t("home.ecosystem.cta", { defaultValue: "Explore The Platform" })}
+                </Link>
               </Button>
             </motion.div>
 
