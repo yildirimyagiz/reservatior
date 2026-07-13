@@ -5,7 +5,7 @@ import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useNavigate } from "@/lib/react-router-shim";
+import { Link, useNavigate, useParams } from "@/lib/react-router-shim";
 import { motion } from "framer-motion";
 import { Mail, Eye, EyeOff, AlertCircle, Facebook, Twitter, Linkedin } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
@@ -32,6 +32,9 @@ export default function Login() {
   const { login, loading, error } = useAuth();
   const navigate = useNavigate();
 
+  const params = useParams();
+  const locale = params?.locale || "en";
+
   const isFormValid = useMemo(() => {
     return email.trim() !== "" && password.trim() !== "";
   }, [email, password]);
@@ -48,11 +51,21 @@ export default function Login() {
       }
       const { useUserStore } = await import("@/lib/store/user-store");
       const user = useUserStore.getState().user;
-      const adminRoles = ['OWNER', 'ORG_ADMIN', 'ADMIN', 'SUPER_ADMIN', 'AGENCY_ADMIN', 'VENDOR_MANAGER', 'ACCOUNTANT'];
+      
+      // Strict alignment with MemberRoleKey from Prisma
+      const adminRoles = [
+        'OWNER', 
+        'ORG_ADMIN', 
+        'AGENCY_ADMIN', 
+        'VENDOR_MANAGER', 
+        'ACCOUNTANT', 
+        'MAINTENANCE'
+      ];
+      
       if (user && adminRoles.includes(user.role)) {
-        navigate("/admin/dashboard");
+        window.location.href = `/${locale}/admin/dashboard`;
       } else {
-        navigate("/dashboard");
+        window.location.href = `/${locale}/dashboard`;
       }
     } catch (err) {
       // Error is handled by the auth hook

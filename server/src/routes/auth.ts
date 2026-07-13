@@ -148,7 +148,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
         }
       });
 
-      let role = "USER";
+      let role = "TENANT_GUEST";
       let permissions: string[] = ["PROPERTIES_VIEW_ALL"]; // Default base permission
       let orgId = null;
 
@@ -274,7 +274,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       console.log(`✅ Login Success: [${email}]`);
 
       // --- DYNAMIC RBAC LOGIC ---
-      let role = "USER";
+      let role = "TENANT_GUEST";
       let permissions: string[] = ["PROPERTIES_VIEW_ALL"];
       let orgId = user.preferences?.orgId || (user.agencies[0]?.organizationId) || null;
 
@@ -802,7 +802,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
 
       console.log("[LinkedIn Auth] Person URN: urn:li:person:" + linkedinUser.sub);
 
-      let role = "USER";
+      let role = "TENANT_GUEST";
       let permissions = ["PROPERTIES_VIEW_ALL"];
       let orgId: string | null = null;
 
@@ -913,7 +913,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       }
 
       // RBAC
-      let role = "USER";
+      let role = "TENANT_GUEST";
       let permissions: string[] = ["PROPERTIES_VIEW_ALL"];
       let orgId = null;
 
@@ -1049,7 +1049,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
       }
 
       // RBAC
-      let role = "USER";
+      let role = "TENANT_GUEST";
       let permissions: string[] = ["PROPERTIES_VIEW_ALL"];
       let orgId = null;
 

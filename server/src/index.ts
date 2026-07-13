@@ -39,7 +39,7 @@ async function createAuthSessionAndRedirect(
   user: { id: string; email: string; name: string | null; imageUrl?: string | null },
   provider: string
 ) {
-  let role = "USER";
+  let role = "TENANT_GUEST";
   let permissions = ["PROPERTIES_VIEW_ALL"];
   let orgId: string | null = null;
 
