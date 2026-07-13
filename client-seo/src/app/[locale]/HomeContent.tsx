@@ -355,7 +355,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="text-center"
               >
-                <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter">
+                <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-slate-400 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
                   Reservatior
                 </h1>
                 <p className="text-white/50 text-sm md:text-base font-medium tracking-[0.3em] uppercase mt-4">
@@ -409,7 +409,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 </div>
 
                 {/* Search Input Bar — Glassmorphism */}
-                <form onSubmit={handleSearch} className="bg-white/80 dark:bg-black/60 backdrop-blur-2xl p-3 rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] border border-white/30 dark:border-white/10 relative">
+                <form onSubmit={handleSearch} className="bg-white/90 dark:bg-black/40 backdrop-blur-3xl p-3 rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.4)] border border-white/50 dark:border-white/20 relative">
                   {/* Country Selector */}
                   <div className="relative px-4 py-3 hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group">
                     <button
@@ -531,16 +531,16 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   )}
 
                   <div className="flex gap-2 w-full md:w-auto">
-                    <Button type="submit" className="w-full md:w-16 h-14 rounded-full bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 dark:text-black text-white shadow-xl transition-all flex items-center justify-center shrink-0">
+                    <Button type="submit" className="w-full md:w-16 h-14 rounded-full bg-gradient-to-br from-slate-900 to-black hover:from-slate-800 hover:to-slate-900 dark:from-slate-100 dark:to-white dark:hover:from-slate-200 dark:hover:to-slate-100 dark:text-black text-white shadow-[0_0_20px_rgba(0,0,0,0.4)] border border-slate-700/50 dark:border-white/10 transition-all flex items-center justify-center shrink-0">
                       <Search className="w-6 h-6" />
                     </Button>
                     <Button 
                       type="button" 
                       onClick={() => setAiModalOpen(true)} 
-                      className="w-full md:w-16 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-xl transition-all flex items-center justify-center shrink-0"
+                      className="w-full md:w-16 h-14 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 hover:from-blue-400 hover:via-indigo-400 hover:to-purple-500 text-white shadow-[0_0_30px_rgba(99,102,241,0.6)] border border-white/20 transition-all flex items-center justify-center shrink-0 group"
                       title="AI Search"
                     >
-                      <Sparkles className="w-6 h-6 animate-pulse" />
+                      <Sparkles className="w-6 h-6 animate-pulse group-hover:scale-110 transition-transform" />
                     </Button>
                   </div>
                 </form>
@@ -565,7 +565,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       key={`tag-${currentSlide}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="inline-block px-4 py-1.5 bg-white/15 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4"
+                      className="inline-block px-4 py-1.5 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border border-white/30 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
                     >
                       {slide.tag}
                     </motion.span>
@@ -578,7 +578,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.5 }}
-                        className="text-4xl md:text-6xl font-black text-white tracking-tight leading-none mb-2"
+                        className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300 tracking-tight leading-none mb-2 drop-shadow-lg"
                       >
                         {slide.title}
                       </motion.h2>
@@ -609,7 +609,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {/* Right: Price + Navigation */}
                   <div className="hidden md:flex flex-col items-end gap-4">
                     {/* Price */}
-                    <span className="text-2xl font-black text-white bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10">
+                    <span className="text-2xl font-black text-white bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl px-6 py-3 rounded-3xl border border-white/30 shadow-[0_8px_30px_rgb(0,0,0,0.3)]">
                       {slide.price}
                     </span>
 
@@ -808,7 +808,7 @@ function BentoCard({ prop, className, large = false }: { prop: any; className?: 
   const { t } = useTranslation();
   if (!prop) return null;
   return (
-    <Link href={`/properties/${prop.id || "#"}`} className={`group relative rounded-3xl overflow-hidden block always-dark ${className}`}>
+    <Link href={`/properties/${prop.id || "#"}`} className={`group relative rounded-3xl overflow-hidden block always-dark h-[350px] md:h-full w-full ${className}`}>
       <Image src={prop.image} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 transition-opacity duration-500 group-hover:opacity-80" />
       

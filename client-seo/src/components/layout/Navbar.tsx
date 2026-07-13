@@ -62,7 +62,7 @@ export function Navbar() {
         initial={{ y: -100, opacity: 0 }} 
         animate={{ y: 0, opacity: 1 }} 
         className={cn(
-          "bg-background/80 backdrop-blur-md border border-border shadow-lg transition-all duration-500 ease-in-out pointer-events-auto flex items-center",
+          "bg-blue-50/80 dark:bg-slate-900/80 backdrop-blur-xl border border-blue-200/60 dark:border-blue-800/60 shadow-[0_8px_32px_rgba(59,130,246,0.15)] transition-all duration-500 ease-in-out pointer-events-auto flex items-center",
           // Mobile state (default)
           "absolute right-4 top-4 w-12 h-12 p-0 rounded-full justify-center",
           // Desktop state
@@ -82,32 +82,27 @@ export function Navbar() {
  
           <div className={`hidden md:flex items-center gap-6 overflow-hidden transition-all duration-500 ease-in-out
             ${isMinimized ? "w-0 opacity-0 pointer-events-none" : "w-auto opacity-100"}`}>
-            <Link href={`/${currentLang.code}`} className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+            <Link href={`/${currentLang.code}`} className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
               {t("mobile.nav.home")}
             </Link>
-            <Link href={`/${currentLang.code}/features`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/features") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+            <Link href={`/${currentLang.code}/features`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/features") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
               {t("nav.features")}
             </Link>
-            <Link href={`/${currentLang.code}/property`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/property") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+            <Link href={`/${currentLang.code}/property`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/property") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
               {t("nav.listings")}
             </Link>
-            <Link href={`/${currentLang.code}/pricing`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/pricing") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+            <Link href={`/${currentLang.code}/pricing`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/pricing") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
               {t("nav.pricing")}
             </Link>
-            <Link href={`/${currentLang.code}/videos`} suppressHydrationWarning className={`text-sm font-medium flex items-center gap-1 transition-colors whitespace-nowrap ${isActive("/videos") ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+            <Link href={`/${currentLang.code}/videos`} suppressHydrationWarning className={`text-sm font-medium flex items-center gap-1 transition-colors whitespace-nowrap ${isActive("/videos") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
               <Video className="w-3 h-3 shrink-0" />{t("nav.videos")}</Link>
             
             {/* ONLY FOR LOGGED IN USERS */}
             {isAuthenticated && (
               <>
-                <Link href={`/${currentLang.code}/client/lease-care`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/client/lease-care") ? "text-primary" : "text-muted-foreground hover:text-primary"} flex items-center gap-1`}>
+                <Link href={`/${currentLang.code}/client/lease-care`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/client/lease-care") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"} flex items-center gap-1`}>
                   LeaseCare+
                   <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold border border-emerald-500/20">PRO</span>
-                </Link>
-                <div className="w-px h-4 bg-border/60 mx-2 shrink-0" />
-                <Link href={`/${currentLang.code}/client/property/new`} className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/client/property/new") ? "text-blue-500" : "text-blue-500/70 hover:text-blue-500"} flex items-center gap-1`}>
-                  <Plus className="w-3 h-3 shrink-0" />
-                  {t("nav.addListing")}
                 </Link>
               </>
             )}
@@ -118,6 +113,19 @@ export function Navbar() {
           "hidden md:flex items-center gap-4 overflow-hidden transition-all duration-500 ease-in-out shrink-0",
           isMinimized ? "w-0 opacity-0 pointer-events-none" : "w-auto opacity-100"
         )}>
+          {/* Add Listing Button (Right Side) */}
+          {isAuthenticated && (
+            <>
+              <Button asChild variant="outline" size="sm" className="rounded-full h-8 px-4 gap-1.5 border-blue-200/60 dark:border-blue-800/60 bg-white/50 dark:bg-slate-800/50 hover:bg-blue-50 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 transition-all shadow-sm">
+                <Link href={`/${currentLang.code}/client/property/new`}>
+                  <Plus className="w-3.5 h-3.5" />
+                  <span className="text-xs font-bold">{t("nav.addListing")}</span>
+                </Link>
+              </Button>
+              <div className="w-px h-4 bg-blue-200/50 dark:bg-blue-800/50 mx-1 shrink-0" />
+            </>
+          )}
+
           {/* Theme Toggle */}
           <Button
             variant="ghost"
@@ -183,7 +191,7 @@ export function Navbar() {
     }} animate={{
       opacity: 1,
       y: 0
-    }} className="absolute top-20 inset-x-4 bg-card border border-border rounded-2xl p-6 flex flex-col gap-4 shadow-2xl md:hidden z-50">
+    }} className="absolute top-20 inset-x-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-3xl border border-blue-200/60 dark:border-blue-800/60 rounded-3xl p-6 flex flex-col gap-4 shadow-[0_20px_60px_-15px_rgba(59,130,246,0.3)] md:hidden z-50 text-slate-700 dark:text-slate-200">
           <Link href={`/${currentLang.code}`}>
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
               {t("mobile.nav.home")}
@@ -217,19 +225,19 @@ export function Navbar() {
                   <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold border border-emerald-500/20">PRO</span>
                 </span>
               </Link>
-              <Link href={`/${currentLang.code}/client/property/new`}>
-                <span className="text-lg font-medium cursor-pointer flex items-center gap-2 uppercase" onClick={() => setIsOpen(false)}>
-                  <Plus className="w-4 h-4" />
-                  {t("nav.addListing")}
-                </span>
-              </Link>
+              <Button asChild className="w-full justify-start rounded-xl h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 mt-2 mb-2" onClick={() => setIsOpen(false)}>
+                <Link href={`/${currentLang.code}/client/property/new`}>
+                  <Plus className="w-5 h-5 mr-2" />
+                  <span className="text-base font-bold uppercase tracking-wider">{t("nav.addListing")}</span>
+                </Link>
+              </Button>
             </>
           )}
           <div className="h-px bg-border my-2" />
 
           {/* Auth Section */}
           {isAuthenticated ? <div className="space-y-2">
-              <div className="text-sm text-muted-foreground mb-2">{t("client.src.welcome")}{user?.name || user?.email?.split("@")[0]}
+              <div className="text-sm text-muted-foreground mb-2">{t("client.src.welcome")} {user?.name || user?.email?.split("@")[0]}
               </div>
               <Link href="/profile" onClick={() => setIsOpen(false)}>
                 <span className="text-lg font-medium cursor-pointer flex items-center gap-2">
