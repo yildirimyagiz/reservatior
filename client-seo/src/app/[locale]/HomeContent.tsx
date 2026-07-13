@@ -160,7 +160,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   }, [response]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  useEffect(() => { const iv = setInterval(() => setCurrentSlide(c => (c + 1) % slides.length), 6000); return () => clearInterval(iv); }, [slides.length]);
+  useEffect(() => { const iv = setInterval(() => setCurrentSlide(c => (c + 1) % Math.max(slides.length, 4)), 6000); return () => clearInterval(iv); }, [slides.length]);
   const slide = slides[currentSlide] || slides[0];
 
   const bgVideo = useMemo(() => {
