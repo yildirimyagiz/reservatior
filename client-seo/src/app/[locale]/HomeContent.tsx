@@ -163,11 +163,10 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   useEffect(() => { const iv = setInterval(() => setCurrentSlide(c => (c + 1) % slides.length), 6000); return () => clearInterval(iv); }, [slides.length]);
   const slide = slides[currentSlide] || slides[0];
 
-  const [bgVideo, setBgVideo] = useState("");
-  useEffect(() => {
+  const bgVideo = useMemo(() => {
     const videos = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4", "/videos/ozak-duyu-bg.mp4"];
-    setBgVideo(videos[Math.floor(Math.random() * videos.length)]);
-  }, []);
+    return videos[currentSlide % videos.length];
+  }, [currentSlide]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
@@ -176,33 +175,20 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
       {/* ══════ EDGE-TO-EDGE HERO ══════ */}
       <section className="relative h-[100svh] w-full flex flex-col justify-end pb-12 md:pb-24 pt-32 overflow-hidden bg-black">
         <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
-          {bgVideo && (
-            <video
-              key={bgVideo}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover transform scale-105"
-            >
-              <source src={bgVideo} type="video/mp4" />
-            </video>
-          )}
+          <video
+            key={bgVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover transform scale-105"
+          >
+            <source src={bgVideo} type="video/mp4" />
+          </video>
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
         </motion.div>
 
         <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col items-center justify-center h-full gap-12 mt-16">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="text-center w-full">
-            <h1 className="text-6xl sm:text-7xl lg:text-[7rem] font-black tracking-tighter leading-[0.9] text-white drop-shadow-2xl mb-6" suppressHydrationWarning>
-              {t('home.hero.title1', { defaultValue: 'Discover' })} <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40">
-                {t('home.hero.title2', { defaultValue: 'Extraordinary.' })}
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl font-medium text-white/80 max-w-2xl mx-auto tracking-wide font-serif italic">
-              {t('home.hero.subtitle', { defaultValue: 'Curated luxury homes, exceptional experiences, and seamless intelligent management.' })}
-            </p>
-          </motion.div>
 
           {/* FLOATING SEARCH PILL */}
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5 }} className="w-full max-w-4xl mx-auto">
