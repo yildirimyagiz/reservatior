@@ -24,10 +24,10 @@ import { City } from "react-country-state-city/dist/esm/types";
 
 /* ───── Fallback Slides for Hero & Properties ───── */
 const FALLBACK_SLIDES = [
-  { title: "The Glass Pavilion", location: "Malibu, California", price: "$28.5M", beds: 6, baths: 8, sqm: 1150, image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80", tag: "EXCLUSIVE" },
-  { title: "Alpine Crystal Chalet", location: "Zermatt, Switzerland", price: "$14.5M", beds: 5, baths: 4, sqm: 670, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: "RETREAT" },
-  { title: "Neo-Tokyo Cyber Loft", location: "Shinjuku, Tokyo", price: "$12.4M", beds: 3, baths: 3, sqm: 500, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: "SMART HOME" },
-  { title: "Monolithic Concrete Dream", location: "Beverly Hills, CA", price: "$16.2M", beds: 4, baths: 6, sqm: 820, image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: "PENTHOUSE" },
+  { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: "50% Down Payment", beds: "1+1 to 3+1", baths: "1 Block", sqm: "6,500 m²", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: "NEW LAUNCH" },
+  { title: "Özak Dragos", location: "Maltepe, Istanbul", price: "Islands & Sea View", beds: "1+1 to 3+1", baths: "5 Blocks", sqm: "16,000 m²", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: "SEA VIEW" },
+  { title: "Büyükyalı Istanbul", location: "Zeytinburnu, Kennedy Ave", price: "Ready to Deliver", beds: "2+1 to 5.5+1", baths: "14 Blocks", sqm: "111,000 m²", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: "READY TO MOVE" },
+  { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrade Forest", price: "Forest View", beds: "1+1 to 4.5+1", baths: "5 Blocks", sqm: "12,000 m²", image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: "FOREST VIEW" },
 ];
 
 const NAV_ITEMS = [
