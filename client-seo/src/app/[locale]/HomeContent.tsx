@@ -164,7 +164,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const slide = slides[currentSlide] || slides[0];
 
   const bgVideo = useMemo(() => {
-    const videos = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4"];
+    const videos = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4"];
     return videos[Math.floor(Math.random() * videos.length)];
   }, []);
 
