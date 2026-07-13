@@ -159,7 +159,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   const response = rawResponse as any;
 
   const slides = useMemo(() => {
-    if (!response?.data) return FALLBACK_SLIDES;
+    if (!response?.data || response.data.length === 0) return FALLBACK_SLIDES;
     return response.data.slice(0, 4).map((p: Property, i: number) => {
       const fallback = FALLBACK_SLIDES[i % FALLBACK_SLIDES.length];
       const rawImg = p.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
@@ -377,9 +377,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">{t("home.curated.title", { defaultValue: "Curated Collections" })}</h2>
               <p className="text-lg text-muted-foreground max-w-xl font-medium">{t("home.curated.subtitle", { defaultValue: "Handpicked properties that redefine luxury living and smart hospitality." })}</p>
             </div>
-            <Button variant="outline" className="hidden md:flex rounded-full font-bold h-12 px-6">
-              {t("home.curated.view_all", { defaultValue: "View All Collection" })}
-              <ArrowRight className="w-4 h-4 ml-2" />
+            <Button variant="outline" className="hidden md:flex rounded-full font-bold h-12 px-6" asChild>
+              <Link href="/client/property">
+                {t("home.curated.view_all", { defaultValue: "View All Collection" })}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
             </Button>
           </motion.div>
 
