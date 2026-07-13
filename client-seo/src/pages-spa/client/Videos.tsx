@@ -29,6 +29,8 @@ const CATEGORIES = [
   { id: "loft", key: "videos.cat.loft", fallback: "LOFT" },
 ];
 
+const DEMO_VIDEOS = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4", "/videos/ozak-duyu-bg.mp4"];
+
 /* ───── Fallback Data ───── */
 const FALLBACK_VIDEOS = [
   {
@@ -124,6 +126,7 @@ export default function Videos() {
       const fallback = FALLBACK_VIDEOS[i % FALLBACK_VIDEOS.length];
       const rawImg = p.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
       const finalImage = (rawImg && typeof rawImg === 'string' && rawImg.length > 10) ? rawImg : fallback.image;
+      const videoUrl = DEMO_VIDEOS[i % DEMO_VIDEOS.length];
       
       return {
         id: String(p.id || i),
@@ -144,6 +147,7 @@ export default function Videos() {
         tags: fallback.tags,
         rooms: fallback.rooms,
         image: finalImage,
+        videoUrl: videoUrl,
       };
     });
   }, [response]);
@@ -196,9 +200,18 @@ export default function Videos() {
               <div key={video.id} className="relative w-full h-full shrink-0 snap-start snap-always flex flex-col justify-center items-center overflow-hidden">
                 <VideoObjectSchema name={video.title} description={`${video.title} - ${video.location} - ${video.price}`} thumbnailUrl={video.image} />
                 
-                {/* Real Background Image simulating Video Thumbnail */}
+                {/* Video Background */}
                 <div className="absolute inset-0">
-                    <Image src={video.image} alt={video.title} fill className="object-cover opacity-90" sizes="100vw" />
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
+                      className="w-full h-full object-cover opacity-90"
+                    >
+                      <source src={`${video.videoUrl}#t=2`} type="video/mp4" />
+                    </video>
                     <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent h-32" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent h-2/3 mt-auto" />
                 </div>
