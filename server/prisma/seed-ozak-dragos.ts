@@ -1,36 +1,17 @@
-import { PrismaClient, ListingType, ListingStatus, EarningStrategy, PhotoType } from "@prisma/client";
+import { PrismaClient, ListingType, ListingStatus, EarningStrategy, PhotoType, VideoTargetPlatform, VideoContentStatus } from "@prisma/client";
 import prismaManager from "../src/lib/prisma";
 
 const ORG_ID = "tr_residence_org";
-
-/**
- * ÖZAK DRAGOS | View of Islands and Sea - Maltepe, Istanbul
- * Delivery: December 2026
- * Land Area: 16,000 m² | Green Space: 40%
- * 5 Blocks | 458 Residential Units
- * Unit Types: 1+1 to 3+1
- * All units include separate storage room + parking space
- *
- * Payment: 50% down, 24 monthly installments
- * VAT: 10% (included in prices)
- * No expertise report required
- *
- * Distances:
- *   Maltepe Piazza Mall: 3 min | Metro: 5 min | Beach: 10 min
- *
- * Location: https://maps.app.goo.gl/2tV5dzJHMec4Ws4f6
- */
-
 const PROJECT_ID = "tr-ozak-dragos";
 const PROP_ID = `tr_prop_${PROJECT_ID}`;
 
 const UNIT_TYPES = [
-  { name: "1+1 Standard",         area: 60,  beds: 1, baths: 1,   level: 3,  priceUSD: 160000 },
-  { name: "1+1 Sea View",         area: 70,  beds: 1, baths: 1,   level: 8,  priceUSD: 200000 },
-  { name: "2+1 Standard",         area: 100, beds: 2, baths: 1,   level: 5,  priceUSD: 280000 },
-  { name: "2+1 Island View",      area: 115, beds: 2, baths: 1.5, level: 10, priceUSD: 340000 },
-  { name: "3+1 Family",           area: 140, beds: 3, baths: 2,   level: 7,  priceUSD: 420000 },
-  { name: "3+1 Panoramic Sea",    area: 165, beds: 3, baths: 2,   level: 14, priceUSD: 520000 },
+  { name: "1+1 Standard",      area: 60,  beds: 1, baths: 1,   level: 3,  priceUSD: 160000, rentTRY: 27000 },
+  { name: "1+1 Sea View",      area: 70,  beds: 1, baths: 1,   level: 8,  priceUSD: 200000, rentTRY: 33000 },
+  { name: "2+1 Standard",      area: 100, beds: 2, baths: 1,   level: 5,  priceUSD: 280000, rentTRY: 40000 },
+  { name: "2+1 Island View",   area: 115, beds: 2, baths: 1.5, level: 10, priceUSD: 340000, rentTRY: 48000 },
+  { name: "3+1 Family",        area: 140, beds: 3, baths: 2,   level: 7,  priceUSD: 420000, rentTRY: 58000 },
+  { name: "3+1 Panoramic Sea", area: 165, beds: 3, baths: 2,   level: 14, priceUSD: 520000, rentTRY: 70000 },
 ];
 
 const FACILITIES = [
@@ -48,21 +29,19 @@ const FACILITIES = [
 ];
 
 const PHOTOS = [
+  "/videos/ozak-dragos-bg.mp4",
   "https://cdn.reservatior.com/projects/ozak-dragos/exterior-island-view.jpg",
   "https://cdn.reservatior.com/projects/ozak-dragos/pool-area.jpg",
   "https://cdn.reservatior.com/projects/ozak-dragos/sea-panorama.jpg",
   "https://cdn.reservatior.com/projects/ozak-dragos/apartment-interior.jpg",
-  "https://cdn.reservatior.com/projects/ozak-dragos/aerial-maltepe.jpg",
 ];
 
-// Dragos, Maltepe coordinates
 const LAT = 40.9267;
 const LNG = 29.0706;
 
 async function main() {
-  console.log("🏝️ ÖZAK DRAGOS | View of Islands and Sea - Maltepe");
-  console.log("   Proje API endpointine ekleniyor...\n");
-
+  console.log("🏝️ ÖZAK DRAGOS | Seeding project, units, for-sale and for-rent listings...");
+  
   const prisma = prismaManager.getClient("TR");
 
   // 1. Organization
@@ -82,7 +61,6 @@ async function main() {
       address: "Büyükdere Cad. No:199, Levent, Istanbul 34394",
     },
   });
-  console.log(`✅ Organizasyon: ${org.name}\n`);
 
   // 2. Property
   const property = await prisma.property.upsert({
@@ -136,35 +114,47 @@ async function main() {
           metroStation: "5 minutes",
           beach: "10 minutes",
         },
-        socialFacilities: [
-          "Swimming Pool", "Fitness Center", "Sauna & Steam Room",
-          "Children's Playground", "Cafeteria", "Open & Covered Parking", "24/7 Security",
-        ],
+        socialFacilities: FACILITIES,
         sharePointDrive: "https://ozakglobalholding-my.sharepoint.com/:f:/g/personal/mahmut_demir_ozakgyo_com/EhIuFOgIENNBg5pqHgJ4Q_UBuB6JtYHddXMZe-iLkV277g",
         locationMap: "https://maps.app.goo.gl/2tV5dzJHMec4Ws4f6",
       }),
     },
   });
-  console.log(`  🏗️  Property: ${property.name}`);
 
-  // 3. Listing
+  // 3. Project Listings
   await prisma.listing.upsert({
-    where: { id: `tr_list_${PROJECT_ID}` },
+    where: { id: `tr_list_${PROJECT_ID}_sale` },
     update: {},
     create: {
-      id: `tr_list_${PROJECT_ID}`,
+      id: `tr_list_${PROJECT_ID}_sale`,
       orgId: org.id,
       propertyId: property.id,
       type: ListingType.SALE,
-      status: ListingStatus.WILL_BE_AVAILABLE,
+      status: ListingStatus.AVAILABLE,
       strategy: EarningStrategy.LONG_TERM_STABLE,
-      title: "ÖZAK DRAGOS | View of Islands and Sea - Maltepe, İstanbul",
-      description: `Maltepe Dragos'ta ada ve deniz manzaralı Özak GYO projesi. 16.000 m² arazi, %40 yeşil alan. 5 blok, 458 konut. 1+1'den 3+1'e daire tipleri. Tüm dairelere ayrı depo ve otopark dahil. Yüzme havuzu, fitness center, sauna & buhar odası, çocuk parkı, kafeterya, 24/7 güvenlik. Maltepe Piazza AVM: 3dk, Metro: 5dk, Sahil: 10dk. %50 peşin, 24 ay taksit. KDV %10 fiyatlara dahil. Ekspertiz raporu gerekmez.`,
+      title: "ÖZAK DRAGOS | Satılık Lüks Daireler (Maltepe, İstanbul)",
+      description: "Maltepe Dragos'ta ada ve deniz manzaralı Özak GYO projesi. %50 peşin, 24 ay taksit avantajıyla. KDV %10 fiyatlara dahil. Ekspertiz raporu gerekmez.",
       price: 160000,
       priceCurrency: "USD",
     },
-  }).catch(() => {});
-  console.log(`  📋 Listing oluşturuldu`);
+  });
+
+  await prisma.listing.upsert({
+    where: { id: `tr_list_${PROJECT_ID}_rent` },
+    update: {},
+    create: {
+      id: `tr_list_${PROJECT_ID}_rent`,
+      orgId: org.id,
+      propertyId: property.id,
+      type: ListingType.RENT,
+      status: ListingStatus.AVAILABLE,
+      strategy: EarningStrategy.LONG_TERM_STABLE,
+      title: "ÖZAK DRAGOS | Kiralık Konforlu Daireler (Maltepe, İstanbul)",
+      description: "Maltepe Dragos'ta deniz manzaralı kiralık daire seçenekleri. Otopark, depo, yüzme havuzu ve sosyal tesisler dahil.",
+      price: 27000,
+      priceCurrency: "TRY",
+    },
+  });
 
   // 4. Project
   const user = await prisma.user.findFirst().catch(() => null);
@@ -179,7 +169,7 @@ async function main() {
       orgId: org.id,
       propertyId: property.id,
       name: "ÖZAK DRAGOS | View of Islands and Sea",
-      description: `Maltepe Dragos - Ada ve deniz manzarası. 16.000 m², %40 yeşil. 5 blok, 458 konut. 1+1 → 3+1. Aralık 2026 teslim. Havuz, fitness, sauna, kafeterya, 24/7 güvenlik. Mesafeler: Piazza AVM 3dk, Metro 5dk, Sahil 10dk. %50 peşin + 24 taksit. KDV %10. Ekspertiz gerekmez.`,
+      description: "Maltepe Dragos - Ada ve deniz manzarası. %50 peşin + 24 taksit.",
       projectType: "RESIDENTIAL",
       address: "Dragos Mahallesi, Maltepe, Istanbul",
       status: "ACTIVE",
@@ -188,31 +178,14 @@ async function main() {
       budget: 85000000,
       currency: "USD",
       managerId: user?.id || undefined,
-      phases: JSON.stringify({
-        blocks: [
-          { name: "A Blok", units: 92, floors: 15 },
-          { name: "B Blok", units: 92, floors: 15 },
-          { name: "C Blok", units: 92, floors: 15 },
-          { name: "D Blok", units: 91, floors: 15 },
-          { name: "E Blok", units: 91, floors: 15 },
-        ],
-        totalUnits: 458,
-        deliveryDate: "2026-12",
-      }),
-      milestones: JSON.stringify([
-        { name: "Temel Atma", date: "2024-03", status: "COMPLETED" },
-        { name: "Kaba İnşaat", date: "2025-06", status: "COMPLETED" },
-        { name: "İnce İşler", date: "2026-06", status: "IN_PROGRESS" },
-        { name: "Peyzaj & Tesisler", date: "2026-10", status: "PLANNED" },
-        { name: "Teslim", date: "2026-12", status: "PLANNED" },
-      ]),
     },
   });
-  console.log(`  🏗️  Project oluşturuldu`);
 
-  // 5. Floor Plans
+  // 5. Seeding individual unit type listings (Sale and Rent)
   for (let i = 0; i < UNIT_TYPES.length; i++) {
     const u = UNIT_TYPES[i];
+    
+    // Floor Plan
     await prisma.floorPlan.upsert({
       where: { id: `tr_floor_${PROJECT_ID}_${i}` },
       update: {},
@@ -221,15 +194,68 @@ async function main() {
         orgId: org.id,
         propertyId: property.id,
         name: u.name,
-        description: `${u.area} m² | ${u.beds} yatak | ${u.baths} banyo | ~$${u.priceUSD.toLocaleString()} USD`,
+        description: `${u.area} m² | ${u.beds} yatak | ${u.baths} banyo`,
         floorLevel: u.level,
-        imageUrl: `https://cdn.reservatior.com/floorplans/${PROJECT_ID}_${u.name.toLowerCase().replace(/[\s+()]/g, '_')}.svg`,
+        imageUrl: PHOTOS[1],
       },
-    }).catch(() => {});
-    console.log(`  📐 ${u.name} (${u.area} m²)`);
+    });
+
+    // Sale Listing
+    await prisma.listing.upsert({
+      where: { id: `tr_list_${PROJECT_ID}_unit_${i}_sale` },
+      update: {},
+      create: {
+        id: `tr_list_${PROJECT_ID}_unit_${i}_sale`,
+        orgId: org.id,
+        propertyId: property.id,
+        type: ListingType.SALE,
+        status: ListingStatus.AVAILABLE,
+        strategy: EarningStrategy.LONG_TERM_STABLE,
+        title: `ÖZAK DRAGOS - Satılık ${u.name} (${u.area} m²)`,
+        description: `${u.area} m² deniz manzaralı, depo ve otopark dahil satılık lüks ${u.name} daire.`,
+        price: u.priceUSD,
+        priceCurrency: "USD",
+      },
+    });
+
+    // Rent Listing
+    await prisma.listing.upsert({
+      where: { id: `tr_list_${PROJECT_ID}_unit_${i}_rent` },
+      update: {},
+      create: {
+        id: `tr_list_${PROJECT_ID}_unit_${i}_rent`,
+        orgId: org.id,
+        propertyId: property.id,
+        type: ListingType.RENT,
+        status: ListingStatus.AVAILABLE,
+        strategy: EarningStrategy.LONG_TERM_STABLE,
+        title: `ÖZAK DRAGOS - Kiralık ${u.name} (${u.area} m²)`,
+        description: `${u.area} m² genişliğinde, depo ve otopark dahil kiralık lüks ${u.name} daire.`,
+        price: u.rentTRY,
+        priceCurrency: "TRY",
+      },
+    });
   }
 
-  // 6. Facilities
+  // 6. Background video
+  await prisma.videoContent.upsert({
+    where: { id: `tr_video_${PROJECT_ID}_bg` },
+    update: {},
+    create: {
+      id: `tr_video_${PROJECT_ID}_bg`,
+      orgId: org.id,
+      propertyId: property.id,
+      title: "Özak Dragos Tanıtım Videosu",
+      primaryLoraStyle: "REALISTIC",
+      prompt: "Luxury modern residential complex by the sea in Istanbul, islands view, sunset",
+      platform: VideoTargetPlatform.PLATFORM_INTERNAL,
+      status: VideoContentStatus.READY,
+      url: "/videos/ozak-dragos-bg.mp4",
+      thumbnailUrl: PHOTOS[1],
+    },
+  });
+
+  // 7. Seeding facilities
   for (let i = 0; i < FACILITIES.length; i++) {
     await prisma.facility.upsert({
       where: { id: `tr_fac_${PROJECT_ID}_${i}` },
@@ -240,11 +266,10 @@ async function main() {
         propertyId: property.id,
         name: FACILITIES[i],
       },
-    }).catch(() => {});
+    });
   }
-  console.log(`  🏊 ${FACILITIES.length} sosyal tesis eklendi`);
 
-  // 7. Photos
+  // 8. Seeding photos
   for (let i = 0; i < PHOTOS.length; i++) {
     await prisma.photo.upsert({
       where: { url: PHOTOS[i] },
@@ -254,57 +279,20 @@ async function main() {
         url: PHOTOS[i],
         propertyId: property.id,
         type: i === 0 ? PhotoType.COVER : PhotoType.GALLERY,
-        caption: `ÖZAK DRAGOS - Görsel ${i + 1}`,
+        caption: `ÖZAK DRAGOS - Görsel ${i}`,
         featured: i === 0,
       },
-    }).catch(() => {});
+    });
   }
-  console.log(`  📸 ${PHOTOS.length} fotoğraf eklendi`);
 
-  // 8. Virtual Tour
-  await prisma.virtualTour.upsert({
-    where: { id: `tr_vt_${PROJECT_ID}` },
-    update: {},
-    create: {
-      id: `tr_vt_${PROJECT_ID}`,
-      orgId: org.id,
-      propertyId: property.id,
-      name: "ÖZAK DRAGOS - 360° Sanal Tur",
-      tourType: "360_PANORAMIC",
-      thumbnailUrl: PHOTOS[0],
-      isActive: true,
-    },
-  }).catch(() => {});
-  console.log(`  🎥 Sanal tur eklendi`);
-
-  // 9. Documents
-  await prisma.document.upsert({
-    where: { id: `tr_doc_${PROJECT_ID}_brochure` },
-    update: {},
-    create: {
-      id: `tr_doc_${PROJECT_ID}_brochure`,
-      orgId: org.id,
-      propertyId: property.id,
-      documentType: "LISTING_AGREEMENT",
-      title: "ÖZAK DRAGOS - Proje Katalogu",
-      description: "ÖZAK DRAGOS View of Islands and Sea proje katalogu",
-      fileUrl: "https://ozakglobalholding-my.sharepoint.com/:f:/g/personal/mahmut_demir_ozakgyo_com/EhIuFOgIENNBg5pqHgJ4Q_UBuB6JtYHddXMZe-iLkV277g",
-      fileName: "ozak-dragos-islands-sea-katalog.pdf",
-      fileSize: 6291456,
-      mimeType: "application/pdf",
-      checksum: "ozak-dragos-brochure-sha256",
-    },
-  }).catch(() => {});
-  console.log(`  📄 Dökümanlar eklendi`);
-
-  console.log(`\n🎉 ÖZAK DRAGOS başarıyla API endpointine eklendi!`);
-  console.log(`\n📍 API Endpoints:`);
-  console.log(`   GET  /api/v1/projects/tr_proj_${PROJECT_ID}`);
-  console.log(`   GET  /api/v1/properties/${PROP_ID}`);
-  console.log(`\n💡 Mesafeler: 🏪 Piazza AVM: 3dk | 🚊 Metro: 5dk | 🏖️ Sahil: 10dk`);
-  console.log(`💰 %50 peşin + 24 taksit | KDV %10 dahil\n`);
+  console.log("✅ Özak Dragos Seeding completed successfully!");
 }
 
 main()
-  .catch((e) => { console.error(e); process.exit(1); })
-  .finally(async () => { await prismaManager.disconnectAll(); });
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prismaManager.disconnectAll();
+  });

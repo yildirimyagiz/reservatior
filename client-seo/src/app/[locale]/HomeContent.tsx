@@ -163,6 +163,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
   useEffect(() => { const iv = setInterval(() => setCurrentSlide(c => (c + 1) % slides.length), 6000); return () => clearInterval(iv); }, [slides.length]);
   const slide = slides[currentSlide] || slides[0];
 
+  const bgVideo = useMemo(() => {
+    const videos = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4"];
+    return videos[Math.floor(Math.random() * videos.length)];
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
       <AppHeader />
@@ -171,13 +176,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
       <section className="relative h-[100svh] w-full flex flex-col justify-end pb-12 md:pb-24 pt-32 overflow-hidden bg-black">
         <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
           <video
+            key={bgVideo}
             autoPlay
             loop
             muted
             playsInline
             className="w-full h-full object-cover transform scale-105"
           >
-            <source src="/videos/ozak-bg.mp4" type="video/mp4" />
+            <source src={bgVideo} type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
         </motion.div>
