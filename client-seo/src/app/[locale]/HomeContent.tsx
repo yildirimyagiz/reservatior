@@ -5,22 +5,20 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
 import { GetCountries, GetAllCities } from "react-country-state-city";
 import {
-  Sparkles, Search, MapPin, ChevronRight, ChevronLeft, Menu, X, 
-  ArrowRight, ShieldCheck, Key, Compass, Star, ChevronDown, Monitor, Watch, Gem, CheckCircle2, Mouse
+  Sparkles, Search, MapPin, ChevronRight, ChevronLeft, 
+  ArrowRight, ShieldCheck, ChevronDown, Monitor, Gem, CheckCircle2, Mouse
 } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { AIChatModal } from "@/components/home/AIChatModal";
 import { SupportChatModal } from "@/components/home/SupportChatModal";
-import { City } from "react-country-state-city/dist/esm/types";
 
 // Supported countries based on Prisma configurations in server/config
 const SUPPORTED_COUNTRIES = [
@@ -36,13 +34,7 @@ const FALLBACK_SLIDES = [
   { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrade Forest", price: "Forest View", beds: "1+1 to 4.5+1", baths: "5 Blocks", sqm: "12,000 m²", image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: "FOREST VIEW" },
 ];
 
-const NAV_ITEMS = [
-  { labelKey: "client.src.properties", defaultLabel: "Properties", href: "/property" },
-  { labelKey: "client.src.explore", defaultLabel: "Explore", href: "/explore", badge: "NEW" },
-  { labelKey: "client.src.pricing", defaultLabel: "Pricing", href: "/pricing" },
-  { labelKey: "client.src.ai_studio", defaultLabel: "AI Studio", href: "/client/ai/studio" },
-  { labelKey: "client.src.contact", defaultLabel: "Contact", href: "/contact" },
-];
+
 
 const VIBES = [
   { icon: "🏖️", name: "Beachfront", count: "1,204" },
@@ -55,7 +47,7 @@ const VIBES = [
   { icon: "📐", name: "Modern", count: "5,602" },
 ];
 
-export function HomeContent({ initialProperties = [] }: { initialProperties?: any[] }) {
+export function HomeContent({ initialProperties = [] }: { initialProperties?: Record<string, unknown>[] }) {
   const { t } = useTranslation();
   const router = useRouter();
   const { selectedRegion } = useRegionsStore();
@@ -203,13 +195,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
               loop
               muted
               playsInline
+              onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1.05 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.5, ease: "easeOut" }}
               className="w-full h-full object-cover"
             >
-              <source src={bgVideo} type="video/mp4" />
+              <source src={`${bgVideo}#t=2`} type="video/mp4" />
             </motion.video>
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />
@@ -510,7 +503,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
 
                 {/* Slide Indicators (Dots) */}
                 <div className="flex items-center justify-center gap-2 mt-8">
-                  {slides.map((_, i) => (
+                  {slides.map((_: unknown, i: number) => (
                     <button
                       key={i}
                       onClick={() => setCurrentSlide(i)}
