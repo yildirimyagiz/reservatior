@@ -169,12 +169,18 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: an
 
       {/* ══════ EDGE-TO-EDGE HERO ══════ */}
       <section className="relative h-[100svh] w-full flex flex-col justify-end pb-12 md:pb-24 pt-32 overflow-hidden bg-black">
-        {slides.map((s: any, i: number) => (
-          <motion.div key={i} style={{ opacity: heroOpacity }} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${i === currentSlide ? "opacity-100 z-0" : "opacity-0 -z-10"}`}>
-            <Image src={s.image} alt={s.title} fill sizes="100vw" className="object-cover transform scale-105 animate-[slow-pan_20s_ease-in-out_infinite]" priority={i === 0} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
-          </motion.div>
-        ))}
+        <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover transform scale-105"
+          >
+            <source src="/videos/ozak-bg.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+        </motion.div>
 
         <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col items-center justify-center h-full gap-12 mt-16">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="text-center w-full">
