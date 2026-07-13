@@ -47,6 +47,136 @@ const VIBES = [
   { icon: "📐", name: "Modern", count: "5,602" },
 ];
 
+function EcosystemPreview() {
+  const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveTab((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const tabs = [
+    {
+      id: "smart-home",
+      icon: <Monitor className="w-5 h-5 text-indigo-400" />,
+      title: "Smart Home",
+      content: (
+        <div className="flex flex-col gap-4 h-full justify-center">
+          <div className="flex justify-between items-center bg-white/5 rounded-2xl p-5 border border-white/5 hover:bg-white/10 transition-colors">
+            <div>
+              <div className="text-white/50 text-sm font-medium mb-1">Master Bedroom Temp</div>
+              <div className="text-3xl font-black text-white">22.5°C</div>
+            </div>
+            <div className="w-14 h-14 rounded-full bg-indigo-500/20 flex items-center justify-center">
+              <Sparkles className="w-7 h-7 text-indigo-400" />
+            </div>
+          </div>
+          <div className="flex justify-between items-center bg-white/5 rounded-2xl p-5 border border-white/5 hover:bg-white/10 transition-colors">
+            <div>
+              <div className="text-white/50 text-sm font-medium mb-1">Smart Lock Status</div>
+              <div className="text-2xl font-bold text-emerald-400">Secured & Armed</div>
+            </div>
+            <div className="w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <CheckCircle2 className="w-7 h-7 text-emerald-400" />
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: "loyalty",
+      icon: <Gem className="w-5 h-5 text-purple-400" />,
+      title: "Rewards",
+      content: (
+        <div className="flex flex-col gap-4 h-full justify-center">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-purple-500/30 to-pink-500/30 mb-6 border border-purple-500/30 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+              <Gem className="w-10 h-10 text-purple-400" />
+            </div>
+            <h3 className="text-5xl font-black text-white mb-2">12,450</h3>
+            <p className="text-white/50 font-medium">Reward Points Available</p>
+          </div>
+          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-4 border border-purple-500/20 mt-6 text-center shadow-inner">
+            <span className="text-sm font-black tracking-widest text-purple-300">GOLD TIER UNLOCKED</span>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: "verifications",
+      icon: <ShieldCheck className="w-5 h-5 text-emerald-400" />,
+      title: "Security",
+      content: (
+        <div className="flex flex-col gap-4 h-full justify-center">
+          {[
+            { label: "Biometric Identity Check", status: "Verified", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+            { label: "Credit Score Analysis", status: "Excellent", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+            { label: "Payment Escrow Account", status: "Secured", color: "text-indigo-400", bg: "bg-indigo-500/10 border-indigo-500/20" },
+          ].map((item, i) => (
+            <motion.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}
+              className={`flex justify-between items-center p-5 rounded-2xl border ${item.bg}`}>
+              <span className="text-white/80 font-medium">{item.label}</span>
+              <span className={`font-bold ${item.color}`}>{item.status}</span>
+            </motion.div>
+          ))}
+        </div>
+      )
+    }
+  ];
+
+  return (
+    <div className="w-full h-full rounded-[2rem] border border-white/10 bg-black/60 backdrop-blur-2xl shadow-2xl p-8 flex flex-col gap-8">
+      {/* Header */}
+      <div className="flex justify-between items-center pb-6 border-b border-white/10">
+        <div className="flex gap-3 bg-white/5 p-1.5 rounded-full border border-white/5">
+          {tabs.map((tab, i) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(i)}
+              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all flex items-center gap-2 ${
+                activeTab === i ? 'bg-white/15 text-white shadow-lg' : 'bg-transparent text-white/40 hover:text-white/80'
+              }`}
+            >
+              {tab.icon}
+              <span className="hidden sm:inline">{tab.title}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Content area with AnimatePresence */}
+      <div className="flex-1 relative overflow-hidden min-h-[250px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="absolute inset-0 flex flex-col justify-center"
+          >
+            {tabs[activeTab].content}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      
+      {/* Footer metric */}
+      <div className="h-24 bg-gradient-to-r from-indigo-500/15 via-purple-500/15 to-transparent rounded-2xl border border-white/10 flex items-center justify-between p-6">
+        <div>
+          <div className="text-white/50 font-medium mb-1.5">Global System Status</div>
+          <div className="text-white font-bold flex items-center gap-3 text-lg">
+            <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+            All Modules Operational
+          </div>
+        </div>
+        <Sparkles className="w-8 h-8 text-white/20" />
+      </div>
+    </div>
+  );
+}
+
 export function HomeContent({ initialProperties = [] }: { initialProperties?: Record<string, unknown>[] }) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -607,20 +737,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
             <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
               className="relative aspect-square md:aspect-auto md:h-[700px] w-full rounded-[3rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent overflow-hidden shadow-2xl flex items-center justify-center p-8">
-              {/* Abstract Representation of OS Dashboard */}
-              <div className="w-full h-full rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl p-6 flex flex-col gap-4">
-                <div className="flex justify-between items-center pb-4 border-b border-white/10">
-                  <div className="w-32 h-6 rounded-full bg-white/20 animate-pulse" />
-                  <div className="w-10 h-10 rounded-full bg-indigo-500/50 flex items-center justify-center"><CheckCircle2 className="w-5 h-5 text-white" /></div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 flex-1">
-                  <div className="bg-white/5 rounded-xl border border-white/5 p-4 flex flex-col justify-end"><div className="w-3/4 h-4 bg-white/20 rounded mb-2" /><div className="w-1/2 h-8 bg-white/40 rounded" /></div>
-                  <div className="bg-white/5 rounded-xl border border-white/5 p-4 flex flex-col justify-end"><div className="w-3/4 h-4 bg-white/20 rounded mb-2" /><div className="w-1/2 h-8 bg-white/40 rounded" /></div>
-                </div>
-                <div className="h-32 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-xl border border-white/5 flex items-center justify-center">
-                  <Sparkles className="w-8 h-8 text-white/50" />
-                </div>
-              </div>
+              <EcosystemPreview />
             </motion.div>
           </div>
         </div>
