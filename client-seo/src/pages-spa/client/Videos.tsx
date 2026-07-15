@@ -141,23 +141,29 @@ export default function Videos() {
 
   // Compute dynamic videos
   const videos = useMemo(() => {
-    if (!response?.data || response.data.length === 0) return FALLBACK_VIDEOS.map((v, i) => ({ 
-      ...v, 
-      id: String(i),
-      listingType: i % 2 === 0 ? "SALE" : "RENT",
-      promotionType: i === 0 ? "FEATURED" : i === 1 ? "URGENT" : "ALL",
-      videoUrl: v.image,
-    }));
-    return response.data.slice(0, 15).map((p: any, i: number) => {
+    return DEMO_VIDEOS.map((videoUrl: string, i: number) => {
       const fallback = FALLBACK_VIDEOS[i % FALLBACK_VIDEOS.length];
+      const p = response?.data?.[i] || {};
       const rawImg = p.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
       const finalImage = (rawImg && typeof rawImg === 'string' && rawImg.length > 10) ? rawImg : fallback.image;
-      const videoUrl = DEMO_VIDEOS[i % DEMO_VIDEOS.length];
+      
+      let location = p.address || fallback.location;
+      let title = p.name || fallback.title;
+      
+      if (!p.id && videoUrl.includes('/istanbul/')) {
+        const parts = videoUrl.split('/');
+        // /videos/istanbul/District/...
+        if (parts.length > 3) {
+          const district = decodeURIComponent(parts[3]).replace(/_/g, ' ');
+          location = `${district}, Istanbul`;
+          if (parts[4]) title = `${district} - ${decodeURIComponent(parts[4]).replace(/_/g, ' ')}`;
+        }
+      }
       
       return {
-        id: String(p.id || i),
-        title: p.name || fallback.title,
-        location: p.address || fallback.location,
+        id: String(p.id || `video-${i}`),
+        title: title,
+        location: location,
         price: p.price ? `$${Number(p.price).toLocaleString()}` : fallback.price,
         beds: fallback.beds,
         baths: fallback.baths,
@@ -165,7 +171,7 @@ export default function Videos() {
         category: p.type ? String(p.type).toLowerCase() : fallback.category,
         listingType: p.listingType || (i % 2 === 0 ? "SALE" : "RENT"),
         promotionType: i === 0 ? "FEATURED" : i === 1 ? "URGENT" : i === 2 ? "PRICE_REDUCED" : "ALL",
-        agency: fallback.agency,
+        agency: p.agency || fallback.agency,
         verified: fallback.verified,
         views: fallback.views,
         time: fallback.time,
