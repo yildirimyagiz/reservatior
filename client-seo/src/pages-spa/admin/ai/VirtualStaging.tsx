@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wand2, Image as ImageIcon, Upload, Loader2, SlidersHorizontal, ArrowRight, CheckCircle2, SlidersHorizontal } from 'lucide-react';
+import { Wand2, Image as ImageIcon, Upload, Loader2, SlidersHorizontal, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
