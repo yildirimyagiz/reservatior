@@ -23313,5 +23313,7 @@
   "admin_bookings_add": "Rezervasyon Ekle",
   "admin_ai_phone": "Telefon",
   "admin_ai_start_date": "Başlangıç Tarihi",
-  "admin_ai_end_date": "Bitiş Tarihi"
+  "admin_ai_end_date": "Bitiş Tarihi",
+  "leasecare.costly": "Maliyetli",
+  "leasecare.very_high": "Çok Yüksek"
 }

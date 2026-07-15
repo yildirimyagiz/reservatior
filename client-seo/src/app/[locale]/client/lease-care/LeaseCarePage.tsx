@@ -250,7 +250,7 @@ export default function LeaseCarePage() {
                 
                 <div className="h-px bg-red-500/20 my-4" />
                 
-                <div className="flex justify-between items-center"><span className="font-bold text-lg text-red-500">{t("leasecare.total_first_day", "Total First Day")}</span><span className="text-3xl font-black text-red-500 drop-shadow-sm">Maliyetli</span></div>
+                <div className="flex justify-between items-center"><span className="font-bold text-lg text-red-500">{t("leasecare.total_first_day", "Total First Day")}</span><span className="text-3xl font-black text-red-500 drop-shadow-sm">{t("leasecare.costly", "Costly")}</span></div>
               </div>
             </motion.div>
 

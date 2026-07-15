@@ -23283,5 +23283,7 @@
   "admin_bookings_add": "Add Reservation",
   "admin_ai_phone": "Phone",
   "admin_ai_start_date": "Start Date",
-  "admin_ai_end_date": "End Date"
+  "admin_ai_end_date": "End Date",
+  "leasecare.costly": "Costly",
+  "leasecare.very_high": "Very High"
 }

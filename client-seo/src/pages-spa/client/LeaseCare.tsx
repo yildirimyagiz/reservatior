@@ -205,11 +205,11 @@ export default function LeaseCare() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.deposit_traditional", "Deposit (Upfront)")}</span><span className="font-bold text-foreground text-red-400">Çok Yüksek</span></div>
-                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.commission_traditional", "Commission (Upfront)")}</span><span className="font-bold text-foreground text-red-400">Çok Yüksek</span></div>
+                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.deposit_traditional", "Deposit (Upfront)")}</span><span className="font-bold text-foreground text-red-400">{t("leasecare.very_high", "Very High")}</span></div>
+                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.commission_traditional", "Commission (Upfront)")}</span><span className="font-bold text-foreground text-red-400">{t("leasecare.very_high", "Very High")}</span></div>
                   <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.first_month_rent", "First month rent")}</span><span className="font-bold text-foreground">${propertyValue.toLocaleString()}</span></div>
                   <div className="h-px bg-red-500/20 my-2" />
-                  <div className="flex justify-between items-center text-base"><span className="font-bold text-red-500">{t("leasecare.total_first_day", "Total First Day")}</span><span className="text-2xl font-black text-red-500">Maliyetli</span></div>
+                  <div className="flex justify-between items-center text-base"><span className="font-bold text-red-500">{t("leasecare.total_first_day", "Total First Day")}</span><span className="text-2xl font-black text-red-500">{t("leasecare.costly", "Costly")}</span></div>
                 </div>
               </div>
 
