@@ -49,60 +49,79 @@ interface Video {
 const mockVideos: Video[] = [
   {
     id: "1",
-    title: "The Glass Pavilion — Coastal Malibu Architectural Masterpiece",
-    agency: "Aura Luxury Properties",
+    title: "Özak Büyükyalı — Luxury Coastal Living",
+    agency: "Özak GYO",
     verified: true,
-    price: "$28,500,000",
-    beds: 6,
-    baths: 8,
-    sqft: "12,400",
+    price: "From $2,500,000",
+    beds: 4,
+    baths: 3,
+    sqft: "3,200",
     category: "villa",
-    location: "MALIBU",
-    views: "24K",
-    time: "2 DAYS AGO",
-    duration: "2:14",
-    tags: ["EXCLUSIVE LISTING", "MODERN"],
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80",
-    aiGenerated: true,
-    mlScore: 95
+    location: "Zeytinburnu, Istanbul",
+    views: "125K",
+    time: "NEW",
+    duration: "1:30",
+    tags: ["SEAVIEW", "LUXURY", "SMART HOME"],
+    image: "/videos/ozak-buyukyali-bg.mp4",
+    aiGenerated: false,
+    mlScore: 98
   },
   {
     id: "2",
-    title: "Monolithic Concrete Dream — Brutalist Beverly Hills Penthouse",
-    agency: "Vance & Partners",
+    title: "Özak Dragos — Panoramic Islands View",
+    agency: "Özak GYO",
     verified: true,
-    price: "$16,200,000",
-    beds: 4,
-    baths: 6,
-    sqft: "8,900",
+    price: "From $850,000",
+    beds: 3,
+    baths: 2,
+    sqft: "1,800",
     category: "penthouse",
-    location: "BEVERLY HILLS",
-    views: "18K",
-    time: "5 DAYS AGO",
-    duration: "1:48",
-    tags: ["PENTHOUSE", "MODERN"],
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80",
-    aiGenerated: true,
-    mlScore: 88
+    location: "Maltepe, Istanbul",
+    views: "82K",
+    time: "PRE-SALE",
+    duration: "2:15",
+    tags: ["ISLANDS VIEW", "MODERN", "RESIDENCE"],
+    image: "/videos/ozak-dragos-bg.mp4",
+    aiGenerated: false,
+    mlScore: 95
   },
   {
     id: "3",
-    title: "Neo-Tokyo Cyber Loft — High-Tech Shinjuku Smart Penthouse",
-    agency: "Ren Tanaka Realty",
+    title: "Özak Duyu — Harmony with Nature",
+    agency: "Özak GYO",
     verified: true,
-    price: "¥1,850,000,000",
-    beds: 3,
-    baths: 3,
-    sqft: "5,400",
-    category: "smart",
-    location: "SHIBUYA",
-    views: "42K",
-    time: "1 WEEK AGO",
-    duration: "2:05",
-    tags: ["SMART HOME", "TECH ENABLED"],
-    image: "https://images.unsplash.com/photo-1600607687931-cebf585140bb?w=1920&q=80",
+    price: "From $1,200,000",
+    beds: 5,
+    baths: 4,
+    sqft: "4,100",
+    category: "villa",
+    location: "Göktürk, Istanbul",
+    views: "45K",
+    time: "READY TO MOVE",
+    duration: "1:45",
+    tags: ["FOREST", "NATURE", "VILLA"],
+    image: "/videos/ozak-duyu-bg.mp4",
     aiGenerated: false,
     mlScore: 92
+  },
+  {
+    id: "4",
+    title: "Özak GYO — Corporate Vision",
+    agency: "Özak GYO",
+    verified: true,
+    price: "-",
+    beds: 0,
+    baths: 0,
+    sqft: "-",
+    category: "all",
+    location: "Istanbul",
+    views: "210K",
+    time: "FEATURED",
+    duration: "2:00",
+    tags: ["CORPORATE", "PORTFOLIO", "VISION"],
+    image: "/videos/ozak-bg.mp4",
+    aiGenerated: false,
+    mlScore: 99
   }
 ];
 
@@ -277,9 +296,16 @@ export default function VideosPage() {
                 className="bg-white/5 backdrop-blur-xl border-purple-500/20 hover:bg-white/10 transition-colors cursor-pointer group"
               >
                 <CardContent className="p-0">
-                  {/* Thumbnail */}
+                  {/* Thumbnail Preview */}
                   <div className="relative aspect-video overflow-hidden">
-                    <Image src={video.image} alt={video.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <video 
+                      src={video.image} 
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline 
+                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     
                     {/* Play Button */}
