@@ -106,6 +106,8 @@ services:
     restart: unless-stopped
     depends_on:
       - server
+    volumes:
+      - ./server/data/TURKİYE/ISTANBUL:/app/public/videos/istanbul:ro
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:3001 || exit 1"]
       interval: 30s

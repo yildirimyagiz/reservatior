@@ -29,7 +29,15 @@ const CATEGORIES = [
   { id: "loft", key: "videos.cat.loft", fallback: "LOFT" },
 ];
 
-const DEMO_VIDEOS = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4", "/videos/ozak-duyu-bg.mp4"];
+import istanbulVideos from "./istanbul-videos.json";
+
+const DEMO_VIDEOS = [
+  ...istanbulVideos,
+  "/videos/ozak-bg.mp4", 
+  "/videos/ozak-dragos-bg.mp4", 
+  "/videos/ozak-buyukyali-bg.mp4", 
+  "/videos/ozak-duyu-bg.mp4"
+];
 
 const FALLBACK_VIDEOS = [
   {
@@ -133,7 +141,13 @@ export default function Videos() {
 
   // Compute dynamic videos
   const videos = useMemo(() => {
-    if (!response?.data) return FALLBACK_VIDEOS.map((v, i) => ({ ...v, id: String(i) }));
+    if (!response?.data || response.data.length === 0) return FALLBACK_VIDEOS.map((v, i) => ({ 
+      ...v, 
+      id: String(i),
+      listingType: i % 2 === 0 ? "SALE" : "RENT",
+      promotionType: i === 0 ? "FEATURED" : i === 1 ? "URGENT" : "ALL",
+      videoUrl: v.image,
+    }));
     return response.data.slice(0, 15).map((p: any, i: number) => {
       const fallback = FALLBACK_VIDEOS[i % FALLBACK_VIDEOS.length];
       const rawImg = p.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
