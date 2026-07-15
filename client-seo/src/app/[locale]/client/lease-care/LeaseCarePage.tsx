@@ -452,13 +452,13 @@ export default function LeaseCarePage() {
             <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-1.5 rounded-full flex gap-2 border border-slate-200 dark:border-slate-700 shadow-sm">
               <button 
                 onClick={() => setTransactionMode("RENT")}
-                className={`px-8 py-3 rounded-full text-sm font-bold transition-all ${transactionMode === "RENT" ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"}`}
+                className={`px-8 py-3 rounded-full text-sm font-bold transition-all ${transactionMode === "RENT" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"}`}
               >
                 {t("reoscare.mode_rent", "Kiralık (Rent)")}
               </button>
               <button 
                 onClick={() => setTransactionMode("BUY")}
-                className={`px-8 py-3 rounded-full text-sm font-bold transition-all ${transactionMode === "BUY" ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"}`}
+                className={`px-8 py-3 rounded-full text-sm font-bold transition-all ${transactionMode === "BUY" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"}`}
               >
                 {t("reoscare.mode_buy", "Satılık (Buy)")}
               </button>

@@ -115,7 +115,7 @@ export default function RootLayout({
       <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
         <Script id="locale-init" strategy="beforeInteractive">
-          {`(function(){var l=localStorage.getItem("i18nextLng")||localStorage.getItem("reservatior_lang");if(l){if(l==="tr-TR")l="tr";document.documentElement.lang=l;if(l==="ar")document.documentElement.dir="rtl"}})()`}
+          {`(function(){var urlLocale="${locale}"; var l=urlLocale||localStorage.getItem("i18nextLng")||localStorage.getItem("reservatior_lang");if(l){if(l==="tr-TR")l="tr";document.documentElement.lang=l;if(l==="ar"){document.documentElement.dir="rtl"}else{document.documentElement.dir="ltr"}}})()`}
         </Script>
         <OrganizationSchema />
         <WebsiteSchema />
