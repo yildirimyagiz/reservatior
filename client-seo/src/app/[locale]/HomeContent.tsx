@@ -60,26 +60,26 @@ function EcosystemPreview() {
   const tabs = [
     {
       id: "smart-home",
-      icon: <Monitor className="w-5 h-5 text-indigo-400" />,
+      icon: <Monitor className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />,
       title: "Smart Home",
       content: (
         <div className="flex flex-col gap-4 h-full justify-center">
-          <div className="flex justify-between items-center bg-white/5 rounded-2xl p-5 border border-white/5 hover:bg-white/10 transition-colors">
+          <div className="flex justify-between items-center bg-muted/50 rounded-2xl p-5 border border-border hover:bg-muted transition-colors">
             <div>
-              <div className="text-white/50 text-sm font-medium mb-1">Master Bedroom Temp</div>
-              <div className="text-3xl font-black text-white">22.5°C</div>
+              <div className="text-muted-foreground text-sm font-medium mb-1">Master Bedroom Temp</div>
+              <div className="text-3xl font-black text-foreground">22.5°C</div>
             </div>
-            <div className="w-14 h-14 rounded-full bg-indigo-500/20 flex items-center justify-center">
-              <Sparkles className="w-7 h-7 text-indigo-400" />
+            <div className="w-14 h-14 rounded-full bg-indigo-500/10 flex items-center justify-center">
+              <Sparkles className="w-7 h-7 text-indigo-500 dark:text-indigo-400" />
             </div>
           </div>
-          <div className="flex justify-between items-center bg-white/5 rounded-2xl p-5 border border-white/5 hover:bg-white/10 transition-colors">
+          <div className="flex justify-between items-center bg-muted/50 rounded-2xl p-5 border border-border hover:bg-muted transition-colors">
             <div>
-              <div className="text-white/50 text-sm font-medium mb-1">Smart Lock Status</div>
-              <div className="text-2xl font-bold text-emerald-400">Secured & Armed</div>
+              <div className="text-muted-foreground text-sm font-medium mb-1">Smart Lock Status</div>
+              <div className="text-2xl font-bold text-emerald-500 dark:text-emerald-400">Secured & Armed</div>
             </div>
-            <div className="w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <CheckCircle2 className="w-7 h-7 text-emerald-400" />
+            <div className="w-14 h-14 rounded-full bg-emerald-500/10 flex items-center justify-center">
+              <CheckCircle2 className="w-7 h-7 text-emerald-500 dark:text-emerald-400" />
             </div>
           </div>
         </div>
@@ -87,37 +87,37 @@ function EcosystemPreview() {
     },
     {
       id: "loyalty",
-      icon: <Gem className="w-5 h-5 text-purple-400" />,
+      icon: <Gem className="w-5 h-5 text-purple-500 dark:text-purple-400" />,
       title: "Rewards",
       content: (
         <div className="flex flex-col gap-4 h-full justify-center">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-purple-500/30 to-pink-500/30 mb-6 border border-purple-500/30 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
-              <Gem className="w-10 h-10 text-purple-400" />
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 mb-6 border border-purple-500/20 shadow-[0_0_30px_rgba(168,85,247,0.15)]">
+              <Gem className="w-10 h-10 text-purple-500 dark:text-purple-400" />
             </div>
-            <h3 className="text-5xl font-black text-white mb-2">12,450</h3>
-            <p className="text-white/50 font-medium">Reward Points Available</p>
+            <h3 className="text-5xl font-black text-foreground mb-2">12,450</h3>
+            <p className="text-muted-foreground font-medium">Reward Points Available</p>
           </div>
-          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-4 border border-purple-500/20 mt-6 text-center shadow-inner">
-            <span className="text-sm font-black tracking-widest text-purple-300">GOLD TIER UNLOCKED</span>
+          <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl p-4 border border-purple-500/20 mt-6 text-center shadow-inner">
+            <span className="text-sm font-black tracking-widest text-purple-600 dark:text-purple-400">GOLD TIER UNLOCKED</span>
           </div>
         </div>
       )
     },
     {
       id: "verifications",
-      icon: <ShieldCheck className="w-5 h-5 text-emerald-400" />,
+      icon: <ShieldCheck className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />,
       title: "Security",
       content: (
         <div className="flex flex-col gap-4 h-full justify-center">
           {[
-            { label: "Biometric Identity Check", status: "Verified", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
-            { label: "Credit Score Analysis", status: "Excellent", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
-            { label: "Payment Escrow Account", status: "Secured", color: "text-indigo-400", bg: "bg-indigo-500/10 border-indigo-500/20" },
+            { label: "Biometric Identity Check", status: "Verified", color: "text-emerald-500 dark:text-emerald-400", bg: "bg-emerald-500/5 border-emerald-500/20" },
+            { label: "Credit Score Analysis", status: "Excellent", color: "text-emerald-500 dark:text-emerald-400", bg: "bg-emerald-500/5 border-emerald-500/20" },
+            { label: "Payment Escrow Account", status: "Secured", color: "text-indigo-500 dark:text-indigo-400", bg: "bg-indigo-500/5 border-indigo-500/20" },
           ].map((item, i) => (
             <motion.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}
               className={`flex justify-between items-center p-5 rounded-2xl border ${item.bg}`}>
-              <span className="text-white/80 font-medium">{item.label}</span>
+              <span className="text-foreground/80 font-medium">{item.label}</span>
               <span className={`font-bold ${item.color}`}>{item.status}</span>
             </motion.div>
           ))}
@@ -127,16 +127,16 @@ function EcosystemPreview() {
   ];
 
   return (
-    <div className="w-full h-full rounded-[2rem] border border-white/10 bg-black/60 backdrop-blur-2xl shadow-2xl p-8 flex flex-col gap-8">
+    <div className="w-full h-full rounded-[2rem] border border-border bg-card/80 backdrop-blur-2xl shadow-2xl p-8 flex flex-col gap-8">
       {/* Header */}
-      <div className="flex justify-between items-center pb-6 border-b border-white/10">
-        <div className="flex gap-3 bg-white/5 p-1.5 rounded-full border border-white/5">
+      <div className="flex justify-between items-center pb-6 border-b border-border">
+        <div className="flex gap-3 bg-muted/50 p-1.5 rounded-full border border-border">
           {tabs.map((tab, i) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(i)}
               className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all flex items-center gap-2 ${
-                activeTab === i ? 'bg-white/15 text-white shadow-lg' : 'bg-transparent text-white/40 hover:text-white/80'
+                activeTab === i ? 'bg-background text-foreground shadow-sm' : 'bg-transparent text-muted-foreground hover:text-foreground'
               }`}
             >
               {tab.icon}
@@ -163,15 +163,15 @@ function EcosystemPreview() {
       </div>
       
       {/* Footer metric */}
-      <div className="h-24 bg-gradient-to-r from-indigo-500/15 via-purple-500/15 to-transparent rounded-2xl border border-white/10 flex items-center justify-between p-6">
+      <div className="h-24 bg-gradient-to-r from-indigo-500/15 via-purple-500/15 to-transparent rounded-2xl border border-border flex items-center justify-between p-6">
         <div>
-          <div className="text-white/50 font-medium mb-1.5">Global System Status</div>
-          <div className="text-white font-bold flex items-center gap-3 text-lg">
+          <div className="text-muted-foreground font-medium mb-1.5">Global System Status</div>
+          <div className="text-foreground font-bold flex items-center gap-3 text-lg">
             <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
             All Modules Operational
           </div>
         </div>
-        <Sparkles className="w-8 h-8 text-white/20" />
+        <Sparkles className="w-8 h-8 text-muted-foreground/30" />
       </div>
     </div>
   );
@@ -706,7 +706,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight mb-6">
                 {t("home.ecosystem.title", { defaultValue: "More Than Just Bookings." })}
               </h2>
-              <p className="text-xl text-white/60 mb-10 font-medium max-w-lg leading-relaxed">
+              <p className="text-xl text-muted-foreground mb-10 font-medium max-w-lg leading-relaxed">
                 {t("home.ecosystem.desc", { defaultValue: "A complete ecosystem powered by AI. From smart locks to loyalty programs, manage everything from one beautiful dashboard." })}
               </p>
               
@@ -717,18 +717,18 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   { icon: ShieldCheck, title: "Automated Verifications", desc: "Identity checks and secure payment escrow." },
                 ].map((feature, i) => (
                   <div key={i} className="flex gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/10">
-                      <feature.icon className="w-6 h-6 text-white" />
+                    <div className="w-12 h-12 rounded-2xl bg-muted/50 flex items-center justify-center shrink-0 border border-border">
+                      <feature.icon className="w-6 h-6 text-foreground" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-bold">{feature.title}</h4>
-                      <p className="text-white/50 text-sm">{feature.desc}</p>
+                      <h4 className="text-lg font-bold text-foreground">{feature.title}</h4>
+                      <p className="text-muted-foreground text-sm">{feature.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <Button className="mt-12 rounded-full h-14 px-8 bg-white text-black hover:bg-white/90 font-bold text-base transition-all hover:scale-105" asChild>
+              <Button className="mt-12 rounded-full h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base transition-all hover:scale-105" asChild>
                 <Link href="/admin/dashboard">
                   {t("home.ecosystem.cta", { defaultValue: "Explore The Platform" })}
                 </Link>
@@ -736,7 +736,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
             </motion.div>
 
             <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-              className="relative aspect-square md:aspect-auto md:h-[700px] w-full rounded-[3rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent overflow-hidden shadow-2xl flex items-center justify-center p-8">
+              className="relative aspect-square md:aspect-auto md:h-[700px] w-full rounded-[3rem] border border-border bg-gradient-to-br from-muted/30 to-transparent overflow-hidden shadow-2xl flex items-center justify-center p-4 md:p-8">
               <EcosystemPreview />
             </motion.div>
           </div>
