@@ -318,7 +318,7 @@ export default function Payments() {
  <TableCell colSpan={7} className="text-center py-20 text-muted-foreground text-[10px] font-bold opacity-30">{t("admin_financial_no_neural_financial_signatures")}</TableCell>
  </TableRow> : filteredPayments.map(payment => {
  const config = (statusConfig as any)[payment.status];
- return <TableRow key={payment.id} className="border-b border-border hover:bg-muted/50 transition-all group">
+ return <TableRow key={payment.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 border-b border-border hover:bg-muted/50 transition-all group">
  <TableCell className="px-8 py-6">
  <div>
  <div className="text-sm font-bold text-foreground truncate tracking-tight leading-none mb-2">{payment.tenant?.name ||"—"}</div>

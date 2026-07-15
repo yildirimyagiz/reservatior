@@ -137,8 +137,7 @@ export default function AdminDashboardPage() {
           <div className="flex items-center gap-3">
             <Badge variant="outline" className="border-emerald-500/30 text-emerald-500 bg-emerald-500/10 px-3 py-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse" />
-              All Systems Online
-            </Badge>
+              {t("admin_auto_all_systems_online", "All Systems Online")}</Badge>
             <Button
               onClick={() => router.push('/')}
               variant="outline"
@@ -176,7 +175,7 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
                   <div className="text-2xl font-bold text-foreground tracking-tight">{metric.value}</div>
-                  <div className="text-xs text-muted-foreground mt-1 font-medium">{metric.title}</div>
+                  <div className="text-xs text-muted-foreground mt-1 font-medium">{t(`admin_dashboard_metric_${metric.title.toLowerCase().replace(/\s+/g, '_')}`, metric.title)}</div>
                   {/* Subtle gradient accent bar */}
                   <div className={`h-0.5 mt-4 rounded-full bg-gradient-to-r ${metric.gradient} opacity-60`} />
                 </CardContent>
@@ -202,8 +201,7 @@ export default function AdminDashboardPage() {
                     {t("recent_activities", "Recent Activities")}
                   </CardTitle>
                   <Button variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-foreground">
-                    View All
-                  </Button>
+                    {t("admin_dashboard_view_all", "View All")}</Button>
                 </div>
               </CardHeader>
               <CardContent className="pb-5">
@@ -219,14 +217,14 @@ export default function AdminDashboardPage() {
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-foreground">{activity.action}</div>
+                        <div className="text-sm font-medium text-foreground">{t(`admin_dashboard_activity_${activity.action.toLowerCase().replace(/\s+/g, '_')}`, activity.action)}</div>
                         <div className="text-xs text-muted-foreground">{activity.user}</div>
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
                         <div className="p-1.5 rounded-lg bg-accent/50">
                           {getActivityIcon(activity.type)}
                         </div>
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">{activity.time}</span>
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">{t(`admin_dashboard_time_${activity.time.toLowerCase().replace(/\s+/g, '_')}`, activity.time)}</span>
                       </div>
                     </div>
                   ))}
@@ -260,7 +258,7 @@ export default function AdminDashboardPage() {
                         onClick={() => router.push(action.href)}
                       >
                         <action.icon className={`w-5 h-5 ${action.color}`} />
-                        <span className="text-xs font-medium text-foreground">{action.label}</span>
+                        <span className="text-xs font-medium text-foreground">{t(`admin_dashboard_action_${action.label.toLowerCase().replace(/\s+/g, '_')}`, action.label)}</span>
                       </Button>
                     ))}
                   </div>
@@ -278,7 +276,7 @@ export default function AdminDashboardPage() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-foreground text-base font-semibold flex items-center gap-2">
                     <BarChart3 className="w-4 h-4 text-muted-foreground" />
-                    System Status
+                    {t("system_status", "System Status")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pb-5">
@@ -291,7 +289,7 @@ export default function AdminDashboardPage() {
                           ) : (
                             <AlertCircle className="w-4 h-4 text-amber-500" />
                           )}
-                          <span className="text-sm text-foreground font-medium">{service.label}</span>
+                          <span className="text-sm text-foreground font-medium">{t(`admin_dashboard_status_${service.label.toLowerCase().replace(/\s+/g, '_')}`, service.label)}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-muted-foreground">{service.uptime}</span>
@@ -303,7 +301,7 @@ export default function AdminDashboardPage() {
                                 : "border-amber-500/30 text-amber-500 bg-amber-500/10"
                             }`}
                           >
-                            {service.status}
+                            {t(`admin_status_${service.status}`, service.status)}
                           </Badge>
                         </div>
                       </div>
@@ -330,29 +328,29 @@ export default function AdminDashboardPage() {
                     <TrendingUp className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-foreground">Performance Overview</div>
-                    <div className="text-xs text-muted-foreground">Last 30 days</div>
+                    <div className="text-sm font-semibold text-foreground">{t("performance_overview", "Performance Overview")}</div>
+                    <div className="text-xs text-muted-foreground">{t("last_30_days", "Last 30 days")}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">94.2%</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Occupancy</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_property_occupancy", "Occupancy")}</div>
                   </div>
                   <div className="w-px h-8 bg-border" />
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">4.8</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Avg Rating</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_property_avg_rating", "Avg Rating")}</div>
                   </div>
                   <div className="w-px h-8 bg-border" />
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">$187</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Avg/Night</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_dashboard_perf_avg/night", "Avg/Night")}</div>
                   </div>
                   <div className="w-px h-8 bg-border" />
                   <div className="text-center">
                     <div className="text-lg font-bold text-emerald-500">+23%</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Growth</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_dashboard_perf_growth", "Growth")}</div>
                   </div>
                 </div>
               </div>

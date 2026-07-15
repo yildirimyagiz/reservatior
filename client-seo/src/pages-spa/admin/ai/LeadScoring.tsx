@@ -201,7 +201,7 @@ export default function AILeadScoring() {
  {filtered.map(l => {
  const s = SCORE_STYLES[l.scoreLabel];
  const SIcon = s.icon;
- return <TableRow key={l.id} className="hover:bg-muted/40">
+ return <TableRow key={l.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 hover:bg-muted/40">
  <TableCell>
  <p className="text-sm font-medium">{l.leadName}</p>
  <p className="text-xs text-muted-foreground">{l.email}</p>
@@ -249,7 +249,7 @@ export default function AILeadScoring() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-xl font-bold">{selected.score}</p>
- <p className="text-sm text-muted-foreground">/ 100 score</p>
+ <p className="text-sm text-muted-foreground">{t("admin_auto_100_score", "/ 100 score")}</p>
  </div>
  <div className="text-right">
  <p className="text-2xl font-bold text-green-600">{Math.round(selected.predictedConversion * 100)}%</p>

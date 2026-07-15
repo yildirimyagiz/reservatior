@@ -471,7 +471,7 @@ export default function ExportJobs() {
  const StatusIcon = statusConfig.icon;
  return <TableRow key={job.id}>
  <TableCell>
- <div className="flex items-center space-x-2">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex items-center space-x-2">
  <TypeIcon className="h-4 w-4" />
  <div>
  <div className="font-medium">{typeConfig.label}</div>
@@ -491,12 +491,12 @@ export default function ExportJobs() {
  {job.progress ? <div className="w-32">
  <Progress value={job.progress.percentage} className="w-full" />
  <div className="text-xs text-muted-foreground mt-1">
- {job.progress.processed} / {job.progress.total}
+ {job.progress.processed} {t("/", "/")}{job.progress.total}
  </div>
  {job.progress.currentStep && <div className="text-xs text-muted-foreground truncate">
  {job.progress.currentStep}
  </div>}
- </div> : <div className="text-sm text-muted-foreground">-</div>}
+ </div> : <div className="text-sm text-muted-foreground">{t(" - ", "-")}</div>}
  </TableCell>
  <TableCell>
  <div>
@@ -520,7 +520,7 @@ export default function ExportJobs() {
  </div>}
  </div> : job.error ? <div className="text-sm text-red-500">
  {job.error.message}
- </div> : <div className="text-sm text-muted-foreground">-</div>}
+ </div> : <div className="text-sm text-muted-foreground">{t(" - ", "-")}</div>}
  </TableCell>
  <TableCell>
  <DropdownMenu>
@@ -695,7 +695,7 @@ export default function ExportJobs() {
  <div className="space-y-2">
  <Progress value={selectedJob.progress.percentage} className="w-full" />
  <div className="text-sm">
- {selectedJob.progress.processed} / {selectedJob.progress.total} ({selectedJob.progress.percentage}%)
+ {selectedJob.progress.processed} {t("/", "/")}{selectedJob.progress.total} ({selectedJob.progress.percentage}%)
  </div>
  {selectedJob.progress.currentStep && <div className="text-sm text-muted-foreground">{t("admin_integrations_current")}{selectedJob.progress.currentStep}</div>}
  </div>

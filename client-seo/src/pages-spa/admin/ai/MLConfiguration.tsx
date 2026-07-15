@@ -272,7 +272,7 @@ export default function MLConfiguration() {
  return formatDate(dateString);
  };
  return <PageShell title={t("admin_ai_ml_configuration")} description={t("admin_ai_manage_machine_learning_models")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Tab Navigation */}
  <div className="flex space-x-1 bg-muted p-1 rounded-lg w-fit">
  <Button variant={activeTab ==="models" ?"default" :"ghost"} size="sm" onClick={() => setActiveTab("models")}>

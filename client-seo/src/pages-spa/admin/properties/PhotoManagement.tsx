@@ -208,7 +208,7 @@ const PhotoManagement = () => {
  value={newItem.url} 
  onChange={(e) => setNewItem({...newItem, url: e.target.value})}
  className="bg-card border-border"
- placeholder="https://example.com/photo.jpg"
+ placeholder={t("admin_auto_https_example_com_photo_jpg", "https://example.com/photo.jpg")}
  />
  </div>
  <div className="space-y-2">

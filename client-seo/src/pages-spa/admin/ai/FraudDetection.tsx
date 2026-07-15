@@ -114,12 +114,12 @@ export default function FraudDetection() {
  <Activity className="h-8 w-8 animate-spin text-foreground" />
  </div>;
  }
- return <div className="space-y-6 min-h-screen p-4 md:p-8">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen p-4 md:p-8">
  <div className="space-y-6">
  <div className="flex justify-between items-center mb-6">
  <div>
- <h2 className="text-2xl font-bold tracking-tight text-foreground">Fraud Alerts</h2>
- <p className="text-muted-foreground">Manage and review AI-detected anomalies.</p>
+ <h2 className="text-2xl font-bold tracking-tight text-foreground">{t("admin_auto_fraud_alerts", "Fraud Alerts")}</h2>
+ <p className="text-muted-foreground">{t("admin_auto_manage_and_review_ai_detected_anomalies", "Manage and review AI-detected anomalies.")}</p>
  </div>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
@@ -133,11 +133,11 @@ export default function FraudDetection() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_entity_type", "Entity Type")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityType} onChange={e => setNewAlert({...newAlert, entityType: e.target.value})} placeholder="USER" />
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityType} onChange={e => setNewAlert({...newAlert, entityType: e.target.value})} placeholder={t("admin_auto_user", "USER")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_entity_id", "Entity ID")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityId} onChange={e => setNewAlert({...newAlert, entityId: e.target.value})} placeholder="USR-1234" />
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityId} onChange={e => setNewAlert({...newAlert, entityId: e.target.value})} placeholder={t("admin_auto_usr_1234", "USR-1234")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_risk_score", "Risk Score")}</Label>
@@ -145,11 +145,11 @@ export default function FraudDetection() {
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_category", "Category")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.riskCategory} onChange={e => setNewAlert({...newAlert, riskCategory: e.target.value})} placeholder="HIGH" />
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.riskCategory} onChange={e => setNewAlert({...newAlert, riskCategory: e.target.value})} placeholder={t("admin_auto_high", "HIGH")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(newAlert)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Running..." :"Trigger"}
  </Button>

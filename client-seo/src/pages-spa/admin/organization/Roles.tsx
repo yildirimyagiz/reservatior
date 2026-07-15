@@ -516,7 +516,7 @@ export default function Roles() {
  {['OWNER', 'ORG_ADMIN', 'AGENCY_ADMIN', 'VENDOR_MANAGER', 'AGENT', 'ACCOUNTANT', 'MAINTENANCE', 'TENANT_GUEST', 'READ_ONLY'].map(key => {
  const count = roles.filter(role => role.key === key).length;
  if (count === 0) return null;
- return <div key={key} className="flex justify-between items-center">
+ return <div key={key} className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex justify-between items-center">
  <span className="text-sm flex items-center gap-2">
  <div className={`w-2 h-2 rounded-full ${getRoleKeyColor(key as MemberRoleKey)}`} />
  {key.replace('_', ' ').toLowerCase()}

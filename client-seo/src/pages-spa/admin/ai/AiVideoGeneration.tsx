@@ -188,10 +188,10 @@ export default function AiVideoGenerationPage() {
  }
 
  return <PageShell title={t("admin_ai_ai_video_generation_management")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  <div className="flex justify-between items-center">
  <div>
- <h1 className="text-3xl font-bold">{t("admin_ai_ai_video_generation")}</h1>
+ <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_ai_ai_video_generation")}</h1>
  <p className="text-muted-foreground">{t("admin_ai_manage_aigenerated_property_videos")}</p>
  </div>
  <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -402,7 +402,7 @@ export default function AiVideoGenerationPage() {
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right font-medium">{t("admin_ai_duration")}</Label>
- <span className="col-span-3">{form.duration}s</span>
+ <span className="col-span-3">{form.duration}{t("admin_auto_s", "s")}</span>
  </div>
  <div className="grid grid-cols-4 items-start gap-4">
  <Label className="text-right pt-2 font-medium">{t("admin_ai_metadata")}</Label>

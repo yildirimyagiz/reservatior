@@ -488,7 +488,7 @@ export default function Attachments() {
  const entityInfo = getEntityInfo(attachment);
  return <TableRow key={attachment.id}>
  <TableCell>
- <div className="flex items-center space-x-3">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex items-center space-x-3">
  <FileTypeIcon className="h-8 w-8 text-muted-foreground" />
  <div>
  <div className="font-medium">{attachment.originalName}</div>

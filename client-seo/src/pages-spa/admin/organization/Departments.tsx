@@ -256,7 +256,7 @@ export default function Departments() {
  </PageShell>;
  }
  return <PageShell title={t("admin_organization_departments_management")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Overview Cards */}
  <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
  <Card>
@@ -407,7 +407,7 @@ export default function Departments() {
  </SelectTrigger>
  <SelectContent>
  {users.map(user => <SelectItem key={user.id} value={user.id}>
- {user.firstName} {user.lastName} - {user.email}
+ {user.firstName} {user.lastName} {t(" - ", "-")}{user.email}
  </SelectItem>)}
  </SelectContent>
  </Select>
@@ -487,7 +487,7 @@ export default function Departments() {
  </SelectTrigger>
  <SelectContent>
  {users.map(user => <SelectItem key={user.id} value={user.id}>
- {user.firstName} {user.lastName} - {user.email}
+ {user.firstName} {user.lastName} {t(" - ", "-")}{user.email}
  </SelectItem>)}
  </SelectContent>
  </Select>
@@ -561,8 +561,8 @@ export default function Departments() {
  </TableCell>
  <TableCell>
  {department.budget ? <span className="font-medium">
- ${department.budget.toLocaleString()}
- </span> : <span className="text-muted-foreground">-</span>}
+ {t("currency_symbol", "$")}{department.budget.toLocaleString()}
+ </span> : <span className="text-muted-foreground">{t(" - ", "-")}</span>}
  </TableCell>
  <TableCell>
  {new Date(department.createdAt).toLocaleDateString()}
@@ -664,13 +664,13 @@ export default function Departments() {
  <div className="flex justify-between items-center">
  <span className="text-sm">{t("admin_organization_total_budget")}</span>
  <span className="font-medium">
- ${departments.reduce((acc, d) => acc + (d.budget || 0), 0).toLocaleString()}
+ {t("currency_symbol", "$")}{departments.reduce((acc, d) => acc + (d.budget || 0), 0).toLocaleString()}
  </span>
  </div>
  <div className="flex justify-between items-center">
  <span className="text-sm">{t("admin_organization_average_budget")}</span>
  <span className="font-medium">
- ${departments.length > 0 ? Math.round(departments.reduce((acc, d) => acc + (d.budget || 0), 0) / departments.length).toLocaleString() : '0'}
+ {t("currency_symbol", "$")}{departments.length > 0 ? Math.round(departments.reduce((acc, d) => acc + (d.budget || 0), 0) / departments.length).toLocaleString() : '0'}
  </span>
  </div>
  </div>

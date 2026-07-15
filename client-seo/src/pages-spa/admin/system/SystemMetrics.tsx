@@ -437,12 +437,11 @@ export default function SystemMetrics() {
  </TableCell>
  </TableRow> : filteredMetrics.map(metric => {
  const categoryConfig = getCategoryConfig(metric.category);
- return <TableRow key={metric.id} className="border-b border-border hover:bg-muted/50 transition-all group">
+ return <TableRow key={metric.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 border-b border-border hover:bg-muted/50 transition-all group">
  <TableCell className="px-8 py-6">
  <div>
  <div className="text-sm font-bold text-foreground truncate tracking-tight leading-none mb-2">{metric.name}</div>
- {metric.threshold && <div className="text-[9px] font-bold text-muted-foreground opacity-50">{t("admin_system_limits")}{metric.threshold.warning}{t("admin_system_w")}{metric.threshold.critical}C
- </div>}
+ {metric.threshold && <div className="text-[9px] font-bold text-muted-foreground opacity-50">{t("admin_system_limits")}{metric.threshold.warning}{t("admin_system_w")}{metric.threshold.critical}{t("admin_auto_c", "C")}</div>}
  </div>
  </TableCell>
  <TableCell className="px-8">

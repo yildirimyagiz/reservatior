@@ -412,7 +412,7 @@ export default function AIConfiguration() {
  totalCost: models.reduce((sum, m) => sum + m.usage.cost, 0)
  };
  return <PageShell title={t('admin_ai_title')} description={t('admin_ai_description')}>
- <div className="space-y-10 pb-20 selection:bg-primary/30">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20 selection:bg-primary/30">
  {/* Stats Cards - Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
  <motion.div initial={{
@@ -494,7 +494,7 @@ export default function AIConfiguration() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('totalCost')}</p>
- <h3 className="text-xl font-bold text-foreground leading-none">${stats.totalCost.toFixed(2)}</h3>
+ <h3 className="text-xl font-bold text-foreground leading-none">{t("currency_symbol", "$")}{stats.totalCost.toFixed(2)}</h3>
  <p className="text-[10px] font-bold text-red-400 mt-4 flex items-center gap-1">
  <TrendingUp className="w-3 h-3" />{t("admin_ai_monthlyburn")}</p>
  </CardContent>
@@ -540,7 +540,7 @@ export default function AIConfiguration() {
  <h4 className="text-xl font-bold text-foreground">{model.name}</h4>
  <div className="flex items-center gap-3 mt-1">
  <span className="text-[10px] font-bold text-muted-foreground flex items-center gap-1">
- {getProviderIcon(model.provider)} {model.provider} <span className="opacity-50">v{model.version}</span>
+ {getProviderIcon(model.provider)} {model.provider} <span className="opacity-50">{t("admin_auto_v", "v")}{model.version}</span>
  </span>
  <Badge className={cn("text-[9px] font-bold px-3 py-0.5 rounded-full", getStatusColor(model.status))}>
  {model.status}
@@ -649,7 +649,7 @@ export default function AIConfiguration() {
  </div>
  <div>
  <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('admin_ai_workflows_avgTime')}</p>
- <p className="text-lg font-bold text-foreground leading-none">{workflow.avgExecutionTime}s</p>
+ <p className="text-lg font-bold text-foreground leading-none">{workflow.avgExecutionTime}{t("admin_auto_s", "s")}</p>
  </div>
  <div>
  <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('successRate')}</p>
@@ -731,7 +731,7 @@ export default function AIConfiguration() {
  <div>
  <p className="text-[9px] font-bold text-muted-foreground mb-1">{t('rateLimit')}</p>
  <p className="text-lg font-bold text-foreground leading-none">
- {service.rateLimit.requests}/{service.rateLimit.window}
+ {service.rateLimit.requests}{t("/", "/")}{service.rateLimit.window}
  </p>
  </div>
  <div>
@@ -821,7 +821,7 @@ export default function AIConfiguration() {
  {model.usage.tokens.toLocaleString()}{t("admin_ai_tokensconsumed")}</div>
  </div>
  <div className="text-xl font-bold text-emerald-400">
- ${model.usage.cost.toFixed(2)}
+ {t("currency_symbol", "$")}{model.usage.cost.toFixed(2)}
  </div>
  </div>)}
  </div>

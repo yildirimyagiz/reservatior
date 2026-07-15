@@ -176,6 +176,7 @@ export default function AdminImmigrationPage() {
 }
 
 function CreateDocumentDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<DocumentRecord, "id">) => void }) {
+  const { t } = useTranslation();
   const [clientName, setClientName] = useState("");
   const [documentType, setDocumentType] = useState("");
   const [status, setStatus] = useState<DocumentRecord["status"]>("PENDING");
@@ -226,6 +227,7 @@ function CreateDocumentDialog({ open, onOpenChange, onSubmit }: { open: boolean;
 }
 
 function EditDocumentDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: DocumentRecord; onSubmit: (data: DocumentRecord) => void }) {
+  const { t } = useTranslation();
   const [clientName, setClientName] = useState(item.clientName);
   const [documentType, setDocumentType] = useState(item.documentType);
   const [status, setStatus] = useState<DocumentRecord["status"]>(item.status);
@@ -276,6 +278,7 @@ function EditDocumentDialog({ open, onOpenChange, item, onSubmit }: { open: bool
 }
 
 function DeleteDocumentDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: DocumentRecord; onConfirm: () => void }) {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">

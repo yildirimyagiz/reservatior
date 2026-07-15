@@ -270,7 +270,7 @@ export default function Teams() {
  </PageShell>;
  }
  return <PageShell title={t("admin_organization_teams_management")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Overview Cards */}
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card>
@@ -386,7 +386,7 @@ export default function Teams() {
  </SelectTrigger>
  <SelectContent>
  {users.map(user => <SelectItem key={user.id} value={user.id}>
- {user.firstName} {user.lastName} - {user.email}
+ {user.firstName} {user.lastName} {t(" - ", "-")}{user.email}
  </SelectItem>)}
  </SelectContent>
  </Select>
@@ -432,7 +432,7 @@ export default function Teams() {
  </SelectTrigger>
  <SelectContent>
  {users.map(user => <SelectItem key={user.id} value={user.id}>
- {user.firstName} {user.lastName} - {user.email}
+ {user.firstName} {user.lastName} {t(" - ", "-")}{user.email}
  </SelectItem>)}
  </SelectContent>
  </Select>
@@ -471,7 +471,7 @@ export default function Teams() {
  </SelectTrigger>
  <SelectContent>
  {users.filter(user => !selectedTeam?.members.some(member => member.user.id === user.id)).map(user => <SelectItem key={user.id} value={user.id}>
- {user.firstName} {user.lastName} - {user.email}
+ {user.firstName} {user.lastName} {t(" - ", "-")}{user.email}
  </SelectItem>)}
  </SelectContent>
  </Select>

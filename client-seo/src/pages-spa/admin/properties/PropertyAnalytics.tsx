@@ -65,14 +65,14 @@ export default function PropertyAnalytics() {
  if (analyticsLoading) {
  return <div className="min-h-screen bg-background p-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_property_property_analytics")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_property_property_analytics")}</h1>
  </div>
  <div className="flex items-center justify-center h-64 mt-6">
  <Activity className="h-8 w-8 animate-spin text-foreground" />
  </div>
  </div>;
  }
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
  <h1 className="text-xl font-bold text-foreground">{t("admin_property_property_analytics")}</h1>
@@ -196,7 +196,7 @@ export default function PropertyAnalytics() {
  <div>
  <div className="text-foreground">{item.property?.address || `Property ${item.propertyId}`}</div>
  <div className="text-xs text-muted-foreground">
- {item.property?.city}, {item.property?.state} • {formatCurrency(item.property?.price || 0)}
+ {item.property?.city}{t(",", ",")}{item.property?.state} • {formatCurrency(item.property?.price || 0)}
  </div>
  </div>
  </div>
@@ -221,7 +221,7 @@ export default function PropertyAnalytics() {
  <div className="font-medium text-foreground">{item.bounceRate.toFixed(1)}%</div>
  </TableCell>
  <TableCell className="text-muted-foreground">
- <div className="font-medium text-foreground">{Math.round(item.timeOnPage / 60)}m {item.timeOnPage % 60}s</div>
+ <div className="font-medium text-foreground">{Math.round(item.timeOnPage / 60)}{t("admin_auto_m", "m")}{item.timeOnPage % 60}{t("admin_auto_s", "s")}</div>
  </TableCell>
  <TableCell className="font-medium text-green-400">{formatCurrency(item.revenue)}</TableCell>
  <TableCell className="text-right">
@@ -277,7 +277,7 @@ export default function PropertyAnalytics() {
  <div className="flex items-center justify-center w-8 h-8 bg-slate-100 text-slate-600 rounded-full font-bold">{index + 1}</div>
  <div>
  <div className="font-medium text-foreground">{property.property?.address}</div>
- <div className="text-sm text-muted-foreground">{property.property?.city}, {property.property?.state}</div>
+ <div className="text-sm text-muted-foreground">{property.property?.city}{t(",", ",")}{property.property?.state}</div>
  </div>
  </div>
  <div className="text-right">

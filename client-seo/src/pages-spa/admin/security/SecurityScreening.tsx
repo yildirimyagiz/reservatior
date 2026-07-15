@@ -28,10 +28,10 @@ export default function SecurityScreening() {
  default: return"bg-muted0/10 text-muted-foreground border-slate-500/20";
  }
  };
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_security_fraud_assessment_hub")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_security_fraud_assessment_hub")}</h1>
  <p className="text-sm text-muted-foreground">{t("admin_security_realtime_behavioral_analysis_and")}</p>
  </div>
 

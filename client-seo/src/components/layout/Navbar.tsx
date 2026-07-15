@@ -67,11 +67,11 @@ export function Navbar() {
           "absolute right-4 top-4 w-12 h-12 p-0 rounded-full justify-center",
           // Desktop state
           isMinimized 
-            ? "md:relative md:right-auto md:top-auto md:w-[404px] md:h-auto md:px-6 md:py-3 md:rounded-full md:justify-between md:gap-4" 
-            : "md:relative md:right-auto md:top-auto md:w-full md:max-w-7xl md:h-auto md:px-6 md:py-3 md:rounded-full md:justify-between"
+            ? "md:relative md:right-auto md:top-auto md:w-[404px] md:h-auto md:px-4 lg:px-6 md:py-3 md:rounded-full md:justify-between md:gap-4" 
+            : "md:relative md:right-auto md:top-auto md:w-full md:max-w-7xl md:h-auto md:px-4 lg:px-6 md:py-3 md:rounded-full md:justify-between"
         )}
       >
-        <div className="hidden md:flex items-center gap-8 shrink-0">
+        <div className="hidden md:flex items-center md:gap-4 lg:gap-8 shrink-0">
           <div className="flex items-center gap-3">
             <Link href={`/${currentLang.code}`} className="text-xl font-display font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">Reservatior</Link>
             {/* Visual cue for minimized state on desktop */}
@@ -80,9 +80,9 @@ export function Navbar() {
             </div>
           </div>
  
-          <div className={`hidden md:flex items-center gap-6 overflow-hidden transition-all duration-500 ease-in-out
+          <div className={`hidden md:flex items-center md:gap-3 lg:gap-6 overflow-hidden transition-all duration-500 ease-in-out
             ${isMinimized ? "w-0 opacity-0 pointer-events-none" : "w-auto opacity-100"}`}>
-            <Link href={`/${currentLang.code}`} className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
+            <Link href={`/${currentLang.code}`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
               {t("mobile.nav.home")}
             </Link>
             <Link href={`/${currentLang.code}/features`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/features") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
@@ -101,8 +101,13 @@ export function Navbar() {
             {isAuthenticated && (
               <>
                 <Link href={`/${currentLang.code}/client/lease-care`} suppressHydrationWarning className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/client/lease-care") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"} flex items-center gap-1`}>
-                  LeaseCare+
+                  ReosCare+
                   <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold border border-emerald-500/20">PRO</span>
+                </Link>
+                <div className="w-px h-4 bg-border/60 md:mx-1 lg:mx-2 shrink-0 hidden md:block" />
+                <Link href={`/${currentLang.code}/client/property/new`} className={`text-sm font-medium transition-colors whitespace-nowrap ${isActive("/client/property/new") ? "text-blue-600 dark:text-blue-400 font-bold" : "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"} flex items-center gap-1 md:mr-2 lg:mr-8`}>
+                  <Plus className="w-3 h-3 shrink-0" />
+                  {t("nav.addListing")}
                 </Link>
               </>
             )}
@@ -110,22 +115,9 @@ export function Navbar() {
         </div>
  
         <div className={cn(
-          "hidden md:flex items-center gap-4 overflow-hidden transition-all duration-500 ease-in-out shrink-0",
+          "hidden md:flex items-center md:gap-2 lg:gap-4 overflow-hidden transition-all duration-500 ease-in-out shrink-0",
           isMinimized ? "w-0 opacity-0 pointer-events-none" : "w-auto opacity-100"
         )}>
-          {/* Add Listing Button (Right Side) */}
-          {isAuthenticated && (
-            <>
-              <Button asChild variant="outline" size="sm" className="rounded-full h-8 px-4 gap-1.5 border-blue-200/60 dark:border-blue-800/60 bg-white/50 dark:bg-slate-800/50 hover:bg-blue-50 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 transition-all shadow-sm">
-                <Link href={`/${currentLang.code}/client/property/new`}>
-                  <Plus className="w-3.5 h-3.5" />
-                  <span className="text-xs font-bold">{t("nav.addListing")}</span>
-                </Link>
-              </Button>
-              <div className="w-px h-4 bg-blue-200/50 dark:bg-blue-800/50 mx-1 shrink-0" />
-            </>
-          )}
-
           {/* Theme Toggle */}
           <Button
             variant="ghost"
@@ -170,6 +162,8 @@ export function Navbar() {
           <div className="hidden md:block shrink-0">
             <UserMenu />
           </div>
+
+
  
           {!isAuthenticated && (
             <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground hidden md:inline-flex shrink-0">
@@ -192,7 +186,7 @@ export function Navbar() {
       opacity: 1,
       y: 0
     }} className="absolute top-20 inset-x-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-3xl border border-blue-200/60 dark:border-blue-800/60 rounded-3xl p-6 flex flex-col gap-4 shadow-[0_20px_60px_-15px_rgba(59,130,246,0.3)] md:hidden z-50 text-slate-700 dark:text-slate-200">
-          <Link href={`/${currentLang.code}`}>
+          <Link href={`/${currentLang.code}`} suppressHydrationWarning>
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
               {t("mobile.nav.home")}
             </span>
@@ -221,16 +215,16 @@ export function Navbar() {
             <>
               <Link href={`/${currentLang.code}/client/lease-care`} suppressHydrationWarning>
                 <span className="text-lg font-medium cursor-pointer flex items-center gap-2" onClick={() => setIsOpen(false)}>
-                  LeaseCare+
+                  ReosCare+
                   <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold border border-emerald-500/20">PRO</span>
                 </span>
               </Link>
-              <Button asChild className="w-full justify-start rounded-xl h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 mt-2 mb-2" onClick={() => setIsOpen(false)}>
-                <Link href={`/${currentLang.code}/client/property/new`}>
-                  <Plus className="w-5 h-5 mr-2" />
-                  <span className="text-base font-bold uppercase tracking-wider">{t("nav.addListing")}</span>
-                </Link>
-              </Button>
+              <Link href={`/${currentLang.code}/client/property/new`}>
+                <span className="text-lg font-medium cursor-pointer flex items-center gap-2" onClick={() => setIsOpen(false)}>
+                  <Plus className="w-4 h-4" />
+                  {t("nav.addListing")}
+                </span>
+              </Link>
             </>
           )}
           <div className="h-px bg-border my-2" />

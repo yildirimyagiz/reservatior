@@ -160,19 +160,19 @@ const AgenciesManagement = () => {
  <Label>{t("admin_auto_status", "Status")}</Label>
  <Select value={newAgency.status} onValueChange={v => setNewAgency({...newAgency, status: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder="Select status" />
+ <SelectValue placeholder={t("admin_auto_select_status", "Select status")} />
  </SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
- <SelectItem value="PENDING">Pending</SelectItem>
- <SelectItem value="ACTIVE">Active</SelectItem>
- <SelectItem value="INACTIVE">Inactive</SelectItem>
- <SelectItem value="SUSPENDED">Suspended</SelectItem>
+ <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
+ <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
+ <SelectItem value="SUSPENDED">{t("admin_organization_suspended", "Suspended")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
 
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Create Agency"}
  </Button>
@@ -202,17 +202,17 @@ const AgenciesManagement = () => {
  <div className="space-y-2">
  <Label>{t("admin_auto_status", "Status")}</Label>
  <Select value={newAgency.status} onValueChange={v => setNewAgency({...newAgency, status: v})}>
- <SelectTrigger className="bg-card border-border"><SelectValue placeholder="Select status" /></SelectTrigger>
+ <SelectTrigger className="bg-card border-border"><SelectValue placeholder={t("admin_auto_select_status", "Select status")} /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
- <SelectItem value="PENDING">Pending</SelectItem>
- <SelectItem value="ACTIVE">Active</SelectItem>
- <SelectItem value="INACTIVE">Inactive</SelectItem>
- <SelectItem value="SUSPENDED">Suspended</SelectItem>
+ <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
+ <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
+ <SelectItem value="SUSPENDED">{t("admin_organization_suspended", "Suspended")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={updateMutation.isPending}>
  {updateMutation.isPending ?"Saving..." :"Update Agency"}
  </Button>
@@ -227,34 +227,34 @@ const AgenciesManagement = () => {
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Total Agencies</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("client.src.total_agencies", "Total Agencies")}</CardTitle>
  <Building2 className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">124</div>
- <p className="text-xs text-green-400 mt-1">+12 this month</p>
+ <p className="text-xs text-green-400 mt-1">{t("admin_auto_12_this_month", "+12 this month")}</p>
  </CardContent>
  </Card>
  
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Active Agents</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_reports_active_agents", "Active Agents")}</CardTitle>
  <Users className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">8,432</div>
- <p className="text-xs text-green-400 mt-1">+142 this month</p>
+ <p className="text-xs text-green-400 mt-1">{t("admin_auto_142_this_month", "+142 this month")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">System Integration</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_system_integration", "System Integration")}</CardTitle>
  <Settings className="w-4 h-4 text-amber-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">98%</div>
- <p className="text-xs text-muted-foreground mt-1">API Health</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_api_health", "API Health")}</p>
  </CardContent>
  </Card>
  </div>
@@ -270,18 +270,17 @@ const AgenciesManagement = () => {
  </div>
  ) : agencies.length === 0 ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- No agencies found.
- </div>
+ {t("mobile.auto.no_agencies_found", "No agencies found.")}</div>
  ) : (
  <div className="rounded-xl border border-border">
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">Agency Name</TableHead>
- <TableHead className="text-slate-300">Email</TableHead>
- <TableHead className="text-slate-300">Phone</TableHead>
- <TableHead className="text-slate-300">Status</TableHead>
- <TableHead className="text-slate-300 text-right">Actions</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_agency_name", "Agency Name")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_email", "Email")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_phone", "Phone")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_ai_status", "Status")}</TableHead>
+ <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>

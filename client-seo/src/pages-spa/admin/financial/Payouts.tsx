@@ -204,7 +204,7 @@ export default function Payouts() {
  };
  return <>
  <PageShell title={t("financialPayoutsTitle")} description={t("financialPayoutsDesc")}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
@@ -243,7 +243,7 @@ export default function Payouts() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("financialPayoutsTotalpaid")}</p>
- <h3 className="text-3xl font-bold text-muted-foreground leading-none">${payouts.filter(r => r.status === 'PAID').reduce((s, r) => s + (r.amount || 0), 0).toLocaleString()}</h3>
+ <h3 className="text-3xl font-bold text-muted-foreground leading-none">{t("currency_symbol", "$")}{payouts.filter(r => r.status === 'PAID').reduce((s, r) => s + (r.amount || 0), 0).toLocaleString()}</h3>
  </CardContent>
  </Card>
  </div>
@@ -285,7 +285,7 @@ export default function Payouts() {
  <TableBody>
  {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground font-bold text-[10px]">{t("admin_financial_no_active_signals_found")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="border-border hover:bg-muted/50 transition-all group">
  <TableCell className="px-8 text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors">{row.id.slice(0, 12)}</TableCell>
- <TableCell className="px-8 text-sm font-bold text-foreground">${row.amount.toLocaleString()}</TableCell>
+ <TableCell className="px-8 text-sm font-bold text-foreground">{t("currency_symbol", "$")}{row.amount.toLocaleString()}</TableCell>
  <TableCell className="px-8 text-sm font-bold text-muted-foreground">{row.currency}</TableCell>
  <TableCell className="px-8 text-sm text-muted-foreground font-bold">{row.scheduledAt ? new Date(row.scheduledAt).toLocaleDateString() :"—"}</TableCell>
  <TableCell className="px-8">

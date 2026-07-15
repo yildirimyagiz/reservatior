@@ -64,18 +64,15 @@ export default function B2BHotelIntegrations() {
  ));
  };
 
- return (
- <div className="max-w-7xl mx-auto space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-7xl mx-auto space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border flex justify-between items-center">
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">B2B Otel Toptancıları (Aggregator)</h1>
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_auto_b2b_otel_toptanc_lar_aggregator", "B2B Otel Toptancıları (Aggregator)")}</h1>
  <p className="text-muted-foreground mt-2">
- Türkiye ve globaldeki otel envanterlerini sisteme dahil etmek için B2B API bağlantılarını yapılandırın.
- </p>
+ {t("admin_auto_t_rkiye_ve_globaldeki_otel_envanterlerin", "Türkiye ve globaldeki otel envanterlerini sisteme dahil etmek için B2B API bağlantılarını yapılandırın.")}</p>
  </div>
  <Button onClick={handleSave} className="gap-2 bg-slate-600 hover:bg-muted0">
- <Save className="w-4 h-4" /> Ayarları Kaydet
- </Button>
+ <Save className="w-4 h-4" /> {t("admin_auto_ayarlar_kaydet", "Ayarları Kaydet")}</Button>
  </div>
 
  {/* Info Banner */}
@@ -85,11 +82,9 @@ export default function B2BHotelIntegrations() {
  <ShieldCheck className="w-6 h-6 text-emerald-500" />
  </div>
  <div>
- <h3 className="font-semibold text-emerald-500">SafeStay™ Escrow Güvencesi</h3>
+ <h3 className="font-semibold text-emerald-500">{t("admin_auto_safestay_escrow_g_vencesi", "SafeStay™ Escrow Güvencesi")}</h3>
  <p className="text-sm text-emerald-500/80 mt-1">
- Bu platformlardan gelen envanterlere yapılan rezervasyon ödemeleri havuzda tutulur.
- Müşteri check-in yaptıktan sonra ilgili platforma API üzerinden kesin ödeme geçişi yapılır.
- </p>
+ {t("admin_auto_bu_platformlardan_gelen_envanterlere_yap", "Bu platformlardan gelen envanterlere yapılan rezervasyon ödemeleri havuzda tutulur. Müşteri check-in yaptıktan sonra ilgili platforma API üzerinden kesin ödeme geçişi yapılır.")}</p>
  </div>
  </CardContent>
  </Card>
@@ -105,7 +100,7 @@ export default function B2BHotelIntegrations() {
  <div>
  <CardTitle className="text-lg text-foreground">{integration.name}</CardTitle>
  <CardDescription className="flex items-center gap-2 mt-1 text-muted-foreground">
- <Server className="w-3 h-3" /> Son Eşitleme: {integration.lastSync}
+ <Server className="w-3 h-3" /> {t("admin_auto_son_e_itleme", "Son Eşitleme:")}{integration.lastSync}
  </CardDescription>
  </div>
  </div>
@@ -117,22 +112,20 @@ export default function B2BHotelIntegrations() {
  <CardContent className="space-y-4 pt-4">
  <div className="space-y-2">
  <Label className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-widest">
- <Key className="w-3 h-3" /> API Key
- </Label>
+ <Key className="w-3 h-3" /> {t("admin_location_api_key", "API Key")}</Label>
  <Input
  value={integration.apiKey}
  onChange={(e) => setIntegrations(integrations.map(inv =>
  inv.id === integration.id ? { ...inv, apiKey: e.target.value } : inv
  ))}
  disabled={!integration.enabled}
- placeholder="Enter API Key"
+ placeholder={t("admin_auto_enter_api_key", "Enter API Key")}
  className="bg-card border-border text-foreground"
  />
  </div>
  <div className="space-y-2">
  <Label className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-widest">
- <Key className="w-3 h-3" /> API Secret
- </Label>
+ <Key className="w-3 h-3" /> {t("admin_auto_api_secret", "API Secret")}</Label>
  <Input
  type="password"
  value={integration.apiSecret}
@@ -140,14 +133,13 @@ export default function B2BHotelIntegrations() {
  inv.id === integration.id ? { ...inv, apiSecret: e.target.value } : inv
  ))}
  disabled={!integration.enabled}
- placeholder="Enter API Secret"
+ placeholder={t("admin_auto_enter_api_secret", "Enter API Secret")}
  className="bg-card border-border text-foreground"
  />
  </div>
  <div className="space-y-2">
  <Label className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-widest font-bold">
- <Percent className="w-3 h-3" /> Kâr Marjı (Markup) %
- </Label>
+ <Percent className="w-3 h-3" /> {t("admin_auto_k_r_marj_markup", "Kâr Marjı (Markup) %")}</Label>
  <div className="flex gap-2 items-center">
  <Input
  type="number"
@@ -159,8 +151,7 @@ export default function B2BHotelIntegrations() {
  className="bg-muted0/10 border-slate-500/30 text-muted-foreground font-bold"
  />
  <span className="text-sm text-muted-foreground whitespace-nowrap">
- Net fiyata eklenecek marj
- </span>
+ {t("admin_auto_net_fiyata_eklenecek_marj", "Net fiyata eklenecek marj")}</span>
  </div>
  </div>
  </CardContent>

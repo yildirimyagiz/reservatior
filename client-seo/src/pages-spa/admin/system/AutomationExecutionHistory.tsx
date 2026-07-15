@@ -50,7 +50,7 @@ export default function AutomationExecutionHistory() {
 
  return (
  <PageShell title={t("admin_system_execution_history")}>
- <div className="space-y-4">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-4">
  <div className="flex items-center gap-3">
  <Select value={status} onValueChange={(v) => { setStatus(v); setPage(1); }}>
  <SelectTrigger className="w-[180px]">
@@ -58,10 +58,10 @@ export default function AutomationExecutionHistory() {
  </SelectTrigger>
  <SelectContent>
  <SelectItem value="">{t("admin_system_all_statuses")}</SelectItem>
- <SelectItem value="COMPLETED">COMPLETED</SelectItem>
- <SelectItem value="PARTIAL">PARTIAL</SelectItem>
- <SelectItem value="FAILED">FAILED</SelectItem>
- <SelectItem value="PENDING">PENDING</SelectItem>
+ <SelectItem value="COMPLETED">{t("client_propertyValuationsStatusesCompleted", "COMPLETED")}</SelectItem>
+ <SelectItem value="PARTIAL">{t("admin_financial_partial", "PARTIAL")}</SelectItem>
+ <SelectItem value="FAILED">{t("client_propertyValuationsStatusesFailed", "FAILED")}</SelectItem>
+ <SelectItem value="PENDING">{t("client_propertyReservationsPending", "PENDING")}</SelectItem>
  </SelectContent>
  </Select>
  <Button variant="outline" onClick={load} disabled={loading}>
@@ -126,7 +126,7 @@ export default function AutomationExecutionHistory() {
  <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
  {t("admin_system_previous")}
  </Button>
- <span className="flex items-center text-sm">{page} / {totalPages}</span>
+ <span className="flex items-center text-sm">{page} {t("/", "/")}{totalPages}</span>
  <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>
  {t("admin_system_next")}
  </Button>
@@ -143,16 +143,16 @@ export default function AutomationExecutionHistory() {
  {selected && (
  <div className="space-y-3 text-sm">
  <div className="grid grid-cols-2 gap-2">
- <div><span className="font-medium">{t("admin_system_rule_name")}:</span> {selected.rule?.ruleName || selected.ruleId}</div>
- <div><span className="font-medium">{t("admin_system_status")}:</span> {selected.status}</div>
- <div><span className="font-medium">{t("admin_system_executed_at")}:</span> {formatDate(selected.executedAt)}</div>
- <div><span className="font-medium">{t("admin_system_processing_time")}:</span> {selected.processingTimeMs ? `${selected.processingTimeMs}ms` :"-"}</div>
+ <div><span className="font-medium">{t("admin_system_rule_name")}{t("mobile.leftovers.", ":")}</span> {selected.rule?.ruleName || selected.ruleId}</div>
+ <div><span className="font-medium">{t("admin_system_status")}{t("mobile.leftovers.", ":")}</span> {selected.status}</div>
+ <div><span className="font-medium">{t("admin_system_executed_at")}{t("mobile.leftovers.", ":")}</span> {formatDate(selected.executedAt)}</div>
+ <div><span className="font-medium">{t("admin_system_processing_time")}{t("mobile.leftovers.", ":")}</span> {selected.processingTimeMs ? `${selected.processingTimeMs}ms` :"-"}</div>
  </div>
  {selected.event?.eventType && (
  <div>
- <span className="font-medium">{t("admin_system_trigger_event")}:</span>
+ <span className="font-medium">{t("admin_system_trigger_event")}{t("mobile.leftovers.", ":")}</span>
  <div className="mt-1 p-2 bg-card rounded-lg text-xs">
- Type: {selected.event.eventType}
+ {t("admin_ai_type", "Type:")}{selected.event.eventType}
  {selected.event.severity && ` | Severity: ${selected.event.severity}`}
  {selected.event.entityType && ` | Entity: ${selected.event.entityType}:${selected.event.entityId ||""}`}
  </div>
@@ -160,7 +160,7 @@ export default function AutomationExecutionHistory() {
  )}
  {selected.triggerEvent && (
  <div>
- <span className="font-medium">{t("admin_system_trigger_data")}:</span>
+ <span className="font-medium">{t("admin_system_trigger_data")}{t("mobile.leftovers.", ":")}</span>
  <pre className="mt-1 p-2 bg-card rounded-lg text-xs overflow-auto max-h-32">
  {JSON.stringify(selected.triggerEvent, null, 2)}
  </pre>
@@ -168,7 +168,7 @@ export default function AutomationExecutionHistory() {
  )}
  {selected.resultData && (
  <div>
- <span className="font-medium">{t("admin_system_results")}:</span>
+ <span className="font-medium">{t("admin_system_results")}{t("mobile.leftovers.", ":")}</span>
  <pre className="mt-1 p-2 bg-card rounded-lg text-xs overflow-auto max-h-48">
  {JSON.stringify(selected.resultData, null, 2)}
  </pre>
@@ -176,7 +176,7 @@ export default function AutomationExecutionHistory() {
  )}
  {selected.errorMessage && (
  <div>
- <span className="font-medium">{t("admin_system_error")}:</span>
+ <span className="font-medium">{t("admin_system_error")}{t("mobile.leftovers.", ":")}</span>
  <pre className="mt-1 p-2 bg-red-50 rounded-lg text-xs text-red-700">
  {selected.errorMessage}
  </pre>
@@ -184,7 +184,7 @@ export default function AutomationExecutionHistory() {
  )}
  {selected.executionData && (
  <div>
- <span className="font-medium">{t("admin_system_execution_data")}:</span>
+ <span className="font-medium">{t("admin_system_execution_data")}{t("mobile.leftovers.", ":")}</span>
  <pre className="mt-1 p-2 bg-card rounded-lg text-xs overflow-auto max-h-48">
  {JSON.stringify(selected.executionData, null, 2)}
  </pre>

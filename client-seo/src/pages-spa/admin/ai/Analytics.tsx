@@ -156,11 +156,11 @@ export default function AIAnalytics() {
  t
  } = useTranslation();
  const [activeTab, setActiveTab] = useState("overview");
- return <div className="p-4 md:p-8 space-y-8 max-w-(--breakpoint-2xl) mx-auto min-h-screen">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 p-4 md:p-8 space-y-8 max-w-(--breakpoint-2xl) mx-auto min-h-screen">
  {/* Header */}
  <div className="bg-card p-6 rounded-2xl border border-border flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
- <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3 text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3 text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  <div className="p-2 rounded-xl bg-primary/10">
  <Brain className="w-7 h-7 text-primary" />
  </div>{t("admin_ai_ai_analytics")}</h1>
@@ -314,7 +314,7 @@ export default function AIAnalytics() {
  <div className="grid grid-cols-3 gap-3 text-center">
  <div className="p-2 rounded-lg bg-card">
  <p className="text-xs text-muted-foreground">{t("admin_ai_requests")}</p>
- <p className="text-sm font-bold text-foreground">{(model.requests / 1000).toFixed(1)}K</p>
+ <p className="text-sm font-bold text-foreground">{(model.requests / 1000).toFixed(1)}{t("client.src.k", "K")}</p>
  </div>
  <div className="p-2 rounded-lg bg-card">
  <p className="text-xs text-muted-foreground">{t("admin_ai_latency")}</p>

@@ -276,10 +276,10 @@ const LeaseManagement = () => {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="USD">USD</SelectItem>
- <SelectItem value="EUR">EUR</SelectItem>
- <SelectItem value="GBP">GBP</SelectItem>
- <SelectItem value="TRY">TRY</SelectItem>
+ <SelectItem value="USD">{t("admin_financial_usd", "USD")}</SelectItem>
+ <SelectItem value="EUR">{t("admin_financial_eur", "EUR")}</SelectItem>
+ <SelectItem value="GBP">{t("admin_auto_gbp", "GBP")}</SelectItem>
+ <SelectItem value="TRY">{t("admin_auto_try", "TRY")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -393,7 +393,7 @@ const LeaseManagement = () => {
  <TableCell className="text-slate-500">
  <div className="flex items-center gap-1">
  <Calendar className="w-3 h-3" />
- {new Date(item.startDate).toLocaleDateString()} - {new Date(item.endDate).toLocaleDateString()}
+ {new Date(item.startDate).toLocaleDateString()} {t(" - ", "-")}{new Date(item.endDate).toLocaleDateString()}
  </div>
  </TableCell>
  <TableCell>

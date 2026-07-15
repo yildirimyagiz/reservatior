@@ -221,7 +221,7 @@ export default function PredictiveMaintenance() {
  return config ? config.color :"bg-card text-slate-300";
  };
  return <PageShell title={t("admin_ai_predictive_maintenance")} description={t("admin_ai_aipowered_maintenance_predictions_and")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Summary Cards */}
  <div className="grid gap-4 md:grid-cols-4">
  <Card>
@@ -335,7 +335,7 @@ export default function PredictiveMaintenance() {
  <div>
  <div className="font-medium">{prediction.property?.name}</div>
  <div className="text-sm text-muted-foreground">
- {prediction.property?.addressLine1}, {prediction.property?.city}
+ {prediction.property?.addressLine1}{t(",", ",")}{prediction.property?.city}
  </div>
  </div>
  </TableCell>

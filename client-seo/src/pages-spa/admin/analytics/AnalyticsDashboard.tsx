@@ -184,7 +184,7 @@ const CustomTooltip = ({
  backgroundColor: entry.color || entry.fill
  }}></div>
  <p className="text-xs font-bold text-foreground">
- {entry.name}: <span className="text-muted-foreground">{entry.value.toLocaleString()}</span>
+ {entry.name}{t("mobile.leftovers.", ":")}<span className="text-muted-foreground">{entry.value.toLocaleString()}</span>
  </p>
  </div>)}
  </div>
@@ -243,7 +243,7 @@ export default function AnalyticsDashboard() {
  return <Monitor className="w-4 h-4" />;
  }
  };
- return <div className="p-6 space-y-6">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 p-6 space-y-6">
  {/* Tactical UI Toolbar */}
  <div className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4 flex-1">

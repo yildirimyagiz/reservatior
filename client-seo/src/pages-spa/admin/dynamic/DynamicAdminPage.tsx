@@ -11,8 +11,10 @@ import { Loader2, Plus, Trash, RefreshCw } from"lucide-react";
 import { useToast } from"@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from"@/components/ui/dialog";
 import { Label } from"@/components/ui/label";
+import { useTranslation } from "react-i18next";
 
 export default function DynamicAdminPage() {
+    const { t } = useTranslation();
  const { toast } = useToast();
  const { model } = useParams();
  const queryClient = useQueryClient();
@@ -72,26 +74,25 @@ export default function DynamicAdminPage() {
  });
 
  if (schemaLoading) return <div className="p-8 flex justify-center"><Loader2 className="animate-spin w-8 h-8 text-slate-500" /></div>;
- if (!schema) return <div className="p-8 text-red-500">Model schema not found.</div>;
+ if (!schema) return <div className="p-8 text-red-500">{t("admin_auto_model_schema_not_found", "Model schema not found.")}</div>;
 
  const displayFields = schema.fields.filter((f: any) =>
  f.type === 'String' || f.type === 'Int' || f.type === 'Boolean' || f.type === 'DateTime'
  ).slice(0, 7);
 
- return (
- <div className="space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
  <div className="flex justify-between items-center">
  <div>
- <h1 className="text-2xl font-bold text-foreground">{schema.name} Management</h1>
- <p className="text-muted-foreground">Dynamically generated interface for {schema.name}</p>
+ <h1 className="text-2xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{schema.name} {t("admin_contract_management", "Management")}</h1>
+ <p className="text-muted-foreground">{t("admin_auto_dynamically_generated_interface_for", "Dynamically generated interface for")}{schema.name}</p>
  </div>
  <div className="flex space-x-2">
- <Button variant="outline" onClick={() => refetch()}><RefreshCw className="w-4 h-4 mr-2" />Refresh</Button>
+ <Button variant="outline" onClick={() => refetch()}><RefreshCw className="w-4 h-4 mr-2" />{t("admin_ai_refresh", "Refresh")}</Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
  <Button>
- <Plus className="w-4 h-4 mr-2" />Add {schema.name}
+ <Plus className="w-4 h-4 mr-2" />{t("admin_agencies_add", "Add")}{schema.name}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
@@ -107,7 +108,7 @@ export default function DynamicAdminPage() {
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.name}
  onChange={e => setFormData({ ...formData, name: e.target.value })}
- placeholder="Enter name"
+ placeholder={t("admin_auto_enter_name", "Enter name")}
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
@@ -117,12 +118,12 @@ export default function DynamicAdminPage() {
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.type}
  onChange={e => setFormData({ ...formData, type: e.target.value })}
- placeholder="Enter type"
+ placeholder={t("admin_auto_enter_type", "Enter type")}
  />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -140,20 +141,20 @@ export default function DynamicAdminPage() {
  {displayFields.map((f: any) => (
  <TableHead key={f.name} className="text-muted-foreground">{f.name}</TableHead>
  ))}
- <TableHead className="text-right text-muted-foreground">Actions</TableHead>
+ <TableHead className="text-right text-muted-foreground">{t("admin_ai_actions", "Actions")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
  {dataLoading ? (
  <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8"><Loader2 className="animate-spin w-6 h-6 mx-auto text-slate-500" /></TableCell></TableRow>
  ) : (records as any)?.data?.length === 0 ? (
- <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8 text-slate-500">No records found</TableCell></TableRow>
+ <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8 text-slate-500">{t("admin_financial_no_records_found", "No records found")}</TableCell></TableRow>
  ) : (
  (records as any)?.data?.map((row: any, i: number) => (
  <TableRow key={row.id || i} className="border-border hover:bg-card">
  {displayFields.map((f: any) => (
  <TableCell key={f.name} className="text-muted-foreground">
- {row[f.name] !== null ? String(row[f.name]) : <span className="text-slate-600">null</span>}
+ {row[f.name] !== null ? String(row[f.name]) : <span className="text-slate-600">{t("admin_auto_null", "null")}</span>}
  </TableCell>
  ))}
  <TableCell className="text-right">

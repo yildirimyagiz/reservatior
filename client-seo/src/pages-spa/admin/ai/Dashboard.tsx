@@ -163,13 +163,13 @@ export default function AIDashboard() {
  setRefreshing(true);
  setTimeout(() => setRefreshing(false), 1500);
  };
- return <div className="p-4 md:p-8 space-y-8 max-w-(--breakpoint-2xl) mx-auto min-h-screen">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 p-4 md:p-8 space-y-8 max-w-(--breakpoint-2xl) mx-auto min-h-screen">
  {/* Header */}
  <section className="relative overflow-hidden rounded-3xl p-8 bg-gradient-to-br from-slate-600/20 via-slate-600/20 to-pink-600/10 border border-border">
  <div className="absolute -top-24 -right-24 h-96 w-96 bg-primary/20 rounded-full blur-3xl opacity-20 pointer-events-none" />
  <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div className="space-y-2">
- <h1 className="text-3xl md:text-xl font-bold tracking-tight flex items-center gap-3 text-foreground">
+ <h1 className="text-3xl md:text-xl font-bold tracking-tight flex items-center gap-3 text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  <Brain className="w-9 h-9 text-primary" />{t("admin_ai_ai_command_center")}</h1>
  <p className="text-muted-foreground text-lg max-w-xl">{t("admin_ai_realtime_monitoring_of_all")}</p>
  </div>

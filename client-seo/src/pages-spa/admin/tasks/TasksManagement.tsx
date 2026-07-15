@@ -111,7 +111,7 @@ const TasksManagement = () => {
  className="bg-card border-border" 
  value={newTask.priority}
  onChange={e => setNewTask({...newTask, priority: e.target.value})}
- placeholder="LOW, MEDIUM, HIGH"
+ placeholder={t("admin_auto_low_medium_high", "LOW, MEDIUM, HIGH")}
  />
  </div>
  <div className="space-y-2">
@@ -121,12 +121,12 @@ const TasksManagement = () => {
  className="bg-card border-border" 
  value={newTask.type}
  onChange={e => setNewTask({...newTask, type: e.target.value})}
- placeholder="ADMIN, OTHER"
+ placeholder={t("admin_auto_admin_other", "ADMIN, OTHER")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Create Task"}
  </Button>
@@ -140,45 +140,45 @@ const TasksManagement = () => {
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Total Tasks</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_metrics_totalTasks", "Total Tasks")}</CardTitle>
  <Activity className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">4,291</div>
- <p className="text-xs text-green-400 mt-1">+12% from last week</p>
+ <p className="text-xs text-green-400 mt-1">{t("admin_auto_12_from_last_week", "+12% from last week")}</p>
  </CardContent>
  </Card>
  
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Pending</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_ai_pending", "Pending")}</CardTitle>
  <Clock className="w-4 h-4 text-amber-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">842</div>
- <p className="text-xs text-muted-foreground mt-1">Requires action</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_requires_action", "Requires action")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Overdue</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_financial_overdue", "Overdue")}</CardTitle>
  <AlertCircle className="w-4 h-4 text-red-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">45</div>
- <p className="text-xs text-red-400 mt-1">Critical priority</p>
+ <p className="text-xs text-red-400 mt-1">{t("admin_auto_critical_priority", "Critical priority")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Completed</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_ai_completed", "Completed")}</CardTitle>
  <CheckSquare className="w-4 h-4 text-green-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">3,404</div>
- <p className="text-xs text-muted-foreground mt-1">This month</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_this_month", "This month")}</p>
  </CardContent>
  </Card>
  </div>
@@ -194,18 +194,17 @@ const TasksManagement = () => {
  </div>
  ) : tasks.length === 0 ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- No tasks found.
- </div>
+ {t("mobile.auto.no_tasks_found", "No tasks found.")}</div>
  ) : (
  <div className="rounded-xl border border-border">
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">Title</TableHead>
- <TableHead className="text-slate-300">Type</TableHead>
- <TableHead className="text-slate-300">Priority</TableHead>
- <TableHead className="text-slate-300">Status</TableHead>
- <TableHead className="text-slate-300 text-right">Actions</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_title", "Title")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_type", "Type")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_ai_priority", "Priority")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_ai_status", "Status")}</TableHead>
+ <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>

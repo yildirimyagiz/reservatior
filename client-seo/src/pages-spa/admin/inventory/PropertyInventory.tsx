@@ -92,8 +92,7 @@ export default function PropertyInventoryManagement() {
  item.inventoryType?.toLowerCase().includes(searchTerm.toLowerCase())
  );
 
- return (
- <div className="space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* KPI GRID */}
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  {[{
@@ -160,7 +159,7 @@ export default function PropertyInventoryManagement() {
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.propertyId}
  onChange={e => setFormData({ ...formData, propertyId: e.target.value })}
- placeholder="Enter property id"
+ placeholder={t("admin_auto_enter_property_id", "Enter property id")}
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
@@ -170,7 +169,7 @@ export default function PropertyInventoryManagement() {
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.type}
  onChange={e => setFormData({ ...formData, type: e.target.value })}
- placeholder="Enter type"
+ placeholder={t("admin_auto_enter_type", "Enter type")}
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
@@ -180,12 +179,12 @@ export default function PropertyInventoryManagement() {
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.quantity}
  onChange={e => setFormData({ ...formData, quantity: e.target.value })}
- placeholder="Enter quantity"
+ placeholder={t("admin_auto_enter_quantity", "Enter quantity")}
  />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>

@@ -45,7 +45,7 @@ export default function CommissionDistribution() {
  if (loading) {
  return <div className="min-h-screen bg-background p-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_sales_sales_commission_distribution")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_sales_sales_commission_distribution")}</h1>
  </div>
  <div className="flex h-[400px] items-center justify-center">
  <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -59,7 +59,7 @@ export default function CommissionDistribution() {
  }, {
  name:"Agent", value: stats?.agentShare || 60, color:"#10b981"
  }];
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
  <h1 className="text-xl font-bold text-foreground">{t("admin_sales_sales_commission_distribution")}</h1>
@@ -94,7 +94,7 @@ export default function CommissionDistribution() {
  <TrendingUp className="w-4 h-4 text-emerald-400" />
  </CardHeader>
  <CardContent>
- <div className="text-3xl font-bold text-foreground">${stats?.totalEarnings?.toLocaleString()}</div>
+ <div className="text-3xl font-bold text-foreground">{t("currency_symbol", "$")}{stats?.totalEarnings?.toLocaleString()}</div>
  <p className="text-xs text-muted-foreground mt-1">{t("admin_sales_platform_revenue_share")}</p>
  </CardContent>
  </Card>
@@ -105,7 +105,7 @@ export default function CommissionDistribution() {
  <Wallet className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-3xl font-bold text-muted-foreground">${stats?.pendingPayouts?.toLocaleString()}</div>
+ <div className="text-3xl font-bold text-muted-foreground">{t("currency_symbol", "$")}{stats?.pendingPayouts?.toLocaleString()}</div>
  <p className="text-xs text-muted-foreground mt-1">{t("admin_sales_across_all_entities")}</p>
  </CardContent>
  </Card>
@@ -207,9 +207,9 @@ export default function CommissionDistribution() {
  <div className="font-medium text-foreground">{trx.entity}</div>
  <div className="text-xs text-muted-foreground font-mono mt-0.5">{trx.id}</div>
  </TableCell>
- <TableCell className="font-bold text-foreground">${trx.amount.toLocaleString()}</TableCell>
+ <TableCell className="font-bold text-foreground">{t("currency_symbol", "$")}{trx.amount.toLocaleString()}</TableCell>
  <TableCell className="font-semibold text-red-400 bg-red-500/5">
- ${(trx.amount * 0.18).toLocaleString()} <span className="text-[10px] opacity-70">{t("admin_sales_18_avg")}</span>
+ {t("currency_symbol", "$")}{(trx.amount * 0.18).toLocaleString()} <span className="text-[10px] opacity-70">{t("admin_sales_18_avg")}</span>
  </TableCell>
  <TableCell className="font-semibold text-muted-foreground bg-muted0/5">
  {trx.shares[0]?.value}{t("admin_sales_platform")}

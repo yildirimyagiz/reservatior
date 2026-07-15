@@ -598,7 +598,7 @@ export default function UserManagement() {
  <div className="space-y-3">
  {['SUPER_ADMIN', 'ORG_ADMIN', 'AGENT', 'STAFF', 'CLIENT'].map(role => {
  const count = users.filter(user => user.role === role).length;
- return <div key={role} className="flex justify-between items-center">
+ return <div key={role} className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex justify-between items-center">
  <span className="text-sm">{role.replace('_', ' ').toLowerCase()}</span>
  <span className="font-medium">{count}</span>
  </div>;

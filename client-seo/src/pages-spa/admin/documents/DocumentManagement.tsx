@@ -391,8 +391,7 @@ export default function DocumentManagement() {
  </div>
  <div className="flex gap-2">
  <Button onClick={() => setContractDialogOpen(true)} variant="secondary" className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 border-emerald-500/20">
- <FileText className="w-4 h-4 mr-2" />AI Contract
- </Button>
+ <FileText className="w-4 h-4 mr-2" />{t("admin_auto_ai_contract", "AI Contract")}</Button>
  <Button onClick={() => setFolderDialogOpen(true)} variant="outline">
  <Folder className="w-4 h-4 mr-2" />{t("admin_documents_new_folder")}</Button>
  <Button onClick={() => setUploadDialogOpen(true)}>
@@ -441,7 +440,7 @@ export default function DocumentManagement() {
  <div>
  <div className="font-medium">{document.name}</div>
  <div className="flex items-center gap-2 text-xs text-muted-foreground">
- <span>v{document.version}</span>
+ <span>{t("admin_auto_v", "v")}{document.version}</span>
  {document.isEncrypted && <Lock className="w-3 h-3" />}
  {document.isPublic && <Unlock className="w-3 h-3" />}
  </div>
@@ -482,7 +481,7 @@ export default function DocumentManagement() {
  });
  }}>
  <Brain className="w-4 h-4 mr-2 text-indigo-400" />
- <span className="text-indigo-400 font-medium">AI Analiz (OCR)</span>
+ <span className="text-indigo-400 font-medium">{t("admin_auto_ai_analiz_ocr", "AI Analiz (OCR)")}</span>
  </DropdownMenuItem>
  <DropdownMenuItem onClick={() => downloadDocument(document)}>
  <Download className="w-4 h-4 mr-2" />{t("admin_documents_download")}</DropdownMenuItem>
@@ -565,13 +564,13 @@ export default function DocumentManagement() {
  </div>
  </div>
  <div className="space-y-2">
- <Label>Lokasyon & Proje (Hiyerarşi)</Label>
+ <Label>{t("admin_auto_lokasyon_proje_hiyerar_i", "Lokasyon & Proje (Hiyerarşi)")}</Label>
  <div className="grid grid-cols-2 gap-2">
- <Input placeholder="Ülke (örn: TURKİYE)" value={uploadData.country} onChange={e => setUploadData({...uploadData, country: e.target.value})} />
- <Input placeholder="Şehir (örn: ISTANBUL)" value={uploadData.city} onChange={e => setUploadData({...uploadData, city: e.target.value})} />
- <Input placeholder="İlçe (örn: SİSLİ)" value={uploadData.district} onChange={e => setUploadData({...uploadData, district: e.target.value})} />
- <Input placeholder="Mahalle" value={uploadData.neighborhood} onChange={e => setUploadData({...uploadData, neighborhood: e.target.value})} />
- <Input placeholder="Proje (örn: Queen)" className="col-span-2" value={uploadData.project} onChange={e => setUploadData({...uploadData, project: e.target.value})} />
+ <Input placeholder={t("admin_auto_lke_rn_turki_ye", "Ülke (örn: TURKİYE)")} value={uploadData.country} onChange={e => setUploadData({...uploadData, country: e.target.value})} />
+ <Input placeholder={t("admin_auto_ehir_rn_istanbul", "Şehir (örn: ISTANBUL)")} value={uploadData.city} onChange={e => setUploadData({...uploadData, city: e.target.value})} />
+ <Input placeholder={t("admin_auto_i_l_e_rn_si_sli", "İlçe (örn: SİSLİ)")} value={uploadData.district} onChange={e => setUploadData({...uploadData, district: e.target.value})} />
+ <Input placeholder={t("admin_auto_mahalle", "Mahalle")} value={uploadData.neighborhood} onChange={e => setUploadData({...uploadData, neighborhood: e.target.value})} />
+ <Input placeholder={t("admin_auto_proje_rn_queen", "Proje (örn: Queen)")} className="col-span-2" value={uploadData.project} onChange={e => setUploadData({...uploadData, project: e.target.value})} />
  </div>
  </div>
  <div className="space-y-2">
@@ -670,7 +669,7 @@ export default function DocumentManagement() {
  <>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label className="text-muted-foreground">Country Code (e.g. TR, US, UK)</Label>
+ <Label className="text-muted-foreground">{t("admin_auto_country_code_e_g_tr_us_uk", "Country Code (e.g. TR, US, UK)")}</Label>
  <Input id="contract-country" defaultValue="TR" className="bg-background border-border text-foreground" />
  </div>
  <div className="space-y-2">
@@ -678,8 +677,8 @@ export default function DocumentManagement() {
  <Select defaultValue="SALES">
  <SelectTrigger id="contract-type" className="bg-background border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-card border-border text-card-foreground">
- <SelectItem value="SALES">Sales Agreement</SelectItem>
- <SelectItem value="RENTAL">Rental Agreement</SelectItem>
+ <SelectItem value="SALES">{t("admin_auto_sales_agreement", "Sales Agreement")}</SelectItem>
+ <SelectItem value="RENTAL">{t("admin_auto_rental_agreement", "Rental Agreement")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -698,8 +697,8 @@ export default function DocumentManagement() {
  <div className="p-4 bg-emerald-500/10 text-emerald-500 rounded-full">
  <CheckCircle className="w-12 h-12" />
  </div>
- <h3 className="text-xl font-bold">Contract Ready!</h3>
- <p className="text-muted-foreground text-center max-w-sm">Your AI-generated contract is ready. Choose a format to download.</p>
+ <h3 className="text-xl font-bold">{t("admin_auto_contract_ready", "Contract Ready!")}</h3>
+ <p className="text-muted-foreground text-center max-w-sm">{t("admin_auto_your_ai_generated_contract_is_ready_choo", "Your AI-generated contract is ready. Choose a format to download.")}</p>
  <div className="flex gap-4">
  <Button variant="outline" className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10" onClick={() => {
  const blob = new Blob([contractResult], { type: 'application/pdf' });
@@ -709,8 +708,7 @@ export default function DocumentManagement() {
  a.download = 'Contract.pdf';
  a.click();
  }}>
- <Download className="w-4 h-4 mr-2" /> Download PDF
- </Button>
+ <Download className="w-4 h-4 mr-2" /> {t("admin_auto_download_pdf", "Download PDF")}</Button>
  <Button variant="outline" className="border-indigo-500/50 text-indigo-400 hover:bg-indigo-500/10" onClick={() => {
  const blob = new Blob([contractResult], { type: 'application/msword' });
  const url = URL.createObjectURL(blob);
@@ -719,8 +717,7 @@ export default function DocumentManagement() {
  a.download = 'Contract.docx';
  a.click();
  }}>
- <Download className="w-4 h-4 mr-2" /> Download DOCX
- </Button>
+ <Download className="w-4 h-4 mr-2" /> {t("admin_auto_download_docx", "Download DOCX")}</Button>
  </div>
  </div>
  )}
@@ -730,16 +727,15 @@ export default function DocumentManagement() {
  <div className="space-y-4">
  <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-3 text-amber-500">
  <AlertTriangle className="w-5 h-5 shrink-0" />
- <p className="text-sm">Contract saved. Now, securely store any walkthrough videos or images of the property before handover.</p>
+ <p className="text-sm">{t("admin_auto_contract_saved_now_securely_store_any_wa", "Contract saved. Now, securely store any walkthrough videos or images of the property before handover.")}</p>
  </div>
  <div className="border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center p-12 hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer">
  <div className="p-4 bg-primary/10 text-primary rounded-full mb-4">
  <Upload className="w-8 h-8" />
  </div>
- <h3 className="text-lg font-bold mb-2">Drag & Drop Media</h3>
+ <h3 className="text-lg font-bold mb-2">{t("admin_auto_drag_drop_media", "Drag & Drop Media")}</h3>
  <p className="text-sm text-muted-foreground text-center max-w-xs mb-6">
- Upload MP4 videos or high-res images to the secure media vault.
- </p>
+ {t("admin_auto_upload_mp4_videos_or_high_res_images_to_", "Upload MP4 videos or high-res images to the secure media vault.")}</p>
  <Button variant="secondary">{t("admin_auto_browse_files", "Browse Files")}</Button>
  </div>
  </div>
@@ -784,11 +780,11 @@ export default function DocumentManagement() {
  )}
  
  {contractWizardStep === 2 && (
- <Button onClick={() => setContractWizardStep(3)}>Continue to Media Vault</Button>
+ <Button onClick={() => setContractWizardStep(3)}>{t("admin_auto_continue_to_media_vault", "Continue to Media Vault")}</Button>
  )}
  
  {contractWizardStep === 3 && (
- <Button onClick={() => setContractDialogOpen(false)}>Done</Button>
+ <Button onClick={() => setContractDialogOpen(false)}>{t("admin_auto_done", "Done")}</Button>
  )}
  </DialogFooter>
  </DialogContent>

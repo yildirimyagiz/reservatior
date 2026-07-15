@@ -37,10 +37,10 @@ const data = [{
 }];
 export default function SecurityOverview() {
  const { t } = useTranslation();
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_security_security_matrix_overview")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_security_security_matrix_overview")}</h1>
  <p className="text-sm text-muted-foreground">{t("admin_security_monitor_neural_handshake_stability")}</p>
  </div>
 
@@ -80,7 +80,7 @@ export default function SecurityOverview() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_security_active_anomalies")}</p>
- <h3 className="text-xl font-bold text-rose-500 leading-none">2</h3>
+ <h3 className="text-xl font-bold text-rose-500 leading-none">{t("client.pricing.tiers.enterprise.2", "2")}</h3>
  <div className="mt-4 flex gap-2">
  <Badge className="bg-rose-500/20 text-rose-400 border-none text-[8px] font-bold">{t("admin_security_high_risk_detected")}</Badge>
  </div>

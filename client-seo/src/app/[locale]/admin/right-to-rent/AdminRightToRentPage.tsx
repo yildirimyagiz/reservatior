@@ -211,6 +211,7 @@ export default function AdminRightToRentPage() {
 }
 
 function CreateRightToRentDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<RightToRentRecord, "id">) => void }) {
+    const { t } = useTranslation();
   const [tenantName, setTenantName] = useState("");
   const [propertyAddress, setPropertyAddress] = useState("");
   const [checkDate, setCheckDate] = useState(new Date().toISOString().split("T")[0]);
@@ -221,48 +222,48 @@ function CreateRightToRentDialog({ open, onOpenChange, onSubmit }: { open: boole
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Add Right to Rent Record</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Add a new right to rent check record.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_auto_add_right_to_rent_record", "Add Right to Rent Record")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_right_to_rent_check_record", "Add a new right to rent check record.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Tenant Name</Label>
+            <Label className="text-right text-foreground">{t("client.src.tenant_name", "Tenant Name")}</Label>
             <Input value={tenantName} onChange={e => setTenantName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Property Address</Label>
+            <Label className="text-right text-foreground">{t("client.src.property_address", "Property Address")}</Label>
             <Input value={propertyAddress} onChange={e => setPropertyAddress(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Check Date</Label>
+            <Label className="text-right text-foreground">{t("mobile.admin.field_check_date", "Check Date")}</Label>
             <Input type="date" value={checkDate} onChange={e => setCheckDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Expiry Date</Label>
+            <Label className="text-right text-foreground">{t("client.src.expiry_date", "Expiry Date")}</Label>
             <Input type="date" value={expiryDate} onChange={e => setExpiryDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Status</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as RightToRentRecord["status"])}>
               <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border text-foreground">
-                <SelectItem value="VERIFIED">Verified</SelectItem>
-                <SelectItem value="PENDING">Pending</SelectItem>
-                <SelectItem value="EXPIRED">Expired</SelectItem>
-                <SelectItem value="FAILED">Failed</SelectItem>
+                <SelectItem value="VERIFIED">{t("admin_bookings_verification_verified", "Verified")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+                <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Expired")}</SelectItem>
+                <SelectItem value="FAILED">{t("admin_ai_failed", "Failed")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Document Type</Label>
+            <Label className="text-right text-foreground">{t("admin_immigration_document_type", "Document Type")}</Label>
             <Input value={documentType} onChange={e => setDocumentType(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={() => onSubmit({ tenantName, propertyAddress, checkDate, expiryDate, status, documentType })} className="bg-primary hover:bg-primary/90">Create</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={() => onSubmit({ tenantName, propertyAddress, checkDate, expiryDate, status, documentType })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -270,6 +271,7 @@ function CreateRightToRentDialog({ open, onOpenChange, onSubmit }: { open: boole
 }
 
 function EditRightToRentDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: RightToRentRecord; onSubmit: (data: RightToRentRecord) => void }) {
+    const { t } = useTranslation();
   const [tenantName, setTenantName] = useState(item.tenantName);
   const [propertyAddress, setPropertyAddress] = useState(item.propertyAddress);
   const [checkDate, setCheckDate] = useState(item.checkDate);
@@ -280,48 +282,48 @@ function EditRightToRentDialog({ open, onOpenChange, item, onSubmit }: { open: b
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Edit Right to Rent Record</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Update right to rent record details.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_auto_edit_right_to_rent_record", "Edit Right to Rent Record")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_right_to_rent_record_details", "Update right to rent record details.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Tenant Name</Label>
+            <Label className="text-right text-foreground">{t("client.src.tenant_name", "Tenant Name")}</Label>
             <Input value={tenantName} onChange={e => setTenantName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Property Address</Label>
+            <Label className="text-right text-foreground">{t("client.src.property_address", "Property Address")}</Label>
             <Input value={propertyAddress} onChange={e => setPropertyAddress(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Check Date</Label>
+            <Label className="text-right text-foreground">{t("mobile.admin.field_check_date", "Check Date")}</Label>
             <Input type="date" value={checkDate} onChange={e => setCheckDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Expiry Date</Label>
+            <Label className="text-right text-foreground">{t("client.src.expiry_date", "Expiry Date")}</Label>
             <Input type="date" value={expiryDate} onChange={e => setExpiryDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Status</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as RightToRentRecord["status"])}>
               <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border text-foreground">
-                <SelectItem value="VERIFIED">Verified</SelectItem>
-                <SelectItem value="PENDING">Pending</SelectItem>
-                <SelectItem value="EXPIRED">Expired</SelectItem>
-                <SelectItem value="FAILED">Failed</SelectItem>
+                <SelectItem value="VERIFIED">{t("admin_bookings_verification_verified", "Verified")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+                <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Expired")}</SelectItem>
+                <SelectItem value="FAILED">{t("admin_ai_failed", "Failed")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Document Type</Label>
+            <Label className="text-right text-foreground">{t("admin_immigration_document_type", "Document Type")}</Label>
             <Input value={documentType} onChange={e => setDocumentType(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={() => onSubmit({ id: item.id, tenantName, propertyAddress, checkDate, expiryDate, status, documentType })} className="bg-primary hover:bg-primary/90">Save</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, tenantName, propertyAddress, checkDate, expiryDate, status, documentType })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -329,16 +331,17 @@ function EditRightToRentDialog({ open, onOpenChange, item, onSubmit }: { open: b
 }
 
 function DeleteRightToRentDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: RightToRentRecord; onConfirm: () => void }) {
+    const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Delete Right to Rent Record</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Are you sure you want to delete the record for {item.tenantName}? This action cannot be undone.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_auto_delete_right_to_rent_record", "Delete Right to Rent Record")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete_the_reco", "Are you sure you want to delete the record for")}{item.tenantName}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">{t("admin_action_delete", "Delete")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

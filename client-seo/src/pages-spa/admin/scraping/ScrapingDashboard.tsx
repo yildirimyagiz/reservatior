@@ -58,11 +58,11 @@ export default function ScrapingDashboard() {
  const diff = Math.floor((endTime - startTime) / 1000 / 60);
  return `${diff}m`;
  };
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border flex items-center justify-between">
  <div>
- <h1 className="text-xl font-bold text-foreground">{t("admin_scraping_scraping_management")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_scraping_scraping_management")}</h1>
  <p className="text-sm text-muted-foreground">{t("admin_scraping_monitor_and_control_automated")}</p>
  </div>
  <div className="flex gap-2">

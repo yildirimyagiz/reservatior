@@ -243,7 +243,7 @@ export function AdminLayout({
  icon: LayoutDashboard
  }, {
  title: t("client.src.ai_studio","AI Studio"),
- href:"/client/ai/studio",
+ href:"/admin/ai/studio",
  icon: Sparkles
  }, {
  title: t("admin_layout_ai_models"),
@@ -516,8 +516,7 @@ export function AdminLayout({
  <span className={cn("text-lg font-bold text-foreground tracking-tight whitespace-nowrap transition-all duration-300",
  sidebarOpen ?"ml-2 opacity-100 max-w-[150px]" :"ml-0 opacity-0 max-w-0"
  )}>
- Reservatior
- </span>
+ {t("_locale_.homecontent.auto_ext_1", "Reservatior")}</span>
  </div>
  {sidebarOpen && (
  <button className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground ml-auto" onClick={(e) => { e.stopPropagation(); setSidebarOpen(false); }}>
@@ -575,7 +574,7 @@ export function AdminLayout({
  </div>
  </div>
  </div>;
- return <div className="flex h-screen bg-background text-foreground overflow-hidden transition-colors duration-300 p-4 gap-4">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex h-screen bg-background text-foreground overflow-hidden transition-colors duration-300 p-4 gap-4">
  {/* Desktop Sidebar (Floating & Rounded) */}
  <aside className={cn("hidden md:flex flex-col bg-card/50 backdrop-blur-xl border border-border transition-all duration-300 shrink-0 rounded-[2rem] overflow-hidden", sidebarOpen ?"w-64" :"w-16")}>
  <SidebarContent />
@@ -680,13 +679,13 @@ export function AdminLayout({
  <div className="border-t border-border p-2 flex items-center justify-between text-xs text-muted-foreground">
  <div className="flex items-center gap-2">
  <kbd className="px-1.5 py-0.5 bg-muted rounded border border-border">↑↓</kbd>
- <span>to navigate</span>
+ <span>{t("admin_auto_to_navigate", "to navigate")}</span>
  <kbd className="px-1.5 py-0.5 bg-muted rounded border border-border">↵</kbd>
- <span>to select</span>
+ <span>{t("admin_auto_to_select", "to select")}</span>
  </div>
  <div className="flex items-center gap-2">
- <kbd className="px-1.5 py-0.5 bg-muted rounded border border-border">esc</kbd>
- <span>to close</span>
+ <kbd className="px-1.5 py-0.5 bg-muted rounded border border-border">{t("admin_auto_esc", "esc")}</kbd>
+ <span>{t("admin_auto_to_close", "to close")}</span>
  </div>
  </div>
  </>
@@ -694,8 +693,8 @@ export function AdminLayout({
  /* No Results */
  <div className="p-8 text-center">
  <Search className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
- <div className="text-sm text-muted-foreground">No results found for &quot;{searchQuery}&quot;</div>
- <div className="text-xs text-muted-foreground mt-1">Try different keywords</div>
+ <div className="text-sm text-muted-foreground">{t("admin_auto_no_results_found_for_quot", "No results found for &quot;")}{searchQuery}{t("admin_auto_quot", "&quot;")}</div>
+ <div className="text-xs text-muted-foreground mt-1">{t("admin_auto_try_different_keywords", "Try different keywords")}</div>
  </div>
  ) : (
  /* Search History */
@@ -705,14 +704,12 @@ export function AdminLayout({
  <div className="flex items-center justify-between px-3 py-2 mb-2">
  <div className="text-xs font-medium text-muted-foreground flex items-center gap-2">
  <Clock className="w-3 h-3" />
- Recent Searches
- </div>
+ {t("mobile.auto.recent_searches", "Recent Searches")}</div>
  <button 
  onClick={clearHistory}
  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
  >
- Clear
- </button>
+ {t("admin_auto_clear", "Clear")}</button>
  </div>
  {searchHistory.map((query, index) => (
  <button
@@ -735,8 +732,7 @@ export function AdminLayout({
  <div className="border-t border-border mt-2 pt-2">
  <div className="text-xs font-medium text-muted-foreground px-3 py-2 mb-2 flex items-center gap-2">
  <Filter className="w-3 h-3" />
- Quick Filters
- </div>
+ {t("admin_auto_quick_filters", "Quick Filters")}</div>
  <div className="grid grid-cols-2 gap-1">
  {[
  { label: 'Properties', icon: Building2, query: 'property' },

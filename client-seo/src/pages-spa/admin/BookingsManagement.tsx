@@ -357,7 +357,7 @@ export default function BookingsManagement() {
  return t("high");
  };
  return <PageShell title={t("admin_bookings_title")} description={t("admin_bookings_desc")}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
@@ -406,7 +406,7 @@ export default function BookingsManagement() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_bookings_stats_grossVelocity")}</p>
- <h3 className="text-3xl font-bold text-foreground leading-none">${stats.totalRevenue.toLocaleString()}</h3>
+ <h3 className="text-3xl font-bold text-foreground leading-none">{t("currency_symbol", "$")}{stats.totalRevenue.toLocaleString()}</h3>
  </CardContent>
  </Card>
  </div>
@@ -498,7 +498,7 @@ export default function BookingsManagement() {
  <div>
  <div className="text-sm font-bold text-muted-foreground leading-tight mb-1">{booking.listing.title}</div>
  <div className="text-[10px] font-bold text-slate-600 leading-none -translate-y-px">
- {booking.listing.property.city}, {booking.listing.property.state}
+ {booking.listing.property.city}{t(",", ",")}{booking.listing.property.state}
  </div>
  </div>
  </TableCell>
@@ -620,7 +620,7 @@ export default function BookingsManagement() {
  <div>
  <div className="text-lg font-bold text-foreground leading-tight">{selectedBooking.listing.title}</div>
  <div className="text-[10px] font-bold text-muted-foreground mt-1">
- {selectedBooking.listing.property.addressLine1}, {selectedBooking.listing.property.city}, {selectedBooking.listing.property.state}
+ {selectedBooking.listing.property.addressLine1}{t(",", ",")}{selectedBooking.listing.property.city}{t(",", ",")}{selectedBooking.listing.property.state}
  </div>
  </div>
  
@@ -658,7 +658,7 @@ export default function BookingsManagement() {
  <Card className="bg-muted/50 border-border rounded-2xl p-6 text-center shadow-inner">
  <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin_bookingsmanagement_gross_velocity")}</p>
  <div className="text-xl font-bold text-foreground font-mono">
- ${selectedBooking.totalPrice?.toLocaleString()}
+ {t("currency_symbol", "$")}{selectedBooking.totalPrice?.toLocaleString()}
  </div>
  <div className="text-[9px] font-bold text-muted-foreground/60 mt-1">{t("admin_bookingsmanagement_confirmed_revenue")}</div>
  </Card>
@@ -675,7 +675,7 @@ export default function BookingsManagement() {
  <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
  <div className="space-y-1">
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_base_rate_cycle")}</p>
- <p className="text-lg font-bold text-foreground font-mono">${selectedBooking.listing.price}</p>
+ <p className="text-lg font-bold text-foreground font-mono">{t("currency_symbol", "$")}{selectedBooking.listing.price}</p>
  </div>
  <div className="space-y-1">
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_temporal_span")}</p>
@@ -684,7 +684,7 @@ export default function BookingsManagement() {
  </div>
  <div className="space-y-1">
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_collateral_held")}</p>
- <p className="text-lg font-bold text-foreground font-mono">${selectedBooking.depositAmount?.toLocaleString() || '0'}</p>
+ <p className="text-lg font-bold text-foreground font-mono">{t("currency_symbol", "$")}{selectedBooking.depositAmount?.toLocaleString() || '0'}</p>
  </div>
  <div className="space-y-1">
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_processing_fee")}</p>

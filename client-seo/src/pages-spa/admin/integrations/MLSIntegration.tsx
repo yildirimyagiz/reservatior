@@ -374,7 +374,7 @@ export default function MLSIntegration() {
  <TableCell>
  {job.finishedAt ? new Date(job.finishedAt).toLocaleString() : '-'}
  </TableCell>
- <TableCell>{Math.round(duration / 1000)}s</TableCell>
+ <TableCell>{Math.round(duration / 1000)}{t("admin_auto_s", "s")}</TableCell>
  <TableCell>
  <Button variant="ghost" size="sm">
  <Eye className="h-4 w-4" />

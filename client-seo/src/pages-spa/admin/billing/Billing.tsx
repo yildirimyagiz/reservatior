@@ -57,15 +57,14 @@ export default function Billing() {
  const currentPlan = plans.find(p => p.isActive);
  const totalPaid = invoices.filter(i => i.status ==="PAID" || i.status ==="paid").reduce((s, i) => s + i.total, 0);
 
- return (
- <div className="space-y-6 min-h-screen">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
  <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
  <CreditCard className="w-8 h-8 text-foreground" />
  </div>
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  {t("admin_billing_billing","Billing")}
  </h1>
  <p className="text-muted-foreground">
@@ -92,7 +91,7 @@ export default function Billing() {
  <CardContent>
  <div className="space-y-4">
  <h3 className="text-2xl font-bold text-foreground">{currentPlan?.name || t("admin_billing_no_plan","No Plan")}</h3>
- <p className="text-3xl font-bold text-foreground">${currentPlan?.price || 0}<span className="text-lg font-normal text-muted-foreground">/{currentPlan?.interval ||"mo"}</span></p>
+ <p className="text-3xl font-bold text-foreground">{t("currency_symbol", "$")}{currentPlan?.price || 0}<span className="text-lg font-normal text-muted-foreground">{t("/", "/")}{currentPlan?.interval ||"mo"}</span></p>
  <Badge className="bg-emerald-500/20 text-emerald-400 border-0">{t("admin_billing_active","Active")}</Badge>
  <div className="space-y-2 text-sm text-muted-foreground">
  <p>{t("admin_billing_total_paid","Total Paid")}: ${totalPaid.toLocaleString()}</p>
@@ -113,7 +112,7 @@ export default function Billing() {
  </div>
  <div>
  <p className="text-muted-foreground">{t("admin_billing_total_revenue","Total Revenue")}</p>
- <p className="text-lg font-medium text-foreground">${totalPaid.toLocaleString()}</p>
+ <p className="text-lg font-medium text-foreground">{t("currency_symbol", "$")}{totalPaid.toLocaleString()}</p>
  </div>
  </div>
  </CardContent>
@@ -139,7 +138,7 @@ export default function Billing() {
  {plan.isActive && <Badge className="bg-slate-600">{t("admin_billing_current","Current")}</Badge>}
  </CardTitle>
  <div>
- <p className="text-3xl font-bold text-foreground">${plan.price}<span className="text-lg font-normal text-muted-foreground">/{plan.interval}</span></p>
+ <p className="text-3xl font-bold text-foreground">{t("currency_symbol", "$")}{plan.price}<span className="text-lg font-normal text-muted-foreground">{t("/", "/")}{plan.interval}</span></p>
  </div>
  </CardHeader>
  <CardContent>
@@ -171,7 +170,7 @@ export default function Billing() {
  <p className="text-sm text-muted-foreground">{new Date(invoice.createdAt).toLocaleDateString()}</p>
  </div>
  <div className="text-right">
- <p className="font-medium text-foreground">${invoice.total.toLocaleString()}</p>
+ <p className="font-medium text-foreground">{t("currency_symbol", "$")}{invoice.total.toLocaleString()}</p>
  <Badge className={invoice.status ==="PAID" || invoice.status ==="paid" ?"bg-emerald-500/20 text-emerald-400 border-0" :"bg-amber-500/20 text-amber-400 border-0"}>
  {invoice.status}
  </Badge>

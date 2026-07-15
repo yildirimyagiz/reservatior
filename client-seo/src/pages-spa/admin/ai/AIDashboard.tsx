@@ -62,15 +62,14 @@ export default function AIDashboard() {
  const status = statusData as AIStatus | undefined;
  const models = (modelsData || []) as AIModel[];
 
- return (
- <div className="space-y-6 min-h-screen">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
  <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
  <Brain className="w-8 h-8 text-foreground" />
  </div>
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  {t("admin_ai_ai_central_intelligence","AI Central Intelligence")}
  </h1>
  <p className="text-muted-foreground">
@@ -216,7 +215,7 @@ export default function AIDashboard() {
  <td className="px-6 py-4">
  <div className="flex flex-col">
  <span className="text-sm font-medium text-foreground">{model.modelName}</span>
- <span className="text-xs text-muted-foreground">v{model.modelVersion}</span>
+ <span className="text-xs text-muted-foreground">{t("admin_auto_v", "v")}{model.modelVersion}</span>
  </div>
  </td>
  <td className="px-6 py-4 text-sm text-slate-300">{model.modelType}</td>

@@ -75,7 +75,7 @@ export default function ApiTokens() {
  };
  const filteredTokens = tokens.filter(t => t.name.toLowerCase().includes(searchTerm.toLowerCase()));
  return <PageShell title={t("admin_security_credential_matrix")} description={t("admin_security_programmatic_entry_points_and")}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  
  {/* KPI GRID */}
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

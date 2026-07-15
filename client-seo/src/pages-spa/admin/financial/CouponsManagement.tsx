@@ -92,7 +92,7 @@ export default function CouponsManagement() {
  title={t("admin_financial_coupons_management","Coupons & Promotions")}
  description={t("admin_financial_coupons_desc","Manage global and regional promotional codes for users.")}
  >
- <div className="space-y-8 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-8 pb-20">
  
  {/* Stats Grid */}
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
@@ -103,7 +103,7 @@ export default function CouponsManagement() {
  </div>
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_financial_active_campaigns","Active Campaigns")}</p>
- <h3 className="text-3xl font-bold">2</h3>
+ <h3 className="text-3xl font-bold">{t("client.pricing.tiers.enterprise.2", "2")}</h3>
  </div>
  </CardContent>
  </Card>
@@ -125,7 +125,7 @@ export default function CouponsManagement() {
  </div>
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_financial_regions_targeted","Regions Targeted")}</p>
- <h3 className="text-3xl font-bold">3</h3>
+ <h3 className="text-3xl font-bold">{t("client.pricing.tiers.enterprise.3", "3")}</h3>
  </div>
  </CardContent>
  </Card>
@@ -197,7 +197,7 @@ export default function CouponsManagement() {
  <div className="space-y-4 py-4">
  <div className="space-y-2">
  <label className="text-sm font-medium">{t("admin_financial_coupon_code","Coupon Code")}</label>
- <Input placeholder="e.g. SUMMER2026" />
+ <Input placeholder={t("admin_auto_e_g_summer2026", "e.g. SUMMER2026")} />
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
@@ -259,8 +259,8 @@ export default function CouponsManagement() {
  <Select value={formData.type} onValueChange={v => setFormData({...formData, type: v})}>
  <SelectTrigger><SelectValue /></SelectTrigger>
  <SelectContent>
- <SelectItem value="PERCENTAGE">Percentage</SelectItem>
- <SelectItem value="FIXED">Fixed Amount</SelectItem>
+ <SelectItem value="PERCENTAGE">{t("admin_financial_percentage", "Percentage")}</SelectItem>
+ <SelectItem value="FIXED">{t("admin_financial_fixed_amount", "Fixed Amount")}</SelectItem>
  </SelectContent>
  </Select>
  </div>

@@ -101,15 +101,14 @@ export default function WisePaymentIntegration() {
  const monthlyVolume = transactions.filter(t => t.status ==="COMPLETED").reduce((s, t) => s + t.amount, 0);
  const avgTransaction = transactions.length > 0 ? monthlyVolume / transactions.length : 0;
 
- return (
- <div className="space-y-6 min-h-screen">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
  <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
  <CreditCard className="w-8 h-8 text-foreground" />
  </div>
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  {t("admin_payments_wise_payment_hub","Wise Payment Hub")}
  </h1>
  <p className="text-muted-foreground">
@@ -119,7 +118,7 @@ export default function WisePaymentIntegration() {
  </div>
  <div className="text-right">
  <p className="text-xs text-muted-foreground">{t("admin_payments_total_sent","Total Sent")}</p>
- <p className="text-2xl font-bold text-foreground">${monthlyVolume.toLocaleString()}</p>
+ <p className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{monthlyVolume.toLocaleString()}</p>
  </div>
  </div>
 
@@ -141,28 +140,28 @@ export default function WisePaymentIntegration() {
  <Select value={paymentForm.currency} onValueChange={value => setPaymentForm(prev => ({ ...prev, currency: value }))}>
  <SelectTrigger className="bg-card border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
- <SelectItem value="USD">USD - US Dollar</SelectItem>
- <SelectItem value="EUR">EUR - Euro</SelectItem>
- <SelectItem value="GBP">GBP - British Pound</SelectItem>
- <SelectItem value="TRY">TRY - Turkish Lira</SelectItem>
+ <SelectItem value="USD">{t("admin_payments_usd_us_dollar", "USD - US Dollar")}</SelectItem>
+ <SelectItem value="EUR">{t("admin_payments_eur_euro", "EUR - Euro")}</SelectItem>
+ <SelectItem value="GBP">{t("admin_payments_gbp_british_pound", "GBP - British Pound")}</SelectItem>
+ <SelectItem value="TRY">{t("admin_payments_try_turkish_lira", "TRY - Turkish Lira")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
  <Label className="text-xs text-muted-foreground">{t("admin_payments_recipient_name","Recipient Name")}</Label>
- <Input value={paymentForm.recipientName} onChange={e => setPaymentForm(prev => ({ ...prev, recipientName: e.target.value }))} placeholder="John Doe" className="bg-card border-border text-foreground placeholder:text-slate-500" />
+ <Input value={paymentForm.recipientName} onChange={e => setPaymentForm(prev => ({ ...prev, recipientName: e.target.value }))} placeholder={t("admin_payments_john_doe", "John Doe")} className="bg-card border-border text-foreground placeholder:text-slate-500" />
  </div>
  <div className="space-y-2">
  <Label className="text-xs text-muted-foreground">{t("admin_payments_recipient_email","Recipient Email")}</Label>
- <Input type="email" value={paymentForm.recipientEmail} onChange={e => setPaymentForm(prev => ({ ...prev, recipientEmail: e.target.value }))} placeholder="john@example.com" className="bg-card border-border text-foreground placeholder:text-slate-500" />
+ <Input type="email" value={paymentForm.recipientEmail} onChange={e => setPaymentForm(prev => ({ ...prev, recipientEmail: e.target.value }))} placeholder={t("admin_payments_johnexamplecom", "john@example.com")} className="bg-card border-border text-foreground placeholder:text-slate-500" />
  </div>
  <div className="space-y-2">
  <Label className="text-xs text-muted-foreground">{t("admin_payments_description","Description")}</Label>
- <Input value={paymentForm.description} onChange={e => setPaymentForm(prev => ({ ...prev, description: e.target.value }))} placeholder="Payment for services" className="bg-card border-border text-foreground placeholder:text-slate-500" />
+ <Input value={paymentForm.description} onChange={e => setPaymentForm(prev => ({ ...prev, description: e.target.value }))} placeholder={t("admin_auto_payment_for_services", "Payment for services")} className="bg-card border-border text-foreground placeholder:text-slate-500" />
  </div>
  <div className="bg-card rounded-xl p-4 space-y-2">
- <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("admin_payments_transfer_fee","Transfer Fee")}</span><span className="text-foreground font-bold">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 0.015).toFixed(2) : '0.00'}</span></div>
- <div className="flex justify-between text-sm font-bold border-t border-border pt-2"><span className="text-foreground">{t("admin_payments_total","Total")}</span><span className="text-foreground">${paymentForm.amount ? (parseFloat(paymentForm.amount) * 1.015).toFixed(2) : '0.00'}</span></div>
+ <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t("admin_payments_transfer_fee","Transfer Fee")}</span><span className="text-foreground font-bold">{t("currency_symbol", "$")}{paymentForm.amount ? (parseFloat(paymentForm.amount) * 0.015).toFixed(2) : '0.00'}</span></div>
+ <div className="flex justify-between text-sm font-bold border-t border-border pt-2"><span className="text-foreground">{t("admin_payments_total","Total")}</span><span className="text-foreground">{t("currency_symbol", "$")}{paymentForm.amount ? (parseFloat(paymentForm.amount) * 1.015).toFixed(2) : '0.00'}</span></div>
  </div>
  <Button onClick={handlePayment} disabled={createMutation.isPending} className="w-full bg-slate-600 hover:bg-slate-700 text-foreground shadow-lg shadow-slate-500/20">
  {createMutation.isPending ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("admin_payments_processing","Processing")}</> : <><DollarSign className="w-4 h-4 mr-2" />{t("admin_payments_send_payment","Send Payment")}</>}
@@ -179,7 +178,7 @@ export default function WisePaymentIntegration() {
  </div>
  <div>
  <p className="text-xs text-muted-foreground">{t("admin_payments_monthly_volume","Monthly Volume")}</p>
- <p className="text-xl font-bold text-foreground">${monthlyVolume.toLocaleString()}</p>
+ <p className="text-xl font-bold text-foreground">{t("currency_symbol", "$")}{monthlyVolume.toLocaleString()}</p>
  </div>
  </div>
  </Card>
@@ -190,7 +189,7 @@ export default function WisePaymentIntegration() {
  </div>
  <div>
  <p className="text-xs text-muted-foreground">{t("admin_payments_avg_transaction","Avg Transaction")}</p>
- <p className="text-xl font-bold text-foreground">${avgTransaction.toFixed(2)}</p>
+ <p className="text-xl font-bold text-foreground">{t("currency_symbol", "$")}{avgTransaction.toFixed(2)}</p>
  </div>
  </div>
  </Card>
@@ -225,7 +224,7 @@ export default function WisePaymentIntegration() {
  <p className="text-xs text-slate-500">{transaction.description}</p>
  </div>
  <div className="text-right">
- <p className="text-lg font-bold text-foreground">${transaction.amount.toLocaleString()}</p>
+ <p className="text-lg font-bold text-foreground">{t("currency_symbol", "$")}{transaction.amount.toLocaleString()}</p>
  <p className="text-xs text-muted-foreground">{t("admin_payments_fee","Fee")}: ${transaction.fee.toFixed(2)}</p>
  <p className="text-xs text-slate-500">{new Date(transaction.createdAt).toLocaleDateString()}</p>
  </div>
@@ -242,7 +241,7 @@ export default function WisePaymentIntegration() {
  <Shield className="w-5 h-5 text-muted-foreground" />
  </div>
  <p className="text-sm text-muted-foreground">
- <strong className="text-foreground">{t("admin_payments_security_notice","Security Notice")}: </strong>
+ <strong className="text-foreground">{t("admin_payments_security_notice","Security Notice")}{t("mobile.leftovers.", ":")}</strong>
  {t("admin_payments_all_payments_secured","All payments are processed securely through Wise")}
  </p>
  </div>

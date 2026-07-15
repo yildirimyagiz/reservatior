@@ -70,27 +70,27 @@ export interface PropertyDisclosure {
 
 export const complianceApi = {
   // Right to Rent
-  getRightToRentChecks: (params?: any) => apiClient.get("/right-to-rent-check", params),
-  getRightToRentCheck: (id: string) => apiClient.get(`/right-to-rent-check/${id}`),
-  createRightToRentCheck: (data: any) => apiClient.post("/right-to-rent-check", data),
-  updateRightToRentCheck: (id: string, data: any) => apiClient.patch(`/right-to-rent-check/${id}`, data),
-  deleteRightToRentCheck: (id: string) => apiClient.delete(`/right-to-rent-check/${id}`),
+  getRightToRentChecks: (params?: any) => apiClient.get("/right-to-rent-checks", params),
+  getRightToRentCheck: (id: string) => apiClient.get(`/right-to-rent-checks/${id}`),
+  createRightToRentCheck: (data: any) => apiClient.post("/right-to-rent-checks", data),
+  updateRightToRentCheck: (id: string, data: any) => apiClient.patch(`/right-to-rent-checks/${id}`, data),
+  deleteRightToRentCheck: (id: string) => apiClient.delete(`/right-to-rent-checks/${id}`),
 
   // Immigration Status
-  getImmigrationChecks: (params?: any) => apiClient.get("/compliance/immigration", params),
-  getImmigrationCheck: (id: string) => apiClient.get(`/compliance/immigration/${id}`),
-  updateImmigrationCheck: (id: string, data: any) => apiClient.patch(`/compliance/immigration/${id}`, data),
+  getImmigrationChecks: (params?: any) => apiClient.get("/immigration-status-checks", params),
+  getImmigrationCheck: (id: string) => apiClient.get(`/immigration-status-checks/${id}`),
+  updateImmigrationCheck: (id: string, data: any) => apiClient.patch(`/immigration-status-checks/${id}`, data),
 
   // Property Compliance (Inspections)
-  getPropertyCompliance: (params?: any) => apiClient.get("/compliance/property", params),
-  getPropertyComplianceDetail: (id: string) => apiClient.get(`/compliance/property/${id}`),
-  createPropertyCompliance: (data: any) => apiClient.post("/compliance/property", data),
-  updatePropertyCompliance: (id: string, data: any) => apiClient.patch(`/compliance/property/${id}`, data),
+  getPropertyCompliance: (params?: any) => apiClient.get("/property-compliance", params),
+  getPropertyComplianceDetail: (id: string) => apiClient.get(`/property-compliance/${id}`),
+  createPropertyCompliance: (data: any) => apiClient.post("/property-compliance", data),
+  updatePropertyCompliance: (id: string, data: any) => apiClient.patch(`/property-compliance/${id}`, data),
 
   // Property Disclosures
-  getPropertyDisclosures: (params?: any) => apiClient.get("/compliance/disclosures", params),
-  getDisclosure: (id: string) => apiClient.get(`/compliance/disclosures/${id}`),
-  updateDisclosure: (id: string, data: any) => apiClient.patch(`/compliance/disclosures/${id}`, data),
+  getPropertyDisclosures: (params?: any) => apiClient.get("/property-disclosure", params),
+  getDisclosure: (id: string) => apiClient.get(`/property-disclosure/${id}`),
+  updateDisclosure: (id: string, data: any) => apiClient.patch(`/property-disclosure/${id}`, data),
 
   // Compliance Records
   getComplianceRecords: (params?: any) => apiClient.get("/compliance-record", params),

@@ -283,8 +283,7 @@ export default function CustomerInvoices() {
  const handleCreateInvoice = () => navigate('/admin/invoices/create');
 
  if (isLoading) {
- return (
- <div className="space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  <div className="flex items-center justify-center h-64">
  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-500"></div>
  </div>
@@ -297,7 +296,7 @@ export default function CustomerInvoices() {
  {/* Header */}
  <div className="bg-card p-6 rounded-xl border border-border flex items-center justify-between">
  <div>
- <h1 className="text-3xl font-bold text-card-foreground">{t("admin_invoices_customer_billing")}</h1>
+ <h1 className="text-3xl font-bold text-card-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_invoices_customer_billing")}</h1>
  <p className="text-sm text-muted-foreground mt-1">{t("admin_invoices_invoice_management_and_customer")}</p>
  </div>
  <div className="flex items-center gap-4">
@@ -315,19 +314,19 @@ export default function CustomerInvoices() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="customerId" className="text-right text-xs text-muted-foreground">{t("admin_auto_customer_id", "Customer ID")}</Label>
- <Input id="customerId" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.customerId} onChange={e => setFormData({ ...formData, customerId: e.target.value })} placeholder="Enter customer id" />
+ <Input id="customerId" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.customerId} onChange={e => setFormData({ ...formData, customerId: e.target.value })} placeholder={t("admin_auto_enter_customer_id", "Enter customer id")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="amount" className="text-right text-xs text-muted-foreground">{t("admin_auto_amount", "Amount")}</Label>
- <Input id="amount" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.amount} onChange={e => setFormData({ ...formData, amount: e.target.value })} placeholder="Enter amount" />
+ <Input id="amount" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.amount} onChange={e => setFormData({ ...formData, amount: e.target.value })} placeholder={t("admin_auto_enter_amount", "Enter amount")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
- <Input id="status" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
+ <Input id="status" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Enter status")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -346,7 +345,7 @@ export default function CustomerInvoices() {
  </div>
  <div>
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_invoices_total_revenue")}</p>
- <p className="text-2xl font-bold text-card-foreground">${totalRevenue.toLocaleString()}</p>
+ <p className="text-2xl font-bold text-card-foreground">{t("currency_symbol", "$")}{totalRevenue.toLocaleString()}</p>
  </div>
  </div>
  </Card>
@@ -357,7 +356,7 @@ export default function CustomerInvoices() {
  </div>
  <div>
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_invoices_outstanding")}</p>
- <p className="text-2xl font-bold text-card-foreground">${totalOutstanding.toLocaleString()}</p>
+ <p className="text-2xl font-bold text-card-foreground">{t("currency_symbol", "$")}{totalOutstanding.toLocaleString()}</p>
  </div>
  </div>
  </Card>
@@ -489,7 +488,7 @@ export default function CustomerInvoices() {
  </div>
  <div className="flex items-center justify-between">
  <div>
- <p className="text-lg font-bold text-card-foreground">${invoice.totalAmount.toLocaleString()} {invoice.currency}</p>
+ <p className="text-lg font-bold text-card-foreground">{t("currency_symbol", "$")}{invoice.totalAmount.toLocaleString()} {invoice.currency}</p>
  <p className="text-xs text-muted-foreground">{invoice.items.length}{t("admin_invoices_items_tax")}{invoice.taxRate * 100}%</p>
  </div>
  <div className="flex items-center gap-2">
@@ -541,7 +540,7 @@ export default function CustomerInvoices() {
  <div className="text-xs text-muted-foreground">
  <p>{t("admin_invoices_total_invoices")}{customer.totalInvoices || 0}</p>
  <p>{t("admin_invoices_paid")}{customer.paidInvoices || 0}</p>
- <p>{t("admin_invoices_outstanding")}${customer.outstandingAmount?.toLocaleString() || '0'}</p>
+ <p>{t("admin_invoices_outstanding")}{t("currency_symbol", "$")}{customer.outstandingAmount?.toLocaleString() || '0'}</p>
  </div>
  <div className="flex items-center gap-2">
  <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-card-foreground hover:bg-card"><Eye className="w-4 h-4 mr-1.5" />{t("admin_invoices_details")}</Button>
@@ -619,7 +618,7 @@ export default function CustomerInvoices() {
  </CardHeader>
  <CardContent className="space-y-4">
  <div className="text-center">
- <div className="text-xl font-bold text-card-foreground">${totalRevenue.toLocaleString()}</div>
+ <div className="text-xl font-bold text-card-foreground">{t("currency_symbol", "$")}{totalRevenue.toLocaleString()}</div>
  <p className="text-sm text-muted-foreground">{t("admin_invoices_total_revenue")}</p>
  </div>
  <div className="grid grid-cols-2 gap-4 text-sm">
@@ -644,7 +643,7 @@ export default function CustomerInvoices() {
  </CardHeader>
  <CardContent className="space-y-6">
  <div className="text-center relative">
- <div className="text-2xl font-bold text-red-400">${totalOutstanding.toLocaleString()}</div>
+ <div className="text-2xl font-bold text-red-400">{t("currency_symbol", "$")}{totalOutstanding.toLocaleString()}</div>
  <p className="text-[10px] font-bold text-muted-foreground tracking-[0.3em] mt-2">{t("admin_invoices_recovery_target")}</p>
  </div>
  <div className="space-y-4">
@@ -679,7 +678,7 @@ export default function CustomerInvoices() {
  <div className="h-48 flex items-end justify-between gap-2 px-4 pb-4">
  {[45, 62, 58, 75, 42, 68, 85, 55, 92, 78, 64, 82].map((val, i) => (
  <motion.div key={i} initial={{ height: 0 }} animate={{ height: `${val}%` }} transition={{ delay: i * 0.05, duration: 1, ease:"circOut" }} className="flex-1 bg-gradient-to-t from-slate-600/20 to-slate-500/40 rounded-t-lg relative group cursor-pointer">
- <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-card text-card-foreground border-border text-card-foreground text-[9px] font-bold px-1.5 py-0.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">${val}k</div>
+ <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-card text-card-foreground border-border text-card-foreground text-[9px] font-bold px-1.5 py-0.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{t("currency_symbol", "$")}{val}{t("admin_auto_k", "k")}</div>
  </motion.div>
  ))}
  </div>

@@ -106,14 +106,14 @@ export default function PropertyInventory() {
  if (isLoading) {
  return <div className="min-h-screen bg-background p-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_inventory_title")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_inventory_title")}</h1>
  </div>
  <div className="flex items-center justify-center h-64 mt-6">
  <Activity className="h-8 w-8 animate-spin text-foreground" />
  </div>
  </div>;
  }
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
  <h1 className="text-xl font-bold text-foreground">{t("admin_inventory_title")}</h1>
@@ -137,7 +137,7 @@ export default function PropertyInventory() {
  <DollarSign className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-foreground">${totalValue.toLocaleString()}</div>
+ <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{totalValue.toLocaleString()}</div>
  <p className="text-xs text-muted-foreground">{t("admin_property_across_all_properties")}</p>
  </CardContent>
  </Card>
@@ -148,7 +148,7 @@ export default function PropertyInventory() {
  <TrendingUp className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-foreground">${avgPrice.toLocaleString()}</div>
+ <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{avgPrice.toLocaleString()}</div>
  <p className="text-xs text-muted-foreground">{t("admin_property_market_average")}</p>
  </CardContent>
  </Card>
@@ -194,7 +194,7 @@ export default function PropertyInventory() {
  <SelectContent className="max-h-[400px] bg-card border-border text-foreground">
  <SelectItem value="all">{t("admin_inventory_types_all")}</SelectItem>
  <SelectGroup>
- <SelectLabel className="text-muted-foreground font-bold uppercase tracking-widest text-[9px] px-2 py-1">{t("client.property.portfolio.filters.type.residential")} - HOUSES</SelectLabel>
+ <SelectLabel className="text-muted-foreground font-bold uppercase tracking-widest text-[9px] px-2 py-1">{t("client.property.portfolio.filters.type.residential")} {t("admin_auto_houses", "- HOUSES")}</SelectLabel>
  <SelectItem value="DETACHED_HOUSE">{t("client.property.types.DETACHED_HOUSE")}</SelectItem>
  <SelectItem value="SEMI_DETACHED_HOUSE">{t("client.property.types.SEMI_DETACHED_HOUSE")}</SelectItem>
  <SelectItem value="TERRACED_HOUSE">{t("client.property.types.TERRACED_HOUSE")}</SelectItem>
@@ -209,7 +209,7 @@ export default function PropertyInventory() {
  <SelectItem value="COMPOUND">{t("client.property.types.COMPOUND")}</SelectItem>
  </SelectGroup>
  <SelectGroup>
- <SelectLabel className="text-muted-foreground font-bold uppercase tracking-widest text-[9px] px-2 py-1 mt-2">{t("client.property.portfolio.filters.type.residential")} - APARTMENTS</SelectLabel>
+ <SelectLabel className="text-muted-foreground font-bold uppercase tracking-widest text-[9px] px-2 py-1 mt-2">{t("client.property.portfolio.filters.type.residential")} {t("admin_auto_apartments", "- APARTMENTS")}</SelectLabel>
  <SelectItem value="APARTMENT">{t("client.property.types.APARTMENT")}</SelectItem>
  <SelectItem value="CONDO_APARTMENT">{t("client.property.types.CONDO_APARTMENT")}</SelectItem>
  <SelectItem value="FLAT_MAISONETTE">{t("client.property.types.FLAT_MAISONETTE")}</SelectItem>
@@ -286,7 +286,7 @@ export default function PropertyInventory() {
  <div className="text-foreground">{property.address}</div>
  <div className="text-xs text-muted-foreground flex items-center gap-1">
  <MapPin className="h-3 w-3" />
- {property.city}, {property.state} {property.zipCode}
+ {property.city}{t(",", ",")}{property.state} {property.zipCode}
  </div>
  </div>
  </div>
@@ -300,7 +300,7 @@ export default function PropertyInventory() {
  <span className="capitalize">{getStatusLabel(property.status)}</span>
  </div>
  </TableCell>
- <TableCell className="font-medium text-foreground">${property.price.toLocaleString()}</TableCell>
+ <TableCell className="font-medium text-foreground">{t("currency_symbol", "$")}{property.price.toLocaleString()}</TableCell>
  <TableCell className="text-muted-foreground">
  <div className="text-sm">
  <div className="text-foreground">{property.bedrooms}{t("admin_property_bed")}{property.bathrooms}{t("admin_property_bath")}</div>
@@ -308,7 +308,7 @@ export default function PropertyInventory() {
  </div>
  </TableCell>
  <TableCell className="text-muted-foreground">
- {property.listingAgent?.name || 'Unassigned'}
+                  {property.listingAgent?.name || t("admin_property_unassigned", "Unassigned")}
  </TableCell>
  <TableCell>
  <div className="text-center">

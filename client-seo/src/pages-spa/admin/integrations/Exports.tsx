@@ -434,7 +434,7 @@ export default function Exports() {
  return <TableRow key={export_.id}>
  <TableCell>
  <div>
- <div className="font-medium">{export_.name}</div>
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 font-medium">{export_.name}</div>
  <div className="text-sm text-muted-foreground">{export_.user?.name}</div>
  </div>
  </TableCell>
@@ -581,7 +581,7 @@ export default function Exports() {
  {selectedExport.parameters.dateRange && <div>
  <Label>{t("admin_integrations_date_range")}</Label>
  <div className="text-sm">
- {formatDate(selectedExport.parameters.dateRange.start)} - {formatDate(selectedExport.parameters.dateRange.end)}
+ {formatDate(selectedExport.parameters.dateRange.start)} {t(" - ", "-")}{formatDate(selectedExport.parameters.dateRange.end)}
  </div>
  </div>}
  {selectedExport.parameters.fields && selectedExport.parameters.fields.length > 0 && <div>

@@ -230,8 +230,7 @@ export default function MarketingAutomation() {
  const totalRevenue = campaigns.reduce((sum, c) => sum + (c.conversionValue || 0), 0);
 
  if (isLoading) {
- return (
- <div className="space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  <div className="flex items-center justify-center h-64">
  <Megaphone className="h-8 w-8 animate-spin text-muted-foreground" />
  </div>
@@ -242,7 +241,7 @@ export default function MarketingAutomation() {
  return (
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("admin_marketing_marketing_automation")}</h1>
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_marketing_marketing_automation")}</h1>
  </div>
 
  {/* Overview Cards */}
@@ -331,19 +330,19 @@ export default function MarketingAutomation() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_campaign_name", "Campaign Name")}</Label>
- <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Enter campaign name" />
+ <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder={t("admin_auto_enter_campaign_name", "Enter campaign name")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
- <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter type" />
+ <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_type", "Enter type")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
- <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
+ <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Enter status")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -416,14 +415,14 @@ export default function MarketingAutomation() {
  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white"><BarChart3 className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
  <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => {
  setFormData(campaign as any);
  setIsAddOpen(true);
- }}><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10" onClick={() => deleteMutation.mutate(campaign.id)}><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+ }}><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10" onClick={() => deleteMutation.mutate(campaign.id)}><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </div>
@@ -509,13 +508,13 @@ export default function MarketingAutomation() {
  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white"><Edit className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
  <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => {
  // Add edit handler if needed
- }}><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+ }}><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </div>
@@ -575,11 +574,11 @@ export default function MarketingAutomation() {
  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white"><Eye className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>

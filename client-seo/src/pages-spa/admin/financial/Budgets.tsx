@@ -218,11 +218,11 @@ export default function Budgets() {
  <TableBody>
  {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_budgets_found")}</TableCell></TableRow> : filtered.map((row: Budget) => {
  const util = row.totalAmount > 0 ? (row.spentAmount || 0) / row.totalAmount * 100 : 0;
- return <TableRow key={row.id} className="hover:bg-muted/40">
+ return <TableRow key={row.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 hover:bg-muted/40">
  <TableCell className="text-sm font-medium">{row.year}</TableCell>
  <TableCell className="text-sm">{row.notes ||"—"}</TableCell>
- <TableCell className="text-sm">${row.totalAmount.toLocaleString()}</TableCell>
- <TableCell className="text-sm">${(row.spentAmount || 0).toLocaleString()}</TableCell>
+ <TableCell className="text-sm">{t("currency_symbol", "$")}{row.totalAmount.toLocaleString()}</TableCell>
+ <TableCell className="text-sm">{t("currency_symbol", "$")}{(row.spentAmount || 0).toLocaleString()}</TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
  <div className="w-24 h-1.5 bg-muted rounded-full overflow-hidden">

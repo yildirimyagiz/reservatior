@@ -177,7 +177,7 @@ export default function FinancialInvoices() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_outstanding")}</p>
- <h3 className="text-xl font-bold text-orange-400 leading-none">${stats.outstanding.toLocaleString()}</h3>
+ <h3 className="text-xl font-bold text-orange-400 leading-none">{t("currency_symbol", "$")}{stats.outstanding.toLocaleString()}</h3>
  </CardContent>
  </Card>
  </motion.div>
@@ -197,7 +197,7 @@ export default function FinancialInvoices() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_paidtotal")}</p>
- <h3 className="text-xl font-bold text-emerald-400 leading-none">${stats.paidThisMonth.toLocaleString()}</h3>
+ <h3 className="text-xl font-bold text-emerald-400 leading-none">{t("currency_symbol", "$")}{stats.paidThisMonth.toLocaleString()}</h3>
  </CardContent>
  </Card>
  </motion.div>
@@ -217,7 +217,7 @@ export default function FinancialInvoices() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_overduedebt")}</p>
- <h3 className="text-xl font-bold text-red-400 leading-none">${stats.overdue.toLocaleString()}</h3>
+ <h3 className="text-xl font-bold text-red-400 leading-none">{t("currency_symbol", "$")}{stats.overdue.toLocaleString()}</h3>
  </CardContent>
  </Card>
  </motion.div>
@@ -257,15 +257,15 @@ export default function FinancialInvoices() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="customerName" className="text-right text-xs">{t("admin_auto_customer_name", "Customer Name")}</Label>
- <Input id="customerName" className="col-span-3 h-10" value={newInvoice.customerName} onChange={e => setNewInvoice({...newInvoice, customerName: e.target.value})} placeholder="John Doe" />
+ <Input id="customerName" className="col-span-3 h-10" value={newInvoice.customerName} onChange={e => setNewInvoice({...newInvoice, customerName: e.target.value})} placeholder={t("admin_payments_john_doe", "John Doe")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="customerEmail" className="text-right text-xs">{t("admin_auto_email", "Email")}</Label>
- <Input id="customerEmail" type="email" className="col-span-3 h-10" value={newInvoice.customerEmail} onChange={e => setNewInvoice({...newInvoice, customerEmail: e.target.value})} placeholder="john@example.com" />
+ <Input id="customerEmail" type="email" className="col-span-3 h-10" value={newInvoice.customerEmail} onChange={e => setNewInvoice({...newInvoice, customerEmail: e.target.value})} placeholder={t("admin_payments_johnexamplecom", "john@example.com")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="customerId" className="text-right text-xs">{t("admin_auto_customer_id", "Customer ID")}</Label>
- <Input id="customerId" className="col-span-3 h-10" value={newInvoice.customerId} onChange={e => setNewInvoice({...newInvoice, customerId: e.target.value})} placeholder="CUST-123" />
+ <Input id="customerId" className="col-span-3 h-10" value={newInvoice.customerId} onChange={e => setNewInvoice({...newInvoice, customerId: e.target.value})} placeholder={t("admin_auto_cust_123", "CUST-123")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="amount" className="text-right text-xs">{t("admin_auto_amount", "Amount")}</Label>
@@ -274,12 +274,12 @@ export default function FinancialInvoices() {
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="currency" className="text-right text-xs">{t("admin_auto_currency", "Currency")}</Label>
  <Select value={newInvoice.currency} onValueChange={(v) => setNewInvoice({...newInvoice, currency: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Currency" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_settings_select_currency", "Select Currency")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="USD">USD ($)</SelectItem>
- <SelectItem value="EUR">EUR (€)</SelectItem>
- <SelectItem value="TRY">TRY (₺)</SelectItem>
- <SelectItem value="GBP">GBP (£)</SelectItem>
+ <SelectItem value="USD">{t("admin_organization_usd", "USD ($)")}</SelectItem>
+ <SelectItem value="EUR">{t("admin_organization_eur", "EUR (€)")}</SelectItem>
+ <SelectItem value="TRY">{t("mobile.settings.currTry", "TRY (₺)")}</SelectItem>
+ <SelectItem value="GBP">{t("admin_organization_gbp", "GBP (£)")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -290,18 +290,18 @@ export default function FinancialInvoices() {
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="status" className="text-right text-xs">{t("admin_auto_status", "Status")}</Label>
  <Select value={newInvoice.status} onValueChange={(v) => setNewInvoice({...newInvoice, status: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Status" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_status", "Select Status")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="DRAFT">Draft</SelectItem>
- <SelectItem value="SENT">Sent</SelectItem>
- <SelectItem value="PAID">Paid</SelectItem>
- <SelectItem value="OVERDUE">Overdue</SelectItem>
+ <SelectItem value="DRAFT">{t("admin_contract_draft", "Draft")}</SelectItem>
+ <SelectItem value="SENT">{t("admin_invoices_sent", "Sent")}</SelectItem>
+ <SelectItem value="PAID">{t("admin_billing_paid", "Paid")}</SelectItem>
+ <SelectItem value="OVERDUE">{t("admin_financial_overdue", "Overdue")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(newInvoice)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Create Invoice"}
  </Button>
@@ -342,7 +342,7 @@ export default function FinancialInvoices() {
  const meta = getMeta(r);
  const status = (r.paymentStatus || 'pending').toLowerCase();
  const config = STATUS_CONFIG[status] || STATUS_CONFIG.pending;
- return <TableRow key={r.id} className="border-b border-border hover:bg-muted/50 transition-all group">
+ return <TableRow key={r.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 border-b border-border hover:bg-muted/50 transition-all group">
  <TableCell className="px-8 py-6">
  <div>
  <div className="text-sm font-bold text-foreground truncate tracking-tight leading-none mb-2">{r.id.split('-').pop()?.toUpperCase()}</div>
@@ -353,7 +353,7 @@ export default function FinancialInvoices() {
  <div className="text-[10px] font-bold text-muted-foreground leading-none">{meta.propertyName}</div>
  </TableCell>
  <TableCell className="px-8">
- <div className="text-lg font-bold text-foreground">${r.amount.toLocaleString()}</div>
+ <div className="text-lg font-bold text-foreground">{t("currency_symbol", "$")}{r.amount.toLocaleString()}</div>
  </TableCell>
  <TableCell className="px-8">
  <div className="text-[10px] font-bold text-muted-foreground leading-none">{r.dueDate ? new Date(r.dueDate).toLocaleDateString() : '—'}</div>

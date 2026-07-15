@@ -303,7 +303,7 @@ export default function CommunicationTemplates() {
  totalUsage: templates.reduce((sum, t) => sum + t.usageCount, 0)
  };
  return <PageShell title={t("admin_communication_communication_templates")} description={t("admin_communication_manage_email_sms_and")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Stats Cards */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
  <Card>
@@ -605,7 +605,7 @@ export default function CommunicationTemplates() {
  <Label>{t("admin_communication_test_variables")}</Label>
  <div className="space-y-2">
  {selectedTemplate.variables.map((variable, index) => <div key={index} className="flex items-center gap-2">
- <Label className="text-sm w-24">{variable}:</Label>
+ <Label className="text-sm w-24">{variable}{t("mobile.leftovers.", ":")}</Label>
  <Input placeholder={`Enter ${variable}`} defaultValue={variable.includes("name") ?"Test User" : variable.includes("email") ?"test@example.com" : variable.includes("property") ?"Test Property" :"Test Value"} />
  </div>)}
  </div>

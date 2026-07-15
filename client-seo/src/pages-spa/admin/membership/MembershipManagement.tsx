@@ -274,8 +274,7 @@ export default function MembershipManagement() {
  const expiredMembers = members.filter(member => member.status === 'EXPIRED').length;
 
  if (isLoading) {
- return (
- <div className="space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  <div className="flex items-center justify-center h-64">
  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-500"></div>
  </div>
@@ -288,7 +287,7 @@ export default function MembershipManagement() {
  {/* Header */}
  <div className="bg-card p-6 rounded-2xl border border-border flex items-center justify-between">
  <div>
- <h1 className="text-3xl font-bold text-foreground">{t('admin_membership_title')}</h1>
+ <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t('admin_membership_title')}</h1>
  <p className="text-sm text-muted-foreground mt-1">{t('admin_membership_description')}</p>
  </div>
  <div className="flex items-center gap-4">
@@ -306,19 +305,19 @@ export default function MembershipManagement() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="userId" className="text-right text-xs text-muted-foreground">{t("admin_auto_user_id", "User ID")}</Label>
- <Input id="userId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.userId} onChange={e => setFormData({ ...formData, userId: e.target.value })} placeholder="Enter user id" />
+ <Input id="userId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.userId} onChange={e => setFormData({ ...formData, userId: e.target.value })} placeholder={t("admin_auto_enter_user_id", "Enter user id")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="planId" className="text-right text-xs text-muted-foreground">{t("admin_auto_plan_id", "Plan ID")}</Label>
- <Input id="planId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.planId} onChange={e => setFormData({ ...formData, planId: e.target.value })} placeholder="Enter plan id" />
+ <Input id="planId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.planId} onChange={e => setFormData({ ...formData, planId: e.target.value })} placeholder={t("admin_auto_enter_plan_id", "Enter plan id")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
- <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
+ <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Enter status")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -339,7 +338,7 @@ export default function MembershipManagement() {
  <Card className="bg-card border-border rounded-3xl p-6">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-xl bg-muted0/20 flex items-center justify-center"><DollarSign className="w-5 h-5 text-muted-foreground" /></div>
- <div><p className="text-[10px] font-bold text-muted-foreground">{t('monthlyRevenue')}</p><p className="text-2xl font-bold text-foreground">${totalRevenue.toLocaleString()}</p></div>
+ <div><p className="text-[10px] font-bold text-muted-foreground">{t('monthlyRevenue')}</p><p className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{totalRevenue.toLocaleString()}</p></div>
  </div>
  </Card>
  <Card className="bg-card border-border rounded-3xl p-6">
@@ -351,7 +350,7 @@ export default function MembershipManagement() {
  <Card className="bg-card border-border rounded-3xl p-6">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center"><Gift className="w-5 h-5 text-orange-400" /></div>
- <div><p className="text-[10px] font-bold text-muted-foreground">{t('avgMemberValue')}</p><p className="text-2xl font-bold text-foreground">${activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(0) : '0'}</p></div>
+ <div><p className="text-[10px] font-bold text-muted-foreground">{t('avgMemberValue')}</p><p className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(0) : '0'}</p></div>
  </div>
  </Card>
  </div>
@@ -432,7 +431,7 @@ export default function MembershipManagement() {
  <p className="text-muted-foreground">{t("admin_membership_end")}{new Date(member.endDate).toLocaleDateString()}</p>
  </div>
  <div className="text-right">
- <p className="text-muted-foreground">{t("admin_membership_total_spent")}${(member.totalSpent || 0).toFixed(2)}</p>
+ <p className="text-muted-foreground">{t("admin_membership_total_spent")}{t("currency_symbol", "$")}{(member.totalSpent || 0).toFixed(2)}</p>
  <p className="text-muted-foreground">{t("admin_membership_next_billing")}{member.nextBillingDate ? new Date(member.nextBillingDate).toLocaleDateString() : 'N/A'}</p>
  </div>
  </div>
@@ -489,7 +488,7 @@ export default function MembershipManagement() {
  </div>
  </div>
  <div className="text-2xl font-bold text-foreground mb-4">
- ${tier.price.toFixed(2)}/{tier.billingCycle === 'MONTHLY' ? 'mo' : 'yr'}
+ {t("currency_symbol", "$")}{tier.price.toFixed(2)}{t("/", "/")}{tier.billingCycle === 'MONTHLY' ? 'mo' : 'yr'}
  </div>
  <div className="space-y-2">
  <ul className="text-sm text-muted-foreground">
@@ -544,7 +543,7 @@ export default function MembershipManagement() {
  <div className="mt-3">
  <div className="flex items-center justify-between text-sm">
  <span className="text-muted-foreground">{t("admin_membership_usage")}</span>
- <span className="text-foreground">{feature.currentUsage || 0} / {feature.usageLimit}</span>
+ <span className="text-foreground">{feature.currentUsage || 0} {t("/", "/")}{feature.usageLimit}</span>
  </div>
  <Progress value={feature.currentUsage ? feature.currentUsage / feature.usageLimit * 100 : 0} className="h-2 bg-card" />
  </div>
@@ -569,12 +568,12 @@ export default function MembershipManagement() {
  </CardHeader>
  <CardContent className="space-y-4">
  <div className="text-center">
- <div className="text-xl font-bold text-foreground">${totalRevenue.toLocaleString()}</div>
+ <div className="text-xl font-bold text-foreground">{t("currency_symbol", "$")}{totalRevenue.toLocaleString()}</div>
  <p className="text-sm text-muted-foreground">{t("admin_membership_total_revenue")}</p>
  </div>
  <div className="grid grid-cols-2 gap-4 text-sm">
- <div><p className="text-muted-foreground">{t("admin_membership_monthly_revenue")}</p><p className="text-lg font-bold text-foreground">${(totalRevenue / 12).toFixed(2)}</p></div>
- <div><p className="text-muted-foreground">{t("admin_membership_average_revenuemember")}</p><p className="text-lg font-bold text-foreground">${activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(2) : '0'}</p></div>
+ <div><p className="text-muted-foreground">{t("admin_membership_monthly_revenue")}</p><p className="text-lg font-bold text-foreground">{t("currency_symbol", "$")}{(totalRevenue / 12).toFixed(2)}</p></div>
+ <div><p className="text-muted-foreground">{t("admin_membership_average_revenuemember")}</p><p className="text-lg font-bold text-foreground">{t("currency_symbol", "$")}{activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(2) : '0'}</p></div>
  </div>
  <div className="mt-4">
  <p className="text-sm text-muted-foreground">{t("admin_membership_growth_rate")}</p>

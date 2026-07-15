@@ -147,9 +147,9 @@ const FacilitiesManagement = () => {
  )}
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
- {createMutation.isPending ?"Saving..." :"Save Facility"}
+ {createMutation.isPending ? t("admin_action_saving", "Saving...") : t("admin_action_save_facility", "Save Facility")}
  </Button>
  </div>
  </form>
@@ -197,9 +197,9 @@ const FacilitiesManagement = () => {
  )}
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={updateMutation.isPending}>
- {updateMutation.isPending ?"Saving..." :"Save Changes"}
+ {updateMutation.isPending ? t("admin_action_saving", "Saving...") : t("admin_action_save_changes", "Save Changes")}
  </Button>
  </div>
  </form>
@@ -211,34 +211,34 @@ const FacilitiesManagement = () => {
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Registered Facilities</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_registered_facilities", "Registered Facilities")}</CardTitle>
  <Building className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">8,451</div>
- <p className="text-xs text-green-400 mt-1">Across 120 properties</p>
+ <p className="text-xs text-green-400 mt-1">{t("admin_auto_across_120_properties", "Across 120 properties")}</p>
  </CardContent>
  </Card>
  
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Shared Spaces</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_shared_spaces", "Shared Spaces")}</CardTitle>
  <Home className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">1,240</div>
- <p className="text-xs text-muted-foreground mt-1">Pools, Gyms, Lounges</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_pools_gyms_lounges", "Pools, Gyms, Lounges")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Under Maintenance</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_under_maintenance", "Under Maintenance")}</CardTitle>
  <Warehouse className="w-4 h-4 text-amber-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">34</div>
- <p className="text-xs text-muted-foreground mt-1">Currently offline</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_currently_offline", "Currently offline")}</p>
  </CardContent>
  </Card>
  </div>
@@ -261,10 +261,10 @@ const FacilitiesManagement = () => {
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">Name</TableHead>
- <TableHead className="text-slate-300">Property</TableHead>
- <TableHead className="text-slate-300">Fee Amount</TableHead>
- <TableHead className="text-slate-300 text-right">Actions</TableHead>
+ <TableHead className="text-slate-300">{t("admin_ai_name", "Name")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_ai_property", "Property")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_fee_amount", "Fee Amount")}</TableHead>
+ <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>

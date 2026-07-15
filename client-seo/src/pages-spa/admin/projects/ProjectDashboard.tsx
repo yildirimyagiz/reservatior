@@ -79,11 +79,10 @@ export default function ProjectDashboard() {
  onError: (err: any) => toast({ title:"Error", description: err.message, variant:"destructive" })
  });
 
- return (
- <div className="space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("admin_projects_project_management")}</h1>
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_projects_project_management")}</h1>
  <p className="text-muted-foreground mt-1">{t("admin_projects_track_renovations_construction_and")}</p>
  </div>
  <div className="flex items-center gap-2">
@@ -104,19 +103,19 @@ export default function ProjectDashboard() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_project_name", "Project Name")}</Label>
- <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Enter project name" />
+ <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder={t("admin_auto_enter_project_name", "Enter project name")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
- <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder="Enter status" />
+ <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Enter status")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="budget" className="text-right text-xs text-muted-foreground">{t("admin_auto_budget", "Budget")}</Label>
- <Input id="budget" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.budget} onChange={e => setFormData({ ...formData, budget: e.target.value })} placeholder="Enter budget" />
+ <Input id="budget" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.budget} onChange={e => setFormData({ ...formData, budget: e.target.value })} placeholder={t("admin_auto_enter_budget", "Enter budget")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>

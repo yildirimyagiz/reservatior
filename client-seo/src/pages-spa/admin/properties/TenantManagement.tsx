@@ -417,7 +417,7 @@ const TenantManagement = () => {
  <div className="text-sm">
  <div>{item.employmentStatus || '-'}</div>
  {item.monthlyIncome && (
- <div className="text-xs">${item.monthlyIncome.toLocaleString()}/mo</div>
+ <div className="text-xs">{t("currency_symbol", "$")}{item.monthlyIncome.toLocaleString()}{t("admin_auto_mo", "/mo")}</div>
  )}
  </div>
  </TableCell>
@@ -425,12 +425,12 @@ const TenantManagement = () => {
  <div className="space-y-1">
  {item.creditScore && (
  <div className="text-sm">
- <span className="text-slate-500">{t("admin_tenant_credit","Credit")}:</span> {item.creditScore}
+ <span className="text-slate-500">{t("admin_tenant_credit","Credit")}{t("mobile.leftovers.", ":")}</span> {item.creditScore}
  </div>
  )}
  {item.reliabilityScore && (
  <div className="text-sm">
- <span className="text-slate-500">{t("admin_tenant_reliability","Reliability")}:</span> 
+ <span className="text-slate-500">{t("admin_tenant_reliability","Reliability")}{t("mobile.leftovers.", ":")}</span> 
  <Badge variant="outline" className="ml-1">{item.reliabilityScore}</Badge>
  </div>
  )}

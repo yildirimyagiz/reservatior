@@ -54,10 +54,10 @@ export default function OwnershipVerification() {
  default: return <Badge variant="secondary" className="text-[9px] font-bold px-3 py-1 rounded-full">{status}</Badge>;
  }
  };
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("propertyVerificationTitle")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("propertyVerificationTitle")}</h1>
  <p className="text-sm text-muted-foreground">{t("propertyVerificationDesc")}</p>
  </div>
 

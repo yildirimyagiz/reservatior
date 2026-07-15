@@ -166,8 +166,7 @@ export default function EscrowManagement() {
  };
 
  if (loading) {
- return (
- <div className="min-h-screen flex items-center justify-center space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen flex items-center justify-center space-y-6">
  <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
  </div>
  );
@@ -181,7 +180,7 @@ export default function EscrowManagement() {
  <Shield className="w-8 h-8 text-foreground" />
  </div>
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  {t("admin_financial_escrow_title","Escrow Management")}
  </h1>
  <p className="text-muted-foreground">
@@ -231,7 +230,7 @@ export default function EscrowManagement() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_total","Total")}</p>
- <h3 className="text-2xl font-bold text-foreground mt-1">${totalEscrowAmount.toLocaleString()}</h3>
+ <h3 className="text-2xl font-bold text-foreground mt-1">{t("currency_symbol", "$")}{totalEscrowAmount.toLocaleString()}</h3>
  </div>
  <div className="p-3 bg-muted0/20 rounded-lg"><DollarSign className="w-5 h-5 text-muted-foreground" /></div>
  </div>
@@ -243,7 +242,7 @@ export default function EscrowManagement() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_balance","Balance")}</p>
- <h3 className="text-2xl font-bold text-emerald-400 mt-1">${totalCurrentBalance.toLocaleString()}</h3>
+ <h3 className="text-2xl font-bold text-emerald-400 mt-1">{t("currency_symbol", "$")}{totalCurrentBalance.toLocaleString()}</h3>
  </div>
  <div className="p-3 bg-emerald-500/20 rounded-lg"><Shield className="w-5 h-5 text-emerald-400" /></div>
  </div>
@@ -300,11 +299,11 @@ export default function EscrowManagement() {
  <SelectTrigger className="w-36 bg-card border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
  <SelectItem value="ALL">{t("admin_financial_all_status","All")}</SelectItem>
- <SelectItem value="PENDING">Pending</SelectItem>
- <SelectItem value="FUNDED">Funded</SelectItem>
- <SelectItem value="RELEASED">Released</SelectItem>
- <SelectItem value="DISPUTED">Disputed</SelectItem>
- <SelectItem value="CLOSED">Closed</SelectItem>
+ <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+ <SelectItem value="FUNDED">{t("admin_financial_funded", "Funded")}</SelectItem>
+ <SelectItem value="RELEASED">{t("admin_financial_released", "Released")}</SelectItem>
+ <SelectItem value="DISPUTED">{t("admin_financial_disputed", "Disputed")}</SelectItem>
+ <SelectItem value="CLOSED">{t("admin_financial_closed", "Closed")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -335,8 +334,8 @@ export default function EscrowManagement() {
  <div className="text-xs text-slate-500">{account.sellerName}</div>
  </div>
  </TableCell>
- <TableCell className="px-6 font-bold text-foreground">${account.totalAmount.toLocaleString()}</TableCell>
- <TableCell className="px-6 text-emerald-400 font-medium">${account.currentBalance.toLocaleString()}</TableCell>
+ <TableCell className="px-6 font-bold text-foreground">{t("currency_symbol", "$")}{account.totalAmount.toLocaleString()}</TableCell>
+ <TableCell className="px-6 text-emerald-400 font-medium">{t("currency_symbol", "$")}{account.currentBalance.toLocaleString()}</TableCell>
  <TableCell className="px-6">
  <div className="flex items-center gap-2">
  <div className={cn("w-2 h-2 rounded-full", statusColor(account.status))} />
@@ -348,8 +347,8 @@ export default function EscrowManagement() {
  <DropdownMenu>
  <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => setEditingId(account.id)} className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
- <DropdownMenuItem onClick={() => deleteMutation.mutate(account.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => setEditingId(account.id)} className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => deleteMutation.mutate(account.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>
@@ -382,7 +381,7 @@ export default function EscrowManagement() {
  {releases.map(release => (
  <TableRow key={release.id} className="border-b border-border hover:bg-card transition-colors">
  <TableCell className="py-4 px-6 font-mono text-xs text-muted-foreground">#{release.escrowAccountId.slice(0, 8)}</TableCell>
- <TableCell className="px-6 font-bold text-foreground">${release.amount.toLocaleString()}</TableCell>
+ <TableCell className="px-6 font-bold text-foreground">{t("currency_symbol", "$")}{release.amount.toLocaleString()}</TableCell>
  <TableCell className="px-6"><Badge className="bg-card text-slate-300 border-border">{release.releaseType}</Badge></TableCell>
  <TableCell className="px-6 text-sm text-slate-300">{release.recipient}</TableCell>
  <TableCell className="px-6">
@@ -396,7 +395,7 @@ export default function EscrowManagement() {
  <DropdownMenu>
  <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => deleteMutation.mutate(release.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => deleteMutation.mutate(release.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>
@@ -443,7 +442,7 @@ export default function EscrowManagement() {
  <DropdownMenu>
  <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => deleteMutation.mutate(dispute.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => deleteMutation.mutate(dispute.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>
@@ -475,16 +474,16 @@ export default function EscrowManagement() {
  <Select value={editingAccount?.status ||"HOLDING"} onValueChange={v => setEditingAccount({ ...editingAccount, status: v })}>
  <SelectTrigger className="bg-card border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
- <SelectItem value="HOLDING">HOLDING</SelectItem>
- <SelectItem value="RELEASED">RELEASED</SelectItem>
- <SelectItem value="DISPUTED">DISPUTED</SelectItem>
- <SelectItem value="CLOSED">CLOSED</SelectItem>
+ <SelectItem value="HOLDING">{t("mobile.finance.escrowHolding", "HOLDING")}</SelectItem>
+ <SelectItem value="RELEASED">{t("mobile.finance.escrowReleased", "RELEASED")}</SelectItem>
+ <SelectItem value="DISPUTED">{t("mobile.finance.escrowDisputed", "DISPUTED")}</SelectItem>
+ <SelectItem value="CLOSED">{t("admin_auto_closed", "CLOSED")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <DialogFooter>
- <Button variant="ghost" onClick={() => setEditingId(null)}>Cancel</Button>
- <Button className="bg-slate-600 hover:bg-slate-700" onClick={() => updateMutation.mutate({ id: editingId, ...editingAccount })}>Save</Button>
+ <Button variant="ghost" onClick={() => setEditingId(null)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button className="bg-slate-600 hover:bg-slate-700" onClick={() => updateMutation.mutate({ id: editingId, ...editingAccount })}>{t("admin_action_save", "Save")}</Button>
  </DialogFooter>
  </div>
  </DialogContent>

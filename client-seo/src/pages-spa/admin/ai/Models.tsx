@@ -127,10 +127,10 @@ export default function AIModels() {
  }))
  : fallbackModels;
 
- return <div className="min-h-screen p-4 md:p-8 space-y-6">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen p-4 md:p-8 space-y-6">
  <div className="flex items-center justify-between">
  <div>
- <h1 className="text-3xl font-bold text-foreground">{t("admin_ai_ai_models")}</h1>
+ <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_ai_ai_models")}</h1>
  <p className="text-muted-foreground">{t("admin_ai_manage_and_monitor_artificial")}</p>
  </div>
  <div className="flex gap-2">
@@ -149,23 +149,23 @@ export default function AIModels() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_model_name", "Model Name")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelName} onChange={e => setNewModel({...newModel, modelName: e.target.value})} placeholder="Property Valuator" />
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelName} onChange={e => setNewModel({...newModel, modelName: e.target.value})} placeholder={t("admin_auto_property_valuator", "Property Valuator")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_version", "Version")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelVersion} onChange={e => setNewModel({...newModel, modelVersion: e.target.value})} placeholder="v1.0" />
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelVersion} onChange={e => setNewModel({...newModel, modelVersion: e.target.value})} placeholder={t("admin_auto_v1_0", "v1.0")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelType} onChange={e => setNewModel({...newModel, modelType: e.target.value})} placeholder="Regression" />
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelType} onChange={e => setNewModel({...newModel, modelType: e.target.value})} placeholder={t("admin_ai_regression", "Regression")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_provider", "Provider")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.provider} onChange={e => setNewModel({...newModel, provider: e.target.value})} placeholder="OpenAI" />
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.provider} onChange={e => setNewModel({...newModel, provider: e.target.value})} placeholder={t("admin_auto_openai", "OpenAI")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(newModel)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Register"}
  </Button>

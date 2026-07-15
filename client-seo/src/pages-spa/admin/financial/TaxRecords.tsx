@@ -228,7 +228,7 @@ export default function TaxRecords() {
  {loading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_tax_records_found")}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="hover:bg-muted/40">
  <TableCell className="text-sm">{row.occurredAt ? new Date(row.occurredAt).toLocaleDateString() :"—"}</TableCell>
  <TableCell className="text-sm font-medium">{row.category ||"TAX"}</TableCell>
- <TableCell className="text-sm font-semibold">${row.amount.toLocaleString()}</TableCell>
+ <TableCell className="text-sm font-semibold">{t("currency_symbol", "$")}{row.amount.toLocaleString()}</TableCell>
  <TableCell className="text-xs text-muted-foreground">{row.description ||"—"}</TableCell>
  <TableCell>
  {STATUS[row.paymentStatus ||"UNPAID"] ? <Badge className={`${STATUS[row.paymentStatus ||"UNPAID"].cls} border-0 text-xs shadow-sm`}>{STATUS[row.paymentStatus ||"UNPAID"].label}</Badge> : <span className="text-xs text-muted-foreground">{row.paymentStatus}</span>}

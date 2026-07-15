@@ -203,7 +203,7 @@ export default function PropertyPromotions() {
  <DollarSign className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold">${totalSpent.toLocaleString()}</div>
+ <div className="text-2xl font-bold">{t("currency_symbol", "$")}{totalSpent.toLocaleString()}</div>
  <p className="text-xs text-muted-foreground">{t("admin_property_across_all_campaigns")}</p>
  </CardContent>
  </Card>
@@ -370,7 +370,7 @@ export default function PropertyPromotions() {
  <div>
  <div>{promotion.property?.address || `Property ${promotion.propertyId}`}</div>
  <div className="text-xs text-muted-foreground">
- ${promotion.property?.price?.toLocaleString()}
+ {t("currency_symbol", "$")}{promotion.property?.price?.toLocaleString()}
  </div>
  </div>
  </TableCell>
@@ -389,8 +389,8 @@ export default function PropertyPromotions() {
  <span className="capitalize">{promotion.status.toLowerCase()}</span>
  </div>
  </TableCell>
- <TableCell>${promotion.budget.toLocaleString()}</TableCell>
- <TableCell>${promotion.spent.toLocaleString()}</TableCell>
+ <TableCell>{t("currency_symbol", "$")}{promotion.budget.toLocaleString()}</TableCell>
+ <TableCell>{t("currency_symbol", "$")}{promotion.spent.toLocaleString()}</TableCell>
  <TableCell>{promotion.impressions.toLocaleString()}</TableCell>
  <TableCell>{promotion.ctr.toFixed(2)}%</TableCell>
  <TableCell>
@@ -436,7 +436,7 @@ export default function PropertyPromotions() {
  return <div key={platform} className="flex justify-between items-center">
  <span className="text-sm">{platform}</span>
  <div className="text-right">
- <div className="text-sm font-medium">${totalSpent}</div>
+ <div className="text-sm font-medium">{t("currency_symbol", "$")}{totalSpent}</div>
  <div className="text-xs text-muted-foreground">
  {totalClicks}{t("admin_property_clicks")}{avgCTR.toFixed(1)}{t("admin_property_ctr")}</div>
  </div>
@@ -456,10 +456,10 @@ export default function PropertyPromotions() {
  const typePromotions = promotions.filter(p => p.promotionType === type);
  const totalSpent = typePromotions.reduce((acc, p) => acc + p.spent, 0);
  const totalConversions = typePromotions.reduce((acc, p) => acc + p.conversions, 0);
- return <div key={type} className="flex justify-between items-center">
+ return <div key={type} className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex justify-between items-center">
  <span className="text-sm">{type}</span>
  <div className="text-right">
- <div className="text-sm font-medium">${totalSpent}</div>
+ <div className="text-sm font-medium">{t("currency_symbol", "$")}{totalSpent}</div>
  <div className="text-xs text-muted-foreground">
  {totalConversions}{t("admin_property_conversions")}</div>
  </div>

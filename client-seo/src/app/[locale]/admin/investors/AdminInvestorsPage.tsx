@@ -108,7 +108,7 @@ export default function AdminInvestorsPage() {
                 <span className="text-muted-foreground text-sm">{t("admin_investors_total_portfolio_value")}</span>
                 <Briefcase className="w-5 h-5 text-muted-foreground" />
               </div>
-              <div className="text-2xl font-bold text-foreground">${(totalPortfolio / 1000000).toFixed(1)}M</div>
+              <div className="text-2xl font-bold text-foreground">${(totalPortfolio / 1000000).toFixed(1)}{t("client.src.m", "M")}</div>
               <div className="text-green-400 text-sm flex items-center gap-1 mt-1">
                 <ArrowUpRight className="w-4 h-4" />+{(totalPortfolio / totalInvested - 1) * 100}%
               </div>
@@ -120,7 +120,7 @@ export default function AdminInvestorsPage() {
                 <span className="text-muted-foreground text-sm">{t("admin_investors_total_invested")}</span>
                 <DollarSign className="w-5 h-5 text-green-400" />
               </div>
-              <div className="text-2xl font-bold text-foreground">${(totalInvested / 1000000).toFixed(1)}M</div>
+              <div className="text-2xl font-bold text-foreground">${(totalInvested / 1000000).toFixed(1)}{t("client.src.m", "M")}</div>
             </CardContent>
           </Card>
           <Card className="bg-card border-border">
@@ -185,7 +185,7 @@ export default function AdminInvestorsPage() {
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="text-right">
-                        <div className="text-foreground font-medium">${(investor.portfolioValue / 1000).toFixed(0)}K</div>
+                        <div className="text-foreground font-medium">${(investor.portfolioValue / 1000).toFixed(0)}{t("client.src.k", "K")}</div>
                         <div className="text-xs text-muted-foreground">{t("admin_investors_portfolio")}</div>
                       </div>
                       <div className="text-right">
@@ -223,6 +223,7 @@ export default function AdminInvestorsPage() {
 }
 
 function CreateInvestorDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<Investor, "id">) => void }) {
+    const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [totalInvested, setTotalInvested] = useState(0);
@@ -234,51 +235,51 @@ function CreateInvestorDialog({ open, onOpenChange, onSubmit }: { open: boolean;
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Add Investor</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Add a new investor to the system.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_investors_add_investor", "Add Investor")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_investor_to_the_system", "Add a new investor to the system.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Name</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Email</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
             <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Total Invested ($)</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_total_invested", "Total Invested ($)")}</Label>
             <Input type="number" value={totalInvested} onChange={e => setTotalInvested(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Portfolio Value ($)</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_portfolio_value", "Portfolio Value ($)")}</Label>
             <Input type="number" value={portfolioValue} onChange={e => setPortfolioValue(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Return Rate (%)</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_return_rate", "Return Rate (%)")}</Label>
             <Input type="number" value={returnRate} onChange={e => setReturnRate(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Status</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Investor["status"])}>
               <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border text-foreground">
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="INACTIVE">Inactive</SelectItem>
-                <SelectItem value="PENDING">Pending</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Join Date</Label>
+            <Label className="text-right text-foreground">{t("client.src.join_date", "Join Date")}</Label>
             <Input type="date" value={joinDate} onChange={e => setJoinDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={() => onSubmit({ name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">Create</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={() => onSubmit({ name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -286,6 +287,7 @@ function CreateInvestorDialog({ open, onOpenChange, onSubmit }: { open: boolean;
 }
 
 function EditInvestorDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: Investor; onSubmit: (data: Investor) => void }) {
+    const { t } = useTranslation();
   const [name, setName] = useState(item.name);
   const [email, setEmail] = useState(item.email);
   const [totalInvested, setTotalInvested] = useState(item.totalInvested);
@@ -297,51 +299,51 @@ function EditInvestorDialog({ open, onOpenChange, item, onSubmit }: { open: bool
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Edit Investor</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Update investor details.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_auto_edit_investor", "Edit Investor")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_investor_details", "Update investor details.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Name</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Email</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
             <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Total Invested ($)</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_total_invested", "Total Invested ($)")}</Label>
             <Input type="number" value={totalInvested} onChange={e => setTotalInvested(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Portfolio Value ($)</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_portfolio_value", "Portfolio Value ($)")}</Label>
             <Input type="number" value={portfolioValue} onChange={e => setPortfolioValue(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Return Rate (%)</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_return_rate", "Return Rate (%)")}</Label>
             <Input type="number" value={returnRate} onChange={e => setReturnRate(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Status</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Investor["status"])}>
               <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border text-foreground">
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="INACTIVE">Inactive</SelectItem>
-                <SelectItem value="PENDING">Pending</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Join Date</Label>
+            <Label className="text-right text-foreground">{t("client.src.join_date", "Join Date")}</Label>
             <Input type="date" value={joinDate} onChange={e => setJoinDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={() => onSubmit({ id: item.id, name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">Save</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -349,16 +351,17 @@ function EditInvestorDialog({ open, onOpenChange, item, onSubmit }: { open: bool
 }
 
 function DeleteInvestorDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: Investor; onConfirm: () => void }) {
+    const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Delete Investor</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Are you sure you want to delete {item.name}? This action cannot be undone.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_auto_delete_investor", "Delete Investor")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">{t("admin_action_delete", "Delete")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

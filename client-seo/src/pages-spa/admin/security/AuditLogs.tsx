@@ -215,7 +215,7 @@ export default function AuditLogs() {
  to: any;
  }>) => {
  return Object.entries(changes).map(([key, value]) => <div key={key} className="flex items-center justify-between py-1">
- <span className="font-medium">{key}:</span>
+ <span className="font-medium">{key}{t("mobile.leftovers.", ":")}</span>
  <div className="flex items-center space-x-2">
  <span className="text-red-600 line-through">{String(value.from)}</span>
  <span>→</span>
@@ -224,7 +224,7 @@ export default function AuditLogs() {
  </div>);
  };
  return <PageShell title={t("admin_security_neuroaudit_trail")} description={t("admin_security_realtime_system_synchronization_and")}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  {/* KPI Neural Grid */}
  {stats && <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t">

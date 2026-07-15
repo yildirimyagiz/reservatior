@@ -17,6 +17,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Reservation {
   id: string;
@@ -50,6 +51,7 @@ const STATUS_ICONS: Record<string, React.ComponentType<{ className?: string }>> 
 };
 
 export default function PropertyReservationsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -68,16 +70,15 @@ export default function PropertyReservationsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Property Reservations</h1>
-              <p className="text-gray-400">Manage property reservations and bookings</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("reservations.propertyreservationspage.auto_ext_1", "Property Reservations")}</h1>
+              <p className="text-gray-400">{t("reservations.propertyreservationspage.auto_ext_2", "Manage property reservations and bookings")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-slate-600 hover:bg-slate-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("admin_adminpage_auto_ext_3", "Dashboard")}</Button>
           </div>
         </motion.div>
 
@@ -94,7 +95,7 @@ export default function PropertyReservationsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
-                      placeholder="Search reservations..."
+                      placeholder={t("admin_auto_search_reservations", "Search reservations...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
@@ -103,8 +104,7 @@ export default function PropertyReservationsPage() {
                 </div>
                 <Button variant="outline" className="bg-white/10 border-slate-500/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
+                  {t("admin_bookings_filter", "Filter")}</Button>
               </div>
             </CardContent>
           </Card>
@@ -119,7 +119,7 @@ export default function PropertyReservationsPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
-                All Reservations ({filteredReservations.length})
+                {t("reservations.propertyreservationspage.auto_ext_5", "All Reservations (")}{filteredReservations.length})
               </CardTitle>
             </CardHeader>
             <CardContent>

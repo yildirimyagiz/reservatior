@@ -97,15 +97,14 @@ export default function CommissionRules() {
  ? (rules.reduce((s, r) => s + r.commission, 0) / rules.length).toFixed(1)
  :"0";
 
- return (
- <div className="space-y-6 min-h-screen">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
  <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
  <Percent className="w-8 h-8 text-foreground" />
  </div>
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  {t("admin_financial_commission_rules","Commission Rules")}
  </h1>
  <p className="text-muted-foreground">
@@ -181,7 +180,7 @@ export default function CommissionRules() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_total_payouts","Total Payouts")}</p>
- <h3 className="text-2xl font-bold text-foreground mt-1">${(rules.reduce((s, r) => s + r.commission, 0)).toLocaleString()}</h3>
+ <h3 className="text-2xl font-bold text-foreground mt-1">{t("currency_symbol", "$")}{(rules.reduce((s, r) => s + r.commission, 0)).toLocaleString()}</h3>
  </div>
  <div className="p-3 bg-emerald-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-emerald-400" /></div>
  </div>

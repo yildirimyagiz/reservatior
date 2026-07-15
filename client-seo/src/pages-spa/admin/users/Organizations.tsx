@@ -146,7 +146,7 @@ export default function Organizations() {
  enterpriseTier: organizations.filter(o => o.plan ==="ENTERPRISE").length
  };
  return <PageShell title={t("usersOrganizationsTitle")} description={t("usersOrganizationsDesc")}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -253,7 +253,7 @@ export default function Organizations() {
  <div className="flex flex-col gap-1">
  <div className="flex items-center justify-between text-[10px] font-bold text-muted-foreground w-32">
  <span>{t('users')}</span>
- <span>{org.userCount}/{org.maxUsers}</span>
+ <span>{org.userCount}{t("/", "/")}{org.maxUsers}</span>
  </div>
  <div className="h-1.5 w-32 bg-muted/50 rounded-full overflow-hidden">
  <div className="h-full bg-muted0 shadow-[0_0_10px_#3b82f6]" style={{
@@ -262,7 +262,7 @@ export default function Organizations() {
  </div>
  <div className="flex items-center justify-between text-[10px] font-bold text-muted-foreground w-32 mt-1">
  <span>{t('properties')}</span>
- <span>{org.propertyCount}/{org.maxProperties}</span>
+ <span>{org.propertyCount}{t("/", "/")}{org.maxProperties}</span>
  </div>
  <div className="h-1.5 w-32 bg-muted/50 rounded-full overflow-hidden">
  <div className="h-full bg-emerald-500 shadow-[0_0_10px_#10b981]" style={{
@@ -357,8 +357,7 @@ export default function Organizations() {
  <DialogHeader className="p-8 border-b border-border bg-muted/50">
  <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-foreground">
  <Edit className="w-6 h-6 text-slate-500" />
- Edit Organization
- </DialogTitle>
+ {t("admin_organization_edit_organization", "Edit Organization")}</DialogTitle>
  <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin_auto_update_organization_details_and_settings", "Update organization details and settings")}</DialogDescription>
  </DialogHeader>
 
@@ -375,9 +374,9 @@ export default function Organizations() {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border text-foreground rounded-2xl">
- <SelectItem value="ACTIVE">Active</SelectItem>
- <SelectItem value="SUSPENDED">Suspended</SelectItem>
- <SelectItem value="TRIAL">Trial</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
+ <SelectItem value="SUSPENDED">{t("admin_organization_suspended", "Suspended")}</SelectItem>
+ <SelectItem value="TRIAL">{t("admin_auto_trial", "Trial")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -388,9 +387,9 @@ export default function Organizations() {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border text-foreground rounded-2xl">
- <SelectItem value="STARTER">Starter</SelectItem>
- <SelectItem value="PRO">Pro</SelectItem>
- <SelectItem value="ENTERPRISE">Enterprise</SelectItem>
+ <SelectItem value="STARTER">{t("organizations.plans.starter", "Starter")}</SelectItem>
+ <SelectItem value="PRO">{t("client.src.pro", "Pro")}</SelectItem>
+ <SelectItem value="ENTERPRISE">{t("admin_membership_enterprise", "Enterprise")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -410,7 +409,7 @@ export default function Organizations() {
  </form>
 
  <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
- <Button type="button" variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setEditOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="button" onClick={() => updateMutation.mutate(editFormData)} disabled={updateMutation.isPending} className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>

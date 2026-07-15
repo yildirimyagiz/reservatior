@@ -111,15 +111,14 @@ export default function Commissions() {
  const totalPaid = commissions.filter(c => c.status ==="PAID").reduce((s, c) => s + c.commissionAmount, 0);
  const totalPending = commissions.filter(c => c.status ==="PENDING").reduce((s, c) => s + c.commissionAmount, 0);
 
- return (
- <div className="space-y-6 min-h-screen">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
  <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
  <DollarSign className="w-8 h-8 text-foreground" />
  </div>
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  {t("admin_financial_commission_management","Commission Management")}
  </h1>
  <p className="text-muted-foreground">
@@ -199,7 +198,7 @@ export default function Commissions() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_total_paid","Total Paid")}</p>
- <h3 className="text-2xl font-bold text-foreground mt-1">${totalPaid.toLocaleString()}</h3>
+ <h3 className="text-2xl font-bold text-foreground mt-1">{t("currency_symbol", "$")}{totalPaid.toLocaleString()}</h3>
  </div>
  <div className="p-3 bg-emerald-500/20 rounded-lg"><TrendingUp className="w-5 h-5 text-emerald-400" /></div>
  </div>
@@ -210,7 +209,7 @@ export default function Commissions() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_pending_amount","Pending")}</p>
- <h3 className="text-2xl font-bold text-foreground mt-1">${totalPending.toLocaleString()}</h3>
+ <h3 className="text-2xl font-bold text-foreground mt-1">{t("currency_symbol", "$")}{totalPending.toLocaleString()}</h3>
  </div>
  <div className="p-3 bg-amber-500/20 rounded-lg"><ShieldCheck className="w-5 h-5 text-amber-400" /></div>
  </div>
@@ -242,9 +241,9 @@ export default function Commissions() {
  return (
  <TableRow key={c.id} className="border-b border-border hover:bg-card transition-colors">
  <TableCell className="py-4 px-6 font-mono text-xs text-muted-foreground">{c.id.slice(0, 8)}...</TableCell>
- <TableCell className="px-6 font-bold text-foreground">${c.commissionAmount.toLocaleString()}</TableCell>
+ <TableCell className="px-6 font-bold text-foreground">{t("currency_symbol", "$")}{c.commissionAmount.toLocaleString()}</TableCell>
  <TableCell className="px-6 text-sm text-slate-300">{c.commissionRate}%</TableCell>
- <TableCell className="px-6 text-sm text-muted-foreground">${c.amountBase.toLocaleString()}</TableCell>
+ <TableCell className="px-6 text-sm text-muted-foreground">{t("currency_symbol", "$")}{c.amountBase.toLocaleString()}</TableCell>
  <TableCell className="px-6">
  <Badge className={cn("border-0", cfg.class)}>{cfg.label}</Badge>
  </TableCell>

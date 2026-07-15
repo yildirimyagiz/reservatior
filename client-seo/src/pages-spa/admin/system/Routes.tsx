@@ -276,7 +276,7 @@ export default function Routes() {
  <div className="container mx-auto space-y-8">
  <div className="flex justify-between items-center mb-6">
  <div>
- <h1 className="text-3xl font-bold">{t("admin_system_routes")}</h1>
+ <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_system_routes")}</h1>
  <p className="text-muted-foreground">{t("admin_system_manage_your_navigation_routes")}</p>
  </div>
  <Button onClick={() => setCreateDialogOpen(true)}>
@@ -287,7 +287,7 @@ export default function Routes() {
  {routes.map(route => {
  const routeType = ROUTE_TYPES.find(t => t.value === route.type);
  const Icon = routeType?.icon || Navigation;
- return <Card key={route.id} className="relative">
+ return <Card key={route.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 relative">
  <CardHeader className="pb-3">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
@@ -323,9 +323,8 @@ export default function Routes() {
  <Navigation className="w-4 h-4" />{t("admin_system_to")}{route.endLocationId}
  </div>
  {route.distance && <div className="text-sm text-muted-foreground">{t("admin_system_distance")}{route.distance.toFixed(1)}{t("admin_system_miles")}</div>}
- {route.duration && <div className="text-sm text-muted-foreground">{t("admin_system_duration")}{Math.floor(route.duration / 60)}m{""}
- {route.duration % 60}s
- </div>}
+ {route.duration && <div className="text-sm text-muted-foreground">{t("admin_system_duration")}{Math.floor(route.duration / 60)}{t("admin_auto_m", "m")}{""}
+ {route.duration % 60}{t("admin_auto_s", "s")}</div>}
  {route.tolls && <div className="text-sm text-muted-foreground">{t("admin_system_tolls")}{route.tolls.toFixed(2)}
  </div>}
  <div className="flex items-center gap-2">

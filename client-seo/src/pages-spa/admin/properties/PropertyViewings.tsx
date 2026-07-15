@@ -104,14 +104,14 @@ export default function PropertyViewings() {
  if (isLoading) {
  return <div className="min-h-screen bg-background p-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_property_property_viewings")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_property_property_viewings")}</h1>
  </div>
  <div className="flex items-center justify-center h-64 mt-6">
  <Activity className="h-8 w-8 animate-spin text-foreground" />
  </div>
  </div>;
  }
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
  <h1 className="text-xl font-bold text-foreground">{t("admin_property_property_viewings")}</h1>
@@ -226,7 +226,7 @@ export default function PropertyViewings() {
  <div>
  <div className="text-foreground">{viewing.property?.address || `Property ${viewing.propertyId}`}</div>
  <div className="text-xs text-muted-foreground">
- {viewing.property?.city}, {viewing.property?.state}
+ {viewing.property?.city}{t(",", ",")}{viewing.property?.state}
  </div>
  </div>
  </TableCell>
@@ -254,10 +254,10 @@ export default function PropertyViewings() {
  {viewing.feedback?.rating ? <div className="flex items-center gap-1">
  <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
  <span className="text-sm text-foreground">{viewing.feedback.rating}/5</span>
- </div> : <span className="text-muted-foreground">-</span>}
+ </div> : <span className="text-muted-foreground">{t(" - ", "-")}</span>}
  </TableCell>
  <TableCell>
- {viewing.feedback ? viewing.feedback.interested ? <CheckCircle className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" /> : <span className="text-muted-foreground">-</span>}
+ {viewing.feedback ? viewing.feedback.interested ? <CheckCircle className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" /> : <span className="text-muted-foreground">{t(" - ", "-")}</span>}
  </TableCell>
  <TableCell className="text-right">
  <DropdownMenu>

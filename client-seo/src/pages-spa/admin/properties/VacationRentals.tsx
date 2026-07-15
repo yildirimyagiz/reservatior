@@ -235,7 +235,7 @@ export default function VacationRentals() {
  <DollarSign className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
+ <div className="text-2xl font-bold">{t("currency_symbol", "$")}{totalRevenue.toLocaleString()}</div>
  <p className="text-xs text-muted-foreground">{t("admin_property_this_month")}</p>
  </CardContent>
  </Card>
@@ -429,7 +429,7 @@ export default function VacationRentals() {
  <div>{rental.property?.address || `Property ${rental.propertyId}`}</div>
  <div className="text-xs text-muted-foreground flex items-center gap-1">
  <MapPin className="h-3 w-3" />
- {rental.property?.city}, {rental.property?.state}
+ {rental.property?.city}{t(",", ",")}{rental.property?.state}
  </div>
  <div className="text-xs text-muted-foreground">
  {rental.property?.bedrooms}{t("admin_property_bed")}{rental.property?.bathrooms}{t("admin_property_bath")}</div>
@@ -458,7 +458,7 @@ export default function VacationRentals() {
  </span>
  </div>
  </TableCell>
- <TableCell className="font-medium">${rental.nightlyRate}</TableCell>
+ <TableCell className="font-medium">{t("currency_symbol", "$")}{rental.nightlyRate}</TableCell>
  <TableCell>
  <div className="text-center">
  <div className="font-medium">{rental.occupancyRate.toFixed(1)}%</div>
@@ -472,7 +472,7 @@ export default function VacationRentals() {
  <span className="text-sm">{rental.averageRating.toFixed(1)}</span>
  </div>
  </TableCell>
- <TableCell className="font-medium">${rental.revenue.toLocaleString()}</TableCell>
+ <TableCell className="font-medium">{t("currency_symbol", "$")}{rental.revenue.toLocaleString()}</TableCell>
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
@@ -513,10 +513,10 @@ export default function VacationRentals() {
  const platformRentals = rentals.filter(r => r.platform === platform);
  const totalRevenue = platformRentals.reduce((acc, r) => acc + r.revenue, 0);
  const avgOccupancy = platformRentals.length > 0 ? platformRentals.reduce((acc, r) => acc + r.occupancyRate, 0) / platformRentals.length : 0;
- return <div key={platform} className="flex justify-between items-center">
+ return <div key={platform} className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex justify-between items-center">
  <span className="text-sm">{platform}</span>
  <div className="text-right">
- <div className="text-sm font-medium">${totalRevenue.toLocaleString()}</div>
+ <div className="text-sm font-medium">{t("currency_symbol", "$")}{totalRevenue.toLocaleString()}</div>
  <div className="text-xs text-muted-foreground">
  {avgOccupancy.toFixed(1)}{t("admin_property_occupancy")}</div>
  </div>

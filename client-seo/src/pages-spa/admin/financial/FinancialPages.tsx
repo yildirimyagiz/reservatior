@@ -80,7 +80,7 @@ export function Expenses() {
  <TableBody>
  {isLoading ? <TableRow><TableCell colSpan={5} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow> : expenses.length === 0 ? <TableRow><TableCell colSpan={5} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_expenses_found")}</TableCell></TableRow> : expenses.map((e: Expense) => <TableRow key={e.id} className="hover:bg-muted/40">
  <TableCell><Badge className="bg-secondary border-0 text-xs text-secondary-foreground">{e.category}</Badge></TableCell>
- <TableCell className="font-semibold text-sm">${e.amount.toLocaleString()}</TableCell>
+ <TableCell className="font-semibold text-sm">{t("currency_symbol", "$")}{e.amount.toLocaleString()}</TableCell>
  <TableCell className="text-sm text-muted-foreground">{new Date(e.date).toLocaleDateString()}</TableCell>
  <TableCell className="text-xs text-muted-foreground">{e.description}</TableCell>
  <TableCell><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem><DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell>
@@ -178,7 +178,7 @@ export function FinancialRecords() {
  {r.type ==="INCOME" ? <span className="text-xs flex items-center gap-1 text-green-600 font-medium"><TrendingUp className="w-3 h-3" />{t("admin_financial_income")}</span> : <span className="text-xs flex items-center gap-1 text-red-600 font-medium"><TrendingDown className="w-3 h-3" />{t("admin_financial_expense")}</span>}
  </TableCell>
  <TableCell className={`text-right font-semibold text-sm ${r.type ==="INCOME" ?"text-green-600" :"text-red-600"}`}>
- {r.type ==="INCOME" ?"+" :""}${Math.abs(r.amount).toLocaleString()}
+ {r.type ==="INCOME" ?"+" :""}{t("currency_symbol", "$")}{Math.abs(r.amount).toLocaleString()}
  </TableCell>
  </TableRow>)}
  </TableBody>
@@ -233,7 +233,7 @@ export function Budgets() {
  <div>
  <div className="flex justify-between text-sm mb-2">
  <span className="text-muted-foreground text-xs">{t("admin_financial_spent")}</span>
- <span className="text-xs"><strong>${(b.spentAmount || 0).toLocaleString()}</strong> / ${b.totalAmount.toLocaleString()}</span>
+ <span className="text-xs"><strong>{t("currency_symbol", "$")}{(b.spentAmount || 0).toLocaleString()}</strong> / ${b.totalAmount.toLocaleString()}</span>
  </div>
  <div className="h-2 bg-muted rounded-full overflow-hidden">
  <div className={`h-full rounded-full transition-all ${over ?"bg-red-500" : pct > 80 ?"bg-orange-500" :"bg-primary"}`} style={{
@@ -272,14 +272,14 @@ export function Payouts() {
  value: payouts.length
  }]} actions={<Button variant="outline" size="sm" onClick={() => refetch()} disabled={isLoading}>
  <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />{t("admin_financial_refresh")}</Button>}>
- <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 bg-card border border-border rounded-xl overflow-hidden shadow-sm">
  <Table>
  <TableHeader><TableRow><TableHead>{t("admin_financial_recipient")}</TableHead><TableHead>{t("admin_financial_method")}</TableHead><TableHead>{t("admin_financial_amount")}</TableHead><TableHead>{t("admin_financial_reference")}</TableHead><TableHead>{t("admin_financial_status")}</TableHead><TableHead className="w-10" /></TableRow></TableHeader>
  <TableBody>
  {isLoading ? <TableRow><TableCell colSpan={6} className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></TableCell></TableRow> : payouts.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-12 text-muted-foreground">{t("admin_financial_no_payouts_found")}</TableCell></TableRow> : payouts.map((p: Payout) => <TableRow key={p.id} className="hover:bg-muted/40">
  <TableCell className="font-medium text-sm">{p.recipientId}</TableCell>
  <TableCell><Badge className="bg-secondary border-0 text-xs text-secondary-foreground">{p.method || 'Transfer'}</Badge></TableCell>
- <TableCell className="font-semibold text-sm">${p.amount.toLocaleString()}</TableCell>
+ <TableCell className="font-semibold text-sm">{t("currency_symbol", "$")}{p.amount.toLocaleString()}</TableCell>
  <TableCell className="font-mono text-[10px] text-muted-foreground">{p.reference || 'N/A'}</TableCell>
  <TableCell><Badge className={`${statusCls[p.status] || 'bg-card'} border-0 text-xs font-normal`}>{p.status}</Badge></TableCell>
  <TableCell><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></TableCell>

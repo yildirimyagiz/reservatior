@@ -411,11 +411,11 @@ const getRoleLevelColor = (level: number) => {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="email" className="text-right text-xs">{t("admin_auto_email", "Email *")}</Label>
- <Input id="email" type="email" className="col-span-3 h-10" value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} placeholder="user@example.com" />
+ <Input id="email" type="email" className="col-span-3 h-10" value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} placeholder={t("admin_auto_user_example_com", "user@example.com")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="name" className="text-right text-xs">{t("admin_auto_name", "Name")}</Label>
- <Input id="name" className="col-span-3 h-10" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} placeholder="John Doe" />
+ <Input id="name" className="col-span-3 h-10" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} placeholder={t("admin_payments_john_doe", "John Doe")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="phone" className="text-right text-xs">{t("admin_auto_phone", "Phone")}</Label>
@@ -424,29 +424,29 @@ const getRoleLevelColor = (level: number) => {
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="locale" className="text-right text-xs">{t("admin_auto_locale", "Locale")}</Label>
  <Select value={newUser.locale} onValueChange={(v) => setNewUser({...newUser, locale: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Locale" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_locale", "Select Locale")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="en-US">English (US)</SelectItem>
- <SelectItem value="tr-TR">Turkish</SelectItem>
- <SelectItem value="fr-FR">French</SelectItem>
- <SelectItem value="de-DE">German</SelectItem>
+ <SelectItem value="en-US">{t("admin_settings_english_us", "English (US)")}</SelectItem>
+ <SelectItem value="tr-TR">{t("admin_ai_turkish", "Turkish")}</SelectItem>
+ <SelectItem value="fr-FR">{t("admin_ai_french", "French")}</SelectItem>
+ <SelectItem value="de-DE">{t("admin_communication_german", "German")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="timezone" className="text-right text-xs">{t("admin_auto_timezone", "Timezone")}</Label>
  <Select value={newUser.timezone} onValueChange={(v) => setNewUser({...newUser, timezone: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Timezone" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_timezone", "Select Timezone")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="America/New_York">Eastern Time (ET)</SelectItem>
- <SelectItem value="Europe/Istanbul">Istanbul (TRT)</SelectItem>
- <SelectItem value="Europe/London">London (GMT)</SelectItem>
+ <SelectItem value="America/New_York">{t("admin_auto_eastern_time_et", "Eastern Time (ET)")}</SelectItem>
+ <SelectItem value="Europe/Istanbul">{t("admin_auto_istanbul_trt", "Istanbul (TRT)")}</SelectItem>
+ <SelectItem value="Europe/London">{t("admin_auto_london_gmt", "London (GMT)")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(newUser)} disabled={createMutation.isPending || !newUser.email}>
  {createMutation.isPending ?"Saving..." :"Create User"}
  </Button>
@@ -464,11 +464,11 @@ const getRoleLevelColor = (level: number) => {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="edit-email" className="text-right text-xs">{t("admin_auto_email", "Email *")}</Label>
- <Input id="edit-email" type="email" className="col-span-3 h-10" value={editFormData.email} onChange={e => setEditFormData({...editFormData, email: e.target.value})} placeholder="user@example.com" />
+ <Input id="edit-email" type="email" className="col-span-3 h-10" value={editFormData.email} onChange={e => setEditFormData({...editFormData, email: e.target.value})} placeholder={t("admin_auto_user_example_com", "user@example.com")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="edit-name" className="text-right text-xs">{t("admin_auto_name", "Name")}</Label>
- <Input id="edit-name" className="col-span-3 h-10" value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} placeholder="John Doe" />
+ <Input id="edit-name" className="col-span-3 h-10" value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} placeholder={t("admin_payments_john_doe", "John Doe")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="edit-phone" className="text-right text-xs">{t("admin_auto_phone", "Phone")}</Label>
@@ -477,29 +477,29 @@ const getRoleLevelColor = (level: number) => {
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="edit-locale" className="text-right text-xs">{t("admin_auto_locale", "Locale")}</Label>
  <Select value={editFormData.locale} onValueChange={(v) => setEditFormData({...editFormData, locale: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Locale" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_locale", "Select Locale")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="en-US">English (US)</SelectItem>
- <SelectItem value="tr-TR">Turkish</SelectItem>
- <SelectItem value="fr-FR">French</SelectItem>
- <SelectItem value="de-DE">German</SelectItem>
+ <SelectItem value="en-US">{t("admin_settings_english_us", "English (US)")}</SelectItem>
+ <SelectItem value="tr-TR">{t("admin_ai_turkish", "Turkish")}</SelectItem>
+ <SelectItem value="fr-FR">{t("admin_ai_french", "French")}</SelectItem>
+ <SelectItem value="de-DE">{t("admin_communication_german", "German")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="edit-timezone" className="text-right text-xs">{t("admin_auto_timezone", "Timezone")}</Label>
  <Select value={editFormData.timezone} onValueChange={(v) => setEditFormData({...editFormData, timezone: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Timezone" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_timezone", "Select Timezone")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="America/New_York">Eastern Time (ET)</SelectItem>
- <SelectItem value="Europe/Istanbul">Istanbul (TRT)</SelectItem>
- <SelectItem value="Europe/London">London (GMT)</SelectItem>
+ <SelectItem value="America/New_York">{t("admin_auto_eastern_time_et", "Eastern Time (ET)")}</SelectItem>
+ <SelectItem value="Europe/Istanbul">{t("admin_auto_istanbul_trt", "Istanbul (TRT)")}</SelectItem>
+ <SelectItem value="Europe/London">{t("admin_auto_london_gmt", "London (GMT)")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={handleEditSubmit} disabled={updateMutation.isPending}>
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -546,7 +546,7 @@ const getRoleLevelColor = (level: number) => {
  <TableCell>
  <div className="space-y-1">
  {permission.permissions.slice(0, 2).map((perm, idx) => <div key={idx} className="text-sm">
- <span className="font-medium">{perm.module}</span>: {perm.actions.join(', ')}
+ <span className="font-medium">{perm.module}</span>{t("mobile.leftovers.", ":")}{perm.actions.join(', ')}
  </div>)}
  {permission.permissions.length > 2 && <div className="text-xs text-muted-foreground">
  +{permission.permissions.length - 2}{t("admin_users_more")}</div>}
@@ -768,7 +768,7 @@ const getRoleLevelColor = (level: number) => {
  <TableCell>
  <div className="flex items-center gap-1">
  <MapPin className="h-3 w-3 text-muted-foreground" />
- <span className="text-sm">{log.location.city}, {log.location.country}</span>
+ <span className="text-sm">{log.location.city}{t(",", ",")}{log.location.country}</span>
  </div>
  </TableCell>
  <TableCell>
@@ -850,7 +850,7 @@ const getRoleLevelColor = (level: number) => {
  <h4 className="font-medium">{t('admin_users_security_alertTypes')}</h4>
  {['FAILED_LOGIN', 'SUSPICIOUS_ACTIVITY', 'PERMISSION_ESCALATION', 'DATA_ACCESS'].map(type => {
  const count = securityAlerts.filter(a => a.type === type).length;
- return <div key={type} className="flex justify-between items-center">
+ return <div key={type} className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex justify-between items-center">
  <span className="text-sm">{getLocalizedType(type)}</span>
  <Badge variant="outline">{count}</Badge>
  </div>;

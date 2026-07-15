@@ -166,7 +166,7 @@ export default function Users() {
  };
  if (!mounted) return null;
  return <PageShell title={t("usersTitle")} description={t("usersDesc")}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">

@@ -62,11 +62,10 @@ export default function FinancialReports() {
  { category:"Utilities", amount: d ? d.totalExpenses * 0.105 : 13688, percentage: 10.5, change:"-3.7%" },
  ];
 
- return (
- <div className="space-y-6 min-h-screen">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen">
  <div className="flex items-center justify-between bg-card p-6 rounded-2xl border border-border">
  <div>
- <h1 className="text-3xl font-bold text-foreground">{t("admin_financial_financial_reports")}</h1>
+ <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_financial_financial_reports")}</h1>
  <p className="text-muted-foreground">{t("admin_financial_comprehensive_financial_analysis_and")}</p>
  </div>
  <Button className="bg-card border-border text-foreground hover:bg-white/10">
@@ -85,7 +84,7 @@ export default function FinancialReports() {
  <TrendingUp className="h-4 w-4 text-emerald-400" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-foreground">${(d?.totalRevenue || 0).toLocaleString()}</div>
+ <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{(d?.totalRevenue || 0).toLocaleString()}</div>
  <p className="text-xs text-slate-500">{t("admin_financial_152_from_last_quarter")}</p>
  </CardContent>
  </Card>
@@ -95,7 +94,7 @@ export default function FinancialReports() {
  <DollarSign className="h-4 w-4 text-emerald-400" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-foreground">${(d?.totalProfit || 0).toLocaleString()}</div>
+ <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{(d?.totalProfit || 0).toLocaleString()}</div>
  <p className="text-xs text-slate-500">{t("admin_financial_87_from_last_quarter")}</p>
  </CardContent>
  </Card>
@@ -105,7 +104,7 @@ export default function FinancialReports() {
  <TrendingDown className="h-4 w-4 text-red-400" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-foreground">${(d?.totalExpenses || 0).toLocaleString()}</div>
+ <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{(d?.totalExpenses || 0).toLocaleString()}</div>
  <p className="text-xs text-slate-500">{t("admin_financial_53_from_last_quarter")}</p>
  </CardContent>
  </Card>
@@ -133,7 +132,7 @@ export default function FinancialReports() {
  <div className="flex items-center justify-between">
  <p className="font-medium text-foreground">{item.source}</p>
  <div className="text-right">
- <p className="font-medium text-foreground">${Math.round(item.amount).toLocaleString()}</p>
+ <p className="font-medium text-foreground">{t("currency_symbol", "$")}{Math.round(item.amount).toLocaleString()}</p>
  <p className="text-sm text-emerald-400">{item.growth}</p>
  </div>
  </div>
@@ -157,7 +156,7 @@ export default function FinancialReports() {
  <div className="flex items-center justify-between">
  <p className="font-medium text-foreground">{expense.category}</p>
  <div className="text-right">
- <p className="font-medium text-foreground">${Math.round(expense.amount).toLocaleString()}</p>
+ <p className="font-medium text-foreground">{t("currency_symbol", "$")}{Math.round(expense.amount).toLocaleString()}</p>
  <p className={`text-sm ${expense.change.startsWith("-") ?"text-emerald-400" :"text-red-400"}`}>
  {expense.change}
  </p>
@@ -187,20 +186,20 @@ export default function FinancialReports() {
  <Calendar className="h-4 w-4 text-muted-foreground" />
  <div>
  <p className="font-medium text-foreground">{month.month}</p>
- <p className="text-sm text-slate-500">Q{i < 3 ? 1 : i < 6 ? 2 : 3} 2024</p>
+ <p className="text-sm text-slate-500">{t("admin_auto_q", "Q")}{i < 3 ? 1 : i < 6 ? 2 : 3} 2024</p>
  </div>
  </div>
  <div className="grid grid-cols-3 gap-8 text-right">
  <div>
- <p className="font-medium text-emerald-400">${Math.round(month.revenue).toLocaleString()}</p>
+ <p className="font-medium text-emerald-400">{t("currency_symbol", "$")}{Math.round(month.revenue).toLocaleString()}</p>
  <p className="text-xs text-slate-500">{t("admin_financial_revenue")}</p>
  </div>
  <div>
- <p className="font-medium text-red-400">${Math.round(month.expenses).toLocaleString()}</p>
+ <p className="font-medium text-red-400">{t("currency_symbol", "$")}{Math.round(month.expenses).toLocaleString()}</p>
  <p className="text-xs text-slate-500">{t("admin_financial_expenses")}</p>
  </div>
  <div>
- <p className="font-medium text-foreground">${Math.round(month.profit).toLocaleString()}</p>
+ <p className="font-medium text-foreground">{t("currency_symbol", "$")}{Math.round(month.profit).toLocaleString()}</p>
  <p className="text-xs text-emerald-400">+{((month.profit / month.revenue) * 100).toFixed(1)}%</p>
  </div>
  </div>
@@ -225,7 +224,7 @@ export default function FinancialReports() {
  <p className="font-medium text-foreground">{agent.name}</p>
  <p className="text-sm text-slate-500">{t("admin_financial_roi")} {(agent.totalRevenue / (d?.totalRevenue || 1) * 100).toFixed(1)}%</p>
  </div>
- <p className="font-medium text-emerald-400">${agent.totalRevenue?.toLocaleString()}</p>
+ <p className="font-medium text-emerald-400">{t("currency_symbol", "$")}{agent.totalRevenue?.toLocaleString()}</p>
  </div>
  ))}
  </div>
@@ -249,7 +248,7 @@ export default function FinancialReports() {
  <p className="text-sm text-slate-500">{method.count} {t("admin_financial_transactions")}</p>
  </div>
  <div className="text-right">
- <p className="font-medium text-foreground">${Math.round(method.amount).toLocaleString()}</p>
+ <p className="font-medium text-foreground">{t("currency_symbol", "$")}{Math.round(method.amount).toLocaleString()}</p>
  <p className="text-sm text-slate-500">{method.percentage}%</p>
  </div>
  </div>

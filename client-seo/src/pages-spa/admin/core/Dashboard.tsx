@@ -128,8 +128,7 @@ export default function Dashboard() {
  const recentActivities: RecentActivity[] = data.recentActivities || [];
 
  if (isLoading || !dashboardData) {
- return (
- <div className="flex items-center justify-center h-[60vh] space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex items-center justify-center h-[60vh] space-y-6">
  <div className="w-12 h-12 border-4 border-muted-foreground/20 border-t-muted-foreground rounded-full animate-spin" />
  </div>
  );
@@ -287,7 +286,7 @@ export default function Dashboard() {
  </div>
  </div>
  <div className="text-right">
- <p className="text-sm font-semibold text-emerald-500">${(agent.totalRevenue / 1000).toFixed(1)}k</p>
+ <p className="text-sm font-semibold text-emerald-500">{t("currency_symbol", "$")}{(agent.totalRevenue / 1000).toFixed(1)}{t("admin_auto_k", "k")}</p>
  <div className="flex items-center gap-1 justify-end">
  <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
  <span className="text-xs font-medium text-muted-foreground">{agent.rating}</span>
@@ -303,7 +302,7 @@ export default function Dashboard() {
  <Card className="bg-card border-border rounded-3xl p-6 shadow-sm">
  <CardHeader className="p-0 mb-6">
  <CardTitle className="text-lg font-bold text-foreground">{t('recentActivity')}</CardTitle>
- <p className="text-xs font-medium text-muted-foreground tracking-wider">{t('admin_lastSync')}: {t('dashboard.lastSyncJustNow')}</p>
+ <p className="text-xs font-medium text-muted-foreground tracking-wider">{t('admin_lastSync')}{t("mobile.leftovers.", ":")}{t('dashboard.lastSyncJustNow')}</p>
  </CardHeader>
  <CardContent className="p-0">
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

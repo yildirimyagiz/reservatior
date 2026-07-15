@@ -55,11 +55,12 @@ interface AgentAggregate {
 const AGENT_COLORS = ["#6366f1","#8b5cf6","#ec4899","#f59e0b","#10b981","#ef4444"];
 const $ = (v: number) => new Intl.NumberFormat("en-US", { style:"currency", currency:"USD", maximumFractionDigits: 0 }).format(v);
 const CustomTooltip = ({ active, payload, label }: any) => {
+  const { t } = useTranslation();
  if (!active || !payload?.length) return null;
  return <div className="bg-[#1a1b1e] border border-border rounded-lg p-3 text-xs shadow-md space-y-1">
  <p className="font-medium text-foreground">{label}</p>
  {payload.map((p: any) => <p key={p.name} style={{ color: p.color }}>
- {p.name}: {p.value > 1000 ? $(p.value) : `${p.value}%`}
+ {p.name}{t("mobile.leftovers.", ":")}{p.value > 1000 ? $(p.value) : `${p.value}%`}
  </p>)}
  </div>;
 };
@@ -157,11 +158,11 @@ export default function AgentPerformance() {
  const RADAR_DATA = buildRadar(records, topNames.slice(0, 3), t as any);
  const totalDeals = AGENTS.reduce((s, a) => s + a.deals, 0);
  const totalCommission = AGENTS.reduce((s, a) => s + a.commission, 0);
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-8 lg:p-12 space-y-10 min-h-screen bg-background text-foreground transition-colors duration-300">
  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative">
  <div className="space-y-2 relative z-10">
- <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">{t("admin_reports_agent_performance")}</h1>
+ <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_reports_agent_performance")}</h1>
  <p className="text-sm text-muted-foreground mt-2 opacity-80">{t("admin_reports_leaderboards_conversion_funnels_and")}</p>
  </div>
  <div className="flex items-center gap-4 relative z-10">

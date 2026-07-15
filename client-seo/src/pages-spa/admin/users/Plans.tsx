@@ -208,7 +208,7 @@ export default function Plans() {
  const totalSubscribers = plans.reduce((s, p) => s + (p._count?.orgSubscriptions ?? 0), 0);
  const monthlyRevenue = plans.reduce((s, p) => s + (p.priceMonthlyCents ?? 0) * (p._count?.orgSubscriptions ?? 0), 0);
  return <PageShell title={t('admin_plans_title')} description={t('admin_plans_description')}>
- <div className="space-y-10 pb-20 selection:bg-primary/30">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20 selection:bg-primary/30">
  
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">

@@ -176,6 +176,7 @@ export default function AdminSolicitorsPage() {
 }
 
 function CreateSolicitorDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<Solicitor, "id">) => void }) {
+    const { t } = useTranslation();
   const [firmName, setFirmName] = useState("");
   const [contactName, setContactName] = useState("");
   const [email, setEmail] = useState("");
@@ -186,46 +187,46 @@ function CreateSolicitorDialog({ open, onOpenChange, onSubmit }: { open: boolean
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Add Solicitor</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Add a new solicitor firm to the system.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_solicitors_add_solicitor", "Add Solicitor")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_solicitor_firm_to_the_system", "Add a new solicitor firm to the system.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Firm Name</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_firm_name", "Firm Name")}</Label>
             <Input value={firmName} onChange={e => setFirmName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Contact Name</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_contact_name", "Contact Name")}</Label>
             <Input value={contactName} onChange={e => setContactName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Email</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
             <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Phone</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_phone", "Phone")}</Label>
             <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Specialisation</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_specialisation", "Specialisation")}</Label>
             <Input value={specialisation} onChange={e => setSpecialisation(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Status</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as "ACTIVE" | "INACTIVE")}>
               <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border text-foreground">
-                <SelectItem value="ACTIVE">ACTIVE</SelectItem>
-                <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+                <SelectItem value="ACTIVE">{t("mobile.property_admin.active", "ACTIVE")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_auto_inactive", "INACTIVE")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={() => onSubmit({ firmName, contactName, email, phone, specialisation, status })} className="bg-primary hover:bg-primary/90">Create</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={() => onSubmit({ firmName, contactName, email, phone, specialisation, status })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -233,6 +234,7 @@ function CreateSolicitorDialog({ open, onOpenChange, onSubmit }: { open: boolean
 }
 
 function EditSolicitorDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: Solicitor; onSubmit: (data: Solicitor) => void }) {
+    const { t } = useTranslation();
   const [firmName, setFirmName] = useState(item.firmName);
   const [contactName, setContactName] = useState(item.contactName);
   const [email, setEmail] = useState(item.email);
@@ -243,46 +245,46 @@ function EditSolicitorDialog({ open, onOpenChange, item, onSubmit }: { open: boo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Edit Solicitor</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Update solicitor details.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_auto_edit_solicitor", "Edit Solicitor")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_solicitor_details", "Update solicitor details.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Firm Name</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_firm_name", "Firm Name")}</Label>
             <Input value={firmName} onChange={e => setFirmName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Contact Name</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_contact_name", "Contact Name")}</Label>
             <Input value={contactName} onChange={e => setContactName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Email</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
             <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Phone</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_phone", "Phone")}</Label>
             <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Specialisation</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_specialisation", "Specialisation")}</Label>
             <Input value={specialisation} onChange={e => setSpecialisation(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Status</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as "ACTIVE" | "INACTIVE")}>
               <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border text-foreground">
-                <SelectItem value="ACTIVE">ACTIVE</SelectItem>
-                <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+                <SelectItem value="ACTIVE">{t("mobile.property_admin.active", "ACTIVE")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_auto_inactive", "INACTIVE")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={() => onSubmit({ id: item.id, firmName, contactName, email, phone, specialisation, status })} className="bg-primary hover:bg-primary/90">Save</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, firmName, contactName, email, phone, specialisation, status })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -290,16 +292,17 @@ function EditSolicitorDialog({ open, onOpenChange, item, onSubmit }: { open: boo
 }
 
 function DeleteSolicitorDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: Solicitor; onConfirm: () => void }) {
+    const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Delete Solicitor</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Are you sure you want to delete {item.firmName}? This action cannot be undone.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_auto_delete_solicitor", "Delete Solicitor")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.firmName}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">{t("admin_action_delete", "Delete")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

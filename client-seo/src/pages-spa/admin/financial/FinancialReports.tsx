@@ -113,14 +113,14 @@ export default function FinancialReports() {
  }
 
  return (
- <div className="p-6 space-y-6 min-h-screen">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 p-6 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
  <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
  <DollarSign className="w-8 h-8 text-foreground" />
  </div>
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  {t("financialReportsTitle","Financial Reports")}
  </h1>
  <p className="text-muted-foreground">
@@ -286,7 +286,7 @@ export default function FinancialReports() {
  <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }} />
  <div>
  <p className="font-medium text-foreground">{String(source.name)}</p>
- <p className="text-xs text-muted-foreground">{Number(source.pct)}% share</p>
+ <p className="text-xs text-muted-foreground">{Number(source.pct)}{t("admin_auto_share", "% share")}</p>
  </div>
  </div>
  <div className="text-right">

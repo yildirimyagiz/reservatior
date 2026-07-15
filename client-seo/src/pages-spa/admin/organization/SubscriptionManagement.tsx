@@ -246,23 +246,20 @@ export default function SubscriptionManagement() {
  </PageShell>;
  }
  return <PageShell title={t("admin_organization_subscription_management")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Opaque Financial Matrix Banner */}
  <Card className="bg-gradient-to-r from-orange-600/10 to-slate-600/5 border-orange-500/20 rounded-2xl p-6 relative overflow-hidden">
  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
  <div className="space-y-1">
  <div className="flex items-center gap-2">
  <Badge className="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[9px] font-black uppercase">
- Opaque Shield Active
- </Badge>
- <span className="text-[10px] text-muted-foreground font-mono">AES-256-GCM Verified</span>
+ {t("admin_auto_opaque_shield_active", "Opaque Shield Active")}</Badge>
+ <span className="text-[10px] text-muted-foreground font-mono">{t("admin_auto_aes_256_gcm_verified", "AES-256-GCM Verified")}</span>
  </div>
  <h3 className="text-lg font-black text-foreground italic tracking-tight">
- Secure Partner Agreement Gateway
- </h3>
+ {t("admin_auto_secure_partner_agreement_gateway", "Secure Partner Agreement Gateway")}</h3>
  <p className="text-xs text-muted-foreground max-w-3xl">
- Custom negotiated rates, time-decay amortization schedules, and behavioral loyalty multipliers are encrypted. Core financial calculations are run internally on the server event stream to prevent competitive reverse-engineering.
- </p>
+ {t("admin_auto_custom_negotiated_rates_time_decay_amort", "Custom negotiated rates, time-decay amortization schedules, and behavioral loyalty multipliers are encrypted. Core financial calculations are run internally on the server event stream to prevent competitive reverse-engineering.")}</p>
  </div>
  <Button variant="outline" className="border-orange-500/20 hover:border-orange-500/40 text-xs font-black text-orange-400 hover:text-orange-300 bg-orange-500/5 h-10 px-4 rounded-xl">{t("admin_auto_audit_contracts", "Audit Contracts")}</Button>
  </div>
@@ -299,7 +296,7 @@ export default function SubscriptionManagement() {
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-slate-600">
- ${(totalRevenue / 100).toLocaleString()}
+ {t("currency_symbol", "$")}{(totalRevenue / 100).toLocaleString()}
  </div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_from_active_subscriptions")}</p>
  </CardContent>
@@ -366,8 +363,7 @@ export default function SubscriptionManagement() {
  </SelectTrigger>
  <SelectContent>
  {plans.map(plan => <SelectItem key={plan.id} value={plan.id}>
- {plan.name} - ${plan.priceMonthlyCents ? (plan.priceMonthlyCents / 100).toFixed(2) : 'Free'}/month
- </SelectItem>)}
+ {plan.name} - ${plan.priceMonthlyCents ? (plan.priceMonthlyCents / 100).toFixed(2) : 'Free'}{t("admin_auto_month", "/month")}</SelectItem>)}
  </SelectContent>
  </Select>
  </div>
@@ -415,8 +411,7 @@ export default function SubscriptionManagement() {
  </SelectTrigger>
  <SelectContent>
  {plans.map(plan => <SelectItem key={plan.id} value={plan.id}>
- {plan.name} - ${plan.priceMonthlyCents ? (plan.priceMonthlyCents / 100).toFixed(2) : 'Free'}/month
- </SelectItem>)}
+ {plan.name} - ${plan.priceMonthlyCents ? (plan.priceMonthlyCents / 100).toFixed(2) : 'Free'}{t("admin_auto_month", "/month")}</SelectItem>)}
  </SelectContent>
  </Select>
  </div>

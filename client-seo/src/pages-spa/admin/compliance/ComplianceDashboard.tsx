@@ -81,8 +81,7 @@ export default function ComplianceDashboard() {
  const legalCompliance = data?.legalCompliance || [];
 
  if (isLoading) {
- return (
- <div className="flex flex-col items-center justify-center h-[60vh] space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex flex-col items-center justify-center h-[60vh] space-y-6">
  <Activity className="w-12 h-12 text-slate-500 animate-spin mb-4 opacity-50" />
  <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin_compliance_aligning_regulatory_parameters")}</p>
  </div>
@@ -429,11 +428,10 @@ export default function ComplianceDashboard() {
  <div className="flex items-center justify-between">
  <CardTitle className="text-sm font-bold flex items-center gap-2">
  <Activity className="w-4 h-4 text-emerald-500 animate-pulse" />
- Live Compliance Feed
- </CardTitle>
- <Badge variant="outline" className="text-[9px] bg-emerald-500/10 text-emerald-500 border-none">Active</Badge>
+ {t("admin_auto_live_compliance_feed", "Live Compliance Feed")}</CardTitle>
+ <Badge variant="outline" className="text-[9px] bg-emerald-500/10 text-emerald-500 border-none">{t("admin_ai_active", "Active")}</Badge>
  </div>
- <p className="text-[10px] text-muted-foreground mt-1">Real-time global identity & verification logs.</p>
+ <p className="text-[10px] text-muted-foreground mt-1">{t("admin_auto_real_time_global_identity_verification_l", "Real-time global identity & verification logs.")}</p>
  </CardHeader>
  <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
  <AnimatePresence>
@@ -454,7 +452,7 @@ export default function ComplianceDashboard() {
  {ev.type === 'error' && <ShieldCheck className="w-3.5 h-3.5 shrink-0 mt-0.5" />}
  <span className="leading-relaxed">{ev.text}</span>
  </div>
- <div className="absolute top-1 right-2 text-[8px] opacity-50">Just now</div>
+ <div className="absolute top-1 right-2 text-[8px] opacity-50">{t("messages.messagespage.auto_ext_6", "Just now")}</div>
  </motion.div>
  ))}
  </AnimatePresence>
@@ -462,7 +460,7 @@ export default function ComplianceDashboard() {
  {liveEvents.length === 0 && (
  <div className="h-full flex flex-col items-center justify-center text-slate-500 space-y-2 opacity-50">
  <FileSearch className="w-8 h-8 animate-pulse" />
- <span className="text-xs">Awaiting events...</span>
+ <span className="text-xs">{t("admin_auto_awaiting_events", "Awaiting events...")}</span>
  </div>
  )}
  </CardContent>

@@ -164,12 +164,12 @@ const ContactsManagement = () => {
  className="bg-card border-border" 
  value={newContact.type}
  onChange={e => setNewContact({...newContact, type: e.target.value})}
- placeholder="TENANT, OWNER_CONTACT..."
+ placeholder={t("admin_auto_tenant_owner_contact", "TENANT, OWNER_CONTACT...")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Create Contact"}
  </Button>
@@ -220,12 +220,12 @@ const ContactsManagement = () => {
  className="bg-card border-border" 
  value={editingContact?.type || 'OTHER'}
  onChange={e => setEditingContact({...editingContact, type: e.target.value})}
- placeholder="TENANT, OWNER_CONTACT..."
+ placeholder={t("admin_auto_tenant_owner_contact", "TENANT, OWNER_CONTACT...")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={updateMutation.isPending}>
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -239,45 +239,45 @@ const ContactsManagement = () => {
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Total Leads</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_total_leads", "Total Leads")}</CardTitle>
  <Contact className="w-4 h-4 text-emerald-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">45,210</div>
- <p className="text-xs text-green-400 mt-1">+1,200 this week</p>
+ <p className="text-xs text-green-400 mt-1">{t("admin_auto_1_200_this_week", "+1,200 this week")}</p>
  </CardContent>
  </Card>
  
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Emails Sent</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_emails_sent", "Emails Sent")}</CardTitle>
  <Mail className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-foreground">128k</div>
- <p className="text-xs text-muted-foreground mt-1">98% delivery rate</p>
+ <div className="text-2xl font-bold text-foreground">{t("admin_auto_128k", "128k")}</div>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_98_delivery_rate", "98% delivery rate")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Active Calls</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_active_calls", "Active Calls")}</CardTitle>
  <PhoneCall className="w-4 h-4 text-amber-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">342</div>
- <p className="text-xs text-muted-foreground mt-1">Today</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("client.src.today", "Today")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Messages</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_ai_messages", "Messages")}</CardTitle>
  <MessageSquare className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">8,901</div>
- <p className="text-xs text-muted-foreground mt-1">Unread: 12</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_unread_12", "Unread: 12")}</p>
  </CardContent>
  </Card>
  </div>
@@ -293,18 +293,17 @@ const ContactsManagement = () => {
  </div>
  ) : contacts.length === 0 ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- No contacts found.
- </div>
+ {t("admin_contacts_empty", "No contacts found.")}</div>
  ) : (
  <div className="rounded-xl border border-border">
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">Name</TableHead>
- <TableHead className="text-slate-300">Email</TableHead>
- <TableHead className="text-slate-300">Phone</TableHead>
- <TableHead className="text-slate-300">Type</TableHead>
- <TableHead className="text-slate-300 text-right">Actions</TableHead>
+ <TableHead className="text-slate-300">{t("admin_ai_name", "Name")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_email", "Email")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_phone", "Phone")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_type", "Type")}</TableHead>
+ <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>

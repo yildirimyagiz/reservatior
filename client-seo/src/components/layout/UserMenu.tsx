@@ -56,7 +56,7 @@ export function UserMenu() {
             </div>
           </div>
           
-          <div className="hidden md:flex flex-col items-start gap-0.5">
+          <div className="hidden xl:flex flex-col items-start gap-0.5">
             <span className="text-xs font-black text-foreground italic tracking-tighter uppercase whitespace-nowrap overflow-hidden max-w-[100px] text-ellipsis">
               {displayName}
             </span>
@@ -64,7 +64,7 @@ export function UserMenu() {
               {displayRole}
             </Badge>
           </div>
-          <ChevronDown className={cn("w-4 h-4 text-slate-500 transition-transform duration-300", isOpen && "rotate-180")} />
+          <ChevronDown className={cn("hidden lg:block w-4 h-4 text-slate-500 transition-transform duration-300", isOpen && "rotate-180")} />
         </Button>
       </DropdownMenuTrigger>
 

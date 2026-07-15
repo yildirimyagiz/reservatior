@@ -432,7 +432,7 @@ export default function CustomReports() {
  publicTemplates: templates.filter(t => t.isPublic).length
  };
  return <PageShell title={t("admin_reports_custom_reports")} description={t("admin_reports_create_manage_and_schedule")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Stats Cards */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
  <Card>
@@ -532,7 +532,7 @@ export default function CustomReports() {
  </div>
  <div>
  <span className="text-muted-foreground">{t("admin_reports_avg_time")}</span>
- <div className="font-medium">{report.avgRunTime}s</div>
+ <div className="font-medium">{report.avgRunTime}{t("admin_auto_s", "s")}</div>
  </div>
  <div>
  <span className="text-muted-foreground">{t("admin_reports_last_run")}</span>
@@ -698,8 +698,8 @@ export default function CustomReports() {
  <SelectValue />
  </SelectTrigger>
  <SelectContent>
- <SelectItem value="1">1</SelectItem>
- <SelectItem value="3">3</SelectItem>
+ <SelectItem value="1">{t("client.pricing.tiers.enterprise.1", "1")}</SelectItem>
+ <SelectItem value="3">{t("client.pricing.tiers.enterprise.3", "3")}</SelectItem>
  <SelectItem value="5">5</SelectItem>
  <SelectItem value="10">10</SelectItem>
  </SelectContent>

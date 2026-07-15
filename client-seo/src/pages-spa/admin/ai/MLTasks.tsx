@@ -91,7 +91,7 @@ export default function MLTasks() {
  return <Badge variant="outline" className="text-muted-foreground">{t("admin_ai_pending")}</Badge>;
  }
  };
- return <div className="min-h-screen p-4 md:p-8 space-y-6">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen p-4 md:p-8 space-y-6">
  <div className="space-y-6">
  <div className="grid gap-4 md:grid-cols-3">
  <Card className="bg-card border-border">
@@ -139,24 +139,24 @@ export default function MLTasks() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_org_id", "Org ID")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newTask.orgId} onChange={e => setNewTask({...newTask, orgId: e.target.value})} placeholder="org_1" />
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newTask.orgId} onChange={e => setNewTask({...newTask, orgId: e.target.value})} placeholder={t("admin_auto_org_1", "org_1")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_task_type", "Task Type")}</Label>
  <Select value={newTask.taskType} onValueChange={v => setNewTask({...newTask, taskType: v})}>
- <SelectTrigger className="col-span-3 h-10 bg-card border-border text-foreground"><SelectValue placeholder="Type" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10 bg-card border-border text-foreground"><SelectValue placeholder={t("admin_auto_type", "Type")} /></SelectTrigger>
  <SelectContent className="bg-card border-border text-foreground">
- <SelectItem value="REELS_VIDEO_GEN">Reels Gen</SelectItem>
- <SelectItem value="PDF_BROCHURE_GEN">Brochure Gen</SelectItem>
- <SelectItem value="DOCUMENT_OCR">Document OCR</SelectItem>
- <SelectItem value="PROPERTY_VALUATION">Property Valuation</SelectItem>
- <SelectItem value="MLS_SYNC">MLS Sync</SelectItem>
+ <SelectItem value="REELS_VIDEO_GEN">{t("admin_auto_reels_gen", "Reels Gen")}</SelectItem>
+ <SelectItem value="PDF_BROCHURE_GEN">{t("admin_auto_brochure_gen", "Brochure Gen")}</SelectItem>
+ <SelectItem value="DOCUMENT_OCR">{t("admin_auto_document_ocr", "Document OCR")}</SelectItem>
+ <SelectItem value="PROPERTY_VALUATION">{t("client.property.valuations.dialog.title", "Property Valuation")}</SelectItem>
+ <SelectItem value="MLS_SYNC">{t("admin_auto_mls_sync", "MLS Sync")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(newTask)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Dispatching..." :"Dispatch"}
  </Button>

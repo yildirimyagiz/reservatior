@@ -114,7 +114,7 @@ export default function Mortgages() {
  fetchData();
  }, []);
  const getPropertyName = (id: string) => properties.find(p => p.id === id)?.name ||"Unknown Property";
- return <PageShell title={t("admin_financial_property_mortgages")} description={t("admin_financial_track_and_manage_property")} actions={<div className="flex gap-2">
+ return <PageShell title={t("admin_financial_property_mortgages")} description={t("admin_financial_track_and_manage_property")} actions={<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex gap-2">
  <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
  <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("admin_financial_refresh")}</Button>
  
@@ -134,7 +134,7 @@ export default function Mortgages() {
  <Label htmlFor="propertyId" className="text-right text-xs">{t("admin_auto_property", "Property")}</Label>
  <Select value={newMortgage.propertyId} onValueChange={(v) => setNewMortgage({...newMortgage, propertyId: v})}>
  <SelectTrigger className="col-span-3 h-10">
- <SelectValue placeholder="Select Property" />
+ <SelectValue placeholder={t("admin_contract_select_property", "Select Property")} />
  </SelectTrigger>
  <SelectContent>
  {properties.map(p => (
@@ -145,14 +145,14 @@ export default function Mortgages() {
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="lender" className="text-right text-xs">{t("admin_auto_lender_bank", "Lender Bank")}</Label>
- <Input id="lender" className="col-span-3 h-10" value={newMortgage.lender} onChange={e => setNewMortgage({...newMortgage, lender: e.target.value})} placeholder="e.g. Chase Bank" />
+ <Input id="lender" className="col-span-3 h-10" value={newMortgage.lender} onChange={e => setNewMortgage({...newMortgage, lender: e.target.value})} placeholder={t("admin_auto_e_g_chase_bank", "e.g. Chase Bank")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="principal" className="text-right text-xs">Principal ($)</Label>
+ <Label htmlFor="principal" className="text-right text-xs">{t("admin_auto_principal", "Principal ($)")}</Label>
  <Input id="principal" type="number" className="col-span-3 h-10" value={newMortgage.principal} onChange={e => setNewMortgage({...newMortgage, principal: e.target.value})} placeholder="450000" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="interestRate" className="text-right text-xs">Interest Rate (%)</Label>
+ <Label htmlFor="interestRate" className="text-right text-xs">{t("admin_auto_interest_rate", "Interest Rate (%)")}</Label>
  <Input id="interestRate" type="number" step="0.1" className="col-span-3 h-10" value={newMortgage.interestRate} onChange={e => setNewMortgage({...newMortgage, interestRate: e.target.value})} placeholder="4.5" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
@@ -162,17 +162,17 @@ export default function Mortgages() {
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="status" className="text-right text-xs">{t("admin_auto_status", "Status")}</Label>
  <Select value={newMortgage.status} onValueChange={(v) => setNewMortgage({...newMortgage, status: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Status" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_status", "Select Status")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="ACTIVE">Active</SelectItem>
- <SelectItem value="PAID_OFF">Paid Off</SelectItem>
- <SelectItem value="REFINANCED">Refinanced</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
+ <SelectItem value="PAID_OFF">{t("admin_auto_paid_off", "Paid Off")}</SelectItem>
+ <SelectItem value="REFINANCED">{t("admin_auto_refinanced", "Refinanced")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(newMortgage)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Add Mortgage"}
  </Button>
@@ -189,7 +189,7 @@ export default function Mortgages() {
  <Landmark className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold">${mortgages.reduce((a, b) => a + b.principal, 0).toLocaleString()}</div>
+ <div className="text-2xl font-bold">{t("currency_symbol", "$")}{mortgages.reduce((a, b) => a + b.principal, 0).toLocaleString()}</div>
  <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_across")}{mortgages.length}{t("admin_financial_properties")}</p>
  </CardContent>
  </Card>
@@ -234,7 +234,7 @@ export default function Mortgages() {
  </div>
  </TableCell>
  <TableCell className="text-sm">{mort.lender}</TableCell>
- <TableCell className="font-semibold text-sm">${mort.principal.toLocaleString()}</TableCell>
+ <TableCell className="font-semibold text-sm">{t("currency_symbol", "$")}{mort.principal.toLocaleString()}</TableCell>
  <TableCell className="text-sm">{mort.interestRate}%</TableCell>
  <TableCell className="text-xs text-muted-foreground">
  <div className="flex items-center gap-1">

@@ -224,7 +224,7 @@ export default function Expenses() {
  };
  return <>
  <PageShell title={t("financialExpensesTitle")} description={t("financialExpensesDesc")}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
@@ -243,7 +243,7 @@ export default function Expenses() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("totalSpent")}</p>
- <h3 className="text-3xl font-bold text-red-400 leading-none">${expenses.reduce((s, r) => s + r.amount, 0).toLocaleString()}</h3>
+ <h3 className="text-3xl font-bold text-red-400 leading-none">{t("currency_symbol", "$")}{expenses.reduce((s, r) => s + r.amount, 0).toLocaleString()}</h3>
  </CardContent>
  </Card>
  </div>

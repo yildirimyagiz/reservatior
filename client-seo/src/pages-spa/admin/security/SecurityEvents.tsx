@@ -101,7 +101,7 @@ export default function SecurityEvents() {
  }
  };
  const filteredEvents = events.filter(e => (e.title.toLowerCase().includes(search.toLowerCase()) || e.ipAddress.includes(search)) && (filterType ==="all" || e.type === filterType) && (filterSeverity ==="all" || e.severity === filterSeverity) && (filterStatus ==="all" || (filterStatus ==="resolved" ? e.isResolved : !e.isResolved)));
- return <div className="p-6 space-y-6 min-h-screen">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 p-6 space-y-6 min-h-screen">
  <div className="space-y-10 pb-20">
  
  {/* KPI NEURAL GRID */}

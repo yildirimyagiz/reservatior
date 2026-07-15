@@ -64,7 +64,7 @@ export function AIStudio() {
  };
  return <div className="p-6 space-y-6">
  <div>
- <h1 className="text-2xl font-bold">{t("admin_ai_ai_studio")}</h1>
+ <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_ai_ai_studio")}</h1>
  <p className="text-sm text-muted-foreground mt-0.5">{t("admin_ai_generate_property_content_emails")}</p>
  </div>
 
@@ -245,7 +245,7 @@ export function AIValuation() {
  </div>
  <div className="flex items-end justify-between">
  <div>
- <p className="text-3xl font-bold">${(v.estimatedValue / 1000).toFixed(0)}K</p>
+ <p className="text-3xl font-bold">{t("currency_symbol", "$")}{(v.estimatedValue / 1000).toFixed(0)}{t("client.src.k", "K")}</p>
  <p className={`text-sm font-medium ${TREND_STYLES[v.trend]}`}>{TREND_ICONS[v.trend]} {v.trend}</p>
  </div>
  <div className="text-right text-sm text-muted-foreground">
@@ -272,7 +272,7 @@ export function AIValuation() {
  <DialogHeader><DialogTitle>{t("admin_ai_valuation_detail")}{selected?.propertyName}</DialogTitle></DialogHeader>
  {selected && <div className="space-y-4 py-2">
  <div className="text-center py-4 bg-muted/30 rounded-xl">
- <p className="text-xl font-bold">${selected.estimatedValue.toLocaleString()}</p>
+ <p className="text-xl font-bold">{t("currency_symbol", "$")}{selected.estimatedValue.toLocaleString()}</p>
  <p className="text-sm text-muted-foreground mt-1">{t("admin_ai_estimated_market_value")}</p>
  </div>
  <div className="grid grid-cols-2 gap-3 text-sm">

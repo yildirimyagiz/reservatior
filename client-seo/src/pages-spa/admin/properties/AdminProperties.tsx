@@ -175,10 +175,10 @@ export default function AdminProperties() {
  totalRevenue: properties.reduce((acc, p) => acc + (p.revenue || 0), 0),
  avgOccupancy: properties.length > 0 ? (properties.reduce((acc, p) => acc + (p.occupancyRate || 0), 0) / properties.length).toFixed(1) : 0
  };
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-10 pb-20">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t('admin_properties_title')}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t('admin_properties_title')}</h1>
  <p className="text-sm text-muted-foreground mt-1">{t('admin_properties_description')}</p>
  </div>
 
@@ -202,7 +202,7 @@ export default function AdminProperties() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('projectedYield')}</p>
- <h3 className="text-xl font-bold text-foreground leading-none">${stats.totalRevenue.toLocaleString()}</h3>
+ <h3 className="text-xl font-bold text-foreground leading-none">{t("currency_symbol", "$")}{stats.totalRevenue.toLocaleString()}</h3>
  <p className="text-[10px] font-bold text-orange-400 mt-4 flex items-center gap-1">
  <Clock className="w-3 h-3" /> {t('propertyNextpayout', { days: 4 })}
  </p>
@@ -279,10 +279,10 @@ export default function AdminProperties() {
  <div className="xl:col-span-9 space-y-6">
  <Tabs defaultValue="ALL" value={listingFilter} onValueChange={setListingFilter} className="w-full">
  <TabsList className="bg-card border border-border p-1 rounded-2xl h-14 mb-4">
- <TabsTrigger value="ALL" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">TÜM İLANLAR</TabsTrigger>
- <TabsTrigger value="SALE" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">SATILIK</TabsTrigger>
- <TabsTrigger value="RENT" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">KİRALIK</TabsTrigger>
- <TabsTrigger value="BOOKING" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">GÜNLÜK / OTEL</TabsTrigger>
+ <TabsTrigger value="ALL" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_t_m_i_lanlar", "TÜM İLANLAR")}</TabsTrigger>
+ <TabsTrigger value="SALE" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_satilik", "SATILIK")}</TabsTrigger>
+ <TabsTrigger value="RENT" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_ki_ralik", "KİRALIK")}</TabsTrigger>
+ <TabsTrigger value="BOOKING" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_g_nl_k_otel", "GÜNLÜK / OTEL")}</TabsTrigger>
  </TabsList>
  </Tabs>
 
@@ -312,19 +312,19 @@ export default function AdminProperties() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="title" className="text-right text-xs text-muted-foreground">{t("admin_auto_title", "Title")}</Label>
- <Input id="title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="Enter title" />
+ <Input id="title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder={t("admin_auto_enter_title", "Enter title")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_type", "Property Type")}</Label>
- <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter property type" />
+ <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_property_type", "Enter property type")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="price" className="text-right text-xs text-muted-foreground">{t("admin_auto_price", "Price")}</Label>
- <Input id="price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder="Enter price" />
+ <Input id="price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder={t("admin_auto_enter_price", "Enter price")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending} className="bg-orange-600 hover:bg-orange-500 text-foreground">
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -341,19 +341,19 @@ export default function AdminProperties() {
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="edit-title" className="text-right text-xs text-muted-foreground">{t("admin_auto_title", "Title")}</Label>
- <Input id="edit-title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="Enter title" />
+ <Input id="edit-title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder={t("admin_auto_enter_title", "Enter title")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="edit-type" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_type", "Property Type")}</Label>
- <Input id="edit-type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder="Enter property type" />
+ <Input id="edit-type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_property_type", "Enter property type")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="edit-price" className="text-right text-xs text-muted-foreground">{t("admin_auto_price", "Price")}</Label>
- <Input id="edit-price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder="Enter price" />
+ <Input id="edit-price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder={t("admin_auto_enter_price", "Enter price")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+ <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => updateMutation.mutate({ id: editingId, ...formData })} disabled={updateMutation.isPending} className="bg-orange-600 hover:bg-orange-500 text-foreground">
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -411,7 +411,7 @@ export default function AdminProperties() {
  <div className="space-y-3 min-w-[200px]">
  <div className="flex justify-between items-end">
  <span className="text-[10px] font-bold text-muted-foreground">{t("admin_property_yield_dna")}</span>
- <span className="text-sm font-bold text-emerald-400">${property.revenue?.toLocaleString()}</span>
+ <span className="text-sm font-bold text-emerald-400">{t("currency_symbol", "$")}{property.revenue?.toLocaleString()}</span>
  </div>
  <div className="flex justify-between items-end">
  <span className="text-[10px] font-bold text-muted-foreground">{t("admin_property_occupancy")}</span>
@@ -427,7 +427,7 @@ export default function AdminProperties() {
  <span className="text-[9px] font-bold text-muted-foreground mt-1">{t('newLeads')}</span>
  </div>
  <div className="flex flex-col items-center">
- <span className="text-xl font-bold text-foreground leading-none">3</span>
+ <span className="text-xl font-bold text-foreground leading-none">{t("client.pricing.tiers.enterprise.3", "3")}</span>
  <span className="text-[9px] font-bold text-muted-foreground mt-1">{t('activeBookings')}</span>
  </div>
  </div>

@@ -81,7 +81,7 @@ export default function AIServiceAnalytics() {
  <Loader2 className="h-12 w-12 animate-spin text-primary" />
  </div>;
  }
- return <div className="p-6 space-y-6">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 p-6 space-y-6">
  {/* Filters */}
  <div className="bg-card p-6 rounded-2xl border border-border">
  <div className="flex justify-between items-center">
@@ -245,7 +245,7 @@ export default function AIServiceAnalytics() {
  {row.name}
  </td>
  <td className="p-4 text-muted-foreground">{row.usage.toLocaleString()}</td>
- <td className="p-4 font-bold text-foreground">${row.revenue.toLocaleString()}</td>
+ <td className="p-4 font-bold text-foreground">{t("currency_symbol", "$")}{row.revenue.toLocaleString()}</td>
  <td className="p-4">
  <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
  {row.efficiency.toFixed(1)}{t("admin_analytics_acc")}</Badge>

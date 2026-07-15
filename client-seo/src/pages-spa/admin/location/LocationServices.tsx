@@ -348,7 +348,7 @@ export default function LocationServices() {
  activeGeofences: geofences.filter(g => g.isActive).length
  };
  return <PageShell title={t("admin_location_location_services")} description={t("admin_location_manage_map_providers_layers")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Stats Cards */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
  <Card>
@@ -448,13 +448,13 @@ export default function LocationServices() {
  <div>
  <span className="text-muted-foreground">{t("admin_location_api_usage")}</span>
  <div className="font-medium">
- {service.quota.used.toLocaleString()} / {service.quota.daily.toLocaleString()}
+ {service.quota.used.toLocaleString()} {t("/", "/")}{service.quota.daily.toLocaleString()}
  </div>
  </div>
  <div>
  <span className="text-muted-foreground">{t("admin_location_cost")}</span>
  <div className="font-medium">
- ${service.pricing.perRequest}{t("admin_location_per_request")}</div>
+ {t("currency_symbol", "$")}{service.pricing.perRequest}{t("admin_location_per_request")}</div>
  </div>
  </div>
 
@@ -593,7 +593,7 @@ export default function LocationServices() {
  <h4 className="font-medium">{geofence.name}</h4>
  <div className="flex items-center gap-2 text-sm text-muted-foreground">
  <Badge variant="outline">{geofence.type}</Badge>
- {geofence.radius && <span>{t("admin_location_radius")}{geofence.radius}m</span>}
+ {geofence.radius && <span>{t("admin_location_radius")}{geofence.radius}{t("admin_auto_m", "m")}</span>}
  </div>
  </div>
  </div>
@@ -606,7 +606,7 @@ export default function LocationServices() {
  <div className="text-sm font-medium">{t("admin_location_properties")}</div>
  <div className="grid grid-cols-2 gap-2 text-xs">
  {Object.entries(geofence.properties).map(([key, value]) => <div key={key} className="bg-card p-2 rounded-lg">
- <div className="font-medium capitalize">{key}:</div>
+ <div className="font-medium capitalize">{key}{t("mobile.leftovers.", ":")}</div>
  <div>{String(value)}</div>
  </div>)}
  </div>

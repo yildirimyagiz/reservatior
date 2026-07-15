@@ -389,7 +389,7 @@ const GuestManagement = () => {
  {item.totalBookings || 0} {t("admin_guest_bookings","bookings")}
  </div>
  {item.totalSpent && (
- <div>${item.totalSpent.toLocaleString()} {t("admin_guest_spent","spent")}</div>
+ <div>{t("currency_symbol", "$")}{item.totalSpent.toLocaleString()} {t("admin_guest_spent","spent")}</div>
  )}
  </div>
  </TableCell>

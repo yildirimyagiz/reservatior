@@ -193,7 +193,7 @@ export default function AIModels() {
  {/* Header */}
  <div className="flex justify-between items-center">
  <div>
- <h1 className="text-3xl font-bold">{t("admin_ai_ai_models_management")}</h1>
+ <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_ai_ai_models_management")}</h1>
  <p className="text-muted-foreground">{t("admin_ai_manage_ai_models_and")}</p>
  </div>
  <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -277,7 +277,7 @@ export default function AIModels() {
  </TableCell>
  <TableCell>
  <div className="flex items-center gap-1">
- <span className="text-sm">{activeDeployments}/{modelDeployments.length}</span>
+ <span className="text-sm">{activeDeployments}{t("/", "/")}{modelDeployments.length}</span>
  {activeDeployments > 0 && <CheckCircle className="h-3 w-3 text-green-500" />}
  </div>
  </TableCell>
@@ -340,7 +340,7 @@ export default function AIModels() {
  <Badge variant="outline">{deployment.environment}</Badge>
  </TableCell>
  <TableCell>
- <div className="flex items-center gap-2">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex items-center gap-2">
  <div className={`w-2 h-2 rounded-full ${getDeploymentStatusColor(deployment.status)}`} />
  <span className="capitalize">{deployment.status.toLowerCase()}</span>
  </div>

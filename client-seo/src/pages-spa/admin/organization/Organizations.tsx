@@ -312,7 +312,7 @@ export default function Organizations() {
  <DollarSign className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
+ <div className="text-2xl font-bold">{t("currency_symbol", "$")}{totalRevenue.toLocaleString()}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_monthly_recurring")}</p>
  </CardContent>
  </Card>
@@ -576,7 +576,7 @@ export default function Organizations() {
  </TableCell>
  <TableCell>{org.propertyCount}</TableCell>
  <TableCell className="font-medium">
- ${org.revenue.toLocaleString()}
+ {t("currency_symbol", "$")}{org.revenue.toLocaleString()}
  </TableCell>
  <TableCell>
  {new Date(org.createdAt).toLocaleDateString()}
@@ -641,7 +641,7 @@ export default function Organizations() {
  <div className="space-y-3">
  {['STARTUP', 'SMALL', 'MEDIUM', 'LARGE', 'ENTERPRISE'].map(size => {
  const count = organizations.filter(org => org.size === size).length;
- return <div key={size} className="flex justify-between items-center">
+ return <div key={size} className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex justify-between items-center">
  <span className="text-sm">{size}</span>
  <span className="font-medium">{count}</span>
  </div>;

@@ -155,7 +155,7 @@ export default function Analytics() {
  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
  </div>;
  }
- return <div className="p-6 space-y-6">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 p-6 space-y-6">
  <Helmet>
  <title>{t("admin_analytics_analytics_and_reports_reservatior")}</title>
  <meta name="description" content="Detailed analytics and performance reports." />
@@ -164,7 +164,7 @@ export default function Analytics() {
  <div className="bg-card p-6 rounded-2xl border border-border">
  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
  <div>
- <h1 className="text-3xl font-bold text-foreground">{t("admin_analytics_analytics_dashboard")}</h1>
+ <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_analytics_analytics_dashboard")}</h1>
  <p className="text-muted-foreground mt-1">{t("admin_analytics_monitor_your_business_metrics")}</p>
  </div>
  <div className="flex items-center gap-4">
@@ -244,7 +244,7 @@ export default function Analytics() {
  <div className="ml-4">
  <p className="text-sm font-medium text-muted-foreground">{t("admin_analytics_total_value")}</p>
  <p className="text-2xl font-bold text-foreground">
- ${metrics.totalValue.toLocaleString()}
+ {t("currency_symbol", "$")}{metrics.totalValue.toLocaleString()}
  </p>
  </div>
  </div>
@@ -361,7 +361,7 @@ export default function Analytics() {
  </div>
  <div className="text-center">
  <div className="text-3xl font-bold text-green-400">
- ${metrics.avgDealSize.toLocaleString()}
+ {t("currency_symbol", "$")}{metrics.avgDealSize.toLocaleString()}
  </div>
  <p className="text-sm text-muted-foreground mt-1">{t("admin_analytics_average_deal_size")}</p>
  </div>

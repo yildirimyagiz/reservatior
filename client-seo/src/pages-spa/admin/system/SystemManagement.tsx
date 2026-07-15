@@ -136,14 +136,14 @@ export default function SystemManagement() {
  if (isLoading) {
  return <div className="min-h-screen bg-background p-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_system_system_management")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_system_system_management")}</h1>
  </div>
  <div className="flex items-center justify-center h-64 mt-6">
  <Settings className="h-8 w-8 animate-spin text-foreground" />
  </div>
  </div>;
  }
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
  <h1 className="text-xl font-bold text-foreground">{t("admin_system_system_management")}</h1>
@@ -179,7 +179,7 @@ export default function SystemManagement() {
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">{systemMetrics.queueSize.toLocaleString()}</div>
- <p className="text-xs text-muted-foreground">{systemMetrics.processingRate}/min processing</p>
+ <p className="text-xs text-muted-foreground">{systemMetrics.processingRate}{t("admin_auto_min_processing", "/min processing")}</p>
  </CardContent>
  </Card>
 
@@ -392,11 +392,11 @@ export default function SystemManagement() {
  </div>
  <div className="flex justify-between">
  <span className="text-muted-foreground">{t("admin_system_size")}</span>
- <span className="text-foreground">{config.currentSize}/{config.maxSize}</span>
+ <span className="text-foreground">{config.currentSize}{t("/", "/")}{config.maxSize}</span>
  </div>
  <div className="flex justify-between">
  <span className="text-muted-foreground">{t("admin_system_rate")}</span>
- <span className="text-foreground">{config.processingRate}/min</span>
+ <span className="text-foreground">{config.processingRate}{t("admin_auto_min", "/min")}</span>
  </div>
  </div>
  </CardContent>
@@ -441,7 +441,7 @@ export default function SystemManagement() {
  </div>
  </TableCell>
  <TableCell className="text-muted-foreground">
- <div className="text-sm">{message.attempts}/{message.maxAttempts}</div>
+ <div className="text-sm">{message.attempts}{t("/", "/")}{message.maxAttempts}</div>
  </TableCell>
  <TableCell className="text-muted-foreground">{new Date(message.createdAt).toLocaleString()}</TableCell>
  <TableCell className="text-muted-foreground">{message.scheduledAt ? new Date(message.scheduledAt).toLocaleString() : 'Immediate'}</TableCell>
@@ -525,8 +525,8 @@ export default function SystemManagement() {
  <TableCell className="text-muted-foreground">{new Date(log.timestamp).toLocaleString()}</TableCell>
  <TableCell className="text-muted-foreground">
  <div className="text-sm">
- <div>↓{log.requestSize}B</div>
- <div>↑{log.responseSize}B</div>
+ <div>↓{log.requestSize}{t("admin_auto_b", "B")}</div>
+ <div>↑{log.responseSize}{t("admin_auto_b", "B")}</div>
  </div>
  </TableCell>
  <TableCell>

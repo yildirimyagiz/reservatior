@@ -199,11 +199,11 @@ export default function AISentimentAnalysis() {
  return <MessageSquare className="h-4 w-4" />;
  }
  };
- return <div className="min-h-screen p-4 md:p-8 space-y-6">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen p-4 md:p-8 space-y-6">
  <div className="space-y-6">
  {/* Header */}
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-3xl font-bold text-foreground">{t("admin_ai_ai_sentiment_analysis")}</h1>
+ <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_ai_ai_sentiment_analysis")}</h1>
  <p className="text-muted-foreground mt-1">{t("admin_ai_aipowered_sentiment_analysis_of")}</p>
  </div>
 

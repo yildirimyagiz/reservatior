@@ -222,13 +222,13 @@ export default function Escrow() {
  label: e.status,
  cls:"bg-card"
  };
- return <TableRow key={e.id} className="hover:bg-muted/40">
+ return <TableRow key={e.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 hover:bg-muted/40">
  <TableCell>
  <div className="font-mono text-xs">{e.reservationId}</div>
  <div className="text-[10px] text-muted-foreground">{e.reservation?.listing?.name ||"—"}</div>
  </TableCell>
- <TableCell className="font-semibold text-sm">${(e.totalAmount || 0).toLocaleString()}</TableCell>
- <TableCell className="text-sm font-medium text-primary">${(e.depositAmount || 0).toLocaleString()}</TableCell>
+ <TableCell className="font-semibold text-sm">{t("currency_symbol", "$")}{(e.totalAmount || 0).toLocaleString()}</TableCell>
+ <TableCell className="text-sm font-medium text-primary">{t("currency_symbol", "$")}{(e.depositAmount || 0).toLocaleString()}</TableCell>
  <TableCell className="text-xs">{e.currency}</TableCell>
  <TableCell className="text-xs text-muted-foreground">{e.heldAt ? new Date(e.heldAt).toLocaleDateString() :"—"}</TableCell>
  <TableCell><Badge className={`${s.cls} border-0 text-[10px] shadow-sm`}>{s.label}</Badge></TableCell>

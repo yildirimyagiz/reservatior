@@ -295,7 +295,7 @@ export default function ExtraCharges() {
  </div>
  </TableCell>
  <TableCell className="text-sm font-bold text-card-foreground">
- ${row.amount.toLocaleString(undefined, {
+ {t("currency_symbol", "$")}{row.amount.toLocaleString(undefined, {
  minimumFractionDigits: 2
  })}
  </TableCell>

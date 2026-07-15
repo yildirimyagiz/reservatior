@@ -374,7 +374,7 @@ export default function SystemSettings() {
  errors: logs.filter(l => l.level ==="ERROR").length
  };
  return <PageShell title={t('systemHubTitle')} description={t('systemHubDesc')}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  
  {/* KPI Cards */}
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

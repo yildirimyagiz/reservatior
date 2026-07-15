@@ -185,10 +185,10 @@ export default function AIMarketAnalysisPage() {
  </PageShell>;
  }
  return <PageShell title={t("admin_ai_ai_market_analysis_management")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  <div className="flex justify-between items-center">
  <div>
- <h1 className="text-3xl font-bold">{t("admin_ai_ai_market_analysis")}</h1>
+ <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_ai_ai_market_analysis")}</h1>
  <p className="text-muted-foreground">{t("admin_ai_manage_aipowered_market_analysis")}</p>
  </div>
  <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>

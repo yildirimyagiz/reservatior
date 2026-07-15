@@ -2,70 +2,156 @@
 
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { motion } from "framer-motion";
 import {
   Shield, ArrowRight, CheckCircle2, Users, Building2,
-  Wallet, TrendingDown, Lock, Sparkles, Calculator,
-  ArrowLeftRight, Percent, Calendar, CreditCard, Scale,
-  AlertTriangle, Star, ChevronRight, PiggyBank
+  Lock, Sparkles, Calculator, ArrowLeftRight, Percent, 
+  AlertTriangle, PiggyBank, Briefcase, Landmark
 } from "lucide-react";
+import { useAuth } from "@/lib/auth/hooks";
 
-/* ═══════════════════════════════════════════════════════════════════════════════
-   LEASECARE+ — Innovative Commission & Deposit Model
-   ═══════════════════════════════════════════════════════════════════════════════ */
+/* ───── Animated Counter ───── */
+function AnimatedCounter({ target, suffix = "", prefix = "", isCurrency = false }: { target: number; suffix?: string; prefix?: string; isCurrency?: boolean }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        let s = 0;
+        const step = (ts: number) => { 
+          s = s || ts; 
+          const p = Math.min((ts - s) / 1500, 1); 
+          const easeProgress = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+          setCount(Math.floor(easeProgress * target)); 
+          if (p < 1) requestAnimationFrame(step); 
+        };
+        requestAnimationFrame(step); 
+        obs.disconnect();
+      }
+    }, { threshold: 0.1 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [target]);
+
+  const formatted = isCurrency 
+    ? new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(count)
+    : count.toLocaleString();
+
+  return <span ref={ref}>{prefix}{formatted}{suffix}</span>;
+}
+
+type RoleKey = "AGENT" | "TENANT_BUYER" | "OWNER_SELLER" | "AGENCY_ADMIN";
+type TransactionMode = "RENT" | "BUY";
+
 export default function LeaseCare() {
   const { t } = useTranslation();
+  const { getUserRole } = useAuth();
+  const userRole = getUserRole();
+
+  // Determine if the user should see all roles
+  const isAdmin = !userRole || userRole === "ORG_ADMIN" || userRole === "READ_ONLY";
+
+  // Role Management State
+  const [activeRole, setActiveRole] = useState<RoleKey>("AGENT");
+  const [transactionMode, setTransactionMode] = useState<TransactionMode>("RENT");
+
+  // Force active role based on logged-in user if not admin
+  useEffect(() => {
+    if (!isAdmin) {
+      if (userRole === "TENANT_GUEST") setActiveRole("TENANT_BUYER");
+      else if (userRole === "OWNER") setActiveRole("OWNER_SELLER");
+      else if (userRole === "AGENCY_ADMIN") setActiveRole("AGENCY_ADMIN");
+      else if (userRole === "AGENT") setActiveRole("AGENT");
+    }
+  }, [userRole, isAdmin]);
 
   // Calculator state
-  const [rent, setRent] = useState(2000);
-  const [months, setMonths] = useState(12);
+  const [propertyValue, setPropertyValue] = useState(2000); // Represents Rent or Sale Price
+  const [installments, setInstallments] = useState(12);
+
+  // Auto-adjust scale based on transaction mode
+  useEffect(() => {
+    if (transactionMode === "RENT") {
+      setPropertyValue(2000);
+      setInstallments(12);
+    } else {
+      setPropertyValue(500000);
+      setInstallments(12);
+    }
+  }, [transactionMode]);
+
+  const roles: { id: RoleKey; label: string; icon: any }[] = [
+    { id: "AGENT", label: t("reoscare.role_agent", "Acente (Agent)"), icon: Briefcase },
+    { id: "TENANT_BUYER", label: transactionMode === "RENT" ? t("reoscare.role_tenant", "Kiracı") : t("reoscare.role_buyer", "Alıcı"), icon: Users },
+    { id: "OWNER_SELLER", label: transactionMode === "RENT" ? t("reoscare.role_owner", "Ev Sahibi") : t("reoscare.role_seller", "Satıcı"), icon: Building2 },
+    { id: "AGENCY_ADMIN", label: t("reoscare.role_agency", "Emlak Ofisi"), icon: Landmark },
+  ];
 
   const calc = useMemo(() => {
-    const tenantCommission = rent * 0.01;   // %1 kiracı komisyon
-    const landlordCommission = rent * 0.01; // %1 ev sahibi komisyon
-    const tenantDeposit = rent * 0.02;      // %2 kiracı depozito
-    const monthlyTenantTotal = tenantCommission + tenantDeposit;
-    const depositMonths = Math.min(months, 3);
-    const totalDeposit = tenantDeposit * depositMonths * (rent / (rent * 0.02)); // = rent * 3 max
-    const totalDepositActual = Math.min(rent * 0.02 * months, rent * 3);
+    if (transactionMode === "RENT") {
+      const annualRent = propertyValue * 12;
+      const ownerCommission = annualRent * 0.035;
+      const tenantCommission = annualRent * 0.045; 
+      const agentTotalCommission = annualRent * 0.07;
+      
+      const agentUpfront = agentTotalCommission * 0.50;
+      const agentDeferredBase = agentTotalCommission * 0.50;
+      const agentDeferredWithMarkup = agentDeferredBase * 1.10;
+      
+      const tenantDepositTotal = propertyValue * 2;
+      const tenantMonthlyInstallment = (tenantCommission + tenantDepositTotal) / installments;
 
-    // Traditional model comparison
-    const traditionalDeposit = rent * 3;    // 3 aylık depozito peşin
-    const traditionalCommission = rent * 2; // 2 aylık komisyon peşin
-    const traditionalUpfront = traditionalDeposit + traditionalCommission;
+      const traditionalDeposit = propertyValue * 3;
+      const traditionalCommission = propertyValue * 2;
+      const traditionalUpfront = traditionalDeposit + traditionalCommission;
+      const leasecareFirstMonth = propertyValue + tenantCommission + tenantDepositTotal;
+      const savingsFirstMonth = traditionalUpfront + propertyValue - leasecareFirstMonth;
 
-    // LeaseCare model
-    const leasecareFirstMonth = rent + tenantCommission + tenantDeposit;
-    const savingsFirstMonth = traditionalUpfront + rent - leasecareFirstMonth;
+      return {
+        ownerCommission, tenantCommission, agentTotalCommission,
+        agentUpfront, agentDeferredWithMarkup,
+        tenantDepositTotal, tenantMonthlyInstallment,
+        traditionalDeposit, traditionalCommission, traditionalUpfront,
+        leasecareFirstMonth, savingsFirstMonth
+      };
+    } else {
+      const buyerCommission = propertyValue * 0.02;
+      const sellerCommission = propertyValue * 0.02;
+      const agentTotalCommission = buyerCommission + sellerCommission;
 
-    return {
-      tenantCommission, landlordCommission, tenantDeposit,
-      monthlyTenantTotal, totalDepositActual,
-      traditionalUpfront, leasecareFirstMonth, savingsFirstMonth,
-      traditionalDeposit, traditionalCommission,
-    };
-  }, [rent, months]);
+      const agentUpfront = agentTotalCommission * 0.50;
+      const agentDeferredBase = agentTotalCommission * 0.50;
+      const agentDeferredWithMarkup = agentDeferredBase * 1.10;
+
+      const buyerMonthlyInstallment = buyerCommission / installments;
+
+      return {
+        ownerCommission: sellerCommission,
+        tenantCommission: buyerCommission,
+        agentTotalCommission,
+        agentUpfront,
+        agentDeferredWithMarkup,
+        tenantDepositTotal: 0,
+        tenantMonthlyInstallment: buyerMonthlyInstallment,
+        traditionalDeposit: 0, traditionalCommission: buyerCommission, traditionalUpfront: buyerCommission,
+        leasecareFirstMonth: buyerMonthlyInstallment, savingsFirstMonth: buyerCommission - buyerMonthlyInstallment
+      };
+    }
+  }, [propertyValue, installments, transactionMode]);
 
   return (
     <>
       <Helmet>
         <title>LeaseCare+ - Smart Lease Management | Reservatior</title>
         <meta name="description" content="Automate lease management with AI-powered tools for lease tracking, renewals, and tenant management. Monthly micro-payments instead of traditional upfront commission." />
-        <meta property="og:title" content="LeaseCare+ - Smart Lease Management | Reservatior" />
-        <meta property="og:description" content="Automate lease management with AI-powered tools for lease tracking, renewals, and tenant management." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="LeaseCare+ - Smart Lease Management | Reservatior" />
-        <meta name="twitter:description" content="Automate lease management with AI-powered tools for lease tracking, renewals, and tenant management." />
-        <link rel="canonical" href={window.location.href} />
       </Helmet>
 
-      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-emerald-500/30">
 
         {/* ══════ HERO ══════ */}
         <section className="relative pt-32 pb-20 overflow-hidden">
@@ -121,7 +207,7 @@ export default function LeaseCare() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.deposit_traditional", "Deposit (Upfront)")}</span><span className="font-bold text-foreground text-red-400">Çok Yüksek</span></div>
                   <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.commission_traditional", "Commission (Upfront)")}</span><span className="font-bold text-foreground text-red-400">Çok Yüksek</span></div>
-                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.first_month_rent", "First month rent")}</span><span className="font-bold text-foreground">${rent.toLocaleString()}</span></div>
+                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.first_month_rent", "First month rent")}</span><span className="font-bold text-foreground">${propertyValue.toLocaleString()}</span></div>
                   <div className="h-px bg-red-500/20 my-2" />
                   <div className="flex justify-between items-center text-base"><span className="font-bold text-red-500">{t("leasecare.total_first_day", "Total First Day")}</span><span className="text-2xl font-black text-red-500">Maliyetli</span></div>
                 </div>
@@ -138,7 +224,7 @@ export default function LeaseCare() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.first_month_rent", "First month rent")}</span><span className="font-bold text-foreground">${rent.toLocaleString()}</span></div>
+                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.first_month_rent", "First month rent")}</span><span className="font-bold text-foreground">${propertyValue.toLocaleString()}</span></div>
                   <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.micro_commission", "Dynamic Micro Commission")}</span><span className="font-bold text-emerald-500">{t("client.src.partner_rate", "Partner Rate")}</span></div>
                   <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.micro_deposit", "Dynamic Micro Deposit")}</span><span className="font-bold text-emerald-500">{t("client.src.partner_rate", "Partner Rate")}</span></div>
                   <div className="h-px bg-emerald-500/20 my-2" />
@@ -202,52 +288,258 @@ export default function LeaseCare() {
           </div>
         </section>
 
-        {/* ══════ CALCULATOR ══════ */}
-        <section className="py-20">
-          <div className="container mx-auto px-6">
+        {/* ══════ CALCULATOR & ROLE TABS ══════ */}
+        <section className="py-20 relative z-20">
+          <div className="container mx-auto px-4 md:px-6">
+            
             <div className="text-center mb-14 space-y-3">
-              <Badge className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 px-4 py-1 rounded-full text-xs font-bold tracking-wider">
+              <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 px-4 py-1 rounded-full text-xs font-bold tracking-wider">
                 <Calculator className="w-3.5 h-3.5 mr-1.5" /> {t("leasecare.interactive_calc", "Interactive Calculator")}
               </Badge>
               <h2 className="text-3xl font-black text-foreground">{t("leasecare.how_much_save", "How much will you save?")}</h2>
             </div>
 
-            <div className="max-w-2xl mx-auto p-8 rounded-3xl bg-card border border-border/50 shadow-lg space-y-8">
-              {/* Rent Input */}
-              <div className="space-y-3">
-                <label className="text-sm font-semibold text-foreground flex items-center justify-between">
-                  {t("leasecare.monthly_rent_amount", "Monthly Rent Amount")}
-                  <span className="text-2xl font-black text-primary">${rent.toLocaleString()}</span>
-                </label>
-                <Slider value={[rent]} onValueChange={([v]) => setRent(v)} min={500} max={20000} step={100} className="py-2" />
-                <div className="flex justify-between text-xs text-muted-foreground"><span>$500</span><span>$20,000</span></div>
+            {/* Transaction Mode Toggle */}
+            <div className="flex justify-center mb-8">
+              <div className="bg-muted p-1.5 rounded-full flex gap-2 border border-border shadow-inner">
+                <button 
+                  onClick={() => setTransactionMode("RENT")}
+                  className={`px-8 py-2 rounded-full text-sm font-bold transition-all ${transactionMode === "RENT" ? "bg-background text-emerald-600 dark:text-emerald-400 shadow-md" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  {t("reoscare.mode_rent", "Kiralık (Rent)")}
+                </button>
+                <button 
+                  onClick={() => setTransactionMode("BUY")}
+                  className={`px-8 py-2 rounded-full text-sm font-bold transition-all ${transactionMode === "BUY" ? "bg-background text-emerald-600 dark:text-emerald-400 shadow-md" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  {t("reoscare.mode_buy", "Satılık (Buy)")}
+                </button>
               </div>
-              {/* {t("leasecare.lease_duration", "Lease Duration")} */}
-              <div className="space-y-3">
-                <label className="text-sm font-semibold text-foreground flex items-center justify-between">
-                  {t("leasecare.lease_duration", "Lease Duration")}
-                  <span className="text-2xl font-black text-primary">{months} months</span>
-                </label>
-                <Slider value={[months]} onValueChange={([v]) => setMonths(v)} min={1} max={36} step={1} className="py-2" />
-                <div className="flex justify-between text-xs text-muted-foreground"><span>1 month</span><span>36 months</span></div>
-              </div>
+            </div>
 
-              {/* Results */}
-              <div className="grid grid-cols-2 gap-4 pt-4">
-                <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/10 text-center space-y-1">
-                  <div className="text-xs text-muted-foreground">{t("leasecare.traditional_first_day", "Traditional First Day")}</div>
-                  <div className="text-xl font-black text-red-500">${(rent * 6).toLocaleString()}</div>
-                </div>
-                <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10 text-center space-y-1">
-                  <div className="text-xs text-muted-foreground">{t("leasecare.leasecare_first_day", "LeaseCare+ First Day")}</div>
-                  <div className="text-xl font-black text-emerald-600 dark:text-emerald-400">${calc.leasecareFirstMonth.toLocaleString()}</div>
-                </div>
+            {/* Role Tabs */}
+            {isAdmin && (
+              <div className="flex flex-wrap justify-center gap-3 mb-12">
+                {roles.map(role => (
+                  <button
+                    key={role.id}
+                    onClick={() => setActiveRole(role.id)}
+                    className={`relative flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-sm md:text-base transition-all duration-300 ${
+                      activeRole === role.id 
+                        ? "bg-foreground text-background shadow-xl scale-105" 
+                        : "bg-card text-muted-foreground hover:bg-muted border border-border"
+                    }`}
+                  >
+                    <role.icon className={`w-5 h-5 ${activeRole === role.id ? "text-emerald-500" : "text-muted-foreground"}`} />
+                    {role.label}
+                    {activeRole === role.id && (
+                      <motion.div layoutId="activeRoleIndicatorSPA" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-emerald-500" />
+                    )}
+                  </button>
+                ))}
               </div>
-              <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/15 text-center">
-                <div className="text-sm text-muted-foreground">{t("leasecare.your_savings", "Your First Day Savings")}</div>
-                <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1">${calc.savingsFirstMonth.toLocaleString()}</div>
-                <div className="text-xs text-muted-foreground mt-1">{t("leasecare.compared_to_traditional", "Compared to traditional")} {Math.round((calc.savingsFirstMonth / (rent * 6)) * 100)}% {t("leasecare.less_payment", "less payment")}</div>
-              </div>
+            )}
+
+            <div className="grid lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
+              
+              {/* Value Props Content based on Role */}
+              <motion.div 
+                key={`${activeRole}-${transactionMode}`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="lg:col-span-5 flex flex-col justify-center space-y-8 p-8 md:p-12 rounded-[2.5rem] bg-card border border-border shadow-2xl"
+              >
+                {activeRole === "AGENT" && (
+                  <>
+                    <h3 className="text-3xl font-black text-foreground leading-tight">
+                      {transactionMode === "RENT" ? t("reoscare.agent_rent_title", "Komisyonunu Güvenceye Al, %10 Fazla Kazan") : t("reoscare.agent_buy_title", "Alıcıya Taksit Sun, Satışları Hızlandır")}
+                    </h3>
+                    <p className="text-lg text-muted-foreground font-medium">
+                      {transactionMode === "RENT" 
+                        ? t("reoscare.agent_rent_desc", "Klasik kiralama devri bitti. Komisyonunun %50'sini anında nakit al, kalan %50'yi ReosCare güvencesiyle %10 getiriyle taksitli tahsil et. Sisteme bağımlılık ve sürekli nakit akışı yarat.")
+                        : t("reoscare.agent_buy_desc", "Satış işlemlerindeki en büyük engel olan alıcı komisyonunu ReosCare ile 12 aya kadar taksitlendir. Likidite sağla ve işlem kapatma hızını uçur.")}
+                    </p>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv1", "%50 Peşin Komisyon Anında Hesabında")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv2", "Kalan Bakiyeye %10 Ekstra Getiri (Yield)")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv3", "Vendor Lock-in ile Kesintisiz Gelir Akışı")}</span></div>
+                    </div>
+                  </>
+                )}
+
+                {activeRole === "TENANT_BUYER" && (
+                  <>
+                    <h3 className="text-3xl font-black text-foreground leading-tight">
+                      {transactionMode === "RENT" ? t("reoscare.tenant_title", "Depozito ve Komisyon Yükünden Kurtul") : t("reoscare.buyer_title", "Komisyonu Taksitle Öde, Ev Sahibi Ol")}
+                    </h3>
+                    <p className="text-lg text-muted-foreground font-medium">
+                      {transactionMode === "RENT" 
+                        ? t("reoscare.tenant_desc", "Sadece %1'lik ReosCare koruma primi ile devasa peşinatlar ödemeden yeni evine taşın. Depozito ve komisyonu aylık mikro-ödemelerle rahatça öde.")
+                        : t("reoscare.buyer_desc", "Tapu harcı ve peşinatlar zaten zorlayıcı. %2'lik alıcı komisyonunu tek seferde ödemek yerine ReosCare ile aylık taksitlere böl.")}
+                    </p>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{transactionMode === "RENT" ? t("reoscare.tenant_adv1", "Depozito Taksitlendirmesi") : t("reoscare.buyer_adv1", "%2 Komisyon Taksitlendirmesi")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.tenant_adv2", "Güvenli Escrow Hesabı")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.tenant_adv3", "Loyalty (Sadakat) Puanı ve Kredi Notu Avantajı")}</span></div>
+                    </div>
+                  </>
+                )}
+
+                {activeRole === "OWNER_SELLER" && (
+                  <>
+                    <h3 className="text-3xl font-black text-foreground leading-tight">
+                      {transactionMode === "RENT" ? t("reoscare.owner_title", "%100 Kira Garantisi, Sıfır Risk") : t("reoscare.seller_title", "Satış Sürtünmesini Ortadan Kaldır")}
+                    </h3>
+                    <p className="text-lg text-muted-foreground font-medium">
+                      {transactionMode === "RENT" 
+                        ? t("reoscare.owner_desc", "ReosCare sigorta havuzu sayesinde kiranız devlet destekli kontratlarla (state machine) güvence altında. Üstelik cebinizden sigorta ücreti çıkmaz.")
+                        : t("reoscare.seller_desc", "Alıcılara komisyon taksitlendirme imkanı sunarak mülkünüzün satılma hızını artırın. Risksiz, şeffaf süreç.")}
+                    </p>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{transactionMode === "RENT" ? t("reoscare.owner_adv1", "Kiracı Tarafından Fonlanan Sigorta Havuzu") : t("reoscare.seller_adv1", "Hızlı İşlem Kapatma (Conversion)")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.owner_adv2", "Algoritmik Fiyatlandırma Avantajı")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.owner_adv3", "Hukuki Yürütme Motoru ile Garanti Altında")}</span></div>
+                    </div>
+                  </>
+                )}
+
+                {activeRole === "AGENCY_ADMIN" && (
+                  <>
+                    <h3 className="text-3xl font-black text-foreground leading-tight">
+                      {t("reoscare.agency_title", "Tüm Portföy İçin Merkezi Finansal Kontrol")}
+                    </h3>
+                    <p className="text-lg text-muted-foreground font-medium">
+                      {t("reoscare.agency_desc", "Ekiplerinizin performansını, olay güdümlü (event-driven) gelir grafiğini ve ofis genelindeki yield (getiri) yönetimini tek ekrandan kontrol edin.")}
+                    </p>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-violet-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agency_adv1", "Ekip Performansı ve Gelir İzleme")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-violet-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agency_adv2", "Merkezi Escrow ve Finansal Mutabakat")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-violet-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agency_adv3", "ReosCare İşletim Sistemi Gücü")}</span></div>
+                    </div>
+                  </>
+                )}
+              </motion.div>
+
+              {/* Interactive Calculator */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="lg:col-span-7 p-8 md:p-12 rounded-[2.5rem] bg-card border border-border shadow-2xl relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-bl-full pointer-events-none" />
+                
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
+                    <Calculator className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-foreground">{t("reoscare.calc_title", "Financial Simulator")}</h4>
+                    <p className="text-sm text-muted-foreground">{t("reoscare.calc_desc", "Select parameters to view your specific outcome.")}</p>
+                  </div>
+                </div>
+
+                {/* Input Sliders */}
+                <div className="space-y-8 mb-10">
+                  <div>
+                    <label className="flex justify-between items-center mb-4">
+                      <span className="font-bold text-foreground">
+                        {transactionMode === "RENT" ? t("reoscare.monthly_rent", "Monthly Rent") : t("reoscare.property_value", "Property Value")}
+                      </span>
+                      <div className="text-2xl font-black bg-muted px-4 py-1.5 rounded-xl border border-border flex items-center gap-1">
+                        {t('currency_symbol', '$')}
+                        <AnimatedCounter target={propertyValue} isCurrency={true} />
+                      </div>
+                    </label>
+                    <Slider 
+                      value={[propertyValue]} 
+                      onValueChange={([v]) => setPropertyValue(v)} 
+                      min={transactionMode === "RENT" ? 500 : 50000} 
+                      max={transactionMode === "RENT" ? 20000 : 5000000} 
+                      step={transactionMode === "RENT" ? 100 : 10000} 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="flex justify-between items-center mb-4">
+                      <span className="font-bold text-foreground">{t("reoscare.installments", "Installments (Months)")}</span>
+                      <div className="text-2xl font-black bg-muted px-4 py-1.5 rounded-xl border border-border">
+                        <AnimatedCounter target={installments} />
+                      </div>
+                    </label>
+                    <Slider value={[installments]} onValueChange={([v]) => setInstallments(v)} min={1} max={transactionMode === "RENT" ? 24 : 12} step={1} />
+                  </div>
+                </div>
+
+                <div className="h-px bg-border w-full mb-8" />
+
+                {/* Calculation Outputs Based on Role */}
+                <div className="grid gap-4">
+                  {activeRole === "AGENT" && (
+                    <>
+                      <div className="p-6 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex justify-between items-center">
+                        <span className="font-bold text-foreground">{t("reoscare.total_commission", "Total Commission Base")}</span>
+                        <span className="text-2xl font-black text-blue-600 dark:text-blue-400">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentTotalCommission} isCurrency={true} /></span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
+                          <span className="block text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">{t("reoscare.upfront_cash", "50% Upfront")}</span>
+                          <span className="text-3xl font-black text-emerald-600 dark:text-emerald-400">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentUpfront} isCurrency={true} /></span>
+                        </div>
+                        <div className="p-6 rounded-2xl bg-violet-500/10 border border-violet-500/20">
+                          <span className="block text-sm font-bold text-violet-600 dark:text-violet-400 uppercase tracking-widest mb-2">{t("reoscare.installed_yield", "50% Deferred + 10%")}</span>
+                          <span className="text-3xl font-black text-violet-600 dark:text-violet-400">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentDeferredWithMarkup} isCurrency={true} /></span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {activeRole === "TENANT_BUYER" && (
+                    <>
+                      {transactionMode === "RENT" ? (
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="p-6 rounded-2xl bg-muted border border-border">
+                            <span className="block text-sm font-bold text-muted-foreground uppercase tracking-widest mb-2">{t("reoscare.traditional_move_in", "Traditional Cost")}</span>
+                            <span className="text-3xl font-black text-muted-foreground line-through decoration-red-500/50">{t('currency_symbol', '$')}<AnimatedCounter target={propertyValue * 3 + calc.agentTotalCommission} isCurrency={true} /></span>
+                          </div>
+                          <div className="p-6 rounded-2xl bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 relative overflow-hidden">
+                            <span className="relative z-10 block text-sm font-bold text-emerald-100 uppercase tracking-widest mb-2">{t("reoscare.monthly_payment", "Monthly Installment")}</span>
+                            <span className="relative z-10 text-3xl font-black">{t('currency_symbol', '$')}<AnimatedCounter target={calc.tenantMonthlyInstallment} isCurrency={true} /></span>
+                            <div className="relative z-10 mt-2 text-xs font-medium text-emerald-100 bg-black/10 px-3 py-1 rounded-full inline-block">{t("reoscare.includes_premium", "Includes +1% ReosCare Premium")}</div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="p-6 rounded-2xl bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 text-center relative overflow-hidden">
+                          <span className="relative z-10 block text-sm font-bold text-emerald-100 uppercase tracking-widest mb-2">{t("reoscare.monthly_buyer_comm", "Monthly 2% Commission Payment")}</span>
+                          <span className="relative z-10 text-5xl font-black">{t('currency_symbol', '$')}<AnimatedCounter target={calc.tenantMonthlyInstallment} isCurrency={true} /></span>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {activeRole === "OWNER_SELLER" && (
+                    <div className="p-8 rounded-[2rem] bg-gradient-to-r from-amber-400 to-orange-500 text-white text-center shadow-xl shadow-amber-500/20 relative overflow-hidden">
+                      <Shield className="w-12 h-12 text-white/80 mx-auto mb-4" />
+                      <span className="relative z-10 block text-sm font-bold text-amber-100 uppercase tracking-widest mb-2">{t("reoscare.guaranteed_coverage", "100% Guaranteed Transaction")}</span>
+                      <span className="relative z-10 text-xl font-bold">
+                        {transactionMode === "RENT" 
+                          ? t("reoscare.owner_zero_cost", "Funded entirely by the Tenant's +1% Premium. Zero cost to you.")
+                          : t("reoscare.seller_fast_sale", "Speed up your sale by offering buyers flexible commission payments.")}
+                      </span>
+                    </div>
+                  )}
+
+                  {activeRole === "AGENCY_ADMIN" && (
+                    <div className="p-8 rounded-[2rem] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-center shadow-xl shadow-violet-500/20 relative overflow-hidden">
+                      <Landmark className="w-12 h-12 text-white/80 mx-auto mb-4" />
+                      <span className="relative z-10 block text-sm font-bold text-violet-100 uppercase tracking-widest mb-2">{t("reoscare.agency_yield", "Projected Office Yield")}</span>
+                      <span className="relative z-10 text-5xl font-black">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentDeferredWithMarkup * 10} isCurrency={true} />+</span>
+                      <div className="relative z-10 mt-3 text-sm font-medium text-violet-100">{t("reoscare.agency_based_on", "Based on 10 active agents executing this volume")}</div>
+                    </div>
+                  )}
+
+                </div>
+              </motion.div>
+
             </div>
           </div>
         </section>

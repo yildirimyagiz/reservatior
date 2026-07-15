@@ -129,14 +129,13 @@ export default function GoogleCloudManager() {
  };
  const totalCost = services.reduce((sum, service) => sum + service.cost.current, 0);
 
- return (
- <div className="space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  <div className="max-w-7xl mx-auto space-y-8">
  {/* Header */}
  <div className="bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center justify-between">
  <div>
- <h1 className="text-3xl font-bold text-foreground">{t("admin_cloud_google_cloud_infrastructure")}</h1>
+ <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_cloud_google_cloud_infrastructure")}</h1>
  <p className="text-sm text-muted-foreground mt-1">{t("admin_cloud_free_tier_deployment_and")}</p>
  </div>
  <div className="flex items-center gap-4">
@@ -170,7 +169,7 @@ export default function GoogleCloudManager() {
  </div>
  <div>
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_cloud_monthly_cost")}</p>
- <p className="text-2xl font-bold text-foreground">${totalCost.toFixed(2)}</p>
+ <p className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{totalCost.toFixed(2)}</p>
  </div>
  </div>
  </Card>
@@ -216,21 +215,21 @@ export default function GoogleCloudManager() {
  <div className="space-y-4">
  <div className="flex items-center justify-between text-sm">
  <span className="text-muted-foreground">{t("admin_cloud_memory_usage")}</span>
- <span className="text-foreground">{totalUsage.memory}{t("admin_cloud_mb")} / {totalLimits.memory}{t("admin_cloud_mb")}</span>
+ <span className="text-foreground">{totalUsage.memory}{t("admin_cloud_mb")} {t("/", "/")}{totalLimits.memory}{t("admin_cloud_mb")}</span>
  </div>
  <Progress value={totalUsage.memory / totalLimits.memory * 100} className="h-2" />
  </div>
  <div className="space-y-4">
  <div className="flex items-center justify-between text-sm">
  <span className="text-muted-foreground">{t("admin_cloud_storage_usage")}</span>
- <span className="text-foreground">{totalUsage.storage}{t("admin_cloud_mb")} / {totalLimits.storage}{t("admin_cloud_mb")}</span>
+ <span className="text-foreground">{totalUsage.storage}{t("admin_cloud_mb")} {t("/", "/")}{totalLimits.storage}{t("admin_cloud_mb")}</span>
  </div>
  <Progress value={totalUsage.storage / totalLimits.storage * 100} className="h-2" />
  </div>
  <div className="space-y-4">
  <div className="flex items-center justify-between text-sm">
  <span className="text-muted-foreground">{t("admin_cloud_bandwidth_usage")}</span>
- <span className="text-foreground">{totalUsage.bandwidth}{t("admin_cloud_gb")} / {totalLimits.bandwidth}{t("admin_cloud_gb")}</span>
+ <span className="text-foreground">{totalUsage.bandwidth}{t("admin_cloud_gb")} {t("/", "/")}{totalLimits.bandwidth}{t("admin_cloud_gb")}</span>
  </div>
  <Progress value={totalUsage.bandwidth / totalLimits.bandwidth * 100} className="h-2" />
  </div>
@@ -271,21 +270,21 @@ export default function GoogleCloudManager() {
  </div>
  <div>
  <p className="text-muted-foreground">{t("admin_cloud_memory")}</p>
- <p className="text-foreground">{service.usage.memory}{t("admin_cloud_mb")} / {service.limits.memory}{t("admin_cloud_mb")}</p>
+ <p className="text-foreground">{service.usage.memory}{t("admin_cloud_mb")} {t("/", "/")}{service.limits.memory}{t("admin_cloud_mb")}</p>
  </div>
  <div>
  <p className="text-muted-foreground">{t("admin_cloud_storage")}</p>
- <p className="text-foreground">{service.usage.storage}{t("admin_cloud_mb")} / {service.limits.storage}{t("admin_cloud_mb")}</p>
+ <p className="text-foreground">{service.usage.storage}{t("admin_cloud_mb")} {t("/", "/")}{service.limits.storage}{t("admin_cloud_mb")}</p>
  </div>
  <div>
  <p className="text-muted-foreground">{t("admin_cloud_bandwidth")}</p>
- <p className="text-foreground">{service.usage.bandwidth}{t("admin_cloud_gb")} / {service.limits.bandwidth}{t("admin_cloud_gb")}</p>
+ <p className="text-foreground">{service.usage.bandwidth}{t("admin_cloud_gb")} {t("/", "/")}{service.limits.bandwidth}{t("admin_cloud_gb")}</p>
  </div>
  </div>
  <div className="flex items-center justify-between pt-3 border-t border-border">
  <div>
  <p className="text-xs text-muted-foreground">{t("admin_cloud_monthly_cost")}</p>
- <p className="text-lg font-bold text-foreground">${service.cost.current.toFixed(2)}</p>
+ <p className="text-lg font-bold text-foreground">{t("currency_symbol", "$")}{service.cost.current.toFixed(2)}</p>
  </div>
  <div className="flex items-center gap-2">
  {service.status === 'ACTIVE' ? (

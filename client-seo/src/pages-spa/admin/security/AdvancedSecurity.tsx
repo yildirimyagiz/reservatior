@@ -198,7 +198,7 @@ export default function AdvancedSecurity() {
  }
  };
  return <PageShell title={t("admin_security_advanced_security_lab")} description={t("admin_security_deep_neural_firewall_and")}>
- <div className="space-y-10 pb-20">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
  
  {/* KPI NEURAL GRID */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

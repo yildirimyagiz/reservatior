@@ -370,7 +370,7 @@ export default function MobileDeviceManagement() {
  androidDevices: devices.filter(d => d.platform ==="ANDROID").length
  };
  return <PageShell title={t("admin_mobile_mobile_device_management")} description={t("admin_mobile_manage_and_monitor_mobile")}>
- <div className="space-y-6">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
  {/* Stats Cards */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
  <Card>

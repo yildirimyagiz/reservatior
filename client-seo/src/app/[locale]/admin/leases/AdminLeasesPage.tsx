@@ -154,7 +154,7 @@ export default function AdminLeasesPage() {
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <div className="text-foreground font-medium">${lease.monthlyRent.toLocaleString()}/mo</div>
+                        <div className="text-foreground font-medium">${lease.monthlyRent.toLocaleString()}{t("admin_auto_mo", "/mo")}</div>
                       </div>
                       <Badge className={STATUS_COLORS[lease.status]}>{lease.status}</Badge>
                       <div className="flex gap-2">
@@ -184,6 +184,7 @@ export default function AdminLeasesPage() {
 }
 
 function CreateLeaseDialog({ open, onOpenChange, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; onSubmit: (data: Omit<Lease, "id">) => void }) {
+    const { t } = useTranslation();
   const [tenantName, setTenantName] = useState("");
   const [propertyName, setPropertyName] = useState("");
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
@@ -194,48 +195,48 @@ function CreateLeaseDialog({ open, onOpenChange, onSubmit }: { open: boolean; on
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Add Lease</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Add a new lease agreement.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_leases_add_lease", "Add Lease")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_lease_agreement", "Add a new lease agreement.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Tenant Name</Label>
+            <Label className="text-right text-foreground">{t("client.src.tenant_name", "Tenant Name")}</Label>
             <Input value={tenantName} onChange={e => setTenantName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Property Name</Label>
+            <Label className="text-right text-foreground">{t("client.src.property_name", "Property Name")}</Label>
             <Input value={propertyName} onChange={e => setPropertyName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Start Date</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_start_date", "Start Date")}</Label>
             <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">End Date</Label>
+            <Label className="text-right text-foreground">{t("admin_contract_end_date", "End Date")}</Label>
             <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Monthly Rent ($)</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_monthly_rent", "Monthly Rent ($)")}</Label>
             <Input type="number" value={monthlyRent} onChange={e => setMonthlyRent(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Status</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Lease["status"])}>
               <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border text-foreground">
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="EXPIRING">Expiring</SelectItem>
-                <SelectItem value="EXPIRED">Expired</SelectItem>
-                <SelectItem value="DRAFT">Draft</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
+                <SelectItem value="EXPIRING">{t("admin_marketing_status_expiring", "Expiring")}</SelectItem>
+                <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Expired")}</SelectItem>
+                <SelectItem value="DRAFT">{t("admin_contract_draft", "Draft")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={() => onSubmit({ tenantName, propertyName, startDate, endDate, monthlyRent, status })} className="bg-primary hover:bg-primary/90">Create</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={() => onSubmit({ tenantName, propertyName, startDate, endDate, monthlyRent, status })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -243,6 +244,7 @@ function CreateLeaseDialog({ open, onOpenChange, onSubmit }: { open: boolean; on
 }
 
 function EditLeaseDialog({ open, onOpenChange, item, onSubmit }: { open: boolean; onOpenChange: (open: boolean) => void; item: Lease; onSubmit: (data: Lease) => void }) {
+    const { t } = useTranslation();
   const [tenantName, setTenantName] = useState(item.tenantName);
   const [propertyName, setPropertyName] = useState(item.propertyName);
   const [startDate, setStartDate] = useState(item.startDate);
@@ -253,48 +255,48 @@ function EditLeaseDialog({ open, onOpenChange, item, onSubmit }: { open: boolean
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Edit Lease</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Update lease details.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("client.src.edit_lease", "Edit Lease")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_lease_details", "Update lease details.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Tenant Name</Label>
+            <Label className="text-right text-foreground">{t("client.src.tenant_name", "Tenant Name")}</Label>
             <Input value={tenantName} onChange={e => setTenantName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Property Name</Label>
+            <Label className="text-right text-foreground">{t("client.src.property_name", "Property Name")}</Label>
             <Input value={propertyName} onChange={e => setPropertyName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Start Date</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_start_date", "Start Date")}</Label>
             <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">End Date</Label>
+            <Label className="text-right text-foreground">{t("admin_contract_end_date", "End Date")}</Label>
             <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Monthly Rent ($)</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_monthly_rent", "Monthly Rent ($)")}</Label>
             <Input type="number" value={monthlyRent} onChange={e => setMonthlyRent(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Status</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Lease["status"])}>
               <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border text-foreground">
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="EXPIRING">Expiring</SelectItem>
-                <SelectItem value="EXPIRED">Expired</SelectItem>
-                <SelectItem value="DRAFT">Draft</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
+                <SelectItem value="EXPIRING">{t("admin_marketing_status_expiring", "Expiring")}</SelectItem>
+                <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Expired")}</SelectItem>
+                <SelectItem value="DRAFT">{t("admin_contract_draft", "Draft")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={() => onSubmit({ id: item.id, tenantName, propertyName, startDate, endDate, monthlyRent, status })} className="bg-primary hover:bg-primary/90">Save</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, tenantName, propertyName, startDate, endDate, monthlyRent, status })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -302,16 +304,17 @@ function EditLeaseDialog({ open, onOpenChange, item, onSubmit }: { open: boolean
 }
 
 function DeleteLeaseDialog({ open, onOpenChange, item, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; item: Lease; onConfirm: () => void }) {
+    const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">Delete Lease</DialogTitle>
-          <DialogDescription className="text-muted-foreground">Are you sure you want to delete the lease for {item.propertyName} ({item.tenantName})? This action cannot be undone.</DialogDescription>
+          <DialogTitle className="text-foreground">{t("admin_auto_delete_lease", "Delete Lease")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete_the_leas", "Are you sure you want to delete the lease for")}{item.propertyName} ({item.tenantName}{t("admin_auto_this_action_cannot_be_undone", ")? This action cannot be undone.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">Cancel</Button>
-          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">Delete</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">{t("admin_action_delete", "Delete")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

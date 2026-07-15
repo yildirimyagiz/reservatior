@@ -69,7 +69,7 @@ export default function EventLog() {
 
  return (
  <PageShell title={t("admin_system_event_log")}>
- <div className="space-y-4">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-4">
  <div className="flex flex-wrap gap-3 items-center">
  <div className="relative flex-1 min-w-[200px]">
  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -151,7 +151,7 @@ export default function EventLog() {
  <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
  {t("admin_system_previous")}
  </Button>
- <span className="flex items-center text-sm">{page} / {totalPages}</span>
+ <span className="flex items-center text-sm">{page} {t("/", "/")}{totalPages}</span>
  <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>
  {t("admin_system_next")}
  </Button>
@@ -168,24 +168,24 @@ export default function EventLog() {
  {selected && (
  <div className="space-y-3 text-sm">
  <div className="grid grid-cols-2 gap-2">
- <div><span className="font-medium">{t("admin_system_event_type")}:</span> {selected.eventType}</div>
- <div><span className="font-medium">{t("admin_system_severity")}:</span> {selected.severity}</div>
- <div><span className="font-medium">{t("admin_system_date")}:</span> {formatDate(selected.createdAt)}</div>
- <div><span className="font-medium">{t("admin_system_source")}:</span> {selected.source ||"-"}</div>
+ <div><span className="font-medium">{t("admin_system_event_type")}{t("mobile.leftovers.", ":")}</span> {selected.eventType}</div>
+ <div><span className="font-medium">{t("admin_system_severity")}{t("mobile.leftovers.", ":")}</span> {selected.severity}</div>
+ <div><span className="font-medium">{t("admin_system_date")}{t("mobile.leftovers.", ":")}</span> {formatDate(selected.createdAt)}</div>
+ <div><span className="font-medium">{t("admin_system_source")}{t("mobile.leftovers.", ":")}</span> {selected.source ||"-"}</div>
  {selected.entityType && (
- <div><span className="font-medium">{t("admin_system_entity_type")}:</span> {selected.entityType}</div>
+ <div><span className="font-medium">{t("admin_system_entity_type")}{t("mobile.leftovers.", ":")}</span> {selected.entityType}</div>
  )}
  {selected.entityId && (
- <div><span className="font-medium">{t("admin_system_entity_id")}:</span> {selected.entityId}</div>
+ <div><span className="font-medium">{t("admin_system_entity_id")}{t("mobile.leftovers.", ":")}</span> {selected.entityId}</div>
  )}
  {selected.entityLabel && (
- <div><span className="font-medium">{t("admin_system_entity_label")}:</span> {selected.entityLabel}</div>
+ <div><span className="font-medium">{t("admin_system_entity_label")}{t("mobile.leftovers.", ":")}</span> {selected.entityLabel}</div>
  )}
- <div><span className="font-medium">{t("admin_system_org_id")}:</span> {selected.orgId}</div>
+ <div><span className="font-medium">{t("admin_system_org_id")}{t("mobile.leftovers.", ":")}</span> {selected.orgId}</div>
  </div>
  {selected.payload && (
  <div>
- <span className="font-medium">{t("admin_system_payload")}:</span>
+ <span className="font-medium">{t("admin_system_payload")}{t("mobile.leftovers.", ":")}</span>
  <pre className="mt-1 p-2 bg-card rounded-lg text-xs overflow-auto max-h-48">
  {JSON.stringify(selected.payload, null, 2)}
  </pre>
@@ -193,7 +193,7 @@ export default function EventLog() {
  )}
  {selected.metadata && (
  <div>
- <span className="font-medium">{t("admin_system_metadata")}:</span>
+ <span className="font-medium">{t("admin_system_metadata")}{t("mobile.leftovers.", ":")}</span>
  <pre className="mt-1 p-2 bg-card rounded-lg text-xs overflow-auto max-h-32">
  {JSON.stringify(selected.metadata, null, 2)}
  </pre>
@@ -201,12 +201,12 @@ export default function EventLog() {
  )}
  {selected.executions && selected.executions.length > 0 && (
  <div>
- <span className="font-medium">{t("admin_system_triggered_executions")}:</span>
+ <span className="font-medium">{t("admin_system_triggered_executions")}{t("mobile.leftovers.", ":")}</span>
  <div className="mt-1 space-y-1">
  {selected.executions.map((ex: any) => (
  <div key={ex.id} className="p-2 bg-card rounded-lg text-xs">
  <span className="font-medium">{ex.rule?.ruleName || ex.ruleId}</span>
- {" -"}Status: {ex.status} - {formatDate(ex.executedAt)}
+ {" -"}{t("admin_property_status", "Status:")}{ex.status} {t(" - ", "-")}{formatDate(ex.executedAt)}
  </div>
  ))}
  </div>

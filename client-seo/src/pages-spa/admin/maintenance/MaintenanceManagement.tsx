@@ -137,7 +137,7 @@ const MaintenanceManagement = () => {
  className="bg-card border-border" 
  value={newOrder.priority}
  onChange={e => setNewOrder({...newOrder, priority: e.target.value})}
- placeholder="e.g. HIGH, MEDIUM"
+ placeholder={t("admin_auto_e_g_high_medium", "e.g. HIGH, MEDIUM")}
  />
  </div>
  <div className="space-y-2">
@@ -147,12 +147,12 @@ const MaintenanceManagement = () => {
  className="bg-card border-border" 
  value={newOrder.category}
  onChange={e => setNewOrder({...newOrder, category: e.target.value})}
- placeholder="e.g. PLUMBING"
+ placeholder={t("admin_auto_e_g_plumbing", "e.g. PLUMBING")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-red-600 hover:bg-red-700" disabled={createMutation.isPending}>
  {createMutation.isPending ?"Creating..." :"Save Order"}
  </Button>
@@ -194,7 +194,7 @@ const MaintenanceManagement = () => {
  className="bg-card border-border" 
  value={editingOrder?.priority || ''}
  onChange={e => setEditingOrder({...editingOrder, priority: e.target.value})}
- placeholder="e.g. HIGH, MEDIUM"
+ placeholder={t("admin_auto_e_g_high_medium", "e.g. HIGH, MEDIUM")}
  />
  </div>
  <div className="space-y-2">
@@ -204,12 +204,12 @@ const MaintenanceManagement = () => {
  className="bg-card border-border" 
  value={editingOrder?.category || ''}
  onChange={e => setEditingOrder({...editingOrder, category: e.target.value})}
- placeholder="e.g. PLUMBING"
+ placeholder={t("admin_auto_e_g_plumbing", "e.g. PLUMBING")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button type="submit" className="bg-red-600 hover:bg-red-700" disabled={updateMutation.isPending}>
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -223,45 +223,45 @@ const MaintenanceManagement = () => {
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Open Tickets</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_open_tickets", "Open Tickets")}</CardTitle>
  <Wrench className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">312</div>
- <p className="text-xs text-muted-foreground mt-1">Pending dispatch</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_pending_dispatch", "Pending dispatch")}</p>
  </CardContent>
  </Card>
  
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">In Progress</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("client.src.in_progress", "In Progress")}</CardTitle>
  <AlertTriangle className="w-4 h-4 text-amber-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">84</div>
- <p className="text-xs text-amber-400 mt-1">Actively being worked</p>
+ <p className="text-xs text-amber-400 mt-1">{t("admin_auto_actively_being_worked", "Actively being worked")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Emergency</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_emergency", "Emergency")}</CardTitle>
  <ShieldAlert className="w-4 h-4 text-red-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">12</div>
- <p className="text-xs text-red-400 mt-1">Requires immediate action</p>
+ <p className="text-xs text-red-400 mt-1">{t("admin_auto_requires_immediate_action", "Requires immediate action")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">Resolved</CardTitle>
+ <CardTitle className="text-sm font-medium text-slate-300">{t("admin_ai_resolved", "Resolved")}</CardTitle>
  <CheckCircle className="w-4 h-4 text-green-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">1,402</div>
- <p className="text-xs text-muted-foreground mt-1">This month</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_this_month", "This month")}</p>
  </CardContent>
  </Card>
  </div>
@@ -277,18 +277,17 @@ const MaintenanceManagement = () => {
  </div>
  ) : workOrders.length === 0 ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- No work orders found.
- </div>
+ {t("admin_maintenance_empty", "No work orders found.")}</div>
  ) : (
  <div className="rounded-xl border border-border">
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">Title</TableHead>
- <TableHead className="text-slate-300">Priority</TableHead>
- <TableHead className="text-slate-300">Category</TableHead>
- <TableHead className="text-slate-300">Status</TableHead>
- <TableHead className="text-slate-300 text-right">Actions</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_title", "Title")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_ai_priority", "Priority")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_auto_category", "Category")}</TableHead>
+ <TableHead className="text-slate-300">{t("admin_ai_status", "Status")}</TableHead>
+ <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>

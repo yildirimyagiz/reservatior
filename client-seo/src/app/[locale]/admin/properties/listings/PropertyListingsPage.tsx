@@ -18,6 +18,7 @@ import {
   Star
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Listing {
   id: string;
@@ -51,6 +52,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function PropertyListingsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -69,16 +71,15 @@ export default function PropertyListingsPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Property Listings</h1>
-              <p className="text-gray-400">Manage your property listings</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("client.src.property_listings", "Property Listings")}</h1>
+              <p className="text-gray-400">{t("listings.propertylistingspage.auto_ext_2", "Manage your property listings")}</p>
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
               className="bg-slate-600 hover:bg-slate-700"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              Dashboard
-            </Button>
+              {t("admin_adminpage_auto_ext_3", "Dashboard")}</Button>
           </div>
         </motion.div>
 
@@ -95,7 +96,7 @@ export default function PropertyListingsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
-                      placeholder="Search listings..."
+                      placeholder={t("client.src.search_listings", "Search listings...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400"
@@ -104,8 +105,7 @@ export default function PropertyListingsPage() {
                 </div>
                 <Button className="bg-slate-600 hover:bg-slate-700">
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Listing
-                </Button>
+                  {t("listings.propertylistingspage.auto_ext_4", "Add Listing")}</Button>
               </div>
             </CardContent>
           </Card>
@@ -118,7 +118,7 @@ export default function PropertyListingsPage() {
         >
           <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardHeader>
-              <CardTitle className="text-white">All Listings ({filteredListings.length})</CardTitle>
+              <CardTitle className="text-white">{t("listings.propertylistingspage.auto_ext_5", "All Listings (")}{filteredListings.length})</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -149,7 +149,7 @@ export default function PropertyListingsPage() {
                         <DollarSign className="w-4 h-4 inline" />
                         {listing.price.toLocaleString()}
                       </div>
-                      <div className="text-sm text-gray-400">{listing.views} views</div>
+                      <div className="text-sm text-gray-400">{listing.views} {t("listings.propertylistingspage.auto_ext_6", "views")}</div>
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8">
                           <Edit className="w-4 h-4" />

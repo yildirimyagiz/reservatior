@@ -14,10 +14,10 @@ export default function FinancialReports() {
  { title: t("admin_reports_payout_queue"), value:"$12,400", change:"-2.1%", trend:"down", icon: Activity, color:"text-orange-400" },
  { title: t("admin_reports_system_net_margin"), value:"$84,200", change:"+8.7%", trend:"up", icon: PieChart, color:"text-muted-foreground" }
  ];
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_reports_financial_neural_matrix")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_reports_financial_neural_matrix")}</h1>
  <p className="text-sm text-muted-foreground">{t("admin_reports_systemwide_revenue_stream_analysis")}</p>
  </div>
 

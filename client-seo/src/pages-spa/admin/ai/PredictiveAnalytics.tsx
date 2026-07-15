@@ -110,7 +110,7 @@ export default function PredictiveAnalytics() {
  <div className="space-y-6">
  {/* Header */}
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-3xl font-bold text-foreground">{t("admin_ai_predictive_analytics")}</h1>
+ <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_ai_predictive_analytics")}</h1>
  <p className="text-muted-foreground mt-1">{t("admin_ai_deep_insights_from_artificial")}</p>
  </div>
 
@@ -253,11 +253,11 @@ export default function PredictiveAnalytics() {
  {priceOptimizations.map(optimization => {
  const priceChange = optimization.recommendedPrice - optimization.currentPrice;
  const changePercent = priceChange / optimization.currentPrice * 100;
- return <TableRow key={optimization.id} className="border-border">
+ return <TableRow key={optimization.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 border-border">
  <TableCell className="font-medium text-foreground">{t("admin_ai_listing")}{optimization.listingId}
  </TableCell>
- <TableCell className="text-foreground">${optimization.currentPrice.toLocaleString()}</TableCell>
- <TableCell className="text-foreground">${optimization.recommendedPrice.toLocaleString()}</TableCell>
+ <TableCell className="text-foreground">{t("currency_symbol", "$")}{optimization.currentPrice.toLocaleString()}</TableCell>
+ <TableCell className="text-foreground">{t("currency_symbol", "$")}{optimization.recommendedPrice.toLocaleString()}</TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
  <Progress value={optimization.confidence} className="w-16" />

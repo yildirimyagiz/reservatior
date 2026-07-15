@@ -66,10 +66,10 @@ export default function Settings() {
  } finally { setLoading(false); }
  };
  const handleProfileSubmit = (e: React.FormEvent) => { e.preventDefault(); saveSettings("profile", profileSettings); };
- return <div className="min-h-screen bg-background">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6 max-w-6xl mx-auto">
  <div className="bg-card p-6 rounded-2xl border border-border">
- <h1 className="text-xl font-bold text-foreground">{t("admin_settings_neuroconfiguration_hub")}</h1>
+ <h1 className="text-xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_settings_neuroconfiguration_hub")}</h1>
  <p className="text-sm text-muted-foreground">{t("admin_settings_finetune_your_neural_handshake")}</p>
  </div>
 

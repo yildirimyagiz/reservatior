@@ -363,7 +363,7 @@ export default function Roles() {
  })}
  </div>
  </TableCell>
- <TableCell className="px-8 font-bold">
+ <TableCell className="animate-in fade-in slide-in-from-bottom-4 duration-700 px-8 font-bold">
  <div className="flex items-center gap-3">
  <Users className="w-4 h-4 text-muted-foreground/30" />
  <span className="text-lg text-foreground leading-none">{role.userCount}</span>

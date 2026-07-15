@@ -252,12 +252,12 @@ export default function CompanyManagement() {
  const totalMilestones = milestones.length;
  const overallProgress = completedMilestones / totalMilestones * 100;
  return <PageShell title={t("admin_company_company_management")} description={t("admin_company_operational_company_setup_and")}>
- <div className="max-w-7xl mx-auto px-4 lg:px-8 py-10 space-y-8">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-7xl mx-auto px-4 lg:px-8 py-10 space-y-8">
  
  {/* Header */}
  <div className="flex items-center justify-between">
  <div>
- <h1 className="text-3xl font-bold text-foreground">{t("admin_company_company_operations")}</h1>
+ <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_company_company_operations")}</h1>
  <p className="text-sm text-muted-foreground mt-1">{t("admin_company_manage_company_setup_documents")}</p>
  </div>
  
@@ -285,7 +285,7 @@ export default function CompanyManagement() {
  </div>
  
  <div className="text-center">
- <div className="text-3xl font-bold text-foreground">{completedMilestones}/{totalMilestones}</div>
+ <div className="text-3xl font-bold text-foreground">{completedMilestones}{t("/", "/")}{totalMilestones}</div>
  <p className="text-xs text-muted-foreground">{t("admin_company_milestones")}</p>
  </div>
  
@@ -424,45 +424,44 @@ export default function CompanyManagement() {
  <DialogHeader>
  <DialogTitle>{t("admin_auto_create_new_organization", "Create New Organization")}</DialogTitle>
  <DialogDescription>
- Register a new organization (company, agency, vendor) mapped to the backend.
- </DialogDescription>
+ {t("admin_auto_register_a_new_organization_company_agen", "Register a new organization (company, agency, vendor) mapped to the backend.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="name" className="text-right text-xs">{t("admin_auto_org_name", "Org Name")}</Label>
- <Input id="name" className="col-span-3 h-10" value={newOrg.name} onChange={e => setNewOrg({...newOrg, name: e.target.value})} placeholder="Acme Corporation" />
+ <Input id="name" className="col-span-3 h-10" value={newOrg.name} onChange={e => setNewOrg({...newOrg, name: e.target.value})} placeholder={t("admin_auto_acme_corporation", "Acme Corporation")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="type" className="text-right text-xs">{t("admin_auto_org_type", "Org Type")}</Label>
  <Select value={newOrg.type} onValueChange={(v) => setNewOrg({...newOrg, type: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Type" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_type", "Select Type")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="OWNER_PORTFOLIO">Owner Portfolio</SelectItem>
- <SelectItem value="VENDOR_PM">Vendor PM</SelectItem>
- <SelectItem value="AGENCY">Agency</SelectItem>
- <SelectItem value="ACCOUNTING_FIRM">Accounting Firm</SelectItem>
- <SelectItem value="PUBLIC_ENTITY">Public Entity</SelectItem>
+ <SelectItem value="OWNER_PORTFOLIO">{t("admin_auto_owner_portfolio", "Owner Portfolio")}</SelectItem>
+ <SelectItem value="VENDOR_PM">{t("admin_auto_vendor_pm", "Vendor PM")}</SelectItem>
+ <SelectItem value="AGENCY">{t("admin_reports_agency", "Agency")}</SelectItem>
+ <SelectItem value="ACCOUNTING_FIRM">{t("admin_auto_accounting_firm", "Accounting Firm")}</SelectItem>
+ <SelectItem value="PUBLIC_ENTITY">{t("admin_auto_public_entity", "Public Entity")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
  <Label htmlFor="region" className="text-right text-xs">{t("admin_auto_region", "Region")}</Label>
  <Select value={newOrg.region} onValueChange={(v) => setNewOrg({...newOrg, region: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder="Select Region" /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_region", "Select Region")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="GLOBAL">Global</SelectItem>
- <SelectItem value="TR">Turkey</SelectItem>
- <SelectItem value="USA">USA</SelectItem>
- <SelectItem value="UK">UK</SelectItem>
- <SelectItem value="UAE">UAE</SelectItem>
- <SelectItem value="FR">France</SelectItem>
- <SelectItem value="DE">Germany</SelectItem>
+ <SelectItem value="GLOBAL">{t("client.src.global", "Global")}</SelectItem>
+ <SelectItem value="TR">{t("admin_auto_turkey", "Turkey")}</SelectItem>
+ <SelectItem value="USA">{t("admin_auto_usa", "USA")}</SelectItem>
+ <SelectItem value="UK">{t("admin_auto_uk", "UK")}</SelectItem>
+ <SelectItem value="UAE">{t("admin_auto_uae", "UAE")}</SelectItem>
+ <SelectItem value="FR">{t("admin_auto_france", "France")}</SelectItem>
+ <SelectItem value="DE">{t("admin_auto_germany", "Germany")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => createMutation.mutate(newOrg)} disabled={createMutation.isPending || !newOrg.name}>
  {createMutation.isPending ?"Saving..." :"Create Organization"}
  </Button>
@@ -614,10 +613,10 @@ export default function CompanyManagement() {
  <SelectValue />
  </SelectTrigger>
  <SelectContent>
- <SelectItem value="DRAFT">Draft</SelectItem>
- <SelectItem value="PENDING">Pending</SelectItem>
- <SelectItem value="APPROVED">Approved</SelectItem>
- <SelectItem value="EXPIRED">Expired</SelectItem>
+ <SelectItem value="DRAFT">{t("admin_contract_draft", "Draft")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+ <SelectItem value="APPROVED">{t("admin_compliance_status_approved", "Approved")}</SelectItem>
+ <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Expired")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -628,10 +627,9 @@ export default function CompanyManagement() {
  </div>
  )}
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+ <Button variant="outline" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
  <Button onClick={() => { setDocuments(documents.map(d => d.id === editingDoc?.id ? editingDoc : d)); setIsEditOpen(false); toast({ title:"Success", description:"Document updated successfully" }); }}>
- Save Changes
- </Button>
+ {t("admin_ai_save_changes", "Save Changes")}</Button>
  </DialogFooter>
  </DialogContent>
  </Dialog>

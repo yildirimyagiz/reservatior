@@ -254,6 +254,7 @@ export const PartnerAgreements: React.FC = () => {
  </TableHeader>
  <TableBody>
  {agreements.map((agr: PartnerAgreement) => {
+     const { t } = useTranslation();
  const statusCfg = STATUS_CONFIG[agr.status] || { label: agr.status, cls:"bg-muted0/10 text-muted-foreground border-slate-500/20" };
  const validTransitions = getValidTransitions(agr.status);
  return (
@@ -263,7 +264,7 @@ export const PartnerAgreements: React.FC = () => {
  <Badge variant="outline" className={`${statusCfg.cls} border`}>{statusCfg.label}</Badge>
  </TableCell>
  <TableCell className="text-foreground font-semibold">{(agr.baseCommission * 100).toFixed(2)}%</TableCell>
- <TableCell className="text-slate-300">{agr.loyaltyYield.toFixed(1)} pts</TableCell>
+ <TableCell className="text-slate-300">{agr.loyaltyYield.toFixed(1)} {t("admin_ai_pts", "pts")}</TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
  <div className="w-16 h-2 bg-white/10 rounded-full overflow-hidden">
@@ -272,7 +273,7 @@ export const PartnerAgreements: React.FC = () => {
  <span className="text-sm text-slate-300">{(agr.portfolioHealthScore * 100).toFixed(0)}</span>
  </div>
  </TableCell>
- <TableCell className="text-slate-300">{agr.currentMultiplier.toFixed(2)}x</TableCell>
+ <TableCell className="text-slate-300">{agr.currentMultiplier.toFixed(2)}{t("admin_auto_x", "x")}</TableCell>
  <TableCell className="text-right">
  {validTransitions.length > 0 && (
  <Button
@@ -294,11 +295,11 @@ export const PartnerAgreements: React.FC = () => {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0"><span className="sr-only">Open menu</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
- <DropdownMenuItem onClick={() => deleteMutation.mutate(agr.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => deleteMutation.mutate(agr.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>

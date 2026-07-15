@@ -181,7 +181,7 @@ export default function NotificationTemplates() {
  <Input
  value={form.variables}
  onChange={(e) => setForm({ ...form, variables: e.target.value })}
- placeholder="name, email, propertyName"
+ placeholder={t("admin_auto_name_email_propertyname", "name, email, propertyName")}
  />
  <p className="text-xs text-muted-foreground">{t("admin_system_variables_hint")}</p>
  </div>
@@ -200,7 +200,7 @@ export default function NotificationTemplates() {
 
  return (
  <PageShell title={t("admin_system_notification_templates")}>
- <div className="space-y-4">
+ <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-4">
  <div className="flex items-center justify-between">
  <div className="flex gap-3">
  <Select value={channel} onValueChange={(v) => { setChannel(v); setPage(1); }}>
@@ -271,7 +271,7 @@ export default function NotificationTemplates() {
  <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
  {t("admin_system_previous")}
  </Button>
- <span className="flex items-center text-sm">{page} / {totalPages}</span>
+ <span className="flex items-center text-sm">{page} {t("/", "/")}{totalPages}</span>
  <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>
  {t("admin_system_next")}
  </Button>

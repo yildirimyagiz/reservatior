@@ -85,15 +85,14 @@ export default function FinancialTransactions() {
  return { category: cat, amount: total, count: items.length };
  });
 
- return (
- <div className="space-y-6 min-h-screen">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
  <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
  <DollarSign className="w-8 h-8 text-foreground" />
  </div>
  <div>
- <h1 className="text-3xl font-bold tracking-tight text-foreground">
+ <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
  {t("admin_financial_financial_transactions","Financial Transactions")}
  </h1>
  <p className="text-muted-foreground">
@@ -155,7 +154,7 @@ export default function FinancialTransactions() {
  <TrendingUp className="h-4 w-4 text-emerald-400" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-emerald-400">${totalIncome.toLocaleString()}</div>
+ <div className="text-2xl font-bold text-emerald-400">{t("currency_symbol", "$")}{totalIncome.toLocaleString()}</div>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
@@ -164,7 +163,7 @@ export default function FinancialTransactions() {
  <TrendingDown className="h-4 w-4 text-red-400" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-red-400">${totalExpense.toLocaleString()}</div>
+ <div className="text-2xl font-bold text-red-400">{t("currency_symbol", "$")}{totalExpense.toLocaleString()}</div>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
@@ -173,7 +172,7 @@ export default function FinancialTransactions() {
  <DollarSign className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-foreground">${netProfit.toLocaleString()}</div>
+ <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{netProfit.toLocaleString()}</div>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
@@ -205,13 +204,13 @@ export default function FinancialTransactions() {
  <div className={cn("w-2 h-2 rounded-full", transaction.type ==="INCOME" ?"bg-emerald-500" :"bg-red-500")} />
  <div>
  <p className="font-medium text-foreground">{transaction.description || (transaction.type ==="INCOME" ?"Income" :"Expense")}</p>
- <p className="text-sm text-muted-foreground font-mono">{transaction.id.slice(0, 8)} &bull; {new Date(transaction.occurredAt).toLocaleDateString()}</p>
+ <p className="text-sm text-muted-foreground font-mono">{transaction.id.slice(0, 8)} {t("admin_auto_bull", "&bull;")}{new Date(transaction.occurredAt).toLocaleDateString()}</p>
  </div>
  </div>
  <div className="flex items-center gap-3">
  <div className="text-right">
  <p className={cn("font-medium", transaction.type ==="INCOME" ?"text-emerald-400" :"text-red-400")}>
- {transaction.type ==="INCOME" ?"+" :"-"}${transaction.amount.toLocaleString()}
+ {transaction.type ==="INCOME" ?"+" :"-"}{t("currency_symbol", "$")}{transaction.amount.toLocaleString()}
  </p>
  <Badge className={cn("border-0", transaction.paymentStatus ==="PAID" ?"bg-emerald-500/20 text-emerald-400" :"bg-amber-500/20 text-amber-400")}>
  {transaction.paymentStatus ||"PENDING"}
@@ -236,7 +235,7 @@ export default function FinancialTransactions() {
  <div key={cat.category} className="space-y-2">
  <div className="flex items-center justify-between">
  <p className="font-medium text-foreground text-sm capitalize">{cat.category.replace(/_/g,"").toLowerCase()}</p>
- <p className="font-medium text-emerald-400">${cat.amount.toLocaleString()}</p>
+ <p className="font-medium text-emerald-400">{t("currency_symbol", "$")}{cat.amount.toLocaleString()}</p>
  </div>
  <div className="w-full bg-card rounded-full h-2">
  <div
