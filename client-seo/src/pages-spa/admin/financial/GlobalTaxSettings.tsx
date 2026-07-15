@@ -46,7 +46,7 @@ export default function GlobalTaxSettings() {
  </p>
  </div>
  </div>
- <Button variant="outline" onClick={() => fetchRates()} disabled={loading} className="bg-card border-border text-slate-300 hover:bg-white/10">
+ <Button variant="outline" onClick={() => fetchRates()} disabled={loading} className="bg-card border-border text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10">
  <RefreshCw className={cn("w-4 h-4 mr-2", loading ? 'animate-spin' : '')} />
  {t("admin_financial_sync_global_rates","Sync Rates")}
  </Button>

@@ -221,7 +221,7 @@ export default function AIDashboard() {
  }} transition={{
  delay: idx * 0.08
  }}>
- <Card className="bg-card border-border hover:bg-white/10 transition-all group rounded-2xl">
+ <Card className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10 transition-all group rounded-2xl">
  <CardContent className="p-6">
  <div className="flex justify-between items-start mb-4">
  <div className={`p-3 rounded-xl ${stat.bg} ${stat.color} group-hover:scale-110 transition-transform`}>

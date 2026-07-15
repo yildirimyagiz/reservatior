@@ -239,7 +239,7 @@ export default function CommissionRules() {
  </TableCell>
  <TableCell className="px-6">
  <div className="flex gap-2">
- <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-white" onClick={() => openEdit(rule)}>
+ <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground" onClick={() => openEdit(rule)}>
  <Edit className="w-3 h-3" />
  </Button>
  <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-300" onClick={() => deleteMutation.mutate(rule.id)}>

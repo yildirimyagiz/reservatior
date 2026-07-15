@@ -248,7 +248,7 @@ export default function AnalyticsDashboard() {
  <div className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4 flex-1">
  <div className="bg-card border-border rounded-2xl p-1.5 flex gap-1 border shadow-2xl transition-colors">
- {["1d","7d","30d","90d"].map(range => <Button key={range} variant="ghost" size="sm" onClick={() => setDateRange(range)} className={cn("px-4 rounded-xl text-[10px] font-bold transition-all", dateRange === range ?"bg-slate-600 text-foreground shadow-lg" :"text-muted-foreground hover:text-white")}>
+ {["1d","7d","30d","90d"].map(range => <Button key={range} variant="ghost" size="sm" onClick={() => setDateRange(range)} className={cn("px-4 rounded-xl text-[10px] font-bold transition-all", dateRange === range ?"bg-slate-600 text-foreground shadow-lg" :"text-muted-foreground hover:text-foreground")}>
  {range}
  </Button>)}
  </div>
@@ -267,7 +267,7 @@ export default function AnalyticsDashboard() {
  <Button onClick={() => toast({
  title: t("admin_analytics_telemetry_extraction_initialized"),
  description: t("admin_analytics_generating_secure_encrypted_data")
- })} className="h-14 px-8 rounded-2xl bg-card hover:bg-white/10 text-foreground border border-border font-bold text-xs shadow-xl gap-3">
+ })} className="h-14 px-8 rounded-2xl bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-foreground border border-border font-bold text-xs shadow-xl gap-3">
  <Download className="w-5 h-5" />{t("admin_analytics_exfiltrate_telemetry")}</Button>
  </div>
 
@@ -315,7 +315,7 @@ export default function AnalyticsDashboard() {
  }} transition={{
  delay: i * 0.1
  }}>
- <div className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border transition-all hover:bg-white/10 p-8">
+ <div className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border transition-all hover:bg-slate-100 dark:hover:bg-white/10 p-8">
  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500", stat.color)}>
  <stat.icon className="w-10 h-10" />
  </div>
@@ -419,7 +419,7 @@ export default function AnalyticsDashboard() {
  <Zap className="w-6 h-6 text-slate-500" />
  </div>
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
- {analytics.topActions.map((action, i) => <div key={i} className="bg-card border-border rounded-2xl p-6 transition-all hover:bg-white/10 group">
+ {analytics.topActions.map((action, i) => <div key={i} className="bg-card border-border rounded-2xl p-6 transition-all hover:bg-slate-100 dark:hover:bg-white/10 group">
  <p className="text-[10px] font-bold text-muted-foreground mb-2 group-hover:text-slate-400 transition-colors">{action.action}</p>
  <h5 className="text-3xl font-bold text-foreground leading-none">{action.count.toLocaleString()}</h5>
  <p className="text-[9px] font-bold text-slate-600 mt-2">{action.users}{t("admin_analytics_uniquenodes")}</p>
@@ -513,7 +513,7 @@ export default function AnalyticsDashboard() {
  <div className="bg-card border-border rounded-4xl p-10 shadow-2xl border">
  <h4 className="text-xl font-bold text-foreground mb-10 leading-none">{t("admin_analytics_telemetry_precision_detailed")}</h4>
  <div className="space-y-4">
- {analytics.deviceBreakdown.map((device, i) => <div key={i} className="flex items-center justify-between p-6 bg-card border border-border rounded-3xl hover:bg-white/10 transition-all">
+ {analytics.deviceBreakdown.map((device, i) => <div key={i} className="flex items-center justify-between p-6 bg-card border border-border rounded-3xl hover:bg-slate-100 dark:hover:bg-white/10 transition-all">
  <div className="flex items-center gap-4">
  <div className="w-12 h-12 rounded-xl bg-slate-600/10 flex items-center justify-center text-slate-500">
  {getDeviceIcon(device.device)}

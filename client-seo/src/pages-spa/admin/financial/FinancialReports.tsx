@@ -140,7 +140,7 @@ export default function FinancialReports() {
  <SelectItem value="12m">{t("annual","12 Months")}</SelectItem>
  </SelectContent>
  </Select>
- <Button variant="outline" onClick={() => handleExportCSV('overview')} className="bg-card border-border text-slate-300 hover:bg-white/10">
+ <Button variant="outline" onClick={() => handleExportCSV('overview')} className="bg-card border-border text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10">
  <Download className="h-4 w-4 mr-2" /> {t("common.export","Export")}
  </Button>
  </div>

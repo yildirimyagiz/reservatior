@@ -164,7 +164,7 @@ export default function SecurityEvents() {
  <SelectItem value="HIGH">{t("admin_security_high")}</SelectItem>
  </SelectContent>
  </Select>
- <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-white" onClick={fetchEvents}>
+ <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground" onClick={fetchEvents}>
  <RefreshCw className="w-4 h-4 mr-2" />{t("admin_security_resync")}</Button>
  </div>
  </div>
@@ -220,7 +220,7 @@ export default function SecurityEvents() {
  </div>
  </TableCell>
  <TableCell className="px-8 text-right">
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-white" onClick={() => {
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground" onClick={() => {
  setSelectedEvent(event);
  setDetailOpen(true);
  }}><Eye className="w-5 h-5" /></Button>

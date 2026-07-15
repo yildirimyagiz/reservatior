@@ -251,7 +251,7 @@ export default function AdminProperties() {
  { label: t('maintenanceEvents'), icon: Calendar, path:"/admin/maintenance" },
  { label: t('propertyInventory'), icon: Building, path:"/admin/inventory" },
  { label: t('complianceHub'), icon: ShieldCheck, path:"/admin/compliance" },
- { label: t('leadsProspects'), icon: Users, path:"/admin/leads" }].map((item, i) => <Button key={i} variant="ghost" onClick={() => window.location.href = item.path} className="w-full justify-between h-14 rounded-2xl px-4 hover:bg-card text-muted-foreground hover:text-white transition-all group">
+ { label: t('leadsProspects'), icon: Users, path:"/admin/leads" }].map((item, i) => <Button key={i} variant="ghost" onClick={() => window.location.href = item.path} className="w-full justify-between h-14 rounded-2xl px-4 hover:bg-card text-muted-foreground hover:text-foreground transition-all group">
  <div className="flex items-center gap-3">
  <div className="p-2 bg-card rounded-xl group-hover:scale-110 transition-all">
  <item.icon className="w-4 h-4" />
@@ -292,10 +292,10 @@ export default function AdminProperties() {
  <Input placeholder={t('searchPlaceholder')} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-orange-500/20 focus:border-orange-500/40 transition-all font-medium shadow-2xl" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-white hover:bg-white/10 gap-2">
+ <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-white/10 gap-2">
  <Filter className="w-4 h-4" /> {t('commonFilter')}
  </Button>
- <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-white hover:bg-white/10 gap-2">
+ <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-white/10 gap-2">
  <Download className="w-4 h-4" /> {t('commonExport')}
  </Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
@@ -438,25 +438,25 @@ export default function AdminProperties() {
  <TableCell className="px-8 text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-white transition-all">
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground transition-all">
  <MoreHorizontal className="w-5 h-5" />
  </Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border rounded-2xl shadow-2xl p-2 min-w-[180px]">
  <DropdownMenuLabel className="text-[10px] font-bold text-muted-foreground p-3">{t('administrative')}</DropdownMenuLabel>
- <DropdownMenuItem onClick={() => openEditModal(property)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-white transition-all cursor-pointer">
+ <DropdownMenuItem onClick={() => openEditModal(property)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
  <Edit className="w-4 h-4 mr-3 text-orange-500" /> {t('editMetadata')}
  </DropdownMenuItem>
- <DropdownMenuItem onClick={() => navigate('/admin/leads')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-white transition-all cursor-pointer">
+ <DropdownMenuItem onClick={() => navigate('/admin/leads')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
  <Users className="w-4 h-4 mr-3 text-muted-foreground" /> {t('manageRequests')}
  </DropdownMenuItem>
- <DropdownMenuItem onClick={() => brochureMutation.mutate(property.id)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-white transition-all cursor-pointer">
+ <DropdownMenuItem onClick={() => brochureMutation.mutate(property.id)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
  <FileText className="w-4 h-4 mr-3 text-[#C5A059]" /> {t('admin_brochure_generate', 'Generate AI Brochure')}
  </DropdownMenuItem>
- <DropdownMenuItem onClick={() => navigate('/admin/financial-reports')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-white transition-all cursor-pointer">
+ <DropdownMenuItem onClick={() => navigate('/admin/financial-reports')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
  <DollarSign className="w-4 h-4 mr-3 text-emerald-400" /> {t('viewPL')}
  </DropdownMenuItem>
- <DropdownMenuItem onClick={() => navigate('/admin/maintenance')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-white transition-all cursor-pointer">
+ <DropdownMenuItem onClick={() => navigate('/admin/maintenance')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
  <Calendar className="w-4 h-4 mr-3 text-muted-foreground" /> {t('scheduleMaintenance')}
  </DropdownMenuItem>
  <DropdownMenuSeparator className="bg-white/10" />
@@ -523,7 +523,7 @@ export default function AdminProperties() {
  <Progress value={45} className="h-1 bg-white/10 [&>div]:bg-orange-500" />
  </div>
  </div>
- <Button variant="ghost" className="text-[10px] font-bold text-muted-foreground hover:text-white flex items-center gap-2 px-0">
+ <Button variant="ghost" className="text-[10px] font-bold text-muted-foreground hover:text-foreground flex items-center gap-2 px-0">
  {t('viewPipeline')} <ArrowRight className="w-4 h-4" />
  </Button>
  </div>
@@ -573,7 +573,7 @@ export default function AdminProperties() {
  </div>
  <div className="pt-4 border-t border-border flex gap-4">
  <Button className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-foreground font-bold h-12 rounded-2xl text-[10px] shadow-xl shadow-emerald-600/20">{t('executeDisbursements')}</Button>
- <Button variant="outline" className="flex-1 border-border text-muted-foreground hover:text-white h-12 rounded-2xl text-[10px] group">{t('viewFullLedger')}</Button>
+ <Button variant="outline" className="flex-1 border-border text-muted-foreground hover:text-foreground h-12 rounded-2xl text-[10px] group">{t('viewFullLedger')}</Button>
  </div>
  </div>
  </Card>

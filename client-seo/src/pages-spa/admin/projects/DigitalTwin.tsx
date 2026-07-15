@@ -102,7 +102,7 @@ export default function DigitalTwinDashboard() {
  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
  activeProject.id === proj.id
  ?"bg-muted0/10 text-muted-foreground border border-slate-500/20"
- :"text-muted-foreground hover:text-white"
+ :"text-muted-foreground hover:text-foreground"
  }`}
  >
  {proj.name}

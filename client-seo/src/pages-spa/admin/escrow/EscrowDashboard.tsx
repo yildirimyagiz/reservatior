@@ -272,7 +272,7 @@ export default function EscrowDashboard() {
  {acc.status ==="HOLDING" && (
  <Dialog open={releaseTarget?.id === acc.id} onOpenChange={(open) => !open && setReleaseTarget(null)}>
  <DialogTrigger asChild>
- <Button size="sm" variant="outline" className="bg-card border-border text-slate-300 hover:bg-white/10" onClick={() => setReleaseTarget(acc)}>
+ <Button size="sm" variant="outline" className="bg-card border-border text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => setReleaseTarget(acc)}>
  <Unlock className="w-3 h-3 mr-1" /> {t("admin_escrow_release","Release")}
  </Button>
  </DialogTrigger>

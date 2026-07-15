@@ -239,7 +239,7 @@ export default function AIServiceAnalytics() {
  <tbody className="divide-y divide-white/10">
  {stats?.services?.map((row, i) => <tr key={i} className="hover:bg-card transition-colors group">
  <td className="p-4 font-medium flex items-center gap-3 text-foreground">
- <div className="p-2 bg-card rounded-lg group-hover:bg-white/10 transition-colors">
+ <div className="p-2 bg-card rounded-lg group-hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
  {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-muted-foreground" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-amber-400" />}
  </div>
  {row.name}

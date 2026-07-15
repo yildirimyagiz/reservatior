@@ -89,7 +89,7 @@ const AgentsManagement = () => {
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-white/10">
+ <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
  {t("common.export","Export")}
  </Button>
  
@@ -186,7 +186,7 @@ const AgentsManagement = () => {
  <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4 text-muted-foreground" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => openEdit(a)} className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => openEdit(a)} className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
  <DropdownMenuItem onClick={() => deleteMutation.mutate(a.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>

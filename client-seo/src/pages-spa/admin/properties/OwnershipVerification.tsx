@@ -65,7 +65,7 @@ export default function OwnershipVerification() {
  {[{ label: t('totalRequests'), value: verifications.length, icon: Shield, color:"text-slate-500" },
  { label: t('pendingReview'), value: verifications.filter((v: any) => v.verificationStatus === 'PENDING').length, icon: Clock, color:"text-orange-500" },
  { label: t('verifiedProperties'), value: verifications.filter((v: any) => v.verificationStatus === 'VERIFIED').length, icon: CheckCircle, color:"text-emerald-500" }
- ].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-2 border-t-2 transition-all hover:bg-white/10 p-8">
+ ].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-2 border-t-2 transition-all hover:bg-slate-100 dark:hover:bg-white/10 p-8">
  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
  <stat.icon className="w-10 h-10" />
  </div>
@@ -142,7 +142,7 @@ export default function OwnershipVerification() {
  <TableCell className="px-8">{getStatusBadge(v.verificationStatus)}</TableCell>
  <TableCell className="px-8 text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-card text-muted-foreground hover:text-white transition-all">
+ <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground transition-all">
  <Eye className="w-4 h-4" />
  </Button>
  {v.verificationStatus === 'PENDING' && <>

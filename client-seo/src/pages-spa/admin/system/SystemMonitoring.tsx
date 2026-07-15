@@ -246,7 +246,7 @@ export default function SystemMonitoring() {
  <CardHeader>
  <div className="flex items-center justify-between">
  <CardTitle className="text-foreground">{selectedMetric.name}{t("admin_system_detail")}</CardTitle>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white" onClick={() => setSelectedMetric(null)}>×</Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => setSelectedMetric(null)}>×</Button>
  </div>
  </CardHeader>
  <CardContent>
@@ -304,7 +304,7 @@ export default function SystemMonitoring() {
  <CardHeader>
  <div className="flex items-center justify-between">
  <CardTitle className="text-foreground">{selectedService.name}{t("admin_system_detail")}</CardTitle>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white" onClick={() => setSelectedService(null)}>×</Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => setSelectedService(null)}>×</Button>
  </div>
  </CardHeader>
  <CardContent>

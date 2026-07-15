@@ -347,7 +347,7 @@ export default function EscrowManagement() {
  <DropdownMenu>
  <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => setEditingId(account.id)} className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => setEditingId(account.id)} className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
  <DropdownMenuItem onClick={() => deleteMutation.mutate(account.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>

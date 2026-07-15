@@ -144,7 +144,7 @@ export default function SecurityOverview() {
  <p className="text-[10px] font-bold text-foreground tracking-tight">{t("admin_security_bruteforce_blocked")}</p>
  <p className="text-[10px] text-muted-foreground font-bold mt-1">{t("admin_security_ip_1852241102_15m_ago")}</p>
  </div>
- <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-white"><Eye className="w-4 h-4" /></Button>
+ <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground"><Eye className="w-4 h-4" /></Button>
  </div>
 
  <div className="p-6 rounded-3xl bg-orange-500/5 border border-orange-500/10 flex items-start gap-4 hover:bg-orange-500/10 transition-all cursor-pointer group">
@@ -155,10 +155,10 @@ export default function SecurityOverview() {
  <p className="text-[10px] font-bold text-foreground tracking-tight">{t("admin_security_multiple_mfa_fails")}</p>
  <p className="text-[10px] text-muted-foreground font-bold mt-1">{t("admin_security_user_adminpropos_2h_ago")}</p>
  </div>
- <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-white"><Eye className="w-4 h-4" /></Button>
+ <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground"><Eye className="w-4 h-4" /></Button>
  </div>
 
- <div className="p-6 rounded-3xl bg-card border border-border flex items-start gap-4 hover:bg-white/10 transition-all cursor-pointer group">
+ <div className="p-6 rounded-3xl bg-card border border-border flex items-start gap-4 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer group">
  <div className="p-3 bg-card border border-border rounded-2xl group-hover:scale-110 transition-all">
  <Key className="w-5 h-5 text-muted-foreground" />
  </div>
@@ -166,17 +166,17 @@ export default function SecurityOverview() {
  <p className="text-[10px] font-bold text-foreground tracking-tight">{t("admin_security_token_handshake_revealed")}</p>
  <p className="text-[10px] text-muted-foreground font-bold mt-1">{t("admin_security_system_log_5h_ago")}</p>
  </div>
- <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-white"><Eye className="w-4 h-4" /></Button>
+ <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground"><Eye className="w-4 h-4" /></Button>
  </div>
 
- <Button variant="outline" className="w-full mt-4 h-14 rounded-2xl border-border bg-card hover:bg-white/10 text-muted-foreground hover:text-white font-bold text-[10px] gap-2">{t("admin_security_synchronize_security_logs")}<ArrowRight className="w-4 h-4" />
+ <Button variant="outline" className="w-full mt-4 h-14 rounded-2xl border-border bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-muted-foreground hover:text-foreground font-bold text-[10px] gap-2">{t("admin_security_synchronize_security_logs")}<ArrowRight className="w-4 h-4" />
  </Button>
  </CardContent>
  </Card>
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
- <Card className="bg-card border-border rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
+ <Card className="bg-card border-border rounded-3xl p-8 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer group">
  <div className="flex items-center gap-6">
  <div className="p-4 bg-slate-600/10 border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
  <ShieldCheck className="w-8 h-8 text-muted-foreground" />
@@ -187,7 +187,7 @@ export default function SecurityOverview() {
  </div>
  </div>
  </Card>
- <Card className="bg-card border-border rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
+ <Card className="bg-card border-border rounded-3xl p-8 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer group">
  <div className="flex items-center gap-6">
  <div className="p-4 bg-slate-600/10 border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
  <Zap className="w-8 h-8 text-muted-foreground" />
@@ -198,7 +198,7 @@ export default function SecurityOverview() {
  </div>
  </div>
  </Card>
- <Card className="bg-card border-border rounded-3xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
+ <Card className="bg-card border-border rounded-3xl p-8 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer group">
  <div className="flex items-center gap-6">
  <div className="p-4 bg-orange-600/10 border border-orange-500/20 rounded-2xl group-hover:scale-110 transition-all">
  <Activity className="w-8 h-8 text-orange-400" />

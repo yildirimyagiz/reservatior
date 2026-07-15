@@ -69,7 +69,7 @@ const TasksManagement = () => {
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-white/10">
+ <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
  {t("common.export","Export")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
@@ -221,7 +221,7 @@ const TasksManagement = () => {
  </span>
  </TableCell>
  <TableCell className="text-right">
- <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-white">
+ <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
  <Edit className="w-4 h-4" />
  </Button>
  <Button 

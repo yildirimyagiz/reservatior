@@ -56,9 +56,9 @@ export default function SecurityScreening() {
  <CardTitle className="text-xs font-bold text-foreground flex items-center gap-2">
  <Zap className="w-4 h-4 text-orange-500" />{t("admin_security_assessment_queue")}</CardTitle>
  <div className="flex gap-2">
- <Button variant="outline" className="h-10 rounded-xl border-border bg-card hover:bg-white/10 text-muted-foreground hover:text-white font-bold text-[9px] gap-2">
+ <Button variant="outline" className="h-10 rounded-xl border-border bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-muted-foreground hover:text-foreground font-bold text-[9px] gap-2">
  <Monitor className="w-3.5 h-3.5" />{t("admin_security_behavioral_analysis")}</Button>
- <Button variant="outline" className="h-10 rounded-xl border-border bg-card hover:bg-white/10 text-muted-foreground hover:text-white font-bold text-[9px] gap-2">
+ <Button variant="outline" className="h-10 rounded-xl border-border bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-muted-foreground hover:text-foreground font-bold text-[9px] gap-2">
  <Globe className="w-3.5 h-3.5" />{t("admin_security_ip_intel")}</Button>
  </div>
  </CardHeader>
@@ -99,7 +99,7 @@ export default function SecurityScreening() {
  </div>
  </TableCell>
  <TableCell className="px-8 text-right">
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-white">
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground">
  <Eye className="w-5 h-5" />
  </Button>
  </TableCell>

@@ -249,7 +249,7 @@ export default function PropertyInventoryManagement() {
  </TableCell>
  <TableCell className="px-8 text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}/scan`)} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-white" title={t("admin_inventory_spatial_scan")}>
+ <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}/scan`)} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground" title={t("admin_inventory_spatial_scan")}>
  <Camera className="w-5 h-5" />
  </Button>
  <Button variant="ghost" onClick={() => {
@@ -262,7 +262,7 @@ export default function PropertyInventoryManagement() {
  }} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-indigo-400" title={t("admin_inventory_run_ai_staging","Run AI Staging")}>
  <Sparkles className="w-5 h-5 text-indigo-400" />
  </Button>
- <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}`)} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-white">
+ <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}`)} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground">
  <Eye className="w-5 h-5" />
  </Button>
  </div>

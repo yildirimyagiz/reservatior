@@ -101,7 +101,7 @@ export default function FinancialTransactions() {
  </div>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border text-slate-300 hover:bg-white/10">
+ <Button variant="outline" className="bg-card border-border text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10">
  <Filter className="w-4 h-4 mr-2" />
  {t("admin_financial_filter","Filter")}
  </Button>

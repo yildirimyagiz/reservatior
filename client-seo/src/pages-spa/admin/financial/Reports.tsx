@@ -68,7 +68,7 @@ export default function FinancialReports() {
  <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_financial_financial_reports")}</h1>
  <p className="text-muted-foreground">{t("admin_financial_comprehensive_financial_analysis_and")}</p>
  </div>
- <Button className="bg-card border-border text-foreground hover:bg-white/10">
+ <Button className="bg-card border-border text-foreground hover:bg-slate-100 dark:hover:bg-white/10">
  <Download className="w-4 h-4 mr-2" />{t("admin_financial_export_reports")}
  </Button>
  </div>

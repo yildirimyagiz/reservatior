@@ -215,7 +215,7 @@ export default function ComplianceDashboard() {
  <CardTitle className="text-xs font-bold text-foreground">{t("admin_compliance_right_to_rent_pulse")}</CardTitle>
  <p className="text-[9px] font-bold text-muted-foreground">{t("admin_compliance_tenant_authority_synchronization_logs")}</p>
  </div>
- <Button className="bg-card hover:bg-white/10 text-foreground rounded-xl h-10 px-6 font-bold text-[10px] border border-border">{t("admin_compliance_start_new_sync")}</Button>
+ <Button className="bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-foreground rounded-xl h-10 px-6 font-bold text-[10px] border border-border">{t("admin_compliance_start_new_sync")}</Button>
  </div>
  </CardHeader>
  <CardContent className="p-0">
@@ -235,7 +235,7 @@ export default function ComplianceDashboard() {
  <TableCell className="px-8 text-[10px] font-bold text-muted-foreground">{check.checkType || 'N/A'}</TableCell>
  <TableCell className="px-8">{renderStepper(check.status || 'pending')}</TableCell>
  <TableCell className="px-8 text-right">
- <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-white/10 text-muted-foreground hover:text-white transition-all font-bold text-[9px] border border-border">{t("admin_compliance_audit_matrix")}</Button>
+ <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/10 text-muted-foreground hover:text-foreground transition-all font-bold text-[9px] border border-border">{t("admin_compliance_audit_matrix")}</Button>
  </TableCell>
  </TableRow>
  ))}

@@ -118,7 +118,7 @@ export default function Settings() {
  </div>
  </div>
  <div className="flex justify-end pt-4 border-t border-border">
- <Button type="submit" disabled={loading} className="bg-card hover:bg-white/10 text-foreground rounded-2xl h-16 px-10 font-bold text-[12px] transition-all border border-border">
+ <Button type="submit" disabled={loading} className="bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-foreground rounded-2xl h-16 px-10 font-bold text-[12px] transition-all border border-border">
  {loading ? <RefreshCw className="w-5 h-5 animate-spin mr-3" /> : <Save className="w-5 h-5 mr-3" />}{t("admin_settings_sync_profile")}</Button>
  </div>
  </form>
@@ -135,7 +135,7 @@ export default function Settings() {
  {[{ id:"emailNotifications", label: t("admin_settings_email_dispatch"), sub:"Mission logs via secondary node", icon: Globe },
  { id:"pushNotifications", label: t("admin_settings_neural_interface_pushes"), sub:"Real-time tactical nodes", icon: Smartphone },
  { id:"leadAlerts", label: t("admin_settings_request_velocity_alerts"), sub:"Immediate portfolio responses", icon: Bell }
- ].map(pref => <div key={pref.id} className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:bg-white/10 transition-all">
+ ].map(pref => <div key={pref.id} className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:bg-slate-100 dark:hover:bg-white/10 transition-all">
  <div className="flex items-center gap-6">
  <div className="w-12 h-12 rounded-2xl bg-card flex items-center justify-center text-muted-foreground border border-border transition-all">
  <pref.icon className="w-6 h-6" />
@@ -240,7 +240,7 @@ export default function Settings() {
  </div>
  </div>
  <div className="flex justify-end pt-4 border-t border-border">
- <Button onClick={() => saveSettings("appearance", appearanceSettings)} disabled={loading} className="bg-card hover:bg-white/10 text-[#fbbf24] rounded-2xl h-16 px-10 font-bold text-[12px] transition-all border border-[#d97706]/20">
+ <Button onClick={() => saveSettings("appearance", appearanceSettings)} disabled={loading} className="bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-[#fbbf24] rounded-2xl h-16 px-10 font-bold text-[12px] transition-all border border-[#d97706]/20">
  {loading ? <RefreshCw className="w-5 h-5 animate-spin mr-3" /> : <Save className="w-5 h-5 mr-3" />}{t("admin_settings_sync_visual_parameters")}</Button>
  </div>
  </CardContent>
@@ -254,7 +254,7 @@ export default function Settings() {
  <CardTitle className="text-xs font-bold text-muted-foreground">{t("admin_settings_neural_gateway_keys")}</CardTitle>
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_settings_external_node_synchronization_tokens")}</p>
  </div>
- <Button variant="ghost" className="h-10 rounded-xl hover:bg-card text-muted-foreground hover:text-white transition-all font-bold text-[9px] border border-border hover:border-white/10">
+ <Button variant="ghost" className="h-10 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground transition-all font-bold text-[9px] border border-border hover:border-white/10">
  <ExternalLink className="w-4 h-4 mr-2" />{t("admin_settings_documentation")}</Button>
  </CardHeader>
  <CardContent className="p-8 space-y-8">
@@ -262,7 +262,7 @@ export default function Settings() {
  <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin_settings_active_neural_key")}</Label>
  <div className="flex gap-3">
  <Input value={apiSettings.apiKey} readOnly className="font-mono bg-card border-border rounded-2xl h-14 text-muted-foreground tracking-[0.3em] overflow-hidden truncate" />
- <Button variant="outline" className="h-14 rounded-2xl px-6 bg-card border-border text-muted-foreground hover:text-white hover:bg-slate-800 transition-all font-bold text-[10px]">
+ <Button variant="outline" className="h-14 rounded-2xl px-6 bg-card border-border text-muted-foreground hover:text-foreground hover:bg-slate-800 transition-all font-bold text-[10px]">
  <RefreshCw className="w-4 h-4 mr-2" />{t("admin_settings_revoke_key")}</Button>
  </div>
  <p className="text-[9px] font-bold text-slate-600 px-1">{t("admin_settings_never_share_your_neural")}</p>

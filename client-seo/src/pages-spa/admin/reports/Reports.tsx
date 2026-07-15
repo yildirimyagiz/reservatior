@@ -446,7 +446,7 @@ export default function Reports() {
  </div>
 
  <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
- <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-white transition-all" onClick={() => setCreateOpen(false)}>{t("admin_reports_abortmod")}</Button>
+ <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setCreateOpen(false)}>{t("admin_reports_abortmod")}</Button>
  <Button className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">{t("admin_reports_initializesequence")}</Button>
  </DialogFooter>
  </DialogContent>

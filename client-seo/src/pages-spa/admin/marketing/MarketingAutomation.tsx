@@ -411,14 +411,14 @@ export default function MarketingAutomation() {
  </TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white"><Eye className="h-4 w-4" /></Button>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white"><BarChart3 className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><Eye className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><BarChart3 className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => {
+ <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => {
  setFormData(campaign as any);
  setIsAddOpen(true);
  }}><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
@@ -504,14 +504,14 @@ export default function MarketingAutomation() {
  </TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white"><Eye className="h-4 w-4" /></Button>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white"><Edit className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><Eye className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><Edit className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => {
+ <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => {
  // Add edit handler if needed
  }}><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
  <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
@@ -571,13 +571,13 @@ export default function MarketingAutomation() {
  </TableCell>
  <TableCell className="text-foreground">{contract.upfrontFee ? formatCurrency(contract.upfrontFee) : '-'}</TableCell>
  <TableCell>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white"><Eye className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><Eye className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
  <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>

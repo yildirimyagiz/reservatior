@@ -80,7 +80,7 @@ export default function FinancialReports() {
  </div>
  </div>)}
  <div className="pt-8 border-t border-border mt-auto">
- <div className="p-6 bg-card rounded-3xl border border-border group hover:bg-white/10 transition-all cursor-pointer relative">
+ <div className="p-6 bg-card rounded-3xl border border-border group hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer relative">
  <p className="text-[9px] font-bold text-muted-foreground mb-1">{t("admin_reports_projection_buffer")}</p>
  <p className="text-xl font-bold text-foreground whitespace-pre leading-none">{t("admin_reports_positive_cycle_forecast")}</p>
  <ArrowUpRight className="w-6 h-6 text-emerald-500 absolute bottom-6 right-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />

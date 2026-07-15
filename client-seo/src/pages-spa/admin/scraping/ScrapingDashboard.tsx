@@ -160,7 +160,7 @@ export default function ScrapingDashboard() {
  </TableCell>
  <TableCell>
  <div className="flex gap-2">
- <Button variant="ghost" size="sm" className="h-8 px-2 text-[10px] font-bold tracking-tight text-muted-foreground hover:text-white">{t("admin_scraping_logs")}</Button>
+ <Button variant="ghost" size="sm" className="h-8 px-2 text-[10px] font-bold tracking-tight text-muted-foreground hover:text-foreground">{t("admin_scraping_logs")}</Button>
  {job.status ==="failed" && <Button variant="ghost" size="sm" className="h-8 px-2 text-[10px] font-bold tracking-tight text-red-600 hover:text-red-700 hover:bg-red-50">{t("admin_scraping_retry")}</Button>}
  </div>
  </TableCell>

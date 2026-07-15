@@ -86,7 +86,7 @@ export default function ProjectDashboard() {
  <p className="text-muted-foreground mt-1">{t("admin_projects_track_renovations_construction_and")}</p>
  </div>
  <div className="flex items-center gap-2">
- <Button variant="outline" className="border-border text-muted-foreground hover:text-white" onClick={() => toast({ title: t("admin_projects_filters"), description:"Opening filters..." })}>
+ <Button variant="outline" className="border-border text-muted-foreground hover:text-foreground" onClick={() => toast({ title: t("admin_projects_filters"), description:"Opening filters..." })}>
  <Filter className="w-4 h-4 mr-2" />{t("admin_projects_filters")}
  </Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
@@ -239,7 +239,7 @@ export default function ProjectDashboard() {
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white" onClick={() => toast({ title:"Project Details", description: `Viewing details for ${project.name}` })}>{t("admin_projects_details")}</Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => toast({ title:"Project Details", description: `Viewing details for ${project.name}` })}>{t("admin_projects_details")}</Button>
  <Button size="sm" className="bg-slate-600 hover:bg-muted0 text-foreground" onClick={() => toast({ title:"Manage Project", description: `Managing ${project.name}` })}>{t("admin_projects_manage")}</Button>
  </div>
  </div>
@@ -271,7 +271,7 @@ export default function ProjectDashboard() {
  </div>
  <p className="text-sm text-muted-foreground mt-1">{alert.message}</p>
  </div>
- <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-white">
+ <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
  <MoreVertical className="w-4 h-4" />
  </Button>
  </div>

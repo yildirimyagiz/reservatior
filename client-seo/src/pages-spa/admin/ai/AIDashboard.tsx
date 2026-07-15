@@ -78,7 +78,7 @@ export default function AIDashboard() {
  </div>
  </div>
  <div className="flex gap-3">
- <Button variant="outline" className="gap-2 bg-card border-border hover:bg-white/10 text-foreground">
+ <Button variant="outline" className="gap-2 bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10 text-foreground">
  <Settings className="w-4 h-4" />
  {t("admin_ai_global_config","Global Config")}
  </Button>

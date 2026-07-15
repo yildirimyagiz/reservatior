@@ -122,7 +122,7 @@ export default function Sessions() {
  <TableCell className="px-8 text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-white"><MoreHorizontal className="w-5 h-5" /></Button>
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground"><MoreHorizontal className="w-5 h-5" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent className="bg-[#1a1b1e] border-border text-muted-foreground">
  <DropdownMenuItem className="gap-2 font-bold text-[9px] hover:bg-card cursor-pointer"><Eye className="w-3.5 h-3.5" />{t("admin_security_node_details")}</DropdownMenuItem>

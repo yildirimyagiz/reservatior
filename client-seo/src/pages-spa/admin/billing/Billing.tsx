@@ -175,7 +175,7 @@ export default function Billing() {
  {invoice.status}
  </Badge>
  </div>
- <Button variant="outline" size="sm" className="bg-card border-border text-slate-300 hover:bg-white/10">
+ <Button variant="outline" size="sm" className="bg-card border-border text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10">
  <Download className="w-4 h-4 mr-2" />{t("admin_billing_download","Download")}
  </Button>
  </div>
@@ -193,7 +193,7 @@ export default function Billing() {
  </CardHeader>
  <CardContent>
  <p className="text-center text-slate-500 py-8">{t("admin_billing_no_payment_methods","No payment methods configured")}</p>
- <Button className="w-full bg-card border-border text-foreground hover:bg-white/10">{t("admin_billing_add_payment_method","Add Payment Method")}</Button>
+ <Button className="w-full bg-card border-border text-foreground hover:bg-slate-100 dark:hover:bg-white/10">{t("admin_billing_add_payment_method","Add Payment Method")}</Button>
  </CardContent>
  </Card>
  </TabsContent>

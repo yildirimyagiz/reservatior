@@ -112,7 +112,7 @@ const ContactsManagement = () => {
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-white/10">
+ <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
  {t("common.export","Export CSV")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
@@ -320,18 +320,18 @@ const ContactsManagement = () => {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 mr-2">
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 mr-2">
  <FileSignature className="w-4 h-4 mr-2" /> {t('admin_contracts_actions', 'Process')}
  </Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_salesType',"Sales Contract"))}>
+ <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_salesType',"Sales Contract"))}>
  <FileText className="w-4 h-4 mr-2 text-muted-foreground" /> {t('admin_contracts_sendSales', 'Send Sales Contract')}
  </DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_evictionType',"Eviction Agreement"))}>
+ <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_evictionType',"Eviction Agreement"))}>
  <FileText className="w-4 h-4 mr-2 text-orange-400" /> {t('admin_contracts_sendEviction', 'Send Eviction Agreement')}
  </DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_rentalType',"Rental Contract"))}>
+ <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_rentalType',"Rental Contract"))}>
  <FileText className="w-4 h-4 mr-2 text-emerald-400" /> {t('admin_contracts_sendRental', 'Send Rental Contract')}
  </DropdownMenuItem>
  </DropdownMenuContent>
@@ -340,7 +340,7 @@ const ContactsManagement = () => {
  <Button 
  variant="ghost" 
  size="icon" 
- className="text-muted-foreground hover:text-white"
+ className="text-muted-foreground hover:text-foreground"
  onClick={() => openEditModal(c)}
  >
  <Edit className="w-4 h-4" />

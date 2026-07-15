@@ -298,7 +298,7 @@ export const PartnerAgreements: React.FC = () => {
  <Button variant="ghost" className="h-8 w-8 p-0"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
  <DropdownMenuItem onClick={() => deleteMutation.mutate(agr.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
@@ -336,7 +336,7 @@ export const PartnerAgreements: React.FC = () => {
  </SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
  {selectedAgreement && getValidTransitions(selectedAgreement.status).map(state => (
- <SelectItem key={state} value={state} className="hover:bg-white/10">{STATUS_CONFIG[state]?.label || state}</SelectItem>
+ <SelectItem key={state} value={state} className="hover:bg-slate-100 dark:hover:bg-white/10">{STATUS_CONFIG[state]?.label || state}</SelectItem>
  ))}
  </SelectContent>
  </Select>

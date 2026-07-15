@@ -173,7 +173,7 @@ const PhotoManagement = () => {
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-white/10">
+ <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
  {t("common.export","Export")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>

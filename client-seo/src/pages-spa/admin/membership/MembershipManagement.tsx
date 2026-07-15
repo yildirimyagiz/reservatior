@@ -362,7 +362,7 @@ export default function MembershipManagement() {
  { id: 'features', label: t('membership'), icon: <Star className="w-4 h-4" /> },
  { id: 'analytics', label: t('membershipAnalytics'), icon: <TrendingUp className="w-4 h-4" /> }
  ].map(tab => (
- <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ?"text-foreground border-slate-500" :"text-muted-foreground border-transparent hover:text-white")}>
+ <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("px-4 py-3 text-sm font-medium transition-colors border-b-2", activeTab === tab.id ?"text-foreground border-slate-500" :"text-muted-foreground border-transparent hover:text-foreground")}>
  <div className="flex items-center gap-2">{tab.icon}{tab.label}</div>
  </button>
  ))}

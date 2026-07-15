@@ -250,7 +250,7 @@ export default function Commissions() {
  <TableCell className="px-6 text-xs text-muted-foreground font-mono">{new Date(c.createdAt).toLocaleDateString()}</TableCell>
  <TableCell className="px-6">
  <div className="flex gap-2">
- <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-white" onClick={() => openEdit(c)}>
+ <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground" onClick={() => openEdit(c)}>
  <Edit className="w-3 h-3" />
  </Button>
  <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-300" onClick={() => deleteMutation.mutate(c.id)}>
