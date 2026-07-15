@@ -63,7 +63,7 @@ export class VideoAutoPosterService {
     const config = await getTokens();
     const videos = await prisma.videoContent.findMany({
       where: {
-        status: "COMPLETED",
+        status: "READY",
         url: { not: null },
         deletedAt: null,
       },
