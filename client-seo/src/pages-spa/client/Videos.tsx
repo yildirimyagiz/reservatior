@@ -278,11 +278,11 @@ export default function Videos() {
                         <span className="text-[10px] text-emerald-400 font-bold tracking-[0.2em]">{t('videos.now_playing', 'NOW PLAYING')}</span>
                       </div>
                       <h2 className="text-2xl lg:text-3xl font-black text-white tracking-tight drop-shadow-md">
-                        {t(video.rooms[isActive ? activeRoom : 0] || video.rooms[0], (video.rooms[isActive ? activeRoom : 0] || video.rooms[0]).split('.').pop() || "") as string}
+                        {t(video.rooms?.[isActive ? activeRoom : 0] || video.rooms?.[0] || "room", (video.rooms?.[isActive ? activeRoom : 0] || video.rooms?.[0] || "room").split('.').pop() || "") as string}
                       </h2>
                       
                       <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-1 -mx-2 px-2 mask-linear-fade">
-                        {video.rooms.map((room: string, i: number) => (
+                        {video.rooms?.map((room: string, i: number) => (
                           <button key={i} onClick={() => setActiveRoom(i)}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border border-transparent
                               ${(isActive ? activeRoom : 0) === i ? "bg-white text-black shadow-lg" : "bg-black/40 text-white/80 hover:bg-black/60 border-white/10 backdrop-blur-md"}`}>
@@ -295,7 +295,7 @@ export default function Videos() {
                     {/* Meta Data */}
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 flex-wrap">
-                        {video.tags.slice(0, 3).map((tag: string, i: number) => (
+                        {video.tags?.slice(0, 3).map((tag: string, i: number) => (
                           <Badge key={i} className={`text-[9px] font-bold tracking-wider px-2.5 py-0.5 rounded-sm border border-white/10
                             ${i === 0 ? "bg-emerald-500/20 text-emerald-400" : "bg-white/10 text-white/80 backdrop-blur-md"}`}>
                             {i === 0 && <Star className="w-2.5 h-2.5 mr-1" />}
