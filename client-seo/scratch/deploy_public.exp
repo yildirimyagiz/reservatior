@@ -1,0 +1,16 @@
+#!/usr/bin/expect -f
+set timeout -1
+spawn rsync -avz /Users/os2026/Downloads/Reservatior/client-seo/public/ root@72.61.71.6:/root/reservatior/client-seo/public/
+expect {
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    "password:" {
+        send "KelAlaka@9182\r"
+        exp_continue
+    }
+    eof {
+        exit 0
+    }
+}

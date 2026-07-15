@@ -1,0 +1,33 @@
+#!/usr/bin/expect -f
+set timeout -1
+
+# Sync src directory
+spawn rsync -avz --exclude="scratch" /Users/os2026/Downloads/Reservatior/client-seo/src/ root@72.61.71.6:/root/reservatior/client-seo/src/
+expect {
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    "password:" {
+        send "KelAlaka@9182\r"
+    }
+}
+expect eof
+
+# Sync public directory
+spawn rsync -avz /Users/os2026/Downloads/Reservatior/client-seo/public/ root@72.61.71.6:/root/reservatior/client-seo/public/
+expect {
+    "password:" {
+        send "KelAlaka@9182\r"
+    }
+}
+expect eof
+
+# SSH and rebuild
+spawn ssh root@72.61.71.6 "cd /root/reservatior/client-seo && ~/.bun/bin/bun run build && pm2 restart all"
+expect {
+    "password:" {
+        send "KelAlaka@9182\r"
+    }
+}
+expect eof

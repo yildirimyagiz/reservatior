@@ -60,27 +60,27 @@ function CreateUserDialog({ open, onOpenChange, onSubmit }: { open: boolean; onO
   const [createdAt, setCreatedAt] = useState(new Date().toISOString().split("T")[0]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_users_addUser", "Add User")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_users_addUser", "Add User")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_user_to_the_system", "Add a new user to the system.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
-            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
-            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_organization_role", "Role")}</Label>
             <Select value={role} onValueChange={v => setRole(v as User["role"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="ADMIN">{t("admin_roles_groups_admin", "Admin")}</SelectItem>
                 <SelectItem value="USER">{t("admin_dashboard_user", "User")}</SelectItem>
                 <SelectItem value="AGENT">{t("admin_organization_agent", "Agent")}</SelectItem>
@@ -91,10 +91,10 @@ function CreateUserDialog({ open, onOpenChange, onSubmit }: { open: boolean; onO
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as User["status"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
                 <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
                 <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
@@ -103,10 +103,10 @@ function CreateUserDialog({ open, onOpenChange, onSubmit }: { open: boolean; onO
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_integrations_created_at", "Created At")}</Label>
-            <Input type="date" value={createdAt} onChange={e => setCreatedAt(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="date" value={createdAt} onChange={e => setCreatedAt(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
           <Button onClick={() => onSubmit({ name, email, role, status, createdAt })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
         </DialogFooter>
@@ -124,27 +124,27 @@ function EditUserDialog({ open, onOpenChange, item, onSubmit }: { open: boolean;
   const [createdAt, setCreatedAt] = useState(item.createdAt);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_auto_edit_user", "Edit User")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_user", "Edit User")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_update_user_details", "Update user details.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
-            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
-            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_organization_role", "Role")}</Label>
             <Select value={role} onValueChange={v => setRole(v as User["role"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="ADMIN">{t("admin_roles_groups_admin", "Admin")}</SelectItem>
                 <SelectItem value="USER">{t("admin_dashboard_user", "User")}</SelectItem>
                 <SelectItem value="AGENT">{t("admin_organization_agent", "Agent")}</SelectItem>
@@ -155,10 +155,10 @@ function EditUserDialog({ open, onOpenChange, item, onSubmit }: { open: boolean;
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as User["status"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
                 <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
                 <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
@@ -167,10 +167,10 @@ function EditUserDialog({ open, onOpenChange, item, onSubmit }: { open: boolean;
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_integrations_created_at", "Created At")}</Label>
-            <Input type="date" value={createdAt} onChange={e => setCreatedAt(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="date" value={createdAt} onChange={e => setCreatedAt(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
           <Button onClick={() => onSubmit({ id: item.id, name, email, role, status, createdAt })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
         </DialogFooter>
@@ -183,14 +183,14 @@ function DeleteUserDialog({ open, onOpenChange, item, onConfirm }: { open: boole
     const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_organization_delete_user", "Delete User")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_organization_delete_user", "Delete User")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">{t("admin_action_delete", "Delete")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -272,7 +272,7 @@ export default function AdminUsersPage() {
                       placeholder={t("admin_users_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                      className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
@@ -319,7 +319,7 @@ export default function AdminUsersPage() {
                     </div>
                     <div className="flex items-center gap-4">
                       <Badge className={ROLE_COLORS[user.role]}>{user.role}</Badge>
-                      <Badge className={STATUS_COLORS[user.status]}>{user.status}</Badge>
+                      <Badge className={STATUS_COLORS[user.status]}>{t("admin_status_" + String(user.status).toLowerCase())}</Badge>
                       <div className="flex gap-2">
                         <Button onClick={() => { setEditingItem(user); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8">
                           <Edit className="w-4 h-4" />

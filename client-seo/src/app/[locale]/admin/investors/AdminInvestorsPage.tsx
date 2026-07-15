@@ -148,7 +148,7 @@ export default function AdminInvestorsPage() {
                       placeholder={t("admin_investors_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                      className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
@@ -195,7 +195,7 @@ export default function AdminInvestorsPage() {
                         </div>
                         <div className="text-xs text-muted-foreground">{t("admin_investors_return")}</div>
                       </div>
-                      <Badge className={STATUS_COLORS[investor.status]}>{investor.status}</Badge>
+                      <Badge className={STATUS_COLORS[investor.status]}>{t("admin_status_" + String(investor.status).toLowerCase())}</Badge>
                       <div className="flex gap-2">
                         <Button onClick={() => { setEditingItem(investor); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
                         <Button onClick={() => { setDeletingItem(investor); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
@@ -233,39 +233,39 @@ function CreateInvestorDialog({ open, onOpenChange, onSubmit }: { open: boolean;
   const [joinDate, setJoinDate] = useState(new Date().toISOString().split("T")[0]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_investors_add_investor", "Add Investor")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_investors_add_investor", "Add Investor")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_investor_to_the_system", "Add a new investor to the system.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
-            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
-            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_total_invested", "Total Invested ($)")}</Label>
-            <Input type="number" value={totalInvested} onChange={e => setTotalInvested(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="number" value={totalInvested} onChange={e => setTotalInvested(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_portfolio_value", "Portfolio Value ($)")}</Label>
-            <Input type="number" value={portfolioValue} onChange={e => setPortfolioValue(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="number" value={portfolioValue} onChange={e => setPortfolioValue(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_return_rate", "Return Rate (%)")}</Label>
-            <Input type="number" value={returnRate} onChange={e => setReturnRate(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="number" value={returnRate} onChange={e => setReturnRate(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Investor["status"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
                 <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
                 <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
@@ -274,10 +274,10 @@ function CreateInvestorDialog({ open, onOpenChange, onSubmit }: { open: boolean;
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("client.src.join_date", "Join Date")}</Label>
-            <Input type="date" value={joinDate} onChange={e => setJoinDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="date" value={joinDate} onChange={e => setJoinDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
           <Button onClick={() => onSubmit({ name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
         </DialogFooter>
@@ -297,39 +297,39 @@ function EditInvestorDialog({ open, onOpenChange, item, onSubmit }: { open: bool
   const [joinDate, setJoinDate] = useState(item.joinDate);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_auto_edit_investor", "Edit Investor")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_investor", "Edit Investor")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_update_investor_details", "Update investor details.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
-            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
-            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_total_invested", "Total Invested ($)")}</Label>
-            <Input type="number" value={totalInvested} onChange={e => setTotalInvested(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="number" value={totalInvested} onChange={e => setTotalInvested(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_portfolio_value", "Portfolio Value ($)")}</Label>
-            <Input type="number" value={portfolioValue} onChange={e => setPortfolioValue(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="number" value={portfolioValue} onChange={e => setPortfolioValue(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_return_rate", "Return Rate (%)")}</Label>
-            <Input type="number" value={returnRate} onChange={e => setReturnRate(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="number" value={returnRate} onChange={e => setReturnRate(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Investor["status"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
                 <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
                 <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
@@ -338,10 +338,10 @@ function EditInvestorDialog({ open, onOpenChange, item, onSubmit }: { open: bool
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("client.src.join_date", "Join Date")}</Label>
-            <Input type="date" value={joinDate} onChange={e => setJoinDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="date" value={joinDate} onChange={e => setJoinDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
           <Button onClick={() => onSubmit({ id: item.id, name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
         </DialogFooter>
@@ -354,14 +354,14 @@ function DeleteInvestorDialog({ open, onOpenChange, item, onConfirm }: { open: b
     const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_auto_delete_investor", "Delete Investor")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_investor", "Delete Investor")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">{t("admin_action_delete", "Delete")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

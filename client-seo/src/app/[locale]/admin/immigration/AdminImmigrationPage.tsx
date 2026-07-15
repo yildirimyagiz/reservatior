@@ -106,7 +106,7 @@ export default function AdminImmigrationPage() {
                       placeholder={t("admin_immigration_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                      className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
@@ -183,27 +183,27 @@ function CreateDocumentDialog({ open, onOpenChange, onSubmit }: { open: boolean;
   const [uploadDate, setUploadDate] = useState(new Date().toISOString().split("T")[0]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_immigration_add_document")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_immigration_add_document")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_immigration_add_document_desc")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_immigration_client_name")}</Label>
-            <Input value={clientName} onChange={e => setClientName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={clientName} onChange={e => setClientName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_immigration_document_type")}</Label>
-            <Input value={documentType} onChange={e => setDocumentType(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={documentType} onChange={e => setDocumentType(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_immigration_status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as DocumentRecord["status"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="PENDING">{t("admin_immigration_status_pending")}</SelectItem>
                 <SelectItem value="RECEIVED">{t("admin_immigration_status_received")}</SelectItem>
                 <SelectItem value="VERIFIED">{t("admin_immigration_status_verified")}</SelectItem>
@@ -214,10 +214,10 @@ function CreateDocumentDialog({ open, onOpenChange, onSubmit }: { open: boolean;
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_immigration_upload_date")}</Label>
-            <Input type="date" value={uploadDate} onChange={e => setUploadDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="date" value={uploadDate} onChange={e => setUploadDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_immigration_cancel")}</Button>
           <Button onClick={() => onSubmit({ clientName, documentType, status, uploadDate })} className="bg-primary hover:bg-primary/90">{t("admin_immigration_create")}</Button>
         </DialogFooter>
@@ -234,27 +234,27 @@ function EditDocumentDialog({ open, onOpenChange, item, onSubmit }: { open: bool
   const [uploadDate, setUploadDate] = useState(item.uploadDate);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_immigration_edit_document")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_immigration_edit_document")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_immigration_edit_document_desc")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_immigration_client_name")}</Label>
-            <Input value={clientName} onChange={e => setClientName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={clientName} onChange={e => setClientName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_immigration_document_type")}</Label>
-            <Input value={documentType} onChange={e => setDocumentType(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={documentType} onChange={e => setDocumentType(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_immigration_status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as DocumentRecord["status"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="PENDING">{t("admin_immigration_status_pending")}</SelectItem>
                 <SelectItem value="RECEIVED">{t("admin_immigration_status_received")}</SelectItem>
                 <SelectItem value="VERIFIED">{t("admin_immigration_status_verified")}</SelectItem>
@@ -265,10 +265,10 @@ function EditDocumentDialog({ open, onOpenChange, item, onSubmit }: { open: bool
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_immigration_upload_date")}</Label>
-            <Input type="date" value={uploadDate} onChange={e => setUploadDate(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="date" value={uploadDate} onChange={e => setUploadDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_immigration_cancel")}</Button>
           <Button onClick={() => onSubmit({ id: item.id, clientName, documentType, status, uploadDate })} className="bg-primary hover:bg-primary/90">{t("admin_immigration_save")}</Button>
         </DialogFooter>
@@ -281,14 +281,14 @@ function DeleteDocumentDialog({ open, onOpenChange, item, onConfirm }: { open: b
   const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_immigration_delete_document")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_immigration_delete_document")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_immigration_delete_document_desc", { clientName: item.clientName })}</DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_immigration_cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">{t("admin_immigration_delete")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_immigration_delete")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

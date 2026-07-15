@@ -122,7 +122,7 @@ export default function AdminGuestsPage() {
                       placeholder={t("admin_guests_search_placeholder")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                      className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
@@ -174,7 +174,7 @@ export default function AdminGuestsPage() {
                         <div className="text-foreground text-sm">{t("admin_guests_stays_count", { count: guest.totalBookings })}</div>
                         <div className="text-muted-foreground text-xs">{guest.totalSpent}</div>
                       </div>
-                      <Badge className={STATUS_COLORS[guest.status]}>{guest.status}</Badge>
+                      <Badge className={STATUS_COLORS[guest.status]}>{t("admin_status_" + String(guest.status).toLowerCase())}</Badge>
                       <div className="flex items-center gap-1 text-xs text-muted-foreground/70">
                         <Calendar className="w-3 h-3" />
                         {guest.lastStay}
@@ -220,39 +220,39 @@ function CreateGuestDialog({ open, onOpenChange, onSubmit }: { open: boolean; on
   const [lastStay, setLastStay] = useState(new Date().toISOString().split("T")[0]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_guests_add_guest", "Add Guest")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_guests_add_guest", "Add Guest")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_guest_to_the_system", "Add a new guest to the system.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
-            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
-            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_phone", "Phone")}</Label>
-            <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("client.src.total_bookings", "Total Bookings")}</Label>
-            <Input type="number" value={totalBookings} onChange={e => setTotalBookings(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="number" value={totalBookings} onChange={e => setTotalBookings(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_financial_total_spent", "Total Spent")}</Label>
-            <Input value={totalSpent} onChange={e => setTotalSpent(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={totalSpent} onChange={e => setTotalSpent(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Guest["status"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
                 <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
                 <SelectItem value="BLACKLISTED">{t("admin_auto_blacklisted", "Blacklisted")}</SelectItem>
@@ -261,10 +261,10 @@ function CreateGuestDialog({ open, onOpenChange, onSubmit }: { open: boolean; on
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_last_stay", "Last Stay")}</Label>
-            <Input type="date" value={lastStay} onChange={e => setLastStay(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="date" value={lastStay} onChange={e => setLastStay(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
           <Button onClick={() => onSubmit({ name, email, phone, totalBookings, totalSpent, status, lastStay })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
         </DialogFooter>
@@ -284,39 +284,39 @@ function EditGuestDialog({ open, onOpenChange, item, onSubmit }: { open: boolean
   const [lastStay, setLastStay] = useState(item.lastStay);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_guest_edit_title", "Edit Guest")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_guest_edit_title", "Edit Guest")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_update_guest_details", "Update guest details.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
-            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
-            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_phone", "Phone")}</Label>
-            <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={phone} onChange={e => setPhone(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("client.src.total_bookings", "Total Bookings")}</Label>
-            <Input type="number" value={totalBookings} onChange={e => setTotalBookings(Number(e.target.value))} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="number" value={totalBookings} onChange={e => setTotalBookings(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_financial_total_spent", "Total Spent")}</Label>
-            <Input value={totalSpent} onChange={e => setTotalSpent(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input value={totalSpent} onChange={e => setTotalSpent(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Guest["status"])}>
-              <SelectTrigger className="col-span-3 bg-muted/30 border-border text-foreground">
+              <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-card border-border text-foreground">
+              <SelectContent>
                 <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
                 <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
                 <SelectItem value="BLACKLISTED">{t("admin_auto_blacklisted", "Blacklisted")}</SelectItem>
@@ -325,10 +325,10 @@ function EditGuestDialog({ open, onOpenChange, item, onSubmit }: { open: boolean
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">{t("admin_auto_last_stay", "Last Stay")}</Label>
-            <Input type="date" value={lastStay} onChange={e => setLastStay(e.target.value)} className="col-span-3 bg-muted/30 border-border text-foreground" />
+            <Input type="date" value={lastStay} onChange={e => setLastStay(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
           <Button onClick={() => onSubmit({ id: item.id, name, email, phone, totalBookings, totalSpent, status, lastStay })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
         </DialogFooter>
@@ -341,14 +341,14 @@ function DeleteGuestDialog({ open, onOpenChange, item, onConfirm }: { open: bool
     const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background border-border text-foreground">
+      <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-foreground">{t("admin_auto_delete_guest", "Delete Guest")}</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_guest", "Delete Guest")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="pt-4 border-t border-white/10">
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-destructive hover:bg-destructive/90">{t("admin_action_delete", "Delete")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

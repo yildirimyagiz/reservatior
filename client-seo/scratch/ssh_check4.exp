@@ -1,0 +1,13 @@
+#!/usr/bin/expect -f
+set timeout 10
+spawn ssh root@72.61.71.6 "ls -la /root/reservatior/client-seo/"
+expect {
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    "password:" {
+        send "KelAlaka@9182\r"
+    }
+}
+expect eof
