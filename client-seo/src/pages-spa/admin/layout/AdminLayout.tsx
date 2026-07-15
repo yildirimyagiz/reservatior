@@ -590,7 +590,7 @@ export function AdminLayout({
 
  <div className="flex-1 flex flex-col overflow-hidden gap-4">
  {/* Floating Oval Top Navbar */}
- <header className="h-16 shrink-0 bg-card/50 backdrop-blur-xl border border-border rounded-full flex items-center justify-between px-6 shadow-sm">
+ <header className="relative z-50 h-16 shrink-0 bg-card/50 backdrop-blur-xl border border-border rounded-full flex items-center justify-between px-6 shadow-sm">
  <div className="flex items-center gap-4">
  {showBackButton && (
  <button 
