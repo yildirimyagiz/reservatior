@@ -13,7 +13,7 @@ import {
   ChevronRight, MapPin, Clock, Search, Star, Circle, Radio, Camera,
   Bot, Filter, ChevronDown, ChevronUp, Send, Loader2
 } from "lucide-react";
-import Image from "next/image";
+
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/lib/languages";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -31,35 +31,47 @@ const CATEGORIES = [
 
 const DEMO_VIDEOS = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4", "/videos/ozak-duyu-bg.mp4"];
 
-/* ───── Fallback Data ───── */
 const FALLBACK_VIDEOS = [
   {
-    title: "The Glass Pavilion — Coastal Malibu Architectural Masterpiece",
-    agency: "Aura Luxury Properties", verified: true, price: "$28,500,000",
-    beds: 6, baths: 8, sqft: "12,400", category: "villa",
-    location: "MALIBU", views: "24K", time: "2 DAYS AGO", duration: "2:14",
-    tags: ["EXCLUSIVE LISTING", "MODERN"],
+    title: "Özak Büyükyalı — Luxury Coastal Living",
+    agency: "Özak GYO", verified: true, price: "From $2,500,000",
+    beds: 4, baths: 3, sqft: "3,200", category: "villa",
+    location: "Zeytinburnu, Istanbul", views: "125K", time: "NEW", duration: "1:30",
+    tags: ["SEAVIEW", "LUXURY", "SMART HOME"],
     rooms: ["videos.rooms.exterior", "videos.rooms.master", "videos.rooms.living", "videos.rooms.kitchen", "videos.rooms.pool"],
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80",
+    image: "/videos/ozak-buyukyali-bg.mp4",
+    videoUrl: "/videos/ozak-buyukyali-bg.mp4",
   },
   {
-    title: "Monolithic Concrete Dream — Brutalist Beverly Hills Penthouse",
-    agency: "Vance & Partners", verified: true, price: "$16,200,000",
-    beds: 4, baths: 6, sqft: "8,900", category: "penthouse",
-    location: "BEVERLY HILLS", views: "18K", time: "5 DAYS AGO", duration: "1:48",
-    tags: ["PENTHOUSE", "MODERN"],
+    title: "Özak Dragos — Panoramic Islands View",
+    agency: "Özak GYO", verified: true, price: "From $850,000",
+    beds: 3, baths: 2, sqft: "1,800", category: "penthouse",
+    location: "Maltepe, Istanbul", views: "82K", time: "PRE-SALE", duration: "2:15",
+    tags: ["ISLANDS VIEW", "MODERN", "RESIDENCE"],
     rooms: ["videos.rooms.exterior", "videos.rooms.living", "videos.rooms.master", "videos.rooms.pool"],
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80",
+    image: "/videos/ozak-dragos-bg.mp4",
+    videoUrl: "/videos/ozak-dragos-bg.mp4",
   },
   {
-    title: "Neo-Tokyo Cyber Loft — High-Tech Shinjuku Smart Penthouse",
-    agency: "Ren Tanaka Realty", verified: true, price: "¥1,850,000,000",
-    beds: 3, baths: 3, sqft: "5,400", category: "smart",
-    location: "SHIBUYA", views: "42K", time: "1 WEEK AGO", duration: "2:05",
-    tags: ["SMART HOME", "TECH ENABLED"],
+    title: "Özak Duyu — Harmony with Nature",
+    agency: "Özak GYO", verified: true, price: "From $1,200,000",
+    beds: 5, baths: 4, sqft: "4,100", category: "villa",
+    location: "Göktürk, Istanbul", views: "45K", time: "READY TO MOVE", duration: "1:45",
+    tags: ["FOREST", "NATURE", "VILLA"],
     rooms: ["videos.rooms.living", "videos.rooms.master", "videos.rooms.kitchen", "videos.rooms.exterior"],
-    image: "https://images.unsplash.com/photo-1600607687931-cebf585140bb?w=1920&q=80",
+    image: "/videos/ozak-duyu-bg.mp4",
+    videoUrl: "/videos/ozak-duyu-bg.mp4",
   },
+  {
+    title: "Özak GYO — Corporate Vision",
+    agency: "Özak GYO", verified: true, price: "-",
+    beds: 0, baths: 0, sqft: "-", category: "all",
+    location: "Istanbul", views: "210K", time: "FEATURED", duration: "2:00",
+    tags: ["CORPORATE", "PORTFOLIO", "VISION"],
+    rooms: ["videos.rooms.exterior", "videos.rooms.living", "videos.rooms.master"],
+    image: "/videos/ozak-bg.mp4",
+    videoUrl: "/videos/ozak-bg.mp4",
+  }
 ];
 
 export default function Videos() {
@@ -382,7 +394,14 @@ export default function Videos() {
                   
                   {/* Thumbnail */}
                   <div className="relative w-[140px] h-[90px] rounded-lg overflow-hidden shrink-0 bg-black">
-                    <Image src={p.image} alt={p.title} fill className={`object-cover transition-transform duration-700 ${isActive ? 'scale-105' : 'group-hover:scale-105'}`} sizes="140px" />
+                    <video
+                      src={p.image}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className={`w-full h-full object-cover transition-transform duration-700 ${isActive ? 'scale-105' : 'group-hover:scale-105'}`}
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute top-1.5 left-1.5 bg-black/70 backdrop-blur-sm rounded px-1.5 py-0.5">
                       <span className="text-[10px] font-bold text-white">{p.price}</span>
