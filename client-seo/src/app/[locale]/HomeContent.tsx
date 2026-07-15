@@ -220,11 +220,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     return () => clearTimeout(timer);
   }, []);
 
-  // Load countries
+  // Load countries (use local data to avoid external GitHub Pages fetch)
   useEffect(() => {
     const loadCountries = async () => {
       try {
-        const allCountries = await GetCountries();
+        const allCountries = await GetCountries("/country-data/countriesminified.json");
         // Filter out only the countries we have Prisma configurations for
         const supported = allCountries.filter((c: any) => SUPPORTED_COUNTRIES.includes(c.isoCode));
         setCountries(supported);
@@ -235,11 +235,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     loadCountries();
   }, []);
 
-  // Load cities for autocomplete based on selected country
+  // Load cities for autocomplete based on selected country (use local data)
   useEffect(() => {
     const loadCities = async () => {
       try {
-        const cities = await GetAllCities(selectedCountry);
+        const cities = await GetAllCities(selectedCountry, "/country-data/citiesminified.json");
         setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
       } catch (error) {
         console.error('Error loading cities:', error);
