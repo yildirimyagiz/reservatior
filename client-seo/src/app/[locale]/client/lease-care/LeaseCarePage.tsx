@@ -61,7 +61,7 @@ type RoleKey = "AGENT" | "TENANT_BUYER" | "OWNER_SELLER" | "AGENCY_ADMIN";
 type TransactionMode = "RENT" | "BUY";
 
 export default function LeaseCarePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { getUserRole } = useAuth();
   const userRole = getUserRole();
 
@@ -244,8 +244,8 @@ export default function LeaseCarePage() {
               </div>
               
               <div className="space-y-5">
-                <div className="flex justify-between items-center text-base"><span className="text-slate-600 dark:text-slate-300 font-medium">{t("leasecare.deposit_traditional", "Deposit (Upfront)")}</span><span className="font-bold text-red-500 bg-red-500/10 px-3 py-1 rounded-lg">Çok Yüksek</span></div>
-                <div className="flex justify-between items-center text-base"><span className="text-slate-600 dark:text-slate-300 font-medium">{t("leasecare.commission_traditional", "Commission (Upfront)")}</span><span className="font-bold text-red-500 bg-red-500/10 px-3 py-1 rounded-lg">Çok Yüksek</span></div>
+                <div className="flex justify-between items-center text-base"><span className="text-slate-600 dark:text-slate-300 font-medium">{t("leasecare.deposit_traditional", "Deposit (Upfront)")}</span><span className="font-bold text-red-500 bg-red-500/10 px-3 py-1 rounded-lg">{t("leasecare.very_high", "Very High")}</span></div>
+                <div className="flex justify-between items-center text-base"><span className="text-slate-600 dark:text-slate-300 font-medium">{t("leasecare.commission_traditional", "Commission (Upfront)")}</span><span className="font-bold text-red-500 bg-red-500/10 px-3 py-1 rounded-lg">{t("leasecare.very_high", "Very High")}</span></div>
                 <div className="flex justify-between items-center text-base"><span className="text-slate-600 dark:text-slate-300 font-medium">{t("leasecare.first_month_rent", "First month rent")}</span><span className="font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg">${propertyValue.toLocaleString()}</span></div>
                 
                 <div className="h-px bg-red-500/20 my-4" />
@@ -439,8 +439,8 @@ export default function LeaseCarePage() {
             variants={fadeIn}
             className="text-center mb-16 space-y-6"
           >
-            <Badge className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-blue-600 dark:text-blue-400 border-blue-500/20 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase shadow-sm">
-              <Calculator className="w-4 h-4 mr-2 inline-block" /> {t("leasecare.interactive_calc", "Interactive Calculator")}
+            <Badge className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-blue-600 dark:text-blue-400 border-blue-500/20 px-5 py-2 rounded-full text-xs font-bold tracking-widest shadow-sm">
+              <Calculator className="w-4 h-4 mr-2 inline-block" /> {String(t("leasecare.interactive_calc", "Interactive Calculator")).toLocaleUpperCase(i18n.language === 'tr' ? 'tr-TR' : 'en-US')}
             </Badge>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white">
               {t("leasecare.how_much_save", "How much will you save?")}
@@ -454,13 +454,13 @@ export default function LeaseCarePage() {
                 onClick={() => setTransactionMode("RENT")}
                 className={`px-8 py-3 rounded-full text-sm font-bold transition-all ${transactionMode === "RENT" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"}`}
               >
-                {t("reoscare.mode_rent", "Kiralık (Rent)")}
+                {t("leasecare.mode_rent", "Rent")}
               </button>
               <button 
                 onClick={() => setTransactionMode("BUY")}
                 className={`px-8 py-3 rounded-full text-sm font-bold transition-all ${transactionMode === "BUY" ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground"}`}
               >
-                {t("reoscare.mode_buy", "Satılık (Buy)")}
+                {t("leasecare.mode_buy", "Buy")}
               </button>
             </div>
           </div>
