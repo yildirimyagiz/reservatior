@@ -516,7 +516,7 @@ export function AdminLayout({
  <span className={cn("text-lg font-bold text-foreground tracking-tight whitespace-nowrap transition-all duration-300",
  sidebarOpen ?"ml-2 opacity-100 max-w-[150px]" :"ml-0 opacity-0 max-w-0"
  )}>
- {t("_locale_.homecontent.auto_ext_1", "Reservatior")}</span>
+ Reservatior</span>
  </div>
  {sidebarOpen && (
  <button className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground ml-auto" onClick={(e) => { e.stopPropagation(); setSidebarOpen(false); }}>
