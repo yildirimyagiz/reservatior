@@ -30,6 +30,7 @@ const client = new Client({
     }),
     puppeteer: {
         headless: true,
+        executablePath: '/Users/os2026/Downloads/Reservatior/server/chrome/mac_arm-146.0.7680.31/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing',
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',

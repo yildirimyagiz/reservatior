@@ -37,11 +37,15 @@ export function AIStudioContent() {
   });
 
   // Task integration states
-  const [selectedAction, setSelectedAction] = useState<"OCR" | "TRANSLATION" | "VIDEO">("OCR");
+  const [selectedAction, setSelectedAction] = useState<"OCR" | "TRANSLATION" | "VIDEO" | "BROCHURE" | "STAGING">("OCR");
   const [inputText, setInputText] = useState("");
   const [targetLang, setTargetLang] = useState("tr");
   const [filePath, setFilePath] = useState("/Users/os2026/Downloads/Reservatior/server/ml-services/E_BILLS_SERVICE.md");
   const [videoUrl, setVideoUrl] = useState("https://assets.mixkit.co/videos/preview/mixkit-modern-apartment-living-room-42865-large.mp4");
+  const [propertyId, setPropertyId] = useState("");
+  const [stagingImageUrl, setStagingImageUrl] = useState("");
+  const [roomType, setRoomType] = useState("living_room");
+  const [stagingStyle, setStagingStyle] = useState("modern");
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -60,7 +64,7 @@ export function AIStudioContent() {
     setTaskError(null);
 
     try {
-      let taskType: "REELS_VIDEO_GEN" | "DOCUMENT_EXTRACT" | "SENTIMENT_ANALYSIS" | "DOCUMENT_OCR" | "TRANSLATION_LOCALIZATION" = "DOCUMENT_OCR";
+      let taskType: "REELS_VIDEO_GEN" | "DOCUMENT_EXTRACT" | "SENTIMENT_ANALYSIS" | "DOCUMENT_OCR" | "TRANSLATION_LOCALIZATION" | "MARKETING_BROCHURE_GEN" | "VIRTUAL_STAGING" = "DOCUMENT_OCR";
       let inputData: any = {};
 
       if (selectedAction === "OCR") {
@@ -81,6 +85,18 @@ export function AIStudioContent() {
         inputData = {
           videoUrl: videoUrl,
           targetLang: targetLang
+        }
+      } else if (selectedAction === "BROCHURE") {
+        taskType = "MARKETING_BROCHURE_GEN";
+        inputData = {
+          propertyId: propertyId || "demo-property-123"
+        };
+      } else if (selectedAction === "STAGING") {
+        taskType = "VIRTUAL_STAGING";
+        inputData = {
+          imageUrl: stagingImageUrl || "https://example.com/empty-room.jpg",
+          roomType: roomType,
+          style: stagingStyle
         };
       }
 
@@ -227,7 +243,7 @@ export function AIStudioContent() {
           <div className="lg:col-span-8 space-y-12">
             
             {/* Interactive Selector Control */}
-            <div className="grid grid-cols-3 gap-4 bg-[#1a1b1e]/40 p-2 rounded-2xl border border-white/5">
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 bg-[#1a1b1e]/40 p-2 rounded-2xl border border-white/5">
               <Button
                 variant="ghost"
                 onClick={() => setSelectedAction("OCR")}
@@ -252,6 +268,22 @@ export function AIStudioContent() {
                 <Video className="w-5 h-5 mr-2" />
                 {t("studio.aistudiocontent.auto_ext_3")}
                                             </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setSelectedAction("BROCHURE")}
+                className={cn("h-14 rounded-xl font-bold tracking-wider", selectedAction === "BROCHURE" ? "bg-amber-600/20 border border-amber-500/30 text-amber-400" : "text-slate-400")}
+              >
+                <FileText className="w-5 h-5 mr-2" />
+                Brochure Gen
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setSelectedAction("STAGING")}
+                className={cn("h-14 rounded-xl font-bold tracking-wider", selectedAction === "STAGING" ? "bg-rose-600/20 border border-rose-500/30 text-rose-400" : "text-slate-400")}
+              >
+                <ImageIcon className="w-5 h-5 mr-2" />
+                Virtual Staging
+              </Button>
             </div>
 
             {/* Configurable Input Card */}
@@ -323,6 +355,59 @@ export function AIStudioContent() {
                         <option value="tr">{t("studio.aistudiocontent.auto_ext_16")}</option>
                         <option value="en">{t("studio.aistudiocontent.auto_ext_17")}</option>
                       </select>
+                    </div>
+                  </div>
+                )}
+
+                {selectedAction === "BROCHURE" && (
+                  <div className="space-y-3">
+                    <label className="text-xs font-black text-slate-400 tracking-wider">Property ID</label>
+                    <Input 
+                      value={propertyId} 
+                      onChange={(e) => setPropertyId(e.target.value)} 
+                      placeholder="e.g. clabc123..."
+                      className="bg-black/40 border-white/10 h-14 rounded-xl text-slate-200"
+                    />
+                    <p className="text-[10px] text-slate-500 italic">Leaves this empty to use a demo property.</p>
+                  </div>
+                )}
+
+                {selectedAction === "STAGING" && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-xs font-black text-slate-400 tracking-wider">Empty Room Image URL</label>
+                      <Input
+                        value={stagingImageUrl}
+                        onChange={(e) => setStagingImageUrl(e.target.value)}
+                        placeholder="https://example.com/empty-room.jpg"
+                        className="bg-black/40 border-white/10 h-14 rounded-xl text-slate-200"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">Room Type</label>
+                        <select 
+                          value={roomType} 
+                          onChange={(e) => setRoomType(e.target.value)}
+                          className="w-full bg-[#14151a] border border-white/10 h-14 rounded-xl px-4 text-slate-200 font-bold"
+                        >
+                          <option value="living_room">Living Room</option>
+                          <option value="bedroom">Bedroom</option>
+                          <option value="kitchen">Kitchen</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">Interior Style</label>
+                        <select 
+                          value={stagingStyle} 
+                          onChange={(e) => setStagingStyle(e.target.value)}
+                          className="w-full bg-[#14151a] border border-white/10 h-14 rounded-xl px-4 text-slate-200 font-bold"
+                        >
+                          <option value="modern">Modern</option>
+                          <option value="luxury">Luxury</option>
+                          <option value="minimalist">Minimalist</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 )}

@@ -47,6 +47,14 @@ export class MLBridgeService {
           await this.dispatchVideoGeneration(taskId, inputData);
           break;
 
+        case "MARKETING_BROCHURE_GEN":
+          await this.dispatchBrochureGeneration(taskId, inputData);
+          break;
+
+        case "VIRTUAL_STAGING":
+          await this.dispatchStagingGeneration(taskId, inputData);
+          break;
+
         case "COMPLIANCE_CHECK":
           await this.dispatchToSkipper(taskId, "document-classify", inputData);
           break;
@@ -178,6 +186,46 @@ export class MLBridgeService {
       } else {
         throw new Error("Video neural engine offline");
       }
+    } catch (err: any) {
+      await this.onTaskUpdate(taskId, "FAILED", null, err.message);
+    }
+  }
+
+  /**
+   * Dispatch Brochure generation
+   */
+  private static async dispatchBrochureGeneration(taskId: string, data: any) {
+    try {
+      const { AIBrochureEngine } = await import("../../services/ai/ai-brochure-engine");
+      if (data.propertyId && data.propertyId !== "demo-property-123") {
+         const result = await AIBrochureEngine.prepareBrochureData(data.propertyId);
+         await this.onTaskUpdate(taskId, "COMPLETED", result);
+      } else {
+         setTimeout(async () => {
+           await this.onTaskUpdate(taskId, "COMPLETED", {
+              brochureUrl: "https://example.com/demo-brochure.pdf",
+              metadata: { status: "Mocked", template: "modern_1" }
+           });
+         }, 3000);
+      }
+    } catch (err: any) {
+      await this.onTaskUpdate(taskId, "FAILED", null, err.message);
+    }
+  }
+
+  /**
+   * Dispatch Virtual Staging
+   */
+  private static async dispatchStagingGeneration(taskId: string, data: any) {
+    try {
+      const { AIStagingEngine } = await import("../../services/ai/ai-staging-engine");
+      const result = await AIStagingEngine.stageImage(
+         "ai-studio", 
+         data.imageUrl || "https://example.com/empty.jpg", 
+         data.roomType || "living_room", 
+         data.style || "modern"
+      );
+      await this.onTaskUpdate(taskId, "COMPLETED", result);
     } catch (err: any) {
       await this.onTaskUpdate(taskId, "FAILED", null, err.message);
     }

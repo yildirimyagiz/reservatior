@@ -49,7 +49,7 @@ export interface AiServiceTask {
   orgId: string;
   propertyId?: string;
   listingId?: string;
-  taskType: "REELS_VIDEO_GEN" | "BROCHURE_GEN" | "SEO_DESCRIPTION" | "DOCUMENT_EXTRACT" | "SENTIMENT_ANALYSIS";
+  taskType: "REELS_VIDEO_GEN" | "MARKETING_BROCHURE_GEN" | "VIRTUAL_STAGING" | "SEO_DESCRIPTION" | "DOCUMENT_EXTRACT" | "SENTIMENT_ANALYSIS";
   status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
   inputData?: any;
   outputData?: any;

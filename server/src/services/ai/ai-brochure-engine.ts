@@ -49,26 +49,69 @@ export class AIBrochureEngine {
       instructions: "Generate a premium Dark & Gold themed PDF brochure highlighting the AI Valuation and Luxury amenities.",
     };
 
-    // Simulate sending to Python ml-services API (e.g., POST http://localhost:8000/api/brochure/generate)
-    console.log("[AIBrochureEngine] Payload ready. Transmitting to ml-services/classifier & video-neural-engine...");
+    // Send to Python ml-services API (POST http://localhost:8000/api/v1/brochures/generate)
+    console.log("[AIBrochureEngine] Payload ready. Transmitting to ml-services brochure endpoint...");
     
     // Create a record in DB to track Brochure Generation status
-    // Utilizing the AiBrochureGeneration model in Prisma
     const generationRecord = await prisma.aiBrochureGeneration.create({
       data: {
         propertyId: property.id,
-        orgId: property.orgId,
         status: "PENDING",
-        layoutType: "LUXURY_DARK_GOLD",
-        language: "en",
-        generationDate: new Date(),
+        templateId: "modern_1",
+        languageVariant: "en",
       }
     });
 
-    return {
-      status: "Processing by ML Services",
-      generationId: generationRecord.id,
-      payload: brochurePayload
-    };
+    try {
+        const response = await fetch("http://localhost:8000/api/v1/brochures/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                property_id: property.id,
+                template: "modern_1",
+                custom_photos: property.photos.map(p => p.url),
+                title: property.name,
+                address: `${property.addressLine1}, ${property.city}`,
+                price: property.listingPrice?.toNumber() || 0,
+                bedrooms: property.bedrooms,
+                bathrooms: property.bathrooms,
+                sqft: property.areaSqm,
+                description: "Amazing property with luxury amenities."
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Python API responded with ${response.status}: ${await response.text()}`);
+        }
+
+        const buffer = await response.arrayBuffer();
+        
+        // Save the generated brochure buffer to disk or upload to Cloudinary/S3
+        const fs = require('fs');
+        const path = require('path');
+        const outDir = path.join(process.cwd(), 'data', 'brochures');
+        if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+        const filePath = path.join(outDir, `${property.id}_brochure.pdf`);
+        fs.writeFileSync(filePath, Buffer.from(buffer));
+        
+        await prisma.aiBrochureGeneration.update({
+            where: { id: generationRecord.id },
+            data: { status: "COMPLETED" } // Wait, Prisma doesn't have a file URL field here, but status is updated
+        });
+
+        return {
+            status: "Success",
+            generationId: generationRecord.id,
+            filePath: filePath,
+            payload: brochurePayload
+        };
+    } catch (e: any) {
+        console.error("[AIBrochureEngine] Failed to generate brochure:", e);
+        await prisma.aiBrochureGeneration.update({
+            where: { id: generationRecord.id },
+            data: { status: "FAILED" }
+        });
+        throw e;
+    }
   }
 }

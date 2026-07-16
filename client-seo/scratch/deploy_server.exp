@@ -1,0 +1,17 @@
+#!/usr/bin/expect -f
+set timeout -1
+
+spawn ssh root@72.61.71.6 "cd /root/reservatior && git pull origin master && docker compose build server && docker compose up -d server && docker system prune -f"
+expect {
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    "password:" {
+        send "KelAlaka@9182\r"
+        exp_continue
+    }
+    eof {
+        exit 0
+    }
+}

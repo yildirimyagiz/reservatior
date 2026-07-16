@@ -160,3 +160,98 @@ export function isPropertyListing(text: string, mediaCount: number): boolean {
 
     return false;
 }
+
+// ─── Buyer Demand Detection ───────────────────────────────────────────────────
+
+export interface BuyerDemand {
+    city: string;
+    district: string;
+    roomType: string;
+    budget: string;
+    budgetCurrency: string;
+    listingType: 'SALE' | 'RENT';
+    propertyType: string;
+    notes: string;
+    contactPhone: string;
+    contactName: string;
+    rawText: string;
+    groupName: string;
+    intentScore: 'HOT' | 'WARM' | 'COLD';
+}
+
+export function isDemandMessage(text: string): boolean {
+    if (!text) return false;
+    const l = text.toLowerCase();
+    const demandKeywords = [
+        'arıyorum', 'arıyoruz', 'arıyor', 'aranıyor',
+        'bütçem', 'bütçemiz', 'bütçeli',
+        'almak istiyorum', 'kiralamak istiyorum',
+        'müşterim var', 'alıcım var', 'ihtiyacım var',
+        'looking for', 'searching for', 'ararım',
+    ];
+    const propertyKeywords = [
+        'daire', 'villa', 'ofis', 'arsa', 'konut', 'residence',
+        '1+1', '2+1', '3+1', '4+1', '5+1', 'm2', 'usd', 'tl', '₺', '$',
+    ];
+    return demandKeywords.some(kw => l.includes(kw)) && propertyKeywords.some(kw => l.includes(kw));
+}
+
+export function parseDemand(text: string, groupName: string, contactName: string, contactPhone: string): BuyerDemand {
+    const l = text.toLowerCase();
+    let city = 'İSTANBUL', district = '', roomType = '', budget = '', budgetCurrency = 'TRY';
+    let listingType: 'SALE' | 'RENT' = 'SALE', propertyType = 'APARTMENT';
+    let intentScore: 'HOT' | 'WARM' | 'COLD' = 'WARM';
+
+    if (l.includes('ankara')) city = 'ANKARA';
+    else if (l.includes('antalya')) city = 'ANTALYA';
+    else if (l.includes('izmir')) city = 'İZMİR';
+    else if (l.includes('bursa')) city = 'BURSA';
+    else if (l.includes('dubai') || l.includes('bae')) city = 'DUBAİ';
+
+    const districtMap: Record<string, string> = {
+        'şişli': 'Şişli', 'beşiktaş': 'Beşiktaş', 'beyoğlu': 'Beyoğlu', 'sarıyer': 'Sarıyer',
+        'kağıthane': 'Kağıthane', 'eyüpsultan': 'Eyüpsultan', 'fatih': 'Fatih',
+        'beylikdüzü': 'Beylikdüzü', 'esenyurt': 'Esenyurt', 'bakırköy': 'Bakırköy',
+        'kadıköy': 'Kadıköy', 'üsküdar': 'Üsküdar', 'maltepe': 'Maltepe',
+        'kartal': 'Kartal', 'ataşehir': 'Ataşehir', 'ümraniye': 'Ümraniye',
+        'beykoz': 'Beykoz', 'zeytinburnu': 'Zeytinburnu', 'bağcılar': 'Bağcılar',
+    };
+    for (const [k, v] of Object.entries(districtMap)) { if (l.includes(k)) { district = v; break; } }
+
+    const rm = text.match(/(\d)\s*\+\s*(\d)/);
+    if (rm) roomType = rm[0];
+
+    const budgetPatterns: Array<{ re: RegExp; currency: string }> = [
+        { re: /(\d[\d.,\s]*(?:milyon)?)\s*(usd|dolar|\$)/i, currency: 'USD' },
+        { re: /(\d[\d.,\s]*(?:milyon)?)\s*(aed|dirhem)/i, currency: 'AED' },
+        { re: /(\d[\d.,\s]*(?:milyon)?)\s*(tl|₺|lira)/i, currency: 'TRY' },
+        { re: /(\d[\d.,\s]*)\s*milyon/i, currency: 'TRY' },
+    ];
+    for (const p of budgetPatterns) {
+        const m = text.match(p.re);
+        if (m) { budget = m[0].trim(); budgetCurrency = p.currency; break; }
+    }
+    if (!budget) {
+        const bm = text.match(/(\d[\d.,\s]*(?:milyon)?)\s*(usd|tl|₺|\$|aed)?.*?bütçe/i);
+        if (bm) budget = bm[0].trim();
+    }
+
+    if (l.includes('kiralamak') || l.includes('kiralık') || l.includes('kiralayacak')) listingType = 'RENT';
+    if (l.includes('villa')) propertyType = 'VILLA';
+    else if (l.includes('ofis') || l.includes('plaza')) propertyType = 'OFFICE';
+    else if (l.includes('arsa') || l.includes('tarla')) propertyType = 'LAND';
+    else if (l.includes('dükkan') || l.includes('ticari')) propertyType = 'RETAIL';
+    
+    // Intent Scoring
+    const hotKeywords = ['acil', 'hemen', 'nakit hazır', 'nakiti hazır', 'bugün', 'yarın', 'ciddi', 'hazır müşteri', 'urgent', 'cash buyer'];
+    const coldKeywords = ['düşünüyor', 'soruşturuyor', 'bilgi almak', 'piyasa araştırması', 'merak', 'gelecek ay'];
+
+    if (hotKeywords.some(k => l.includes(k))) {
+        intentScore = 'HOT';
+    } else if (coldKeywords.some(k => l.includes(k))) {
+        intentScore = 'COLD';
+    }
+
+    return { city, district, roomType, budget, budgetCurrency, listingType, propertyType,
+        notes: text.substring(0, 500), contactPhone, contactName, rawText: text, groupName, intentScore };
+}

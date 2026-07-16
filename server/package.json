@@ -92,7 +92,17 @@
     "start": "bun run src/index.ts",
     "dev:server": "nodemon --watch src -e ts --exec bun run src/index.ts",
     "typecheck": "NODE_OPTIONS=--max_old_space_size=8192 npx tsc --noEmit",
-    "clean": "rm -rf node_modules .bun"
+    "clean": "rm -rf node_modules .bun",
+    "wa:agent": "bun run scripts/wa-property-agent.ts",
+    "wa:agent:live": "MESSAGING_ENABLED=true bun run scripts/wa-property-agent.ts",
+    "wa:outreach": "bun run scripts/wa-send-outreach.ts",
+    "wa:outreach:dry": "bun run scripts/wa-send-outreach.ts --dry-run",
+    "wa:outreach:invites": "bun run scripts/wa-send-outreach.ts --type LISTING_INVITE",
+    "video:pipeline": "python3 ml-services/video-neural-engine/video_pipeline.py",
+    "video:dry": "python3 ml-services/video-neural-engine/video_pipeline.py --dry-run",
+    "video:hls": "python3 ml-services/video-neural-engine/video_pipeline.py --hls-only",
+    "video:overlay": "python3 ml-services/video-neural-engine/video_pipeline.py --overlay-only --langs tr,en,ar,ru",
+    "video:4k": "python3 ml-services/video-neural-engine/video_pipeline.py --resolution 4K"
   },
   "dependencies": {
     "@elysiajs/bearer": "^1.1.2",

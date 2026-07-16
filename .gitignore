@@ -60,3 +60,4 @@ package-lock.json
 /src/generated/prisma
 server/.wwebjs_auth/
 server/prisma-generated/
+client-seo/public/videos/istanbul/

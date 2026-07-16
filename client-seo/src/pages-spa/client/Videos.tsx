@@ -1,33 +1,24 @@
 "use client";
 
-import { Helmet } from "react-helmet-async";
+
 import { VideoObjectSchema } from "@/components/seo/SchemaScript";
 import { useTranslation } from "react-i18next";
 import { useState, useMemo, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Property, propertyApi } from "@/lib/api/property";
+import { propertyApi } from "@/lib/api/property";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Play, Heart, MessageCircle, Share2, Sparkles, Eye,
-  ChevronRight, MapPin, Clock, Search, Star, Circle, Radio, Camera,
-  Bot, Filter, ChevronDown, ChevronUp, Send, Loader2
+  MapPin, Clock, Search, Star, Circle, Radio, Camera,
+  Bot, Filter, Send, Loader2
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
-import { useLanguage } from "@/lib/languages";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 
-/* ───── Category Data ───── */
-const CATEGORIES = [
-  { id: "all", key: "videos.cat.all", fallback: "ALL" },
-  { id: "villa", key: "videos.cat.villa", fallback: "VILLA" },
-  { id: "penthouse", key: "videos.cat.penthouse", fallback: "PENTHOUSE" },
-  { id: "smart", key: "videos.cat.smart", fallback: "SMART HOME" },
-  { id: "mountain", key: "videos.cat.mountain", fallback: "MOUNTAIN" },
-  { id: "loft", key: "videos.cat.loft", fallback: "LOFT" },
-];
+
 
 import istanbulVideos from "./istanbul-videos.json";
 
@@ -85,15 +76,14 @@ const FALLBACK_VIDEOS = [
 export default function Videos() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const [activeCat, setActiveCat] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCat] = useState("all");
+  const [searchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [listingType, setListingType] = useState("ALL");
-  const [promotionType, setPromotionType] = useState("ALL");
+  const [promotionType] = useState("ALL");
   const [activeProperty, setActiveProperty] = useState(0);
   const [activeRoom, setActiveRoom] = useState(0);
   const [liked, setLiked] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [aiQuery, setAiQuery] = useState("");
   const [isAiSearching, setIsAiSearching] = useState(false);
@@ -127,7 +117,6 @@ export default function Videos() {
   const [propertyCategory, setPropertyCategory] = useState("ALL");
   const [propertyType, setPropertyType] = useState("ALL");
   const [beds, setBeds] = useState("ALL");
-  const [baths, setBaths] = useState("ALL");
   const [priceMin, setPriceMin] = useState("");
   const [priceMax, setPriceMax] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -154,9 +143,9 @@ export default function Videos() {
       
       let location = fileDetails?.district ? `${fileDetails.district}, ${fileDetails.city || 'İstanbul'}` : (p.address || fallback.location);
       let title = fileDetails?.projectName || p.name || fallback.title;
-      let priceStr = fileDetails?.price || (p.price ? `$${Number(p.price).toLocaleString()}` : fallback.price);
-      let roomType = fileDetails?.roomType || null;
-      let status = fileDetails?.status || p.listingType || (i % 2 === 0 ? "SALE" : "RENT");
+      const priceStr = fileDetails?.price || (p.price ? `$${Number(p.price).toLocaleString()}` : fallback.price);
+      const roomType = fileDetails?.roomType || null;
+      const status = fileDetails?.status || p.listingType || (i % 2 === 0 ? "SALE" : "RENT");
       
       if (!fileDetails && !p.id && videoUrl.includes('/istanbul/')) {
         const parts = videoUrl.split('/');

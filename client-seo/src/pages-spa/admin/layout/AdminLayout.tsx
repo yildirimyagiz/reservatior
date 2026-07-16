@@ -574,7 +574,7 @@ export function AdminLayout({
  </div>
  </div>
  </div>;
- return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex h-screen bg-background text-foreground overflow-hidden transition-colors duration-300 p-4 gap-4">
+ return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex h-screen bg-background text-foreground overflow-hidden transition-colors p-4 gap-4">
  {/* Desktop Sidebar (Floating & Rounded) */}
  <aside className={cn("hidden md:flex flex-col bg-card/50 backdrop-blur-xl border border-border transition-all duration-300 shrink-0 rounded-[2rem] overflow-hidden", sidebarOpen ?"w-64" :"w-16")}>
  <SidebarContent />

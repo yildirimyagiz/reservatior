@@ -251,7 +251,7 @@ async function processDirectory(dirPath: string, detailsPath: string) {
         type: type,
         propertyCategory: PropertyCategory.RESIDENTIAL,
         listingType: ListingType.SALE,
-        listingStatus: ListingStatus.AVAILABLE,
+        listingStatus: ListingStatus.DRAFT,
         region: REGION_ENUM_MAP[countryCode] as any,
         currency: currency,
         addressLine1: `${details.district || "Bilinmeyen İlçe"}, ${details.city || "İstanbul"}`,
@@ -345,6 +345,32 @@ async function processDirectory(dirPath: string, detailsPath: string) {
             videoUrl: publicUrl,
             status: "completed",
           },
+        });
+
+        // Create VideoContent for Mobile App (TikTok-like feed)
+        const vcId = `vc_${videoId}`;
+        await prisma.videoContent.upsert({
+          where: { id: vcId },
+          update: {
+            propertyId: property.id,
+            url: details.hlsPath ? `/data/${details.hlsPath}` : publicUrl,
+            thumbnailUrl: details.thumbnailPath ? `/data/${details.thumbnailPath}` : undefined,
+          },
+          create: {
+            id: vcId,
+            orgId: orgId,
+            propertyId: property.id,
+            title: details.projectName || "WhatsApp Video",
+            url: details.hlsPath ? `/data/${details.hlsPath}` : publicUrl,
+            thumbnailUrl: details.thumbnailPath ? `/data/${details.thumbnailPath}` : undefined,
+            status: "READY",
+            pipeline: "KREA_REALTIME",
+            primaryLoraStyle: "REALISTIC",
+            primaryLoraScale: 1.0,
+            platform: "TIKTOK",
+            prompt: "Imported WhatsApp Real Estate Video",
+            durationSeconds: details.duration ? Math.round(details.duration) : null,
+          }
         });
       }
     }
