@@ -141,16 +141,24 @@ export default function Videos() {
 
   // Compute dynamic videos
   const videos = useMemo(() => {
-    return DEMO_VIDEOS.map((videoUrl: string, i: number) => {
+    return DEMO_VIDEOS.map((item: any, i: number) => {
+      // Determine if item is an object with details or a raw string URL
+      const isObject = typeof item === 'object' && item !== null;
+      const videoUrl = isObject ? item.videoUrl : item;
+      const fileDetails = isObject ? item.details : null;
+
       const fallback = FALLBACK_VIDEOS[i % FALLBACK_VIDEOS.length];
       const p = response?.data?.[i] || {};
       const rawImg = p.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
       const finalImage = (rawImg && typeof rawImg === 'string' && rawImg.length > 10) ? rawImg : fallback.image;
       
-      let location = p.address || fallback.location;
-      let title = p.name || fallback.title;
+      let location = fileDetails?.district ? `${fileDetails.district}, ${fileDetails.city || 'İstanbul'}` : (p.address || fallback.location);
+      let title = fileDetails?.projectName || p.name || fallback.title;
+      let priceStr = fileDetails?.price || (p.price ? `$${Number(p.price).toLocaleString()}` : fallback.price);
+      let roomType = fileDetails?.roomType || null;
+      let status = fileDetails?.status || p.listingType || (i % 2 === 0 ? "SALE" : "RENT");
       
-      if (!p.id && videoUrl.includes('/istanbul/')) {
+      if (!fileDetails && !p.id && videoUrl.includes('/istanbul/')) {
         const parts = videoUrl.split('/');
         // /videos/istanbul/District/...
         if (parts.length > 3) {
@@ -164,14 +172,14 @@ export default function Videos() {
         id: String(p.id || `video-${i}`),
         title: title,
         location: location,
-        price: p.price ? `$${Number(p.price).toLocaleString()}` : fallback.price,
-        beds: fallback.beds,
-        baths: fallback.baths,
-        sqft: fallback.sqft,
+        price: priceStr,
+        beds: roomType ? (parseInt(roomType.split('+')[0]) || fallback.beds) : fallback.beds,
+        baths: roomType ? (parseInt(roomType.split('+')[1]) || fallback.baths) : fallback.baths,
+        sqft: fileDetails?.netArea || fileDetails?.grossArea || fallback.sqft,
         category: p.type ? String(p.type).toLowerCase() : fallback.category,
-        listingType: p.listingType || (i % 2 === 0 ? "SALE" : "RENT"),
+        listingType: status.toUpperCase() === 'KİRALIK' || status.toUpperCase() === 'KIRALIK' ? 'RENT' : status.toUpperCase() === 'SATILIK' ? 'SALE' : status,
         promotionType: i === 0 ? "FEATURED" : i === 1 ? "URGENT" : i === 2 ? "PRICE_REDUCED" : "ALL",
-        agency: p.agency || fallback.agency,
+        agency: fileDetails?.contactName || p.agency || fallback.agency,
         verified: fallback.verified,
         views: fallback.views,
         time: fallback.time,

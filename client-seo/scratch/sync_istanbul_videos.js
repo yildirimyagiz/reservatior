@@ -24,11 +24,27 @@ const manifest = [];
 for (const filePath of allMp4s) {
   // Convert physical path to URL path
   const relPath = path.relative(sourceDir, filePath);
-  // Ensure URL uses forward slashes, and encode URI components for spaces/special chars
   const urlPath = `/videos/istanbul/${relPath.split(path.sep).map(p => encodeURIComponent(p)).join('/')}`;
-  manifest.push(urlPath);
+  
+  // Look for details.json in the same directory
+  const dirPath = path.dirname(filePath);
+  const detailsPath = path.join(dirPath, 'details.json');
+  
+  let details = null;
+  if (fs.existsSync(detailsPath)) {
+    try {
+      details = JSON.parse(fs.readFileSync(detailsPath, 'utf8'));
+    } catch (err) {
+      console.error(`Error parsing ${detailsPath}:`, err.message);
+    }
+  }
+
+  manifest.push({
+    videoUrl: urlPath,
+    details: details
+  });
 }
 
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 
-console.log(`Successfully generated manifest with ${manifest.length} videos.`);
+console.log(`Successfully generated manifest with ${manifest.length} videos and metadata.`);
