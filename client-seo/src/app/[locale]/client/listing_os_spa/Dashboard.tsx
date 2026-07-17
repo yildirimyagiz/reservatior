@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { listingOSApi } from "@/lib/api/listing-os";
 import { useAuth } from "@/lib/auth";
 import { motion, AnimatePresence } from "framer-motion";
-import { AiAdsAutomationCard } from "@/app/[locale]/client/listing_os_spa/AiAdsAutomationCard";
+import { AiAdsAutomationCard } from "./AiAdsAutomationCard";
 import { useTranslation } from "react-i18next";
 
 const HEALTH_STREAM = [
