@@ -17,6 +17,8 @@ class AppRoutes {
   static const String dashboard = '/dashboard';
   static const String profile = '/profile';
   static const String settings = '/settings';
+  static const String clientAiSearch = '/ai-search';
+  static const String adminListingOs = '/admin/listing-os';
 
   // Admin routes
   static const String adminDashboard = '/admin/dashboard';
@@ -227,6 +229,11 @@ class AppRoutes {
             path: adminReports,
             builder: (context, state) =>
                 RoleBasedRouter.getRoleBasedPage('reports', userRole),
+          ),
+          GoRoute(
+            path: adminListingOs,
+            builder: (context, state) =>
+                RoleBasedRouter.getRoleBasedPage('listing_os', userRole),
           ),
 
           // Generated Admin Routes
@@ -969,6 +976,11 @@ class AppRoutes {
             path: neighborhoodDNA,
             builder: (context, state) =>
                 RoleBasedRouter.getRoleBasedPage('neighborhood_dna', userRole),
+          ),
+          GoRoute(
+            path: clientAiSearch,
+            builder: (context, state) =>
+                RoleBasedRouter.getRoleBasedPage('ai_search', userRole),
           ),
         ],
 

@@ -1,6 +1,7 @@
 import { Elysia, t } from "elysia";
 import { prisma } from "../lib/prisma";
 import { mLSSyncOrchestrator } from "../services/mls-sync-orchestrator";
+import { nwmlsProvider } from "../services/nwmls-provider";
 import { regionMiddleware } from "../middleware/region";
 
 export const mlsRoutes = new Elysia({ prefix: "/mls" })
@@ -26,7 +27,7 @@ export const mlsRoutes = new Elysia({ prefix: "/mls" })
   })
 
   // POST /mls/connections
-  .post("/connections", async ({ orgId, db, body, set }) => {
+  .post("/connections", async ({ db, body, set }) => {
     try {
       const connection = await prisma.mLSConnection.create({
         data: body as any
@@ -84,7 +85,7 @@ export const mlsRoutes = new Elysia({ prefix: "/mls" })
   })
 
   // POST /mls/connections/:id/sync
-  .post("/connections/:id/sync", async ({ orgId: contextOrgId, db, params, body }) => {
+  .post("/connections/:id/sync", async ({ db, params, body }) => {
     const { id } = params;
     const { orgId } = body;
     
@@ -147,7 +148,7 @@ export const mlsRoutes = new Elysia({ prefix: "/mls" })
   })
 
   // POST /mls/convert
-  .post("/convert", async ({ orgId: contextOrgId, db, body, set }) => {
+  .post("/convert", async ({ db, body, set }) => {
     const { externalListingId, orgId, userId } = body;
     try {
       const result = await mLSSyncOrchestrator.convertToLocalListing(externalListingId, orgId, userId);
@@ -161,5 +162,61 @@ export const mlsRoutes = new Elysia({ prefix: "/mls" })
        externalListingId: t.String(),
        orgId: t.String(),
        userId: t.String()
+    })
+  })
+
+  // ──────────────────────────────────────────────────
+  // NWMLS (Seattle MLS) — One-Click Import Endpoints
+  // ──────────────────────────────────────────────────
+
+  // GET /mls/nwmls/preview?input=2232728
+  // Önizleme — sisteme kaydetmeden ilan bilgisini getirir
+  .get("/nwmls/preview", async ({ query, set }) => {
+    try {
+      const result = await nwmlsProvider.previewListing(query.input);
+      return { success: true, data: result };
+    } catch (e) {
+      set.status = 400;
+      return { success: false, error: (e as any).message };
+    }
+  }, {
+    query: t.Object({
+      input: t.String()
+    })
+  })
+
+  // POST /mls/nwmls/import — Tek tıkla import
+  .post("/nwmls/import", async ({ body, set }) => {
+    try {
+      const result = await nwmlsProvider.importListing(body.input, body.orgId, body.userId);
+      if (!result.success) {
+        set.status = 409; // Conflict for duplicates
+      }
+      return result;
+    } catch (e) {
+      set.status = 500;
+      return { success: false, error: (e as any).message };
+    }
+  }, {
+    body: t.Object({
+      input: t.String(),  // MLS # veya NWMLS URL
+      orgId: t.String(),
+      userId: t.String()
+    })
+  })
+
+  // POST /mls/nwmls/resync — Mevcut ilanı yeniden senkronize et
+  .post("/nwmls/resync", async ({ body, set }) => {
+    try {
+      const result = await nwmlsProvider.resyncListing(body.mlsNumber, body.orgId);
+      return result;
+    } catch (e) {
+      set.status = 500;
+      return { success: false, error: (e as any).message };
+    }
+  }, {
+    body: t.Object({
+      mlsNumber: t.String(),
+      orgId: t.String()
     })
   });

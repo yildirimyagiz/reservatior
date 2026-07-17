@@ -9,8 +9,12 @@ process.on('uncaughtException', (error) => {
 });
 import { staticPlugin } from "@elysiajs/static";
 import { cors } from "@elysiajs/cors";
+
+import { prismaManager, prisma } from "./lib/prisma";
+
+import { adsWebhookPlugin } from "./routes/webhooks/ads-webhook";
+
 import { router } from "./router";
-import { prisma } from "./lib/prisma";
 import { SignJWT, jwtVerify } from "jose";
 import { ENCODED_SECRET } from "./lib/jwt";
 import { cronScheduler } from "./cron/cron-scheduler";
@@ -146,7 +150,7 @@ const appBase = new Elysia()
     }
   })) as unknown as Elysia;
 
-const app = appBase
+const appCore = appBase
   // GET /api/auth/google — redirect to Google OAuth
   .get("/api/auth/google", ({ query, redirect }) => {
     const origin = query.origin as string || CLIENT_URL;
@@ -575,8 +579,10 @@ const app = appBase
 
   .use(router)
   .use(fintechRoutes)
-  .use(cronScheduler)
+  .use(cronScheduler) as unknown as Elysia;
 
+// ── Additional route group (split to prevent TS type-depth overflow) ─────────
+const app = (appBase as unknown as Elysia)
   // GET /api/plan and /api/v1/plan — public pricing plans
   .get("/api/plan", async ({ query }) => {
     const { planService } = await import("./services/plan");
@@ -663,6 +669,9 @@ const app = appBase
     };
   })
 
+  // Webhooks
+  .use(adsWebhookPlugin)
+
   .listen({ 
     port: Number(process.env.PORT) || 3000, 
     hostname: "0.0.0.0" 
@@ -683,6 +692,25 @@ initMlsConsumer().catch(console.error);
 // Initialize Autonomous Event-Driven Worker Pool
 import { startWorkerPool } from "./workers/worker-pool";
 startWorkerPool().catch(console.error);
+
+// ─── Initialize Event Bus Outbox & Sagas ────────────────────────────────────
+import { OutboxWorker } from "./core/events/outbox-worker";
+import { initWebSocketGateway } from "./core/events/websocket-gateway";
+
+initWebSocketGateway(); // Default port 3002
+
+import { registerAgentOnboardingListeners } from "./core/workflows/agent-onboarding.saga";
+import { registerListingPipelineListeners } from "./core/workflows/listing-pipeline.saga";
+import { registerCommissionPaymentListeners } from "./core/workflows/commission-payment.saga";
+import { registerAiMarketingListeners } from "./core/workflows/listeners/ai-marketing.listener";
+
+registerAgentOnboardingListeners();
+registerListingPipelineListeners();
+registerCommissionPaymentListeners();
+registerAiMarketingListeners();
+
+const outboxWorker = new OutboxWorker(5000); // Poll every 5s
+outboxWorker.start();
 
 // Initialize LinkedIn Auto-Poster
 import { startLinkedInAutoPoster } from "./services/linkedin-auto-poster";

@@ -186,6 +186,7 @@ class RoleBasedRouter {
       'webhook',
       'webhook_delivery',
       'welcome',
+      'listing_os',
     ];
   }
 
@@ -200,6 +201,7 @@ class RoleBasedRouter {
       'tasks',
       'financial_overview',
       'neighborhood_dna',
+      'ai_search',
     ];
   }
 

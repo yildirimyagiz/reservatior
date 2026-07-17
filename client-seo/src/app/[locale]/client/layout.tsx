@@ -4,9 +4,12 @@ import { AppLayout } from "@/pages-spa/client/layout/AppLayout";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Footer } from "@/components/layout/Footer";
 import { usePathname } from "next/navigation";
+import { useReservatiorEvents } from "@/hooks/use-events";
 
 export default function ClientRouteLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  useReservatiorEvents(); // Initialize real-time WebSocket connection
+
   const isAuthPage = pathname.includes("/login") || pathname.includes("/signup") || pathname.includes("/auth");
 
   if (isAuthPage) {

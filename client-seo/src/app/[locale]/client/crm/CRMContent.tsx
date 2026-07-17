@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, Tag } from "lucide-react";
+import { Users, Tag, DollarSign } from "lucide-react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
@@ -14,6 +14,13 @@ export function CRMContent() {
       icon: Users,
       href: "/client/crm/leads",
       color: "text-blue-500"
+    },
+    {
+      title: "Deals Pipeline",
+      description: "Track and close opportunities",
+      icon: DollarSign,
+      href: "/client/deals",
+      color: "text-emerald-500"
     },
     {
       title: "Tags",

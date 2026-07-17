@@ -81,7 +81,7 @@ const eventBusExtension = {
   }
 };
 
-class PrismaManager {
+export class PrismaManager {
   private clients = new Map<string, PrismaClient>();
   private defaultClient: PrismaClient;
 

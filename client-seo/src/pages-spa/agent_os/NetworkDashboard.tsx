@@ -82,7 +82,7 @@ export function NetworkDashboard() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [currentCommission]);
 
   return (
     <div className="flex flex-col gap-4">

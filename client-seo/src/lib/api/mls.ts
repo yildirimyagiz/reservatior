@@ -15,4 +15,12 @@ export const mlsApi = {
     apiClient.post<any>("/api/ai/supercharge/staging", { propertyId, orgId, imageUrl }),
   superchargeReels: (propertyId: string, orgId: string, photos: string[]) => 
     apiClient.post<any>("/api/ai/supercharge/reels", { propertyId, orgId, photos }),
+
+  // NWMLS (Seattle MLS) — One-Click Import
+  nwmlsPreview: (input: string) =>
+    apiClient.get<any>(`/api/mls/nwmls/preview?input=${encodeURIComponent(input)}`),
+  nwmlsImport: (input: string, orgId: string, userId: string) =>
+    apiClient.post<any>("/api/mls/nwmls/import", { input, orgId, userId }),
+  nwmlsResync: (mlsNumber: string, orgId: string) =>
+    apiClient.post<any>("/api/mls/nwmls/resync", { mlsNumber, orgId }),
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Users, Activity, Target, DollarSign, ArrowUpRight, TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -9,10 +10,12 @@ import { agentPerformanceApi } from "@/lib/api/agent-performance";
 import { useAuth } from "@/lib/auth";
 import { NetworkDashboard } from "./NetworkDashboard";
 import { OpportunityFeed } from "./OpportunityFeed";
+import { AgentOnboardingTable } from "./AgentOnboardingTable";
 import { motion } from "framer-motion";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
+
 
 const DEMO_CHART = [
   { day: "Mon", revenue: 8400,  commissions: 3 },
@@ -67,23 +70,25 @@ export default function AgentDashboard() {
   const fmt = (v: number) =>
     new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(v);
 
+  const { t } = useTranslation();
+
   const kpis = [
-    { title: "Total Leads Handled", value: totalLeads, icon: Users, color: "text-emerald-500", trend: "+28 this week" },
-    { title: "Avg Response Latency", value: `${avgLatency}m`, icon: Activity, color: "text-blue-400", trend: "SLA compliant" },
-    { title: "Conversion Rate", value: `${conversionRate}%`, icon: Target, color: "text-purple-400", trend: "vs 28% industry avg" },
-    { title: "Commission Revenue", value: fmt(commissionValue), icon: DollarSign, color: "text-orange-400", trend: "+14.7% vs last month" },
+    { title: t("agent_os.total_leads", { defaultValue: "Total Leads Handled" }), value: totalLeads, icon: Users, color: "text-emerald-500", trend: t("agent_os.leads_trend", { defaultValue: "+28 this week" }) },
+    { title: t("agent_os.avg_response", { defaultValue: "Avg Response Latency" }), value: `${avgLatency}m`, icon: Activity, color: "text-blue-400", trend: t("agent_os.sla_compliant", { defaultValue: "SLA compliant" }) },
+    { title: t("agent_os.conversion_rate", { defaultValue: "Conversion Rate" }), value: `${conversionRate}%`, icon: Target, color: "text-purple-400", trend: t("agent_os.conversion_trend", { defaultValue: "vs 28% industry avg" }) },
+    { title: t("agent_os.commission_revenue", { defaultValue: "Commission Revenue" }), value: fmt(commissionValue), icon: DollarSign, color: "text-orange-400", trend: t("agent_os.revenue_trend", { defaultValue: "+14.7% vs last month" }) },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Agent OS</h1>
-          <p className="text-slate-400 mt-1">Behavioral Data Intake · Commission Engine · AI Decision Graph</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-100">{t("agent_os.title", { defaultValue: "Agent OS" })}</h1>
+          <p className="text-slate-400 mt-1">{t("agent_os.subtitle", { defaultValue: "Behavioral Data Intake · Commission Engine · AI Decision Graph" })}</p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20">
           <span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" />
-          <span className="text-xs font-semibold text-indigo-400">MONITORING</span>
+          <span className="text-xs font-semibold text-indigo-400">{t("agent_os.monitoring", { defaultValue: "MONITORING" })}</span>
         </div>
       </div>
 
@@ -113,10 +118,10 @@ export default function AgentDashboard() {
           <CardHeader>
             <CardTitle className="text-slate-100 flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-emerald-400" />
-              Commission Revenue Stream (7d)
+              {t("agent_os.revenue_chart_title", { defaultValue: "Commission Revenue Stream (7d)" })}
             </CardTitle>
             <CardDescription className="text-slate-400">
-              Daily revenue contribution from closed agent deals.
+              {t("agent_os.revenue_chart_desc", { defaultValue: "Daily revenue contribution from closed agent deals." })}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -130,7 +135,7 @@ export default function AgentDashboard() {
                     contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px" }}
                     formatter={(v: any, name: any) => [
                       name === "revenue" ? fmt(Number(v ?? 0)) : v,
-                      name === "revenue" ? "Revenue" : "Commissions",
+                      name === "revenue" ? t("agent_os.revenue", { defaultValue: "Revenue" }) : t("agent_os.commissions", { defaultValue: "Commissions" }),
                     ]}
                   />
                   <Bar dataKey="revenue" fill="#10b981" radius={[4, 4, 0, 0]} opacity={0.85} />
@@ -143,9 +148,9 @@ export default function AgentDashboard() {
 
         <Card className="bg-slate-900/60 border-slate-800">
           <CardHeader>
-            <CardTitle className="text-slate-100">Behavioral Score Matrix</CardTitle>
+            <CardTitle className="text-slate-100">{t("agent_os.matrix_title", { defaultValue: "Behavioral Score Matrix" })}</CardTitle>
             <CardDescription className="text-slate-400">
-              Live AI signals feeding into the Revenue DAG.
+              {t("agent_os.matrix_desc", { defaultValue: "Live AI signals feeding into the Revenue DAG." })}
             </CardDescription>
           </CardHeader>
           <CardContent>

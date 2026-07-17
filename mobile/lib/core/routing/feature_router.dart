@@ -1,6 +1,8 @@
 import 'package:reservatior/features/admin/dynamic/dynamic_admin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:reservatior/features/client/property/presentation/pages/search_and_filters_page.dart';
+import 'package:reservatior/features/ai_search/presentation/ai_search_screen.dart';
+import 'package:reservatior/features/listing_os/presentation/listings_dashboard.dart';
 
 
 // Batch 1: Financial
@@ -254,9 +256,11 @@ class FeatureRouter {
     'webhook': () => DynamicAdminScreen(modelName: 'Webhook'),
     'webhook_delivery': () => DynamicAdminScreen(modelName: 'WebhookDelivery'),
     'welcome': () => DynamicAdminScreen(modelName: 'Welcome'),
+    'listing_os': () => const ListingsDashboard(),
   };
   static final Map<String, Widget Function()> clientPages = {
     'property_search': () => DynamicAdminScreen(modelName: 'SearchAndFiltersPage'),
+    'ai_search': () => const AISearchScreen(),
   };
 
   static Widget getAdminPage(String feature) {

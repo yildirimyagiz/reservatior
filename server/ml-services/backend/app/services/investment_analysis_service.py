@@ -329,7 +329,8 @@ class InvestmentAnalyzer:
             'risk_assessment': risk_assessment,
             'investment_grade': investment_grade,
             'recommendations': recommendations,
-            'market_comparison': self._compare_to_market_averages(roi_metrics)
+            'market_comparison': self._compare_to_market_averages(roi_metrics),
+            'disclaimer': 'IMPORTANT: Not financial advice. Estimates are based on historical data and predictive algorithms. All real estate investments carry risk and actual ROI may vary.'
         }
     
     def _calculate_investment_grade(self, roi_data: Dict, risk_data: Dict) -> Dict[str, Any]:

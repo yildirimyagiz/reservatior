@@ -90,6 +90,8 @@ export default function MLSIntegration() {
  const [searchTerm, setSearchTerm] = useState("");
  const [statusFilter, setStatusFilter] = useState("ALL");
  const [isTransferring, setIsTransferring] = useState<string | null>(null);
+ const [isNwmlsImporting, setIsNwmlsImporting] = useState(false);
+ const [nwmlsInput, setNwmlsInput] = useState("");
  const navigate = useNavigate();
  const {
  user: currentUser
@@ -389,24 +391,83 @@ export default function MLSIntegration() {
  </TabsContent>
 
  <TabsContent value="listings" className="space-y-4">
- <div className="flex gap-2">
- <div className="relative">
- <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
- <Input placeholder={t("admin_integrations_search_listings")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
- </div>
- <Select value={statusFilter} onValueChange={setStatusFilter}>
- <SelectTrigger className="w-32">
- <SelectValue />
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="ALL">{t("admin_integrations_all_status")}</SelectItem>
- <SelectItem value="ACTIVE">{t("admin_integrations_active")}</SelectItem>
- <SelectItem value="SOLD">{t("admin_integrations_sold")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_integrations_pending")}</SelectItem>
- <SelectItem value="EXPIRED">{t("admin_integrations_expired")}</SelectItem>
- </SelectContent>
- </Select>
- </div>
+ <div className="flex justify-between items-center">
+    <div className="flex gap-2">
+      <div className="relative">
+      <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+      <Input placeholder={t("admin_integrations_search_listings")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64" />
+      </div>
+      <Select value={statusFilter} onValueChange={setStatusFilter}>
+      <SelectTrigger className="w-32">
+      <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+      <SelectItem value="ALL">{t("admin_integrations_all_status")}</SelectItem>
+      <SelectItem value="ACTIVE">{t("admin_integrations_active")}</SelectItem>
+      <SelectItem value="SOLD">{t("admin_integrations_sold")}</SelectItem>
+      <SelectItem value="PENDING">{t("admin_integrations_pending")}</SelectItem>
+      <SelectItem value="EXPIRED">{t("admin_integrations_expired")}</SelectItem>
+      </SelectContent>
+      </Select>
+    </div>
+
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20">
+          <Database className="w-4 h-4 mr-2" />
+          One-Click NWMLS Import
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Import from NWMLS (Seattle)</DialogTitle>
+          <DialogDescription>
+            Enter an NWMLS Listing ID or URL. Reservatior will automatically fetch all high-res media, property details, and agent info.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4 py-4">
+          <div className="grid gap-2">
+            <Label>Listing ID (e.g., 2232728)</Label>
+            <Input 
+              placeholder="Enter MLS ID" 
+              value={nwmlsInput}
+              onChange={e => setNwmlsInput(e.target.value)}
+            />
+          </div>
+        </div>
+        <Button 
+          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" 
+          disabled={!nwmlsInput || isNwmlsImporting}
+          onClick={async () => {
+            if (!currentUser?.orgId) return;
+            setIsNwmlsImporting(true);
+            try {
+              toast({ title: "Importing listing...", description: "Fetching real-time data from NWMLS API." });
+              const res = await mlsApi.nwmlsImport(nwmlsInput, currentUser.orgId, currentUser.id || "");
+              if (res.success) {
+                toast({ title: "Import Successful!", description: "The listing has been synced into Reservatior." });
+                setNwmlsInput("");
+                fetchMLSData(); // Refresh the list
+              } else {
+                throw new Error(res.error || "Unknown error occurred");
+              }
+            } catch (e: any) {
+              toast({ 
+                title: "Import Failed", 
+                description: e.response?.data?.error || e.message, 
+                variant: "destructive" 
+              });
+            } finally {
+              setIsNwmlsImporting(false);
+            }
+          }}
+        >
+          {isNwmlsImporting ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <Database className="w-4 h-4 mr-2" />}
+          {isNwmlsImporting ? "Importing Data & Media..." : "Import Listing"}
+        </Button>
+      </DialogContent>
+    </Dialog>
+  </div>
 
  <Card>
  <CardHeader>

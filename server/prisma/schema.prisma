@@ -370,11 +370,11 @@ model Organization {
   trPropertyDocuments    TRPropertyDocumentRecord[]    @relation("TRDocOrg") // Managed field
   trTaxDeclarations      TRTaxDeclaration[]            @relation("TRTaxOrg") // Managed field
 
-  experiences        Experience[]
-  experienceBookings ExperienceBooking[]
-  transferServices   TransferService[]
-  transferBookings   TransferBooking[]
-  conciergeRequests  ConciergeRequest[]
+  experiences          Experience[]
+  experienceBookings   ExperienceBooking[]
+  transferServices     TransferService[]
+  transferBookings     TransferBooking[]
+  conciergeRequests    ConciergeRequest[]
   listingDistributions ListingDistribution[]
 }
 
@@ -632,65 +632,65 @@ enum PaymentGatewayType {
 }
 
 model CountryFintechConfig {
-  isoCode                String               @id @db.VarChar(2)
-  name                   String
-  baseCurrency           String               @default("USD")
-  
-  requiresDepositEscrow  Boolean              @default(false)
-  allowsDepositYield     Boolean              @default(true)
-  maxRentInstallments    Int                  @default(1)
-  
-  allowsSalesCommissionInstallments Boolean   @default(true)
-  maxSalesCommissionInstallments    Int       @default(12)
-  maxSalesCommissionRateBps         Int       @default(600)
-  
-  supportedGateways      PaymentGatewayType[]
-  kycStrictnessLevel     KYCStrictness        @default(MODERATE)
-  
-  properties             Property[]
-  states                 StateFintechConfig[]
+  isoCode      String @id @db.VarChar(2)
+  name         String
+  baseCurrency String @default("USD")
+
+  requiresDepositEscrow Boolean @default(false)
+  allowsDepositYield    Boolean @default(true)
+  maxRentInstallments   Int     @default(1)
+
+  allowsSalesCommissionInstallments Boolean @default(true)
+  maxSalesCommissionInstallments    Int     @default(12)
+  maxSalesCommissionRateBps         Int     @default(600)
+
+  supportedGateways  PaymentGatewayType[]
+  kycStrictnessLevel KYCStrictness        @default(MODERATE)
+
+  properties Property[]
+  states     StateFintechConfig[]
 }
 
 model StateFintechConfig {
-  id                     String               @id @default(uuid())
-  stateCode              String               @db.VarChar(10)
-  countryIsoCode         String
-  country                CountryFintechConfig @relation(fields: [countryIsoCode], references: [isoCode])
-  
-  maxRentCapPercent      Float?               
-  evictionNoticeDays     Int?                 
-  
+  id             String               @id @default(uuid())
+  stateCode      String               @db.VarChar(10)
+  countryIsoCode String
+  country        CountryFintechConfig @relation(fields: [countryIsoCode], references: [isoCode])
+
+  maxRentCapPercent  Float?
+  evictionNoticeDays Int?
+
   @@unique([countryIsoCode, stateCode])
 }
 
 model Property {
-  id                       String                          @id @default(cuid())
-  orgId                    String
-  type                     PropertyType                    @default(DETACHED_HOUSE)
-  name                     String
-  region                   Region
-  currency                 String                          @default("USD")
-  addressLine1             String
-  addressLine2             String?
-  city                     String
-  state                    String?
-  zip                      String?
-  country                  String
-  countryIsoCode           String?              @db.VarChar(2)
-  countryConfig            CountryFintechConfig? @relation(fields: [countryIsoCode], references: [isoCode])
-  lat                      Float?
-  lng                      Float?
-  neighborhoodId           String?
-  bedrooms                 Int?
-  bathrooms                Float?
-  areaSqm                  Float?
-  yearBuilt                Int?
-  notes                    String?
-  locationId               String?                         @unique
-  stateCode                State?
-  propertyCategory         PropertyCategory                @default(RESIDENTIAL)
-  listingType              ListingType                     @default(SALE)
-  
+  id               String                @id @default(cuid())
+  orgId            String
+  type             PropertyType          @default(DETACHED_HOUSE)
+  name             String
+  region           Region
+  currency         String                @default("USD")
+  addressLine1     String
+  addressLine2     String?
+  city             String
+  state            String?
+  zip              String?
+  country          String
+  countryIsoCode   String?               @db.VarChar(2)
+  countryConfig    CountryFintechConfig? @relation(fields: [countryIsoCode], references: [isoCode])
+  lat              Float?
+  lng              Float?
+  neighborhoodId   String?
+  bedrooms         Int?
+  bathrooms        Float?
+  areaSqm          Float?
+  yearBuilt        Int?
+  notes            String?
+  locationId       String?               @unique
+  stateCode        State?
+  propertyCategory PropertyCategory      @default(RESIDENTIAL)
+  listingType      ListingType           @default(SALE)
+
   // AI Precomputed Fields
   aiSummary                String?                         @db.Text
   aiProsCons               String?                         @db.Text
@@ -1244,7 +1244,9 @@ model Listing {
   ledgerEntries         LedgerEntry[]
   commissions           Commission[]
   recommendationResults RecommendationResult[]
-  listingDistributions   ListingDistribution[]
+  listingDistributions  ListingDistribution[]
+  aiServiceTasks        AiServiceTask[]
+  aiVideoGenerations    AiVideoGeneration[]
 
   @@index([orgId])
   @@index([propertyId])
@@ -1276,10 +1278,10 @@ model Tag {
   orgId       String
   name        String
   color       String?
-  basePrice   Float?                          // Standart fiyat
-  duration    Int?                            // Duration in days
+  basePrice   Float? // Standart fiyat
+  duration    Int? // Duration in days
   isActive    Boolean      @default(true)
-  tierPricing Json?                           // Paket bazlı fiyatlar { BASIC: 29.99, PRO: 19.99, ENTERPRISE: 0 }
+  tierPricing Json? // Paket bazlı fiyatlar { BASIC: 29.99, PRO: 19.99, ENTERPRISE: 0 }
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   deletedAt   DateTime?
@@ -1292,17 +1294,17 @@ model Tag {
 }
 
 model ListingTag {
-  id        String       @id @default(cuid())
-  listingId String
-  tagId     String
-  orgId     String
-  expiryDate DateTime?    // When the tag expires
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  deletedAt DateTime?
-  listing   Listing      @relation(fields: [listingId], references: [id])
-  org       Organization @relation(fields: [orgId], references: [id])
-  tag       Tag          @relation(fields: [tagId], references: [id])
+  id         String       @id @default(cuid())
+  listingId  String
+  tagId      String
+  orgId      String
+  expiryDate DateTime? // When the tag expires
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  deletedAt  DateTime?
+  listing    Listing      @relation(fields: [listingId], references: [id])
+  org        Organization @relation(fields: [orgId], references: [id])
+  tag        Tag          @relation(fields: [tagId], references: [id])
 
   @@index([listingId])
   @@index([tagId])
@@ -2875,11 +2877,11 @@ model Subscription {
   maxProperties      Int            @default(1)
   maxListings        Int            @default(5)
   featuredListings   Int            @default(0)
-  boostedListings    Int            @default(0)     // Doping/boost hakkı
-  socialMediaPosts    Int            @default(0)     // Aylık oto-post hakkı
-  googleAdsCredits    Decimal        @default(0)     @db.Decimal(10, 2) // Google ads kredisi
-  tagAllowances      Json?                        // Tag kullanım hakları (FEATURED: 5, URGENT: 3 vb.)
-  adCredits          Decimal        @default(0)     @db.Decimal(10, 2) // Genel reklam kredisi
+  boostedListings    Int            @default(0) // Doping/boost hakkı
+  socialMediaPosts   Int            @default(0) // Aylık oto-post hakkı
+  googleAdsCredits   Decimal        @default(0) @db.Decimal(10, 2) // Google ads kredisi
+  tagAllowances      Json? // Tag kullanım hakları (FEATURED: 5, URGENT: 3 vb.)
+  adCredits          Decimal        @default(0) @db.Decimal(10, 2) // Genel reklam kredisi
   prioritySupport    Boolean        @default(false)
   apiAccess          Boolean        @default(false)
   commissionDiscount Float          @default(0.0)
@@ -3121,35 +3123,35 @@ model Facility {
 }
 
 model Contract {
-  id                String             @id @default(cuid())
-  orgId             String
-  propertyId        String?
-  listingId         String?
-  leaseId           String?
-  bookingId         String?
-  type              ContractType
-  status            ContractStatus     @default(DRAFT)
-  title             String?
-  effectiveFrom     DateTime?
-  effectiveTo       DateTime?
-  nextRenewalAt     DateTime?
-  renewalNoticeDays Int?
-  createdBy         String?
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  deletedAt         DateTime?
-  booking           Booking?           @relation(fields: [bookingId], references: [id])
-  lease             Lease?             @relation(fields: [leaseId], references: [id])
-  listing           Listing?           @relation(fields: [listingId], references: [id])
-  org               Organization       @relation(fields: [orgId], references: [id])
-  property          Property?          @relation(fields: [propertyId], references: [id])
-  versions          ContractVersion[]
-  generalDocuments  Document[]
-  increases         Increase[]
-  signatureRequests SignatureRequest[]
-  tasks             Task[]
-  agencies          Agency[]           @relation("AgencyToContract")
-  tenants           Tenant[]           @relation("ContractToTenant")
+  id                  String               @id @default(cuid())
+  orgId               String
+  propertyId          String?
+  listingId           String?
+  leaseId             String?
+  bookingId           String?
+  type                ContractType
+  status              ContractStatus       @default(DRAFT)
+  title               String?
+  effectiveFrom       DateTime?
+  effectiveTo         DateTime?
+  nextRenewalAt       DateTime?
+  renewalNoticeDays   Int?
+  createdBy           String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  deletedAt           DateTime?
+  booking             Booking?             @relation(fields: [bookingId], references: [id])
+  lease               Lease?               @relation(fields: [leaseId], references: [id])
+  listing             Listing?             @relation(fields: [listingId], references: [id])
+  org                 Organization         @relation(fields: [orgId], references: [id])
+  property            Property?            @relation(fields: [propertyId], references: [id])
+  versions            ContractVersion[]
+  generalDocuments    Document[]
+  increases           Increase[]
+  signatureRequests   SignatureRequest[]
+  tasks               Task[]
+  agencies            Agency[]             @relation("AgencyToContract")
+  tenants             Tenant[]             @relation("ContractToTenant")
   contractTransitions ContractTransition[]
 
   @@index([orgId])
@@ -3478,7 +3480,7 @@ model Commission {
   commissionAmount  Decimal                  @db.Decimal(14, 2)
   currency          String                   @default("USD")
   status            CommissionStatus         @default(PENDING)
-  collectionType    CommissionCollectionType  @default(UPFRONT)
+  collectionType    CommissionCollectionType @default(UPFRONT)
   upfrontPercent    Decimal                  @default(50.00) @db.Decimal(5, 2)
   installmentCount  Int                      @default(12)
   interestRate      Decimal                  @default(10.00) @db.Decimal(5, 2)
@@ -3496,6 +3498,8 @@ model Commission {
 
   listing Listing? @relation(fields: [listingId], references: [id]) // Managed field
 
+  advances          CommissionAdvance[]
+
   @@index([orgId])
   @@index([listingId])
   @@index([beneficiaryUserId])
@@ -3503,6 +3507,37 @@ model Commission {
   @@index([agencyId])
   @@index([status])
   @@index([collectionType])
+}
+
+enum CommissionAdvanceType {
+  INSTANT
+  INSTALLMENT
+}
+
+enum CommissionAdvanceStatus {
+  OFFERED
+  ACCEPTED
+  PAID
+  COMPLETED
+}
+
+model CommissionAdvance {
+  id              String                  @id @default(uuid())
+  commissionId    String
+  originalAmount  Decimal                 @db.Decimal(14, 2)
+  feeRate         Decimal                 @db.Decimal(5, 2)
+  feeAmount       Decimal                 @db.Decimal(14, 2)
+  payoutAmount    Decimal                 @db.Decimal(14, 2)
+  type            CommissionAdvanceType
+  status          CommissionAdvanceStatus
+  
+  approvedAt      DateTime?
+  paidAt          DateTime?
+
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+
+  commission      Commission              @relation(fields: [commissionId], references: [id])
 }
 
 model PropertyPhoto {
@@ -7844,31 +7879,44 @@ model AiServiceTask {
   errorMessage  String?
   progress      Int          @default(0)
   priority      Int          @default(1)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  organization  Organization @relation(fields: [orgId], references: [id])
-  property      Property?    @relation(fields: [propertyId], references: [id])
+
+  // Dynamic workflow metadata
+  entityType String?
+  entityId   String?
+  payload    Json?
+  result     Json?
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  organization Organization @relation(fields: [orgId], references: [id])
+  property     Property?    @relation(fields: [propertyId], references: [id])
+  listing      Listing?     @relation(fields: [listingId], references: [id])
 
   @@index([orgId])
   @@index([propertyId])
+  @@index([listingId])
   @@index([taskType])
   @@index([status])
 }
 
 model AiVideoGeneration {
   id              String         @id @default(cuid())
-  propertyId      String
+  propertyId      String?
+  listingId       String?
   sourcePhotos    String[]
+  outputUrls      String[]
   status          String         @default("PENDING")
   videoUrl        String?
   musicTrack      String?
   languageVariant String         @default("en")
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
-  property        Property       @relation(fields: [propertyId], references: [id])
+  property        Property?      @relation(fields: [propertyId], references: [id])
+  listing         Listing?       @relation(fields: [listingId], references: [id])
   captions        VideoCaption[]
 
   @@index([propertyId])
+  @@index([listingId])
 }
 
 model VideoCaption {
@@ -8608,16 +8656,16 @@ enum BookingStatus {
 }
 
 model ContractTransition {
-  id              String   @id @default(cuid())
-  contractId      String
-  fromState       String
-  toState         String
-  triggerEvent    String
-  metadata        Json?
-  region          String   @default("US")
-  transitionedAt  DateTime @default(now())
-  createdAt       DateTime @default(now())
-  contract        Contract @relation(fields: [contractId], references: [id])
+  id             String   @id @default(cuid())
+  contractId     String
+  fromState      String
+  toState        String
+  triggerEvent   String
+  metadata       Json?
+  region         String   @default("US")
+  transitionedAt DateTime @default(now())
+  createdAt      DateTime @default(now())
+  contract       Contract @relation(fields: [contractId], references: [id])
 
   @@index([contractId])
   @@index([transitionedAt])
@@ -8625,18 +8673,18 @@ model ContractTransition {
 }
 
 model ListingDistribution {
-  id                  String    @id @default(cuid())
-  listingId           String    @unique
+  id                  String       @id @default(cuid())
+  listingId           String       @unique
   agentId             String
   orgId               String
   distributionScore   Float
-  priority            String    @default("MEDIUM")
+  priority            String       @default("MEDIUM")
   estimatedConversion Float?
-  calculatedAt        DateTime  @default(now())
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-  listing             Listing   @relation(fields: [listingId], references: [id])
-  agent               Agent     @relation(fields: [agentId], references: [id])
+  calculatedAt        DateTime     @default(now())
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  listing             Listing      @relation(fields: [listingId], references: [id])
+  agent               Agent        @relation(fields: [agentId], references: [id])
   organization        Organization @relation(fields: [orgId], references: [id])
 
   @@index([listingId])
@@ -8663,17 +8711,17 @@ model ReputationDecayLog {
 }
 
 model CrossPartyReview {
-  id               String   @id @default(cuid())
-  transactionId    String
-  reviewerType     String
-  reviewerId       String
-  subjectId        String
-  subjectType      String
-  score            Float
-  comment          String?
-  role             String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id            String   @id @default(cuid())
+  transactionId String
+  reviewerType  String
+  reviewerId    String
+  subjectId     String
+  subjectType   String
+  score         Float
+  comment       String?
+  role          String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@index([subjectId, subjectType])
   @@index([reviewerId])
@@ -8681,17 +8729,17 @@ model CrossPartyReview {
 }
 
 model DemandGenerationLog {
-  id              String   @id @default(cuid())
-  sourceType      String
-  sourceId        String?
-  listingId       String?
-  tenantId        String?
-  agentId         String?
-  region          String   @default("US")
-  matchScore      Float?
-  recommendation  Json?
-  converted       Boolean  @default(false)
-  createdAt       DateTime @default(now())
+  id             String   @id @default(cuid())
+  sourceType     String
+  sourceId       String?
+  listingId      String?
+  tenantId       String?
+  agentId        String?
+  region         String   @default("US")
+  matchScore     Float?
+  recommendation Json?
+  converted      Boolean  @default(false)
+  createdAt      DateTime @default(now())
 
   @@index([sourceType, sourceId])
   @@index([tenantId])
@@ -8890,6 +8938,7 @@ enum MLSProviderKey {
   TREB
   CREA
   IDEALISTA
+  NWMLS
   OTHER
 }
 
@@ -10745,6 +10794,11 @@ enum AiTaskType {
   AI_PHOTO_STAGING
   MARKETING_BROCHURE_GEN
   MLS_SYNC
+  META_ADS_CREATIVE_GEN
+  META_COPY_GENERATION
+  META_AUDIENCE_SELECTION
+  META_BUDGET_OPTIMIZATION
+  WHATSAPP_LEAD_RESPONSE
 }
 
 enum ConciergeRequestType {
@@ -11919,22 +11973,22 @@ model AgentEscrowTransaction {
 }
 
 model EscrowSplitConfig {
-  id                  String    @id @default(cuid())
-  propertyId          String    @unique
-  agentId             String
-  agentPayoutRate     Float     @default(3.00) // 3% commission to agent
-  reservatiorFeeRate  Float     @default(4.00) // 4% take rate to Reservatior
-  blockageDays        Int       @default(15) // days for UPFRONT collection
-  installmentEnabled  Boolean   @default(false)
-  upfrontPercent      Decimal?  @default(50.00) @db.Decimal(5, 2)
-  installmentCount    Int?      @default(12)
-  interestRate        Decimal?  @default(10.00) @db.Decimal(5, 2)
-  isActive            Boolean   @default(true)
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-  deletedAt           DateTime?
-  property            Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  agent               Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  id                 String    @id @default(cuid())
+  propertyId         String    @unique
+  agentId            String
+  agentPayoutRate    Float     @default(3.00) // 3% commission to agent
+  reservatiorFeeRate Float     @default(4.00) // 4% take rate to Reservatior
+  blockageDays       Int       @default(15) // days for UPFRONT collection
+  installmentEnabled Boolean   @default(false)
+  upfrontPercent     Decimal?  @default(50.00) @db.Decimal(5, 2)
+  installmentCount   Int?      @default(12)
+  interestRate       Decimal?  @default(10.00) @db.Decimal(5, 2)
+  isActive           Boolean   @default(true)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  deletedAt          DateTime?
+  property           Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  agent              Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
 
   @@index([agentId])
 }
@@ -12389,23 +12443,23 @@ model UserAIHabit {
 }
 
 model AIKnowledgeArticle {
-  id          String   @id @default(cuid())
-  category    String
-  title       String
-  content     String   @db.Text
+  id        String   @id @default(cuid())
+  category  String
+  title     String
+  content   String   @db.Text
   // Note: Using Json to store embeddings if pgvector is not enabled locally, or Unsupported("vector(768)") if it is.
   // Using Json is safer for broader environments without failing the push.
-  embedding   Json?    
-  isActive    Boolean  @default(true)
-  updatedAt   DateTime @updatedAt
+  embedding Json?
+  isActive  Boolean  @default(true)
+  updatedAt DateTime @updatedAt
 }
 
 model AICreditBalance {
   id             String   @id @default(cuid())
   userId         String   @unique
-  monthlyQuota   Int      @default(100)   // Abonelik paketine göre aylık yenilenir
-  purchasedQuota Int      @default(0)     // Pay-as-you-go satın alınan ekstra
-  consumed       Int      @default(0)     // Bu ay tüketilen toplam
+  monthlyQuota   Int      @default(100) // Abonelik paketine göre aylık yenilenir
+  purchasedQuota Int      @default(0) // Pay-as-you-go satın alınan ekstra
+  consumed       Int      @default(0) // Bu ay tüketilen toplam
   resetAt        DateTime @default(now()) // Sonraki aylık sıfırlama tarihi
   updatedAt      DateTime @updatedAt
 
@@ -12413,13 +12467,13 @@ model AICreditBalance {
 }
 
 model AICreditLedger {
-  id          String   @id @default(cuid())
-  userId      String
-  amount      Int                          // Negatif = harcama, Pozitif = yükleme
-  balance     Int      @default(0)         // İşlem sonrası güncel bakiye
-  actionType  String                       // "PROPERTY_SEARCH", "POI_LOOKUP", "VALUATION", "COMPARE", "TOPUP", "MONTHLY_RESET"
-  metadata    Json?                        // Ekstra bilgi (sorgu metni, fatura ID vb.)
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  userId     String
+  amount     Int // Negatif = harcama, Pozitif = yükleme
+  balance    Int      @default(0) // İşlem sonrası güncel bakiye
+  actionType String // "PROPERTY_SEARCH", "POI_LOOKUP", "VALUATION", "COMPARE", "TOPUP", "MONTHLY_RESET"
+  metadata   Json? // Ekstra bilgi (sorgu metni, fatura ID vb.)
+  createdAt  DateTime @default(now())
 
   @@index([userId])
   @@index([actionType])
@@ -12435,40 +12489,40 @@ model UserRevenueProfile {
   conversionRate    Float    @default(0)
   upsellProbability Float    @default(0)
   lastUpdated       DateTime @updatedAt
-  
+
   @@index([userId])
 }
 
 model MarketState {
-  segment           String   @id // "PROPERTY", "TOURISM", "AGENT_SERVICE"
-  demandIndex       Float    @default(0.5) // 0 - 1 arası
-  supplyIndex       Float    @default(0.5) // 0 - 1 arası
-  priceElasticity   Float    @default(1.0)
-  liquidityScore    Float    @default(1.0)
-  congestionLevel   Float    @default(0)
-  underSupplyLevel  Float    @default(0)
-  lastUpdated       DateTime @default(now())
+  segment          String   @id // "PROPERTY", "TOURISM", "AGENT_SERVICE"
+  demandIndex      Float    @default(0.5) // 0 - 1 arası
+  supplyIndex      Float    @default(0.5) // 0 - 1 arası
+  priceElasticity  Float    @default(1.0)
+  liquidityScore   Float    @default(1.0)
+  congestionLevel  Float    @default(0)
+  underSupplyLevel Float    @default(0)
+  lastUpdated      DateTime @default(now())
 }
 
 model AISemanticCache {
-  id          String   @id @default(cuid())
-  queryHash   String   @unique  // hash(intent + location + filters)
-  response    Json
-  hitCount    Int      @default(1)
-  expiresAt   DateTime
-  createdAt   DateTime @default(now())
-  
+  id        String   @id @default(cuid())
+  queryHash String   @unique // hash(intent + location + filters)
+  response  Json
+  hitCount  Int      @default(1)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
   @@index([queryHash])
 }
 
 model AICostAnalytics {
-  id             String   @id @default(cuid())
-  route          String   // "DB_ONLY", "TEMPLATE_RENDER", "LIGHT_AI", "FULL_AI", "PRECOMPUTED_AI"
-  cost           Float
-  conversion     Boolean  @default(false)
-  revenue        Float    @default(0)
-  intent         String
-  createdAt      DateTime @default(now())
+  id         String   @id @default(cuid())
+  route      String // "DB_ONLY", "TEMPLATE_RENDER", "LIGHT_AI", "FULL_AI", "PRECOMPUTED_AI"
+  cost       Float
+  conversion Boolean  @default(false)
+  revenue    Float    @default(0)
+  intent     String
+  createdAt  DateTime @default(now())
 }
 
 // ==========================================
@@ -12476,30 +12530,30 @@ model AICostAnalytics {
 // ==========================================
 
 model RevenueSnapshot {
-  id                String   @id @default(cuid())
-  entityId          String
-  entityType        String   // "PROPERTY", "CONTRACT", "AGENT"
-  conversionScore   Float    @default(0)
-  marketScore       Float    @default(0)
-  pricingScore      Float    @default(0)
-  contractState     String?
-  forecastRevenue   Decimal  @default(0) @db.Decimal(14, 2)
-  createdAt         DateTime @default(now())
+  id              String   @id @default(cuid())
+  entityId        String
+  entityType      String // "PROPERTY", "CONTRACT", "AGENT"
+  conversionScore Float    @default(0)
+  marketScore     Float    @default(0)
+  pricingScore    Float    @default(0)
+  contractState   String?
+  forecastRevenue Decimal  @default(0) @db.Decimal(14, 2)
+  createdAt       DateTime @default(now())
 
   @@index([entityId, entityType])
   @@index([createdAt])
 }
 
 model DecisionJournal {
-  id                String   @id @default(cuid())
-  eventName         String   // e.g. "LISTING_VIEWED"
-  decision          String   // e.g. "DECREASED_PRICE"
-  reason            String   // e.g. "DemandScore dropped to 0.18"
-  confidence        Float    // 0 to 1
-  outcome           String?  // The result of the decision (updated asynchronously)
-  revenueImpact     Decimal? @db.Decimal(14, 2)
-  feedback          String?  // Human or ML feedback
-  createdAt         DateTime @default(now())
+  id            String   @id @default(cuid())
+  eventName     String // e.g. "LISTING_VIEWED"
+  decision      String // e.g. "DECREASED_PRICE"
+  reason        String // e.g. "DemandScore dropped to 0.18"
+  confidence    Float // 0 to 1
+  outcome       String? // The result of the decision (updated asynchronously)
+  revenueImpact Decimal? @db.Decimal(14, 2)
+  feedback      String? // Human or ML feedback
+  createdAt     DateTime @default(now())
 
   @@index([eventName])
   @@index([confidence])
@@ -12556,15 +12610,15 @@ model KnowledgeEdge {
   version        Int               @default(1)
   validFrom      DateTime          @default(now())
   validTo        DateTime?
-  metadata       Json?             // E.g. sessionId, device, context
+  metadata       Json? // E.g. sessionId, device, context
 
   sourceNode KnowledgeNode @relation("SourceNode", fields: [sourceId], references: [id], onDelete: Cascade)
   targetNode KnowledgeNode @relation("TargetNode", fields: [targetId], references: [id], onDelete: Cascade)
 
+  @@unique([sourceId, relationType, targetId, version])
   @@index([sourceId])
   @@index([targetId])
   @@index([relationType])
-  @@unique([sourceId, relationType, targetId, version])
 }
 
 // ==========================================
@@ -12573,76 +12627,76 @@ model KnowledgeEdge {
 // ==========================================
 
 enum DepositStrategy {
-  INSURANCE_BACKED       // Kiracı sigorta ile güvence verir
-  FLEXIBLE_INSTALLMENT   // v2 default — kredi kartı taksit (6 billing cycle)
-  TRADITIONAL_CASH       // Nakit depozito
+  INSURANCE_BACKED // Kiracı sigorta ile güvence verir
+  FLEXIBLE_INSTALLMENT // v2 default — kredi kartı taksit (6 billing cycle)
+  TRADITIONAL_CASH // Nakit depozito
 }
 
 enum PaymentRail {
-  A2A_FAST               // Türkiye FAST/ÖHVPS — sıfır komisyon
-  A2A_ACH                // ABD ACH/FedNow — sıfır komisyon
-  A2A_PROMPTPAY          // Tayland PromptPay
-  A2A_SEPA               // Avrupa SEPA Instant
-  CARD_INSTALLMENT       // Kredi kartı taksit (depozito/komisyon için)
-  CARD_DIRECT            // Kredi kartı tek seferlik
-  WIRE                   // Havale/EFT/SWIFT
+  A2A_FAST // Türkiye FAST/ÖHVPS — sıfır komisyon
+  A2A_ACH // ABD ACH/FedNow — sıfır komisyon
+  A2A_PROMPTPAY // Tayland PromptPay
+  A2A_SEPA // Avrupa SEPA Instant
+  CARD_INSTALLMENT // Kredi kartı taksit (depozito/komisyon için)
+  CARD_DIRECT // Kredi kartı tek seferlik
+  WIRE // Havale/EFT/SWIFT
 }
 
 enum SplitDisbursementStatus {
-  PENDING_CAPTURE    // Henüz yakalanmadı
-  CAPTURED           // Early capture gerçekleşti (ör: 20. gün)
-  IN_FLOAT           // Gateway'de float'ta — interchange üretiliyor
-  DISBURSED          // 3 tarafa ödendi
-  FAILED             // Ödeme başarısız — retry gerekli
-  CANCELLED          // İptal edildi
+  PENDING_CAPTURE // Henüz yakalanmadı
+  CAPTURED // Early capture gerçekleşti (ör: 20. gün)
+  IN_FLOAT // Gateway'de float'ta — interchange üretiliyor
+  DISBURSED // 3 tarafa ödendi
+  FAILED // Ödeme başarısız — retry gerekli
+  CANCELLED // İptal edildi
 }
 
 // ContractFinancials: Lease başına finansal yapılandırma
 // Hybrid Settlement Pipeline'ı tanımlar
 model ContractFinancials {
-  id                     String           @id @default(uuid())
-  leaseId                String           @unique
-  lease                  Lease            @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+  id      String @id @default(uuid())
+  leaseId String @unique
+  lease   Lease  @relation(fields: [leaseId], references: [id], onDelete: Cascade)
 
   // Kira bilgileri
-  rentAmount             Decimal          @db.Decimal(12, 2)
-  currency               String           @default("USD")
+  rentAmount Decimal @db.Decimal(12, 2)
+  currency   String  @default("USD")
 
   // Depozito yapılandırması
-  depositStrategy        DepositStrategy  @default(FLEXIBLE_INSTALLMENT)
-  depositTotal           Decimal?         @db.Decimal(12, 2)
-  depositInstallments    Int              @default(6)    // Kaç taksitte ödeniyor
-  depositPerInstallment  Decimal?         @db.Decimal(12, 2) // ~16.5% per cycle
+  depositStrategy       DepositStrategy @default(FLEXIBLE_INSTALLMENT)
+  depositTotal          Decimal?        @db.Decimal(12, 2)
+  depositInstallments   Int             @default(6) // Kaç taksitte ödeniyor
+  depositPerInstallment Decimal?        @db.Decimal(12, 2) // ~16.5% per cycle
 
   // Komisyon yapılandırması (7% toplam)
-  commissionRateBps      Int              @default(700)  // 700 bps = 7%
-  commissionTotal        Decimal?         @db.Decimal(12, 2)
-  commissionInstallments Int              @default(6)
+  commissionRateBps      Int      @default(700) // 700 bps = 7%
+  commissionTotal        Decimal? @db.Decimal(12, 2)
+  commissionInstallments Int      @default(6)
 
   // Ödeme kanalları
-  rentPaymentRail        PaymentRail      @default(A2A_FAST)
-  depositPaymentRail     PaymentRail      @default(CARD_INSTALLMENT)
+  rentPaymentRail    PaymentRail @default(A2A_FAST)
+  depositPaymentRail PaymentRail @default(CARD_INSTALLMENT)
 
   // "20th of the Month" Early Capture Engine
-  earlyCaptureDayOfMonth Int              @default(20)   // Ayın hangi günü capture?
-  captureBufferDays      Int              @default(15)   // Pre-emptive buffer (gün)
-  firstCaptureDate       DateTime?        // İlk taksit yakalama tarihi
+  earlyCaptureDayOfMonth Int       @default(20) // Ayın hangi günü capture?
+  captureBufferDays      Int       @default(15) // Pre-emptive buffer (gün)
+  firstCaptureDate       DateTime? // İlk taksit yakalama tarihi
 
   // Sigorta katmanı
-  hasRentalInsurance     Boolean          @default(false)
+  hasRentalInsurance     Boolean  @default(false)
   insuranceProvider      String?
   insurancePolicyNo      String?
-  insuranceCoverageLimit Decimal?         @db.Decimal(12, 2)
+  insuranceCoverageLimit Decimal? @db.Decimal(12, 2)
 
   // Gateway
-  gatewayProvider        String?          // "PAYTR" | "STRIPE" | "IYZICO"
+  gatewayProvider String? // "PAYTR" | "STRIPE" | "IYZICO"
 
-  isActive               Boolean          @default(true)
-  createdAt              DateTime         @default(now())
-  updatedAt              DateTime         @updatedAt
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  splitPayout            SplitPayoutSchedule?
-  earlyCaptureCycles     EarlyCaptureCycle[]
+  splitPayout        SplitPayoutSchedule?
+  earlyCaptureCycles EarlyCaptureCycle[]
 
   @@index([leaseId])
 }
@@ -12650,47 +12704,47 @@ model ContractFinancials {
 // SplitPayoutSchedule: Tri-party 3'lü bölüşüm planı
 // Ofis %35 / Acente %35 / Platform %30
 model SplitPayoutSchedule {
-  id                       String                  @id @default(uuid())
-  contractFinancialsId     String                  @unique
-  contractFinancials       ContractFinancials      @relation(fields: [contractFinancialsId], references: [id], onDelete: Cascade)
+  id                   String             @id @default(uuid())
+  contractFinancialsId String             @unique
+  contractFinancials   ContractFinancials @relation(fields: [contractFinancialsId], references: [id], onDelete: Cascade)
 
   // Toplam komisyon havuzu (7% brüt)
-  totalCommissionCollected Decimal                 @db.Decimal(12, 2)
-  currency                 String                  @default("USD")
+  totalCommissionCollected Decimal @db.Decimal(12, 2)
+  currency                 String  @default("USD")
 
   // Ofis payı (35%)
-  officeId                 String
-  officeIban               String?
-  officeShareRate          Float                   @default(0.35)
-  officeShareAmount        Decimal                 @db.Decimal(12, 2)
-  officeDisbursedAt        DateTime?
+  officeId          String
+  officeIban        String?
+  officeShareRate   Float     @default(0.35)
+  officeShareAmount Decimal   @db.Decimal(12, 2)
+  officeDisbursedAt DateTime?
 
   // Acente payı (35%)
-  agentId                  String
-  agentWalletId            String?
-  agentShareRate           Float                   @default(0.35)
-  agentShareAmount         Decimal                 @db.Decimal(12, 2)
-  agentDisbursedAt         DateTime?
+  agentId          String
+  agentWalletId    String?
+  agentShareRate   Float     @default(0.35)
+  agentShareAmount Decimal   @db.Decimal(12, 2)
+  agentDisbursedAt DateTime?
 
   // Platform payı (30% — sıfır maliyet net kar)
-  platformShareRate        Float                   @default(0.30)
-  platformShareAmount      Decimal                 @db.Decimal(12, 2)
-  platformDisbursedAt      DateTime?
+  platformShareRate   Float     @default(0.30)
+  platformShareAmount Decimal   @db.Decimal(12, 2)
+  platformDisbursedAt DateTime?
 
   // Float Architecture
-  gatewayProvider          String?                 // "PAYTR" | "STRIPE"
-  gatewayReference         String?                 // Gateway işlem referansı
-  floatStartDate           DateTime?               // Early capture tarihi (ör: 20 Mayıs)
-  valorEndDate             DateTime?               // Disbursement tarihi (ör: 3 Haziran)
-  floatDurationDays        Int?                    // Genellikle 14-15 gün
+  gatewayProvider   String? // "PAYTR" | "STRIPE"
+  gatewayReference  String? // Gateway işlem referansı
+  floatStartDate    DateTime? // Early capture tarihi (ör: 20 Mayıs)
+  valorEndDate      DateTime? // Disbursement tarihi (ör: 3 Haziran)
+  floatDurationDays Int? // Genellikle 14-15 gün
 
-  status                   SplitDisbursementStatus @default(PENDING_CAPTURE)
-  isDisbursed              Boolean                 @default(false)
-  disbursedAt              DateTime?
-  failureReason            String?
+  status        SplitDisbursementStatus @default(PENDING_CAPTURE)
+  isDisbursed   Boolean                 @default(false)
+  disbursedAt   DateTime?
+  failureReason String?
 
-  capturedAt               DateTime                @default(now())
-  updatedAt                DateTime                @updatedAt
+  capturedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([officeId])
   @@index([agentId])
@@ -12700,41 +12754,73 @@ model SplitPayoutSchedule {
 // EarlyCaptureCycle: Her aylık erken yakalama döngüsü kaydı
 // "20th of the Month" engine'in her iterasyonu
 model EarlyCaptureCycle {
-  id                   String                  @id @default(uuid())
+  id                   String             @id @default(uuid())
   contractFinancialsId String
-  contractFinancials   ContractFinancials      @relation(fields: [contractFinancialsId], references: [id], onDelete: Cascade)
+  contractFinancials   ContractFinancials @relation(fields: [contractFinancialsId], references: [id], onDelete: Cascade)
 
-  cycleNumber          Int                     // 1, 2, 3... (kaçıncı taksit)
-  cycleMonth           Int                     // 1-12
-  cycleYear            Int
+  cycleNumber Int // 1, 2, 3... (kaçıncı taksit)
+  cycleMonth  Int // 1-12
+  cycleYear   Int
 
   // Tarihler
-  captureAttemptDate   DateTime                // Planlanan yakalama (ör: 20 Mayıs)
-  actualCaptureDate    DateTime?               // Gerçek başarılı yakalama
-  dueDate              DateTime                // Kira vadesi (ör: 1 Haziran)
-  statementDate        DateTime?               // Kartın ekstre tarihi
+  captureAttemptDate DateTime // Planlanan yakalama (ör: 20 Mayıs)
+  actualCaptureDate  DateTime? // Gerçek başarılı yakalama
+  dueDate            DateTime // Kira vadesi (ör: 1 Haziran)
+  statementDate      DateTime? // Kartın ekstre tarihi
 
   // Tutarlar
-  rentAmount           Decimal                 @db.Decimal(12, 2)
-  installmentAmount    Decimal?                @db.Decimal(12, 2) // Depozito/komisyon taksiti
-  totalAmount          Decimal                 @db.Decimal(12, 2) // Kira + taksit
+  rentAmount        Decimal  @db.Decimal(12, 2)
+  installmentAmount Decimal? @db.Decimal(12, 2) // Depozito/komisyon taksiti
+  totalAmount       Decimal  @db.Decimal(12, 2) // Kira + taksit
 
   // Gateway
-  paymentRail          PaymentRail             @default(A2A_FAST)
-  gatewayReference     String?
+  paymentRail      PaymentRail @default(A2A_FAST)
+  gatewayReference String?
 
   // Durum & Risk
-  status               SplitDisbursementStatus @default(PENDING_CAPTURE)
-  failureReason        String?
-  retryCount           Int                     @default(0)
-  maxRetries           Int                     @default(3)
-  riskFlag             Boolean                 @default(false) // Decline varsa true
+  status        SplitDisbursementStatus @default(PENDING_CAPTURE)
+  failureReason String?
+  retryCount    Int                     @default(0)
+  maxRetries    Int                     @default(3)
+  riskFlag      Boolean                 @default(false) // Decline varsa true
 
-  createdAt            DateTime                @default(now())
-  updatedAt            DateTime                @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([contractFinancialsId, cycleMonth, cycleYear])
   @@index([captureAttemptDate])
   @@index([status])
   @@index([contractFinancialsId])
+}
+
+// ─── EVENT BUS & SAGA ORCHESTRATION ──────────────────────────────────────────
+
+model EventLog {
+  id            String    @id @default(cuid())
+  eventType     String
+  aggregateType String
+  aggregateId   String
+  payload       Json
+  status        String    @default("PENDING") // PENDING, PROCESSED, FAILED
+  createdAt     DateTime  @default(now())
+  processedAt   DateTime?
+  retryCount    Int       @default(0)
+  error         String?
+
+  @@index([status])
+  @@index([eventType])
+}
+
+model SagaState {
+  id            String   @id @default(cuid())
+  sagaType      String
+  correlationId String   @unique
+  currentStep   String
+  status        String // STARTED, COMPENSATING, COMPLETED, FAILED
+  context       Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([sagaType])
+  @@index([status])
 }

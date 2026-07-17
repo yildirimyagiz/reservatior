@@ -10472,3 +10472,36 @@ enum ReliabilityTier {
   GOLD
   PLATINUM
 }
+
+// ─── EVENT BUS & SAGA ORCHESTRATION ──────────────────────────────────────────
+
+model EventLog {
+  id            String   @id @default(cuid())
+  eventType     String
+  aggregateType String
+  aggregateId   String
+  payload       Json
+  status        String   @default("PENDING") // PENDING, PROCESSED, FAILED
+  createdAt     DateTime @default(now())
+  processedAt   DateTime?
+  retryCount    Int      @default(0)
+  error         String?
+
+  @@index([status])
+  @@index([eventType])
+}
+
+model SagaState {
+  id            String   @id @default(cuid())
+  sagaType      String
+  correlationId String   @unique
+  currentStep   String
+  status        String   // STARTED, COMPENSATING, COMPLETED, FAILED
+  context       Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([sagaType])
+  @@index([status])
+}
+

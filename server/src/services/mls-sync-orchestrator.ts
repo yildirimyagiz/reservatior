@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { neuralImporterService } from "./neural-importer";
 import { aiMarketingOrchestrator } from "./ai-marketing-orchestrator";
+import { nwmlsProvider } from "./nwmls-provider";
 import { MLSProviderKey, SyncStatus } from "@prisma/client";
 
 export class MLSSyncOrchestrator {
@@ -29,6 +30,10 @@ export class MLSSyncOrchestrator {
       
       let results;
       switch (connection.provider as string) {
+        case "NWMLS":
+          // Use real NWMLS API (no scraping needed)
+          results = await this.syncViaNWMLS(connection);
+          break;
         case "ZILLOW":
         case "REDFIN":
         case "IDEALISTA":
@@ -131,6 +136,31 @@ export class MLSSyncOrchestrator {
     });
 
     return { processed: 1, added: 1, updated: 0, errors: 0 };
+  }
+
+  /**
+   * Sync via NWMLS real API — processes all existing external listings for resync
+   */
+  private async syncViaNWMLS(connection: any) {
+    const existingListings = await prisma.mLSExternalListing.findMany({
+      where: { connectionId: connection.id },
+      select: { externalId: true }
+    });
+
+    let processed = 0, updated = 0, errors = 0;
+
+    for (const ext of existingListings) {
+      try {
+        await nwmlsProvider.resyncListing(ext.externalId, connection.orgId);
+        updated++;
+      } catch (e) {
+        console.error(`[MLS-SYNC] NWMLS resync failed for MLS #${ext.externalId}:`, e);
+        errors++;
+      }
+      processed++;
+    }
+
+    return { processed, added: 0, updated, errors };
   }
 
   private async syncViaAPI(connection: any) {

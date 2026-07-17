@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { listingOSApi } from "@/lib/api/listing-os";
 import { useAuth } from "@/lib/auth";
 import { motion, AnimatePresence } from "framer-motion";
+import { AiAdsAutomationCard } from "./AiAdsAutomationCard";
 
 const HEALTH_STREAM = [
   { id: "h1", property: "Marina Residences #4B", event: "Cleaning inspection PASSED", score: 98, time: "2m ago", ok: true },
@@ -120,42 +121,38 @@ export default function ListingDashboard() {
           </CardContent>
         </Card>
 
-        {/* Syndication Pipeline */}
+        {/* Platform Syndication Stats */}
         <Card className="bg-slate-900/60 border-slate-800">
           <CardHeader>
             <CardTitle className="text-slate-100 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-indigo-400" />
-              Syndication Pipeline
+              <Globe className="h-4 w-4 text-blue-400" />
+              Platform Syndication
             </CardTitle>
             <CardDescription className="text-slate-400">
-              Distribution status across MLS and global OTA channels.
+              Live distribution status across global OTAs and MLS networks.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {SYNDICATION.map((ch, i) => (
-                <motion.div
+                <motion.div 
                   key={ch.channel}
-                  initial={{ opacity: 0, x: 8 }}
+                  initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  className="flex items-center gap-3"
+                  transition={{ delay: i * 0.1 }}
+                  className="flex items-center justify-between p-3 rounded-lg border border-slate-800 bg-slate-800/20"
                 >
-                  <span className="text-2xl">{ch.icon}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium text-slate-200">{ch.channel}</span>
-                      <span className={`text-xs font-semibold ${ch.color}`}>{ch.status}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{ch.icon}</span>
+                    <div>
+                      <p className="text-sm font-medium text-slate-200">{ch.channel}</p>
+                      <p className="text-xs text-slate-500">{ch.listings} active listings</p>
                     </div>
-                    <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                      <motion.div
-                        className={`h-full rounded-full ${ch.status === "LIVE" ? "bg-emerald-500" : "bg-yellow-500"}`}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${(ch.listings / 35) * 100}%` }}
-                        transition={{ delay: 0.3 + i * 0.07, duration: 0.6 }}
-                      />
-                    </div>
-                    <p className="text-xs text-slate-500 mt-1">{ch.listings} active listings</p>
+                  </div>
+                  <div className={`text-xs font-bold px-2 py-1 rounded-full ${
+                    ch.status === "LIVE" ? "bg-emerald-500/10 text-emerald-400" : "bg-yellow-500/10 text-yellow-400"
+                  }`}>
+                    {ch.status}
                   </div>
                 </motion.div>
               ))}
@@ -163,6 +160,8 @@ export default function ListingDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      <AiAdsAutomationCard />
     </div>
   );
 }

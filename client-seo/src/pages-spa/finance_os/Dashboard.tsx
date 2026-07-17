@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { DollarSign, ShieldCheck, FileText, TrendingUp, ArrowUpRight, Zap } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { DollarSign, ShieldCheck, FileText, ArrowUpRight, Zap } from "lucide-react";
+
 import { financeOSApi } from "@/lib/api/finance-os";
 import { useAuth } from "@/lib/auth";
 import {
@@ -11,6 +12,8 @@ import {
   ResponsiveContainer, AreaChart, Area, ReferenceLine,
 } from "recharts";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { CommissionInstallmentOffers } from "./CommissionInstallmentOffers";
 
 const DEMO_CHART = [
   { name: "Mon", amount: 12400 }, { name: "Tue", amount: 18200 },
@@ -53,33 +56,35 @@ export default function FinanceDashboard() {
   const fmt = (val: number) =>
     new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(val);
 
+  const { t } = useTranslation();
+
   const kpis = [
     {
-      title: "Total Escrow Value",
+      title: t("finance_os.total_escrow_value", { defaultValue: "Total Escrow Value" }),
       value: fmt(escrowValue),
       icon: ShieldCheck,
       color: "text-emerald-500",
       bg: "from-emerald-500/10 to-emerald-500/0",
-      sub: "Locked in smart state machine",
+      sub: t("finance_os.escrow_sub", { defaultValue: "Locked in smart state machine" }),
       trend: "+12.4%",
     },
     {
-      title: "Pending Payouts",
+      title: t("finance_os.pending_payouts", { defaultValue: "Pending Payouts" }),
       value: fmt(pendingPayouts),
       icon: DollarSign,
       color: "text-blue-400",
       bg: "from-blue-500/10 to-blue-500/0",
-      sub: "Ready for settlement",
+      sub: t("finance_os.payouts_sub", { defaultValue: "Ready for settlement" }),
       trend: "+8.1%",
     },
     {
-      title: "Active Contracts",
+      title: t("finance_os.active_contracts", { defaultValue: "Active Contracts" }),
       value: activeContracts,
       icon: FileText,
       color: "text-purple-400",
       bg: "from-purple-500/10 to-purple-500/0",
-      sub: "State machine currently active",
-      trend: "+3 this week",
+      sub: t("finance_os.contracts_sub", { defaultValue: "State machine currently active" }),
+      trend: t("finance_os.contracts_trend", { defaultValue: "+3 this week" }),
     },
   ];
 
@@ -88,12 +93,12 @@ export default function FinanceDashboard() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Finance OS</h1>
-          <p className="text-slate-400 mt-1">Settlement Truth · Escrow Engine · Revenue DAG</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-100">{t("finance_os.title", { defaultValue: "Finance OS" })}</h1>
+          <p className="text-slate-400 mt-1">{t("finance_os.subtitle", { defaultValue: "Settlement Truth · Escrow Engine · Revenue DAG" })}</p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
           <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-semibold text-emerald-400">LIVE</span>
+          <span className="text-xs font-semibold text-emerald-400">{t("finance_os.live", { defaultValue: "LIVE" })}</span>
         </div>
       </div>
 
@@ -132,10 +137,10 @@ export default function FinanceDashboard() {
           <CardHeader>
             <CardTitle className="text-slate-100 flex items-center gap-2">
               <Zap className="h-4 w-4 text-emerald-400" />
-              Revenue Execution Stream
+              {t("finance_os.revenue_stream", { defaultValue: "Revenue Execution Stream" })}
             </CardTitle>
             <CardDescription className="text-slate-400">
-              Real-time settlement data feeding from the DAG.
+              {t("finance_os.revenue_stream_desc", { defaultValue: "Real-time settlement data feeding from the DAG." })}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -154,7 +159,7 @@ export default function FinanceDashboard() {
                   <Tooltip
                     contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px" }}
                     itemStyle={{ color: "#10b981" }}
-                    formatter={(v: any) => [fmt(Number(v ?? 0)), "Settlement"]}
+                    formatter={(v) => [fmt(Number(Array.isArray(v) ? v[0] : (v ?? 0))), t("finance_os.settlement", { defaultValue: "Settlement" })] as [string, string]}
                   />
                   <ReferenceLine y={0} stroke="#334155" />
                   <Area type="monotone" dataKey="amount" stroke="#10b981" strokeWidth={2} fill="url(#finGrad)" dot={false} activeDot={{ r: 4, fill: "#10b981" }} />
@@ -164,47 +169,41 @@ export default function FinanceDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900/60 border-slate-800">
+        <Card className="bg-slate-900/60 border-slate-800 lg:col-span-1">
           <CardHeader>
-            <CardTitle className="text-slate-100 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-blue-400" />
-              Recent Ledger Events
-            </CardTitle>
-            <CardDescription className="text-slate-400">
-              Latest escrow releases and settlement actions.
-            </CardDescription>
+            <CardTitle className="text-slate-100">{t("finance_os.recent_disbursements", { defaultValue: "Recent Disbursements" })}</CardTitle>
+            <CardDescription className="text-slate-400">{t("finance_os.recent_disbursements_desc", { defaultValue: "Latest funds released from escrow." })}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3 max-h-[220px] overflow-auto pr-1">
-              {transactions.map((tx: { id: string; amount: number; status: string; date: string; contractId: string }, i: number) => (
-                <motion.div
-                  key={tx.id}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  className="flex items-center justify-between p-3 bg-slate-800/60 rounded-lg border-l-2 border-emerald-500"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-slate-200">Escrow Release</p>
-                    <p className="text-xs text-slate-500">
-                      Contract #{tx.contractId} ·{" "}
-                      <span className={tx.status === "RELEASED" ? "text-emerald-400" : "text-yellow-400"}>
-                        {tx.status}
-                      </span>
-                    </p>
+            <div className="space-y-4">
+              {transactions.slice(0, 4).map((tx: { id?: string; status: string; contractId: string; date: string | number; amount: number }, i: number) => (
+                <div key={tx.id || i} className="flex items-center justify-between p-3 rounded-lg border border-slate-800 bg-slate-800/20">
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-full ${
+                      tx.status === "RELEASED" ? "bg-emerald-500/10 text-emerald-400" : "bg-yellow-500/10 text-yellow-400"
+                    }`}>
+                      <Zap className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-slate-200">{tx.contractId}</p>
+                      <p className="text-xs text-slate-500">{new Date(tx.date).toLocaleTimeString()}</p>
+                    </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-emerald-400">+{fmt(tx.amount)}</p>
-                    <p className="text-xs text-slate-500">
-                      {new Date(tx.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    <p className="text-sm font-bold text-slate-200">{fmt(tx.amount)}</p>
+                    <p className={`text-xs font-semibold ${tx.status === "RELEASED" ? "text-emerald-400" : "text-yellow-400"}`}>
+                      {tx.status}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </CardContent>
         </Card>
       </div>
+
+      {/* Added Commission Offers Panel */}
+      <CommissionInstallmentOffers />
     </div>
   );
 }

@@ -46,20 +46,24 @@ export class VideoAutoPosterService {
     if (this.isRunning) return;
     this.isRunning = true;
 
-    console.log("[VideoAutoPoster] 🚀 Video auto poster service started (TikTok & YouTube Shorts)");
+    console.log("[VideoAutoPoster] 🚀 Video auto poster service started (Queue Dispatcher Mode)");
 
-    await this.postPendingVideos();
+    // Initial check on startup
+    await this.queuePendingVideos();
 
     setInterval(async () => {
       try {
-        await this.postPendingVideos();
+        await this.queuePendingVideos();
       } catch (e) {
         console.error("[VideoAutoPoster] Interval error:", e);
       }
     }, POLL_INTERVAL_MS);
   }
 
-  private async postPendingVideos(): Promise<number> {
+  private async queuePendingVideos(): Promise<number> {
+    const { getRabbitMQService } = require('./rabbitmq-service');
+    const rabbitMQ = getRabbitMQService();
+
     const config = await getTokens();
     const videos = await prisma.videoContent.findMany({
       where: {
@@ -74,88 +78,33 @@ export class VideoAutoPosterService {
 
     let processed = 0;
     for (const video of videos) {
-      const title = video.title || video.listing?.title || video.property?.name || "Reservatior Property Video";
-      const desc = video.listing?.description || video.property?.description || "Check out this beautiful property listed on Reservatior.";
-
       const platformsToPost: string[] = [];
-      if (video.platform === "TIKTOK" || video.platform === "ALL_PLATFORMS") {
-        platformsToPost.push("TIKTOK");
-      }
-      if (video.platform === "YOUTUBE_SHORTS" || video.platform === "ALL_PLATFORMS") {
-        platformsToPost.push("YOUTUBE");
-      }
+      if (video.platform === "TIKTOK" || video.platform === "ALL_PLATFORMS") platformsToPost.push("TIKTOK");
+      if (video.platform === "YOUTUBE_SHORTS" || video.platform === "ALL_PLATFORMS") platformsToPost.push("YOUTUBE");
 
-      let successCount = 0;
-
-      for (const platform of platformsToPost) {
-        // Check if we already posted this video to this platform
-        const alreadyPosted = await prisma.socialPost.findFirst({
-          where: {
-            platform: platform as any,
-            listingId: video.listingId || undefined,
-            content: { contains: video.id },
-          },
-        });
-
-        if (alreadyPosted) {
-          successCount++;
-          continue;
-        }
-
+      if (platformsToPost.length > 0) {
         try {
-          if (platform === "TIKTOK" && config.tiktokToken) {
-            console.log(`[VideoAutoPoster] Posting video ${video.id} to TikTok...`);
-            const res = await shareToTikTok(config.tiktokToken, video.url!, title);
-            if (res.success) {
-              await prisma.socialPost.create({
-                data: {
-                  orgId: video.orgId,
-                  platform: "TIKTOK",
-                  listingId: video.listingId,
-                  content: `Video ID: ${video.id} - ${title}\n${desc}`,
-                  externalPostId: res.postId,
-                  status: "PUBLISHED",
-                },
-              });
-              successCount++;
-              console.log(`[VideoAutoPoster] ✅ Video ${video.id} successfully posted to TikTok.`);
-            } else {
-              console.error(`[VideoAutoPoster] ❌ TikTok posting failed for video ${video.id}:`, res.error);
-            }
-          }
+          // Push to GPU/Video Job Queue instead of processing synchronously
+          await rabbitMQ.publish('video_posting_queue', {
+            videoId: video.id,
+            platforms: platformsToPost,
+            orgId: video.orgId,
+            listingId: video.listingId,
+            tokens: config,
+            queuedAt: new Date().toISOString()
+          });
 
-          if (platform === "YOUTUBE" && config.youtubeToken) {
-            console.log(`[VideoAutoPoster] Uploading video ${video.id} to YouTube...`);
-            const res = await uploadToYouTube(config.youtubeToken, video.url!, title, desc);
-            if (res.success) {
-              await prisma.socialPost.create({
-                data: {
-                  orgId: video.orgId,
-                  platform: "YOUTUBE",
-                  listingId: video.listingId,
-                  content: `Video ID: ${video.id} - ${title}\n${desc}`,
-                  externalPostId: res.videoId,
-                  status: "PUBLISHED",
-                },
-              });
-              successCount++;
-              console.log(`[VideoAutoPoster] ✅ Video ${video.id} successfully uploaded to YouTube.`);
-            } else {
-              console.error(`[VideoAutoPoster] ❌ YouTube upload failed for video ${video.id}:`, res.error);
-            }
-          }
+          // Mark as processing/queued to avoid duplicate queuing
+          await prisma.videoContent.update({
+            where: { id: video.id },
+            data: { status: "GENERATING" },
+          });
+
+          console.log(`[VideoAutoPoster] 📥 Video ${video.id} queued for background processing.`);
+          processed++;
         } catch (err: any) {
-          console.error(`[VideoAutoPoster] Exception while posting video ${video.id} to ${platform}:`, err?.message);
+          console.error(`[VideoAutoPoster] Failed to queue video ${video.id}:`, err?.message);
         }
-      }
-
-      // If successfully posted to all targeted platforms, mark video status as PUBLISHED
-      if (successCount === platformsToPost.length && platformsToPost.length > 0) {
-        await prisma.videoContent.update({
-          where: { id: video.id },
-          data: { status: "PUBLISHED", publishedAt: new Date() },
-        });
-        processed++;
       }
     }
 

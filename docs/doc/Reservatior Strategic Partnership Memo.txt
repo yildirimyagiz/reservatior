@@ -1,7 +1,7 @@
 Reservatior
 Strategic Partnership Memo
 Prepared for Greystar
-Version: 1.0 Category: AI-Native Institutional Residential Operating System
+Version: 1.0Category: AI-Native Institutional Residential Operating System
 
 1. Executive Summary
 Institutional residential operators have successfully scaled portfolios through property management systems, accounting platforms, and operational processes.
@@ -155,6 +155,12 @@ Reservatior enables the transition from:
 Property Management Systems
 to:
 Residential Asset Intelligence Systems
+
+8. The AI Commerce Layer: Transforming Lead Gen into Predictable Conversions
+To fully capture the institutional edge, Reservatior natively integrates a "Closed-Loop AI Commerce System":
+	•	Omnichannel Ad Orchestration: Automated budget deployment across Meta Marketing and Twitter Ads APIs via our built-in Social Ads Manager.
+	•	WhatsApp Cloud API Ecosystem: Zero-friction communication channels for both leads and operational staff (budget alerts, property inquiries) executed over Meta’s official Webhook infrastructure.
+	•	Asynchronous AI Creative Engine: Background GPU clusters (managed via RabbitMQ) automatically render high-conversion video assets (TikTok/Shorts) from static property data, instantly feeding the advertising funnel.
 
 Closing Statement
 Greystar has established a global standard for institutional residential operations.
