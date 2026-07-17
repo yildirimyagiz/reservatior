@@ -3,12 +3,15 @@
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import { ShieldCheck, Zap, Globe, Database, Code, Building2 } from "lucide-react";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { Footer } from "@/components/layout/Footer";
 
 export default function AboutPage() {
   const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
+      <AppHeader />
       {/* Hero Section */}
       <section className="relative py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
@@ -197,6 +200,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }
