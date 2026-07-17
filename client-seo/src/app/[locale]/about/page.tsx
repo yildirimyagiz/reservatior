@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import { ShieldCheck, Zap, Globe, Database, Code, Building2 } from "lucide-react";
+import { Zap, Globe, Database, Code, Building2 } from "lucide-react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Footer } from "@/components/layout/Footer";
 
@@ -14,11 +14,22 @@ export default function AboutPage() {
       <AppHeader />
       {/* Hero Section */}
       <section className="relative py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white mb-6">
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1499244571912-9dd7b5ed6f11?q=80&w=2070&auto=format&fit=crop)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-slate-50 dark:to-slate-900"></div>
+        </div>
+        <div className="relative z-10 max-w-6xl mx-auto text-center">
+          <h1 className="text-5xl md:text-7xl font-black text-white mb-6 drop-shadow-lg">
             {t('about.title', { defaultValue: 'About Us' })}
           </h1>
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto drop-shadow-md">
             {t('about.subtitle', { defaultValue: 'Our Story & Mission' })}
           </p>
         </div>
@@ -68,7 +79,7 @@ export default function AboutPage() {
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-shrink-0">
                   <Image
-                    src="/founder.jpg"
+                    src="/founder.jpeg"
                     alt="Yağız Yıldırım"
                     width={200}
                     height={200}
