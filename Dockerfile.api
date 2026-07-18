@@ -19,6 +19,9 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY server/ ./server/
 COPY shared/ ./shared/
 
+# Copy Prisma schema for migrations
+COPY server/prisma/ ./server/prisma/
+
 # Copy the pre-generated Prisma client (locally generated on Mac with Linux binaries)
 COPY server/prisma-generated/.prisma node_modules/.prisma
 COPY server/prisma-generated/@prisma node_modules/@prisma
