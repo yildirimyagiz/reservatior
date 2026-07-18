@@ -11,6 +11,7 @@ import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
 import { GetCountries, GetAllCities } from "react-country-state-city";
+import type { Country, City } from "react-country-state-city/dist/umd/types";
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, 
   ArrowRight, ShieldCheck, ChevronDown, Monitor, Gem, CheckCircle2, Mouse
@@ -181,8 +182,6 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const { t } = useTranslation();
   const router = useRouter();
   const { selectedRegion } = useRegionsStore();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [supportModalOpen, setSupportModalOpen] = useState(false);
   const [heroRevealed, setHeroRevealed] = useState(false);
@@ -193,8 +192,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const [searchDate, setSearchDate] = useState("");
   const [searchGuests, setSearchGuests] = useState(1);
   const [selectedCountry, setSelectedCountry] = useState<string>("TR");
-  const [countries, setCountries] = useState<any[]>([]);
-  const [locationSuggestions, setLocationSuggestions] = useState<any[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [locationSuggestions, setLocationSuggestions] = useState<City[]>([]);
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
@@ -206,7 +205,6 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
       // Also trigger reveal on scroll
       if (window.scrollY > 10 && !heroRevealed) setHeroRevealed(true);
     };
@@ -226,7 +224,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       try {
         const allCountries = await GetCountries("/country-data/countriesminified.json");
         // Filter out only the countries we have Prisma configurations for
-        const supported = allCountries.filter((c: any) => SUPPORTED_COUNTRIES.includes(c.isoCode));
+        const supported = allCountries.filter((c: Country) => SUPPORTED_COUNTRIES.includes(c.iso2));
         setCountries(supported);
       } catch (error) {
         console.error('Error loading countries:', error);
@@ -239,8 +237,10 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   useEffect(() => {
     const loadCities = async () => {
       try {
-        const cities = await GetAllCities(selectedCountry, "/country-data/citiesminified.json");
-        setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
+        const cities = await GetAllCities("/country-data/citiesminified.json");
+        // Filter cities by selected country
+        const filteredCities = cities.filter(city => city.countryCode === selectedCountry);
+        setLocationSuggestions(filteredCities.slice(0, 50)); // Load first 50 cities
       } catch (error) {
         console.error('Error loading cities:', error);
       }
@@ -252,7 +252,10 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     if (provider === "google") {
       const initGoogleAutocomplete = () => {
         if (!locationInputRef.current || !(window as any).google?.maps?.places) return;
-        const autocomplete = new (window as any).google.maps.places.Autocomplete(locationInputRef.current, { types: ['(cities)'] });
+        const autocomplete = new (window as any).google.maps.places.Autocomplete(locationInputRef.current, { 
+          types: ['(cities)'],
+          componentRestrictions: { country: selectedCountry.toLowerCase() }
+        });
         autocomplete.addListener("place_changed", () => {
           const place = autocomplete.getPlace();
           if (place && place.formatted_address) setSearchLocation(place.formatted_address);
@@ -272,7 +275,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       } else script.addEventListener("load", initGoogleAutocomplete);
       return () => { if (script) script.removeEventListener("load", initGoogleAutocomplete); };
     }
-  }, [provider, apiKey]);
+  }, [provider, apiKey, selectedCountry]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -289,7 +292,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     queryFn: () => propertyApi.getProperties(),
     initialData: initialProperties.length > 0 ? { data: initialProperties } : undefined,
   });
-  const response = rawResponse as any;
+  const response = rawResponse as { data?: Property[] } | null;
 
   const slides = useMemo(() => {
     if (!response?.data || response.data.length === 0) return FALLBACK_SLIDES;
@@ -417,7 +420,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       onClick={() => setShowCountryDropdown(!showCountryDropdown)}
                       className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white"
                     >
-                      <span>{countries.find(c => c.isoCode === selectedCountry)?.name || 'Turkey'}</span>
+                      <span>{countries.find(c => c.iso2 === selectedCountry)?.name || 'Turkey'}</span>
                       <ChevronDown className="w-4 h-4" />
                     </button>
                     {showCountryDropdown && (
@@ -440,17 +443,17 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                             .filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase()))
                             .map((country) => (
                               <button
-                                key={country.isoCode}
+                                key={country.iso2}
                                 type="button"
                                 onClick={() => {
-                                  setSelectedCountry(country.isoCode);
+                                  setSelectedCountry(country.iso2);
                                   setShowCountryDropdown(false);
                                   setCountrySearch("");
                                 }}
                                 className="w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-sm font-medium text-slate-900 dark:text-white flex items-center justify-between"
                               >
                                 <span>{country.name}</span>
-                                {selectedCountry === country.isoCode && <CheckCircle2 className="w-4 h-4 text-black dark:text-white" />}
+                                {selectedCountry === country.iso2 && <CheckCircle2 className="w-4 h-4 text-black dark:text-white" />}
                               </button>
                             ))}
                           {countries.filter(c => c.name.toLowerCase().includes(countrySearch.toLowerCase())).length === 0 && (
@@ -804,7 +807,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 }
 
 /* ───── Bento Card Component ───── */
-function BentoCard({ prop, className, large = false }: { prop: any; className?: string; large?: boolean }) {
+function BentoCard({ prop, className, large = false }: { prop: { id?: string; image: string; title: string; location: string; price: string; tag?: string; beds?: string; baths?: string }; className?: string; large?: boolean }) {
   const { t } = useTranslation();
   if (!prop) return null;
   return (
