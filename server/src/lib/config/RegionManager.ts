@@ -29,7 +29,7 @@ export interface RegionalConfig {
 
 export class RegionManager {
   private static config: Record<string, RegionalConfig> = {};
-  private static configFile = path.join(__dirname, '../../../../regions-config.json');
+  private static configFile = path.join(process.cwd(), 'server/regions-config.json');
 
   static {
     this.loadConfig();
