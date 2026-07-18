@@ -238,9 +238,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     const loadCities = async () => {
       try {
         const cities = await GetAllCities("/country-data/citiesminified.json");
-        // Filter cities by selected country
-        const filteredCities = cities.filter(city => city.countryCode === selectedCountry);
-        setLocationSuggestions(filteredCities.slice(0, 50)); // Load first 50 cities
+        // Note: City type doesn't include countryCode, so we load all cities
+        // Google Places API will handle country-specific filtering
+        setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
       } catch (error) {
         console.error('Error loading cities:', error);
       }
@@ -251,18 +251,20 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   useEffect(() => {
     if (provider === "google") {
       const initGoogleAutocomplete = () => {
-        if (!locationInputRef.current || !(window as any).google?.maps?.places) return;
-        const autocomplete = new (window as any).google.maps.places.Autocomplete(locationInputRef.current, { 
+        const googleWindow = window as unknown as { google?: { maps?: { places?: { Autocomplete: new (element: HTMLElement, options: Record<string, unknown>) => { addListener: (event: string, callback: () => void) => void } } } } };
+        if (!locationInputRef.current || !googleWindow.google?.maps?.places) return;
+        const autocomplete = new googleWindow.google.maps.places.Autocomplete(locationInputRef.current, { 
           types: ['(cities)'],
           componentRestrictions: { country: selectedCountry.toLowerCase() }
         });
-        autocomplete.addListener("place_changed", () => {
-          const place = autocomplete.getPlace();
+        (autocomplete as { addListener: (event: string, callback: () => void) => void }).addListener("place_changed", () => {
+          const place = (autocomplete as unknown as { getPlace: () => { formatted_address?: string; name?: string } }).getPlace();
           if (place && place.formatted_address) setSearchLocation(place.formatted_address);
           else if (place && place.name) setSearchLocation(place.name);
         });
       };
-      if ((window as any).google?.maps?.places) { initGoogleAutocomplete(); return; }
+      const googleWindow = window as unknown as { google?: { maps?: { places?: unknown } } };
+      if (googleWindow.google?.maps?.places) { initGoogleAutocomplete(); return; }
       const scriptId = "google-maps-places-script";
       let script = document.getElementById(scriptId) as HTMLScriptElement;
       if (!script) {
