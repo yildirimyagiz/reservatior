@@ -2,9 +2,9 @@ services:
   db:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=reservatior
+      - POSTGRES_USER=elysia
+      - POSTGRES_PASSWORD=elysia_pass
+      - POSTGRES_DB=realestate
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
@@ -41,30 +41,30 @@ services:
       - RATE_LIMIT_AUTH=${RATE_LIMIT_AUTH:-10}
       - RATE_LIMIT_HEAVY=${RATE_LIMIT_HEAVY:-30}
       - REDIS_URL=${REDIS_URL:-}
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/realestate_us
-      - DATABASE_URL_US=postgresql://postgres:postgres@db:5432/realestate_us
-      - DATABASE_URL_UK=postgresql://postgres:postgres@db:5432/realestate_uk
-      - DATABASE_URL_TR=postgresql://postgres:postgres@db:5432/realestate_tr
-      - DATABASE_URL_DE=postgresql://postgres:postgres@db:5432/realestate_de
-      - DATABASE_URL_FR=postgresql://postgres:postgres@db:5432/realestate_fr
-      - DATABASE_URL_ES=postgresql://postgres:postgres@db:5432/realestate_es
-      - DATABASE_URL_IT=postgresql://postgres:postgres@db:5432/realestate_it
-      - DATABASE_URL_NL=postgresql://postgres:postgres@db:5432/realestate_nl
-      - DATABASE_URL_CA=postgresql://postgres:postgres@db:5432/realestate_ca
-      - DATABASE_URL_MX=postgresql://postgres:postgres@db:5432/realestate_mx
-      - DATABASE_URL_BR=postgresql://postgres:postgres@db:5432/realestate_br
-      - DATABASE_URL_AR=postgresql://postgres:postgres@db:5432/realestate_ar
-      - DATABASE_URL_AU=postgresql://postgres:postgres@db:5432/realestate_au
-      - DATABASE_URL_NZ=postgresql://postgres:postgres@db:5432/realestate_nz
-      - DATABASE_URL_JP=postgresql://postgres:postgres@db:5432/realestate_jp
-      - DATABASE_URL_KR=postgresql://postgres:postgres@db:5432/realestate_kr
-      - DATABASE_URL_CN=postgresql://postgres:postgres@db:5432/realestate_cn
-      - DATABASE_URL_IN=postgresql://postgres:postgres@db:5432/realestate_in
-      - DATABASE_URL_SG=postgresql://postgres:postgres@db:5432/realestate_sg
-      - DATABASE_URL_MY=postgresql://postgres:postgres@db:5432/realestate_my
-      - DATABASE_URL_TH=postgresql://postgres:postgres@db:5432/realestate_th
-      - DATABASE_URL_AE=postgresql://postgres:postgres@db:5432/realestate_ae
-      - DATABASE_URL_SA=postgresql://postgres:postgres@db:5432/realestate_sa
+      - DATABASE_URL=postgresql://elysia:elysia_pass@db:5432/realestate
+      - DATABASE_URL_US=postgresql://elysia:elysia_pass@db:5432/realestate_us
+      - DATABASE_URL_UK=postgresql://elysia:elysia_pass@db:5432/realestate_uk
+      - DATABASE_URL_TR=postgresql://elysia:elysia_pass@db:5432/realestate_tr
+      - DATABASE_URL_DE=postgresql://elysia:elysia_pass@db:5432/realestate_de
+      - DATABASE_URL_FR=postgresql://elysia:elysia_pass@db:5432/realestate_fr
+      - DATABASE_URL_ES=postgresql://elysia:elysia_pass@db:5432/realestate_es
+      - DATABASE_URL_IT=postgresql://elysia:elysia_pass@db:5432/realestate_it
+      - DATABASE_URL_NL=postgresql://elysia:elysia_pass@db:5432/realestate_nl
+      - DATABASE_URL_CA=postgresql://elysia:elysia_pass@db:5432/realestate_ca
+      - DATABASE_URL_MX=postgresql://elysia:elysia_pass@db:5432/realestate_mx
+      - DATABASE_URL_BR=postgresql://elysia:elysia_pass@db:5432/realestate_br
+      - DATABASE_URL_AR=postgresql://elysia:elysia_pass@db:5432/realestate_ar
+      - DATABASE_URL_AU=postgresql://elysia:elysia_pass@db:5432/realestate_au
+      - DATABASE_URL_NZ=postgresql://elysia:elysia_pass@db:5432/realestate_nz
+      - DATABASE_URL_JP=postgresql://elysia:elysia_pass@db:5432/realestate_jp
+      - DATABASE_URL_KR=postgresql://elysia:elysia_pass@db:5432/realestate_kr
+      - DATABASE_URL_CN=postgresql://elysia:elysia_pass@db:5432/realestate_cn
+      - DATABASE_URL_IN=postgresql://elysia:elysia_pass@db:5432/realestate_in
+      - DATABASE_URL_SG=postgresql://elysia:elysia_pass@db:5432/realestate_sg
+      - DATABASE_URL_MY=postgresql://elysia:elysia_pass@db:5432/realestate_my
+      - DATABASE_URL_TH=postgresql://elysia:elysia_pass@db:5432/realestate_th
+      - DATABASE_URL_AE=postgresql://elysia:elysia_pass@db:5432/realestate_ae
+      - DATABASE_URL_SA=postgresql://elysia:elysia_pass@db:5432/realestate_sa
     depends_on:
       db:
         condition: service_healthy
