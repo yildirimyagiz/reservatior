@@ -2227,44 +2227,76 @@ model RightToRentCheck {
   @@index([status])
 }
 
-model SolicitorManagement {
-  id            String       @id @default(cuid())
-  orgId         String
-  dealId        String?
-  contactId     String
-  solicitorType String
-  status        String       @default("engaged")
-  engagedAt     DateTime?
-  completedAt   DateTime?
-  fee           Decimal?     @db.Decimal(14, 2)
-  currency      String?
-  notes         String?
-  createdBy     String?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  deletedAt     DateTime?
-  contact       Contact      @relation(fields: [contactId], references: [id])
-  deal          Deal?        @relation(fields: [dealId], references: [id])
-  org           Organization @relation(fields: [orgId], references: [id])
+// ─── LEGAL & SOLICITOR MANAGEMENT ─────────────────────────────────────────────
 
-  solicitorFirm     String // Managed field
-  solicitorName     String // Managed field
-  solicitorEmail    String // Managed field
-  solicitorPhone    String? // Managed field
-  appointmentType   String // "INITIAL_CONSULTATION", "EXCHANGE", "COMPLETION" // Managed field
-  appointmentDate   DateTime? // Managed field
-  appointmentNotes  String? // Managed field
-  searchDate        DateTime? // Managed field
-  draftContractDate DateTime? // Managed field
-  finalContractDate DateTime? // Managed field
-  completionDate    DateTime? // Managed field
-  completionNotes   String? // Managed field
-  fees              Json? // {legalFees, disbursements, stampDuty // Managed field
+enum SolicitorType {
+  LOCAL_LEGAL_COUNSEL           // Türkiye'deki hukuk danışmanımız / avukatımız
+  TENANT_INTERNATIONAL_LAWYER   // Kiracının kendi ülkesindeki resmi avukatı (Uluslararası Güvence)
+  LANDLORD_REPRESENTATIVE       // Ev sahibinin şahsi avukatı
+}
+
+enum SolicitorStatus {
+  ENGAGED       // Süreç başladı, bilgiler doğrulandı
+  VERIFIED      // Avukatın baro kaydı ve adresi sistem tarafından onaylandı
+  DISPUTE_OPEN  // Kiracıyla yasal bir uyuşmazlık başladı, avukata bildirim yapıldı
+  COMPLETED     // Kontrat süresi bitti, sorunsuz tamamlandı
+  TERMINATED    // Sözleşme ihlali nedeniyle yasal takip sürecine geçildi
+}
+
+model SolicitorManagement {
+  id                String          @id @default(cuid())
+  orgId             String
+  dealId            String?
+  contactId         String          // Kiracı veya Ev Sahibinin Contact ID'si
+  solicitorType     SolicitorType   @default(TENANT_INTERNATIONAL_LAWYER)
+  status            SolicitorStatus @default(ENGAGED)
+  
+  // Uluslararası Doğrulama ve Takip Alanları
+  countryCode       String          // Avukatın bağlı olduğu ülke (Örn: "GB", "DE", "US")
+  barRegistrationNo String          // Kayıtlı olduğu resmi baro sicil numarası (Tahsilat güvencesi için şart)
+  legalNoticeAddress String         // Olası kriz anında uluslararası tebligatın yapılacağı resmi iş adresi
+  
+  // B2B Turizm Şirketi / Dış Acente Bağlantısı
+  referredByAgencyId String?        // Bu kiracıyı ve avukatı getiren Turizm Şirketi/Acente ID'si (Opsiyonel)
+  
+  engagedAt         DateTime?
+  completedAt       DateTime?
+  fee               Decimal?        @db.Decimal(14, 2)
+  currency          String?         @default("USD")
+  notes             String?
+  createdBy         String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  deletedAt         DateTime?
+  
+  // İlişkiler
+  contact           Contact         @relation(fields: [contactId], references: [id])
+  deal              Deal?           @relation(fields: [dealId], references: [id])
+  org               Organization    @relation(fields: [orgId], references: [id])
+
+  // Yönetilen Detaylar (Managed Fields)
+  solicitorFirm     String          // Hukuk Bürosunun Adı
+  solicitorName     String          // Avukatın Adı Soyadı
+  solicitorEmail    String          // Avukatın Kurumsal E-postası
+  solicitorPhone    String?         // Avukatın Telefonu (Uluslararası formatta)
+  
+  // Süreç Yönetim Alanları
+  appointmentType   String          // "INITIAL_CONSULTATION", "EXCHANGE", "COMPLETION"
+  appointmentDate   DateTime?
+  appointmentNotes  String?
+  searchDate        DateTime?
+  draftContractDate DateTime?
+  finalContractDate DateTime?
+  completionDate    DateTime?
+  completionNotes   String?
+  fees              Json?           // { legalFees, disbursements, internationalStampDuty }
 
   @@index([orgId])
   @@index([dealId])
   @@index([contactId])
   @@index([status])
+  @@index([countryCode])
+  @@index([referredByAgencyId])
 }
 
 model MortgageOffer {
