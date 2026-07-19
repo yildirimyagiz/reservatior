@@ -330,6 +330,20 @@ import { listingOSRoutes } from "./routes/listing-os";
 import { agentOSRoutes } from "./routes/agent-os";
 import { cleaningStandardRoutes } from "./routes/cleaning-standard";
 import { reputationRoutes } from "./routes/reputation";
+import { kumbaraDepositRoutes } from "./routes/kumbara-deposit";
+import { universalTrustScoreRoutes } from "./routes/universal-trust-score";
+import { purchaseIntentRoutes } from "./routes/purchase-intent";
+import { reoPortfolioRoutes } from "./routes/reo-portfolio";
+import { financialAuditLogRoutes } from "./routes/financial-audit-log";
+import { bankAccountRoutes } from "./routes/bank-account";
+import { productRoutes } from "./routes/product";
+import { supplierRoutes } from "./routes/supplier";
+import { productBundleRoutes } from "./routes/product-bundle";
+import { commerceAgentRoutes } from "./routes/commerce-agent";
+import { commissionEngineRoutes } from "./routes/commission-engine";
+import { commerceOrderRoutes } from "./routes/commerce-order";
+import { commerceCampaignRoutes } from "./routes/commerce-campaign";
+import { incomeCertificateRoutes, publicCertificateRoutes } from "./routes/income-certificate";
 
 // Route Clusters to optimize TypeScript instantiation depth
 const cluster1 = new Elysia()
@@ -705,4 +719,19 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(agentOSRoutes)
   .use(cleaningStandardRoutes)
   .use(reputationRoutes)
+  .use(kumbaraDepositRoutes)
+  .use(universalTrustScoreRoutes)
+  .use(purchaseIntentRoutes)
+  .use(reoPortfolioRoutes)
+  .use(financialAuditLogRoutes)
+  .use(bankAccountRoutes)
+  .use(productRoutes)
+  .use(supplierRoutes)
+  .use(productBundleRoutes)
+  .use(commerceAgentRoutes)
+  .use(commissionEngineRoutes)
+  .use(commerceOrderRoutes)
+  .use(commerceCampaignRoutes)
+  .use(publicCertificateRoutes)
+  .use(incomeCertificateRoutes)
 ;

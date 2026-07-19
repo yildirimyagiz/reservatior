@@ -198,6 +198,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
 
+  const [videoMounted, setVideoMounted] = useState(false);
+  useEffect(() => { setVideoMounted(true); }, []);
+
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { provider, apiKey } = useMapProvider();
   const { scrollY } = useScroll();
@@ -222,7 +225,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   useEffect(() => {
     const loadCountries = async () => {
       try {
-        const allCountries = await GetCountries("/country-data/countriesminified.json");
+        const allCountries = await GetCountries("/country-data");
         // Filter out only the countries we have Prisma configurations for
         const supported = allCountries.filter((c: Country) => SUPPORTED_COUNTRIES.includes(c.iso2));
         setCountries(supported);
@@ -237,7 +240,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   useEffect(() => {
     const loadCities = async () => {
       try {
-        const cities = await GetAllCities("/country-data/citiesminified.json");
+        const cities = await GetAllCities("/country-data");
         // Note: City type doesn't include countryCode, so we load all cities
         // Google Places API will handle country-specific filtering
         setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
@@ -331,7 +334,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               muted
               playsInline
               onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
-              initial={{ opacity: 0, scale: 1.1 }}
+              initial={videoMounted ? { opacity: 0, scale: 1.1 } : false}
               animate={{ opacity: 1, scale: 1.05 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.5, ease: "easeOut" }}

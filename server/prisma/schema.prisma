@@ -8680,11 +8680,20 @@ enum PermissionKey {
   MLS_MANAGE
   GOV_INTEGRATIONS_MANAGE
 
+  KUMBARA_MANAGE
+  TRUST_SCORE_VIEW
+  TRUST_SCORE_MANAGE
+  RTO_MANAGE
+  REO_MANAGE
+
   // Deprecated - kept for migration compatibility
   GLOBAL_ARBITRAGE_VIEW
   PROJECTS_MANAGE
   MARKETING_CAMPAIGNS_MANAGE
   SETTINGS_MANAGE
+
+  // Commerce OS
+  COMMERCE_MANAGE
 }
 
 enum PropertyType {
@@ -13317,4 +13326,1324 @@ model PlatformDashboard {
   updatedAt       DateTime @updatedAt
 
   @@index([osModule])
+// ==========================================
+// Kumbara Deposit Model
+// Configurable deposit system — tenant monthly contribution
+// instead of large upfront deposit
+// ==========================================
+
+enum KumbaraDepositStatus {
+  ACTIVE
+  COMPLETED
+  DEFAULTED
+  REFUNDED
+  DISPUTED
+  FROZEN
+}
+
+enum KumbaraContributionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+  LATE
+}
+
+enum KumbaraRuleType {
+  PERCENTAGE_OF_RENT
+  FIXED_AMOUNT
+  TIERED
+  INCOME_BASED
+  DYNAMIC
+}
+
+model KumbaraDeposit {
+  id          String              @id @default(uuid())
+  orgId       String
+  leaseId     String
+  propertyId  String
+  tenantId    String
+
+  // Deposit configuration
+  status           KumbaraDepositStatus @default(ACTIVE)
+  totalTarget      Decimal              @db.Decimal(12, 2) // Total deposit goal
+  totalContributed Decimal              @default(0) @db.Decimal(12, 2)
+  remainingBalance Decimal              @db.Decimal(12, 2)
+  currency         String               @default("USD")
+
+  // Contribution rules
+  ruleType         KumbaraRuleType      @default(PERCENTAGE_OF_RENT)
+  contributionRate Float                @default(0.035) // 3.5% of rent
+  fixedAmount      Decimal?             @db.Decimal(12, 2)
+  contributionDay  Int                  @default(1) // Day of month
+
+  // Escrow integration
+  escrowAccountId  String?
+
+  // Protection
+  ownerProtectionEnabled Boolean  @default(true)
+  maxMissedPayments       Int      @default(3)
+  currentMissedPayments   Int      @default(0)
+  autoDefaultOnMiss       Boolean  @default(false)
+
+  // Metadata
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  nextDueDate DateTime
+  metadata    Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contributions KumbaraContribution[]
+  rules        KumbaraRule[]
+
+  @@index([orgId])
+  @@index([leaseId])
+  @@index([propertyId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([nextDueDate])
+}
+
+model KumbaraContribution {
+  id         String                    @id @default(uuid())
+  depositId  String
+  deposit    KumbaraDeposit            @relation(fields: [depositId], references: [id], onDelete: Cascade)
+  orgId      String
+
+  amount          Decimal                  @db.Decimal(12, 2)
+  currency        String                   @default("USD")
+  status          KumbaraContributionStatus @default(PENDING)
+  dueDate         DateTime
+  paidAt          DateTime?
+
+  // Payment tracking
+  paymentMethod   String?                  // A2A_FAST, CARD_INSTALLMENT, etc.
+  paymentRail     PaymentRail?
+  gatewayRef      String?                  // Gateway transaction reference
+  installmentNo   Int?                     // Which installment number
+
+  // Escrow
+  escrowAccountId String?
+
+  failureReason   String?
+  retryCount      Int                      @default(0)
+  metadata        Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([depositId])
+  @@index([orgId])
+  @@index([status])
+  @@index([dueDate])
+  @@index([paidAt])
+}
+
+model KumbaraRule {
+  id        String          @id @default(uuid())
+  depositId String
+  deposit   KumbaraDeposit  @relation(fields: [depositId], references: [id], onDelete: Cascade)
+  orgId     String
+
+  ruleType    KumbaraRuleType @default(PERCENTAGE_OF_RENT)
+  rate        Float?          // For percentage rules
+  amount      Decimal?        @db.Decimal(12, 2) // For fixed amount rules
+  minAmount   Decimal?        @db.Decimal(12, 2)
+  maxAmount   Decimal?        @db.Decimal(12, 2)
+  conditions  Json?           // Tiered/income-based conditions
+  priority    Int             @default(0)
+  isActive    Boolean         @default(true)
+  validFrom   DateTime        @default(now())
+  validUntil  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([depositId])
+  @@index([orgId])
+}
+
+// ==========================================
+// Universal Trust Score
+// Cross-entity, versioned, auditable reputation infrastructure
+// ==========================================
+
+enum TrustEntityType {
+  TENANT
+  LANDLORD
+  AGENT
+  PROPERTY
+  ORGANIZATION
+  VENDOR
+}
+
+enum TrustScoreStatus {
+  ACTIVE
+  DECAYED
+  FROZEN
+  UNDER_REVIEW
+  APPEALED
+}
+
+enum TrustSignalCategory {
+  PAYMENT
+  BEHAVIOR
+  VERIFICATION
+  OPERATIONAL
+  FINANCIAL
+  COMPLIANCE
+  SOCIAL
+  MAINTENANCE
+}
+
+model UniversalTrustScore {
+  id          String              @id @default(uuid())
+  orgId       String?
+
+  entityType  TrustEntityType
+  entityId    String              // polymorphic: userId, propertyId, orgId
+  version     Int                 @default(1)
+
+  // Composite score
+  overallScore    Float           @default(0) // 0-100
+  confidenceLevel Float           @default(0) // 0-1, how confident we are
+  scoreBreakdown  Json            // { payment: 85, behavior: 72, verification: 90, ... }
+
+  // Tier
+  tier        String              @default("BRONZE") // BRONZE, SILVER, GOLD, PLATINUM, DIAMOND
+
+  // Status
+  status      TrustScoreStatus    @default(ACTIVE)
+
+  // Decay tracking
+  lastCalculatedAt DateTime       @default(now())
+  lastDecayAt      DateTime?
+  decayRate        Float          @default(0.05) // 5% per inactive period
+  inactivityDays   Int            @default(30)
+
+  // Audit
+  signalCount     Int             @default(0)
+  lastSignalAt    DateTime?
+  isExplainable   Boolean         @default(true)
+  explanationData Json?           // Human-readable explanation of score components
+
+  // API access
+  apiAccessEnabled Boolean        @default(true)
+  lastAccessedAt   DateTime?
+  accessCount      Int            @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events     TrustScoreEvent[]
+  versions   TrustScoreVersion[]
+
+  @@unique([entityType, entityId, orgId])
+  @@index([orgId])
+  @@index([entityType, entityId])
+  @@index([overallScore])
+  @@index([tier])
+  @@index([status])
+  @@index([lastCalculatedAt])
+}
+
+model TrustScoreEvent {
+  id        String              @id @default(uuid())
+  scoreId   String
+  score     UniversalTrustScore @relation(fields: [scoreId], references: [id], onDelete: Cascade)
+  orgId     String?
+
+  // Signal
+  signalKey     String          // e.g. "payment.on_time", "maintenance.responsive"
+  category      TrustSignalCategory
+  weight        Float           @default(1.0)
+  rawValue      Json            // Original signal data
+  normalizedScore Float         @default(0) // 0-100 normalized
+
+  // Impact
+  scoreDelta    Float           @default(0) // How much this event changed the score
+  previousScore Float?
+  newScore      Float?
+
+  // Context
+  sourceEntityId   String?      // What triggered this (leaseId, bookingId, etc.)
+  sourceEntityType String?
+  description      String?
+
+  // Audit
+  calculatedAt DateTime       @default(now())
+  isValid      Boolean        @default(true)
+  invalidatedBy String?       // Event ID that invalidated this
+  metadata     Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([scoreId])
+  @@index([orgId])
+  @@index([signalKey])
+  @@index([category])
+  @@index([calculatedAt])
+  @@index([isValid])
+}
+
+model TrustScoreVersion {
+  id        String              @id @default(uuid())
+  scoreId   String
+  score     UniversalTrustScore @relation(fields: [scoreId], references: [id], onDelete: Cascade)
+  orgId     String?
+
+  version       Int
+  overallScore  Float
+  tier          String
+  scoreBreakdown Json
+  triggerEvent  String          // What caused this version
+  eventId       String?         // TrustScoreEvent that triggered version change
+  explanation   Json?           // Human-readable explanation
+
+  createdAt DateTime @default(now())
+
+  @@index([scoreId])
+  @@index([orgId])
+  @@index([version])
+  @@unique([scoreId, version])
+}
+
+// ==========================================
+// Rental-to-Ownership Lifecycle
+// Tenant → Buyer journey with equity tracking
+// ==========================================
+
+enum PurchaseIntentStatus {
+  INTENT_DECLARED
+  PRE_QUALIFIED
+  SAVINGS_ACTIVE
+  MORTGAGE_READY
+  OFFER_SUBMITTED
+  UNDER_CONTRACT
+  OWNERSHIP_TRANSFERRED
+  EXPIRED
+  CANCELLED
+}
+
+enum BuyerReadinessTier {
+  EXPLORING
+  SAVING
+  QUALIFIED
+  ACTIVE_BUYER
+  MORTGAGE_APPROVED
+  CLOSING
+
+}
+
+model PurchaseIntent {
+  id        String                @id @default(uuid())
+  orgId     String
+  leaseId   String
+  propertyId String
+  tenantId  String
+
+  status            PurchaseIntentStatus @default(INTENT_DECLARED)
+  readinessTier     BuyerReadinessTier   @default(EXPLORING)
+
+  // Financial profile
+  targetPrice       Decimal?             @db.Decimal(12, 2)
+  estimatedDownPmt  Decimal?             @db.Decimal(12, 2)
+  monthlySavings    Decimal?             @db.Decimal(12, 2)
+  savingsGoal       Decimal?             @db.Decimal(12, 2)
+  currentSavings    Decimal              @default(0) @db.Decimal(12, 2)
+
+  // Mortgage
+  mortgagePreApproved Boolean           @default(false)
+  mortgagePreApprovalId String?
+  maxMortgageAmount   Decimal?          @db.Decimal(12, 2)
+  preferredLender     String?
+
+  // Trust Score integration
+  trustScoreAtIntent  Float?
+  buyerReadinessScore Float             @default(0) // 0-100
+
+  // Timeline
+  targetPurchaseDate  DateTime?
+  leaseEndSynchronizes Boolean         @default(true) // Align purchase with lease end
+
+  // Metadata
+  declaredAt    DateTime @default(now())
+  lastActivityAt DateTime?
+  expiresAt     DateTime?
+  metadata      Json?
+
+  conversionWorkflow OwnershipConversion?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  equityAccumulations EquityAccumulation[]
+
+  @@index([orgId])
+  @@index([leaseId])
+  @@index([propertyId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([readinessTier])
+  @@index([buyerReadinessScore])
+}
+
+model EquityAccumulation {
+  id       String          @id @default(uuid())
+  intentId String
+  intent   PurchaseIntent  @relation(fields: [intentId], references: [id], onDelete: Cascade)
+  orgId    String
+
+  // Accumulation
+  periodStart    DateTime
+  periodEnd      DateTime
+  rentPaid       Decimal     @db.Decimal(12, 2)
+  equityPortion  Decimal     @db.Decimal(12, 2) // Portion of rent credited as equity
+  cumulativeEquity Decimal   @db.Decimal(12, 2)
+  savingsAdded   Decimal     @default(0) @db.Decimal(12, 2)
+
+  // Payment
+  paymentId      String?
+  paymentStatus  String      @default("COMPLETED")
+
+  // Verification
+  verifiedAt     DateTime?
+  verifiedBy     String?
+
+  metadata       Json?
+  createdAt      DateTime    @default(now())
+
+  @@index([intentId])
+  @@index([orgId])
+  @@index([periodStart])
+}
+
+model OwnershipConversion {
+  id       String          @id @default(uuid())
+  intentId String          @unique
+  intent   PurchaseIntent  @relation(fields: [intentId], references: [id], onDelete: Cascade)
+  orgId    String
+
+  // Conversion details
+  purchasePrice      Decimal           @db.Decimal(12, 2)
+  equityApplied      Decimal           @db.Decimal(12, 2)
+  remainingBalance   Decimal           @db.Decimal(12, 2)
+  downPayment        Decimal           @db.Decimal(12, 2)
+  mortgageAmount     Decimal           @db.Decimal(12, 2)
+
+  // Parties
+  buyerContactId     String
+  sellerOrgId        String?
+  bankPartnerId      String?
+  solicitorContactId String?
+
+  // Status tracking
+  purchaseAgreed     Boolean           @default(false)
+  surveyOrdered      Boolean           @default(false)
+  surveyComplete     Boolean           @default(false)
+  mortgageOffered    Boolean           @default(false)
+  mortgageAccepted   Boolean           @default(false)
+  contractsExchanged Boolean           @default(false)
+  completionDate     DateTime?
+  keysHandedOver     Boolean           @default(false)
+
+  // Documents
+  contractId         String?
+  mortgageOfferId    String?
+
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([buyerContactId])
+}
+
+// ==========================================
+// REO / Institutional Property Module
+// Bank-owned, foreclosed, and institutional portfolio management
+// ==========================================
+
+enum REOPropertyStatus {
+  BANK_OWNED
+  FORECLOSURE_PENDING
+  PRE_FORECLOSURE
+  SHORT_SALE_LISTED
+  REO_INVENTORY
+  UNDER_MAINTENANCE
+  RENOVATION_PENDING
+  RENOVATION_ACTIVE
+  LISTED_FOR_SALE
+  SOLD
+  TRANSFERRED
+}
+
+enum REOPropertyType {
+  FORECLOSED
+  REO_BANK_OWNED
+  SHORT_SALE
+  JUDICIAL_SALE
+  DISTRESSED
+  NON_PERFORMING_LOAN
+  CONVEYED_DEED
+}
+
+enum InstitutionalOwnerType {
+  BANK
+  CREDIT_UNION
+  GYO // Gayrimenkul Yatırım Ortaklığı (Turkey)
+  REIT // Real Estate Investment Trust
+  PENSION_FUND
+  SOVEREIGN_FUND
+  PRIVATE_EQUITY
+  FOUNDATION
+  ASSOCIATION
+  CORPORATE
+}
+
+model REOProperty {
+  id          String          @id @default(uuid())
+  orgId       String
+  propertyId  String?
+  portfolioId String?
+  portfolio   InstitutionalPortfolio? @relation(fields: [portfolioId], references: [id], onDelete: SetNull)
+
+  // REO classification
+  status          REOPropertyStatus  @default(BANK_OWNED)
+  propertyType    REOPropertyType
+  loanId          String?            // Original loan reference
+  borrowerName    String?
+  originalLoanAmount Decimal?        @db.Decimal(14, 2)
+  outstandingBalance Decimal?        @db.Decimal(14, 2)
+
+  // Valuation
+  asIsValue           Decimal?       @db.Decimal(14, 2)
+  afterRepairValue    Decimal?       @db.Decimal(14, 2)
+  estimatedRepairCost Decimal?       @db.Decimal(12, 2)
+  lastAppraisalDate   DateTime?
+  appraisalCompany    String?
+
+  // Management
+  assetManagerId  String?            // User managing this asset
+  propertyManagerId String?
+  maintenanceVendorId String?
+
+  // Financial
+  carryingCost    Decimal            @default(0) @db.Decimal(12, 2) // Monthly holding cost
+  insuranceCost   Decimal            @default(0) @db.Decimal(12, 2)
+  taxLiability    Decimal            @default(0) @db.Decimal(12, 2)
+
+  // Timeline
+  acquiredAt      DateTime           @default(now())
+  listedAt        DateTime?
+  soldAt          DateTime?
+  targetDisposalDate DateTime?
+
+  // Disposition strategy
+  dispositionStrategy String?        // "QUICK_SALE", "RENOVATE_SELL", "RENT_SELL", "HOLD"
+  expectedRecoveryRate Float?        // 0-1, expected recovery vs loan
+
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([portfolioId])
+  @@index([propertyId])
+  @@index([status])
+  @@index([propertyType])
+  @@index([acquiredAt])
+  @@index([targetDisposalDate])
+}
+
+model InstitutionalPortfolio {
+  id     String       @id @default(uuid())
+  orgId  String
+
+  name              String
+  description       String?
+  ownerType         InstitutionalOwnerType
+
+  // Portfolio metrics
+  totalProperties   Int              @default(0)
+  totalValue        Decimal          @default(0) @db.Decimal(16, 2)
+  totalDebt         Decimal          @default(0) @db.Decimal(16, 2)
+  equity            Decimal          @default(0) @db.Decimal(16, 2)
+  occupancyRate     Float            @default(0) // 0-1
+  averageNOI        Decimal?         @db.Decimal(12, 2)
+  weightedCapRate   Float?
+
+  // Income tracking
+  monthlyRentalIncome  Decimal       @default(0) @db.Decimal(12, 2)
+  monthlyOperatingExpenses Decimal  @default(0) @db.Decimal(12, 2)
+  netOperatingIncome   Decimal       @default(0) @db.Decimal(12, 2)
+
+  // Performance
+  ytdReturn        Float?            // Year-to-date return
+  irr              Float?            // Internal rate of return
+  totalAppreciation Decimal?         @db.Decimal(16, 2)
+
+  // Geographic
+  primaryCountry   String?
+  primaryRegion    String?
+  assetMix         Json?             // Breakdown by property type
+
+  status           String            @default("ACTIVE")
+  metadata         Json?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  holdings         PortfolioHolding[]
+  reoProperties    REOProperty[]
+
+  @@index([orgId])
+  @@index([ownerType])
+  @@index([status])
+}
+
+model PortfolioHolding {
+  id           String               @id @default(uuid())
+  portfolioId  String
+  portfolio    InstitutionalPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  propertyId   String
+  orgId        String
+
+  // Position
+  purchasePrice    Decimal           @db.Decimal(14, 2)
+  currentValue     Decimal           @db.Decimal(14, 2)
+  equityStake      Float             @default(1.0) // 0-1 ownership share
+  acquisitionDate  DateTime          @default(now())
+
+  // Income
+  monthlyIncome    Decimal           @default(0) @db.Decimal(12, 2)
+  annualIncome     Decimal           @default(0) @db.Decimal(12, 2)
+  capRate          Float?
+  noi              Decimal?          @db.Decimal(12, 2)
+
+  // Status
+  isActive         Boolean           @default(true)
+  occupancyStatus  String            @default("VACANT") // OCCUPIED, VACANT, TRANSITIONING
+  leaseEndDate     DateTime?
+
+  // Performance
+  unrealizedGain   Decimal?          @db.Decimal(14, 2) // current - purchase
+  totalReturnPct   Float?            // total return %
+
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([portfolioId])
+  @@index([propertyId])
+  @@index([orgId])
+  @@unique([portfolioId, propertyId])
+}
+
+// ==========================================
+// Financial Audit Log
+// Dedicated immutable audit trail for financial operations
+// ==========================================
+
+enum FinancialAuditAction {
+  PAYMENT_CREATED
+  PAYMENT_COMPLETED
+  PAYMENT_FAILED
+  PAYMENT_REFUNDED
+  ESCROW_FUNDED
+  ESCROW_PARTIALLY_RELEASED
+  ESCROW_FULLY_RELEASED
+  ESCROW_DISPUTED
+  ESCROW_RESOLVED
+  SCHEDULED_RELEASE_TRIGGERED
+  COMMISSION_CALCULATED
+  COMMISSION_PAID
+  PAYOUT_INITIATED
+  PAYOUT_COMPLETED
+  PAYOUT_FAILED
+  SPLIT_DISBURSED
+  KUMBARA_CONTRIBUTION
+  KUMBARA_COMPLETED
+  DEPOSIT_HELD
+  DEPOSIT_REFUNDED
+  MORTGAGE_PRE_APPROVED
+  MORTGAGE_OFFERED
+  OWNERSHIP_TRANSFERRED
+  EQUITY_ACCUMULATED
+  TRUST_SCORE_UPDATED
+  REO_ACQUIRED
+  REO_DISPOSED
+  RATE_CHANGED
+  TAX_RECORDED
+  ADJUSTMENT_MADE
+}
+
+model FinancialAuditLog {
+  id        String   @id @default(uuid())
+  orgId     String?
+
+  // What happened
+  action      FinancialAuditAction
+  entityType  String     // e.g. "Payment", "EscrowAccount", "KumbaraDeposit"
+  entityId    String
+
+  // Who did it
+  userId      String?
+  actorType   String     @default("USER") // USER, SYSTEM, WEBHOOK, CRON
+
+  // Financial details
+  amount      Decimal?   @db.Decimal(14, 2)
+  currency    String?
+  oldAmount   Decimal?   @db.Decimal(14, 2)
+  newAmount   Decimal?   @db.Decimal(14, 2)
+  oldStatus   String?
+  newStatus   String?
+
+  // Change tracking
+  oldValues   Json?
+  newValues   Json?
+  changeDelta  Json?     // Computed diff
+
+  // Context
+  reservationId  String?
+  leaseId        String?
+  escrowId       String?
+  paymentId      String?
+
+  // Compliance
+  ipAddress    String?
+  userAgent    String?
+  sessionId    String?
+  requestId    String?   // For tracing
+  idempotencyKey String?
+
+  // Integrity
+  checksum     String?   // HMAC of the log entry for tamper detection
+  previousHash String?   // Chain hash for audit integrity
+
+  createdAt DateTime @default(now())
+
+  @@index([orgId])
+  @@index([entityType, entityId])
+  @@index([action])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([reservationId])
+  @@index([leaseId])
+  @@index([escrowId])
+  @@index([idempotencyKey])
+}
+
+// ==========================================
+// Bank Account Model
+// Dedicated bank account management (replacing Json field on Payout)
+// ==========================================
+
+enum BankAccountType {
+  CHECKING
+  SAVINGS
+  ESCROW
+  BUSINESS
+  MERCHANT
+}
+
+enum BankAccountStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  CLOSED
+  PENDING_VERIFICATION
+}
+
+model BankAccount {
+  id        String   @id @default(uuid())
+  orgId     String
+
+  // Account details
+  accountType   BankAccountType    @default(CHECKING)
+  bankName      String
+  bankCode      String?            // SWIFT/BIC
+  accountName   String
+  accountNumber String             // Encrypted at rest
+  iban          String?            // For EU/TR accounts
+  routingNumber String?            // For US accounts
+  sortCode      String?            // For UK accounts
+  currency      String             @default("USD")
+  country       String
+
+  // Status
+  status        BankAccountStatus  @default(PENDING_VERIFICATION)
+  verifiedAt    DateTime?
+  verifiedBy    String?
+
+  // Default flags
+  isDefaultForPayouts   Boolean    @default(false)
+  isDefaultForReceipts  Boolean    @default(false)
+
+  // Metadata
+  lastUsedAt    DateTime?
+  metadata      Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([status])
+  @@index([isDefaultForPayouts])
+}
+
+// ==========================================
+// Commerce OS
+// Product catalog, supplier network, commissions, agent marketplace
+// ==========================================
+
+// --- Enums ---
+
+enum ProductCategory {
+  FURNITURE
+  APPLIANCE
+  ELECTRONICS
+  DECOR
+  LIGHTING
+  KITCHENWARE
+  LINEN
+  ACCESSORY
+  SMART_HOME
+  OUTDOOR
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  DISCONTINUED
+  OUT_OF_STOCK
+}
+
+enum SupplierStatus {
+  ACTIVE
+  PENDING
+  SUSPENDED
+  INACTIVE
+}
+
+enum BundleType {
+  STAGING_BASIC
+  STAGING_PREMIUM
+  STAGING_LUXURY
+  MOVE_IN_READY
+  INCOME_READY
+  INVESTMENT_READY
+  CUSTOM
+}
+
+enum CommissionType {
+  AGENT_SALE
+  FURNITURE_COMMISSION
+  REFERRAL
+  PLATFORM_FEE
+  REVENUE_SHARE
+  BONUS
+}
+
+enum CommerceCommissionStatus {
+  PENDING
+  CALCULATED
+  APPROVED
+  PAID
+  DISPUTED
+  CANCELLED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  INSTALLED
+  CANCELLED
+  REFUNDED
+}
+
+enum AgentStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  PENDING_APPROVAL
+}
+
+enum CommerceCampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+enum CertificateTier {
+  MOVE_IN_READY
+  INCOME_READY
+  INVESTMENT_READY
+}
+
+enum CertificateStatus {
+  PENDING
+  ISSUED
+  EXPIRED
+  REVOKED
+  RENEWED
+}
+
+enum RevenueShareType {
+  PLATFORM
+  AGENT
+  SUPPLIER
+  PARTNER
+  BANK
+  REFERRAL
+}
+
+// --- Models ---
+
+model Product {
+  id          String          @id @default(uuid())
+  orgId       String
+
+  name        String
+  description String?
+  category    ProductCategory
+  sku         String?         @unique
+  price       Decimal         @db.Decimal(10, 2)
+  currency    String          @default("USD")
+  images      Json?           // Array of image URLs
+  attributes  Json?           // Size, color, material, etc.
+
+  supplierId  String?
+  supplier    Supplier?       @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+
+  status      ProductStatus   @default(ACTIVE)
+  isActive    Boolean         @default(true)
+
+  // Dimensions & weight
+  weight      Float?
+  dimensions  Json?           // { length, width, height, unit }
+
+  // Commerce
+  commissionRate Float?       @default(0) // % commission on sales
+  wholesalePrice Decimal?    @db.Decimal(10, 2)
+  retailPrice   Decimal?     @db.Decimal(10, 2)
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  bundleItems BundleItem[]
+  orderItems  CommerceOrderItem[]
+
+  @@index([orgId])
+  @@index([category])
+  @@index([supplierId])
+  @@index([status])
+}
+
+model Supplier {
+  id          String          @id @default(uuid())
+  orgId       String
+
+  name        String
+  description String?
+  contactName String?
+  email       String?
+  phone       String?
+  website     String?
+  logo        String?
+
+  // Business info
+  taxId       String?
+  businessType String?        // MANUFACTURER, DISTRIBUTOR, RETAILER
+  country     String?
+  city        String?
+
+  // Terms
+  paymentTerms    String?     // NET_30, NET_60, PREPAID
+  minimumOrder    Decimal?    @db.Decimal(10, 2)
+  currency        String      @default("USD")
+  leadTimeDays    Int?        // Average delivery time
+
+  // Commission
+  commissionRate  Float       @default(0) // % platform commission
+
+  status      SupplierStatus  @default(ACTIVE)
+  rating      Float?          // 1-5 star rating
+  verifiedAt  DateTime?
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  products    Product[]
+
+  @@index([orgId])
+  @@index([status])
+  @@index([country])
+}
+
+model ProductBundle {
+  id          String          @id @default(uuid())
+  orgId       String
+
+  name        String
+  description String?
+  bundleType  BundleType
+  totalPrice  Decimal         @db.Decimal(12, 2)
+  currency    String          @default("USD")
+
+  // Target property
+  propertyId  String?         // Link to property if bundle is for specific unit
+  propertyType String?        // APARTMENT, VILLA, STUDIO, etc.
+  bedrooms    Int?
+
+  // Savings
+  originalPrice Decimal?      @db.Decimal(12, 2) // Sum of individual items
+  discountPct   Float?        // Discount percentage vs individual
+
+  isActive    Boolean         @default(true)
+  images      Json?
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  items       BundleItem[]
+  orders      CommerceOrder[]
+
+  @@index([orgId])
+  @@index([bundleType])
+  @@index([propertyId])
+}
+
+model BundleItem {
+  id          String          @id @default(uuid())
+  bundleId    String
+  bundle      ProductBundle   @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  quantity    Int             @default(1)
+  unitPrice   Decimal         @db.Decimal(10, 2)
+  totalAmount Decimal         @db.Decimal(10, 2)
+
+  metadata    Json?
+
+  @@unique([bundleId, productId])
+  @@index([bundleId])
+  @@index([productId])
+}
+
+model CommerceAgent {
+  id          String          @id @default(uuid())
+  orgId       String
+  userId      String?         // Link to User model
+
+  name        String
+  email       String
+  phone       String?
+  imageUrl    String?
+
+  // Agent details
+  licenseNumber String?
+  agencyName    String?
+  specializations Json?       // ["residential", "commercial", "investment"]
+
+  // Commission
+  baseCommissionRate Float   @default(3.0) // Default %
+  bonusThreshold     Decimal? @db.Decimal(12, 2) // Sales volume for bonus
+  bonusRate          Float?   @default(0.5) // Extra % above threshold
+
+  // Performance
+  totalSales        Int       @default(0)
+  totalRevenue      Decimal   @default(0) @db.Decimal(14, 2)
+  averageRating     Float?    // 1-5
+  responseTimeHours Float?    // Avg response time
+
+  status      AgentStatus     @default(ACTIVE)
+  joinedAt    DateTime        @default(now())
+  lastActiveAt DateTime?
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  commissions CommerceCommission[]
+  orders      CommerceOrder[]
+
+  @@index([orgId])
+  @@index([userId])
+  @@index([status])
+  @@index([email])
+}
+
+model CommerceCommission {
+  id          String          @id @default(uuid())
+  orgId       String
+
+  sourceType  String          // "ORDER", "SALE", "REFERRAL", "LEASE"
+  sourceId    String          // ID of the source entity
+
+  agentId     String?
+  agent       CommerceAgent?  @relation(fields: [agentId], references: [id], onDelete: SetNull)
+
+  // Commission details
+  type        CommissionType
+  basis       String?         // "percentage", "fixed"
+  basisAmount Decimal         @db.Decimal(12, 2) // Amount the commission is based on
+  rate        Float           // Commission rate (%)
+  amount      Decimal         @db.Decimal(12, 2) // Calculated commission amount
+  currency    String          @default("USD")
+
+  // Split
+  platformShare Decimal       @default(0) @db.Decimal(12, 2)
+  agentShare    Decimal       @default(0) @db.Decimal(12, 2)
+  supplierShare Decimal       @default(0) @db.Decimal(12, 2)
+  partnerShare  Decimal       @default(0) @db.Decimal(12, 2)
+
+  // Status
+  status      CommerceCommissionStatus @default(PENDING)
+  calculatedAt DateTime?
+  approvedAt  DateTime?
+  paidAt      DateTime?
+  paymentRef  String?         // External payment reference
+
+  // Related entities
+  orderId     String?
+  order       CommerceOrder?  @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  productId   String?
+  campaignId  String?
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  revenueShares RevenueShare[]
+
+  @@index([orgId])
+  @@index([agentId])
+  @@index([sourceType, sourceId])
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model CommerceOrder {
+  id          String          @id @default(uuid())
+  orgId       String
+
+  orderNumber String          @unique // Human-readable order number
+  status      OrderStatus     @default(PENDING)
+
+  // Buyer
+  buyerType   String          // "USER", "AGENT", "ORGANIZATION"
+  buyerId     String
+  buyerName   String?
+  buyerEmail  String?
+
+  // Agent
+  agentId     String?
+  agent       CommerceAgent?  @relation(fields: [agentId], references: [id], onDelete: SetNull)
+
+  // Bundle
+  bundleId    String?
+  bundle      ProductBundle?  @relation(fields: [bundleId], references: [id], onDelete: SetNull)
+
+  // Property
+  propertyId  String?         // Property this order is for
+
+  // Pricing
+  subtotal    Decimal         @db.Decimal(12, 2)
+  discount    Decimal         @default(0) @db.Decimal(12, 2)
+  tax         Decimal         @default(0) @db.Decimal(12, 2)
+  total       Decimal         @db.Decimal(12, 2)
+  currency    String          @default("USD")
+
+  // Payment
+  paymentMethod String?
+  paymentStatus String        @default("PENDING") // PENDING, PAID, REFUNDED, PARTIAL
+  paidAt      DateTime?
+  paymentRef  String?
+
+  // Delivery
+  deliveryAddress Json?
+  deliveryDate    DateTime?
+  installationDate DateTime?
+
+  // Financing
+  financingOption  String?    // "FULL_PAYMENT", "INSTALLMENT_3", "INSTALLMENT_6", "INSTALLMENT_12"
+  financingTerm    Int?       // Months
+  monthlyPayment   Decimal?   @db.Decimal(10, 2)
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  items       CommerceOrderItem[]
+  commissions CommerceCommission[]
+
+  @@index([orgId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([buyerType, buyerId])
+  @@index([agentId])
+  @@index([propertyId])
+  @@index([createdAt])
+}
+
+model CommerceOrderItem {
+  id          String          @id @default(uuid())
+  orderId     String
+  order       CommerceOrder   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  quantity    Int             @default(1)
+  unitPrice   Decimal         @db.Decimal(10, 2)
+  totalAmount Decimal         @db.Decimal(10, 2)
+
+  metadata    Json?
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model CommerceCampaign {
+  id          String          @id @default(uuid())
+  orgId       String
+
+  name        String
+  description String?
+  type        String          // "PROMOTION", "SEASONAL", "LAUNCH", "REFERRAL"
+  status      CommerceCampaignStatus  @default(DRAFT)
+
+  // Timing
+  startDate   DateTime?
+  endDate     DateTime?
+
+  // Discount
+  discountType String?        // "PERCENTAGE", "FIXED", "BOGO"
+  discountValue Float?
+  maxDiscount  Decimal?       @db.Decimal(10, 2)
+  minPurchase  Decimal?       @db.Decimal(10, 2)
+
+  // Targeting
+  targetProducts  Json?       // Array of product IDs
+  targetBundles   Json?       // Array of bundle IDs
+  targetRegions   Json?       // Array of region codes
+  targetSegments  Json?       // ["investor", "first_time", "corporate"]
+
+  // Limits
+  maxUses       Int?
+  currentUses   Int           @default(0)
+  perUserLimit  Int?
+
+  // Commission bonus
+  agentBonusRate Float?       // Extra commission for agents during campaign
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([orgId])
+  @@index([status])
+  @@index([startDate, endDate])
+}
+
+model RevenueShare {
+  id          String          @id @default(uuid())
+  orgId       String
+
+  commissionId String
+  commission   CommerceCommission     @relation(fields: [commissionId], references: [id], onDelete: Cascade)
+
+  type        RevenueShareType
+  entityId    String?         // agentId, supplierId, partnerId, etc.
+  entityType  String?         // "AGENT", "SUPPLIER", "PARTNER", "BANK", "PLATFORM"
+
+  amount      Decimal         @db.Decimal(12, 2)
+  percentage  Float?
+  currency    String          @default("USD")
+
+  status      String          @default("PENDING") // PENDING, PAID, DISPUTED
+  paidAt      DateTime?
+  paymentRef  String?
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+
+  @@index([orgId])
+  @@index([commissionId])
+  @@index([type])
+  @@index([entityType, entityId])
+  @@index([status])
+}
+
+model IncomeReadyCertificate {
+  id          String          @id @default(uuid())
+  orgId       String
+
+  // Property
+  propertyId  String
+  propertyName String?
+
+  // Certificate
+  tier        CertificateTier
+  status      CertificateStatus @default(PENDING)
+  certificateNumber String    @unique // e.g. "IRC-2024-001234"
+
+  // Tiers achieved
+  moveInReady Boolean         @default(false)
+  moveInReadyAt DateTime?
+  incomeReady Boolean         @default(false)
+  incomeReadyAt DateTime?
+  investmentReady Boolean    @default(false)
+  investmentReadyAt DateTime?
+
+  // Data supporting certification
+  trustScore  Float?          // 0-100
+  annualIncome Decimal?       @db.Decimal(12, 2) // Projected/actual annual rental income
+  occupancyRate Float?        // 0-1
+  maintenanceScore Float?     // 0-100
+  complianceStatus String?    // "COMPLIANT", "PENDING", "NON_COMPLIANT"
+
+  // Income history
+  monthsRented Int           @default(0)
+  totalIncome  Decimal       @default(0) @db.Decimal(14, 2)
+  averageMonthlyRent Decimal? @db.Decimal(10, 2)
+  yieldRate    Float?         // Annual yield %
+
+  // Furnishing
+  furnishedBy  String?        // "RESERVATIOR", "SUPPLIER", "OWNER"
+  furnitureValue Decimal?     @db.Decimal(10, 2)
+  furnitureSupplierId String?
+
+  // Documents
+  documents    Json?          // Array of document references
+
+  // Validity
+  issuedAt     DateTime?
+  expiresAt    DateTime?
+  renewedAt    DateTime?
+
+  // Digital signature
+  digitalSignature String?    // Cryptographic proof
+  verificationUrl  String?    // Public verification URL
+
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([tier])
+  @@index([status])
+  @@index([certificateNumber])
+  @@index([issuedAt])
 }

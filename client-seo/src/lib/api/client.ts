@@ -1,7 +1,7 @@
 import type { ApiResponse, PaginatedResponse } from '@/types/generated';
 import { User } from './users';
 
-const API_BASE_URL = typeof window !== 'undefined' ? '/api/v1' : 'http://localhost:3001/api/v1';
+const API_BASE_URL = typeof window !== 'undefined' ? '/api/v1' : `${process.env.BACKEND_INTERNAL_URL || 'http://localhost:3000'}/api/v1`;
 
 class ApiClient {
   private baseURL: string;

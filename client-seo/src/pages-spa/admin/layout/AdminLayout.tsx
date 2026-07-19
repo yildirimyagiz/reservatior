@@ -3,7 +3,7 @@ import { useTranslation } from"react-i18next";
 import { useState, useEffect, useCallback, useRef, useMemo } from"react";
 import { Link, useLocation } from"@/lib/react-router-shim";
 import { Avatar, AvatarFallback } from"@/components/ui/avatar";
-import { LayoutDashboard, Building2, CalendarCheck, FileText, DollarSign, UsersRound, Settings, Brain, BarChart3, Shield, ChevronDown, ChevronRight, Receipt, Star, Globe, ShieldCheck, Gavel, Share2, FileDown, Megaphone, Search, AlertTriangle, Activity, Download, ArrowRightLeft, Zap, Sparkles, X, Clock, Filter, ArrowLeft } from"lucide-react";
+import { LayoutDashboard, Building2, CalendarCheck, FileText, DollarSign, UsersRound, Settings, Brain, BarChart3, Shield, ChevronDown, ChevronRight, Receipt, Star, Globe, ShieldCheck, Gavel, Share2, FileDown, Megaphone, Search, AlertTriangle, Activity, Download, ArrowRightLeft, Zap, Sparkles, X, Clock, Filter, ArrowLeft, Wallet, PiggyBank, Home, ScrollText, Landmark, ShoppingCart, Package, Truck, Box, Users, Award } from"lucide-react";
 import { NotificationRing } from"@/components/notifications/NotificationRing";
 import { MessageDropdown } from"@/components/layout/MessageDropdown";
 import { UserMenu } from"@/components/layout/UserMenu";
@@ -62,7 +62,7 @@ export function AdminLayout({
  const location = useLocation();
  const [sidebarOpen, setSidebarOpen] = useState(true);
  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
- const [expandedGroups, setExpandedGroups] = useState<string[]>(["Users & Security","Financials"]);
+ const [expandedGroups, setExpandedGroups] = useState<string[]>(["Users & Security","Financials",t("admin_layout_financial_operations", "Financial Operations")]);
  const { user: authUser, hasPermission } = useAuth();
  const isSuper = userRole ==="SUPER_ADMIN" || authUser?.role ==="SUPER_ADMIN";
  
@@ -278,10 +278,90 @@ export function AdminLayout({
  icon: FileDown
  }]
  }, {
- title: t("admin_layout_system_setup"),
- icon: Settings,
- requiredPermission:"SETTINGS_MANAGE",
- children: [{
+  title: t("admin_layout_financial_operations", "Financial Operations"),
+  icon: Wallet,
+  requiredPermission:"FINANCE_MANAGE",
+  children: [{
+  title: t("admin_layout_kumbara_deposits", "Kumbara Deposits"),
+  href:"/admin/kumbara",
+  icon: PiggyBank,
+  requiredPermission:"KUMBARA_MANAGE"
+  }, {
+  title: t("admin_layout_trust_scores", "Trust Scores"),
+  href:"/admin/trust-score",
+  icon: Shield,
+  requiredPermission:"TRUST_SCORE_VIEW"
+  }, {
+  title: t("admin_layout_purchase_intents_rto", "Purchase Intents (RTO)"),
+  href:"/admin/purchase-intents",
+  icon: Home,
+  requiredPermission:"RTO_MANAGE"
+  }, {
+  title: t("admin_layout_reo_portfolio", "REO Portfolio"),
+  href:"/admin/reo",
+  icon: Building2,
+  requiredPermission:"REO_MANAGE"
+  }, {
+  title: t("admin_layout_financial_audit", "Financial Audit"),
+  href:"/admin/audit-log",
+  icon: ScrollText,
+  requiredPermission:"AUDIT_LOGS_VIEW"
+  }, {
+  title: t("admin_layout_bank_accounts", "Bank Accounts"),
+  href:"/admin/bank-accounts",
+  icon: Landmark,
+  requiredPermission:"FINANCE_MANAGE"
+  }]
+  }, {
+  title: "Commerce OS",
+  icon: ShoppingCart,
+  requiredPermission:"COMMERCE_MANAGE",
+  children: [{
+  title: "Products",
+  href:"/admin/products",
+  icon: Package,
+  requiredPermission:"COMMERCE_MANAGE"
+  }, {
+  title: "Suppliers",
+  href:"/admin/suppliers",
+  icon: Truck,
+  requiredPermission:"COMMERCE_MANAGE"
+  }, {
+  title: "Bundles",
+  href:"/admin/bundles",
+  icon: Box,
+  requiredPermission:"COMMERCE_MANAGE"
+  }, {
+  title: "Agents",
+  href:"/admin/commerce-agents",
+  icon: Users,
+  requiredPermission:"COMMERCE_MANAGE"
+  }, {
+  title: "Commissions",
+  href:"/admin/commissions",
+  icon: DollarSign,
+  requiredPermission:"COMMERCE_MANAGE"
+  }, {
+  title: "Orders",
+  href:"/admin/commerce-orders",
+  icon: ShoppingCart,
+  requiredPermission:"COMMERCE_MANAGE"
+  }, {
+  title: "Campaigns",
+  href:"/admin/campaigns",
+  icon: Megaphone,
+  requiredPermission:"COMMERCE_MANAGE"
+  }, {
+  title: "Certificates",
+  href:"/admin/certificates",
+  icon: Award,
+  requiredPermission:"COMMERCE_MANAGE"
+  }]
+  }, {
+  title: t("admin_layout_system_setup"),
+  icon: Settings,
+  requiredPermission:"SETTINGS_MANAGE",
+  children: [{
  title: t("admin_layout_documents_admin"),
  href:"/admin/document-management",
  icon: FileText

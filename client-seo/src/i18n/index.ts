@@ -12,12 +12,25 @@ import HttpBackend from 'i18next-http-backend';
 
 const isBrowser = typeof window !== 'undefined';
 
+const SUPPORTED_LOCALES = new Set(['en','tr','ar','es','fr','de','ru','pt','zh','ja','ko','it','nl','pl','sv','da','fi','el','hi','id','gr','se','no']);
+
 function getLocaleFromUrl(): string {
-  if (!isBrowser) return 'en';
+  if (!isBrowser) {
+    try {
+      const { headers } = require('next/headers');
+      const hdrs = headers();
+      const nextUrl = hdrs.get('x-next-url') || '';
+      if (nextUrl) {
+        const segments = nextUrl.split('/').filter(Boolean);
+        const first = segments[0] || 'en';
+        if (SUPPORTED_LOCALES.has(first)) return first;
+      }
+    } catch {}
+    return 'en';
+  }
   const segments = window.location.pathname.split('/').filter(Boolean);
   const first = segments[0] || 'en';
-  const SUPPORTED = new Set(['en','tr','ar','es','fr','de','ru','pt','zh','ja','ko','it','nl','pl','sv','da','fi','el','hi','id','gr','se','no']);
-  return SUPPORTED.has(first) ? first : 'en';
+  return SUPPORTED_LOCALES.has(first) ? first : 'en';
 }
 
 const FILE_MAP: Record<string, string> = {
