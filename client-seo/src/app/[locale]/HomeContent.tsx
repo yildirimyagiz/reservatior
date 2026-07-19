@@ -5,18 +5,17 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
-import { GetCountries, GetAllCities } from "react-country-state-city";
 import type { Country, City } from "react-country-state-city/dist/umd/types";
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, 
   ArrowRight, ShieldCheck, ChevronDown, Monitor, Gem, CheckCircle2, Mouse
 } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { AIChatModal } from "@/components/home/AIChatModal";
 import { SupportChatModal } from "@/components/home/SupportChatModal";
@@ -203,15 +202,16 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { provider, apiKey } = useMapProvider();
-  const { scrollY } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
+  const [heroOpacity, setHeroOpacity] = useState(1);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Also trigger reveal on scroll
-      if (window.scrollY > 10 && !heroRevealed) setHeroRevealed(true);
+      const scrollY = window.scrollY;
+      const opacity = Math.max(0, 1 - scrollY / 600);
+      setHeroOpacity(opacity);
+      if (scrollY > 10 && !heroRevealed) setHeroRevealed(true);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [heroRevealed]);
 
@@ -221,12 +221,12 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     return () => clearTimeout(timer);
   }, []);
 
-  // Load countries (use local data to avoid external GitHub Pages fetch)
+  // Load countries (dynamic import to reduce initial bundle)
   useEffect(() => {
     const loadCountries = async () => {
       try {
+        const { GetCountries } = await import("react-country-state-city");
         const allCountries = await GetCountries("/country-data");
-        // Filter out only the countries we have Prisma configurations for
         const supported = allCountries.filter((c: Country) => SUPPORTED_COUNTRIES.includes(c.iso2));
         setCountries(supported);
       } catch (error) {
@@ -236,14 +236,13 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     loadCountries();
   }, []);
 
-  // Load cities for autocomplete based on selected country (use local data)
+  // Load cities for autocomplete based on selected country (dynamic import)
   useEffect(() => {
     const loadCities = async () => {
       try {
+        const { GetAllCities } = await import("react-country-state-city");
         const cities = await GetAllCities("/country-data");
-        // Note: City type doesn't include countryCode, so we load all cities
-        // Google Places API will handle country-specific filtering
-        setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
+        setLocationSuggestions(cities.slice(0, 50));
       } catch (error) {
         console.error('Error loading cities:', error);
       }
@@ -325,86 +324,62 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       {/* ══════ CINEMATIC HERO ══════ */}
       <section className="relative h-[100svh] w-full flex flex-col overflow-hidden bg-black always-dark">
         {/* Video Background */}
-        <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
-          <AnimatePresence mode="wait">
-            <motion.video
-              key={bgVideo}
+        <div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
+            <video
               autoPlay
               loop
               muted
               playsInline
+              width="1920"
+              height="1080"
               onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
-              initial={videoMounted ? { opacity: 0, scale: 1.1 } : false}
-              animate={{ opacity: 1, scale: 1.05 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
               className="w-full h-full object-cover"
+              style={{ opacity: videoMounted ? 1 : 0, transform: 'scale(1.05)', transition: 'opacity 1.5s ease-out' }}
             >
               <source src={`${bgVideo}#t=2`} type="video/mp4" />
-            </motion.video>
-          </AnimatePresence>
+            </video>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />
-        </motion.div>
+        </div>
 
-        {/* ─── FAZ 1: LOGO + SCROLL ICON (Başlangıç) ─── */}
-        <AnimatePresence>
-          {!heroRevealed && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.8 }}
-              className="absolute inset-0 z-20 flex flex-col items-center justify-center"
-            >
-              {/* Logo */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
-                className="text-center"
-              >
-                <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-slate-400 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-                  Reservatior
-                </h1>
-                <p className="text-white/50 text-sm md:text-base font-medium tracking-[0.3em] uppercase mt-4">
-                  {t("home.hero.tagline", { defaultValue: "Global Luxury Real Estate OS" })}
-                </p>
-              </motion.div>
+        {/* ─── FAZ 1: LOGO + SCROLL ICON ─── */}
+        <div
+          style={{ opacity: heroRevealed ? 0 : 1, pointerEvents: heroRevealed ? 'none' : 'auto', transition: 'opacity 0.8s ease' }}
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="text-center"
+          >
+            <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-slate-400 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+              Reservatior
+            </h1>
+            <p className="text-white/50 text-sm md:text-base font-medium tracking-[0.3em] uppercase mt-4">
+              {t("home.hero.tagline", { defaultValue: "Global Luxury Real Estate OS" })}
+            </p>
+          </motion.div>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer"
+            onClick={() => setHeroRevealed(true)}
+          >
+            <Mouse className="w-6 h-6 text-white/60" />
+            <span className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
+              {t("home.hero.scroll", { defaultValue: "Scroll to explore" })}
+            </span>
+          </motion.div>
+        </div>
 
-              {/* Scroll Down Indicator */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
-                className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer"
-                onClick={() => setHeroRevealed(true)}
-              >
-                <motion.div
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <Mouse className="w-6 h-6 text-white/60" />
-                </motion.div>
-                <span className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
-                  {t("home.hero.scroll", { defaultValue: "Scroll to explore" })}
-                </span>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* ─── FAZ 2 & 3: SEARCH + PROJECT INFO ─── */}
+        <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end h-full pb-12 md:pb-20 min-h-[300px]">
 
-        {/* ─── FAZ 2 & 3: SEARCH + PROJECT INFO (Reveal sonrası) ─── */}
-        <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end h-full pb-12 md:pb-20">
-
-          {/* FLOATING SEARCH PILL (Faz 2) */}
-          <AnimatePresence>
-            {heroRevealed && (
-              <motion.div
-                initial={{ opacity: 0, y: 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full max-w-4xl mx-auto mb-12"
-              >
+          {/* FLOATING SEARCH PILL */}
+          <div
+            style={{ opacity: heroRevealed ? 1 : 0, transform: heroRevealed ? 'translateY(0)' : 'translateY(60px)', transition: 'all 0.9s cubic-bezier(0.22, 1, 0.36, 1)', pointerEvents: heroRevealed ? 'auto' : 'none' }}
+            className="w-full max-w-4xl mx-auto mb-12"
+          >
                 {/* Search Tabs */}
                 <div className="flex justify-center items-center gap-6 mb-4">
                   {(["STAYS", "EXPERIENCES", "BUY"] as const).map(mode => (
@@ -552,19 +527,13 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                     </Button>
                   </div>
                 </form>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </div>
 
-          {/* PROJECT INFO + SLIDE CONTROLS (Faz 3) */}
-          <AnimatePresence>
-            {heroRevealed && (
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full"
-              >
+          {/* PROJECT INFO + SLIDE CONTROLS */}
+          <div
+            style={{ opacity: heroRevealed ? 1 : 0, transform: heroRevealed ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s', pointerEvents: heroRevealed ? 'auto' : 'none' }}
+            className="w-full max-w-5xl mx-auto"
+          >
                 <div className="flex items-end justify-between gap-6">
                   {/* Left: Project Info */}
                   <div className="flex-1 min-w-0">
@@ -651,9 +620,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                     />
                   ))}
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </div>
         </div>
       </section>
 

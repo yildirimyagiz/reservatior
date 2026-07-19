@@ -2,18 +2,19 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import { Menu, X, Globe, Video, User, Settings, LogOut, Moon, Sun, Plus } from "lucide-react";
 import { useTheme } from "next-themes";
-import { UserMenu } from "@/components/layout/UserMenu";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useLanguage, LANGUAGES } from "@/lib/languages";
 import { useAuth } from "@/lib/auth/hooks";
-import { NotificationRing } from "@/components/notifications/NotificationRing";
-import { MessageDropdown } from "@/components/layout/MessageDropdown";
 import { cn } from "@/lib/utils";
+
+const UserMenu = dynamic(() => import("@/components/layout/UserMenu").then(m => m.UserMenu), { ssr: false });
+const NotificationRing = dynamic(() => import("@/components/notifications/NotificationRing").then(m => m.NotificationRing), { ssr: false });
+const MessageDropdown = dynamic(() => import("@/components/layout/MessageDropdown").then(m => m.MessageDropdown), { ssr: false });
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -55,14 +56,11 @@ export function Navbar() {
 
 
   return <nav className={`fixed top-0 inset-x-0 z-50 p-4 flex pointer-events-none transition-all duration-500 ${isMinimized ? "justify-end" : "justify-center"}`}>
-      <motion.div 
-        layout
+      <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        initial={{ y: -100, opacity: 0 }} 
-        animate={{ y: 0, opacity: 1 }} 
         className={cn(
-          "bg-blue-50/80 dark:bg-slate-900/80 backdrop-blur-xl border border-blue-200/60 dark:border-blue-800/60 shadow-[0_8px_32px_rgba(59,130,246,0.15)] transition-all duration-500 ease-in-out pointer-events-auto flex items-center",
+          "bg-blue-50/80 dark:bg-slate-900/80 backdrop-blur-xl border border-blue-200/60 dark:border-blue-800/60 shadow-[0_8px_32px_rgba(59,130,246,0.15)] transition-all duration-500 ease-in-out pointer-events-auto flex items-center opacity-100",
           // Mobile state (default)
           "absolute right-4 top-4 w-12 h-12 p-0 rounded-full justify-center",
           // Desktop state
@@ -176,16 +174,10 @@ export function Navbar() {
         <button className="md:hidden text-foreground shrink-0 flex items-center justify-center w-full h-full" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
-      </motion.div>
+      </div>
 
        {/* Mobile Menu */}
-      {isOpen && <motion.div initial={{
-      opacity: 0,
-      y: -20
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} className="absolute top-20 inset-x-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-3xl border border-blue-200/60 dark:border-blue-800/60 rounded-3xl p-6 flex flex-col gap-4 shadow-[0_20px_60px_-15px_rgba(59,130,246,0.3)] md:hidden z-50 text-slate-700 dark:text-slate-200">
+      {isOpen && <div className="absolute top-20 inset-x-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-3xl border border-blue-200/60 dark:border-blue-800/60 rounded-3xl p-6 flex flex-col gap-4 shadow-[0_20px_60px_-15px_rgba(59,130,246,0.3)] md:hidden z-50 text-slate-700 dark:text-slate-200 transition-all duration-200 opacity-100">
           <Link href={`/${currentLang.code}`} suppressHydrationWarning>
             <span className="text-lg font-medium cursor-pointer" onClick={() => setIsOpen(false)}>
               {t("mobile.nav.home")}
@@ -299,6 +291,6 @@ export function Navbar() {
               </Button>
             </Link>
           )}
-        </motion.div>}
+        </div>}
     </nav>;
 }

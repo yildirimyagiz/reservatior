@@ -109,13 +109,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={locale || "en"} suppressHydrationWarning>
-      <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
       <link rel="dns-prefetch" href="https://images.unsplash.com" />
-      <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
-        <Script id="locale-init" strategy="beforeInteractive">
+        <Script id="locale-init" strategy="afterInteractive">
           {`(function(){var urlLocale="${locale}"; var l=urlLocale||localStorage.getItem("i18nextLng")||localStorage.getItem("reservatior_lang");if(l){if(l==="tr-TR")l="tr";document.documentElement.lang=l;if(l==="ar"){document.documentElement.dir="rtl"}else{document.documentElement.dir="ltr"}}})()`}
         </Script>
         <Script id="localization-init" strategy="beforeInteractive">
