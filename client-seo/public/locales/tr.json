@@ -23774,5 +23774,17 @@
   "admin_marketplace_avg_price_city": "Avg Price in City",
   "admin_marketplace_price_per_sqm": "Price per m²",
   "admin_marketplace_no_results": "No properties found matching your criteria",
-  "admin_marketplace_property_details": "Property Details"
+  "admin_marketplace_property_details": "Property Details",
+  "booking_os.feed.desc": "Yönetilen mülklerden gerçek zamanlı SmartLock olayları.",
+  "booking_os.feed.title": "IoT Canlı Akışı",
+  "booking_os.kpi.active_bookings": "Aktif Rezervasyonlar",
+  "booking_os.kpi.checkins": "Bekleyen Check-inler",
+  "booking_os.kpi.checkouts": "Bekleyen Check-outlar",
+  "booking_os.kpi.today_revenue": "Bugünün Geliri",
+  "booking_os.pricing.base": "Taban Fiyat",
+  "booking_os.pricing.demand": "Talep Puanı",
+  "booking_os.pricing.desc": "Dinamik talep puanına dayalı fiyat optimizasyonu.",
+  "booking_os.pricing.optimized": "Optimize Edilmiş",
+  "booking_os.pricing.title": "AI Fiyatlandırma Motoru",
+  "booking_os.status.live": "CANLI"
 }
