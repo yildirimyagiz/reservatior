@@ -16,9 +16,10 @@ import {
   ArrowRight, ShieldCheck, ChevronDown, Monitor, Gem, CheckCircle2, Mouse
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import dynamic from "next/dynamic";
 import { AppHeader } from "@/components/layout/AppHeader";
-import { AIChatModal } from "@/components/home/AIChatModal";
-import { SupportChatModal } from "@/components/home/SupportChatModal";
+const AIChatModal = dynamic(() => import("@/components/home/AIChatModal").then(m => m.AIChatModal), { ssr: false });
+const SupportChatModal = dynamic(() => import("@/components/home/SupportChatModal").then(m => m.SupportChatModal), { ssr: false });
 
 // Supported countries based on Prisma configurations in server/config
 const SUPPORTED_COUNTRIES = [
@@ -332,6 +333,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               playsInline
               width="1920"
               height="1080"
+              poster="/videos/poster.webp"
               onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
               className="w-full h-full object-cover"
               style={{ opacity: videoMounted ? 1 : 0, transform: 'scale(1.05)', transition: 'opacity 1.5s ease-out' }}

@@ -62,7 +62,9 @@ export function middleware(request: NextRequest) {
   }
 
   request.nextUrl.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
-  return NextResponse.redirect(request.nextUrl);
+  const response = NextResponse.rewrite(request.nextUrl);
+  response.cookies.set("NEXT_LOCALE", locale, { path: "/", maxAge: 365 * 24 * 60 * 60 });
+  return response;
 }
 
 export const config = {

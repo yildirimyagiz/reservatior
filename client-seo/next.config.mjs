@@ -8,7 +8,7 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
-    optimizePackageImports: ['lucide-react', 'framer-motion', '@tanstack/react-query', 'react-i18next'],
+    optimizePackageImports: ['lucide-react', 'framer-motion', '@tanstack/react-query', 'react-i18next', 'recharts', 'socket.io-client', 'leaflet', 'react-leaflet', 'react-country-state-city'],
     externalDir: true,
   },
   // Image optimization
@@ -100,32 +100,32 @@ const nextConfig = {
       {
         source: '/:locale/settings',
         destination: '/:locale/admin/settings',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/:locale/property',
         destination: '/:locale/client/property',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/:locale/property/:id',
         destination: '/:locale/client/property/:id',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/:locale/properties',
         destination: '/:locale/admin/properties',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/:locale/leasecare',
         destination: '/:locale/client/lease-care',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/:locale/admin/admin/:path*',
         destination: '/:locale/admin/:path*',
-        permanent: false,
+        permanent: true,
       },
     ];
   },

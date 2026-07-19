@@ -109,8 +109,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={locale || "en"} suppressHydrationWarning>
-      <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
-      <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      <head>
+        <link rel="preload" href="/videos/ozak-bg.mp4" as="video" type="video/mp4" />
+        <link rel="preload" href="/videos/poster.webp" as="image" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
         <Script id="locale-init" strategy="afterInteractive">
           {`(function(){var urlLocale="${locale}"; var l=urlLocale||localStorage.getItem("i18nextLng")||localStorage.getItem("reservatior_lang");if(l){if(l==="tr-TR")l="tr";document.documentElement.lang=l;if(l==="ar"){document.documentElement.dir="rtl"}else{document.documentElement.dir="ltr"}}})()`}
