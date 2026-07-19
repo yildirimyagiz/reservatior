@@ -3,7 +3,7 @@ import { useTranslation } from"react-i18next";
 import { useState, useEffect, useCallback, useRef, useMemo } from"react";
 import { Link, useLocation } from"@/lib/react-router-shim";
 import { Avatar, AvatarFallback } from"@/components/ui/avatar";
-import { LayoutDashboard, Building2, CalendarCheck, FileText, DollarSign, UsersRound, Settings, Brain, BarChart3, Shield, ChevronDown, ChevronRight, Receipt, Star, Globe, ShieldCheck, Gavel, Share2, FileDown, Megaphone, Search, AlertTriangle, Activity, Download, ArrowRightLeft, Zap, Sparkles, X, Clock, Filter, ArrowLeft, Wallet, PiggyBank, Home, ScrollText, Landmark, ShoppingCart, Package, Truck, Box, Users, Award } from"lucide-react";
+import { LayoutDashboard, Building2, CalendarCheck, FileText, DollarSign, UsersRound, Settings, Brain, BarChart3, Shield, ChevronDown, ChevronRight, Receipt, Star, Globe, ShieldCheck, Gavel, Share2, FileDown, Megaphone, Search, AlertTriangle, Activity, Download, ArrowRightLeft, Zap, Sparkles, X, Clock, Filter, ArrowLeft, Wallet, PiggyBank, Home, ScrollText, Landmark, ShoppingCart, Package, Truck, Box, Users, Award, Smartphone, Store } from"lucide-react";
 import { NotificationRing } from"@/components/notifications/NotificationRing";
 import { MessageDropdown } from"@/components/layout/MessageDropdown";
 import { UserMenu } from"@/components/layout/UserMenu";
@@ -352,10 +352,28 @@ export function AdminLayout({
   icon: Megaphone,
   requiredPermission:"COMMERCE_MANAGE"
   }, {
-  title: "Certificates",
-  href:"/admin/certificates",
-  icon: Award,
-  requiredPermission:"COMMERCE_MANAGE"
+   title: "Certificates",
+   href:"/admin/certificates",
+   icon: Award,
+   requiredPermission:"COMMERCE_MANAGE"
+   }, {
+    title: "Asset Marketplace",
+    href:"/admin/marketplace",
+    icon: Store,
+    requiredPermission:"COMMERCE_MANAGE"
+   }, {
+    title: "Agent Mobile",
+    href:"/admin/agent-mobile",
+    icon: Smartphone,
+    requiredPermission:"COMMERCE_MANAGE"
+   }]
+  }, {
+  title: "SEO & Analytics",
+  icon: Search,
+  children: [{
+  title: "SEO Generator",
+  href:"/admin/seo-generator",
+  icon: Search
   }]
   }, {
   title: t("admin_layout_system_setup"),

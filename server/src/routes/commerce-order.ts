@@ -64,6 +64,38 @@ export const commerceOrderRoutes = new Elysia({ prefix: "/commerce-orders" })
     }
   })
 
+  .get("/full/:id", async ({ params, set }) => {
+    const data = await orderService.getOrderWithCommissions(params.id);
+    if (!data) {
+      set.status = 404;
+      return { error: "Order not found" };
+    }
+    return { data };
+  }, {
+    params: t.Object({ id: t.String() }),
+    detail: {
+      summary: "Get Order with Commissions",
+      description: "Get a single order with full commission and revenue share details",
+      tags: ["Commerce OS"]
+    }
+  })
+
+  .get("/agent-orders/:agentId", async ({ params }) => {
+    const orders = await orderService.getAgentOrders(params.agentId);
+    const totalRevenue = orders.reduce((sum: number, o: any) => sum + Number(o.total || 0), 0);
+    const totalCommissions = orders.reduce((sum: number, o: any) =>
+      sum + (o.commissions?.reduce((cs: number, c: any) => cs + Number(c.amount || 0), 0) || 0), 0
+    );
+    return { orders, summary: { totalOrders: orders.length, totalRevenue, totalCommissions } };
+  }, {
+    params: t.Object({ agentId: t.String() }),
+    detail: {
+      summary: "Get Agent Orders",
+      description: "Get all orders for an agent with revenue and commission totals",
+      tags: ["Commerce OS"]
+    }
+  })
+
   .post("/", async ({ body, set }) => {
     const data = await orderService.createOrder(body);
     set.status = 201;

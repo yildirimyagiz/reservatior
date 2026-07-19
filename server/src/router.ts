@@ -344,6 +344,8 @@ import { commissionEngineRoutes } from "./routes/commission-engine";
 import { commerceOrderRoutes } from "./routes/commerce-order";
 import { commerceCampaignRoutes } from "./routes/commerce-campaign";
 import { incomeCertificateRoutes, publicCertificateRoutes } from "./routes/income-certificate";
+import { assetMarketplaceRoutes } from "./routes/asset-marketplace";
+import { seoDataRoutes } from "./routes/seo-data";
 
 // Route Clusters to optimize TypeScript instantiation depth
 const cluster1 = new Elysia()
@@ -734,4 +736,6 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(commerceCampaignRoutes)
   .use(publicCertificateRoutes)
   .use(incomeCertificateRoutes)
+  .use(seoDataRoutes)
+  .use(assetMarketplaceRoutes)
 ;
