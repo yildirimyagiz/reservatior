@@ -23763,5 +23763,1242 @@
   "about.why.seattle.title": "Local Seattle Expertise",
   "about.why.seattle.desc": "Backed by proven real estate professionals with extensive on-the-ground knowledge of the Pacific Northwest property market.",
   "about.why.data.title": "Data Retrieval Precision",
-  "about.why.data.desc": "Optimized multi-tenant data structures built to handle rapid, complex regional database queries seamlessly."
+  "about.why.data.desc": "Optimized multi-tenant data structures built to handle rapid, complex regional database queries seamlessly.",
+  "listingOs.dashboard": {
+    "title": "Listing OS Dashboard",
+    "description": "Property listings management"
+  },
+  "listingOs.listing": {
+    "label": "Listing",
+    "plural": "Listings",
+    "create": "Create Listing",
+    "update": "Update Listing",
+    "delete": "Delete Listing",
+    "detail": "Listing Details"
+  },
+  "listingOs.status": {
+    "active": "アクティブ",
+    "draft": "下書き",
+    "pending": "保留中",
+    "published": "公開済み",
+    "archived": "アーカイブ済み"
+  },
+  "listingOs.actions": {
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "import": "Import Listings",
+    "export": "Export Listings"
+  },
+  "listingOs.messages": {
+    "success": "Listing OS operation successful",
+    "error": "Listing OS operation failed",
+    "confirm": "Are you sure you want to perform this Listing OS action?",
+    "loading": "Processing Listing OS request..."
+  },
+  "listingOs.ui": {
+    "search": "Search Property listings management",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Property listings management data found",
+    "loading": "Loading Property listings management...",
+    "title": "Listing OS"
+  },
+  "agentOs.dashboard": {
+    "title": "Agent OS Dashboard",
+    "description": "Agent registration and network management"
+  },
+  "agentOs.agent": {
+    "label": "Agent",
+    "plural": "Agents",
+    "create": "Register Agent",
+    "update": "Update Agent",
+    "delete": "Remove Agent",
+    "detail": "Agent Details"
+  },
+  "agentOs.networkSignal": {
+    "label": "Network Signal",
+    "plural": "Network Signals"
+  },
+  "agentOs.status": {
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "pending": "保留中",
+    "verified": "検証済み",
+    "suspended": "一時停止"
+  },
+  "agentOs.actions": {
+    "verify": "Verify Agent",
+    "suspend": "Suspend Agent",
+    "invite": "Invite Agent"
+  },
+  "agentOs.messages": {
+    "success": "Agent OS operation successful",
+    "error": "Agent OS operation failed",
+    "confirm": "Are you sure you want to perform this Agent OS action?",
+    "loading": "Processing Agent OS request..."
+  },
+  "agentOs.ui": {
+    "search": "Search Agent registration and network management",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Agent registration and network management data found",
+    "loading": "Loading Agent registration and network management...",
+    "title": "Agent OS"
+  },
+  "financeOs.dashboard": {
+    "title": "Finance OS Dashboard",
+    "description": "Escrow, payments, and financial records"
+  },
+  "financeOs.escrow": {
+    "label": "Escrow",
+    "plural": "Escrows",
+    "create": "Create Escrow",
+    "update": "Update Escrow",
+    "detail": "Escrow Details"
+  },
+  "financeOs.payment": {
+    "label": "Payment",
+    "plural": "Payments",
+    "create": "Record Payment",
+    "detail": "Payment Details"
+  },
+  "financeOs.financialRecord": {
+    "label": "Financial Record",
+    "plural": "Financial Records"
+  },
+  "financeOs.status": {
+    "active": "アクティブ",
+    "completed": "完了",
+    "pending": "保留中",
+    "disputed": "争议あり",
+    "released": "リリース済み",
+    "refunded": "返金済み"
+  },
+  "financeOs.actions": {
+    "release": "Release Funds",
+    "refund": "Refund",
+    "dispute": "Raise Dispute"
+  },
+  "financeOs.messages": {
+    "success": "Finance OS operation successful",
+    "error": "Finance OS operation failed",
+    "confirm": "Are you sure you want to perform this Finance OS action?",
+    "loading": "Processing Finance OS request..."
+  },
+  "financeOs.ui": {
+    "search": "Search Escrow, payments, and financial records",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Escrow, payments, and financial records data found",
+    "loading": "Loading Escrow, payments, and financial records...",
+    "title": "Finance OS"
+  },
+  "bookingOs.dashboard": {
+    "title": "Booking OS Dashboard",
+    "description": "Bookings and reservation management"
+  },
+  "bookingOs.booking": {
+    "label": "Booking",
+    "plural": "Bookings",
+    "create": "Create Booking",
+    "update": "Update Booking",
+    "cancel": "Cancel Booking",
+    "detail": "Booking Details"
+  },
+  "bookingOs.reservation": {
+    "label": "Reservation",
+    "plural": "Reservations"
+  },
+  "bookingOs.status": {
+    "confirmed": "確認済み",
+    "pending": "保留中",
+    "cancelled": "キャンセル済み",
+    "checkedIn": "チェックイン済み",
+    "checkedOut": "チェックアウト済み",
+    "completed": "完了"
+  },
+  "bookingOs.actions": {
+    "checkIn": "Check In",
+    "checkOut": "Check Out",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "bookingOs.messages": {
+    "success": "Booking OS operation successful",
+    "error": "Booking OS operation failed",
+    "confirm": "Are you sure you want to perform this Booking OS action?",
+    "loading": "Processing Booking OS request..."
+  },
+  "bookingOs.ui": {
+    "search": "Search Bookings and reservation management",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Bookings and reservation management data found",
+    "loading": "Loading Bookings and reservation management...",
+    "title": "Booking OS"
+  },
+  "investmentOs.dashboard": {
+    "title": "Investment OS Dashboard",
+    "description": "Investment deals, projections, and analysis"
+  },
+  "investmentOs.deal": {
+    "label": "Deal",
+    "plural": "Deals",
+    "create": "Create Deal",
+    "update": "Update Deal",
+    "delete": "Delete Deal",
+    "detail": "Deal Details",
+    "analyze": "Analyze Deal",
+    "duplicate": "Duplicate Deal"
+  },
+  "investmentOs.projection": {
+    "label": "Projection",
+    "plural": "Projections",
+    "generate": "Generate Projections",
+    "summary": "Projection Summary"
+  },
+  "investmentOs.comparable": {
+    "label": "Comparable",
+    "plural": "Comparables",
+    "add": "Add Comparable",
+    "remove": "Remove Comparable",
+    "adjustedPrice": "Adjusted Price"
+  },
+  "investmentOs.insight": {
+    "label": "Market Insight",
+    "plural": "Market Insights",
+    "generate": "Generate Insight",
+    "trends": "Market Trends"
+  },
+  "investmentOs.status": {
+    "active": "アクティブ",
+    "closed": "Closed",
+    "pending": "保留中",
+    "cancelled": "キャンセル済み"
+  },
+  "investmentOs.actions": {
+    "analyze": "Analyze",
+    "duplicate": "Duplicate",
+    "export": "Export"
+  },
+  "investmentOs.messages": {
+    "success": "Investment OS operation successful",
+    "error": "Investment OS operation failed",
+    "confirm": "Are you sure you want to perform this Investment OS action?",
+    "loading": "Processing Investment OS request..."
+  },
+  "investmentOs.ui": {
+    "search": "Search Investment deals, projections, and analysis",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Investment deals, projections, and analysis data found",
+    "loading": "Loading Investment deals, projections, and analysis...",
+    "title": "Investment OS"
+  },
+  "operationsOs.dashboard": {
+    "title": "Operations OS Dashboard",
+    "description": "Maintenance, inspections, and vendor management"
+  },
+  "operationsOs.maintenance": {
+    "label": "Maintenance",
+    "plural": "Maintenance Schedules",
+    "create": "Schedule Maintenance",
+    "complete": "Complete Maintenance",
+    "overdue": "期限超過"
+  },
+  "operationsOs.inspection": {
+    "label": "Inspection",
+    "plural": "Inspections",
+    "schedule": "Schedule Inspection",
+    "complete": "Complete Inspection",
+    "upcoming": "Upcoming Inspections"
+  },
+  "operationsOs.cleaning": {
+    "label": "Cleaning",
+    "plural": "Cleaning Schedules",
+    "schedule": "Schedule Cleaning",
+    "upcoming": "Upcoming Cleanings"
+  },
+  "operationsOs.vendorRating": {
+    "label": "Vendor Rating",
+    "plural": "Vendor Ratings",
+    "rate": "Rate Vendor",
+    "summary": "Rating Summary"
+  },
+  "operationsOs.serviceProvider": {
+    "label": "Service Provider",
+    "plural": "Service Providers",
+    "register": "Register Provider"
+  },
+  "operationsOs.status": {
+    "scheduled": "スケジュール済み",
+    "inProgress": "進行中",
+    "completed": "完了",
+    "overdue": "期限超過",
+    "cancelled": "キャンセル済み"
+  },
+  "operationsOs.actions": {
+    "complete": "Mark Complete",
+    "cancel": "Cancel",
+    "reschedule": "Reschedule"
+  },
+  "operationsOs.messages": {
+    "success": "Operations OS operation successful",
+    "error": "Operations OS operation failed",
+    "confirm": "Are you sure you want to perform this Operations OS action?",
+    "loading": "Processing Operations OS request..."
+  },
+  "operationsOs.ui": {
+    "search": "Search Maintenance, inspections, and vendor management",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Maintenance, inspections, and vendor management data found",
+    "loading": "Loading Maintenance, inspections, and vendor management...",
+    "title": "Operations OS"
+  },
+  "securityOs.dashboard": {
+    "title": "Security OS Dashboard",
+    "description": "KYC, fraud detection, and access audit"
+  },
+  "securityOs.kyc": {
+    "label": "KYC Verification",
+    "plural": "KYC Verifications",
+    "submit": "Submit KYC",
+    "approve": "Approve KYC",
+    "reject": "Reject KYC"
+  },
+  "securityOs.fraud": {
+    "label": "Fraud Alert",
+    "plural": "Fraud Alerts",
+    "flag": "Flag Activity",
+    "resolve": "Resolve Alert"
+  },
+  "securityOs.audit": {
+    "label": "Access Log",
+    "plural": "Access Logs",
+    "log": "Log Access Event"
+  },
+  "securityOs.policy": {
+    "label": "Security Policy",
+    "plural": "Security Policies",
+    "create": "Create Policy",
+    "toggle": "Toggle Policy"
+  },
+  "securityOs.status": {
+    "approved": "承認済み",
+    "pending": "保留中",
+    "rejected": "却下済み",
+    "resolved": "解決済み",
+    "active": "アクティブ",
+    "inactive": "非アクティブ"
+  },
+  "securityOs.actions": {
+    "approve": "Approve",
+    "reject": "Reject",
+    "flag": "Flag",
+    "resolve": "Resolve",
+    "toggle": "Toggle"
+  },
+  "securityOs.messages": {
+    "success": "Security OS operation successful",
+    "error": "Security OS operation failed",
+    "confirm": "Are you sure you want to perform this Security OS action?",
+    "loading": "Processing Security OS request..."
+  },
+  "securityOs.ui": {
+    "search": "Search KYC, fraud detection, and access audit",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No KYC, fraud detection, and access audit data found",
+    "loading": "Loading KYC, fraud detection, and access audit...",
+    "title": "Security OS"
+  },
+  "governanceOs.dashboard": {
+    "title": "Governance OS Dashboard",
+    "description": "Compliance, rules, and audit trail"
+  },
+  "governanceOs.rule": {
+    "label": "Governance Rule",
+    "plural": "Governance Rules"
+  },
+  "governanceOs.compliance": {
+    "label": "Compliance Record",
+    "plural": "Compliance Records",
+    "create": "Create Record",
+    "update": "Update Status",
+    "stats": "Compliance Statistics"
+  },
+  "governanceOs.auditTrail": {
+    "label": "Audit Trail",
+    "plural": "Audit Trail Entries"
+  },
+  "governanceOs.legal": {
+    "label": "Legal Compliance",
+    "plural": "Legal Compliance Records"
+  },
+  "governanceOs.status": {
+    "compliant": "準拠",
+    "nonCompliant": "非準拠",
+    "pending": "保留中",
+    "underReview": "審査中"
+  },
+  "governanceOs.actions": {
+    "create": "Create Record",
+    "update": "Update Status",
+    "review": "Review"
+  },
+  "governanceOs.messages": {
+    "success": "Governance OS operation successful",
+    "error": "Governance OS operation failed",
+    "confirm": "Are you sure you want to perform this Governance OS action?",
+    "loading": "Processing Governance OS request..."
+  },
+  "governanceOs.ui": {
+    "search": "Search Compliance, rules, and audit trail",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Compliance, rules, and audit trail data found",
+    "loading": "Loading Compliance, rules, and audit trail...",
+    "title": "Governance OS"
+  },
+  "partnerOs.dashboard": {
+    "title": "Partner OS Dashboard",
+    "description": "Partners, agreements, and supplier management"
+  },
+  "partnerOs.partner": {
+    "label": "Partner",
+    "plural": "Partners",
+    "create": "Add Partner",
+    "detail": "Partner Details"
+  },
+  "partnerOs.agreement": {
+    "label": "Agreement",
+    "plural": "Agreements",
+    "create": "Create Agreement",
+    "stats": "Agreement Statistics"
+  },
+  "partnerOs.supplier": {
+    "label": "Supplier",
+    "plural": "Suppliers"
+  },
+  "partnerOs.review": {
+    "label": "Vendor Review",
+    "plural": "Vendor Reviews"
+  },
+  "partnerOs.status": {
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "pending": "保留中",
+    "expired": "期限切れ"
+  },
+  "partnerOs.actions": {
+    "create": "Create",
+    "renew": "Renew",
+    "terminate": "Terminate"
+  },
+  "partnerOs.messages": {
+    "success": "Partner OS operation successful",
+    "error": "Partner OS operation failed",
+    "confirm": "Are you sure you want to perform this Partner OS action?",
+    "loading": "Processing Partner OS request..."
+  },
+  "partnerOs.ui": {
+    "search": "Search Partners, agreements, and supplier management",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Partners, agreements, and supplier management data found",
+    "loading": "Loading Partners, agreements, and supplier management...",
+    "title": "Partner OS"
+  },
+  "developerOs.dashboard": {
+    "title": "Developer API OS Dashboard",
+    "description": "API keys, webhooks, and integrations"
+  },
+  "developerOs.apiKey": {
+    "label": "API Key",
+    "plural": "API Keys",
+    "create": "Create API Key",
+    "revoke": "Revoke Key"
+  },
+  "developerOs.integration": {
+    "label": "Integration",
+    "plural": "Integrations",
+    "stats": "Integration Statistics"
+  },
+  "developerOs.webhook": {
+    "label": "Webhook",
+    "plural": "Webhooks",
+    "create": "Create Webhook",
+    "deliveries": "Webhook Deliveries"
+  },
+  "developerOs.log": {
+    "label": "Integration Log",
+    "plural": "Integration Logs"
+  },
+  "developerOs.status": {
+    "connected": "接続済み",
+    "disconnected": "切断済み",
+    "active": "アクティブ",
+    "failed": "失敗"
+  },
+  "developerOs.actions": {
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "test": "Test",
+    "revoke": "Revoke"
+  },
+  "developerOs.messages": {
+    "success": "Developer API OS operation successful",
+    "error": "Developer API OS operation failed",
+    "confirm": "Are you sure you want to perform this Developer API OS action?",
+    "loading": "Processing Developer API OS request..."
+  },
+  "developerOs.ui": {
+    "search": "Search API keys, webhooks, and integrations",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No API keys, webhooks, and integrations data found",
+    "loading": "Loading API keys, webhooks, and integrations...",
+    "title": "Developer API OS"
+  },
+  "analyticsOs.dashboard": {
+    "label": "Dashboard",
+    "plural": "Dashboards"
+  },
+  "analyticsOs.analytics": {
+    "label": "Analytics Record",
+    "plural": "Analytics Records",
+    "create": "Create Record",
+    "stats": "Analytics Statistics"
+  },
+  "analyticsOs.report": {
+    "label": "Report",
+    "plural": "Reports",
+    "create": "Create Report",
+    "executions": "Report Executions"
+  },
+  "analyticsOs.metric": {
+    "label": "Metric",
+    "plural": "Metrics"
+  },
+  "analyticsOs.alert": {
+    "label": "Performance Alert",
+    "plural": "Performance Alerts"
+  },
+  "analyticsOs.health": {
+    "label": "Health Check",
+    "plural": "Health Checks"
+  },
+  "analyticsOs.status": {
+    "healthy": "正常",
+    "degraded": "劣化",
+    "failed": "失敗",
+    "active": "アクティブ"
+  },
+  "analyticsOs.actions": {
+    "generate": "Generate",
+    "refresh": "Refresh",
+    "export": "Export"
+  },
+  "analyticsOs.messages": {
+    "success": "Analytics OS operation successful",
+    "error": "Analytics OS operation failed",
+    "confirm": "Are you sure you want to perform this Analytics OS action?",
+    "loading": "Processing Analytics OS request..."
+  },
+  "analyticsOs.ui": {
+    "search": "Search Reports, dashboards, and metrics",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Reports, dashboards, and metrics data found",
+    "loading": "Loading Reports, dashboards, and metrics...",
+    "title": "Analytics OS"
+  },
+  "documentOs.dashboard": {
+    "title": "Document OS Dashboard",
+    "description": "Documents, contracts, and signatures"
+  },
+  "documentOs.document": {
+    "label": "Document",
+    "plural": "Documents",
+    "create": "Upload Document",
+    "stats": "Document Statistics"
+  },
+  "documentOs.contract": {
+    "label": "Contract",
+    "plural": "Contracts",
+    "create": "Create Contract",
+    "stats": "Contract Statistics",
+    "versions": "Contract Versions"
+  },
+  "documentOs.signature": {
+    "label": "Signature Request",
+    "plural": "Signature Requests",
+    "stats": "Signature Statistics"
+  },
+  "documentOs.template": {
+    "label": "Document Template",
+    "plural": "Document Templates"
+  },
+  "documentOs.status": {
+    "draft": "下書き",
+    "active": "アクティブ",
+    "signed": "署名済み",
+    "expired": "期限切れ",
+    "archived": "アーカイブ済み"
+  },
+  "documentOs.actions": {
+    "upload": "Upload",
+    "sign": "Sign",
+    "archive": "Archive",
+    "download": "Download"
+  },
+  "documentOs.messages": {
+    "success": "Document OS operation successful",
+    "error": "Document OS operation failed",
+    "confirm": "Are you sure you want to perform this Document OS action?",
+    "loading": "Processing Document OS request..."
+  },
+  "documentOs.ui": {
+    "search": "Search Documents, contracts, and signatures",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Documents, contracts, and signatures data found",
+    "loading": "Loading Documents, contracts, and signatures...",
+    "title": "Document OS"
+  },
+  "notificationOs.dashboard": {
+    "title": "Notification OS Dashboard",
+    "description": "Notifications, messages, and channels"
+  },
+  "notificationOs.notification": {
+    "label": "Notification",
+    "plural": "Notifications",
+    "create": "Create Notification",
+    "stats": "Notification Statistics",
+    "markRead": "Mark as Read"
+  },
+  "notificationOs.message": {
+    "label": "Message",
+    "plural": "Messages",
+    "send": "Send Message",
+    "stats": "Message Statistics"
+  },
+  "notificationOs.log": {
+    "label": "Communication Log",
+    "plural": "Communication Logs"
+  },
+  "notificationOs.template": {
+    "label": "Communication Template",
+    "plural": "Templates"
+  },
+  "notificationOs.channel": {
+    "label": "Communication Channel",
+    "plural": "Channels"
+  },
+  "notificationOs.status": {
+    "sent": "送信済み",
+    "delivered": "配信済み",
+    "read": "既読",
+    "failed": "失敗",
+    "pending": "保留中"
+  },
+  "notificationOs.actions": {
+    "send": "Send",
+    "markRead": "Mark Read",
+    "archive": "Archive"
+  },
+  "notificationOs.messages": {
+    "success": "Notification OS operation successful",
+    "error": "Notification OS operation failed",
+    "confirm": "Are you sure you want to perform this Notification OS action?",
+    "loading": "Processing Notification OS request..."
+  },
+  "notificationOs.ui": {
+    "search": "Search Notifications, messages, and channels",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Notifications, messages, and channels data found",
+    "loading": "Loading Notifications, messages, and channels...",
+    "title": "Notification OS"
+  },
+  "userOs.dashboard": {
+    "title": "User OS Dashboard",
+    "description": "User profiles, preferences, and journey"
+  },
+  "userOs.profile": {
+    "label": "User Profile",
+    "plural": "User Profiles",
+    "update": "Update Profile"
+  },
+  "userOs.identity": {
+    "label": "Identity Provider",
+    "plural": "Identity Providers",
+    "link": "Link Provider",
+    "unlink": "Unlink Provider"
+  },
+  "userOs.session": {
+    "label": "Session",
+    "plural": "Sessions",
+    "revokeAll": "Revoke All Sessions"
+  },
+  "userOs.consent": {
+    "label": "Consent",
+    "plural": "Consents",
+    "grant": "Grant Consent",
+    "withdraw": "Withdraw Consent",
+    "bulk": "Bulk Grant"
+  },
+  "userOs.journey": {
+    "label": "User Journey",
+    "plural": "Journey Stages",
+    "advance": "Advance Stage",
+    "stats": "Journey Statistics"
+  },
+  "userOs.activity": {
+    "label": "Activity",
+    "plural": "Activity Logs",
+    "log": "Log Activity"
+  },
+  "userOs.interest": {
+    "label": "Interest",
+    "plural": "Interests",
+    "add": "Add Interest",
+    "remove": "Remove Interest"
+  },
+  "userOs.preference": {
+    "label": "Category Preference",
+    "plural": "Preferences",
+    "set": "Set Preference"
+  },
+  "userOs.savedSearch": {
+    "label": "Saved Search",
+    "plural": "Saved Searches",
+    "create": "Create Saved Search",
+    "delete": "Delete Saved Search"
+  },
+  "userOs.recommendation": {
+    "label": "Recommendation",
+    "plural": "Recommendations",
+    "track": "Track Interaction"
+  },
+  "userOs.relationship": {
+    "label": "User Relationship",
+    "plural": "Relationships"
+  },
+  "userOs.status": {
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "verified": "検証済み",
+    "pending": "保留中"
+  },
+  "userOs.actions": {
+    "update": "Update",
+    "revoke": "Revoke",
+    "grant": "Grant",
+    "withdraw": "Withdraw",
+    "dismiss": "Dismiss"
+  },
+  "userOs.messages": {
+    "success": "User OS operation successful",
+    "error": "User OS operation failed",
+    "confirm": "Are you sure you want to perform this User OS action?",
+    "loading": "Processing User OS request..."
+  },
+  "userOs.ui": {
+    "search": "Search User profiles, preferences, and journey",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No User profiles, preferences, and journey data found",
+    "loading": "Loading User profiles, preferences, and journey...",
+    "title": "User OS"
+  },
+  "adsOs.dashboard": {
+    "title": "Ads OS Dashboard",
+    "description": "Campaigns, creatives, and audiences"
+  },
+  "adsOs.campaign": {
+    "label": "Campaign",
+    "plural": "Campaigns",
+    "create": "Create Campaign",
+    "activate": "Activate",
+    "pause": "Pause",
+    "complete": "Complete",
+    "duplicate": "Duplicate"
+  },
+  "adsOs.creative": {
+    "label": "Creative",
+    "plural": "Creatives",
+    "create": "Create Creative"
+  },
+  "adsOs.segment": {
+    "label": "Audience Segment",
+    "plural": "Segments",
+    "create": "Create Segment",
+    "aiGenerate": "AI Generate Segment"
+  },
+  "adsOs.channel": {
+    "label": "Channel Connection",
+    "plural": "Channels",
+    "connect": "Connect Channel",
+    "disconnect": "Disconnect Channel"
+  },
+  "adsOs.budget": {
+    "label": "Campaign Budget",
+    "plural": "Budgets",
+    "set": "Set Budget"
+  },
+  "adsOs.event": {
+    "label": "Campaign Event",
+    "plural": "Events",
+    "track": "Track Event",
+    "stats": "Event Statistics"
+  },
+  "adsOs.attribution": {
+    "label": "Channel Attribution",
+    "plural": "Attributions",
+    "track": "Track Attribution"
+  },
+  "adsOs.conversion": {
+    "label": "Conversion",
+    "plural": "Conversions",
+    "funnel": "Conversion Funnel",
+    "roas": "Return on Ad Spend"
+  },
+  "adsOs.status": {
+    "active": "アクティブ",
+    "paused": "一時停止",
+    "completed": "完了",
+    "draft": "下書き"
+  },
+  "adsOs.actions": {
+    "activate": "Activate",
+    "pause": "Pause",
+    "complete": "Complete",
+    "duplicate": "Duplicate",
+    "track": "Track"
+  },
+  "adsOs.messages": {
+    "success": "Ads OS operation successful",
+    "error": "Ads OS operation failed",
+    "confirm": "Are you sure you want to perform this Ads OS action?",
+    "loading": "Processing Ads OS request..."
+  },
+  "adsOs.ui": {
+    "search": "Search Campaigns, creatives, and audiences",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Campaigns, creatives, and audiences data found",
+    "loading": "Loading Campaigns, creatives, and audiences...",
+    "title": "Ads OS"
+  },
+  "identityOs.dashboard": {
+    "title": "Identity OS Dashboard",
+    "description": "Users, sessions, roles, and SSO"
+  },
+  "identityOs.user": {
+    "label": "User",
+    "plural": "Users",
+    "stats": "User Statistics"
+  },
+  "identityOs.session": {
+    "label": "Active Session",
+    "plural": "Sessions",
+    "revoke": "Revoke Session"
+  },
+  "identityOs.role": {
+    "label": "Role",
+    "plural": "Roles"
+  },
+  "identityOs.permission": {
+    "label": "Permission",
+    "plural": "Permissions"
+  },
+  "identityOs.account": {
+    "label": "SSO Provider",
+    "plural": "SSO Providers"
+  },
+  "identityOs.member": {
+    "label": "Organization Member",
+    "plural": "Members"
+  },
+  "identityOs.apiKey": {
+    "label": "API Key",
+    "plural": "API Keys"
+  },
+  "identityOs.status": {
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "verified": "検証済み",
+    "suspended": "一時停止"
+  },
+  "identityOs.actions": {
+    "revoke": "Revoke",
+    "assign": "Assign Role",
+    "remove": "Remove"
+  },
+  "identityOs.messages": {
+    "success": "Identity OS operation successful",
+    "error": "Identity OS operation failed",
+    "confirm": "Are you sure you want to perform this Identity OS action?",
+    "loading": "Processing Identity OS request..."
+  },
+  "identityOs.ui": {
+    "search": "Search Users, sessions, roles, and SSO",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Users, sessions, roles, and SSO data found",
+    "loading": "Loading Users, sessions, roles, and SSO...",
+    "title": "Identity OS"
+  },
+  "localizationOs.dashboard": {
+    "title": "Localization OS Dashboard",
+    "description": "Countries, currencies, and languages"
+  },
+  "localizationOs.country": {
+    "label": "Country",
+    "plural": "Countries",
+    "config": "Country Configuration",
+    "states": "States"
+  },
+  "localizationOs.currency": {
+    "label": "Currency",
+    "plural": "Currencies"
+  },
+  "localizationOs.exchangeRate": {
+    "label": "Exchange Rate",
+    "plural": "Exchange Rates",
+    "create": "Create Exchange Rate"
+  },
+  "localizationOs.language": {
+    "label": "Language",
+    "plural": "Languages"
+  },
+  "localizationOs.compliance": {
+    "label": "Legal Compliance",
+    "plural": "Compliance Records",
+    "stats": "Compliance Statistics"
+  },
+  "localizationOs.taxRegulation": {
+    "label": "Tax Regulation",
+    "plural": "Tax Regulations",
+    "stats": "Tax Regulation Statistics"
+  },
+  "localizationOs.status": {
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "pending": "保留中"
+  },
+  "localizationOs.actions": {
+    "configure": "Configure",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
+  },
+  "localizationOs.messages": {
+    "success": "Localization OS operation successful",
+    "error": "Localization OS operation failed",
+    "confirm": "Are you sure you want to perform this Localization OS action?",
+    "loading": "Processing Localization OS request..."
+  },
+  "localizationOs.ui": {
+    "search": "Search Countries, currencies, and languages",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Countries, currencies, and languages data found",
+    "loading": "Loading Countries, currencies, and languages...",
+    "title": "Localization OS"
+  },
+  "commerceOs.dashboard": {
+    "title": "Commerce OS Dashboard",
+    "description": "Products, orders, bundles, and campaigns"
+  },
+  "commerceOs.product": {
+    "label": "Product",
+    "plural": "Products"
+  },
+  "commerceOs.order": {
+    "label": "Order",
+    "plural": "Orders",
+    "updateStatus": "Update Order Status"
+  },
+  "commerceOs.campaign": {
+    "label": "Commerce Campaign",
+    "plural": "Campaigns"
+  },
+  "commerceOs.supplier": {
+    "label": "Supplier",
+    "plural": "Suppliers"
+  },
+  "commerceOs.revenue": {
+    "label": "Revenue Analytics",
+    "plural": "Revenue Reports"
+  },
+  "commerceOs.status": {
+    "active": "アクティブ",
+    "pending": "保留中",
+    "paid": "Paid",
+    "fulfilled": "Fulfilled",
+    "cancelled": "キャンセル済み",
+    "refunded": "返金済み"
+  },
+  "commerceOs.actions": {
+    "create": "Create",
+    "update": "Update",
+    "cancel": "Cancel",
+    "refund": "Refund"
+  },
+  "commerceOs.messages": {
+    "success": "Commerce OS operation successful",
+    "error": "Commerce OS operation failed",
+    "confirm": "Are you sure you want to perform this Commerce OS action?",
+    "loading": "Processing Commerce OS request..."
+  },
+  "commerceOs.ui": {
+    "search": "Search Products, orders, bundles, and campaigns",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Products, orders, bundles, and campaigns data found",
+    "loading": "Loading Products, orders, bundles, and campaigns...",
+    "title": "Commerce OS"
+  },
+  "crmOs.dashboard": {
+    "title": "CRM OS Dashboard",
+    "description": "Contacts, leads, and client relationships"
+  },
+  "crmOs.contact": {
+    "label": "Contact",
+    "plural": "Contacts",
+    "search": "Search Contacts"
+  },
+  "crmOs.lead": {
+    "label": "Lead",
+    "plural": "Leads",
+    "qualify": "Qualify Lead",
+    "disqualify": "Disqualify Lead"
+  },
+  "crmOs.deal": {
+    "label": "Deal",
+    "plural": "Deals",
+    "updateStage": "Update Deal Stage"
+  },
+  "crmOs.interaction": {
+    "label": "Interaction",
+    "plural": "Interactions"
+  },
+  "crmOs.segment": {
+    "label": "Lead Segment",
+    "plural": "Segments"
+  },
+  "crmOs.pipeline": {
+    "label": "Deal Pipeline",
+    "plural": "Pipelines"
+  },
+  "crmOs.status": {
+    "new": "新規",
+    "qualified": "適合",
+    "unqualified": "不適合",
+    "converted": "変換済み",
+    "won": "勝利",
+    "lost": "敗北"
+  },
+  "crmOs.actions": {
+    "qualify": "Qualify",
+    "disqualify": "Disqualify",
+    "convert": "Convert",
+    "updateStage": "Update Stage"
+  },
+  "crmOs.messages": {
+    "success": "CRM OS operation successful",
+    "error": "CRM OS operation failed",
+    "confirm": "Are you sure you want to perform this CRM OS action?",
+    "loading": "Processing CRM OS request..."
+  },
+  "crmOs.ui": {
+    "search": "Search Contacts, leads, and client relationships",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Contacts, leads, and client relationships data found",
+    "loading": "Loading Contacts, leads, and client relationships...",
+    "title": "CRM OS"
+  },
+  "portfolioOs.dashboard": {
+    "title": "Portfolio OS Dashboard",
+    "description": "Investor portfolios, REO assets, and valuations"
+  },
+  "portfolioOs.portfolio": {
+    "label": "Portfolio",
+    "plural": "Portfolios"
+  },
+  "portfolioOs.holding": {
+    "label": "Holding",
+    "plural": "Holdings",
+    "add": "Add Holding",
+    "remove": "Remove Holding"
+  },
+  "portfolioOs.reo": {
+    "label": "REO Property",
+    "plural": "REO Properties",
+    "updateStatus": "Update REO Status"
+  },
+  "portfolioOs.valuation": {
+    "label": "Valuation",
+    "plural": "Valuations",
+    "request": "Request Valuation",
+    "completed": "完了"
+  },
+  "portfolioOs.status": {
+    "active": "アクティブ",
+    "listed": "掲載済み",
+    "sold": "販売済み",
+    "writeoff": "消却",
+    "pending": "保留中"
+  },
+  "portfolioOs.actions": {
+    "add": "Add Holding",
+    "remove": "Remove Holding",
+    "rebalance": "Rebalance",
+    "requestValuation": "Request Valuation"
+  },
+  "portfolioOs.messages": {
+    "success": "Portfolio OS operation successful",
+    "error": "Portfolio OS operation failed",
+    "confirm": "Are you sure you want to perform this Portfolio OS action?",
+    "loading": "Processing Portfolio OS request..."
+  },
+  "portfolioOs.ui": {
+    "search": "Search Investor portfolios, REO assets, and valuations",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Investor portfolios, REO assets, and valuations data found",
+    "loading": "Loading Investor portfolios, REO assets, and valuations...",
+    "title": "Portfolio OS"
+  },
+  "platformOs.dashboard": {
+    "title": "Platform OS Dashboard",
+    "description": "Config, tenants, feature flags, and system health"
+  },
+  "platformOs.tenant": {
+    "label": "Tenant",
+    "plural": "Tenants",
+    "updateStatus": "Update Tenant Status"
+  },
+  "platformOs.featureFlag": {
+    "label": "Feature Flag",
+    "plural": "Feature Flags",
+    "toggle": "Toggle Feature Flag"
+  },
+  "platformOs.health": {
+    "label": "Health Check",
+    "plural": "Health Checks",
+    "summary": "Health Summary"
+  },
+  "platformOs.metric": {
+    "label": "System Metric",
+    "plural": "Metrics"
+  },
+  "platformOs.deploy": {
+    "label": "Deploy Event",
+    "plural": "Deploys",
+    "history": "Deploy History"
+  },
+  "platformOs.maintenance": {
+    "label": "Maintenance Window",
+    "plural": "Maintenance Windows",
+    "upcoming": "Upcoming Maintenance"
+  },
+  "platformOs.auditTrail": {
+    "label": "Audit Trail",
+    "plural": "Audit Trail Entries"
+  },
+  "platformOs.status": {
+    "active": "アクティブ",
+    "suspended": "一時停止",
+    "healthy": "正常",
+    "failed": "失敗",
+    "degraded": "劣化",
+    "completed": "完了"
+  },
+  "platformOs.actions": {
+    "suspend": "Suspend",
+    "reactivate": "Reactivate",
+    "toggle": "Toggle",
+    "trigger": "Trigger Deploy"
+  },
+  "platformOs.messages": {
+    "success": "Platform OS operation successful",
+    "error": "Platform OS operation failed",
+    "confirm": "Are you sure you want to perform this Platform OS action?",
+    "loading": "Processing Platform OS request..."
+  },
+  "platformOs.ui": {
+    "search": "Search Config, tenants, feature flags, and system health",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "noData": "No Config, tenants, feature flags, and system health data found",
+    "loading": "Loading Config, tenants, feature flags, and system health...",
+    "title": "Platform OS"
+  }
 }

@@ -140,6 +140,34 @@ export const OS_MODULES: Record<string, OSModulePermission> = {
     admin: ["ORG_MANAGE"],
     description: "Countries, currencies, languages",
   },
+  "commerce-os": {
+    module: "commerce-os",
+    read: ["COMMERCE_MANAGE", "REPORTS_VIEW"],
+    write: ["COMMERCE_MANAGE"],
+    admin: ["ORG_MANAGE"],
+    description: "Products, orders, bundles, campaigns",
+  },
+  "crm-os": {
+    module: "crm-os",
+    read: ["REPORTS_VIEW", "USERS_MANAGE"],
+    write: ["USERS_MANAGE"],
+    admin: ["ORG_MANAGE"],
+    description: "Contacts, leads, client relationships",
+  },
+  "portfolio-os": {
+    module: "portfolio-os",
+    read: ["REPORTS_VIEW", "FINANCE_MANAGE"],
+    write: ["FINANCE_MANAGE"],
+    admin: ["ORG_MANAGE"],
+    description: "Investor portfolio, REO, valuations",
+  },
+  "platform-os": {
+    module: "platform-os",
+    read: ["SETTINGS_MANAGE", "REPORTS_VIEW"],
+    write: ["SETTINGS_MANAGE"],
+    admin: ["ORG_MANAGE", "SETTINGS_MANAGE"],
+    description: "Config, tenants, feature flags, system health",
+  },
 };
 
 // ─── Role Hierarchy ───────────────────────────────────────────────────────────
