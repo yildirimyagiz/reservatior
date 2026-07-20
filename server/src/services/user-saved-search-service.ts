@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class UserSavedSearchService extends BaseService<any, any, any> {
   constructor() {
@@ -11,7 +13,9 @@ export class UserSavedSearchService extends BaseService<any, any, any> {
   }
 
   async createSearch(userId: string, data: { name: string; filters: any; alertEnabled?: boolean }) {
-    return this.model.create({ data: { userId, ...data, alertEnabled: data.alertEnabled ?? true, createdAt: new Date() } });
+    const result = await this.model.create({ data: { userId, ...data, alertEnabled: data.alertEnabled ?? true, createdAt: new Date() } });
+    await eventBus.publish("USER_SEARCH_SAVED", { id: result.id, userId, query: data.name }, "UserOS");
+    return result;
   }
 
   async updateSearch(id: string, data: any) {

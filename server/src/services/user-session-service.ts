@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class UserDeviceService extends BaseService<any, any, any> {
   constructor() {
@@ -29,11 +31,15 @@ export class UserSessionService extends BaseService<any, any, any> {
   }
 
   async createSession(userId: string, data: { ipAddress?: string; userAgent?: string }) {
-    return this.model.create({ data: { userId, ...data, createdAt: new Date(), expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) } });
+    const result = await this.model.create({ data: { userId, ...data, createdAt: new Date(), expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) } });
+    await eventBus.publish("USER_SESSION_STARTED", { id: result.id, userId, deviceInfo: data.userAgent }, "UserOS");
+    return result;
   }
 
   async revokeSession(id: string) {
-    return this.model.update({ where: { id }, data: { revokedAt: new Date() } });
+    const result = await this.model.update({ where: { id }, data: { revokedAt: new Date() } });
+    await eventBus.publish(DomainEvents.SESSION_REVOKED, { id }, "UserOS");
+    return result;
   }
 
   async revokeAllSessions(userId: string) {

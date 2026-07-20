@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class DocumentLifecycleService {
   async getDashboard(orgId: string) {
@@ -83,7 +85,7 @@ export class DocumentLifecycleService {
   }
 
   async createDocument(data: { orgId: string; documentType: string; fileUrl?: string; name?: string; metadata?: any }) {
-    return prisma.document.create({
+    const result = await prisma.document.create({
       data: {
         orgId: data.orgId,
         documentType: data.documentType,
@@ -93,10 +95,16 @@ export class DocumentLifecycleService {
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      type: DomainEvents.DOCUMENT_UPLOADED,
+      payload: { id: result.id, documentType: data.documentType },
+      source: "DocumentOS",
+    });
+    return result;
   }
 
   async createContract(data: { orgId: string; type: string; title?: string; documentUrl?: string }) {
-    return prisma.contract.create({
+    const result = await prisma.contract.create({
       data: {
         orgId: data.orgId,
         type: data.type,
@@ -106,6 +114,12 @@ export class DocumentLifecycleService {
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      type: DomainEvents.CONTRACT_CREATED,
+      payload: { id: result.id, type: data.type },
+      source: "DocumentOS",
+    });
+    return result;
   }
 }
 

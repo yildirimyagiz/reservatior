@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class UserConsentService extends BaseService<any, any, any> {
   constructor() {
@@ -11,11 +13,13 @@ export class UserConsentService extends BaseService<any, any, any> {
   }
 
   async grantConsent(userId: string, consentType: string, granted: boolean) {
-    return this.model.upsert({
+    const result = await this.model.upsert({
       where: { userId_consentType: { userId, consentType } } as any,
       update: { granted, updatedAt: new Date() },
       create: { userId, consentType, granted, createdAt: new Date() },
     }).catch(() => this.model.create({ data: { userId, consentType, granted, createdAt: new Date() } }));
+    await eventBus.publish("USER_CONSENT_RECORDED", { id: result.id, userId, consentType, granted }, "UserOS");
+    return result;
   }
 
   async withdrawConsent(userId: string, consentType: string) {

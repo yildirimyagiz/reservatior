@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class UserProfileService extends BaseService<any, any, any> {
   constructor() {
@@ -15,7 +17,10 @@ export class UserProfileService extends BaseService<any, any, any> {
   }
 
   async upsertProfile(userId: string, data: any) {
-    return this.model.upsert({ where: { userId }, update: data, create: { userId, ...data } });
+    const result = await this.model.upsert({ where: { userId }, update: data, create: { userId, ...data } });
+    await eventBus.publish(DomainEvents.USER_REGISTERED, { id: result.id, email: result.email, name: result.name }, "UserOS");
+    await eventBus.publish(DomainEvents.USER_PROFILE_UPDATED, { id: result.id, changes: data }, "UserOS");
+    return result;
   }
 }
 

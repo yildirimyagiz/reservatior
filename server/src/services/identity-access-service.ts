@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class IdentityAccessService {
   async getDashboard(orgId: string) {
@@ -82,7 +84,9 @@ export class IdentityAccessService {
   }
 
   async revokeSession(id: string) {
-    return prisma.session.delete({ where: { id } });
+    const result = await prisma.session.delete({ where: { id } });
+    await eventBus.publish(DomainEvents.SESSION_REVOKED, { id: result.id }, "IdentityOS");
+    return result;
   }
 }
 

@@ -9,9 +9,12 @@ export const DomainEvents = {
   AGENT_ACCEPTED: 'agent.accepted',
   AGENT_VERIFIED: 'agent.verified',
   AGENT_IMPORTED: 'agent.imported',
+  AGENT_REGISTERED: 'agent.registered',
+  AGENT_STATUS_CHANGED: 'agent.status.changed',
   
   // Listing OS
   LISTING_IMPORTED: 'listing.imported',
+  LISTING_CREATED: 'listing.created',
   LISTING_UPDATED: 'listing.updated',
   LISTING_PUBLISHED: 'listing.published',
   LISTING_UNPUBLISHED: 'listing.unpublished',
@@ -23,6 +26,9 @@ export const DomainEvents = {
   LISTING_SHARED: 'listing.shared',
   
   // Finance OS
+  ESCROW_CREATED: 'escrow.created',
+  ESCROW_RELEASED: 'escrow.released',
+  ESCROW_REFUNDED: 'escrow.refunded',
   DEAL_CREATED: 'DealCreated',
   DEAL_CLOSED: 'DealClosed',
   DEAL_CANCELLED: 'DealCancelled',
@@ -53,6 +59,9 @@ export const DomainEvents = {
   BOOKING_PAYMENT_FAILED: 'booking.payment_failed',
   BOOKING_REVIEW_REQUESTED: 'booking.review_requested',
   BOOKING_DISPUTE_OPENED: 'booking.dispute_opened',
+
+  BOOKING_STATUS_CHANGED: 'booking.status.changed',
+
   
   // AI OS / Marketing
   AD_GENERATED: 'ad.generated',
@@ -121,6 +130,14 @@ export const DomainEvents = {
   PARTNER_RELATIONSHIP_CREATED: 'partner.relationship.created',
   PARTNER_AGREEMENT_SIGNED: 'partner.agreement.signed',
   PARTNER_PERFORMANCE_REVIEWED: 'partner.performance.reviewed',
+
+  // Security OS
+  KYC_SUBMITTED: 'security.kyc.submitted',
+  KYC_APPROVED: 'security.kyc.approved',
+  KYC_REJECTED: 'security.kyc.rejected',
+  FRAUD_ALERT_RAISED: 'security.fraud.alert.raised',
+  ACCESS_LOG_RECORDED: 'security.access.log.recorded',
+  SECURITY_POLICY_CREATED: 'security.policy.created',
 
   // Governance OS
   GOVERNANCE_RULE_CREATED: 'governance.rule.created',
@@ -223,6 +240,9 @@ export const DomainEvents = {
   MESSAGE_READ: 'message.read',
   TEMPLATE_RENDERED: 'template.rendered',
   CHANNEL_DELIVERED: 'channel.delivered',
+
+  // User OS
+  USER_PROFILE_UPDATED: 'user.profile.updated',
 
   // Identity OS
   USER_REGISTERED: 'identity.user.registered',

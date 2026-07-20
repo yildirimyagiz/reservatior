@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class ServiceProviderService extends BaseService<any, any, any> {
   constructor() {
@@ -32,12 +34,18 @@ export class ServiceProviderService extends BaseService<any, any, any> {
   }
 
   async register(data: any) {
-    return this.model.create({
+    const result = await this.model.create({
       data: {
         ...data,
         createdAt: new Date(),
       },
     });
+    await eventBus.publish("OPERATIONS_PROVIDER_REGISTERED" as any, {
+      id: result.id,
+      name: result.name,
+      serviceType: result.serviceType,
+    }, "OperationsOS");
+    return result;
   }
 }
 

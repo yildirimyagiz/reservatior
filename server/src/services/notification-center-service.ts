@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class NotificationCenterService {
   async getDashboard(orgId: string) {
@@ -83,7 +85,7 @@ export class NotificationCenterService {
   }
 
   async createNotification(data: { userId?: string; title: string; body: string; status?: string; ruleKey?: string; data?: any }) {
-    return prisma.notification.create({
+    const result = await prisma.notification.create({
       data: {
         ...data,
         status: data.status ?? "QUEUED",
@@ -92,17 +94,29 @@ export class NotificationCenterService {
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      type: DomainEvents.NOTIFICATION_SENT,
+      payload: { id: result.id, title: data.title },
+      source: "NotificationOS",
+    });
+    return result;
   }
 
   async markAsRead(id: string) {
-    return prisma.notification.update({
+    const result = await prisma.notification.update({
       where: { id },
       data: { status: "READ" },
     });
+    await eventBus.publish({
+      type: DomainEvents.NOTIFICATION_READ,
+      payload: { id },
+      source: "NotificationOS",
+    });
+    return result;
   }
 
   async sendMessage(data: { senderId: string; threadId?: string; body: string; subject?: string }) {
-    return prisma.message.create({
+    const result = await prisma.message.create({
       data: {
         ...data,
         senderType: "USER",
@@ -110,6 +124,12 @@ export class NotificationCenterService {
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      type: DomainEvents.MESSAGE_SENT,
+      payload: { id: result.id, senderId: data.senderId },
+      source: "NotificationOS",
+    });
+    return result;
   }
 }
 

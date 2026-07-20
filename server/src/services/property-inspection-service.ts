@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class PropertyInspectionService extends BaseService<any, any, any> {
   constructor() {
@@ -34,8 +36,19 @@ export class PropertyInspectionService extends BaseService<any, any, any> {
     });
   }
 
+  async create(data: any, include?: any) {
+    const result = await super.create(data, include);
+    await eventBus.publish("OPERATIONS_INSPECTION_SCHEDULED" as any, {
+      id: result.id,
+      propertyId: result.propertyId,
+      inspectorId: result.inspectorId,
+      scheduledDate: result.scheduledDate,
+    }, "OperationsOS");
+    return result;
+  }
+
   async completeInspection(id: string, data?: { result?: string; notes?: string; completedDate?: Date }) {
-    return this.model.update({
+    const updated = await this.model.update({
       where: { id },
       data: {
         status: "COMPLETED",
@@ -44,6 +57,11 @@ export class PropertyInspectionService extends BaseService<any, any, any> {
         ...(data?.notes && { notes: data.notes }),
       },
     });
+    await eventBus.publish("OPERATIONS_INSPECTION_COMPLETED" as any, {
+      id: updated.id,
+      result: updated.result,
+    }, "OperationsOS");
+    return updated;
   }
 }
 

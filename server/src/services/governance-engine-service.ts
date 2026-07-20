@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class GovernanceEngineService {
   async getDashboard(orgId: string) {
@@ -67,20 +69,40 @@ export class GovernanceEngineService {
   }
 
   async createComplianceRecord(data: { type: string; entityId: string; entityType: string; status?: string; notes?: string }) {
-    return prisma.complianceRecord.create({
+    const result = await prisma.complianceRecord.create({
       data: {
         ...data,
         status: data.status ?? "PENDING",
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      event: DomainEvents.COMPLIANCE_CHECK_PASSED,
+      payload: { id: result.id, type: data.type, status: "PENDING" },
+      source: "GovernanceOS",
+    });
+    return result;
   }
 
   async updateComplianceStatus(id: string, status: string, notes?: string) {
-    return prisma.complianceRecord.update({
+    const result = await prisma.complianceRecord.update({
       where: { id },
       data: { status, ...(notes && { notes }) },
     });
+    if (status === "APPROVED") {
+      await eventBus.publish({
+        event: DomainEvents.COMPLIANCE_CHECK_PASSED,
+        payload: { id, status },
+        source: "GovernanceOS",
+      });
+    } else if (status === "REJECTED") {
+      await eventBus.publish({
+        event: DomainEvents.COMPLIANCE_CHECK_FAILED,
+        payload: { id, status },
+        source: "GovernanceOS",
+      });
+    }
+    return result;
   }
 }
 

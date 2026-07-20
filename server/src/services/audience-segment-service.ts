@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class AudienceSegmentService extends BaseService<any, any, any> {
   constructor() { super(prisma.audienceSegment, "audienceSegment"); }
@@ -9,11 +11,15 @@ export class AudienceSegmentService extends BaseService<any, any, any> {
   }
 
   async createSegment(data: any) {
-    return this.model.create({ data: { ...data, createdAt: new Date() } });
+    const result = await this.model.create({ data: { ...data, createdAt: new Date() } });
+    await eventBus.publish({ event: DomainEvents.AUDIENCE_SEGMENT_CREATED, payload: { id: result.id, name: result.name, criteria: result.criteria }, source: "AdsOS" });
+    return result;
   }
 
   async generateAISegment(orgId: string, criteria: any) {
-    return this.model.create({ data: { orgId, name: `AI Segment - ${new Date().toISOString()}`, criteria, aiGenerated: true, createdAt: new Date() } });
+    const result = await this.model.create({ data: { orgId, name: `AI Segment - ${new Date().toISOString()}`, criteria, aiGenerated: true, createdAt: new Date() } });
+    await eventBus.publish({ event: DomainEvents.AUDIENCE_SEGMENT_CREATED, payload: { id: result.id, name: result.name, criteria: result.criteria }, source: "AdsOS" });
+    return result;
   }
 
   async getSegmentSize(id: string) {

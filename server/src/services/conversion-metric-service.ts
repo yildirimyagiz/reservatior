@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class ConversionMetricService extends BaseService<any, any, any> {
   constructor() { super(prisma.conversionMetric, "conversionMetric"); }
@@ -9,7 +11,9 @@ export class ConversionMetricService extends BaseService<any, any, any> {
   }
 
   async trackConversion(data: { orgId: string; campaignId?: string; metricType: string; value: number; metadata?: any }) {
-    return this.model.create({ data: { ...data, createdAt: new Date() } });
+    const result = await this.model.create({ data: { ...data, createdAt: new Date() } });
+    await eventBus.publish({ event: "ADS_CONVERSION_RECORDED", payload: { id: result.id, campaignId: result.campaignId, value: result.value }, source: "AdsOS" });
+    return result;
   }
 
   async getFunnel(orgId: string) {

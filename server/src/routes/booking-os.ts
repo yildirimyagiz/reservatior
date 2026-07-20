@@ -1,5 +1,7 @@
 import { Elysia } from "elysia";
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export const bookingOSRoutes = new Elysia({ prefix: "/booking-os" })
   .get("/dashboard", async ({ query, set }) => {
@@ -181,6 +183,54 @@ export const bookingOSRoutes = new Elysia({ prefix: "/booking-os" })
       }
 
       return { success: true, data: pricingData };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  })
+  .post("/create", async ({ body, set }) => {
+    try {
+      const data = body as {
+        propertyId: string;
+        guestId: string;
+        startDate: string;
+        endDate: string;
+        orgId: string;
+      };
+
+      const result = await prisma.booking.create({
+        data: {
+          propertyId: data.propertyId,
+          guestId: data.guestId,
+          startDate: new Date(data.startDate),
+          endDate: new Date(data.endDate),
+          orgId: data.orgId,
+          status: "CONFIRMED",
+        },
+      });
+
+      await eventBus.publish(DomainEvents.BOOKING_CREATED, { id: result.id, propertyId: data.propertyId, guestId: data.guestId }, "BookingOS");
+
+      set.status = 201;
+      return { success: true, data: result };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  })
+  .put("/status/:id", async ({ params, body, set }) => {
+    try {
+      const { id } = params as { id: string };
+      const data = body as { status: string };
+
+      const result = await prisma.booking.update({
+        where: { id },
+        data: { status: data.status },
+      });
+
+      await eventBus.publish(DomainEvents.BOOKING_STATUS_CHANGED, { id, status: data.status }, "BookingOS");
+
+      return { success: true, data: result };
     } catch (error: any) {
       set.status = 500;
       return { success: false, error: error.message };

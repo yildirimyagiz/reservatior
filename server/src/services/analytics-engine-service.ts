@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class AnalyticsEngineService {
   async getDashboard(_orgId: string) {
@@ -49,12 +51,18 @@ export class AnalyticsEngineService {
   }
 
   async createReport(data: { orgId: string; userId: string; name: string; reportType: string; config?: any }) {
-    return prisma.report.create({
+    const result = await prisma.report.create({
       data: {
         ...data,
         config: data.config ?? {},
       },
     });
+    await eventBus.publish({
+      type: DomainEvents.REPORT_GENERATED,
+      payload: { id: result.id, name: data.name, reportType: data.reportType },
+      source: "AnalyticsOS",
+    });
+    return result;
   }
 
   async getDashboards(orgId: string) {
@@ -90,7 +98,7 @@ export class AnalyticsEngineService {
   }
 
   async createAnalytics(data: { entityId: string; entityType: string; type: string; data?: any }) {
-    return prisma.analytics.create({
+    const result = await prisma.analytics.create({
       data: {
         entityId: data.entityId,
         entityType: data.entityType,
@@ -99,6 +107,12 @@ export class AnalyticsEngineService {
         timestamp: new Date(),
       },
     });
+    await eventBus.publish({
+      type: DomainEvents.ANALYTICS_DATA_COLLECTED,
+      payload: { id: result.id, entityId: data.entityId, type: data.type },
+      source: "AnalyticsOS",
+    });
+    return result;
   }
 }
 

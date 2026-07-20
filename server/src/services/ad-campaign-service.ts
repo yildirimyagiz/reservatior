@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class AdCampaignService extends BaseService<any, any, any> {
   constructor() { super(prisma.adCampaign, "adCampaign"); }
@@ -9,26 +11,36 @@ export class AdCampaignService extends BaseService<any, any, any> {
   }
 
   async createCampaign(data: any) {
-    return this.model.create({ data: { ...data, status: data.status ?? "DRAFT", createdAt: new Date() } });
+    const result = await this.model.create({ data: { ...data, status: data.status ?? "DRAFT", createdAt: new Date() } });
+    await eventBus.publish({ event: DomainEvents.AD_CAMPAIGN_CREATED, payload: { id: result.id, name: result.name, budget: result.budget }, source: "AdsOS" });
+    return result;
   }
 
   async activateCampaign(id: string) {
-    return this.model.update({ where: { id }, data: { status: "ACTIVE", startedAt: new Date() } });
+    const result = await this.model.update({ where: { id }, data: { status: "ACTIVE", startedAt: new Date() } });
+    await eventBus.publish({ event: "ADS_CAMPAIGN_STATUS_CHANGED", payload: { id, status: "ACTIVE" }, source: "AdsOS" });
+    return result;
   }
 
   async pauseCampaign(id: string) {
-    return this.model.update({ where: { id }, data: { status: "PAUSED" } });
+    const result = await this.model.update({ where: { id }, data: { status: "PAUSED" } });
+    await eventBus.publish({ event: "ADS_CAMPAIGN_STATUS_CHANGED", payload: { id, status: "PAUSED" }, source: "AdsOS" });
+    return result;
   }
 
   async completeCampaign(id: string) {
-    return this.model.update({ where: { id }, data: { status: "COMPLETED", endedAt: new Date() } });
+    const result = await this.model.update({ where: { id }, data: { status: "COMPLETED", endedAt: new Date() } });
+    await eventBus.publish({ event: "ADS_CAMPAIGN_STATUS_CHANGED", payload: { id, status: "COMPLETED" }, source: "AdsOS" });
+    return result;
   }
 
   async duplicateCampaign(id: string, name: string) {
     const original = await this.model.findUnique({ where: { id } });
     if (!original) throw new Error("Campaign not found");
     const { id: _id, createdAt, updatedAt, ...rest } = original;
-    return this.model.create({ data: { ...rest, name, status: "DRAFT", createdAt: new Date() } });
+    const result = await this.model.create({ data: { ...rest, name, status: "DRAFT", createdAt: new Date() } });
+    await eventBus.publish({ event: DomainEvents.AD_CAMPAIGN_CREATED, payload: { id: result.id, name: result.name, budget: result.budget }, source: "AdsOS" });
+    return result;
   }
 
   async getCampaignStats(orgId: string) {

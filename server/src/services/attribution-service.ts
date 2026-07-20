@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class AttributionService extends BaseService<any, any, any> {
   constructor() { super(prisma.attributionEvent, "attributionEvent"); }
@@ -9,7 +11,9 @@ export class AttributionService extends BaseService<any, any, any> {
   }
 
   async trackAttribution(data: { orgId: string; campaignId?: string; channel: string; eventType: string; touchpointIndex?: number }) {
-    return this.model.create({ data: { ...data, createdAt: new Date() } });
+    const result = await this.model.create({ data: { ...data, createdAt: new Date() } });
+    await eventBus.publish({ event: "ADS_ATTRIBUTION_RECORDED", payload: { id: result.id, campaignId: result.campaignId, touchpoint: result.channel }, source: "AdsOS" });
+    return result;
   }
 
   async getChannelPerformance(orgId: string) {

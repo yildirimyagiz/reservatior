@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class SecurityPolicyService extends BaseService<any, any, any> {
   constructor() {
@@ -27,13 +29,21 @@ export class SecurityPolicyService extends BaseService<any, any, any> {
     policyType: string;
     rules?: any;
   }) {
-    return this.model.create({
+    const result = await this.model.create({
       data: {
         ...data,
         isActive: true,
         createdAt: new Date(),
       },
     });
+
+    await eventBus.publish({
+      type: DomainEvents.SECURITY_POLICY_CREATED,
+      payload: { id: result.id, name: data.name, policyType: data.policyType },
+      source: "SecurityOS",
+    });
+
+    return result;
   }
 
   async togglePolicy(id: string, isActive: boolean) {

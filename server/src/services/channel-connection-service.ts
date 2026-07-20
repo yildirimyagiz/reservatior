@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class ChannelConnectionService extends BaseService<any, any, any> {
   constructor() { super(prisma.channelConnection, "channelConnection"); }
@@ -9,7 +11,9 @@ export class ChannelConnectionService extends BaseService<any, any, any> {
   }
 
   async connect(orgId: string, channel: string, config: any) {
-    return this.model.create({ data: { orgId, channel, config, status: "CONNECTED", connectedAt: new Date(), createdAt: new Date() } });
+    const result = await this.model.create({ data: { orgId, channel, config, status: "CONNECTED", connectedAt: new Date(), createdAt: new Date() } });
+    await eventBus.publish({ event: "ADS_CHANNEL_CONNECTED", payload: { id: result.id, channelType: result.channel, platform: result.channel }, source: "AdsOS" });
+    return result;
   }
 
   async disconnect(id: string) {

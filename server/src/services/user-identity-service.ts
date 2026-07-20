@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class UserIdentityService extends BaseService<any, any, any> {
   constructor() {
@@ -11,7 +13,9 @@ export class UserIdentityService extends BaseService<any, any, any> {
   }
 
   async linkProvider(userId: string, provider: string, providerId: string, data?: any) {
-    return this.model.create({ data: { userId, provider, providerId, verified: false, ...data, createdAt: new Date() } });
+    const result = await this.model.create({ data: { userId, provider, providerId, verified: false, ...data, createdAt: new Date() } });
+    await eventBus.publish(DomainEvents.USER_REGISTERED, { id: result.id, email: userId }, "UserOS");
+    return result;
   }
 
   async unlinkProvider(id: string) {

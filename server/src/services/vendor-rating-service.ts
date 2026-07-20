@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class VendorRatingService extends BaseService<any, any, any> {
   constructor() {
@@ -45,6 +47,17 @@ export class VendorRatingService extends BaseService<any, any, any> {
         return acc;
       }, {}),
     };
+  }
+
+  async create(data: any, include?: any) {
+    const result = await super.create(data, include);
+    await eventBus.publish("OPERATIONS_VENDOR_RATED" as any, {
+      id: result.id,
+      vendorId: result.vendorId,
+      rating: result.rating,
+      score: result.score,
+    }, "OperationsOS");
+    return result;
   }
 }
 

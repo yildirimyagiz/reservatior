@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class CampaignBudgetService extends BaseService<any, any, any> {
   constructor() { super(prisma.campaignBudget, "campaignBudget"); }
@@ -9,11 +11,13 @@ export class CampaignBudgetService extends BaseService<any, any, any> {
   }
 
   async setBudget(campaignId: string, data: { dailyBudget: number; totalBudget: number; currency?: string }) {
-    return this.model.upsert({
+    const result = await this.model.upsert({
       where: { campaignId } as any,
       update: data,
       create: { campaignId, ...data, currency: data.currency ?? "USD", createdAt: new Date() },
     }).catch(() => this.model.create({ data: { campaignId, ...data, currency: data.currency ?? "USD", createdAt: new Date() } }));
+    await eventBus.publish({ event: "ADS_BUDGET_ALLOCATED", payload: { id: result.id, campaignId: result.campaignId, amount: result.totalBudget }, source: "AdsOS" });
+    return result;
   }
 
   async getReport(campaignId: string) {

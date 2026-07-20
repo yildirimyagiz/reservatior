@@ -1,10 +1,10 @@
 import { Elysia } from "elysia";
 import { prisma } from "../lib/prisma";
-import { localizationMiddleware } from "../middleware/localization";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
-  .use(localizationMiddleware)
-  .get("/dashboard", async ({ query, set, localization }) => {
+  .get("/dashboard", async ({ query, set }) => {
     try {
       const orgId = query.orgId as string;
       if (!orgId) {
@@ -34,7 +34,6 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
           prisma.commission.aggregate({
             where: {
               orgId,
-              countryCode: localization.countryCode,
               createdAt: { gte: thirtyDaysAgo },
             },
             _sum: { commissionAmount: true },
@@ -43,12 +42,11 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
           prisma.lead.count({
             where: {
               orgId,
-              countryCode: localization.countryCode,
               status: { in: ["NEW", "CONTACTED", "QUALIFIED"] },
               deletedAt: null,
             },
           }),
-          // Deal uses dealStatus, not status (no countryCode field in Deal model)
+          // Deal uses dealStatus, not status
           prisma.deal.count({
             where: {
               orgId,
@@ -164,6 +162,50 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
           recentConversions,
         },
       };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  })
+  .post("/register", async ({ body, set }) => {
+    try {
+      const data = body as {
+        name: string;
+        email: string;
+        orgId: string;
+      };
+
+      const result = await prisma.agent.create({
+        data: {
+          name: data.name,
+          email: data.email,
+          orgId: data.orgId,
+          status: "ACTIVE",
+        },
+      });
+
+      await eventBus.publish(DomainEvents.AGENT_REGISTERED, { id: result.id, name: data.name }, "AgentOS");
+
+      set.status = 201;
+      return { success: true, data: result };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  })
+  .put("/status/:id", async ({ params, body, set }) => {
+    try {
+      const { id } = params as { id: string };
+      const data = body as { status: string };
+
+      const result = await prisma.agent.update({
+        where: { id },
+        data: { status: data.status },
+      });
+
+      await eventBus.publish(DomainEvents.AGENT_STATUS_CHANGED, { id, status: data.status }, "AgentOS");
+
+      return { success: true, data: result };
     } catch (error: any) {
       set.status = 500;
       return { success: false, error: error.message };

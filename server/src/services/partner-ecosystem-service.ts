@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class PartnerEcosystemService {
   async getDashboard(orgId: string) {
@@ -55,7 +57,7 @@ export class PartnerEcosystemService {
   }
 
   async createPartner(data: { orgId: string; legalName: string; serviceAreas?: string; defaultCommissionBps?: number }) {
-    return prisma.vendorProfile.create({
+    const result = await prisma.vendorProfile.create({
       data: {
         ...data,
         serviceAreas: data.serviceAreas ?? "[]",
@@ -63,10 +65,16 @@ export class PartnerEcosystemService {
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      event: DomainEvents.PARTNER_REGISTERED,
+      payload: { id: result.id, legalName: data.legalName },
+      source: "PartnerOS",
+    });
+    return result;
   }
 
   async createAgreement(data: { partnerId: string; type: string; terms?: any }) {
-    return prisma.partnerAgreement.create({
+    const result = await prisma.partnerAgreement.create({
       data: {
         partnerId: data.partnerId,
         type: data.type,
@@ -75,6 +83,12 @@ export class PartnerEcosystemService {
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      event: DomainEvents.PARTNER_AGREEMENT_SIGNED,
+      payload: { id: result.id, partnerId: data.partnerId },
+      source: "PartnerOS",
+    });
+    return result;
   }
 }
 

@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class KYCVerificationService extends BaseService<any, any, any> {
   constructor() {
@@ -33,17 +35,25 @@ export class KYCVerificationService extends BaseService<any, any, any> {
     documentUrl?: string;
     metadata?: any;
   }) {
-    return this.model.create({
+    const result = await this.model.create({
       data: {
         ...data,
         status: "PENDING",
         createdAt: new Date(),
       },
     });
+
+    await eventBus.publish({
+      type: DomainEvents.KYC_SUBMITTED,
+      payload: { id: result.id, userId: result.userId, type: data.documentType },
+      source: "SecurityOS",
+    });
+
+    return result;
   }
 
   async approveVerification(id: string, reviewerId?: string) {
-    return this.model.update({
+    const result = await this.model.update({
       where: { id },
       data: {
         status: "APPROVED",
@@ -51,10 +61,18 @@ export class KYCVerificationService extends BaseService<any, any, any> {
         ...(reviewerId && { reviewerId }),
       },
     });
+
+    await eventBus.publish({
+      type: DomainEvents.KYC_APPROVED,
+      payload: { id: result.id, userId: result.userId, status: "APPROVED" },
+      source: "SecurityOS",
+    });
+
+    return result;
   }
 
   async rejectVerification(id: string, reason?: string, reviewerId?: string) {
-    return this.model.update({
+    const result = await this.model.update({
       where: { id },
       data: {
         status: "REJECTED",
@@ -63,6 +81,14 @@ export class KYCVerificationService extends BaseService<any, any, any> {
         ...(reviewerId && { reviewerId }),
       },
     });
+
+    await eventBus.publish({
+      type: DomainEvents.KYC_REJECTED,
+      payload: { id: result.id, userId: result.userId, status: "REJECTED" },
+      source: "SecurityOS",
+    });
+
+    return result;
   }
 
   async getStats(orgId: string) {

@@ -715,6 +715,24 @@ registerInvestmentAnalysisListeners();
 registerMaintenanceOrchestrationListeners();
 registerSecurityScreeningListeners();
 
+import { registerGovernanceComplianceListeners } from "./core/workflows/governance-compliance.saga";
+import { registerPartnerOnboardingListeners } from "./core/workflows/partner-onboarding.saga";
+import { registerDeveloperApiLifecycleListeners } from "./core/workflows/developer-api-lifecycle.saga";
+import { registerAnalyticsInsightListeners } from "./core/workflows/analytics-insight.saga";
+import { registerDocumentComplianceListeners } from "./core/workflows/document-compliance.saga";
+import { registerNotificationOrchestrationListeners } from "./core/workflows/notification-orchestration.saga";
+import { registerIdentitySecurityListeners } from "./core/workflows/identity-security.saga";
+import { registerLocalizationSyncListeners } from "./core/workflows/localization-sync.saga";
+
+registerGovernanceComplianceListeners();
+registerPartnerOnboardingListeners();
+registerDeveloperApiLifecycleListeners();
+registerAnalyticsInsightListeners();
+registerDocumentComplianceListeners();
+registerNotificationOrchestrationListeners();
+registerIdentitySecurityListeners();
+registerLocalizationSyncListeners();
+
 // Initialize AI Intelligence Graph (subscribes to all domain events)
 import { intelligenceGraph } from "./core/ai/intelligence-graph";
 

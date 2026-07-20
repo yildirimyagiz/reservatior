@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class CampaignEventService extends BaseService<any, any, any> {
   constructor() { super(prisma.campaignEvent, "campaignEvent"); }
@@ -9,7 +11,9 @@ export class CampaignEventService extends BaseService<any, any, any> {
   }
 
   async trackEvent(data: { campaignId: string; eventType: string; metadata?: any }) {
-    return this.model.create({ data: { ...data, createdAt: new Date() } });
+    const result = await this.model.create({ data: { ...data, createdAt: new Date() } });
+    await eventBus.publish({ event: "ADS_EVENT_TRACKED", payload: { id: result.id, eventType: result.eventType, campaignId: result.campaignId }, source: "AdsOS" });
+    return result;
   }
 
   async getEventStats(campaignId: string) {

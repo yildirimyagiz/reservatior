@@ -1,4 +1,6 @@
 import { PrismaClient, EscrowStatus } from '@prisma/client';
+import { eventBus } from "../../core/events/event-bus";
+import { DomainEvents } from "../../core/events/domain-events";
 
 const prisma = new PrismaClient();
 
@@ -31,6 +33,12 @@ export class EscrowEngine {
         currency: data.currency || 'USD',
         status: EscrowStatus.HOLDING,
       }
+    });
+
+    await eventBus.publish({
+      type: DomainEvents.ESCROW_CREATED,
+      payload: { id: escrow.id, amount: escrow.totalAmount, orgId: escrow.orgId },
+      source: "FinanceOS",
     });
 
     return escrow;
@@ -95,6 +103,12 @@ export class EscrowEngine {
           status: newStatus,
           releasedAt: newStatus === EscrowStatus.FULLY_RELEASED ? new Date() : null
         }
+      });
+
+      await eventBus.publish({
+        type: DomainEvents.ESCROW_RELEASED,
+        payload: { id: escrowId, amount: amountToRelease },
+        source: "FinanceOS",
       });
 
       return { updatedEscrow, release };

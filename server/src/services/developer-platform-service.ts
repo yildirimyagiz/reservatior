@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class DeveloperPlatformService {
   async getDashboard(orgId: string) {
@@ -23,7 +25,7 @@ export class DeveloperPlatformService {
 
   async createApiKey(data: { orgId: string; name: string; scopes?: string[] }) {
     const key = `rk_${Array.from({ length: 40 }, () => "abcdefghijklmnopqrstuvwxyz0123456789"[Math.floor(Math.random() * 36)]).join("")}`;
-    return prisma.apiKey.create({
+    const result = await prisma.apiKey.create({
       data: {
         orgId: data.orgId,
         name: data.name,
@@ -33,6 +35,12 @@ export class DeveloperPlatformService {
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      event: DomainEvents.API_KEY_CREATED,
+      payload: { id: result.id, name: data.name },
+      source: "DeveloperOS",
+    });
+    return result;
   }
 
   async getIntegrations(orgId: string) {
@@ -59,7 +67,7 @@ export class DeveloperPlatformService {
   }
 
   async createWebhook(data: { orgId: string; url: string; events: string[]; secret?: string }) {
-    return prisma.webhook.create({
+    const result = await prisma.webhook.create({
       data: {
         orgId: data.orgId,
         url: data.url,
@@ -69,6 +77,12 @@ export class DeveloperPlatformService {
         createdAt: new Date(),
       },
     });
+    await eventBus.publish({
+      event: DomainEvents.WEBHOOK_REGISTERED,
+      payload: { id: result.id, url: data.url },
+      source: "DeveloperOS",
+    });
+    return result;
   }
 
   async getRecentLogs(params?: { skip?: number; take?: number; integrationId?: string }) {

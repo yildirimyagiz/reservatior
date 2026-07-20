@@ -1,4 +1,6 @@
 import { prisma } from "../lib/prisma";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class LocalizationEngineService {
   async getDashboard() {
@@ -94,13 +96,15 @@ export class LocalizationEngineService {
   }
 
   async createExchangeRate(data: { orgId: string; baseCurrency: string; quoteCurrency: string; rate: number; source?: string }) {
-    return prisma.exchangeRate.create({
+    const result = await prisma.exchangeRate.create({
       data: {
         ...data,
         asOfDate: new Date(),
         createdAt: new Date(),
       },
     });
+    await eventBus.publish(DomainEvents.EXCHANGE_RATE_IMPORTED, { id: result.id, baseCurrency: data.baseCurrency, quoteCurrency: data.quoteCurrency, rate: data.rate }, "LocalizationOS");
+    return result;
   }
 }
 

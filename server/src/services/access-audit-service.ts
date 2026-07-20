@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class AccessAuditService extends BaseService<any, any, any> {
   constructor() {
@@ -32,12 +34,20 @@ export class AccessAuditService extends BaseService<any, any, any> {
     userAgent?: string;
     metadata?: any;
   }) {
-    return this.model.create({
+    const result = await this.model.create({
       data: {
         ...data,
         createdAt: new Date(),
       },
     });
+
+    await eventBus.publish({
+      type: DomainEvents.ACCESS_LOG_RECORDED,
+      payload: { id: result.id, userId: data.userId, action: data.action, resource: data.resource },
+      source: "SecurityOS",
+    });
+
+    return result;
   }
 
   async getRecentActivity(orgId: string, limit = 50) {

@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class FraudDetectionService extends BaseService<any, any, any> {
   constructor() {
@@ -36,13 +38,21 @@ export class FraudDetectionService extends BaseService<any, any, any> {
     description: string;
     evidence?: any;
   }) {
-    return this.model.create({
+    const result = await this.model.create({
       data: {
         ...data,
         status: "OPEN",
         createdAt: new Date(),
       },
     });
+
+    await eventBus.publish({
+      type: DomainEvents.FRAUD_ALERT_RAISED,
+      payload: { id: result.id, entityId: data.entityId, riskScore: data.riskLevel, reason: data.description },
+      source: "SecurityOS",
+    });
+
+    return result;
   }
 
   async resolveAlert(id: string, resolution: string, reviewerId?: string) {

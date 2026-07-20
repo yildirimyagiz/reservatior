@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class UserCategoryPreferenceService extends BaseService<any, any, any> {
   constructor() {
@@ -29,7 +31,9 @@ export class UserInterestService extends BaseService<any, any, any> {
   }
 
   async addInterest(userId: string, data: { category: string; subcategory?: string; priority?: number }) {
-    return this.model.create({ data: { userId, ...data, createdAt: new Date() } });
+    const result = await this.model.create({ data: { userId, ...data, createdAt: new Date() } });
+    await eventBus.publish("USER_INTEREST_RECORDED", { id: result.id, userId, category: data.category }, "UserOS");
+    return result;
   }
 
   async removeInterest(id: string) {

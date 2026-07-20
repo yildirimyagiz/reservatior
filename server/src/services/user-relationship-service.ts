@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class UserRelationshipService extends BaseService<any, any, any> {
   constructor() {
@@ -11,7 +13,9 @@ export class UserRelationshipService extends BaseService<any, any, any> {
   }
 
   async createRelationship(userId: string, relatedUserId: string, type: string) {
-    return this.model.create({ data: { userId, relatedUserId, type, createdAt: new Date() } });
+    const result = await this.model.create({ data: { userId, relatedUserId, type, createdAt: new Date() } });
+    await eventBus.publish("USER_RELATIONSHIP_CREATED", { id: result.id, userId, targetUserId: relatedUserId, type }, "UserOS");
+    return result;
   }
 
   async removeRelationship(id: string) {

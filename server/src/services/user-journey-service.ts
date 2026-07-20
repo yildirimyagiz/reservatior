@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class UserActivityService extends BaseService<any, any, any> {
   constructor() {
@@ -25,11 +27,13 @@ export class UserJourneyService extends BaseService<any, any, any> {
   }
 
   async advanceStage(userId: string, stage: string, data?: any) {
-    return this.model.upsert({
+    const result = await this.model.upsert({
       where: { userId } as any,
       update: { currentStage: stage, stageHistory: data?.history, updatedAt: new Date() },
       create: { userId, currentStage: stage, stageHistory: [stage], createdAt: new Date() },
     }).catch(() => this.model.create({ data: { userId, currentStage: stage, stageHistory: [stage], createdAt: new Date() } }));
+    await eventBus.publish("USER_JOURNEY_UPDATED", { id: result.id, userId, stage }, "UserOS");
+    return result;
   }
 
   async getStats(userId: string) {

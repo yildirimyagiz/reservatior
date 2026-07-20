@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { BaseService } from "./base";
+import { eventBus } from "../core/events/event-bus";
+import { DomainEvents } from "../core/events/domain-events";
 
 export class InvestmentDealService extends BaseService<any, any, any> {
   constructor() {
@@ -39,13 +41,15 @@ export class InvestmentDealService extends BaseService<any, any, any> {
     riskLevel?: string;
     metadata?: any;
   }) {
-    return this.model.create({
+    const result = await this.model.create({
       data: {
         ...data,
         status: data.status ?? "DRAFT",
         createdAt: new Date(),
       },
     });
+    await eventBus.publish(DomainEvents.DEAL_CREATED, { id: result.id, name: data.name, investmentAmount: data.investmentAmount }, "InvestmentOS");
+    return result;
   }
 
   async updateDeal(id: string, data: {
@@ -67,20 +71,19 @@ export class InvestmentDealService extends BaseService<any, any, any> {
     const deal = await this.model.findUnique({ where: { id } });
     if (!deal) throw new Error("Deal not found");
 
-    return {
-      deal,
-      analysis: {
-        id: deal.id,
-        name: deal.name,
-        investmentAmount: deal.investmentAmount,
-        expectedReturn: deal.expectedReturn,
-        riskLevel: deal.riskLevel,
-        projectedROI: deal.investmentAmount && deal.expectedReturn
-          ? ((deal.expectedReturn / deal.investmentAmount) * 100).toFixed(2) + "%"
-          : null,
-        status: deal.status,
-      },
+    const analysis = {
+      id: deal.id,
+      name: deal.name,
+      investmentAmount: deal.investmentAmount,
+      expectedReturn: deal.expectedReturn,
+      riskLevel: deal.riskLevel,
+      projectedROI: deal.investmentAmount && deal.expectedReturn
+        ? ((deal.expectedReturn / deal.investmentAmount) * 100).toFixed(2) + "%"
+        : null,
+      status: deal.status,
     };
+    await eventBus.publish("INVESTMENT_RECOMMENDATION_READY", { id: deal.id, analysis }, "InvestmentOS");
+    return { deal, analysis };
   }
 
   async duplicateDeal(id: string, userId: string) {
