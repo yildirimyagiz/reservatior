@@ -122,6 +122,22 @@ export const DomainEvents = {
   PARTNER_AGREEMENT_SIGNED: 'partner.agreement.signed',
   PARTNER_PERFORMANCE_REVIEWED: 'partner.performance.reviewed',
 
+  // Governance OS
+  GOVERNANCE_RULE_CREATED: 'governance.rule.created',
+  GOVERNANCE_RULE_EVALUATED: 'governance.rule.evaluated',
+  COMPLIANCE_CHECK_PASSED: 'compliance.check.passed',
+  COMPLIANCE_CHECK_FAILED: 'compliance.check.failed',
+  APPROVAL_REQUESTED: 'approval.requested',
+  APPROVAL_COMPLETED: 'approval.completed',
+  AUDIT_LOG_CREATED: 'audit.log.created',
+
+  // Partner OS
+  PARTNER_REGISTERED: 'partner.registered',
+  PARTNER_AGREEMENT_EXPIRED: 'partner.agreement.expired',
+  PARTNER_REVIEW_RECEIVED: 'partner.review.received',
+  PARTNER_REVENUE_RECORDED: 'partner.revenue.recorded',
+  SUPPLIER_ONBOARDED: 'supplier.onboarded',
+
   // Developer API OS
   API_KEY_CREATED: 'api.key.created',
   API_KEY_REVOKED: 'api.key.revoked',
@@ -178,6 +194,35 @@ export const DomainEvents = {
   LOCALIZATION_TRANSLATED: 'localization.translated',
   LOCALIZATION_EXCHANGE_RATE_UPDATED: 'localization.exchange_rate_updated',
   LOCALIZATION_CONTENT_UPDATED: 'localization.content_updated',
+  API_REQUEST_RECEIVED: 'api.request.received',
+  WEBHOOK_REGISTERED: 'webhook.registered',
+  WEBHOOK_DELIVERY_FAILED: 'webhook.delivery.failed',
+  INTEGRATION_CONNECTED: 'integration.connected',
+  INTEGRATION_DISCONNECTED: 'integration.disconnected',
+
+  // Analytics OS
+  ANALYTICS_DATA_COLLECTED: 'analytics.data.collected',
+  REPORT_GENERATED: 'report.generated',
+  DASHBOARD_VIEWED: 'dashboard.viewed',
+  KPI_THRESHOLD_CROSSED: 'kpi.threshold.crossed',
+  PERFORMANCE_ALERT_FIRED: 'performance.alert.fired',
+  HEALTH_CHECK_COMPLETED: 'health.check.completed',
+
+  // Document OS
+  DOCUMENT_ANALYZED: 'document.analyzed',
+  DOCUMENT_ARCHIVED: 'document.archived',
+  CONTRACT_CREATED: 'contract.created',
+  CONTRACT_SIGNED: 'contract.signed',
+  CONTRACT_EXPIRED: 'contract.expired',
+  SIGNATURE_REQUESTED: 'signature.requested',
+  SIGNATURE_COMPLETED: 'signature.completed',
+
+  // Notification OS
+  NOTIFICATION_READ: 'notification.read',
+  MESSAGE_SENT: 'message.sent',
+  MESSAGE_READ: 'message.read',
+  TEMPLATE_RENDERED: 'template.rendered',
+  CHANNEL_DELIVERED: 'channel.delivered',
 } as const;
 
 export type DomainEvent = typeof DomainEvents[keyof typeof DomainEvents];

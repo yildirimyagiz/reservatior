@@ -349,6 +349,12 @@ import { seoDataRoutes } from "./routes/seo-data";
 import { investmentOSRoutes } from "./routes/investment-os";
 import { operationsOSRoutes } from "./routes/operations-os";
 import { securityOSRoutes } from "./routes/security-os";
+import { governanceOSRoutes } from "./routes/governance-os";
+import { partnerOSRoutes } from "./routes/partner-os";
+import { developerOSRoutes } from "./routes/developer-os";
+import { analyticsOSRoutes } from "./routes/analytics-os";
+import { documentOSRoutes } from "./routes/document-os";
+import { notificationOSRoutes } from "./routes/notification-os";
 
 // Route Clusters to optimize TypeScript instantiation depth
 const cluster1 = new Elysia()
@@ -744,4 +750,10 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(investmentOSRoutes)
   .use(operationsOSRoutes)
   .use(securityOSRoutes)
+  .use(governanceOSRoutes)
+  .use(partnerOSRoutes)
+  .use(developerOSRoutes)
+  .use(analyticsOSRoutes)
+  .use(documentOSRoutes)
+  .use(notificationOSRoutes)
 ;

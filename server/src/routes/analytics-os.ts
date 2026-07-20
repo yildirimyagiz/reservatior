@@ -1,158 +1,203 @@
-/**
- * Analytics OS API Routes
- */
+import { Elysia, t } from "elysia";
+import { analyticsEngineService } from "../services/analytics-engine-service";
 
-import { Elysia, t } from 'elysia';
-import { analyticsOSService } from '../services/analytics-os';
-import { platformIntelligence } from '../core/platform-intelligence';
+export const analyticsOSRoutes = new Elysia({ prefix: "/analytics-os" })
 
-export const analyticsOSRoutes = new Elysia({ prefix: '/analytics' })
-  /**
-   * GET /api/analytics/dashboard
-   * Get executive dashboard data
-   */
-  .get('/dashboard', async ({ query, set }) => {
-    const orgId = query.orgId;
-    
-    if (!orgId) {
-      set.status = 400;
-      return { error: 'Organization ID required' };
-    }
-
+  .get("/dashboard", async ({ query, set }) => {
     try {
-      const dashboard = await analyticsOSService.getExecutiveDashboard(orgId);
-      return dashboard;
-    } catch (error) {
+      const { orgId } = query;
+      if (!orgId) { set.status = 400; return { error: "orgId is required" }; }
+      const data = await analyticsEngineService.getDashboard(orgId);
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to fetch dashboard data' };
+      return { success: false, error: error.message };
     }
+  }, {
+    query: t.Object({ orgId: t.String() }),
+    detail: { summary: "Analytics OS Dashboard", tags: ["Analytics OS"] },
   })
 
-  /**
-   * POST /api/analytics/metrics
-   * Track a metric
-   */
-  .post('/metrics', async ({ body, set }) => {
+  .get("/analytics", async ({ query, set }) => {
     try {
-      const metric = await analyticsOSService.trackMetric(
-        body.metricType,
-        body.value,
-        body.dimensions
-      );
-      return metric;
-    } catch (error) {
+      const { orgId, page, limit, type } = query;
+      if (!orgId) { set.status = 400; return { error: "orgId is required" }; }
+      const data = await analyticsEngineService.getAnalyticsByOrg(orgId, {
+        skip: ((parseInt(page as string) || 1) - 1) * (parseInt(limit as string) || 20),
+        take: parseInt(limit as string) || 20,
+        type: type as string,
+      });
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to track metric' };
+      return { success: false, error: error.message };
+    }
+  }, {
+    query: t.Object({
+      orgId: t.String(),
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+      type: t.Optional(t.String()),
+    }),
+    detail: { summary: "List Analytics Records", tags: ["Analytics OS"] },
+  })
+
+  .post("/analytics", async ({ body, set }) => {
+    try {
+      const data = await analyticsEngineService.createAnalytics(body as any);
+      set.status = 201;
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
     }
   }, {
     body: t.Object({
-      metricType: t.String(),
-      value: t.Number(),
-      dimensions: t.Optional(t.Record(t.String, t.Any()))
-    })
+      orgId: t.String(),
+      entityId: t.String(),
+      entityType: t.String(),
+      type: t.String(),
+      data: t.Optional(t.Any()),
+    }),
+    detail: { summary: "Create Analytics Record", tags: ["Analytics OS"] },
   })
 
-  /**
-   * GET /api/analytics/metrics/:type
-   * Get metrics by type
-   */
-  .get('/metrics/:type', async ({ params, query, set }) => {
-    const metricType = params.type;
-    const start = query.start;
-    const end = query.end;
-
+  .get("/analytics/stats", async ({ query, set }) => {
     try {
-      const timeRange = start && end ? {
-        start: new Date(start),
-        end: new Date(end)
-      } : {
-        start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-        end: new Date()
-      };
-
-      const insights = await analyticsOSService.generateInsights(metricType, timeRange);
-      return { insights };
-    } catch (error) {
+      const { orgId } = query;
+      if (!orgId) { set.status = 400; return { error: "orgId is required" }; }
+      const data = await analyticsEngineService.getAnalyticsStats(orgId);
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to fetch metrics' };
+      return { success: false, error: error.message };
     }
+  }, {
+    query: t.Object({ orgId: t.String() }),
+    detail: { summary: "Analytics Statistics", tags: ["Analytics OS"] },
   })
 
-  /**
-   * POST /api/analytics/widgets
-   * Create dashboard widget
-   */
-  .post('/widgets', async ({ body, set }) => {
-    const orgId = body.orgId;
-
+  .get("/reports", async ({ query, set }) => {
     try {
-      const widget = await analyticsOSService.createWidget(body, orgId);
-      return widget;
-    } catch (error) {
+      const { orgId, page, limit } = query;
+      if (!orgId) { set.status = 400; return { error: "orgId is required" }; }
+      const data = await analyticsEngineService.getReports(orgId, {
+        skip: ((parseInt(page as string) || 1) - 1) * (parseInt(limit as string) || 20),
+        take: parseInt(limit as string) || 20,
+      });
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to create widget' };
+      return { success: false, error: error.message };
     }
+  }, {
+    query: t.Object({
+      orgId: t.String(),
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+    }),
+    detail: { summary: "List Reports", tags: ["Analytics OS"] },
   })
 
-  /**
-   * GET /api/analytics/widgets
-   * Get dashboard widgets
-   */
-  .get('/widgets', async ({ query, set }) => {
-    const orgId = query.orgId;
-
+  .post("/reports", async ({ body, set }) => {
     try {
-      const widgets = await analyticsOSService.getWidgets(orgId);
-      return widgets;
-    } catch (error) {
+      const data = await analyticsEngineService.createReport(body as any);
+      set.status = 201;
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to fetch widgets' };
-    }
-  })
-
-  /**
-   * GET /api/analytics/insights
-   * Get AI-powered insights
-   */
-  .get('/insights', async ({ query, set }) => {
-    const metricType = query.metricType;
-
-    if (!metricType) {
-      set.status = 400;
-      return { error: 'Metric type required' };
-    }
-
-    try {
-      const timeRange = {
-        start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-        end: new Date()
-      };
-
-      const insights = await analyticsOSService.generateInsights(metricType, timeRange);
-      return insights;
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to generate insights' };
-    }
-  })
-
-  /**
-   * POST /api/analytics/insights/generate
-   * Generate AI insights for module
-   */
-  .post('/insights/generate', async ({ body, set }) => {
-    const { module, context } = body;
-
-    try {
-      const insights = await platformIntelligence.generateInsights(module, context);
-      return insights;
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to generate insights' };
+      return { success: false, error: error.message };
     }
   }, {
     body: t.Object({
-      module: t.String(),
-      context: t.Record(t.String, t.Any())
-    })
+      orgId: t.String(),
+      name: t.String(),
+      reportType: t.String(),
+      config: t.Optional(t.Any()),
+    }),
+    detail: { summary: "Create Report", tags: ["Analytics OS"] },
+  })
+
+  .get("/reports/:id/executions", async ({ params, set }) => {
+    try {
+      const data = await analyticsEngineService.getReportExecutions(params.id);
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    params: t.Object({ id: t.String() }),
+    detail: { summary: "Get Report Executions", tags: ["Analytics OS"] },
+  })
+
+  .get("/dashboards", async ({ query, set }) => {
+    try {
+      const { orgId } = query;
+      if (!orgId) { set.status = 400; return { error: "orgId is required" }; }
+      const data = await analyticsEngineService.getDashboards(orgId);
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    query: t.Object({ orgId: t.String() }),
+    detail: { summary: "List Dashboards", tags: ["Analytics OS"] },
+  })
+
+  .get("/metrics", async ({ query, set }) => {
+    try {
+      const { page, limit, metricType } = query;
+      const data = await analyticsEngineService.getSystemMetrics({
+        skip: ((parseInt(page as string) || 1) - 1) * (parseInt(limit as string) || 50),
+        take: parseInt(limit as string) || 50,
+        metricType: metricType as string,
+      });
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    query: t.Object({
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+      metricType: t.Optional(t.String()),
+    }),
+    detail: { summary: "Get System Metrics", tags: ["Analytics OS"] },
+  })
+
+  .get("/alerts", async ({ query, set }) => {
+    try {
+      const { page, limit, severity } = query;
+      const data = await analyticsEngineService.getPerformanceAlerts({
+        skip: ((parseInt(page as string) || 1) - 1) * (parseInt(limit as string) || 20),
+        take: parseInt(limit as string) || 20,
+        severity: severity as string,
+      });
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    query: t.Object({
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+      severity: t.Optional(t.String()),
+    }),
+    detail: { summary: "Get Performance Alerts", tags: ["Analytics OS"] },
+  })
+
+  .get("/health", async ({ set }) => {
+    try {
+      const data = await analyticsEngineService.getHealthChecks();
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    detail: { summary: "Get Health Checks", tags: ["Analytics OS"] },
   });
