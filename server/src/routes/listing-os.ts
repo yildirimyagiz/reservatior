@@ -20,7 +20,7 @@ export const listingOSRoutes = new Elysia({ prefix: "/listing-os" })
           where: { orgId, deletedAt: null },
         }),
         prisma.listing.count({
-          where: { orgId, status: "active", deletedAt: null },
+          where: { orgId, status: "AVAILABLE", deletedAt: null },
         }),
         prisma.propertyCompliance.count({
           where: { orgId, type: "CLEANING", status: "passed" },
