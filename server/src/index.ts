@@ -120,9 +120,30 @@ const appBase = new Elysia()
   .use(swagger({
     documentation: {
       info: {
-        title: "Reservatior API",
-        version: "1.0.0",
+        title: "Reservatior Platform API",
+        version: "2.0.0",
+        description: "AI-native Residential Infrastructure Platform — 21 OS Modules + 7 Core Intelligence Layers",
       },
+      servers: [{ url: "/api/v1", description: "Production" }],
+      tags: [
+        { name: "FinanceOS", description: "Escrow, payments, financial records" },
+        { name: "GovernanceOS", description: "Compliance, rules, audit trail" },
+        { name: "PartnerOS", description: "Partners, agreements, suppliers" },
+        { name: "DeveloperOS", description: "API keys, webhooks, integrations" },
+        { name: "AnalyticsOS", description: "Reports, dashboards, metrics" },
+        { name: "DocumentOS", description: "Documents, contracts, signatures" },
+        { name: "NotificationOS", description: "Notifications, messages, channels" },
+        { name: "IdentityOS", description: "Users, sessions, roles, SSO" },
+        { name: "LocalizationOS", description: "Countries, currencies, languages" },
+        { name: "InvestmentOS", description: "Deals, projections, analysis" },
+        { name: "OperationsOS", description: "Maintenance, inspections, vendors" },
+        { name: "SecurityOS", description: "KYC, fraud detection, access audit" },
+        { name: "UserOS", description: "User profiles, preferences, journey" },
+        { name: "AdsOS", description: "Campaigns, creatives, audiences" },
+        { name: "BookingOS", description: "Bookings, reservations" },
+        { name: "ListingOS", description: "Property listings" },
+        { name: "AgentOS", description: "Agent registration, status" },
+      ],
     },
     path: "/docs",
   }))
