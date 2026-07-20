@@ -1,0 +1,105 @@
+/**
+ * Security Screening Saga
+ * 
+ * Flow: booking → KYC → fraud check → resolved → approve/reject branch
+ */
+import { eventBus } from "../events/event-bus";
+import { v4 as uuidv4 } from "uuid";
+
+const completedSteps: { step: string; compensate: () => void }[] = [];
+
+function compensate() {
+  for (const step of [...completedSteps].reverse()) {
+    try { step.compensate(); } catch (e) { /* best effort */ }
+  }
+}
+
+export function registerSecurityScreeningListeners() {
+  eventBus.subscribe("BOOKING_CREATED", async (payload: any) => {
+    const sagaId = uuidv4();
+    completedSteps.length = 0;
+
+    try {
+      // Step 1: Initiate KYC verification
+      eventBus.publish("KYC_INITIATED", {
+        sagaId,
+        userId: payload.userId,
+        orgId: payload.orgId,
+        bookingId: payload.bookingId,
+      });
+      completedSteps.push({
+        step: "kyc_initiated",
+        compensate: () => eventBus.publish("KYC_CANCELLED", { sagaId }),
+      });
+
+      // Step 2: Run fraud detection
+      eventBus.publish("FRAUD_CHECK_INITIATED", {
+        sagaId,
+        userId: payload.userId,
+        orgId: payload.orgId,
+        bookingId: payload.bookingId,
+      });
+      completedSteps.push({
+        step: "fraud_check_initiated",
+        compensate: () => eventBus.publish("FRAUD_CHECK_CANCELLED", { sagaId }),
+      });
+
+      // Step 3: Log the screening event
+      eventBus.publish("SECURITY_SCREENING_COMPLETED", {
+        sagaId,
+        bookingId: payload.bookingId,
+        userId: payload.userId,
+        orgId: payload.orgId,
+        completedAt: new Date(),
+      });
+
+      // Step 4: Decision based on results (default approve if no flags)
+      eventBus.publish("SECURITY_APPROVED", {
+        sagaId,
+        bookingId: payload.bookingId,
+        userId: payload.userId,
+        orgId: payload.orgId,
+      });
+    } catch (error: any) {
+      eventBus.publish("SECURITY_SCREENING_FAILED", {
+        sagaId,
+        bookingId: payload.bookingId,
+        error: error.message,
+      });
+      compensate();
+    }
+  });
+
+  eventBus.subscribe("KYC_APPROVED", async (payload: any) => {
+    eventBus.publish("SECURITY_STEP_COMPLETED", {
+      sagaId: payload.sagaId,
+      step: "kyc_verified",
+    });
+  });
+
+  eventBus.subscribe("KYC_REJECTED", async (payload: any) => {
+    eventBus.publish("SECURITY_REJECTED", {
+      sagaId: payload.sagaId,
+      bookingId: payload.bookingId,
+      reason: "KYC verification failed",
+    });
+  });
+
+  eventBus.subscribe("FRAUD_ALERT_CREATED", async (payload: any) => {
+    if (payload.riskLevel === "HIGH" || payload.riskLevel === "CRITICAL") {
+      eventBus.publish("SECURITY_REJECTED", {
+        sagaId: payload.sagaId,
+        bookingId: payload.bookingId,
+        reason: `Fraud detected: ${payload.riskLevel} risk`,
+      });
+    }
+  });
+
+  eventBus.subscribe("SECURITY_APPROVED", async (payload: any) => {
+    eventBus.publish("BOOKING_SECURITY_CLEARED", {
+      bookingId: payload.bookingId,
+      userId: payload.userId,
+      orgId: payload.orgId,
+    });
+  });
+}

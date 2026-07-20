@@ -14647,3 +14647,281 @@ model IncomeReadyCertificate {
   @@index([certificateNumber])
   @@index([issuedAt])
 }
+
+// ── Investment OS ──────────────────────────────────────────────
+
+model InvestmentDeal {
+  id                String    @id @default(cuid())
+  orgId             String
+  userId            String
+  propertyId        String?
+  name              String
+  dealType          String?   @default("ACQUISITION")
+  status            String?   @default("DRAFT")
+  investmentAmount  Float?
+  expectedReturn    Float?
+  riskLevel         String?   @default("MEDIUM")
+  metadata          Json?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([userId])
+  @@index([propertyId])
+  @@index([status])
+}
+
+model InvestmentProjection {
+  id                String    @id @default(cuid())
+  dealId            String
+  year              Int
+  projectedValue    Float?
+  projectedRentalIncome Float?
+  projectedROI      Float?
+  growthRate        Float?
+  rentalYield       Float?
+  metadata          Json?
+  createdAt         DateTime  @default(now())
+
+  @@index([dealId])
+  @@index([year])
+}
+
+model MarketComparables {
+  id                      String    @id @default(cuid())
+  propertyId              String
+  comparablePropertyId    String?
+  address                 String?
+  price                   Float?
+  squareFootage           Float?
+  bedrooms                Int?
+  bathrooms               Float?
+  distance                Float?
+  metadata                Json?
+  createdAt               DateTime  @default(now())
+
+  @@index([propertyId])
+  @@index([comparablePropertyId])
+}
+
+model InvestmentInsight {
+  id              String            @id @default(cuid())
+  orgId           String
+  region          String
+  country         String
+  insightType     String            @default("PRICE_TREND")
+  title           String
+  description     String?
+  data            Json
+  confidence      Decimal?          @db.Decimal(3, 2)
+  validFrom       DateTime          @default(now())
+  validUntil      DateTime?
+  source          String?
+  aiGenerated     Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([orgId])
+  @@index([region, country])
+  @@index([insightType])
+}
+
+// ── Operations OS ──────────────────────────────────────────────
+
+model MaintenanceSchedule {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  vendorId        String?
+  title           String
+  description     String?
+  scheduledDate   DateTime?
+  completedDate   DateTime?
+  priority        String?   @default("MEDIUM")
+  status          String?   @default("PENDING")
+  cost            Float?
+  notes           String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([vendorId])
+  @@index([status])
+  @@index([scheduledDate])
+}
+
+model VendorRating {
+  id              String    @id @default(cuid())
+  orgId           String
+  vendorId        String
+  userId          String?
+  rating          Float
+  review          String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+
+  @@index([orgId])
+  @@index([vendorId])
+  @@index([rating])
+}
+
+model PropertyInspection {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  inspectorId     String?
+  inspectionType  String
+  scheduledDate   DateTime?
+  completedDate   DateTime?
+  result          String?
+  status          String?   @default("SCHEDULED")
+  notes           String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([status])
+}
+
+model CleaningSchedule {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  cleanerId       String?
+  scheduledDate   DateTime?
+  completedDate   DateTime?
+  status          String?   @default("SCHEDULED")
+  notes           String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([status])
+}
+
+model ServiceProvider {
+  id              String    @id @default(cuid())
+  orgId           String
+  name            String
+  category        String
+  phone           String?
+  email           String?
+  rating          Float?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([category])
+  @@index([name])
+}
+
+// ── Security OS ───────────────────────────────────────────────
+
+model KYCVerification {
+  id              String    @id @default(cuid())
+  userId          String
+  orgId           String
+  documentType    String
+  documentNumber  String?
+  documentUrl     String?
+  status          String?   @default("PENDING")
+  reviewerId      String?
+  rejectionReason String?
+  reviewedAt      DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([orgId])
+  @@index([status])
+}
+
+model FraudDetection {
+  id              String    @id @default(cuid())
+  orgId           String
+  entityType      String
+  entityId        String
+  riskLevel       String
+  description     String
+  evidence        Json?
+  status          String?   @default("OPEN")
+  reviewerId      String?
+  resolution      String?
+  resolvedAt      DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([entityType, entityId])
+  @@index([riskLevel])
+  @@index([status])
+}
+
+model AccessAuditLog {
+  id              String    @id @default(cuid())
+  orgId           String
+  userId          String
+  action          String
+  resource        String
+  resourceId      String?
+  ipAddress       String?
+  userAgent       String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+
+  @@index([orgId])
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([createdAt])
+}
+
+model SecurityPolicy {
+  id              String    @id @default(cuid())
+  orgId           String
+  name            String
+  description     String?
+  policyType      String
+  rules           Json?
+  isActive        Boolean   @default(true)
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([policyType])
+  @@index([isActive])
+}
+
+// ── Global Audit ──────────────────────────────────────────────
+
+model GlobalAuditLog {
+  id              String    @id @default(cuid())
+  orgId           String?
+  userId          String?
+  module          String
+  action          String
+  entityType      String?
+  entityId        String?
+  severity        String?   @default("INFO")
+  description     String?
+  metadata        Json?
+  ipAddress       String?
+  createdAt       DateTime  @default(now())
+
+  @@index([orgId])
+  @@index([userId])
+  @@index([module])
+  @@index([entityType, entityId])
+  @@index([severity])
+  @@index([createdAt])
+}

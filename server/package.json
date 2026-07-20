@@ -114,7 +114,7 @@
     "@faker-js/faker": "^10.3.0",
     "@google/genai": "^2.10.0",
     "@google/generative-ai": "^0.24.1",
-    "@prisma/client": "6.19.2",
+    "@prisma/client": "^7.8.0",
     "@types/multer": "^2.1.0",
     "@types/pg": "^8.20.0",
     "@types/qrcode-terminal": "^0.12.2",

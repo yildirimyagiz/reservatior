@@ -703,11 +703,20 @@ import { registerAgentOnboardingListeners } from "./core/workflows/agent-onboard
 import { registerListingPipelineListeners } from "./core/workflows/listing-pipeline.saga";
 import { registerCommissionPaymentListeners } from "./core/workflows/commission-payment.saga";
 import { registerAiMarketingListeners } from "./core/workflows/listeners/ai-marketing.listener";
+import { registerInvestmentAnalysisListeners } from "./core/workflows/investment-analysis.saga";
+import { registerMaintenanceOrchestrationListeners } from "./core/workflows/maintenance-orchestration.saga";
+import { registerSecurityScreeningListeners } from "./core/workflows/security-screening.saga";
 
 registerAgentOnboardingListeners();
 registerListingPipelineListeners();
 registerCommissionPaymentListeners();
 registerAiMarketingListeners();
+registerInvestmentAnalysisListeners();
+registerMaintenanceOrchestrationListeners();
+registerSecurityScreeningListeners();
+
+// Initialize AI Intelligence Graph (subscribes to all domain events)
+import { intelligenceGraph } from "./core/ai/intelligence-graph";
 
 const outboxWorker = new OutboxWorker(5000); // Poll every 5s
 outboxWorker.start();
