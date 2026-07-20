@@ -42,39 +42,42 @@ class AgentDashboardPage extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                _AgentMetricRow(
-                  leadsActive: 14,
-                  conversionRate: 8.4,
-                  responseLatency: '2.3m',
-                  avgRating: 4.7,
-                ),
+                _AgentKPICard(),
                 const SizedBox(height: 24),
                 _AgentModuleCard(
-                  title: 'agent.os.compliance'.tr(),
-                  subtitle: 'agent.os.compliance_sub'.tr(),
-                  icon: Icons.gavel,
+                  title: 'agent_os.commissions'.tr(),
+                  subtitle: 'agent_os.commissions_sub'.tr(),
+                  icon: Icons.payments,
                   color: AppColors.primary,
+                  onTap: () => context.push('/agent-commissions'),
+                ),
+                const SizedBox(height: 12),
+                _AgentModuleCard(
+                  title: 'agent_os.compliance'.tr(),
+                  subtitle: 'agent_os.compliance_sub'.tr(),
+                  icon: Icons.gavel,
+                  color: AppColors.success,
                   onTap: () => context.push('/agent-compliance'),
                 ),
                 const SizedBox(height: 12),
                 _AgentModuleCard(
-                  title: 'agent.os.verification'.tr(),
-                  subtitle: 'agent.os.verification_sub'.tr(),
+                  title: 'agent_os.verification'.tr(),
+                  subtitle: 'agent_os.verification_sub'.tr(),
                   icon: Icons.verified_user,
-                  color: AppColors.success,
+                  color: AppColors.warning,
                   onTap: () => context.push('/agent-verification'),
                 ),
                 const SizedBox(height: 12),
                 _AgentModuleCard(
-                  title: 'agent.os.scoring'.tr(),
-                  subtitle: 'agent.os.scoring_sub'.tr(),
+                  title: 'agent_os.scoring'.tr(),
+                  subtitle: 'agent_os.scoring_sub'.tr(),
                   icon: Icons.insights,
-                  color: AppColors.warning,
+                  color: AppColors.info,
                   onTap: () => context.push('/agent-scoring'),
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'agent.os.opportunities'.tr(),
+                  'agent_os.opportunities'.tr(),
                   style: GoogleFonts.outfit(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -91,6 +94,156 @@ class AgentDashboardPage extends ConsumerWidget {
                 )),
               ]),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AgentKPICard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.cardBg.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'agent_os.kpi_title'.tr(),
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: _AgentKPI(
+                  label: 'agent_os.total_agents'.tr(),
+                  value: '156',
+                  trend: '+12 this month',
+                  color: AppColors.success,
+                  icon: Icons.people,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _AgentKPI(
+                  label: 'agent_os.active_leads'.tr(),
+                  value: '342',
+                  trend: '+28 this week',
+                  color: AppColors.primary,
+                  icon: Icons.person_search,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _AgentKPI(
+                  label: 'agent_os.avg_conversion'.tr(),
+                  value: '34.2%',
+                  trend: 'vs 28% avg',
+                  color: AppColors.warning,
+                  icon: Icons.trending_up,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _AgentKPI(
+                  label: 'agent_os.total_revenue'.tr(),
+                  value: '\$410K',
+                  trend: '+14.7%',
+                  color: AppColors.info,
+                  icon: Icons.attach_money,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ).animate().fadeIn().slideY();
+  }
+}
+
+class _AgentKPI extends StatelessWidget {
+  final String label;
+  final String value;
+  final String trend;
+  final Color color;
+  final IconData icon;
+
+  const _AgentKPI({
+    required this.label,
+    required this.value,
+    required this.trend,
+    required this.color,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 16, color: color),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  label,
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11,
+                    color: Colors.white70,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Icon(Icons.arrow_upward, size: 12, color: color),
+              const SizedBox(width: 4),
+              Text(
+                trend,
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 10,
+                  color: Colors.white60,
+                ),
+              ),
+            ],
           ),
         ],
       ),

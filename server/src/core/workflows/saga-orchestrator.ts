@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { prismaManager } from '../../lib/prisma';
+import { LocalizationContext } from '../events/domain-events';
 
 export enum SagaStatus {
   STARTED = 'STARTED',
@@ -17,12 +18,26 @@ export abstract class BaseSaga {
   public sagaId: string;
   public status: SagaStatus;
   protected state: any;
+  protected localization: LocalizationContext;
 
-  constructor(sagaId?: string, initialState: any = {}) {
+  constructor(sagaId?: string, initialState: any = {}, localization?: LocalizationContext) {
     this.sagaId = sagaId || uuidv4();
     this.status = SagaStatus.STARTED;
     this.state = initialState;
+    this.localization = localization || {
+      countryCode: 'US',
+      language: 'en',
+      currency: 'USD',
+      timezone: 'America/New_York'
+    };
     this.persistState();
+  }
+
+  /**
+   * Update localization context
+   */
+  protected setLocalization(localization: LocalizationContext): void {
+    this.localization = { ...this.localization, ...localization };
   }
 
   /**
@@ -57,7 +72,7 @@ export abstract class BaseSaga {
    */
   private async persistState(): Promise<void> {
     try {
-      const prisma = prismaManager.getClient('US');
+      const prisma = prismaManager.getClient(this.localization.countryCode);
       await prisma.sagaState.upsert({
         where: { correlationId: this.sagaId },
         create: {
@@ -65,12 +80,18 @@ export abstract class BaseSaga {
           sagaType: this.constructor.name,
           currentStep: this.state.step || 'INIT',
           status: this.status,
-          context: this.state
+          context: {
+            ...this.state,
+            localization: this.localization
+          }
         },
         update: {
           currentStep: this.state.step || 'UPDATE',
           status: this.status,
-          context: this.state
+          context: {
+            ...this.state,
+            localization: this.localization
+          }
         }
       });
       // console.log(`[SagaState] DB Persisted state for ${this.sagaId}`);

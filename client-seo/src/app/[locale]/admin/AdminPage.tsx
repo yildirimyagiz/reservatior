@@ -18,7 +18,21 @@ import {
   Database,
   Globe,
   Lock,
-  Bell
+  Bell,
+  Network,
+  Copy,
+  Calendar,
+  FileText,
+  BarChart3,
+  Brain,
+  Shield,
+  Megaphone,
+  ShoppingCart,
+  CheckSquare,
+  Target,
+  TrendingUp,
+  Handshake,
+  Key
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -96,6 +110,7 @@ export default function AdminPage() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-muted/30 border-border">
             <TabsTrigger value="overview" className="data-[state=active]:bg-primary">{t("admin_main_tab_overview")}</TabsTrigger>
+            <TabsTrigger value="os-modules" className="data-[state=active]:bg-primary">OS Modules</TabsTrigger>
             <TabsTrigger value="users" className="data-[state=active]:bg-primary">{t("admin_main_tab_users")}</TabsTrigger>
             <TabsTrigger value="triggers" className="data-[state=active]:bg-primary">{t("admin_main_tab_triggers")}</TabsTrigger>
             <TabsTrigger value="system" className="data-[state=active]:bg-primary">{t("admin_main_tab_system")}</TabsTrigger>
@@ -181,6 +196,276 @@ export default function AdminPage() {
                 </Card>
               </motion.div>
             </div>
+          </TabsContent>
+
+          <TabsContent value="os-modules">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <CardTitle className="text-foreground">OS Modules</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/booking-os')}
+                    >
+                      <Calendar className="w-6 h-6 mb-2 text-blue-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Booking OS</div>
+                        <div className="text-xs text-muted-foreground">Manage bookings and reservations</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/finance-os')}
+                    >
+                      <DollarSign className="w-6 h-6 mb-2 text-green-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Finance OS</div>
+                        <div className="text-xs text-muted-foreground">Financial operations and commissions</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/listing-os')}
+                    >
+                      <Building2 className="w-6 h-6 mb-2 text-purple-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Listing OS</div>
+                        <div className="text-xs text-muted-foreground">Property listings management</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/identity-os')}
+                    >
+                      <Users className="w-6 h-6 mb-2 text-indigo-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Identity OS</div>
+                        <div className="text-xs text-muted-foreground">User and organization management</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/agent-os')}
+                    >
+                      <Activity className="w-6 h-6 mb-2 text-orange-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Agent OS</div>
+                        <div className="text-xs text-muted-foreground">Agent performance and management</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/document-os')}
+                    >
+                      <FileText className="w-6 h-6 mb-2 text-pink-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Document OS</div>
+                        <div className="text-xs text-muted-foreground">Document and signature management</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/analytics-os')}
+                    >
+                      <BarChart3 className="w-6 h-6 mb-2 text-cyan-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Analytics OS</div>
+                        <div className="text-xs text-muted-foreground">Data analytics and insights</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/notification-os')}
+                    >
+                      <Bell className="w-6 h-6 mb-2 text-yellow-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Notification OS</div>
+                        <div className="text-xs text-muted-foreground">Notification and communication</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/localization-os')}
+                    >
+                      <Globe className="w-6 h-6 mb-2 text-emerald-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Localization OS</div>
+                        <div className="text-xs text-muted-foreground">Multi-country and language support</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/intelligence-graph')}
+                    >
+                      <Network className="w-6 h-6 mb-2 text-violet-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Intelligence Graph</div>
+                        <div className="text-xs text-muted-foreground">Graph analytics and ML predictions</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/digital-twin')}
+                    >
+                      <Copy className="w-6 h-6 mb-2 text-rose-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Digital Twin</div>
+                        <div className="text-xs text-muted-foreground">Simulation and optimization</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/ai-os')}
+                    >
+                      <Brain className="w-6 h-6 mb-2 text-violet-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">AI OS</div>
+                        <div className="text-xs text-muted-foreground">AI models and predictions</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/user-os')}
+                    >
+                      <Users className="w-6 h-6 mb-2 text-blue-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">User OS</div>
+                        <div className="text-xs text-muted-foreground">User lifecycle management</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/trust-os')}
+                    >
+                      <Shield className="w-6 h-6 mb-2 text-emerald-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Trust OS</div>
+                        <div className="text-xs text-muted-foreground">Trust scores and verification</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/ads-os')}
+                    >
+                      <Megaphone className="w-6 h-6 mb-2 text-orange-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Ads OS</div>
+                        <div className="text-xs text-muted-foreground">Advertising campaigns</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/commerce-os')}
+                    >
+                      <ShoppingCart className="w-6 h-6 mb-2 text-pink-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Commerce OS</div>
+                        <div className="text-xs text-muted-foreground">Products and orders</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/operations-os')}
+                    >
+                      <CheckSquare className="w-6 h-6 mb-2 text-cyan-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Operations OS</div>
+                        <div className="text-xs text-muted-foreground">Tasks and workflows</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/crm-os')}
+                    >
+                      <Target className="w-6 h-6 mb-2 text-indigo-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">CRM OS</div>
+                        <div className="text-xs text-muted-foreground">Leads and opportunities</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/investment-os')}
+                    >
+                      <TrendingUp className="w-6 h-6 mb-2 text-green-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Investment OS</div>
+                        <div className="text-xs text-muted-foreground">Investments and returns</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/governance-os')}
+                    >
+                      <FileText className="w-6 h-6 mb-2 text-amber-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Governance OS</div>
+                        <div className="text-xs text-muted-foreground">Policies and compliance</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/partner-os')}
+                    >
+                      <Handshake className="w-6 h-6 mb-2 text-teal-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Partner OS</div>
+                        <div className="text-xs text-muted-foreground">Partner relationships</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/devapi-os')}
+                    >
+                      <Key className="w-6 h-6 mb-2 text-slate-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Developer API OS</div>
+                        <div className="text-xs text-muted-foreground">API keys and usage</div>
+                      </div>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                      onClick={() => router.push('/admin/security-os')}
+                    >
+                      <AlertTriangle className="w-6 h-6 mb-2 text-red-400" />
+                      <div className="text-left">
+                        <div className="font-semibold">Security OS</div>
+                        <div className="text-xs text-muted-foreground">Security and incidents</div>
+                      </div>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="users">

@@ -1,6 +1,7 @@
 "use client";
 
-import { PageShell } from "@/pages-spa/client/layout/PageShell";
+
+import { PageShell } from "@/components/PageShell";
 import { Button } from "@/components/ui/button";
 import { Camera, Video } from "lucide-react";
 import { useTranslation } from "react-i18next";

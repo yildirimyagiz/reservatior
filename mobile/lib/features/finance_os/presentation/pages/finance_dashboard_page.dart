@@ -98,77 +98,146 @@ class _MetricGrid extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.darkCard,
+        color: AppColors.cardBg.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.darkBorder),
+        border: Border.all(color: AppColors.border.withOpacity(0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'finance.os.subtitle'.tr(),
+            'finance_os.kpi_title'.tr(),
             style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               fontSize: 16,
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            'finance.os.ledger_entries'.tr(),
-            style: GoogleFonts.outfit(
-              color: AppColors.textSecondaryDark,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _FinanceMetric(label: 'finance.os.total_locked'.tr(), value: '\$2.45M', color: AppColors.primary),
-              _FinanceMetric(label: 'finance.os.net_balance'.tr(), value: '\$340K', color: AppColors.success),
-              _FinanceMetric(label: 'finance.os.pending'.tr(), value: '14', color: AppColors.warning),
-              _FinanceMetric(label: 'finance.os.disputed'.tr(), value: '\$124K', color: AppColors.error),
+              Expanded(
+                child: _FinanceMetric(
+                  label: 'finance_os.total_revenue'.tr(),
+                  value: '\$328K',
+                  trend: '+12.5%',
+                  color: AppColors.success,
+                  icon: Icons.trending_up,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _FinanceMetric(
+                  label: 'finance_os.total_expenses'.tr(),
+                  value: '\$213K',
+                  trend: '+8.3%',
+                  color: AppColors.error,
+                  icon: Icons.credit_card,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _FinanceMetric(
+                  label: 'finance_os.net_profit'.tr(),
+                  value: '\$115K',
+                  trend: '+18.7%',
+                  color: AppColors.primary,
+                  icon: Icons.account_balance_wallet,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _FinanceMetric(
+                  label: 'finance_os.pending_commissions'.tr(),
+                  value: '\$41K',
+                  trend: '4 pending',
+                  color: AppColors.warning,
+                  icon: Icons.payments,
+                ),
+              ),
             ],
           ),
         ],
       ),
-    ).animate().fadeIn().slideY(begin: 0.1);
+    ).animate().fadeIn().slideY();
   }
 }
 
 class _FinanceMetric extends StatelessWidget {
   final String label;
   final String value;
+  final String trend;
   final Color color;
+  final IconData icon;
 
   const _FinanceMetric({
     required this.label,
     required this.value,
+    required this.trend,
     required this.color,
+    required this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.w800,
-            fontSize: 20,
-            color: color,
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 16, color: color),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  label,
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11,
+                    color: Colors.white70,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: GoogleFonts.outfit(
-            color: AppColors.textSecondaryDark,
-            fontSize: 12,
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: Colors.white,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Icon(Icons.arrow_upward, size: 12, color: color),
+              const SizedBox(width: 4),
+              Text(
+                trend,
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 10,
+                  color: Colors.white60,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

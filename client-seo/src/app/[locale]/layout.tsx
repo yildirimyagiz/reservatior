@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Providers } from "@/components/providers";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/SchemaScript";
 import { inter, outfit } from "@/lib/fonts";
+import { LocalizationProvider } from "@/contexts/LocalizationContext";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://reservatior.com';
 const siteName = "Reservatior";
@@ -117,9 +118,14 @@ export default function RootLayout({
         <Script id="locale-init" strategy="beforeInteractive">
           {`(function(){var urlLocale="${locale}"; var l=urlLocale||localStorage.getItem("i18nextLng")||localStorage.getItem("reservatior_lang");if(l){if(l==="tr-TR")l="tr";document.documentElement.lang=l;if(l==="ar"){document.documentElement.dir="rtl"}else{document.documentElement.dir="ltr"}}})()`}
         </Script>
+        <Script id="localization-init" strategy="beforeInteractive">
+          {`(function(){var urlLocale="${locale}"; var countryCode="US"; var currency="USD"; if(urlLocale==="tr"){countryCode="TR";currency="TRY"}else if(urlLocale==="ar"){countryCode="SA";currency="SAR"}else if(urlLocale==="es"){countryCode="ES";currency="EUR"}else if(urlLocale==="fr"){countryCode="FR";currency="EUR"}else if(urlLocale==="de"){countryCode="DE";currency="EUR"}else if(urlLocale==="ru"){countryCode="RU";currency="RUB"}else if(urlLocale==="pt"){countryCode="PT";currency="EUR"}else if(urlLocale==="zh"){countryCode="CN";currency="CNY"}else if(urlLocale==="ja"){countryCode="JP";currency="JPY"}else if(urlLocale==="ko"){countryCode="KR";currency="KRW"}else if(urlLocale==="it"){countryCode="IT";currency="EUR"}else if(urlLocale==="nl"){countryCode="NL";currency="EUR"}else if(urlLocale==="pl"){countryCode="PL";currency="PLN"}else if(urlLocale==="sv"){countryCode="SE";currency="SEK"}else if(urlLocale==="da"){countryCode="DK";currency="DKK"}else if(urlLocale==="fi"){countryCode="FI";currency="EUR"}else if(urlLocale==="el"){countryCode="GR";currency="EUR"}else if(urlLocale==="hi"){countryCode="IN";currency="INR"}else if(urlLocale==="id"){countryCode="ID";currency="IDR"};localStorage.setItem("countryCode",localStorage.getItem("countryCode")||countryCode);localStorage.setItem("language",localStorage.getItem("language")||urlLocale||"en");localStorage.setItem("currency",localStorage.getItem("currency")||currency);localStorage.setItem("timezone",localStorage.getItem("timezone")||Intl.DateTimeFormat().resolvedOptions().timeZone)()`}
+        </Script>
         <OrganizationSchema />
         <WebsiteSchema />
-        <Providers>{children}</Providers>
+        <LocalizationProvider>
+          <Providers>{children}</Providers>
+        </LocalizationProvider>
       </body>
     </html>
   );

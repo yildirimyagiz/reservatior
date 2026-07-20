@@ -1,8 +1,10 @@
 import { Elysia } from "elysia";
 import { prisma } from "../lib/prisma";
+import { localizationMiddleware } from "../middleware/localization";
 
 export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
-  .get("/dashboard", async ({ query, set }) => {
+  .use(localizationMiddleware)
+  .get("/dashboard", async ({ query, set, localization }) => {
     try {
       const orgId = query.orgId as string;
       if (!orgId) {
@@ -32,6 +34,7 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
           prisma.commission.aggregate({
             where: {
               orgId,
+              countryCode: localization.countryCode,
               createdAt: { gte: thirtyDaysAgo },
             },
             _sum: { commissionAmount: true },
@@ -40,11 +43,12 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
           prisma.lead.count({
             where: {
               orgId,
+              countryCode: localization.countryCode,
               status: { in: ["NEW", "CONTACTED", "QUALIFIED"] },
               deletedAt: null,
             },
           }),
-          // Deal uses dealStatus, not status
+          // Deal uses dealStatus, not status (no countryCode field in Deal model)
           prisma.deal.count({
             where: {
               orgId,

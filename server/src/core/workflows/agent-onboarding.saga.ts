@@ -11,15 +11,16 @@
  *   listing.imported (→ hands off to ListingPipelineSaga)
  */
 
-import { BaseSaga, SagaStatus } from './saga-orchestrator';
+import { BaseSaga } from './saga-orchestrator';
+import { LocalizationContext, EventMessage } from '../events/domain-events';
 import { eventBus } from '../events/event-bus';
-import { DomainEvents, EventMessage } from '../events/domain-events';
+import { DomainEvents } from '../events/domain-events';
 
 export class AgentOnboardingSaga extends BaseSaga {
   public agentId: string;
 
-  constructor(agentId: string, sagaId?: string) {
-    super(sagaId, { step: 'INVITED', agentId });
+  constructor(agentId: string, sagaId?: string, localization?: LocalizationContext) {
+    super(sagaId, { step: 'INVITED', agentId }, localization);
     this.agentId = agentId;
   }
 
@@ -40,7 +41,12 @@ export class AgentOnboardingSaga extends BaseSaga {
 
     // Hand off to Listing OS — emit event for ListingPipelineSaga to pick up
     setTimeout(() => {
-      eventBus.publish(DomainEvents.LISTING_IMPORTED, { agentId: this.agentId, count: 14, source: 'NWMLS' }, 'ListingOS', this.sagaId);
+      eventBus.publish(DomainEvents.LISTING_IMPORTED, { 
+        agentId: this.agentId, 
+        count: 14, 
+        source: 'NWMLS',
+        localization: this.localization 
+      }, 'ListingOS', this.sagaId);
     }, 1000);
   }
 }
@@ -51,7 +57,13 @@ const activeSagas = new Map<string, AgentOnboardingSaga>();
 export function registerAgentOnboardingListeners() {
   eventBus.subscribe(DomainEvents.AGENT_INVITED, (msg) => {
     const { agentId } = msg.payload;
-    const saga = new AgentOnboardingSaga(agentId, msg.correlationId);
+    const localization = msg.localization || {
+      countryCode: 'US',
+      language: 'en',
+      currency: 'USD',
+      timezone: 'America/New_York'
+    };
+    const saga = new AgentOnboardingSaga(agentId, msg.correlationId, localization);
     activeSagas.set(saga.sagaId, saga);
     saga.onInvited();
     console.log(`[AgentOnboardingSaga] ✅ Started for Agent ${agentId}`);

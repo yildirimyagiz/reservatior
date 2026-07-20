@@ -44,9 +44,27 @@ class ApiClient {
       }
     }
 
+    // Get localization context
+    const countryCode = typeof window !== 'undefined' 
+      ? localStorage.getItem('countryCode') || regionCode || 'US'
+      : 'US';
+    const language = typeof window !== 'undefined' 
+      ? localStorage.getItem('language') || 'en'
+      : 'en';
+    const currency = typeof window !== 'undefined' 
+      ? localStorage.getItem('currency') || 'USD'
+      : 'USD';
+    const timezone = typeof window !== 'undefined' 
+      ? localStorage.getItem('timezone') || Intl.DateTimeFormat().resolvedOptions().timeZone
+      : 'America/New_York';
+
     const headers: any = {
       ...(token && { Authorization: `Bearer ${token}` }),
       ...(regionCode && { "X-Region": regionCode }),
+      'x-country-code': countryCode,
+      'x-language': language,
+      'x-currency': currency,
+      'x-timezone': timezone,
       ...options.headers,
     };
 

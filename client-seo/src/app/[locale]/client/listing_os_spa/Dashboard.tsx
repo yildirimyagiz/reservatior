@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { AiAdsAutomationCard } from "./AiAdsAutomationCard";
 import { useTranslation } from "react-i18next";
+import { useLocalization } from "@/contexts/LocalizationContext";
 
 const HEALTH_STREAM = [
   { id: "h1", property: "Marina Residences #4B", event: "Cleaning inspection PASSED", score: 98, time: "2m ago", ok: true },
@@ -28,6 +29,7 @@ const SYNDICATION = [
 
 export default function ListingDashboard() {
   const { user } = useAuth();
+  const { language } = useLocalization();
 
   const { data: statsData, isLoading } = useQuery({
     queryKey: ["listing-os-dashboard", user?.orgId],
@@ -50,7 +52,7 @@ export default function ListingDashboard() {
     { title: t("listing_os.kpi.properties", { defaultValue: "Properties Under Management" }), value: totalProperties, icon: Home, color: "text-emerald-500", trend: "+4 this month" },
     { title: t("listing_os.kpi.active", { defaultValue: "Active Listings" }), value: activeListings, icon: Activity, color: "text-blue-400", trend: "Live on portals" },
     { title: t("listing_os.kpi.quality", { defaultValue: "Avg Health Score" }), value: `${avgQuality}%`, icon: CheckCircle, color: "text-purple-400", trend: "Quality compliance" },
-    { title: t("listing_os.kpi.views", { defaultValue: "Network Views (30d)" }), value: totalViews.toLocaleString(), icon: Eye, color: "text-orange-400", trend: "+18.3% vs prev" },
+    { title: t("listing_os.kpi.views", { defaultValue: "Network Views (30d)" }), value: totalViews.toLocaleString(language), icon: Eye, color: "text-orange-400", trend: "+18.3% vs prev" },
   ];
 
   return (

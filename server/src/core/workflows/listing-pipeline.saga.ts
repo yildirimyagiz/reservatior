@@ -14,16 +14,17 @@
  */
 
 import { BaseSaga } from './saga-orchestrator';
+import { LocalizationContext, EventMessage } from '../events/domain-events';
 import { eventBus } from '../events/event-bus';
-import { DomainEvents, EventMessage } from '../events/domain-events';
+import { DomainEvents } from '../events/domain-events';
 
 export class ListingPipelineSaga extends BaseSaga {
   public agentId: string;
   public listingCount: number;
   public listingIds: string[];
 
-  constructor(agentId: string, listingCount: number, sagaId?: string, listingIds?: string[]) {
-    super(sagaId, { step: 'LISTINGS_IMPORTED', agentId, listingCount });
+  constructor(agentId: string, listingCount: number, sagaId?: string, listingIds?: string[], localization?: LocalizationContext) {
+    super(sagaId, { step: 'LISTINGS_IMPORTED', agentId, listingCount }, localization);
     this.agentId = agentId;
     this.listingCount = listingCount;
     this.listingIds = listingIds || ['lst_mock_1', 'lst_mock_2', 'lst_mock_3'].slice(0, listingCount);
@@ -39,7 +40,12 @@ export class ListingPipelineSaga extends BaseSaga {
 
     // Simulate enrichment, SEO text generation, etc.
     setTimeout(() => {
-      eventBus.publish(DomainEvents.LISTING_PUBLISHED, { agentId: this.agentId, count: this.listingCount, listingIds: this.listingIds }, 'ListingOS', this.sagaId);
+      eventBus.publish(DomainEvents.LISTING_PUBLISHED, { 
+        agentId: this.agentId, 
+        count: this.listingCount, 
+        listingIds: this.listingIds,
+        localization: this.localization 
+      }, 'ListingOS', this.sagaId);
     }, 1200);
   }
 
@@ -49,7 +55,12 @@ export class ListingPipelineSaga extends BaseSaga {
 
     // Request AI OS to generate ads for the new listings
     setTimeout(() => {
-      eventBus.publish(DomainEvents.AD_GENERATED, { agentId: this.agentId, reels: 3, platform: 'INSTAGRAM' }, 'AI-OS', this.sagaId);
+      eventBus.publish(DomainEvents.AD_GENERATED, { 
+        agentId: this.agentId, 
+        reels: 3, 
+        platform: 'INSTAGRAM',
+        localization: this.localization 
+      }, 'AI-OS', this.sagaId);
     }, 1500);
   }
 
@@ -58,7 +69,11 @@ export class ListingPipelineSaga extends BaseSaga {
     await this.transition({ step: 'ADS_PUBLISHING' });
 
     setTimeout(() => {
-      eventBus.publish(DomainEvents.AD_PUBLISHED, { agentId: this.agentId, campaignId: 'cmp_abc123' }, 'AI-OS', this.sagaId);
+      eventBus.publish(DomainEvents.AD_PUBLISHED, { 
+        agentId: this.agentId, 
+        campaignId: 'cmp_abc123',
+        localization: this.localization 
+      }, 'AI-OS', this.sagaId);
     }, 500);
   }
 
@@ -74,7 +89,13 @@ const activeSagas = new Map<string, ListingPipelineSaga>();
 export function registerListingPipelineListeners() {
   eventBus.subscribe(DomainEvents.LISTING_IMPORTED, (msg) => {
     const { agentId, count, listingIds } = msg.payload;
-    const saga = new ListingPipelineSaga(agentId, count, msg.correlationId, listingIds);
+    const localization = msg.localization || {
+      countryCode: 'US',
+      language: 'en',
+      currency: 'USD',
+      timezone: 'America/New_York'
+    };
+    const saga = new ListingPipelineSaga(agentId, count, msg.correlationId, listingIds, localization);
     activeSagas.set(saga.sagaId, saga);
     saga.onImported();
     console.log(`[ListingPipelineSaga] ✅ Started for ${count} listings from Agent ${agentId}`);

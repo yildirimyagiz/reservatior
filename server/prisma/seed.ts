@@ -4255,7 +4255,7 @@ async function main() {
       orgId: org.id,
       amount: 1500,
       currency: "USD",
-      sourceType: "PLATFORM_FEE"
+      sourceType: "ADDON_SUBSCRIPTION"
     }
   }).catch((e: any) => { console.error(e); });
 
@@ -4432,6 +4432,162 @@ async function main() {
   console.log("  Verification, Job, IncludedService, Payment");
   console.log("  10 Posts");
   console.log("  PricingRule, PropertyPromotion");
+
+  // ═══════════════════════════════════════════════════════════════
+  // LOCALIZATION OS - Multi-Country Support
+  // ═══════════════════════════════════════════════════════════════
+  
+  // CountryConfig
+  await prisma.countryConfig.createMany({
+    data: [
+      { 
+        id: id("country_us"), 
+        code: "US", 
+        name: "United States", 
+        nativeName: "United States", 
+        currency: "USD", 
+        currencySymbol: "$",
+        language: "en", 
+        timezone: "America/New_York",
+        dateFormat: "MM/DD/YYYY",
+        numberFormat: "1,234.56",
+        weekendDays: [0, 6],
+        workingDays: [1, 2, 3, 4, 5],
+        legalRequirements: {},
+        rentalRules: {},
+        paymentProviders: {},
+        propertyTypes: {},
+        isActive: true 
+      },
+      { 
+        id: id("country_gb"), 
+        code: "GB", 
+        name: "United Kingdom", 
+        nativeName: "United Kingdom", 
+        currency: "GBP", 
+        currencySymbol: "£",
+        language: "en", 
+        timezone: "Europe/London",
+        dateFormat: "DD/MM/YYYY",
+        numberFormat: "1,234.56",
+        weekendDays: [0, 6],
+        workingDays: [1, 2, 3, 4, 5],
+        legalRequirements: {},
+        rentalRules: {},
+        paymentProviders: {},
+        propertyTypes: {},
+        isActive: true 
+      },
+      { 
+        id: id("country_tr"), 
+        code: "TR", 
+        name: "Turkey", 
+        nativeName: "Türkiye", 
+        currency: "TRY", 
+        currencySymbol: "₺",
+        language: "tr", 
+        timezone: "Europe/Istanbul",
+        dateFormat: "DD.MM.YYYY",
+        numberFormat: "1.234,56",
+        weekendDays: [0, 6],
+        workingDays: [1, 2, 3, 4, 5],
+        legalRequirements: {},
+        rentalRules: {},
+        paymentProviders: {},
+        propertyTypes: {},
+        isActive: true 
+      },
+      { 
+        id: id("country_de"), 
+        code: "DE", 
+        name: "Germany", 
+        nativeName: "Deutschland", 
+        currency: "EUR", 
+        currencySymbol: "€",
+        language: "de", 
+        timezone: "Europe/Berlin",
+        dateFormat: "DD.MM.YYYY",
+        numberFormat: "1.234,56",
+        weekendDays: [0, 6],
+        workingDays: [1, 2, 3, 4, 5],
+        legalRequirements: {},
+        rentalRules: {},
+        paymentProviders: {},
+        propertyTypes: {},
+        isActive: true 
+      },
+      { 
+        id: id("country_fr"), 
+        code: "FR", 
+        name: "France", 
+        nativeName: "France", 
+        currency: "EUR", 
+        currencySymbol: "€",
+        language: "fr", 
+        timezone: "Europe/Paris",
+        dateFormat: "DD/MM/YYYY",
+        numberFormat: "1 234,56",
+        weekendDays: [0, 6],
+        workingDays: [1, 2, 3, 4, 5],
+        legalRequirements: {},
+        rentalRules: {},
+        paymentProviders: {},
+        propertyTypes: {},
+        isActive: true 
+      },
+    ],
+    skipDuplicates: true,
+  }).catch((e) => { console.error(e); });
+
+  // LanguageConfig
+  await prisma.languageConfig.createMany({
+    data: [
+      { id: id("lang_en"), code: "en", name: "English", nativeName: "English", isActive: true },
+      { id: id("lang_tr"), code: "tr", name: "Turkish", nativeName: "Türkçe", isActive: true },
+      { id: id("lang_de"), code: "de", name: "German", nativeName: "Deutsch", isActive: true },
+      { id: id("lang_fr"), code: "fr", name: "French", nativeName: "Français", isActive: true },
+      { id: id("lang_es"), code: "es", name: "Spanish", nativeName: "Español", isActive: true },
+    ],
+    skipDuplicates: true,
+  }).catch((e) => { console.error(e); });
+
+  // CurrencyConfig
+  await prisma.currencyConfig.createMany({
+    data: [
+      { id: id("curr_usd"), code: "USD", name: "US Dollar", symbol: "$", exchangeRate: 1.0, isActive: true },
+      { id: id("curr_gbp"), code: "GBP", name: "British Pound", symbol: "£", exchangeRate: 0.79, isActive: true },
+      { id: id("curr_eur"), code: "EUR", name: "Euro", symbol: "€", exchangeRate: 0.92, isActive: true },
+      { id: id("curr_try"), code: "TRY", name: "Turkish Lira", symbol: "₺", exchangeRate: 32.5, isActive: true },
+      { id: id("curr_jpy"), code: "JPY", name: "Japanese Yen", symbol: "¥", exchangeRate: 149.5, isActive: true },
+    ],
+    skipDuplicates: true,
+  }).catch((e) => { console.error(e); });
+
+  // LocalizedContent
+  await prisma.localizedContent.createMany({
+    data: [
+      { id: id("loc_welcome_en"), key: "common.welcome", language: "en", content: "Welcome" },
+      { id: id("loc_welcome_tr"), key: "common.welcome", language: "tr", content: "Hoş geldiniz" },
+      { id: id("loc_welcome_de"), key: "common.welcome", language: "de", content: "Willkommen" },
+      { id: id("loc_booking_en"), key: "booking.confirm", language: "en", content: "Confirm Booking" },
+      { id: id("loc_booking_tr"), key: "booking.confirm", language: "tr", content: "Rezervasyonu Onayla" },
+      { id: id("loc_booking_de"), key: "booking.confirm", language: "de", content: "Buchung bestätigen" },
+    ],
+    skipDuplicates: true,
+  }).catch((e) => { console.error(e); });
+
+  // RegionalPricing
+  await prisma.regionalPricing.createMany({
+    data: [
+      { id: id("reg_us_detached"), countryCode: "US", propertyType: "DETACHED_HOUSE", basePrice: 450000, adjustment: 1.0, season: "all", effectiveFrom: new Date("2024-01-01") },
+      { id: id("reg_tr_detached"), countryCode: "TR", propertyType: "DETACHED_HOUSE", basePrice: 8500000, adjustment: 1.0, season: "all", effectiveFrom: new Date("2024-01-01") },
+      { id: id("reg_gb_detached"), countryCode: "GB", propertyType: "DETACHED_HOUSE", basePrice: 350000, adjustment: 1.0, season: "all", effectiveFrom: new Date("2024-01-01") },
+      { id: id("reg_de_detached"), countryCode: "DE", propertyType: "DETACHED_HOUSE", basePrice: 400000, adjustment: 1.0, season: "all", effectiveFrom: new Date("2024-01-01") },
+    ],
+    skipDuplicates: true,
+  }).catch((e) => { console.error(e); });
+
+  console.log("✅ Localization OS: CountryConfig, LanguageConfig, CurrencyConfig, LocalizedContent, RegionalPricing");
   console.log("═".repeat(60));
 }
 

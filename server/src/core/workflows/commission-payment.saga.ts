@@ -14,16 +14,17 @@
  */
 
 import { BaseSaga } from './saga-orchestrator';
+import { LocalizationContext, EventMessage } from '../events/domain-events';
 import { eventBus } from '../events/event-bus';
-import { DomainEvents, EventMessage } from '../events/domain-events';
+import { DomainEvents } from '../events/domain-events';
 
 export class CommissionPaymentSaga extends BaseSaga {
   public dealId: string;
   public agentId: string;
   public amount: number;
 
-  constructor(dealId: string, agentId: string, amount: number, sagaId?: string) {
-    super(sagaId, { step: 'DEAL_CLOSED', dealId, agentId, amount });
+  constructor(dealId: string, agentId: string, amount: number, sagaId?: string, localization?: LocalizationContext) {
+    super(sagaId, { step: 'DEAL_CLOSED', dealId, agentId, amount }, localization);
     this.dealId = dealId;
     this.agentId = agentId;
     this.amount = amount;
@@ -42,17 +43,17 @@ export class CommissionPaymentSaga extends BaseSaga {
         dealId: this.dealId,
         agentId: this.agentId,
         amount: this.amount,
-        currency: 'USD'
+        currency: this.localization.currency
       }, 'FinanceOS', this.sagaId);
     }, 800);
   }
 
   public async onCommissionCreated(msg: EventMessage) {
     const { amount, currency } = msg.payload;
-    console.log(`[CommissionPaymentSaga] Commission $${amount} ${currency} created. Evaluating installment eligibility...`);
+    console.log(`[CommissionPaymentSaga] Commission ${amount} ${currency} created. Evaluating installment eligibility...`);
     await this.transition({ step: 'EVALUATING_INSTALLMENTS' });
 
-    // Installment eligibility: if commission > $5,000, offer installments
+    // Installment eligibility: if commission > 5,000 in local currency, offer installments
     const eligibleForInstallments = amount > 5000;
 
     setTimeout(() => {
@@ -61,6 +62,7 @@ export class CommissionPaymentSaga extends BaseSaga {
           dealId: this.dealId,
           agentId: this.agentId,
           totalAmount: amount,
+          currency: this.localization.currency,
           installments: 12,
           monthlyAmount: Math.round(amount / 12)
         }, 'FinanceOS', this.sagaId);
@@ -69,14 +71,15 @@ export class CommissionPaymentSaga extends BaseSaga {
         eventBus.publish(DomainEvents.COMMISSION_PAID, {
           dealId: this.dealId,
           agentId: this.agentId,
-          amount
+          amount,
+          currency: this.localization.currency
         }, 'FinanceOS', this.sagaId);
       }
     }, 600);
   }
 
   public async onInstallmentOffered(msg: EventMessage) {
-    console.log(`[CommissionPaymentSaga] Installment plan offered: $${msg.payload.monthlyAmount}/mo x ${msg.payload.installments} months.`);
+    console.log(`[CommissionPaymentSaga] Installment plan offered: ${msg.payload.monthlyAmount} ${this.localization.currency}/mo x ${msg.payload.installments} months.`);
     await this.transition({ step: 'INSTALLMENT_OFFERED' });
     // Agent notification sent, waiting for agent to accept.
     // Saga "parks" here — will resume on commission.installment.started
@@ -99,7 +102,13 @@ const activeSagas = new Map<string, CommissionPaymentSaga>();
 export function registerCommissionPaymentListeners() {
   eventBus.subscribe(DomainEvents.DEAL_CLOSED, (msg) => {
     const { dealId, agentId, amount } = msg.payload;
-    const saga = new CommissionPaymentSaga(dealId, agentId, amount, msg.correlationId);
+    const localization = msg.localization || {
+      countryCode: 'US',
+      language: 'en',
+      currency: 'USD',
+      timezone: 'America/New_York'
+    };
+    const saga = new CommissionPaymentSaga(dealId, agentId, amount, msg.correlationId, localization);
     activeSagas.set(saga.sagaId, saga);
     saga.onDealClosed();
     console.log(`[CommissionPaymentSaga] ✅ Started for Deal ${dealId}`);

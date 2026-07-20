@@ -94,6 +94,10 @@ model User {
   signatureSigners               SignatureSigner[]
   tasks                          Task[]
   tenants                        Tenant?
+  devices                        Device[]
+  userRoles                      UserRole[]
+  identityEvents                 IdentityEvent[]
+  notificationPreferences        UserNotificationPreferences[]
   assignedTickets                Ticket[]                        @relation("TicketAgent")
   tickets                        Ticket[]                        @relation("TicketUser")
   conciergeRequests              ConciergeRequest[]
@@ -144,6 +148,7 @@ model Organization {
   region                     Region
   defaultCurrency            String                          @default("USD")
   defaultLocale              String                          @default("en-US")
+  timezone                   String                          @default("America/New_York")
   legalName                  String?
   taxId                      String?
   address                    String?
@@ -277,6 +282,13 @@ model Organization {
   notifications              Notification[]
   offlineSyncQueues          OfflineSyncQueue[]
   orgSubscription            OrgSubscription?
+  teams                      Team[]
+  userRoles                  UserRole[]
+  ssoConfigs                 SSOConfig[]
+  notificationRules          NotificationRule[]
+  notificationTemplates      NotificationTemplate[]
+  kpiConfigs                 KPIConfig[]
+  analyticsMetrics           AnalyticsMetric[]
   paymentInstallments        PaymentInstallment[]
   paymentNegotiations        PaymentNegotiation[]
   payouts                    Payout[]
@@ -459,6 +471,7 @@ model Role {
   org         Organization         @relation(fields: [orgId], references: [id])
   permissions RolePermission[]
   members     OrganizationMember[]
+  userRoles   UserRole[]
 
   @@unique([orgId, key])
   @@index([orgId])
@@ -570,6 +583,7 @@ model Contact {
   tasks                    Task[]
   tax1099Forms             Tax1099Form[]
   tenantApplications       TenantApplication[]
+  notifications            Notification[]
   valuationReports         ValuationReport[]
   valuationRequests        ValuationRequest[]
   workOrders               MaintenanceWorkOrder[]     @relation("ContactWorkOrders")
@@ -594,7 +608,13 @@ model VendorProfile {
   createdAt            DateTime     @default(now())
   updatedAt            DateTime     @updatedAt
   deletedAt            DateTime?
+  countryCode          String?      @db.VarChar(2)
+  language             String?      @default("en")
+  currency             String?      @default("USD")
   org                  Organization @relation(fields: [orgId], references: [id])
+
+  @@index([countryCode])
+  @@index([language])
 }
 
 model AgentAssignment {
@@ -670,6 +690,7 @@ model Property {
   name             String
   region           Region
   currency         String                @default("USD")
+  timezone         String                @default("America/New_York")
   addressLine1     String
   addressLine2     String?
   city             String
@@ -677,7 +698,8 @@ model Property {
   zip              String?
   country          String
   countryIsoCode   String?               @db.VarChar(2)
-  countryConfig    CountryFintechConfig? @relation(fields: [countryIsoCode], references: [isoCode])
+  countryConfig    CountryFintechConfig? @relation(fields: [countryIsoCode], references: [isoCode], map: "Property_countryConfig_fkey")
+  countryOSConfig  CountryConfig?        @relation("PropertyCountry", fields: [countryIsoCode], references: [code], map: "Property_countryOSConfig_fkey")
   lat              Float?
   lng              Float?
   neighborhoodId   String?
@@ -1224,6 +1246,7 @@ model Listing {
   agent                 Agent?                 @relation("AgentToListing", fields: [agentId], references: [id])
   agency                Agency?                @relation("AgencyToListing", fields: [agencyId], references: [id])
   channels              ListingChannel[]
+  regionalPricing       RegionalPricing?       @relation(fields: [regionalPricingId], references: [id])
   statusHistory         ListingStatusHistory[]
   tags                  ListingTag[]
   maintenanceBlocks     MaintenanceBlock[]
@@ -1247,6 +1270,7 @@ model Listing {
   listingDistributions  ListingDistribution[]
   aiServiceTasks        AiServiceTask[]
   aiVideoGenerations    AiVideoGeneration[]
+  regionalPricingId     String?
 
   @@index([orgId])
   @@index([propertyId])
@@ -1327,6 +1351,7 @@ model Booking {
   children                Int?                           @default(0)
   priceTotal              Decimal?                       @db.Decimal(14, 2)
   currency                String?
+  timezone                String?                        @default("America/New_York")
   paymentStatus           PaymentStatus                  @default(UNPAID)
   notes                   String?
   ownershipVerified       Boolean                        @default(false)
@@ -1363,6 +1388,8 @@ model Booking {
   routingLogs             PaymentRoutingLog[]
   failoverEvent           BookingFailoverEvent?          @relation(fields: [bookingFailoverEventId], references: [id])
   bookingFailoverEventId  String?
+  regionalPricing         RegionalPricing?               @relation(fields: [regionalPricingId], references: [id])
+  regionalPricingId       String?
 
   @@index([orgId])
   @@index([listingId])
@@ -1719,6 +1746,9 @@ model Lead {
   updatedAt             DateTime               @updatedAt
   deletedAt             DateTime?
   agentTeamId           String?
+  countryCode           String?                @db.VarChar(2)
+  language              String?                @default("en")
+  currency              String?                @default("USD")
   aiScores              AILeadScore[]
   agentTeam             AgentTeam?             @relation(fields: [agentTeamId], references: [id])
   assignedContact       Contact?               @relation(fields: [assignedToContactId], references: [id])
@@ -1730,11 +1760,14 @@ model Lead {
   source                LeadSource?            @relation(fields: [sourceId], references: [id])
   socialInboundMessages SocialInboundMessage[]
   postSources           SocialPost[]           @relation("PostLeads")
+  notifications         Notification[]
 
   @@index([orgId])
   @@index([campaignId])
   @@index([status])
   @@index([sourceId])
+  @@index([countryCode])
+  @@index([language])
 }
 
 model LeadSource {
@@ -1893,6 +1926,7 @@ model Deal {
   mortgagePreApprovals MortgagePreApproval[]
   payouts              Payout[]
   solicitorManagements SolicitorManagement[]
+  notifications        Notification[]
 
   mortgageOffers MortgageOffer[] // Managed field
 
@@ -1946,6 +1980,8 @@ model Document {
   property             Property?          @relation(fields: [propertyId], references: [id])
   user                 User?              @relation(fields: [userId], references: [id])
   analyses             DocumentAnalysis[]
+  approvals            DocumentApproval[]
+  versions             DocumentVersion[]
 
   attachments Attachment[] // Managed field
 
@@ -2230,66 +2266,55 @@ model RightToRentCheck {
 // ─── LEGAL & SOLICITOR MANAGEMENT ─────────────────────────────────────────────
 
 enum SolicitorType {
-  LOCAL_LEGAL_COUNSEL           // Türkiye'deki hukuk danışmanımız / avukatımız
-  TENANT_INTERNATIONAL_LAWYER   // Kiracının kendi ülkesindeki resmi avukatı (Uluslararası Güvence)
-  LANDLORD_REPRESENTATIVE       // Ev sahibinin şahsi avukatı
+  LOCAL_LEGAL_COUNSEL // Türkiye'deki hukuk danışmanımız / avukatımız
+  TENANT_INTERNATIONAL_LAWYER // Kiracının kendi ülkesindeki resmi avukatı (Uluslararası Güvence)
+  LANDLORD_REPRESENTATIVE // Ev sahibinin şahsi avukatı
 }
 
 enum SolicitorStatus {
-  ENGAGED       // Süreç başladı, bilgiler doğrulandı
-  VERIFIED      // Avukatın baro kaydı ve adresi sistem tarafından onaylandı
-  DISPUTE_OPEN  // Kiracıyla yasal bir uyuşmazlık başladı, avukata bildirim yapıldı
-  COMPLETED     // Kontrat süresi bitti, sorunsuz tamamlandı
-  TERMINATED    // Sözleşme ihlali nedeniyle yasal takip sürecine geçildi
+  ENGAGED // Süreç başladı, bilgiler doğrulandı
+  VERIFIED // Avukatın baro kaydı ve adresi sistem tarafından onaylandı
+  DISPUTE_OPEN // Kiracıyla yasal bir uyuşmazlık başladı, avukata bildirim yapıldı
+  COMPLETED // Kontrat süresi bitti, sorunsuz tamamlandı
+  TERMINATED // Sözleşme ihlali nedeniyle yasal takip sürecine geçildi
 }
 
 model SolicitorManagement {
-  id                String          @id @default(cuid())
-  orgId             String
-  dealId            String?
-  contactId         String          // Kiracı veya Ev Sahibinin Contact ID'si
-  solicitorType     SolicitorType   @default(TENANT_INTERNATIONAL_LAWYER)
-  status            SolicitorStatus @default(ENGAGED)
-  
-  // Uluslararası Doğrulama ve Takip Alanları
-  countryCode       String          // Avukatın bağlı olduğu ülke (Örn: "GB", "DE", "US")
-  barRegistrationNo String          // Kayıtlı olduğu resmi baro sicil numarası (Tahsilat güvencesi için şart)
-  legalNoticeAddress String         // Olası kriz anında uluslararası tebligatın yapılacağı resmi iş adresi
-  
-  // B2B Turizm Şirketi / Dış Acente Bağlantısı
-  referredByAgencyId String?        // Bu kiracıyı ve avukatı getiren Turizm Şirketi/Acente ID'si (Opsiyonel)
-  
-  engagedAt         DateTime?
-  completedAt       DateTime?
-  fee               Decimal?        @db.Decimal(14, 2)
-  currency          String?         @default("USD")
-  notes             String?
-  createdBy         String?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  deletedAt         DateTime?
-  
-  // İlişkiler
-  contact           Contact         @relation(fields: [contactId], references: [id])
-  deal              Deal?           @relation(fields: [dealId], references: [id])
-  org               Organization    @relation(fields: [orgId], references: [id])
-
-  // Yönetilen Detaylar (Managed Fields)
-  solicitorFirm     String          // Hukuk Bürosunun Adı
-  solicitorName     String          // Avukatın Adı Soyadı
-  solicitorEmail    String          // Avukatın Kurumsal E-postası
-  solicitorPhone    String?         // Avukatın Telefonu (Uluslararası formatta)
-  
-  // Süreç Yönetim Alanları
-  appointmentType   String          // "INITIAL_CONSULTATION", "EXCHANGE", "COMPLETION"
-  appointmentDate   DateTime?
-  appointmentNotes  String?
-  searchDate        DateTime?
-  draftContractDate DateTime?
-  finalContractDate DateTime?
-  completionDate    DateTime?
-  completionNotes   String?
-  fees              Json?           // { legalFees, disbursements, internationalStampDuty }
+  id                 String          @id @default(cuid())
+  orgId              String
+  dealId             String?
+  contactId          String // Kiracı veya Ev Sahibinin Contact ID'si
+  solicitorType      SolicitorType   @default(TENANT_INTERNATIONAL_LAWYER)
+  status             SolicitorStatus @default(ENGAGED)
+  countryCode        String // Avukatın bağlı olduğu ülke (Örn: "GB", "DE", "US")
+  barRegistrationNo  String // Kayıtlı olduğu resmi baro sicil numarası (Tahsilat güvencesi için şart)
+  legalNoticeAddress String // Olası kriz anında uluslararası tebligatın yapılacağı resmi iş adresi
+  referredByAgencyId String? // Bu kiracıyı ve avukatı getiren Turizm Şirketi/Acente ID'si (Opsiyonel)
+  engagedAt          DateTime?
+  completedAt        DateTime?
+  fee                Decimal?        @db.Decimal(14, 2)
+  currency           String?         @default("USD")
+  notes              String?
+  createdBy          String?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  deletedAt          DateTime?
+  contact            Contact         @relation(fields: [contactId], references: [id])
+  deal               Deal?           @relation(fields: [dealId], references: [id])
+  org                Organization    @relation(fields: [orgId], references: [id])
+  solicitorFirm      String // Hukuk Bürosunun Adı
+  solicitorName      String // Avukatın Adı Soyadı
+  solicitorEmail     String // Avukatın Kurumsal E-postası
+  solicitorPhone     String? // Avukatın Telefonu (Uluslararası formatta)
+  appointmentType    String // "INITIAL_CONSULTATION", "EXCHANGE", "COMPLETION"
+  appointmentDate    DateTime?
+  appointmentNotes   String?
+  searchDate         DateTime?
+  draftContractDate  DateTime?
+  finalContractDate  DateTime?
+  completionDate     DateTime?
+  completionNotes    String?
+  fees               Json? // { legalFees, disbursements, internationalStampDuty }
 
   @@index([orgId])
   @@index([dealId])
@@ -3040,6 +3065,12 @@ model Notification {
   agencies        Agency[]           @relation("AgencyToNotification")
   agents          Agent[]            @relation("AgentToNotification")
   tenants         Tenant[]           @relation("NotificationToTenant")
+  contact         Contact?           @relation(fields: [contactId], references: [id])
+  contactId       String?
+  lead            Lead?              @relation(fields: [leadId], references: [id])
+  leadId          String?
+  deal            Deal?              @relation(fields: [dealId], references: [id])
+  dealId          String?
 
   @@index([orgId])
   @@index([userId])
@@ -3098,6 +3129,9 @@ model Task {
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
   deletedAt           DateTime?
+  countryCode         String?           @db.VarChar(2)
+  language            String?           @default("en")
+  currency            String?           @default("USD")
   analytics           Analytics[]
   attachments         Attachment[]
   mentions            Mention[]
@@ -3127,6 +3161,8 @@ model Task {
   @@index([dueAt])
   @@index([orgId, status, dueAt])
   @@index([assignedToUserId, status, dueAt])
+  @@index([countryCode])
+  @@index([language])
 }
 
 model Facility {
@@ -3172,6 +3208,9 @@ model Contract {
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   deletedAt           DateTime?
+  countryCode         String?              @db.VarChar(2)
+  language            String?              @default("en")
+  currency            String?              @default("USD")
   booking             Booking?             @relation(fields: [bookingId], references: [id])
   lease               Lease?               @relation(fields: [leaseId], references: [id])
   listing             Listing?             @relation(fields: [listingId], references: [id])
@@ -3189,6 +3228,8 @@ model Contract {
   @@index([orgId])
   @@index([status])
   @@index([type])
+  @@index([countryCode])
+  @@index([language])
 }
 
 model ContractVersion {
@@ -3380,6 +3421,9 @@ model MarketingCampaign {
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   deletedAt       DateTime?
+  countryCode     String?        @db.VarChar(2)
+  language        String?        @default("en")
+  currency        String?        @default("USD")
   leads           Lead[]
   socialPosts     SocialPost[]
   org             Organization   @relation(fields: [orgId], references: [id])
@@ -3387,6 +3431,8 @@ model MarketingCampaign {
   @@index([orgId])
   @@index([status])
   @@index([type])
+  @@index([countryCode])
+  @@index([language])
 }
 
 model OrgSubscription {
@@ -3522,6 +3568,7 @@ model Commission {
   createdAt         DateTime                 @default(now())
   updatedAt         DateTime                 @updatedAt
   deletedAt         DateTime?
+  countryCode       String?                  @db.VarChar(2)
   agency            Agency?                  @relation(fields: [agencyId], references: [id])
   agent             Agent?                   @relation(fields: [agentId], references: [id])
   org               Organization             @relation(fields: [orgId], references: [id])
@@ -3530,7 +3577,7 @@ model Commission {
 
   listing Listing? @relation(fields: [listingId], references: [id]) // Managed field
 
-  advances          CommissionAdvance[]
+  advances CommissionAdvance[]
 
   @@index([orgId])
   @@index([listingId])
@@ -3539,6 +3586,7 @@ model Commission {
   @@index([agencyId])
   @@index([status])
   @@index([collectionType])
+  @@index([countryCode])
 }
 
 enum CommissionAdvanceType {
@@ -3554,22 +3602,22 @@ enum CommissionAdvanceStatus {
 }
 
 model CommissionAdvance {
-  id              String                  @id @default(uuid())
-  commissionId    String
-  originalAmount  Decimal                 @db.Decimal(14, 2)
-  feeRate         Decimal                 @db.Decimal(5, 2)
-  feeAmount       Decimal                 @db.Decimal(14, 2)
-  payoutAmount    Decimal                 @db.Decimal(14, 2)
-  type            CommissionAdvanceType
-  status          CommissionAdvanceStatus
-  
-  approvedAt      DateTime?
-  paidAt          DateTime?
+  id             String                  @id @default(uuid())
+  commissionId   String
+  originalAmount Decimal                 @db.Decimal(14, 2)
+  feeRate        Decimal                 @db.Decimal(5, 2)
+  feeAmount      Decimal                 @db.Decimal(14, 2)
+  payoutAmount   Decimal                 @db.Decimal(14, 2)
+  type           CommissionAdvanceType
+  status         CommissionAdvanceStatus
 
-  createdAt       DateTime                @default(now())
-  updatedAt       DateTime                @updatedAt
+  approvedAt DateTime?
+  paidAt     DateTime?
 
-  commission      Commission              @relation(fields: [commissionId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  commission Commission @relation(fields: [commissionId], references: [id])
 }
 
 model PropertyPhoto {
@@ -3867,6 +3915,8 @@ model Reservation {
   referenceSources        ReferenceSource[]              @relation("ReservationProvider")
   paymentRoutingLogs      PaymentRoutingLog[]
   bookingFailoverEvent    BookingFailoverEvent?
+  analyticsMetricId       String?
+  analyticsMetric         AnalyticsMetric?               @relation(fields: [analyticsMetricId], references: [id])
 
   @@index([orgId])
   @@index([listingId])
@@ -4193,6 +4243,8 @@ model Project {
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   deletedAt        DateTime?
+  countryCode      String?            @db.VarChar(2)
+  language         String?            @default("en")
   contractor       Contact?           @relation("ProjectContractor", fields: [contractorId], references: [id])
   manager          User?              @relation("ProjectManager", fields: [managerId], references: [id])
   org              Organization       @relation(fields: [orgId], references: [id])
@@ -4205,6 +4257,8 @@ model Project {
   @@index([orgId])
   @@index([projectType])
   @@index([status])
+  @@index([countryCode])
+  @@index([language])
 }
 
 model FloorPlan {
@@ -5903,6 +5957,9 @@ model Agency {
   taxJurisdiction         String?
   metrics                 Json?
   taxConfiguration        Json?
+  countryCode             String?             @db.VarChar(2)
+  language                String?             @default("en")
+  currency                String?             @default("USD")
   ExtraCharge             ExtraCharge?        @relation(fields: [extraChargeId], references: [id])
   Facility                Facility?           @relation(fields: [facilityId], references: [id])
   IncludedService         IncludedService?    @relation(fields: [includedServiceId], references: [id])
@@ -5940,6 +5997,8 @@ model Agency {
   @@index([name])
   @@index([isActive])
   @@index([status])
+  @@index([countryCode])
+  @@index([language])
 }
 
 model Agent {
@@ -12855,4 +12914,407 @@ model SagaState {
 
   @@index([sagaType])
   @@index([status])
+}
+
+// ─── ANALYTICS OS ───────────────────────────────────────────────────────────────
+
+model AnalyticsMetric {
+  id                String   @id @default(cuid())
+  metricType        String // 'revenue' | 'property' | 'financial' | 'user' | 'agent' | 'campaign' | 'partner' | 'trust' | 'ai' | 'country'
+  value             Float
+  previousValue     Float?
+  changePercent     Float?
+  timestamp         DateTime @default(now())
+  dimensions        Json?
+  orgId             String?
+  financialRecordId String?
+  taskId            String?
+  propertyId        String?
+  reservationId     String?
+  createdAt         DateTime @default(now())
+
+  organization Organization? @relation(fields: [orgId], references: [id])
+  reservations Reservation[]
+
+  @@index([metricType])
+  @@index([timestamp])
+  @@index([orgId])
+  @@index([financialRecordId])
+  @@index([taskId])
+  @@index([propertyId])
+  @@index([reservationId])
+}
+
+model KPIConfig {
+  id             String   @id @default(cuid())
+  name           String
+  description    String
+  metricType     String
+  formula        String
+  target         Float?
+  threshold      Float?
+  alertEnabled   Boolean  @default(false)
+  organizationId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+}
+
+model AIInsight {
+  id               String   @id @default(cuid())
+  insightType      String // 'anomaly' | 'trend' | 'prediction' | 'recommendation' | 'alert'
+  title            String
+  description      String
+  confidence       Float
+  impact           String // 'high' | 'medium' | 'low'
+  actionable       Boolean  @default(false)
+  suggestedActions Json?
+  relatedMetrics   Json?
+  timestamp        DateTime @default(now())
+  organizationId   String?
+
+  @@index([insightType])
+  @@index([timestamp])
+  @@index([organizationId])
+}
+
+// ─── DOCUMENT OS ────────────────────────────────────────────────────────────────
+
+model DocumentApproval {
+  id             String    @id @default(cuid())
+  documentId     String
+  approverId     String
+  status         String
+  comments       String?
+  approvedAt     DateTime?
+  organizationId String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  document Document @relation(fields: [documentId], references: [id])
+
+  @@index([documentId])
+  @@index([approverId])
+  @@index([status])
+}
+
+model DocumentVersion {
+  id            String   @id @default(cuid())
+  documentId    String
+  versionNumber Int
+  fileUrl       String
+  changes       String?
+  createdBy     String
+  createdAt     DateTime @default(now())
+
+  document Document @relation(fields: [documentId], references: [id])
+
+  @@index([documentId])
+  @@index([versionNumber])
+}
+
+// ─── NOTIFICATION OS ───────────────────────────────────────────────────────────
+
+model NotificationRule {
+  id             String   @id @default(cuid())
+  name           String
+  description    String
+  eventType      String
+  conditions     Json
+  channels       Json
+  templateId     String?
+  priority       String
+  enabled        Boolean
+  organizationId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([eventType])
+  @@index([enabled])
+}
+
+model NotificationTemplate {
+  id             String   @id @default(cuid())
+  name           String
+  type           String
+  subject        String?
+  body           String
+  variables      Json?
+  organizationId String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([type])
+}
+
+model UserNotificationPreferences {
+  id                 String   @id @default(cuid())
+  userId             String
+  channelPreferences Json?
+  quietHoursStart    String?
+  quietHoursEnd      String?
+  digestFrequency    String? // 'hourly' | 'daily' | 'weekly'
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId])
+}
+
+// ─── IDENTITY OS ───────────────────────────────────────────────────────────────
+
+model Team {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  description    String?
+  parentId       String?
+  permissions    Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([parentId])
+}
+
+model UserRole {
+  id             String   @id @default(cuid())
+  userId         String
+  roleId         String
+  organizationId String
+  assignedAt     DateTime @default(now())
+  assignedBy     String?
+
+  user         User         @relation(fields: [userId], references: [id])
+  role         Role         @relation(fields: [roleId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([userId, roleId, organizationId])
+  @@index([userId])
+  @@index([roleId])
+  @@index([organizationId])
+}
+
+model Device {
+  id               String    @id @default(cuid())
+  userId           String
+  deviceIdentifier String
+  deviceType       String?
+  deviceName       String?
+  isTrusted        Boolean   @default(false)
+  lastUsedAt       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, deviceIdentifier])
+  @@index([userId])
+}
+
+model IdentityEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  eventType String
+  ipAddress String?
+  userAgent String?
+  metadata  Json?
+  riskLevel String? // 'low' | 'medium' | 'high'
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([eventType])
+  @@index([createdAt])
+}
+
+model SSOConfig {
+  id             String   @id @default(cuid())
+  organizationId String
+  provider       String
+  config         Json
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+}
+
+// ─── LOCALIZATION OS ────────────────────────────────────────────────────────────
+
+model CountryConfig {
+  id                String   @id @default(cuid())
+  code              String   @unique
+  name              String
+  nativeName        String
+  currency          String
+  currencySymbol    String
+  language          String
+  timezone          String
+  dateFormat        String
+  numberFormat      String
+  weekendDays       Json
+  workingDays       Json
+  taxRate           Float?
+  vatRate           Float?
+  legalRequirements Json
+  rentalRules       Json
+  paymentProviders  Json
+  propertyTypes     Json
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  properties Property[] @relation("PropertyCountry")
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model LanguageConfig {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  name       String
+  nativeName String
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([code])
+}
+
+model CurrencyConfig {
+  id           String   @id @default(cuid())
+  code         String   @unique
+  name         String
+  symbol       String
+  exchangeRate Float
+  lastUpdated  DateTime @default(now())
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model LocalizedContent {
+  id           String   @id @default(cuid())
+  key          String
+  language     String
+  content      String
+  translatedBy String? // 'ai' | 'manual'
+  confidence   Float?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([key, language])
+  @@index([key])
+  @@index([language])
+}
+
+model RegionalPricing {
+  id            String    @id @default(cuid())
+  countryCode   String
+  propertyType  String
+  basePrice     Float
+  adjustment    Float
+  season        String?
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+  listingId     String?
+  propertyId    String?
+  bookingId     String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  listings      Listing[]
+  bookings      Booking[]
+
+  @@index([countryCode])
+  @@index([propertyType])
+  @@index([listingId])
+  @@index([propertyId])
+  @@index([bookingId])
+}
+
+model SEOMetadata {
+  id          String   @id @default(cuid())
+  path        String
+  language    String
+  countryCode String
+  title       String
+  description String
+  keywords    Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([path, language, countryCode])
+  @@index([path])
+  @@index([countryCode])
+}
+
+// ─── PLATFORM INTELLIGENCE ─────────────────────────────────────────────────────
+
+model MetricDefinition {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  type        String // 'counter' | 'gauge' | 'histogram' | 'summary'
+  description String
+  labels      Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model MetricData {
+  id         String   @id @default(cuid())
+  metricName String
+  value      Float
+  labels     Json?
+  timestamp  DateTime @default(now())
+
+  @@index([metricName])
+  @@index([timestamp])
+}
+
+model APIEndpoint {
+  id          String   @id @default(cuid())
+  path        String
+  method      String
+  description String
+  rateLimit   Int?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([path, method])
+}
+
+model PlatformDashboard {
+  id              String   @id @default(cuid())
+  dashboardId     String   @unique
+  name            String
+  description     String
+  osModule        String
+  refreshInterval Int
+  widgets         Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([osModule])
 }

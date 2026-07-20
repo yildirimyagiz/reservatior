@@ -3,6 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:reservatior/features/client/property/presentation/pages/search_and_filters_page.dart';
 import 'package:reservatior/features/ai_search/presentation/ai_search_screen.dart';
 import 'package:reservatior/features/listing_os/presentation/listings_dashboard.dart';
+import 'package:reservatior/features/booking_os/presentation/pages/booking_dashboard_page.dart';
+import 'package:reservatior/features/booking_os/presentation/pages/booking_management_page.dart';
+import 'package:reservatior/features/booking_os/presentation/pages/pricing_engine_page.dart';
+import 'package:reservatior/features/booking_os/presentation/pages/iot_devices_page.dart';
+import 'package:reservatior/features/saga_flow/presentation/pages/saga_dashboard_page.dart';
+import 'package:reservatior/features/saga_flow/presentation/pages/saga_monitor_page.dart';
+import 'package:reservatior/features/saga_flow/presentation/pages/saga_config_page.dart';
+import 'package:reservatior/features/saga_flow/presentation/pages/saga_history_page.dart';
+import 'package:reservatior/features/solicitor_management/presentation/pages/solicitor_dashboard_page.dart';
+import 'package:reservatior/features/solicitor_management/presentation/pages/solicitor_list_page.dart';
+import 'package:reservatior/features/solicitor_management/presentation/pages/solicitor_details_page.dart';
 
 
 // Batch 1: Financial
@@ -257,6 +268,23 @@ class FeatureRouter {
     'webhook_delivery': () => DynamicAdminScreen(modelName: 'WebhookDelivery'),
     'welcome': () => DynamicAdminScreen(modelName: 'Welcome'),
     'listing_os': () => const ListingsDashboard(),
+    
+    // Booking OS
+    'booking_os': () => const BookingDashboardPage(),
+    'booking-management': () => const BookingManagementPage(),
+    'booking-pricing': () => const PricingEnginePage(),
+    'booking-iot': () => const IotDevicesPage(),
+    
+    // Saga Flow
+    'saga_flow': () => const SagaDashboardPage(),
+    'saga-monitor': () => const SagaMonitorPage(),
+    'saga-config': () => const SagaConfigPage(),
+    'saga-history': () => const SagaHistoryPage(),
+    
+    // Solicitor Management
+    'solicitor_management': () => const SolicitorDashboardPage(),
+    'solicitor-list': () => const SolicitorListPage(),
+    'solicitor-details': () => const SolicitorDetailsPage(),
   };
   static final Map<String, Widget Function()> clientPages = {
     'property_search': () => DynamicAdminScreen(modelName: 'SearchAndFiltersPage'),

@@ -43,6 +43,10 @@ export class OutboxWorker {
     // In a multi-tenant DB, you'd iterate over regions or use a central EventBus DB.
     const prisma = prismaManager.getClient('US');
 
+    // Temporarily disabled until EventLog table is created
+    console.log(`[OutboxWorker] Skipping - EventLog table not yet created`);
+    return;
+
     // Find up to 50 pending events
     const pendingEvents = await prisma.eventLog.findMany({
       where: { status: 'PENDING' },
