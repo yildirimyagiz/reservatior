@@ -223,6 +223,26 @@ export const DomainEvents = {
   MESSAGE_READ: 'message.read',
   TEMPLATE_RENDERED: 'template.rendered',
   CHANNEL_DELIVERED: 'channel.delivered',
+
+  // Identity OS
+  USER_REGISTERED: 'identity.user.registered',
+  USER_AUTHENTICATED: 'identity.user.authenticated',
+  USER_SSO_CONNECTED: 'identity.user.sso.connected',
+  SESSION_CREATED: 'identity.session.created',
+  SESSION_REVOKED: 'identity.session.revoked',
+  ROLE_ASSIGNED: 'identity.role.assigned',
+  PERMISSION_CHANGED: 'identity.permission.changed',
+  API_KEY_CREATED: 'identity.apikey.created',
+  API_KEY_REVOKED_IDENTITY: 'identity.apikey.revoked',
+
+  // Localization OS
+  COUNTRY_CONFIGURED: 'localization.country.configured',
+  CURRENCY_RATE_UPDATED: 'localization.currency.rate.updated',
+  LANGUAGE_ACTIVATED: 'localization.language.activated',
+  TAX_REGULATION_CREATED: 'localization.tax.regulation.created',
+  COMPLIANCE_STATUS_CHANGED: 'localization.compliance.status.changed',
+  EXCHANGE_RATE_IMPORTED: 'localization.exchange.rate.imported',
+  REGION_ACTIVATED: 'localization.region.activated',
 } as const;
 
 export type DomainEvent = typeof DomainEvents[keyof typeof DomainEvents];

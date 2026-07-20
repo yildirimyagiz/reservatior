@@ -1,379 +1,189 @@
-/**
- * Localization OS API Routes
- */
+import { Elysia, t } from "elysia";
+import { localizationEngineService } from "../services/localization-engine-service";
 
-import { Elysia, t } from 'elysia';
-import { localizationOSService } from '../services/localization-os';
+export const localizationOSRoutes = new Elysia({ prefix: "/localization-os" })
 
-export const localizationOSRoutes = new Elysia({ prefix: '/localization' })
-  /**
-   * GET /api/localization/countries/:code
-   * Get country configuration
-   */
-  .get('/countries/:code', async ({ params, set }) => {
+  .get("/dashboard", async ({ set }) => {
     try {
-      const config = await localizationOSService.getCountryConfig(params.code);
-      return config;
-    } catch (error) {
+      const data = await localizationEngineService.getDashboard();
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to get country config' };
+      return { success: false, error: error.message };
     }
+  }, {
+    detail: { summary: "Localization OS Dashboard", tags: ["Localization OS"] },
   })
 
-  /**
-   * GET /api/localization/languages/:code
-   * Get language configuration
-   */
-  .get('/languages/:code', async ({ params, set }) => {
+  .get("/countries", async ({ set }) => {
     try {
-      const config = await localizationOSService.getLanguageConfig(params.code);
-      return config;
-    } catch (error) {
+      const data = await localizationEngineService.getCountries();
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to get language config' };
+      return { success: false, error: error.message };
     }
+  }, {
+    detail: { summary: "List Countries", tags: ["Localization OS"] },
   })
 
-  /**
-   * GET /api/localization/currencies/:code
-   * Get currency configuration
-   */
-  .get('/currencies/:code', async ({ params, set }) => {
+  .get("/countries/:isoCode", async ({ params, set }) => {
     try {
-      const config = await localizationOSService.getCurrencyConfig(params.code);
-      return config;
-    } catch (error) {
+      const data = await localizationEngineService.getCountryByCode(params.isoCode);
+      if (!data) { set.status = 404; return { error: "Country not found" }; }
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to get currency config' };
+      return { success: false, error: error.message };
     }
+  }, {
+    params: t.Object({ isoCode: t.String() }),
+    detail: { summary: "Get Country Config", tags: ["Localization OS"] },
   })
 
-  /**
-   * GET /api/localization/content
-   * Get localized content
-   */
-  .get('/content', async ({ query, set }) => {
+  .get("/countries/:isoCode/states", async ({ params, set }) => {
     try {
-      const content = await localizationOSService.getLocalizedContent(
-        query.key,
-        query.language
-      );
-      return { content };
-    } catch (error) {
+      const data = await localizationEngineService.getStateConfigs(params.isoCode);
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to get localized content' };
+      return { success: false, error: error.message };
     }
+  }, {
+    params: t.Object({ isoCode: t.String() }),
+    detail: { summary: "Get State Configs", tags: ["Localization OS"] },
   })
 
-  /**
-   * POST /api/localization/translate
-   * Translate content
-   */
-  .post('/translate', async ({ body, set }) => {
+  .get("/currencies", async ({ set }) => {
     try {
-      const translated = await localizationOSService.translateContent(
-        body.key,
-        body.targetLanguage,
-        body.context
-      );
-      return { translated };
-    } catch (error) {
+      const data = await localizationEngineService.getCurrencies();
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to translate content' };
+      return { success: false, error: error.message };
+    }
+  }, {
+    detail: { summary: "List Currencies", tags: ["Localization OS"] },
+  })
+
+  .get("/exchange-rates", async ({ query, set }) => {
+    try {
+      const { page, limit, baseCurrency } = query;
+      const data = await localizationEngineService.getExchangeRates({
+        skip: ((parseInt(page as string) || 1) - 1) * (parseInt(limit as string) || 50),
+        take: parseInt(limit as string) || 50,
+        baseCurrency: baseCurrency as string,
+      });
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    query: t.Object({
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+      baseCurrency: t.Optional(t.String()),
+    }),
+    detail: { summary: "List Exchange Rates", tags: ["Localization OS"] },
+  })
+
+  .post("/exchange-rates", async ({ body, set }) => {
+    try {
+      const data = await localizationEngineService.createExchangeRate(body as any);
+      set.status = 201;
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
     }
   }, {
     body: t.Object({
-      key: t.String(),
-      targetLanguage: t.String(),
-      context: t.Optional(t.String())
-    })
+      orgId: t.String(),
+      baseCurrency: t.String(),
+      quoteCurrency: t.String(),
+      rate: t.Number(),
+      source: t.Optional(t.String()),
+    }),
+    detail: { summary: "Create Exchange Rate", tags: ["Localization OS"] },
   })
 
-  /**
-   * POST /api/localization/auto-translate
-   * Auto-translate missing keys
-   */
-  .post('/auto-translate', async ({ body, set }) => {
+  .get("/languages", async ({ set }) => {
     try {
-      await localizationOSService.autoTranslateMissingKeys(
-        body.sourceLanguage,
-        body.targetLanguages
-      );
-      return { success: true };
-    } catch (error) {
+      const data = await localizationEngineService.getLanguages();
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to auto-translate' };
+      return { success: false, error: error.message };
     }
   }, {
-    body: t.Object({
-      sourceLanguage: t.String(),
-      targetLanguages: t.Array(t.String())
-    })
+    detail: { summary: "List Languages", tags: ["Localization OS"] },
   })
 
-  /**
-   * GET /api/localization/format/currency
-   * Format currency for country
-   */
-  .get('/format/currency', async ({ query, set }) => {
+  .get("/compliance", async ({ query, set }) => {
     try {
-      const formatted = await localizationOSService.formatCurrency(
-        Number(query.amount),
-        query.countryCode
-      );
-      return { formatted };
-    } catch (error) {
+      const { page, limit, region } = query;
+      const data = await localizationEngineService.getLegalCompliance({
+        skip: ((parseInt(page as string) || 1) - 1) * (parseInt(limit as string) || 50),
+        take: parseInt(limit as string) || 50,
+        region: region as string,
+      });
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to format currency' };
-    }
-  })
-
-  /**
-   * GET /api/localization/format/date
-   * Format date for country
-   */
-  .get('/format/date', async ({ query, set }) => {
-    try {
-      const formatted = await localizationOSService.formatDate(
-        new Date(query.date),
-        query.countryCode
-      );
-      return { formatted };
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to format date' };
-    }
-  })
-
-  /**
-   * GET /api/localization/format/number
-   * Format number for country
-   */
-  .get('/format/number', async ({ query, set }) => {
-    try {
-      const formatted = await localizationOSService.formatNumber(
-        Number(query.number),
-        query.countryCode
-      );
-      return { formatted };
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to format number' };
-    }
-  })
-
-  /**
-   * GET /api/localization/pricing
-   * Get regional pricing
-   */
-  .get('/pricing', async ({ query, set }) => {
-    try {
-      const pricing = await localizationOSService.getRegionalPricing(
-        query.countryCode,
-        query.propertyType
-      );
-      return pricing;
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to get regional pricing' };
-    }
-  })
-
-  /**
-   * GET /api/localization/calculate-price
-   * Calculate localized price
-   */
-  .get('/calculate-price', async ({ query, set }) => {
-    try {
-      const price = await localizationOSService.calculateLocalizedPrice(
-        Number(query.basePrice),
-        query.countryCode,
-        query.propertyType,
-        query.date ? new Date(query.date) : undefined
-      );
-      return { price };
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to calculate localized price' };
-    }
-  })
-
-  /**
-   * GET /api/localization/legal-requirements
-   * Get legal requirements for country
-   */
-  .get('/legal-requirements', async ({ query, set }) => {
-    try {
-      const requirements = await localizationOSService.getLegalRequirements(query.countryCode);
-      return requirements;
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to get legal requirements' };
-    }
-  })
-
-  /**
-   * GET /api/localization/rental-rules
-   * Get rental rules for country
-   */
-  .get('/rental-rules', async ({ query, set }) => {
-    try {
-      const rules = await localizationOSService.getRentalRules(query.countryCode);
-      return rules;
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to get rental rules' };
-    }
-  })
-
-  /**
-   * GET /api/localization/payment-providers
-   * Get payment providers for country
-   */
-  .get('/payment-providers', async ({ query, set }) => {
-    try {
-      const providers = await localizationOSService.getPaymentProviders(query.countryCode);
-      return { providers };
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to get payment providers' };
-    }
-  })
-
-  /**
-   * GET /api/localization/property-types
-   * Get property types for country
-   */
-  .get('/property-types', async ({ query, set }) => {
-    try {
-      const types = await localizationOSService.getPropertyTypes(query.countryCode);
-      return { types };
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to get property types' };
-    }
-  })
-
-  /**
-   * GET /api/localization/is-working-day
-   * Check if date is working day
-   */
-  .get('/is-working-day', async ({ query, set }) => {
-    try {
-      const isWorkingDay = await localizationOSService.isWorkingDay(
-        new Date(query.date),
-        query.countryCode
-      );
-      return { isWorkingDay };
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to check working day' };
-    }
-  })
-
-  /**
-   * GET /api/localization/seo
-   * Get localized SEO metadata
-   */
-  .get('/seo', async ({ query, set }) => {
-    try {
-      const metadata = await localizationOSService.getSEOMetadata(
-        query.path,
-        query.language,
-        query.countryCode
-      );
-      return metadata;
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to get SEO metadata' };
-    }
-  })
-
-  /**
-   * GET /api/localization/recommendations
-   * Get localized recommendations
-   */
-  .get('/recommendations', async ({ query, set }) => {
-    try {
-      const recommendations = await localizationOSService.getLocalizedRecommendations(
-        query.userId,
-        query.countryCode,
-        query.language
-      );
-      return recommendations;
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to get recommendations' };
-    }
-  })
-
-  /**
-   * POST /api/localization/countries
-   * Create country configuration
-   */
-  .post('/countries', async ({ body, set }) => {
-    try {
-      const config = await localizationOSService.createCountryConfig(body);
-      return config;
-    } catch (error) {
-      set.status = 500;
-      return { error: 'Failed to create country config' };
+      return { success: false, error: error.message };
     }
   }, {
-    body: t.Object({
-      code: t.String(),
-      name: t.String(),
-      nativeName: t.String(),
-      currency: t.String(),
-      currencySymbol: t.String(),
-      language: t.String(),
-      timezone: t.String(),
-      dateFormat: t.String(),
-      numberFormat: t.String(),
-      weekendDays: t.Array(t.Number()),
-      workingDays: t.Array(t.Number()),
-      taxRate: t.Optional(t.Number()),
-      vatRate: t.Optional(t.Number()),
-      legalRequirements: t.Record(t.String, t.Any()),
-      rentalRules: t.Record(t.String, t.Any()),
-      paymentProviders: t.Array(t.String()),
-      propertyTypes: t.Array(t.String()),
-      isActive: t.Boolean()
-    })
+    query: t.Object({
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+      region: t.Optional(t.String()),
+    }),
+    detail: { summary: "List Legal Compliance Records", tags: ["Localization OS"] },
   })
 
-  /**
-   * PUT /api/localization/exchange-rates
-   * Update exchange rate
-   */
-  .put('/exchange-rates', async ({ body, set }) => {
+  .get("/compliance/stats", async ({ set }) => {
     try {
-      const updated = await localizationOSService.updateExchangeRate(
-        body.currencyCode,
-        body.rate
-      );
-      return updated;
-    } catch (error) {
+      const data = await localizationEngineService.getComplianceStats();
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to update exchange rate' };
+      return { success: false, error: error.message };
     }
   }, {
-    body: t.Object({
-      currencyCode: t.String(),
-      rate: t.Number()
-    })
+    detail: { summary: "Compliance Statistics", tags: ["Localization OS"] },
   })
 
-  /**
-   * GET /api/localization/statistics
-   * Get localization statistics
-   */
-  .get('/statistics', async ({ set }) => {
+  .get("/tax-regulations", async ({ query, set }) => {
     try {
-      const stats = await localizationOSService.getStatistics();
-      return stats;
-    } catch (error) {
+      const { page, limit, taxAuthority } = query;
+      const data = await localizationEngineService.getTaxRegulations({
+        skip: ((parseInt(page as string) || 1) - 1) * (parseInt(limit as string) || 50),
+        take: parseInt(limit as string) || 50,
+        taxAuthority: taxAuthority as string,
+      });
+      return { success: true, data };
+    } catch (error: any) {
       set.status = 500;
-      return { error: 'Failed to get statistics' };
+      return { success: false, error: error.message };
     }
+  }, {
+    query: t.Object({
+      page: t.Optional(t.String()),
+      limit: t.Optional(t.String()),
+      taxAuthority: t.Optional(t.String()),
+    }),
+    detail: { summary: "List Tax Regulations", tags: ["Localization OS"] },
+  })
+
+  .get("/tax-regulations/stats", async ({ set }) => {
+    try {
+      const data = await localizationEngineService.getTaxStats();
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    detail: { summary: "Tax Regulation Statistics", tags: ["Localization OS"] },
   });
