@@ -111,6 +111,7 @@ export const analyticsOSRoutes = new Elysia({ prefix: "/analytics-os" })
   }, {
     body: t.Object({
       orgId: t.String(),
+      userId: t.String(),
       name: t.String(),
       reportType: t.String(),
       config: t.Optional(t.Any()),

@@ -1,33 +1,32 @@
 import { prisma } from "../lib/prisma";
 
 export class AnalyticsEngineService {
-  async getDashboard(orgId: string) {
+  async getDashboard(_orgId: string) {
     const [totalAnalytics, reportCount, activeWidgets, systemHealth, recentMetrics] = await Promise.all([
-      prisma.analytics.count({ where: { orgId } }),
-      prisma.report.count({ where: { orgId } }),
+      prisma.analytics.count(),
+      prisma.report.count(),
       prisma.dashboardWidget.count(),
-      prisma.healthCheck.findFirst({ orderBy: { createdAt: "desc" } }),
-      prisma.systemMetrics.findMany({ orderBy: { createdAt: "desc" }, take: 10 }),
+      prisma.healthCheck.findFirst({ orderBy: { checkedAt: "desc" } }),
+      prisma.systemMetrics.findMany({ orderBy: { collectedAt: "desc" }, take: 10 }),
     ]);
     return { totalAnalytics, reportCount, activeWidgets, systemHealth, recentMetrics };
   }
 
-  async getAnalyticsByOrg(orgId: string, params?: { skip?: number; take?: number; type?: string }) {
+  async getAnalyticsByOrg(_orgId: string, params?: { skip?: number; take?: number; type?: string }) {
     return prisma.analytics.findMany({
       where: {
-        orgId,
         ...(params?.type && { type: params.type }),
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { timestamp: "desc" },
       skip: params?.skip ?? 0,
       take: params?.take ?? 20,
     });
   }
 
-  async getAnalyticsStats(orgId: string) {
+  async getAnalyticsStats(_orgId: string) {
     const [total, byType] = await Promise.all([
-      prisma.analytics.count({ where: { orgId } }),
-      prisma.analytics.groupBy({ by: ["type"], where: { orgId }, _count: { id: true } }),
+      prisma.analytics.count(),
+      prisma.analytics.groupBy({ by: ["type"], _count: { id: true } }),
     ]);
     return { total, byType: byType.map(t => ({ type: t.type, count: t._count.id })) };
   }
@@ -49,12 +48,11 @@ export class AnalyticsEngineService {
     });
   }
 
-  async createReport(data: { orgId: string; name: string; reportType: string; config?: any }) {
+  async createReport(data: { orgId: string; userId: string; name: string; reportType: string; config?: any }) {
     return prisma.report.create({
       data: {
         ...data,
         config: data.config ?? {},
-        createdAt: new Date(),
       },
     });
   }
@@ -69,7 +67,7 @@ export class AnalyticsEngineService {
   async getSystemMetrics(params?: { skip?: number; take?: number; metricType?: string }) {
     return prisma.systemMetrics.findMany({
       where: { ...(params?.metricType && { metricType: params.metricType }) },
-      orderBy: { createdAt: "desc" },
+      orderBy: { collectedAt: "desc" },
       skip: params?.skip ?? 0,
       take: params?.take ?? 50,
     });
@@ -86,18 +84,19 @@ export class AnalyticsEngineService {
 
   async getHealthChecks() {
     return prisma.healthCheck.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { checkedAt: "desc" },
       take: 20,
     });
   }
 
-  async createAnalytics(data: { orgId: string; entityId: string; entityType: string; type: string; data?: any }) {
+  async createAnalytics(data: { entityId: string; entityType: string; type: string; data?: any }) {
     return prisma.analytics.create({
       data: {
-        ...data,
+        entityId: data.entityId,
+        entityType: data.entityType,
+        type: data.type,
         data: data.data ?? {},
         timestamp: new Date(),
-        createdAt: new Date(),
       },
     });
   }

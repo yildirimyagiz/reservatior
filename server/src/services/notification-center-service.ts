@@ -33,8 +33,8 @@ export class NotificationCenterService {
   async getNotificationStats() {
     const [total, byStatus, byRuleKey] = await Promise.all([
       prisma.notification.count(),
-      prisma.notification.groupBy({ by: ["status"], _count: { id: true } }),
-      prisma.notification.groupBy({ by: ["ruleKey"], _count: { id: true }, take: 10 }),
+      prisma.notification.groupBy({ by: ["status"], _count: { id: true }, orderBy: { status: "asc" } }),
+      prisma.notification.findMany({ select: { ruleKey: true }, distinct: ["ruleKey"], take: 20 }).then(rows => rows.map(r => ({ ruleKey: r.ruleKey, count: 0 }))),
     ]);
     return {
       total,

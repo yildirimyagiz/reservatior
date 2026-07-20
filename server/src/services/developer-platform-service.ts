@@ -7,7 +7,7 @@ export class DeveloperPlatformService {
       prisma.apiIntegration.count({ where: { orgId } }),
       prisma.webhook.count({ where: { orgId } }),
       prisma.integrationLog.findMany({ orderBy: { createdAt: "desc" }, take: 10 }),
-      prisma.webhookDelivery.count({ where: { status: "FAILED" } }),
+      prisma.webhookDelivery.count({ where: { statusCode: { gte: 400 } } }),
     ]);
     return { totalApiKeys, activeIntegrations, totalWebhooks, recentLogs, failedDeliveries };
   }

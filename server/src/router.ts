@@ -355,6 +355,8 @@ import { developerOSRoutes } from "./routes/developer-os";
 import { analyticsOSRoutes } from "./routes/analytics-os";
 import { documentOSRoutes } from "./routes/document-os";
 import { notificationOSRoutes } from "./routes/notification-os";
+import { userOSRoutes } from "./routes/user-os";
+import { adsOSRoutes } from "./routes/ads-os";
 
 // Route Clusters to optimize TypeScript instantiation depth
 const cluster1 = new Elysia()
@@ -756,4 +758,6 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(analyticsOSRoutes)
   .use(documentOSRoutes)
   .use(notificationOSRoutes)
+  .use(userOSRoutes)
+  .use(adsOSRoutes)
 ;
