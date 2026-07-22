@@ -16,7 +16,7 @@ import {
   Trash2,
   ShieldCheck,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -90,7 +90,7 @@ export default function AdminRightToRentPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_righttorent_title")}</h1>
@@ -101,7 +101,7 @@ export default function AdminRightToRentPage() {
               {t("admin_righttorent_back_to_dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           {[
@@ -110,7 +110,7 @@ export default function AdminRightToRentPage() {
             { label: t("admin_righttorent_expired"), value: "7", color: "text-red-400", icon: FileSearch },
             { label: t("admin_righttorent_failed"), value: "3", color: "text-muted-foreground", icon: FileSearch },
           ].map((stat, idx) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * idx }}>
+            <m.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * idx }}>
               <Card className="bg-card border-border">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
@@ -122,11 +122,11 @@ export default function AdminRightToRentPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -148,9 +148,9 @@ export default function AdminRightToRentPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
           <Card className="bg-card border-border">
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
@@ -184,8 +184,8 @@ export default function AdminRightToRentPage() {
                           {t(`admin_status_${String(record.status).toLowerCase()}`)}
                         </Badge>
                         <div className="flex gap-2">
-                          <Button onClick={() => { setEditingItem(record); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
-                          <Button onClick={() => { setDeletingItem(record); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                          <Button onClick={() => { setEditingItem(record); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                          <Button onClick={() => { setDeletingItem(record); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </div>
                     </div>
@@ -194,7 +194,7 @@ export default function AdminRightToRentPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
         {/* Create Dialog */}
         <CreateRightToRentDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
         {/* Edit Dialog */}

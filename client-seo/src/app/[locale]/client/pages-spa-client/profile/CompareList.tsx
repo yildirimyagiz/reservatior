@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 export default function CompareList() {
@@ -54,7 +54,7 @@ export default function CompareList() {
 
       <div className="max-w-7xl mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -77,10 +77,10 @@ export default function CompareList() {
             <Plus className="w-4 h-4 mr-3 group-hover:rotate-90 transition-transform" />
             {t('addMore')}
           </Button>
-        </motion.div>
+        </m.div>
 
         {/* Comparison Matrix */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.98
       }} animate={{
@@ -111,7 +111,7 @@ export default function CompareList() {
           {/* Property Columns */}
           <div className="flex overflow-x-auto scrollbar-hide">
             <AnimatePresence mode="popLayout">
-              {properties.map(property => <motion.div key={property.id} initial={{
+              {properties.map(property => <m.div key={property.id} initial={{
               opacity: 0,
               x: 20
             }} animate={{
@@ -129,7 +129,7 @@ export default function CompareList() {
                   <div className="h-[340px] p-8 flex flex-col gap-6 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[20px_20px] pointer-events-none"></div>
                     <div className="h-44 relative rounded-[32px] overflow-hidden shadow-2xl border border-white/10">
-                      <Image src={property.image} alt={property.title} fill className="object-cover group-hover/col:scale-110 transition-transform duration-1000 brightness-90 group-hover/col:brightness-100" sizes="(max-width: 768px) 100vw, 340px" />
+                      <Image src={property.image} alt={property.title} fill className="object-cover group-hover/col:scale-110 transition-transform duration-1000 brightness-90 group-hover/col:brightness-100" loading="lazy" sizes="(max-width: 768px) 100vw, 340px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
                     <div className="space-y-4">
@@ -202,7 +202,7 @@ export default function CompareList() {
                       {t('viewFull')}
                     </Button>
                   </div>
-                </motion.div>)}
+                </m.div>)}
 
               {properties.length < 3 && <div className="min-w-[340px] flex-1 flex flex-col items-center justify-center bg-white/2 border-dashed border-r border-white/5 relative overflow-hidden group/add">
                   <div className="absolute inset-0 bg-blue-500/2 opacity-0 group-hover/add:opacity-100 transition-opacity" />
@@ -213,7 +213,7 @@ export default function CompareList() {
                 </div>}
             </AnimatePresence>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </div>;
 }

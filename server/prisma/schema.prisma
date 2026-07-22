@@ -1216,6 +1216,16 @@ model Listing {
   isPromoted            Boolean                @default(false)
   promotionTier         Int?                   @default(0)
   promotedUntil         DateTime?
+  isOptimizedForSpeed   Boolean                @default(false)
+  optimizationRate      Decimal?               @db.Decimal(5, 4)
+  optimizationReason    String?
+  vacancyDays           Int                    @default(0)
+  vacancyScore          Float?
+  boostScore            Float                  @default(0)
+  rankingScore          Float                  @default(0)
+  lastPriceOptimizationAt DateTime?
+  priceOptimizationSource OptimizationSource?
+  optimizationStatus    OptimizationStatus     @default(NONE)
   likesCount            Int                    @default(0)
   createdBy             String?
   createdAt             DateTime               @default(now())
@@ -3601,6 +3611,12 @@ enum CommissionAdvanceStatus {
   COMPLETED
 }
 
+enum AgentType {
+  FREELANCE
+  OFFICE
+  ENTERPRISE
+}
+
 model CommissionAdvance {
   id             String                  @id @default(uuid())
   commissionId   String
@@ -4919,25 +4935,42 @@ model AIImageAnalysis {
 }
 
 model AIPriceOptimization {
-  id               String        @id @default(cuid())
-  orgId            String?
-  listingId        String
-  currentPrice     Decimal       @db.Decimal(14, 2)
-  recommendedPrice Decimal       @db.Decimal(14, 2)
-  priceRange       Json
-  factors          Json
-  comparableData   Json
-  marketTrends     Json
-  confidence       Float
-  generatedAt      DateTime
-  isApplied        Boolean       @default(false)
-  appliedAt        DateTime?
-  createdAt        DateTime      @default(now())
-  listing          Listing       @relation(fields: [listingId], references: [id])
-  org              Organization? @relation(fields: [orgId], references: [id])
+  id                        String        @id @default(cuid())
+  orgId                     String?
+  listingId                 String        @unique
+  propertyId                String?
+  currentPrice              Decimal       @db.Decimal(14, 2)
+  recommendedPrice          Decimal       @db.Decimal(14, 2)
+  recommendedDiscount       Decimal?      @db.Decimal(5, 4)
+  priceRange                Json
+  factors                   Json
+  comparableData            Json
+  marketTrends              Json
+  confidence                Float
+  estimatedVacancyReduction Float?
+  estimatedRevenueImpact    Decimal?      @db.Decimal(14, 2)
+  estimatedRentalProbability Float?
+  vacancyDaysAtAnalysis     Int?
+  marketDemandScore         Float?
+  generatedAt               DateTime
+  isApplied                 Boolean       @default(false)
+  appliedAt                 DateTime?
+  acceptedAt                DateTime?
+  declinedAt                DateTime?
+  rejectionReason           String?
+  actualOutcomePrice        Decimal?      @db.Decimal(14, 2)
+  actualVacancyReduction    Float?
+  actualRevenueImpact       Decimal?      @db.Decimal(14, 2)
+  predictionError           Float?
+  learnedAt                 DateTime?
+  marketData                Json?
+  lastAnalyzedAt            DateTime?
+  createdAt                 DateTime      @default(now())
+  listing                   Listing       @relation(fields: [listingId], references: [id])
+  org                       Organization? @relation(fields: [orgId], references: [id])
 
   @@index([orgId])
-  @@index([listingId])
+  @@index([propertyId])
   @@index([generatedAt])
 }
 
@@ -6234,6 +6267,135 @@ model CommissionRule {
   @@index([providerId])
   @@index([ruleType])
   @@index([deletedAt])
+}
+
+model CountryCommissionRule {
+  id                String    @id @default(cuid())
+  countryCode       String
+  agentType         AgentType
+  baseCommissionRate Decimal  @db.Decimal(5, 4)
+  regulatoryCeiling Decimal?  @db.Decimal(5, 4)
+  marketAdjustment  Decimal?  @db.Decimal(5, 4)
+  volumeIncentives  Json?
+  campaignTags      Json?
+  effectiveFrom     DateTime  @default(now())
+  effectiveUntil    DateTime?
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+
+  @@unique([countryCode, agentType, effectiveFrom])
+  @@index([countryCode])
+  @@index([agentType])
+  @@index([isActive])
+  @@index([effectiveFrom, effectiveUntil])
+}
+
+model CommissionPolicy {
+  id                  String             @id @default(cuid())
+  orgId               String
+  countryCode         String             @db.VarChar(2)
+  agentType           AgentType?
+
+  platformRate        Decimal            @default(0.05) @db.Decimal(5, 4)
+  partnerRate         Decimal            @default(0.05) @db.Decimal(5, 4)
+
+  settlementTiming      String           @default("INSTALLMENT")
+  maxInstallments       Int              @default(12)
+  defaultInstallments   Int              @default(6)
+  installmentInterest   Decimal          @default(0.10) @db.Decimal(5, 4)
+
+  minCommission       Decimal?           @db.Decimal(14, 2)
+  maxCommission       Decimal?           @db.Decimal(14, 2)
+
+  requiresApproval    Boolean            @default(false)
+  approvalThreshold   Decimal?           @db.Decimal(14, 2)
+
+  isActive            Boolean            @default(true)
+  effectiveFrom       DateTime           @default(now())
+  effectiveUntil      DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  deletedAt           DateTime?
+
+  org                 Organization       @relation(fields: [orgId], references: [id])
+
+  @@unique([orgId, countryCode, effectiveFrom])
+  @@index([orgId])
+  @@index([countryCode])
+  @@index([isActive])
+}
+
+model SettlementPolicy {
+  id                    String           @id @default(cuid())
+  orgId                 String
+  name                  String
+  countryCode           String           @db.VarChar(2)
+
+  settlementType        String           @default("INSTALLMENT")
+  upfrontPercent        Decimal          @default(50.00) @db.Decimal(5, 2)
+  installmentCount      Int              @default(6)
+  installmentFrequency  String           @default("MONTHLY")
+  interestRate          Decimal          @default(0.10) @db.Decimal(5, 4)
+
+  earlySettlementDiscount Decimal         @default(0.05) @db.Decimal(5, 4)
+  earlySettlementDays     Int             @default(30)
+
+  latePenaltyRate       Decimal          @default(0.02) @db.Decimal(5, 4)
+  lateGraceDays         Int              @default(15)
+
+  minCommissionAmount   Decimal?         @db.Decimal(14, 2)
+  minInstallmentAmount  Decimal?         @db.Decimal(14, 2)
+
+  isActive              Boolean          @default(true)
+  effectiveFrom         DateTime         @default(now())
+  effectiveUntil        DateTime?
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  deletedAt             DateTime?
+
+  org                   Organization     @relation(fields: [orgId], references: [id])
+
+  @@unique([orgId, countryCode, settlementType, effectiveFrom])
+  @@index([orgId])
+  @@index([countryCode])
+  @@index([isActive])
+}
+
+model PricingPolicy {
+  id                    String           @id @default(cuid())
+  orgId                 String
+  name                  String
+  countryCode           String           @db.VarChar(2)
+
+  maxDiscountPct        Decimal          @default(0.30) @db.Decimal(5, 4)
+  minPriceFloor         Decimal?         @db.Decimal(5, 4)
+
+  strategy              String           @default("DYNAMIC")
+  minAdjustmentPct      Decimal          @default(-0.20) @db.Decimal(5, 4)
+  maxAdjustmentPct      Decimal          @default(0.20) @db.Decimal(5, 4)
+  adjustmentFrequency   String           @default("DAILY")
+
+  highSeasonMultiplier  Decimal          @default(1.20) @db.Decimal(5, 4)
+  lowSeasonMultiplier   Decimal          @default(0.85) @db.Decimal(5, 4)
+
+  aiOptimizationEnabled Boolean          @default(false)
+  minConfidenceThreshold Float?          @default(0.7)
+
+  isActive              Boolean          @default(true)
+  effectiveFrom         DateTime         @default(now())
+  effectiveUntil        DateTime?
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  deletedAt             DateTime?
+
+  org                   Organization     @relation(fields: [orgId], references: [id])
+
+  @@unique([orgId, countryCode, effectiveFrom])
+  @@index([orgId])
+  @@index([countryCode])
+  @@index([isActive])
 }
 
 model CommunicationLog {
@@ -8724,6 +8886,21 @@ enum ListingType {
   SALE
   RENT
   BOOKING
+}
+
+enum OptimizationStatus {
+  NONE
+  SUGGESTED
+  ACCEPTED
+  ACTIVE
+  EXPIRED
+}
+
+enum OptimizationSource {
+  AI
+  OWNER
+  AGENT
+  SYSTEM
 }
 
 enum ListingStatus {
@@ -13326,6 +13503,8 @@ model PlatformDashboard {
   updatedAt       DateTime @updatedAt
 
   @@index([osModule])
+}
+
 // ==========================================
 // Kumbara Deposit Model
 // Configurable deposit system — tenant monthly contribution

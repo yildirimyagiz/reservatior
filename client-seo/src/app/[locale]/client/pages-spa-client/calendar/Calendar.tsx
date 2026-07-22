@@ -15,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Clock, CheckCircle, XCircle, AlertCircle, MapPin, Users, ChevronLeft, ChevronRight, Plus, CalendarDays, Eye, Edit, Trash2, Search, CalendarClock, Activity, FileBarChart, Sparkles, Target, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 interface CalendarEvent {
   id: string;
@@ -258,7 +258,7 @@ export default function Calendar() {
               <div className="space-y-6 relative ml-2">
                 <div className="absolute left-1.5 top-2 bottom-2 w-px bg-slate-800/50 group-hover:bg-blue-600/30 transition-colors" />
                 
-                {todayEvents.length > 0 ? todayEvents.map((event, idx) => <motion.div key={event.id} initial={{
+                {todayEvents.length > 0 ? todayEvents.map((event, idx) => <m.div key={event.id} initial={{
                 opacity: 0,
                 x: -10
               }} animate={{
@@ -284,7 +284,7 @@ export default function Calendar() {
                           {event.location}
                         </div>
                       </div>
-                    </motion.div>) : <div className="py-12 text-center">
+                    </m.div>) : <div className="py-12 text-center">
                     <div className="w-12 h-12 bg-slate-800/50 rounded-2xl flex items-center justify-center mx-auto mb-4 opacity-50">
                       <CalendarDays className="w-6 h-6 text-slate-600" />
                     </div>

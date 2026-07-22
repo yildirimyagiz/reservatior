@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Bed, Bath, Square, Calendar as CalendarIcon, Heart, Share2, Zap, ChevronLeft, Star, PlayCircle, Play, DollarSign, Users, Activity, ShieldCheck, Camera, MessageSquare, AlertTriangle, Clapperboard, Globe } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format, differenceInDays } from "date-fns";
@@ -476,7 +476,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
                   <div className="relative h-[550px] bg-slate-950 group">
                     <AnimatePresence mode="wait">
-                      {mediaMode === 'photo' ? <motion.div key={selectedImageIndex} initial={{
+                      {mediaMode === 'photo' ? <m.div key={selectedImageIndex} initial={{
                     opacity: 0,
                     scale: 1.05
                   }} animate={{
@@ -485,8 +485,8 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   }} exit={{
                     opacity: 0
                   }} onClick={() => setIsGalleryOpen(true)} className="absolute inset-0 w-full h-full cursor-pointer">
-                          <Image src={mainPhoto?.url || "/placeholder-property.jpg"} alt="" fill className="object-cover" sizes="100vw" />
-                        </motion.div> : <motion.div key="video-player" initial={{
+                          <Image src={mainPhoto?.url || "/placeholder-property.jpg"} alt="" fill className="object-cover" loading="lazy" sizes="100vw" />
+                        </m.div> : <m.div key="video-player" initial={{
                     opacity: 0
                   }} animate={{
                     opacity: 1
@@ -497,7 +497,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                           {!activeVideoUrl && <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
                                 <Activity className="w-12 h-12 text-blue-600 animate-spin" />
                              </div>}
-                        </motion.div>}
+                        </m.div>}
                     </AnimatePresence>
                     <div className="absolute top-6 left-6 flex gap-2">
                       {property.legalComplianceStatus === 'VERIFIED' && <Badge className="bg-emerald-500/20 text-emerald-400 border-none gap-2 font-black italic shadow-2xl backdrop-blur-xl">
@@ -509,10 +509,10 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
                <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none">
                   {mediaMode === 'photo' ? photos.map((photo: any, i: number) => <button key={photo.id} onClick={() => setSelectedImageIndex(i)} className={cn("min-w-[120px] h-20 rounded-2xl overflow-hidden border-2 transition-all group relative", selectedImageIndex === i ? "border-orange-500 shadow-xl" : "border-white/5 grayscale hover:grayscale-0")}>
-                        <Image src={photo.url} alt="" fill className="object-cover group-hover:scale-110 transition-all" sizes="120px" />
+                        <Image src={photo.url} alt="" fill className="object-cover group-hover:scale-110 transition-all" loading="lazy" sizes="120px" />
                         {selectedImageIndex === i && <div className="absolute inset-x-0 bottom-0 h-1 bg-orange-500"></div>}
                       </button>) : property.agentVideos?.map((video: any) => <button key={video.id} onClick={() => setActiveVideoUrl(video.videoUrl)} className={cn("min-w-[160px] h-24 rounded-2xl overflow-hidden border-2 transition-all group relative bg-black", activeVideoUrl === video.videoUrl ? "border-orange-500 shadow-xl" : "border-white/5")}>
-                        <Image src={video.thumbnailUrl || "/video-placeholder.jpg"} alt="" fill className="object-cover opacity-50 group-hover:opacity-80 transition-all" sizes="160px" />
+                        <Image src={video.thumbnailUrl || "/video-placeholder.jpg"} alt="" fill className="object-cover opacity-50 group-hover:opacity-80 transition-all" loading="lazy" sizes="160px" />
                         <div className="absolute inset-0 flex items-center justify-center">
                            <Play className="w-8 h-8 text-white drop-shadow-2xl" />
                         </div>
@@ -664,7 +664,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                            {(property as any).floorPlans.map((fp: any) => (
                               <div key={fp.id} className="space-y-2">
                                  <p className="text-[10px] font-black text-slate-500 tracking-widest">{fp.title}</p>
-                                 <Image src={fp.url} alt={fp.title} width={800} height={600} className="w-full h-auto rounded-2xl border border-white/5 object-cover bg-black/40" style={{ width: '100%', height: 'auto' }} />
+                                  <Image src={fp.url} alt={fp.title} width={800} height={600} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" className="w-full h-auto rounded-2xl border border-white/5 object-cover bg-black/40" style={{ width: '100%', height: 'auto' }} />
                               </div>
                            ))}
                         </div>
@@ -776,7 +776,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                                 <div className="flex items-center justify-between mb-3">
                                   <div className="flex items-center gap-3">
                                     <div className="relative w-10 h-10 bg-white rounded-xl flex items-center justify-center p-2">
-                                      {offer.logoUrl.startsWith("http") ? <Image src={offer.logoUrl} alt={offer.provider} fill className="object-contain" sizes="40px" /> : <span className="text-xs font-bold text-black text-center">{offer.provider[0]}</span>}
+                                      {offer.logoUrl.startsWith("http") ? <Image src={offer.logoUrl} alt={offer.provider} fill className="object-contain" loading="lazy" sizes="40px" /> : <span className="text-xs font-bold text-black text-center">{offer.provider[0]}</span>}
                                     </div>
                                     <span className="font-black text-white">{offer.provider}</span>
                                   </div>
@@ -1062,7 +1062,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
       {/* FULL SCREEN PHOTO GALLERY MODAL */}
       <AnimatePresence>
         {isGalleryOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -1095,7 +1095,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
             </Button>
             
             <div className="w-full max-w-6xl max-h-[85vh] relative flex items-center justify-center">
-              <motion.div
+              <m.div
                 key={`gallery-${selectedImageIndex}`}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -1108,10 +1108,12 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   alt=""
                   width={1200}
                   height={800}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="max-w-full max-h-full object-contain shadow-2xl rounded-lg"
                   style={{ width: 'auto', height: 'auto' }}
                 />
-              </motion.div>
+              </m.div>
             </div>
             
             <Button
@@ -1125,7 +1127,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
             >
               <ChevronLeft className="w-8 h-8 rotate-180" />
             </Button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -1167,6 +1169,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.price_label", "Offer Price ($)")}</Label>
                   <Input 
                     type="number" 
+                    aria-label="Offer Price"
                     value={offerPrice} 
                     onChange={(e) => setOfferPrice(e.target.value)} 
                     className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"
@@ -1176,6 +1179,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                 <div className="space-y-1.5">
                   <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.financing_label", "Financing Type")}</Label>
                   <select 
+                    aria-label="Financing Type"
                     value={financingType} 
                     onChange={(e) => setFinancingType(e.target.value)}
                     className="flex h-10 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:outline-none"
@@ -1193,6 +1197,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.earnest_label", "Earnest Deposit ($)")}</Label>
                   <Input 
                     type="number" 
+                    aria-label="Earnest Money"
                     value={earnestMoney} 
                     onChange={(e) => setEarnestMoney(e.target.value)} 
                     className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"
@@ -1203,6 +1208,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.due_diligence_label", "Due Diligence (Days)")}</Label>
                   <Input 
                     type="number" 
+                    aria-label="Due Diligence Amount"
                     value={dueDiligence} 
                     onChange={(e) => setDueDiligence(e.target.value)} 
                     className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"

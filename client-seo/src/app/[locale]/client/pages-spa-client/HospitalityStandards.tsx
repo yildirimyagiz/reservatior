@@ -6,7 +6,7 @@ import { CTA } from "@/components/home/CTA";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { SEOMetadata } from "@/components/seo/SEOMetadata";
 
 const fadeUp = {
@@ -123,7 +123,7 @@ export default function HospitalityStandards() {
         <div className="text-center relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/8 blur-[160px] pointer-events-none rounded-full" />
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <Badge className="mb-6 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-5 py-1.5 text-xs font-bold tracking-wider rounded-full">
               <Sparkles className="w-3 h-3 mr-2" /> HIGH-END HOSPITALITY FRAMEWORK
             </Badge>
@@ -138,11 +138,11 @@ export default function HospitalityStandards() {
               Our framework transforms every unit into a 5-star experience —
               maximizing owner revenue while protecting resident serenity.
             </p>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* ─── TRUST METRICS BAR ────────────────────────────────────────── */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -156,11 +156,11 @@ export default function HospitalityStandards() {
               <p className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">{m.label}</p>
             </div>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* ─── FOUR PILLARS ─────────────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               THE FOUR PILLARS
             </Badge>
@@ -170,11 +170,11 @@ export default function HospitalityStandards() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Every short-term rental on Reservatior must pass through four operational layers designed to preserve and elevate building prestige.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {PILLARS.map((pillar, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -207,14 +207,14 @@ export default function HospitalityStandards() {
                     </ul>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── GUEST JOURNEY TIMELINE ──────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               GUEST LIFECYCLE
             </Badge>
@@ -224,11 +224,11 @@ export default function HospitalityStandards() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               From the moment a guest requests a booking until they check out — every touchpoint is orchestrated for safety and excellence.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {GUEST_JOURNEY.map((step, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -247,23 +247,23 @@ export default function HospitalityStandards() {
                   <h3 className="text-lg font-black text-neutral-900 dark:text-white tracking-tight mb-3">{step.title}</h3>
                   <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── COMPARISON TABLE ─────────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               COMPARISON
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Traditional vs. Reservatior
             </h2>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -289,11 +289,11 @@ export default function HospitalityStandards() {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </m.div>
         </section>
 
         {/* ─── WIN-WIN BANNER ───────────────────────────────────────────── */}
-        <motion.section
+        <m.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -343,10 +343,10 @@ export default function HospitalityStandards() {
               </div>
             </div>
           </div>
-        </motion.section>
+        </m.section>
 
         {/* ─── FOR OWNERS CTA ──────────────────────────────────────────── */}
-        <motion.section
+        <m.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -376,7 +376,7 @@ export default function HospitalityStandards() {
               Visit Trust Center
             </Button>
           </div>
-        </motion.section>
+        </m.section>
       </main>
 
       <CTA />

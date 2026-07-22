@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { favoritesApi } from "@/lib/api/social";
 import { useToast } from "@/hooks/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "@/lib/react-router-shim";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
@@ -88,7 +88,7 @@ export default function Favorites() {
 
       <div className="max-w-7xl mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -112,13 +112,13 @@ export default function Favorites() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4 group-focus-within:text-blue-400 transition-colors" />
             <Input placeholder={t('searchPlaceholder')} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="h-14 pl-12 pr-6 rounded-2xl bg-[#1a1b1e]/60 border-white/5 focus:border-blue-500/50 text-[10px] font-black italic tracking-widest text-white transition-all shadow-inner placeholder:text-slate-600" />
           </div>
-        </motion.div>
+        </m.div>
 
         {loading ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3].map(i => <div key={i} className="h-96 bg-white/5 animate-pulse rounded-[40px] border border-white/5"></div>)}
           </div> : filteredFavorites.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence mode="popLayout">
-              {filteredFavorites.map((property, index) => <motion.div key={property.id} layout initial={{
+              {filteredFavorites.map((property, index) => <m.div key={property.id} layout initial={{
             opacity: 0,
             scale: 0.9,
             y: 20
@@ -137,7 +137,7 @@ export default function Favorites() {
                     <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[40px_40px]"></div>
                     
                     <div className="relative aspect-16/10 overflow-hidden">
-                      <Image src={property.image} alt={property.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100" sizes="(max-width: 768px) 100vw, 50vw" />
+                      <Image src={property.image} alt={property.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#14151a] via-transparent to-transparent opacity-60" />
                       
                       <div className="absolute top-4 right-4 flex gap-2">
@@ -196,9 +196,9 @@ export default function Favorites() {
                       </Link>
                     </CardFooter>
                   </Card>
-                </motion.div>)}
+                </m.div>)}
             </AnimatePresence>
-          </div> : <motion.div initial={{
+          </div> : <m.div initial={{
         opacity: 0,
         scale: 0.95
       }} animate={{
@@ -218,7 +218,7 @@ export default function Favorites() {
                 {t('explore')}
               </Button>
             </Link>
-          </motion.div>}
+          </m.div>}
       </div>
     </div>;
 }

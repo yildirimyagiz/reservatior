@@ -55,6 +55,7 @@ export function OpportunityFeed() {
         </div>
         <button 
           onClick={fetchOpportunities} 
+          aria-label="Refresh"
           className="p-2 text-slate-400 hover:text-emerald-500 hover:bg-slate-800 rounded-full transition-colors"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />

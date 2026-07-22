@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Play, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -27,14 +27,14 @@ export function Hero() {
   return <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background with Overlay */}
       <div className="absolute inset-0 z-0">
-        <Image src={coverImage} alt={t("client.src.hero_background")} fill className="object-cover" sizes="100vw" priority />
+        <Image src={coverImage} alt={t("client.src.hero_background")} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1920px" priority fetchPriority="high" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
       {/* Content */}
       <div className="container relative z-10 px-4 md:px-6 flex flex-col items-center text-center max-w-4xl mx-auto">
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -49,9 +49,9 @@ export function Hero() {
               {t("hero.new")}
             </span>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.h1 initial={{
+        <m.h1 initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -62,9 +62,9 @@ export function Hero() {
         delay: 0.1
       }} className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-[1.1] tracking-tight mb-6">
           {t("hero.title")}
-        </motion.h1>
+        </m.h1>
 
-        <motion.p initial={{
+        <m.p initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -75,9 +75,9 @@ export function Hero() {
         delay: 0.2
       }} className="text-lg md:text-xl text-gray-300 max-w-2xl mb-10">
           {t("heroSubtitle")}
-        </motion.p>
+        </m.p>
 
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -99,7 +99,7 @@ export function Hero() {
               {t("cta.create")}
             </Button>
           </Link>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Decorative Bottom Fade */}

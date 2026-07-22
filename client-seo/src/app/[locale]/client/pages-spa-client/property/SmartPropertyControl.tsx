@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Lock, Unlock, Thermometer, Shield, ShieldAlert, Wind, Droplets, Battery, Wifi, Activity } from 'lucide-react';
 
 export default function SmartPropertyControl() {
@@ -11,7 +11,7 @@ export default function SmartPropertyControl() {
     <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-slate-100 p-6 md:p-12 font-sans">
       
       {/* Header Section */}
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-12"
@@ -25,13 +25,13 @@ export default function SmartPropertyControl() {
         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
           Manage your environment. From smart locks to climate control, everything is seamlessly integrated for your comfort and safety.
         </p>
-      </motion.div>
+      </m.div>
 
       {/* Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         
         {/* Smart Lock Widget */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="col-span-1 md:col-span-5 relative overflow-hidden rounded-3xl p-8 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between"
@@ -60,13 +60,13 @@ export default function SmartPropertyControl() {
                   : 'bg-emerald-500 shadow-[0_0_40px_rgba(16,185,129,0.4)] text-white'
               }`}
             >
-              <motion.div
+              <m.div
                 initial={false}
                 animate={{ rotate: isLocked ? 0 : 180, scale: isLocked ? 1 : 1.1 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15 }}
               >
                 {isLocked ? <Lock className="w-10 h-10" /> : <Unlock className="w-10 h-10" />}
-              </motion.div>
+              </m.div>
               <span className="font-bold text-sm tracking-wide uppercase">
                 {isLocked ? 'Locked' : 'Unlocked'}
               </span>
@@ -75,10 +75,10 @@ export default function SmartPropertyControl() {
           <p className="text-center text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest font-bold">
             Tap to toggle lock
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Climate Control Widget */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
@@ -139,10 +139,10 @@ export default function SmartPropertyControl() {
               </button>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Security & Sensors Widget */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
@@ -173,7 +173,7 @@ export default function SmartPropertyControl() {
               {securityActive ? 'Deactivate' : 'Activate'}
             </button>
           </div>
-        </motion.div>
+        </m.div>
 
       </div>
 

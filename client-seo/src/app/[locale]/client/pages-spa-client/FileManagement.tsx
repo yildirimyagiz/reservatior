@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Folder, Eye, Download, Search, Filter, RefreshCw, Trash2, Edit, Share, Users, FileCode, FileImage, FileVideo, FileAudio, Archive } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 interface FileEntry {
@@ -476,7 +476,7 @@ export default function FileManagement() {
                       <Badge className="bg-white/5 text-slate-500 border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
                    </div>
                    <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{stat.label}</p>
-                   <h3 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h3>
+                   <h2 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h2>
                 </CardContent>
              </Card>)}
         </div>
@@ -485,7 +485,7 @@ export default function FileManagement() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-[#1a1b1e]/40 p-8 rounded-[40px] border border-white/5 shadow-2xl">
            <div className="relative w-full md:w-96">
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600" />
-              <input type="text" placeholder={t("filesControlsSearch")} className="w-full bg-black/40 border border-white/5 rounded-3xl py-5 pl-16 pr-8 text-xs font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-inner" value={filter.search || ''} onChange={e => setFilter({
+               <input type="text" aria-label="Search files" placeholder={t("filesControlsSearch")} className="w-full bg-black/40 border border-white/5 rounded-3xl py-5 pl-16 pr-8 text-xs font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-inner" value={filter.search || ''} onChange={e => setFilter({
             ...filter,
             search: e.target.value || undefined
           })} />
@@ -519,7 +519,7 @@ export default function FileManagement() {
               val: 'shared',
               label: t("client.src.shared")
             }]
-          }].map(f => <select key={f.key} className="bg-[#1a1b1e] border border-white/5 rounded-2xl px-6 py-4 text-[10px] font-black italic tracking-widest text-slate-400 focus:outline-none focus:border-blue-500/50 transition-all cursor-pointer" value={(filter as any)[f.key] || ''} onChange={e => setFilter({
+          }].map(f => <select key={f.key} aria-label={`Filter by ${f.key}`} className="bg-[#1a1b1e] border border-white/5 rounded-2xl px-6 py-4 text-[10px] font-black italic tracking-widest text-slate-400 focus:outline-none focus:border-blue-500/50 transition-all cursor-pointer" value={(filter as any)[f.key] || ''} onChange={e => setFilter({
             ...filter,
             [f.key]: e.target.value || undefined
           })}>

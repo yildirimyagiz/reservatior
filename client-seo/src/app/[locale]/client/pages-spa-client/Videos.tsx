@@ -504,6 +504,7 @@ export default function Videos() {
                 </div>
                 <input 
                   type="text" 
+                  aria-label="AI search videos"
                   placeholder={t('videos.ai_search_placeholder', 'e.g. "Villas with a pool under $2M"')}
                   value={aiQuery}
                   onChange={(e) => setAiQuery(e.target.value)}
@@ -513,6 +514,7 @@ export default function Videos() {
                 <button 
                   type="submit" 
                   disabled={isAiSearching}
+                  aria-label="Submit AI search"
                   className="pr-4 pl-3 py-4 flex items-center justify-center hover:bg-muted transition-colors disabled:opacity-50"
                 >
                   <Send className="w-5 h-5 text-muted-foreground hover:text-violet-500 transition-colors" />
@@ -581,6 +583,7 @@ export default function Videos() {
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">$</span>
                     <input 
                       type="number" 
+                      aria-label="Minimum price"
                       placeholder="MIN PRICE"
                       value={priceMin}
                       onChange={(e) => setPriceMin(e.target.value)}
@@ -592,6 +595,7 @@ export default function Videos() {
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">$</span>
                     <input 
                       type="number" 
+                      aria-label="Maximum price"
                       placeholder="MAX PRICE"
                       value={priceMax}
                       onChange={(e) => setPriceMax(e.target.value)}

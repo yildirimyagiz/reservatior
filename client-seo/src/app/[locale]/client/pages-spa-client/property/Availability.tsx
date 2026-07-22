@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 const EMPTY_FORM = {
@@ -162,7 +162,7 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
     } = useTranslation();
     return <div className="bg-[#1a1b1e] border-white/10 text-white rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-3xl">
       <div className="p-10 pb-0">
-        <h2 className="text-3xl font-black italic tracking-tighter text-blue-400">{title}</h2>
+        <h1 className="text-3xl font-black italic tracking-tighter text-blue-400">{title}</h1>
         <p className="text-slate-500 font-black italic tracking-widest text-[10px] pt-4 leading-relaxed">{desc}</p>
       </div>
       <form onSubmit={onSubmit} className="p-10 space-y-8">
@@ -243,7 +243,7 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
       
       <div className="max-w-[1600px] mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -261,7 +261,7 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
             <div className="space-y-1.5">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[9px] font-black tracking-[0.2em] italic">
                 <Calendar className="w-3.5 h-3.5" />{t("client.src.reztimegrid")}</div>
-              <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">{t('client.property.availability.title')}</h1>
+              <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">{t('client.property.availability.title')}</h2>
               <p className="text-slate-500 text-sm font-black tracking-widest italic">{t('client.property.availability.subtitle')}</p>
             </div>
           </div>
@@ -276,7 +276,7 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
                <Plus className="w-5 h-5 mr-3" /> {t('client.property.availability.add')}
              </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -304,7 +304,7 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
           icon: XCircle,
           color: "text-rose-400",
           bg: "bg-rose-500/10"
-        }].map((s, i) => <motion.div key={i} initial={{
+        }].map((s, i) => <m.div key={i} initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -325,11 +325,11 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
                    </div>
                  </div>
                </Card>
-             </motion.div>)}
+             </m.div>)}
         </div>
 
         {/* Filter Surface */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.98
       }} animate={{
@@ -339,13 +339,13 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
           <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
             <div className="relative group">
                <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-               <input placeholder={t('client.property.availability.search')} className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={search} onChange={e => setSearch(e.target.value)} />
+                <input placeholder={t('client.property.availability.search')} aria-label="Search availability" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={search} onChange={e => setSearch(e.target.value)} />
             </div>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Table Surface */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -414,7 +414,7 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
               </TableBody>
             </Table>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>

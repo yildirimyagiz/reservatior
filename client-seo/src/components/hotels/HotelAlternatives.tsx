@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -133,7 +133,7 @@ export function HotelAlternatives({
 
       <AnimatePresence>
         {expanded && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -177,7 +177,7 @@ export function HotelAlternatives({
                             alt={item.name}
                             fill
                             className="object-cover"
-                            sizes="(max-width: 768px) 100vw, 50vw"
+                            loading="lazy" sizes="(max-width: 768px) 100vw, 50vw"
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
@@ -261,7 +261,7 @@ export function HotelAlternatives({
                 })
               )}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </Card>

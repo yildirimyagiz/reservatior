@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Monitor, Key, Lock, ShieldAlert, Cpu, Power } from "lucide-react";
@@ -16,20 +16,21 @@ export function IoTContent() {
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
-        <motion.div style={{ opacity }} className="absolute inset-0">
+        <m.div style={{ opacity }} className="absolute inset-0">
           <Image 
             src="https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=2670&auto=format&fit=crop" 
             alt="IoT Smart Devices" 
             fill 
+            sizes="100vw"
             className="object-cover opacity-35 transform scale-105" 
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#02040a] via-transparent to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#02040a]/90 via-transparent to-transparent" />
-        </motion.div>
+        </m.div>
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
+          <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300 mb-6 backdrop-blur-md">
               <Monitor className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.iot.badge", { defaultValue: "Smart Devices" })}</span>
@@ -48,7 +49,7 @@ export function IoTContent() {
                 {t("client.iot.cta_secondary", { defaultValue: "Sensor History" })}
               </Button>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -58,7 +59,7 @@ export function IoTContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Smart Lock Status */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Lock className="w-10 h-10 text-blue-400 mb-6" />
@@ -71,10 +72,10 @@ export function IoTContent() {
                 <span className="text-sm text-slate-400 uppercase font-black">{t("client.iot.status", { defaultValue: "Status" })}</span>
                 <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold">{t("client.iot.locked", { defaultValue: "Locked" })}</span>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Climate Control */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Cpu className="w-10 h-10 text-blue-400 mb-6" />
@@ -87,10 +88,10 @@ export function IoTContent() {
                 <span className="text-sm text-slate-400 uppercase font-black">{t("client.iot.temp", { defaultValue: "Temp" })}</span>
                 <span className="font-black text-2xl">{t("smart_devices.iotcontent.auto_ext_1")}</span>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Decibel Monitoring */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <ShieldAlert className="w-10 h-10 text-yellow-400 mb-6" />
@@ -103,10 +104,10 @@ export function IoTContent() {
                 <span className="text-sm text-slate-400 uppercase font-black">{t("client.iot.noise", { defaultValue: "Noise Level" })}</span>
                 <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs font-bold">{t("client.iot.normal", { defaultValue: "Normal (34dB)" })}</span>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Hardware list Bento */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
               className="md:col-span-3 bg-gradient-to-br from-blue-950/30 to-slate-950/40 border border-blue-500/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
               <div className="relative z-10">
@@ -116,7 +117,7 @@ export function IoTContent() {
                   {t("client.iot.panel4_desc", { defaultValue: "We support direct native integrations with Yale, August, Nest, Ecobee, Ring, and many other smart device brands for reliable property automation." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>

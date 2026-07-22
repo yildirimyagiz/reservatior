@@ -11,7 +11,7 @@ import YandexMapView from "./YandexMapView";
 import PropertyMapViewLeaflet from "./PropertyMapViewLeaflet";
 import { cn } from "@/lib/utils";
 import { Property } from "@/lib/api/properties";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 interface PropertyMapViewProps {
   properties: Property[];
   onPropertySelect?: (property: Property) => void;
@@ -105,7 +105,7 @@ export default function PropertyMapView({
             </div>
             
             <div className="space-y-4">
-              {sortedProperties.map(property => <motion.div key={property.id} layout initial={{
+              {sortedProperties.map(property => <m.div key={property.id} layout initial={{
               opacity: 0,
               y: 10
             }} animate={{
@@ -142,7 +142,7 @@ export default function PropertyMapView({
                     <Button size="sm" variant="ghost" className="h-8 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-white transition-colors">
                       <Eye className="w-3.5 h-3.5 mr-1" />{t("client.src.view")}</Button>
                   </div>
-                </motion.div>)}
+                </m.div>)}
             </div>
           </CardContent>
         </Card>

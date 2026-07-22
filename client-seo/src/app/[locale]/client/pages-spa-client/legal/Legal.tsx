@@ -19,7 +19,7 @@ import { FileText, Scale, ShieldCheck, AlertTriangle, Clock, Search, Plus, Eye, 
 import { useAuth } from "@/lib/auth/hooks";
 import { apiClient } from "@/lib/api/client";
 import { useToast } from "@/hooks/use-toast";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 interface LegalDocument {
   id: string;
   title: string;
@@ -354,7 +354,7 @@ export default function Legal() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {filteredDocuments.map(doc => <motion.div key={doc.id} initial={{
+                {filteredDocuments.map(doc => <m.div key={doc.id} initial={{
                 opacity: 0,
                 y: 10
               }} animate={{
@@ -435,7 +435,7 @@ export default function Legal() {
                         </DropdownMenu>
                       </div>
                     </div>
-                  </motion.div>)}
+                  </m.div>)}
               </div>
             </CardContent>
           </Card>
@@ -453,7 +453,7 @@ export default function Legal() {
                 <div className="space-y-4">
                   {complianceChecks.map(check => {
                   const document = documents.find(doc => doc.id === check.documentId);
-                  return <motion.div key={check.id} initial={{
+                  return <m.div key={check.id} initial={{
                     opacity: 0,
                     x: -10
                   }} animate={{
@@ -486,7 +486,7 @@ export default function Legal() {
                           <p>{t("client.src.checked_by")}{check.checkedBy}{t("client.src.on")}{format(new Date(check.checkedAt), "MMM d, yyyy")}</p>
                           <p>{t("client.src.next_due")}{format(new Date(check.nextDue), "MMM d, yyyy")}</p>
                         </div>
-                      </motion.div>;
+                      </m.div>;
                 })}
                 </div>
               </CardContent>
@@ -499,7 +499,7 @@ export default function Legal() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {complianceIssues.map(doc => <motion.div key={doc.id} initial={{
+                  {complianceIssues.map(doc => <m.div key={doc.id} initial={{
                   opacity: 0,
                   x: -10
                 }} animate={{
@@ -521,7 +521,7 @@ export default function Legal() {
                           </div>
                         </div>
                       </div>
-                    </motion.div>)}
+                    </m.div>)}
                 </div>
               </CardContent>
             </Card>
@@ -536,7 +536,7 @@ export default function Legal() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {templates.map(template => <motion.div key={template.id} initial={{
+                {templates.map(template => <m.div key={template.id} initial={{
                 opacity: 0,
                 scale: 0.9
               }} animate={{
@@ -560,7 +560,7 @@ export default function Legal() {
                       <span>{t("client.src.used")}{template.usageCount}{t("client.src.times")}</span>
                       <span>{template.variables.length}{t("client.src.variables")}</span>
                     </div>
-                  </motion.div>)}
+                  </m.div>)}
               </div>
             </CardContent>
           </Card>

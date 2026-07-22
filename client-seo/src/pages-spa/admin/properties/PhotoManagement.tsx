@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { useTranslation } from"react-i18next";
@@ -342,7 +343,7 @@ const PhotoManagement = () => {
  <TableCell>
  <div className="w-16 h-16 rounded-lg overflow-hidden bg-card">
  {item.url ? (
- <img src={item.url} alt={item.caption || ''} className="w-full h-full object-cover" />
+ <Image src={item.url} alt={item.caption || ''} fill loading="lazy" className="object-cover" sizes="80px" />
  ) : (
  <div className="w-full h-full flex items-center justify-center text-slate-500">
  <ImageIcon className="w-6 h-6" />

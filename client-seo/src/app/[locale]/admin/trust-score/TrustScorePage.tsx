@@ -14,7 +14,7 @@ import {
   TrendingUp,
   BarChart3,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -164,7 +164,7 @@ export default function TrustScorePage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_trust_title", "Trust Scores")}</h1>
@@ -175,10 +175,10 @@ export default function TrustScorePage() {
               {t("admin_trust_back_to_dashboard", "Back to Dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Summary Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -212,10 +212,10 @@ export default function TrustScorePage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Search and Filter */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4 flex-wrap">
@@ -263,10 +263,10 @@ export default function TrustScorePage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Score Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((score) => (
               <Card key={score.id} className="bg-card border-border hover:bg-muted/30 transition-colors cursor-pointer" onClick={() => setExpandedItem(expandedItem?.id === score.id ? null : score)}>
@@ -274,7 +274,7 @@ export default function TrustScorePage() {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <Badge className={ENTITY_COLORS[score.entityType]}>{score.entityType}</Badge>
-                      <h3 className="text-foreground font-semibold mt-2">{score.entityName}</h3>
+                      <h2 className="text-foreground font-semibold mt-2">{score.entityName}</h2>
                       <p className="text-xs text-muted-foreground">{score.entityId}</p>
                     </div>
                     <div className="text-right">
@@ -299,11 +299,11 @@ export default function TrustScorePage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Expanded Breakdown */}
         {expandedItem && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
             <Card className="bg-card border-border">
               <CardHeader>
                 <CardTitle className="text-foreground flex items-center gap-2">
@@ -330,7 +330,7 @@ export default function TrustScorePage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Record Event Dialog */}

@@ -7,7 +7,7 @@ import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Progress } from"@/components/ui/progress";
 import { Cloud, Server, Database, Globe, Shield, CheckCircle, AlertTriangle, Zap, Activity, DollarSign, TrendingUp, Clock, Rocket, BarChart3 } from"lucide-react";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 import { cn } from"@/lib/utils";
 import { useToast } from"@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
@@ -242,7 +242,7 @@ export default function GoogleCloudManager() {
  <h2 className="text-xl font-bold text-foreground mb-4">{t("admin_cloud_cloud_services")}</h2>
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
  {services.map(service => (
- <motion.div key={service.name} whileHover={{ scale: 1.02 }} className="bg-card border-border rounded-3xl p-6">
+ <m.div key={service.name} whileHover={{ scale: 1.02 }} className="bg-card border-border rounded-3xl p-6">
  <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-3">
  <Cloud className="w-5 h-5 text-muted-foreground" />
@@ -303,7 +303,7 @@ export default function GoogleCloudManager() {
  </div>
  </div>
  </div>
- </motion.div>
+ </m.div>
  ))}
  </div>
  </div>

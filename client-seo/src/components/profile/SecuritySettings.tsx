@@ -9,7 +9,7 @@ import { ShieldCheck, ShieldAlert, Monitor, LogOut, Loader2, Fingerprint, Activi
 import { useToast } from "@/hooks/use-toast";
 import { securityApi } from "@/lib/api/security";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 interface Session {
   id: string;
@@ -132,7 +132,7 @@ export function SecuritySettings() {
             </Button>}
 
           <AnimatePresence>
-            {show2FASetup && <motion.div initial={{
+            {show2FASetup && <m.div initial={{
             opacity: 0,
             height: 0
           }} animate={{
@@ -145,7 +145,7 @@ export function SecuritySettings() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                    <div className="bg-white p-6 rounded-[32px] inline-block shadow-2xl relative group/qr overflow-hidden">
                       <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <Image src={qrCode} alt={t("client.src.qr_code")} width={224} height={224} className="mx-auto relative z-10" />
+                       <Image src={qrCode} alt={t("client.src.qr_code")} width={224} height={224} loading="lazy" sizes="224px" className="mx-auto relative z-10" />
                    </div>
                    <div className="space-y-6">
                       <div className="space-y-2">
@@ -170,7 +170,7 @@ export function SecuritySettings() {
                       </div>
                    </div>
                 </div>
-              </motion.div>}
+              </m.div>}
           </AnimatePresence>
 
           {is2FAEnabled && <Button variant="ghost" className="h-12 text-red-500 hover:bg-red-500/10 hover:text-red-400 text-[10px] font-black uppercase italic tracking-widest gap-2">
@@ -195,7 +195,7 @@ export function SecuritySettings() {
           </div>
 
           <div className="space-y-4">
-            {sessions.map((session, i) => <motion.div key={session.id} initial={{
+            {sessions.map((session, i) => <m.div key={session.id} initial={{
             opacity: 0,
             scale: 0.98
           }} animate={{
@@ -230,7 +230,7 @@ export function SecuritySettings() {
                 {!session.isCurrent && <Button variant="ghost" size="icon" className="h-12 w-12 rounded-xl bg-red-500/5 text-red-500 hover:text-red-400 hover:bg-red-500/10 transition-all border border-red-500/10 opacity-0 group-hover/session:opacity-100" onClick={() => revokeSession(session.id)}>
                     <X className="w-5 h-5" />
                   </Button>}
-              </motion.div>)}
+              </m.div>)}
           </div>
         </div>
       </Card>

@@ -2,7 +2,7 @@
 
 import { useState, useMemo, JSXElementConstructor, Key, ReactElement, ReactNode } from"react";
 import { Building2, Info, CheckCircle2, AlertCircle, Home, FileText, User } from"lucide-react";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from"@/components/ui/hover-card";
 import { useTranslation } from "react-i18next";
 
@@ -171,7 +171,7 @@ export default function DigitalTwinDashboard() {
 
  <div className="space-y-2 relative">
  <AnimatePresence mode="wait">
- <motion.div
+ <m.div
  key={`${activeProject.id}-${activeBlock}`}
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
@@ -243,7 +243,7 @@ export default function DigitalTwinDashboard() {
  </div>
  </div>
  ))}
- </motion.div>
+ </m.div>
  </AnimatePresence>
  
  {/* Ground Line */}

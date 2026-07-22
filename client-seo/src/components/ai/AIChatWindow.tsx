@@ -2,7 +2,7 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useRef } from "react";
 import { X, Send, Sparkles, Bot, User, ArrowRightLeft, Paperclip, Minimize2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -91,14 +91,14 @@ export default function AIChatWindow({
     }
   };
   if (isMinimized) {
-    return <motion.div layoutId="chat-window" className="fixed bottom-4 right-4 z-50">
+    return <m.div layoutId="chat-window" className="fixed bottom-4 right-4 z-50">
         <Button onClick={() => setIsMinimized(false)} className="rounded-full w-14 h-14 bg-purple-600 hover:bg-purple-700 shadow-xl border-none p-0 flex items-center justify-center group">
           <Sparkles className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
           <Badge className="absolute -top-1 -right-1 bg-red-500 border-none w-5 h-5 p-0 flex items-center justify-center">1</Badge>
         </Button>
-      </motion.div>;
+      </m.div>;
   }
-  return <motion.div layoutId="chat-window" initial={{
+  return <m.div layoutId="chat-window" initial={{
     opacity: 0,
     y: 20,
     scale: 0.95
@@ -197,5 +197,5 @@ export default function AIChatWindow({
           </Button>
         </div>
       </div>
-    </motion.div>;
+    </m.div>;
 }

@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
-import Dashboard from "./Dashboard";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+const Dashboard = dynamic(() => import("./Dashboard"), {
+  loading: () => (
+    <div className="p-6 flex items-center justify-center min-h-[400px]">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+    </div>
+  ),
+});
 
 export const metadata: Metadata = {
   title: "Dashboard - Property Management Overview | Reservatior",
@@ -14,5 +23,13 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage() {
-  return <Dashboard />;
+  return (
+    <Suspense fallback={
+      <div className="p-6 flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+      </div>
+    }>
+      <Dashboard />
+    </Suspense>
+  );
 }

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Activity, Zap, AlertTriangle, TrendingUp, Network } from 'lucide-react';
 
 const mockChartData = [
@@ -158,7 +158,7 @@ export function NetworkDashboard() {
               {events.map((evt) => {
                 const Icon = evt.icon;
                 return (
-                  <motion.div 
+                  <m.div 
                     key={evt.id}
                     initial={{ opacity: 0, x: 20, scale: 0.95 }}
                     animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -173,7 +173,7 @@ export function NetworkDashboard() {
                       <div className="text-xs text-slate-500 font-mono">{evt.timestamp}</div>
                       <div className="text-sm text-slate-200 leading-tight mt-0.5">{evt.message}</div>
                     </div>
-                  </motion.div>
+                  </m.div>
                 );
               })}
             </AnimatePresence>

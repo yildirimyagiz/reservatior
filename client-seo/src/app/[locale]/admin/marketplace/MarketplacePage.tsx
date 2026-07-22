@@ -20,7 +20,7 @@ import {
   Home,
   ArrowUpRight,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -232,7 +232,7 @@ export default function MarketplacePage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -250,10 +250,10 @@ export default function MarketplacePage() {
               </p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Summary Cards */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -327,10 +327,10 @@ export default function MarketplacePage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Filters */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
@@ -407,10 +407,10 @@ export default function MarketplacePage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Property Grid */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -440,7 +440,7 @@ export default function MarketplacePage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {listings.map((listing, idx) => (
-                    <motion.div
+                    <m.div
                       key={listing.propertyId}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -450,9 +450,9 @@ export default function MarketplacePage() {
                         <CardContent className="p-4 flex flex-col flex-1">
                           <div className="flex items-start justify-between mb-3">
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-semibold text-foreground truncate">
+                              <h2 className="font-semibold text-foreground truncate">
                                 {listing.propertyName}
-                              </h3>
+                              </h2>
                               <p className="text-sm text-muted-foreground flex items-center gap-1">
                                 <Building2 className="w-3 h-3 shrink-0" />
                                 {listing.city}, {listing.country}
@@ -514,17 +514,17 @@ export default function MarketplacePage() {
                           </div>
                         </CardContent>
                       </Card>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               )}
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Investment Opportunities */}
         {opportunities.length > 0 && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -615,7 +615,7 @@ export default function MarketplacePage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Property Detail Dialog */}

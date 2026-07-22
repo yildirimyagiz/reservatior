@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart3, TrendingUp, Users, Building, DollarSign, Activity, Eye, ArrowUpRight, ArrowDownRight, Target, Sparkles, Calendar, PieChart as LucidePieChart, Download, ChevronRight, Zap, Boxes, ArrowRight, TrendingDown, Globe } from "lucide-react";
 import { AreaChart, Area, BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, PieChart as RPieChart, Pie, Cell } from "recharts";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { analyticsApi, AnalyticsOverview } from "@/lib/api/analytics";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -231,7 +231,7 @@ export default function AnalyticsDashboard() {
 
       {/* High-Fidelity KPI Matrix */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {kpis.map((kpi, idx) => <motion.div key={kpi.label} initial={{
+        {kpis.map((kpi, idx) => <m.div key={kpi.label} initial={{
         opacity: 0,
         y: 30
       }} animate={{
@@ -260,7 +260,7 @@ export default function AnalyticsDashboard() {
                 </div>
                 <div className="mt-6 flex items-center gap-2">
                    <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
-                      <motion.div initial={{
+                      <m.div initial={{
                   width: 0
                 }} animate={{
                   width: "65%"
@@ -272,7 +272,7 @@ export default function AnalyticsDashboard() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>)}
+          </m.div>)}
       </div>
 
       {/* Main Insights Node */}
@@ -432,7 +432,7 @@ export default function AnalyticsDashboard() {
                     <Activity className="w-4 h-4 text-emerald-500" />{t("client.src.realtime_anomaly_feed")}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-10 pt-4 space-y-4">
-                  {recentActivity.map((item, idx) => <motion.div key={idx} initial={{
+                  {recentActivity.map((item, idx) => <m.div key={idx} initial={{
                   opacity: 0,
                   x: -20
                 }} animate={{
@@ -454,7 +454,7 @@ export default function AnalyticsDashboard() {
                             <ChevronRight className="w-3 h-3 text-slate-800" />
                          </div>
                       </div>
-                    </motion.div>)}
+                    </m.div>)}
                   <Button variant="ghost" className="w-full h-12 rounded-xl text-[9px] font-black text-slate-500 hover:text-white tracking-widest italic mt-4">{t("client.src.sync_full_chrono_event")}</Button>
                 </CardContent>
               </Card>
@@ -475,7 +475,7 @@ export default function AnalyticsDashboard() {
                 </CardHeader>
                 <CardContent className="p-10 pt-4">
                   <div className="space-y-4">
-                    {topProperties.map((property, idx) => <motion.div key={property.name} initial={{
+                    {topProperties.map((property, idx) => <m.div key={property.name} initial={{
                   opacity: 0,
                   y: 20
                 }} animate={{
@@ -515,7 +515,7 @@ export default function AnalyticsDashboard() {
                         <Button variant="outline" className="h-12 w-12 rounded-xl border-white/5 bg-white/2 text-slate-400 group-hover:text-white transition-all">
                            <ArrowRight className="w-4 h-4" />
                         </Button>
-                      </motion.div>)}
+                      </m.div>)}
                   </div>
                 </CardContent>
              </Card>

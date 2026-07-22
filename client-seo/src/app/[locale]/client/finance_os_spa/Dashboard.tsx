@@ -11,7 +11,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, AreaChart, Area, ReferenceLine,
 } from "recharts";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { CommissionInstallmentOffers } from "./CommissionInstallmentOffers";
 import { useLocalization } from "@/contexts/LocalizationContext";
@@ -107,7 +107,7 @@ export default function FinanceDashboard() {
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-3">
         {kpis.map((kpi, i) => (
-          <motion.div
+          <m.div
             key={kpi.title}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -129,7 +129,7 @@ export default function FinanceDashboard() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         ))}
       </div>
 

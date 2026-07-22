@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
-import ExplorePage from "./ExplorePage";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import { BreadcrumbSchema } from "@/components/seo/SchemaScript";
+
+const ExplorePage = dynamic(() => import("./ExplorePage"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+    </div>
+  ),
+});
 
 export const metadata: Metadata = {
   title: "Explore Features - Powerful Real Estate Tools | Reservatior",
@@ -25,7 +34,13 @@ export default function ExplorePageWrapper() {
         { name: "Home", url: "/" },
         { name: "Explore", url: "/client/explore" },
       ]} />
-      <ExplorePage />
+      <Suspense fallback={
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+        </div>
+      }>
+        <ExplorePage />
+      </Suspense>
     </>
   );
 }

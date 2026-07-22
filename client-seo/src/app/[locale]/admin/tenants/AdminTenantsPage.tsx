@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Users, Search, Plus, Home, Phone, Mail, Calendar, ArrowUpRight, Edit, Trash2, AlertTriangle, Check
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -255,7 +255,7 @@ export default function AdminTenantsPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_tenants_title")}</h1>
@@ -266,9 +266,9 @@ export default function AdminTenantsPage() {
               {t("admin_tenants_back_to_dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
           <Card className="bg-card border-border shadow-sm">
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -290,9 +290,9 @@ export default function AdminTenantsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card className="bg-card border-border shadow-sm">
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
@@ -304,7 +304,7 @@ export default function AdminTenantsPage() {
               <div className="space-y-4">
                 <AnimatePresence>
                   {filtered.map((tenant) => (
-                    <motion.div 
+                    <m.div 
                       key={tenant.id} 
                       layout
                       initial={{ opacity: 0, scale: 0.98 }}
@@ -340,7 +340,7 @@ export default function AdminTenantsPage() {
                           </Button>
                         </div>
                       </div>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </AnimatePresence>
                 {filtered.length === 0 && (
@@ -351,7 +351,7 @@ export default function AdminTenantsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Modals */}
         <CreateTenantDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />

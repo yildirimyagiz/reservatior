@@ -18,7 +18,7 @@ import { Activity, LayoutGrid, List, CalendarDays, Calendar, Clock, AlertCircle,
 import { cn } from"@/lib/utils";
 import { CalendarView } from"@/components/calendar/CalendarView";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/components/ui/table";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 interface Booking {
  id: string;
  orgId: string;

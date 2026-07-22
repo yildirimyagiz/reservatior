@@ -3,7 +3,7 @@ import { apiClient } from '@/lib/api/client';
 
 import { t } from"i18next";
 import { useState } from"react";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 import { PageShell } from"../../client/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";

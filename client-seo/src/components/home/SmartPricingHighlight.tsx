@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Sparkles, TrendingUp, Brain, Zap, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -67,7 +67,7 @@ export function SmartPricingHighlight() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {properties.map((prop, index) => <motion.div key={prop.id} initial={{
+          {properties.map((prop, index) => <m.div key={prop.id} initial={{
           opacity: 0,
           y: 20
         }} whileInView={{
@@ -78,7 +78,7 @@ export function SmartPricingHighlight() {
         }}>
               <Card className="group relative overflow-hidden bg-[#14151a]/40 border-white/5 rounded-[2.5rem] hover:border-emerald-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10 h-full">
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" sizes="(max-width: 768px) 100vw, 50vw" />
+                  <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b0d] via-transparent to-transparent" />
                   <SmartPricingBadge className="absolute top-6 left-6" score={prop.score} />
                   <div className="absolute top-6 right-6 p-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300">
@@ -113,7 +113,7 @@ export function SmartPricingHighlight() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>)}
+            </m.div>)}
         </div>
 
         <div className="flex justify-center pt-8">

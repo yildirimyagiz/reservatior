@@ -1,3 +1,4 @@
+import { useBfcache } from '@/hooks/use-bfcache';
 import { useEffect, useState, useCallback, useRef } from 'react';
 
 export interface Notification {
@@ -88,6 +89,8 @@ export function useRealtimeNotifications() {
   const clearNotifications = useCallback(() => {
     setNotifications([]);
   }, []);
+
+  useBfcache(() => disconnect());
 
   useEffect(() => {
     connect();

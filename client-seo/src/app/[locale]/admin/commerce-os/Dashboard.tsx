@@ -1,31 +1,21 @@
 "use client";
-import { useAuth } from "@/contexts/AuthContext";
-import { useLocalization } from "@/contexts/LocalizationContext";
-import { useQuery } from "@tanstack/react-query";
-import { Package, ShoppingCart, CheckCircle, DollarSign } from "lucide-react";
+import GenericOSDashboard from "@/components/GenericOSDashboard";
+import { OSKpiConfig } from "@/lib/api/os-dashboard";
+
+const kpis: OSKpiConfig[] = [
+  { key: "totalProducts", label: "Total Products", icon: "Package", color: "text-blue-600" },
+  { key: "totalOrders", label: "Total Orders", icon: "ShoppingCart", color: "text-green-600" },
+  { key: "fulfilledOrders", label: "Fulfilled", icon: "CheckCircle", color: "text-purple-600" },
+  { key: "averageOrderValue", label: "Avg Order Value", icon: "DollarSign", color: "text-orange-600", format: "currency" },
+];
 
 export default function CommerceOSDashboard() {
-  const { user } = useAuth();
-  const { language } = useLocalization();
-  const orgId = user?.organizationId || "";
-  const { data: stats } = useQuery({ queryKey: ["commerce-os-dashboard", orgId], queryFn: () => fetchCommerceDashboardStats(orgId), enabled: !!orgId });
-  const formatNumber = (val: number) => new Intl.NumberFormat(language).format(val);
-  const dashboardStats = stats || { totalProducts: 0, totalOrders: 0, fulfilledOrders: 0, averageOrderValue: 0 };
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div><h1 className="text-3xl font-bold text-gray-900">Commerce OS Dashboard</h1></div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"><p className="text-sm text-gray-600">Total Products</p><p className="text-2xl font-bold">{formatNumber(dashboardStats.totalProducts)}</p></div>
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"><p className="text-sm text-gray-600">Total Orders</p><p className="text-2xl font-bold">{formatNumber(dashboardStats.totalOrders)}</p></div>
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"><p className="text-sm text-gray-600">Fulfilled</p><p className="text-2xl font-bold">{formatNumber(dashboardStats.fulfilledOrders)}</p></div>
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"><p className="text-sm text-gray-600">Avg Order Value</p><p className="text-2xl font-bold">${formatNumber(dashboardStats.averageOrderValue)}</p></div>
-      </div>
-    </div>
+    <GenericOSDashboard
+      title="Commerce OS Dashboard"
+      description="Monitor products, orders, and revenue"
+      osName="commerce-os"
+      kpiConfig={kpis}
+    />
   );
-}
-
-async function fetchCommerceDashboardStats(orgId: string) {
-  return { totalProducts: 450, totalOrders: 1250, fulfilledOrders: 1100, averageOrderValue: 250 };
 }

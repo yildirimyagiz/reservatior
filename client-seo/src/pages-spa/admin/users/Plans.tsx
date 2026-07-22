@@ -17,7 +17,7 @@ import { apiClient } from"@/lib/api/client";
 import { Edit, Trash2, MoreHorizontal, CreditCard, Users, Building2, RefreshCw, Zap, Shield, Rocket, Sparkles, Activity, Layers, ChevronRight, Globe, DollarSign, Search, Plus } from"lucide-react";
 import { cn } from"@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 import { Card, CardContent } from"@/components/ui/card";
 interface PlanLimits {
  maxUsers?: number;
@@ -227,7 +227,7 @@ export default function Plans() {
  value: `$${(monthlyRevenue / 100).toLocaleString()}`,
  icon: Activity,
  color:"text-slate-500"
- }].map((stat, i) => <motion.div key={i} initial={{
+ }].map((stat, i) => <m.div key={i} initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -244,7 +244,7 @@ export default function Plans() {
  <h3 className="text-xl font-bold text-foreground leading-none">{stat.value}</h3>
  <div className={cn("absolute bottom-0 left-0 w-full h-1 opacity-50", stat.color.replace('text-', 'bg-'))}></div>
  </div>
- </motion.div>)}
+ </m.div>)}
  </div>
 
  {/* Tactical Toolbar */}

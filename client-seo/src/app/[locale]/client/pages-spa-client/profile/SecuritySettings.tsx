@@ -4,7 +4,7 @@ import { useNavigate } from "@/lib/react-router-shim";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Shield } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { SecuritySettings as SecuritySettingsComponent } from "@/components/profile/SecuritySettings";
 
 export default function SecuritySettings() {
@@ -22,7 +22,7 @@ export default function SecuritySettings() {
 
       <div className="container mx-auto px-4 py-24 max-w-5xl relative z-10">
         {/* Header HUD */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-16"
@@ -48,17 +48,17 @@ export default function SecuritySettings() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Security Matrix */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
           className="p-12 md:p-16 rounded-[48px] bg-[#1a1b1e]/40 border border-white/5 backdrop-blur-3xl shadow-3xl border-l border-t"
         >
           <SecuritySettingsComponent />
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

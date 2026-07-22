@@ -6,7 +6,7 @@ import { Home, Activity, CheckCircle, Eye, ArrowUpRight, Radio, Globe } from "lu
 import { useQuery } from "@tanstack/react-query";
 import { listingOSApi } from "@/lib/api/listing-os";
 import { useAuth } from "@/lib/auth";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { AiAdsAutomationCard } from "./AiAdsAutomationCard";
 import { useTranslation } from "react-i18next";
 import { useLocalization } from "@/contexts/LocalizationContext";
@@ -71,7 +71,7 @@ export default function ListingDashboard() {
       {/* KPIs */}
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
-          <motion.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
+          <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
             <Card className="bg-slate-900/60 border-slate-800">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
@@ -84,7 +84,7 @@ export default function ListingDashboard() {
                 </p>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         ))}
       </div>
 
@@ -104,7 +104,7 @@ export default function ListingDashboard() {
             <AnimatePresence>
               <div className="space-y-3">
                 {HEALTH_STREAM.map((item, i) => (
-                  <motion.div
+                  <m.div
                     key={item.id}
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -119,7 +119,7 @@ export default function ListingDashboard() {
                       <p className="text-xs text-slate-500">{item.event}</p>
                     </div>
                     <span className="text-xs text-slate-600 whitespace-nowrap">{item.time}</span>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </AnimatePresence>
@@ -140,7 +140,7 @@ export default function ListingDashboard() {
           <CardContent>
             <div className="space-y-4">
               {SYNDICATION.map((ch, i) => (
-                <motion.div 
+                <m.div 
                   key={ch.channel}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -159,7 +159,7 @@ export default function ListingDashboard() {
                   }`}>
                     {ch.status}
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </CardContent>

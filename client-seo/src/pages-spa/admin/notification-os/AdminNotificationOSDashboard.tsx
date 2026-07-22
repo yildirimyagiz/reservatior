@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const CHANNELS = [
   { id: 1, name: "Email", icon: Mail, status: "active", sent: 1247, delivered: 1189, failed: 58 },
@@ -53,7 +53,7 @@ export default function AdminNotificationOSDashboard() {
       {/* KPIs */}
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
-          <motion.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
+          <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
             <Card className="bg-slate-900/60 border-slate-800">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
@@ -64,7 +64,7 @@ export default function AdminNotificationOSDashboard() {
                 <p className="text-xs text-slate-500 mt-1">{kpi.trend}</p>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         ))}
       </div>
 

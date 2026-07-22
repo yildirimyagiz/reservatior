@@ -82,7 +82,7 @@ export default function Header() {
           
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input type="text" placeholder={t("client.src.search_properties_tenants_or")} className="w-64 lg:w-96 pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+            <input type="text" aria-label={t("client.src.search_properties_tenants_or")} placeholder={t("client.src.search_properties_tenants_or")} className="w-64 lg:w-96 pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
           </div>
         </div>
 

@@ -100,7 +100,7 @@ export function CommunicationLogsContent() {
           <div className="bg-muted/50 p-6 border-b">
              <div className="flex items-center gap-4 bg-background border rounded-2xl px-4 h-12">
                <Search className="w-5 h-5 text-muted-foreground" />
-               <input type="text" placeholder={t("client.src.search_by_recipient_subject", "Search by recipient or subject")} className="flex-1 bg-transparent border-none text-sm font-medium focus:ring-0 placeholder:text-muted-foreground" />
+                <input type="text" aria-label="Search by recipient or subject" placeholder={t("client.src.search_by_recipient_subject", "Search by recipient or subject")} className="flex-1 bg-transparent border-none text-sm font-medium focus:ring-0 placeholder:text-muted-foreground" />
                <Badge className="bg-muted text-muted-foreground hover:bg-muted border-none font-bold text-[9px]">{t("client.src.k", "K")}</Badge>
              </div>
           </div>

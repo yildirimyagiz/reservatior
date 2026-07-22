@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -79,7 +79,7 @@ export default function AgentProfile() {
   return <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -105,7 +105,7 @@ export default function AgentProfile() {
                 
                 {/* Reputation Shield Component */}
                 {!isReputationLoading && reputation && (
-                  <motion.div 
+                  <m.div 
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     whileHover={{ scale: 1.05 }}
@@ -127,7 +127,7 @@ export default function AgentProfile() {
                     )}
                     <span className="font-black text-sm">{reputation.publicScore}</span>
                     <span className="text-[10px] font-medium opacity-70 ml-1 tracking-wider uppercase">Reputation</span>
-                  </motion.div>
+                  </m.div>
                 )}
               </div>
             </div>
@@ -138,7 +138,7 @@ export default function AgentProfile() {
             <Button>
               <Video className="w-4 h-4 mr-2" />{t("client.src.create_video")}</Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Main Content */}
         <Tabs defaultValue="overview" className="space-y-6">
@@ -242,7 +242,7 @@ export default function AgentProfile() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {listings.map((listing, index) => <motion.div key={listing.id} initial={{
+                  {listings.map((listing, index) => <m.div key={listing.id} initial={{
                   opacity: 0,
                   y: 20
                 }} animate={{
@@ -252,7 +252,7 @@ export default function AgentProfile() {
                   delay: index * 0.1
                 }} className="border rounded-lg overflow-hidden">
                       <div className="aspect-[4/3] bg-muted relative">
-                        <Image src={listing.images[0]} alt={listing.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                        <Image src={listing.images[0]} alt={listing.title} fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                         {listing.hasVideo && <div className="absolute inset-0 flex items-center justify-center bg-black/50">
                             <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center text-white">
                               <Play className="w-8 h-8 fill-current" />
@@ -281,7 +281,7 @@ export default function AgentProfile() {
                           </div>
                         </div>
                       </div>
-                    </motion.div>)}
+                    </m.div>)}
                 </div>
               </CardContent>
             </Card>
@@ -296,7 +296,7 @@ export default function AgentProfile() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {videos.map((video, index) => <motion.div key={video.id} initial={{
+                  {videos.map((video, index) => <m.div key={video.id} initial={{
                   opacity: 0,
                   x: -20
                 }} animate={{
@@ -323,7 +323,7 @@ export default function AgentProfile() {
                         <div className="text-sm text-muted-foreground">
                           {video.views}{t("client.src.views")}{video.engagement}{t("client.src.engagement")}</div>
                       </div>
-                    </motion.div>)}
+                    </m.div>)}
                 </div>
               </CardContent>
             </Card>

@@ -4,7 +4,7 @@ import { Shield, ShieldCheck, Gavel, Lock, CheckCircle, Globe, Sparkles } from "
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CTA } from "@/components/home/CTA";
 import { Badge } from "@/components/ui/badge";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 export default function TrustCenter() {
@@ -39,7 +39,7 @@ export default function TrustCenter() {
         <div className="text-center relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-600/10 blur-[120px] pointer-events-none rounded-full" />
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -56,12 +56,12 @@ export default function TrustCenter() {
             <p className="text-lg md:text-xl text-neutral-500 dark:text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed">
               {t('heroSubtitle')}
             </p>
-          </motion.div>
+          </m.div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {sections.map((section, idx) => (
-            <motion.div
+            <m.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -97,7 +97,7 @@ export default function TrustCenter() {
                   </ul>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 

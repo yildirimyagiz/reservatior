@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Link, useLocation } from "@/lib/react-router-shim";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LayoutDashboard, ArrowRightLeft, ChevronRight, DollarSign, Receipt, ShieldCheck, Handshake } from "lucide-react";
+import { LayoutDashboard, ArrowRightLeft, ChevronRight, DollarSign, Receipt, ShieldCheck, HeartHandshake } from "lucide-react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
@@ -52,7 +52,7 @@ export function FinanceLayout({ children }: { children: React.ReactNode }) {
     {
       title: "Sales Deal Creator",
       href: "/finance-os/sales-deal",
-      icon: Handshake
+      icon: HeartHandshake
     }
   ];
 
@@ -64,7 +64,7 @@ export function FinanceLayout({ children }: { children: React.ReactNode }) {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-end px-4 py-5 border-b border-border min-h-[69px]">
-        <button className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        <button aria-label="Toggle sidebar" className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground" onClick={() => setSidebarOpen(!sidebarOpen)}>
           <ChevronRight className={`w-3.5 h-3.5 transition-transform ${sidebarOpen ? 'rotate-180' : ''}`} />
         </button>
       </div>

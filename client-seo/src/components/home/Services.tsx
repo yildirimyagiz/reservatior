@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Sparkles, Building, Users, DollarSign, Brain, Video, TrendingUp, Shield, Home, Search, MapPin, Calculator } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 const services = [{
   icon: Brain,
@@ -98,7 +98,7 @@ export function Services() {
             <p className="text-muted-foreground">{t("client.src.our_aipowered_flagship_features")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.filter(s => s.featured).map((service, index) => <motion.div key={index} initial={{
+            {services.filter(s => s.featured).map((service, index) => <m.div key={index} initial={{
             opacity: 0,
             y: 20
           }} whileInView={{
@@ -122,7 +122,7 @@ export function Services() {
                     </CardDescription>
                   </CardContent>
                 </Card>
-              </motion.div>)}
+              </m.div>)}
           </div>
         </div>
 
@@ -133,7 +133,7 @@ export function Services() {
             <p className="text-muted-foreground">{t("client.src.everything_you_need_for")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.filter(s => !s.featured).map((service, index) => <motion.div key={index} initial={{
+            {services.filter(s => !s.featured).map((service, index) => <m.div key={index} initial={{
             opacity: 0,
             y: 20
           }} whileInView={{
@@ -157,7 +157,7 @@ export function Services() {
                     </CardDescription>
                   </CardContent>
                 </Card>
-              </motion.div>)}
+              </m.div>)}
           </div>
         </div>
       </div>

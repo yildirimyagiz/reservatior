@@ -16,7 +16,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Building, MapPin, Users, DollarSign, Calendar, TrendingUp, Filter, Search, Download, MoreHorizontal, Plus, Activity, Star, MessageSquare, FileText, CheckCircle, Clock, AlertTriangle, CreditCard, ShieldCheck, Zap, BarChart3, TrendingDown, Edit, ArrowRight } from"lucide-react";
 import { useToast } from"@/hooks/use-toast";
 import { apiClient } from"@/lib/api/client";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 import { cn } from"@/lib/utils";
 import { useCountryGuard } from"@/lib/hooks/useCountryGuard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from"@/components/ui/dialog";

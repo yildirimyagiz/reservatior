@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/auth/hooks";
 import {
   Bot, Video, BarChart3, Shield, Globe2, Zap, Users, Lock,
@@ -574,7 +574,7 @@ export default function Explore() {
         {/* ══════════════ HERO SECTION ══════════════ */}
         <section className="relative pt-36 pb-12 overflow-hidden">
           <div className="relative z-10 container mx-auto px-6 text-center space-y-8">
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: -20 }} 
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -584,9 +584,9 @@ export default function Explore() {
                 <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" /> 
                 RESERVATIOR DUAL-LENS PRIVACY ENGINE
               </Badge>
-            </motion.div>
+            </m.div>
 
-            <motion.h1 
+            <m.h1 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.1 }}
@@ -596,16 +596,16 @@ export default function Explore() {
               <span className="bg-gradient-to-r from-blue-600 dark:from-blue-400 via-violet-600 dark:via-violet-400 to-indigo-600 dark:to-indigo-400 bg-clip-text text-transparent">
                 YETENEKLERİNİ KEŞFEDİN
               </span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.p 
+            <m.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-medium"
             >
               Prisma veri modelimizin gücünü doğrudan test edin. Finanstan güvenliğe, yapay zekadan operasyonel görev takibine kadar tüm platform mekanizmalarını deneyimleyin.
-            </motion.p>
+            </m.p>
           </div>
         </section>
 
@@ -616,12 +616,12 @@ export default function Explore() {
               <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
               <div className="space-y-1 text-left">
                 <span className="text-[9px] font-black uppercase tracking-widest text-primary italic block">ÇİFT TARAFLI ERİŞİM GÜVENLİĞİ VE GİZLİLİK SİMÜLASYONU</span>
-                <h3 className="text-sm font-black text-foreground uppercase italic flex items-center gap-1.5">
+                <h1 className="text-sm font-black text-foreground uppercase italic flex items-center gap-1.5">
                   <UserCheck className="w-4 h-4 text-emerald-500" />
                   Aktif Görünüm Modu: <span className="text-primary italic font-black">
                     {perspective === "guest" ? "Kiracı Portalı" : perspective === "landlord" ? "Ev Sahibi Portalı" : "Platform Acentesi / Admin"}
                   </span>
-                </h3>
+                </h1>
                 <p className="text-xs text-muted-foreground font-medium">
                   {perspective === "guest" && "👤 Kiracı olarak oturum açtınız. Sadece sizinle ilgili komisyonlar ve esnek depozito planı faturalandırılır."}
                   {perspective === "landlord" && "🏡 Ev Sahibi olarak oturum açtınız. Kiracının ödediği komisyonlardan gizli olarak hak edişlerinizi ve kiralama güvencenizi izlersiniz."}
@@ -726,7 +726,7 @@ export default function Explore() {
                           <f.icon className="w-5 h-5 text-blue-500 dark:text-blue-400 group-hover:scale-110 transition-transform" />
                         </div>
                         <div>
-                          <h4 className="font-black uppercase italic tracking-wider text-xs text-foreground group-hover:text-primary transition-colors">{f.name}</h4>
+                          <h3 className="font-black uppercase italic tracking-wider text-xs text-foreground group-hover:text-primary transition-colors">{f.name}</h3>
                           <p className="text-xs text-muted-foreground mt-1 font-medium leading-relaxed">{f.detail}</p>
                         </div>
                       </div>
@@ -743,7 +743,7 @@ export default function Explore() {
                       
                       {/* SIMULATOR 1: AI Pricing */}
                       {activeTab === "ai" && (
-                        <motion.div 
+                        <m.div 
                           key="ai-sim"
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -799,8 +799,9 @@ export default function Explore() {
                                 <span>MÜLK BÜYÜKLÜĞÜ</span>
                                 <span className="text-blue-500 dark:text-blue-400 font-black">{valArea} m²</span>
                               </div>
-                              <input 
+                               <input 
                                 type="range" 
+                                aria-label="Property Area"
                                 min="50" 
                                 max="600" 
                                 step="10"
@@ -831,7 +832,7 @@ export default function Explore() {
 
                           <AnimatePresence>
                             {valuationResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -858,15 +859,15 @@ export default function Explore() {
                                     <div className="h-full bg-blue-600 dark:bg-blue-500 rounded-full" style={{ width: `${valuationResult.confidence}%` }} />
                                   </div>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
                           </AnimatePresence>
-                        </motion.div>
+                        </m.div>
                       )}
 
                       {/* SIMULATOR 2: FINTECH ESCROW & SPLIT COMMISSION */}
                       {activeTab === "video" && (
-                        <motion.div 
+                        <m.div 
                           key="fintech-sim"
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -886,8 +887,9 @@ export default function Explore() {
                                 <span>AYLIK KİRA BEDELİ</span>
                                 <span className="text-violet-600 dark:text-violet-400 font-black">{escMonthlyRent.toLocaleString()} ₺</span>
                               </div>
-                              <input 
+                               <input 
                                 type="range" 
+                                aria-label="Monthly Rent"
                                 min="10000" 
                                 max="250000" 
                                 step="5000"
@@ -977,7 +979,7 @@ export default function Explore() {
                             
                             {/* 🔑 AGENT VIEW: Full combined ciro streams */}
                             {perspective === "agent" && fintechResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4 animate-pulse-subtle"
@@ -1016,12 +1018,12 @@ export default function Explore() {
                                     <span className="text-sm font-black text-violet-600 dark:text-violet-400">{fintechResult.combinedRevenue}</span>
                                   </div>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
 
                             {/* 👤 KIRACI (GUEST) VIEW: No landlord info! */}
                             {perspective === "guest" && guestFintechResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -1054,12 +1056,12 @@ export default function Explore() {
                                   </div>
                                   <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px] py-1">GÜVENLİ İŞLEM</Badge>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
 
                             {/* 🏡 EV SAHİBİ (LANDLORD) VIEW: No tenant info! */}
                             {perspective === "landlord" && landlordFintechResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -1090,16 +1092,16 @@ export default function Explore() {
                                   </div>
                                   <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px] py-1">LEASECARE+ AKTİF</Badge>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
 
                           </AnimatePresence>
-                        </motion.div>
+                        </m.div>
                       )}
 
                       {/* SIMULATOR 3: BOOKING RISK & AUTO-SLA TASKS */}
                       {activeTab === "management" && (
-                        <motion.div 
+                        <m.div 
                           key="booking-sim"
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -1132,8 +1134,9 @@ export default function Explore() {
                                 <span>REZERVASYON SÜRESİ</span>
                                 <span className="text-emerald-600 dark:text-emerald-400 font-black">{stayNights} Gece</span>
                               </div>
-                              <input 
+                               <input 
                                 type="range" 
+                                aria-label="Number of Nights"
                                 min="1" 
                                 max="30" 
                                 value={stayNights}
@@ -1168,7 +1171,7 @@ export default function Explore() {
                           <AnimatePresence>
                             {/* AGENT VIEW: Risk and Task breakdown */}
                             {perspective === "agent" && riskResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -1223,12 +1226,12 @@ export default function Explore() {
                                     ))}
                                   </div>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
 
                             {/* GUEST VIEW: Smart stay details, wifi, climate control, IoT keys */}
                             {perspective === "guest" && guestBookingResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -1279,12 +1282,12 @@ export default function Explore() {
                                     </button>
                                   </div>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
 
                             {/* 🏡 LANDLORD VIEW: Occupancy and scheduling confirmations */}
                             {perspective === "landlord" && landlordBookingResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -1319,15 +1322,15 @@ export default function Explore() {
                                   <span className="text-[8px] font-black text-violet-600 dark:text-violet-400 tracking-widest uppercase italic block">HAK EDİŞ TEMİNATI (LEASECARE+)</span>
                                   <span className="text-xs font-black text-slate-800 dark:text-white block mt-1">{landlordBookingResult.guaranteedRentPayout}</span>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
                           </AnimatePresence>
-                        </motion.div>
+                        </m.div>
                       )}
 
                       {/* SIMULATOR 4: ENTERPRISE AUDIT & CRYPTO LEDGER */}
                       {activeTab === "security" && (
-                        <motion.div 
+                        <m.div 
                           key="ledger-sim"
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -1400,7 +1403,7 @@ export default function Explore() {
                           <AnimatePresence>
                             {/* AGENT VIEW: Report and blockchain Ledger hash */}
                             {perspective === "agent" && reportResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -1431,12 +1434,12 @@ export default function Explore() {
                                     <Download className="w-3.5 h-3.5" /> İNDİR (PDF)
                                   </Button>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
 
                             {/* GUEST VIEW: KVKK Compliance and data usage transparency logging */}
                             {perspective === "guest" && guestReportResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -1473,12 +1476,12 @@ export default function Explore() {
                                     <span className="font-bold text-emerald-600 dark:text-emerald-400">AKTİF (AES-256)</span>
                                   </div>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
 
                             {/* 🏡 LANDLORD VIEW: Yield and tax statements */}
                             {perspective === "landlord" && landlordReportResult && (
-                              <motion.div 
+                              <m.div 
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-muted/40 dark:bg-[#12131a] border border-border dark:border-white/5 rounded-3xl p-5 space-y-4"
@@ -1513,11 +1516,11 @@ export default function Explore() {
                                     <Download className="w-3.5 h-3.5" /> İNDİR (PDF)
                                   </Button>
                                 </div>
-                              </motion.div>
+                              </m.div>
                             )}
 
                           </AnimatePresence>
-                        </motion.div>
+                        </m.div>
                       )}
 
                     </AnimatePresence>

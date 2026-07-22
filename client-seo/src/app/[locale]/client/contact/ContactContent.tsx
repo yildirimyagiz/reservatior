@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, Send, RefreshCw, Shield, Cpu, ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
@@ -58,7 +58,7 @@ export function ContactContent() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -76,11 +76,11 @@ export function ContactContent() {
               {t("contact.contactcontent.auto_ext_3")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             className="p-10 rounded-[40px] bg-white/5 backdrop-blur-xl border border-purple-500/20"
@@ -147,13 +147,13 @@ export function ContactContent() {
                 </Button>
               </form>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Contact Info */}
           <div className="space-y-8">
             <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-6">
               {contactNodes.map((node, idx) => (
-                <motion.div
+                <m.div
                   key={node.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -173,12 +173,12 @@ export function ContactContent() {
                       <p className="text-gray-500 text-xs">{node.sub}</p>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
             {/* Legal Info */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4 }}
@@ -203,7 +203,7 @@ export function ContactContent() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>

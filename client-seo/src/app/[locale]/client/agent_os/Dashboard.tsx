@@ -3,6 +3,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Users, Activity, Target, DollarSign, ArrowUpRight, TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { agentOSApi } from "@/lib/api/agent-os";
@@ -11,7 +12,9 @@ import { useAuth } from "@/lib/auth";
 import { NetworkDashboard } from "./NetworkDashboard";
 import { OpportunityFeed } from "./OpportunityFeed";
 import { AgentOnboardingTable } from "./AgentOnboardingTable";
-import { motion } from "framer-motion";
+import { VacancyIntelligenceWidget } from "@/components/listing/VacancyIntelligenceWidget";
+import { AlertTriangle } from "lucide-react";
+import { m } from "framer-motion";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
@@ -44,7 +47,15 @@ export default function AgentDashboard() {
     enabled: !!user?.orgId,
   });
 
-  const isLoading = loadingOS || loadingPerf;
+  const { data: vacancyAlertsData, isLoading: loadingVacancy } = useQuery({
+    queryKey: ["vacancy-alerts", user?.orgId],
+    queryFn: () => agentOSApi.getVacancyAlerts(user?.orgId),
+    enabled: !!user?.orgId,
+    refetchInterval: 60000,
+  });
+
+  const isLoading = loadingOS || loadingPerf || loadingVacancy;
+  const vacantListings = vacancyAlertsData?.data || [];
 
   const osStats = agentOSData?.data;
   const perfList = performances || [];
@@ -97,7 +108,7 @@ export default function AgentDashboard() {
       {/* KPIs */}
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
-          <motion.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
+          <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
             <Card className="bg-slate-900/60 border-slate-800">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
@@ -110,9 +121,27 @@ export default function AgentDashboard() {
                 </p>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         ))}
       </div>
+
+      {/* Vacancy Alerts */}
+      {vacantListings.length > 0 && (
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <AlertTriangle className="h-5 w-5 text-amber-400" />
+            <h2 className="text-xl font-bold text-slate-100">Vacancy Alerts</h2>
+            <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/20">
+              {vacantListings.filter((l: any) => l.vacancyDays > 30).length} critical
+            </Badge>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {vacantListings.map((listing: any) => (
+              <VacancyIntelligenceWidget key={listing.listingId} {...listing} />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Commission Revenue Chart + AI Decision Graph */}
       <div className="grid gap-4 md:grid-cols-2">

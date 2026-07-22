@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, CheckCircle2, XCircle } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { jwtDecode } from "jwt-decode";
 import { useUserStore } from "@/lib/store/user-store";
@@ -83,7 +83,7 @@ function CallbackHandler() {
 export default function AuthCallbackPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-md"
@@ -97,7 +97,7 @@ export default function AuthCallbackPage() {
         }>
           <CallbackHandler />
         </Suspense>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

@@ -16,7 +16,7 @@ import {
   Edit,
   Trash2,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -151,7 +151,7 @@ export default function AdminSolicitorsPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_solicitors_title")}</h1>
@@ -162,9 +162,9 @@ export default function AdminSolicitorsPage() {
               {t("admin_solicitors_back_to_dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -186,9 +186,9 @@ export default function AdminSolicitorsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card className="bg-card border-border">
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
@@ -224,8 +224,8 @@ export default function AdminSolicitorsPage() {
                       <Badge className={SOLICITOR_TYPE_COLORS[solicitor.solicitorType]}>{solicitor.solicitorType.replace(/_/g, ' ')}</Badge>
                       <Badge className={STATUS_COLORS[solicitor.status]}>{solicitor.status.replace(/_/g, ' ')}</Badge>
                       <div className="flex gap-2">
-                        <Button onClick={() => { setEditingItem(solicitor); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
-                        <Button onClick={() => { setDeletingItem(solicitor); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setEditingItem(solicitor); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setDeletingItem(solicitor); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                       </div>
                     </div>
                   </div>
@@ -233,7 +233,7 @@ export default function AdminSolicitorsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Create Dialog */}
         <CreateSolicitorDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />

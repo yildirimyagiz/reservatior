@@ -13,7 +13,7 @@ import { identityComplianceApi, PoliceReport } from"@/lib/api/identity-complianc
 import { ShieldCheck, AlertTriangle, CheckCircle2, Users, Globe, Building2, Gavel, Activity, FileSearch, Eye } from"lucide-react";
 import { useToast } from"@/hooks/use-toast";
 import { cn } from"@/lib/utils";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 
 interface ComplianceDashboardData {
  rtrChecks: RightToRentCheck[];
@@ -436,7 +436,7 @@ export default function ComplianceDashboard() {
  <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
  <AnimatePresence>
  {liveEvents.map((ev) => (
- <motion.div
+ <m.div
  key={ev.id}
  initial={{ opacity: 0, x: 20, height: 0 }}
  animate={{ opacity: 1, x: 0, height: 'auto' }}
@@ -453,7 +453,7 @@ export default function ComplianceDashboard() {
  <span className="leading-relaxed">{ev.text}</span>
  </div>
  <div className="absolute top-1 right-2 text-[8px] opacity-50">{t("messages.messagespage.auto_ext_6", "Just now")}</div>
- </motion.div>
+ </m.div>
  ))}
  </AnimatePresence>
  

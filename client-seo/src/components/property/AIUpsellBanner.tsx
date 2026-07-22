@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, X, Percent, CheckCircle2, Shield, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -32,7 +32,7 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.96 }}
@@ -63,13 +63,13 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
                   alt={data.name} 
                   fill 
                   className="object-cover transition-transform duration-700 hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy" sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
                 
                 {/* Badges */}
                 <div className="absolute top-4 left-4 flex flex-col gap-2">
-                  <motion.div
+                  <m.div
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
@@ -77,8 +77,8 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
                   >
                     <Sparkles className="w-3.5 h-3.5 text-violet-500" />
                     AI Arbitrage Önerisi
-                  </motion.div>
-                  <motion.div
+                  </m.div>
+                  <m.div
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
@@ -86,7 +86,7 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
                   >
                     <Percent className="w-3.5 h-3.5" />
                     %{data.savingsPercent} Daha Ucuz
-                  </motion.div>
+                  </m.div>
                 </div>
                 
                 {/* Property info overlay */}
@@ -141,7 +141,7 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

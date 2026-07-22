@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Plus, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface PageShellProps {
   title: string;
@@ -69,7 +69,7 @@ export function PageShell({
       {stats && stats.length > 0 && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, idx) => (
-            <motion.div
+            <m.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ export function PageShell({
               <div className="mt-4 h-1 w-full bg-muted rounded-full overflow-hidden">
                  <div className="h-full bg-primary shadow-[0_0_10px_var(--color-primary)] w-2/3" />
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       )}

@@ -3,7 +3,7 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -324,7 +324,7 @@ export default function DealsManagement() {
                         <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{t("client.src.zero_records_identified_in")}</p>
                       </TableCell>
                     </TableRow> : <AnimatePresence mode="popLayout">
-                      {filteredDeals.map(deal => <motion.tr key={deal.id} initial={{
+                      {filteredDeals.map(deal => <m.tr key={deal.id} initial={{
                     opacity: 0,
                     y: 10
                   }} animate={{
@@ -377,7 +377,7 @@ export default function DealsManagement() {
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </TableCell>
-                        </motion.tr>)}
+                        </m.tr>)}
                     </AnimatePresence>}
                 </TableBody>
               </Table>

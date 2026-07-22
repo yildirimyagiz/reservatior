@@ -9,7 +9,7 @@ import { propertiesApi, type Property } from "@/lib/api/properties";
 import { Tag, Plus, RefreshCw, Loader2, Check, X, Percent as PercentIcon, DollarSign, Search, ArrowLeft, Building2, Ticket, Activity, Edit } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 export default function Discounts({ propertyId }: { propertyId?: string }) {
@@ -88,7 +88,7 @@ export default function Discounts({ propertyId }: { propertyId?: string }) {
       
       <div className="max-w-[1600px] mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -118,10 +118,10 @@ export default function Discounts({ propertyId }: { propertyId?: string }) {
                <Plus className="w-5 h-5 mr-3" /> {t('client.property.discounts.create')}
              </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Filter Surface */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.98
       }} animate={{
@@ -131,13 +131,13 @@ export default function Discounts({ propertyId }: { propertyId?: string }) {
           <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
             <div className="relative group">
                <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-               <input placeholder={t('client.property.discounts.search')} className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={search} onChange={e => setSearch(e.target.value)} />
+                <input placeholder={t('client.property.discounts.search')} aria-label="Search discounts" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={search} onChange={e => setSearch(e.target.value)} />
             </div>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Table Surface */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -198,7 +198,7 @@ export default function Discounts({ propertyId }: { propertyId?: string }) {
               </TableBody>
             </Table>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>;
 }

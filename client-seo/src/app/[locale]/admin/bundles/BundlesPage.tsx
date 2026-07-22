@@ -14,7 +14,7 @@ import {
   Package,
   Tag,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -75,17 +75,17 @@ export default function BundlesPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_bundles_title", "Product Bundles")}</h1>
               <p className="text-muted-foreground">{t("admin_bundles_description", "Create and manage staging bundles for properties")}</p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Summary Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -119,10 +119,10 @@ export default function BundlesPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Search and Filter */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4 flex-wrap">
@@ -153,16 +153,16 @@ export default function BundlesPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Bundle Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((bundle) => (
             <Card key={bundle.id} className="bg-card border-border hover:border-primary/20 transition-colors">
               <CardContent className="p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="font-semibold text-foreground">{bundle.name}</h3>
+                    <h2 className="font-semibold text-foreground">{bundle.name}</h2>
                     <Badge className={`${BUNDLE_COLORS[bundle.bundleType]} mt-1`}>{bundle.bundleType.replace(/_/g, " ")}</Badge>
                   </div>
                   {bundle.isActive ? <Badge className="bg-green-500/20 text-green-400">Active</Badge> : <Badge className="bg-gray-500/20 text-gray-400">Inactive</Badge>}
@@ -184,7 +184,7 @@ export default function BundlesPage() {
               </CardContent>
             </Card>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Dialogs */}
         <CreateBundleDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />

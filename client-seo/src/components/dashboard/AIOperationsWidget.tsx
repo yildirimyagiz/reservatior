@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useBfcache } from "@/hooks/use-bfcache";
+import { useEffect, useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { apiClient } from "@/lib/api/client";
 import { useAuth } from "@/lib/auth/hooks";
 import { BrainCircuit, Loader2, Clock, Activity, Zap, Server, Car, Box, ShieldAlert, Wand2, Megaphone, RefreshCcw, Radar, AlertTriangle, FileText, CheckCircle2, UserPlus, TrendingUp, ShieldCheck } from "lucide-react";
@@ -49,6 +50,13 @@ export function AIOperationsWidget() {
     }
   };
 
+  const sseRef = useRef<EventSource | null>(null);
+
+  useBfcache(() => {
+    sseRef.current?.close();
+    sseRef.current = null;
+  });
+
   useEffect(() => {
     fetchTasks();
     const interval = setInterval(fetchTasks, 8000); // DB fallback polling
@@ -56,6 +64,7 @@ export function AIOperationsWidget() {
     // Connect to SSE Stream
     const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
     const sse = new EventSource(`${baseURL}/api/v1/system/trigger-stream`);
+    sseRef.current = sse;
 
     sse.onopen = () => setIsConnected(true);
     sse.onerror = () => setIsConnected(false);
@@ -88,6 +97,7 @@ export function AIOperationsWidget() {
     return () => {
       clearInterval(interval);
       sse.close();
+      sseRef.current = null;
     };
   }, [user?.id]);
 
@@ -181,7 +191,7 @@ export function AIOperationsWidget() {
           )}
           <AnimatePresence>
             {tasks.map((task, index) => (
-              <motion.div
+              <m.div
                 key={task.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -213,7 +223,7 @@ export function AIOperationsWidget() {
                         <span>{task.progress}%</span>
                       </div>
                       <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner border border-white/5">
-                        <motion.div
+                        <m.div
                           initial={{ width: 0 }}
                           animate={{ width: `${task.progress}%` }}
                           transition={{ duration: 2, ease: "easeOut" }}
@@ -233,7 +243,7 @@ export function AIOperationsWidget() {
                     {task.source}
                   </span>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </AnimatePresence>
         </CardContent>
@@ -266,7 +276,7 @@ export function AIOperationsWidget() {
             {liveEvents.map((evt) => {
               const details = getLiveEventDetails(evt.event);
               return (
-                <motion.div
+                <m.div
                   key={evt.id}
                   initial={{ opacity: 0, y: -20, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -292,7 +302,7 @@ export function AIOperationsWidget() {
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               );
             })}
           </AnimatePresence>

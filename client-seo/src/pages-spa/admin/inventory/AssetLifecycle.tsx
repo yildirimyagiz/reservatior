@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Package, RefreshCw, AlertCircle, Wrench, Search, Box, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,7 +34,7 @@ export default function AssetLifecycle() {
 
       {/* Action Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <motion.div whileHover={{ y: -5 }} className="rounded-3xl p-6 bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-lg shadow-blue-500/20 relative overflow-hidden">
+        <m.div whileHover={{ y: -5 }} className="rounded-3xl p-6 bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-lg shadow-blue-500/20 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-6 opacity-20">
             <RefreshCw className="w-24 h-24" />
           </div>
@@ -42,9 +42,9 @@ export default function AssetLifecycle() {
           <p className="text-blue-100 text-sm mb-6">{t("admin_auto_12_properties_are_eligible_for_a_2_year_", "12 properties are eligible for a 2-year style refresh to maintain premium valuation.")}</p>
           <button className="bg-white text-blue-600 px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors">
             {t("admin_auto_trigger_refresh_proposals", "Trigger Refresh Proposals")}</button>
-        </motion.div>
+        </m.div>
 
-        <motion.div whileHover={{ y: -5 }} className="rounded-3xl p-6 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden">
+        <m.div whileHover={{ y: -5 }} className="rounded-3xl p-6 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 p-6 text-slate-100 dark:text-slate-800">
             <Wrench className="w-24 h-24" />
           </div>
@@ -52,9 +52,9 @@ export default function AssetLifecycle() {
           <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">{t("admin_auto_24_items_are_currently_in_the_seattle_wa", "24 items are currently in the Seattle warehouse being refurbished.")}</p>
           <button className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity">
             {t("admin_auto_view_workshop_queue", "View Workshop Queue")}</button>
-        </motion.div>
+        </m.div>
 
-        <motion.div whileHover={{ y: -5 }} className="rounded-3xl p-6 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-center">
+        <m.div whileHover={{ y: -5 }} className="rounded-3xl p-6 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-center">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="w-6 h-6" />
@@ -68,7 +68,7 @@ export default function AssetLifecycle() {
             <div className="h-full bg-emerald-500 rounded-full" style={{ width: '94.2%' }} />
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">{t("admin_auto_assets_recycled_or_upcycled_vs_discarded", "Assets recycled or upcycled vs discarded.")}</p>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Table Section */}

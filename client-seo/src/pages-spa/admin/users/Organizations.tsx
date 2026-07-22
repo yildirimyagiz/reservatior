@@ -16,7 +16,7 @@ import { adminApi } from"@/lib/api/admin";
 import { Edit, Trash2, MoreHorizontal, CheckCircle2, XCircle, Plus, Search, Users, Home, Building, Shield, Globe, Activity, Zap, TrendingUp, Layers, UserCheck } from"lucide-react";
 import { cn } from"@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 import { Card, CardContent } from"@/components/ui/card";
 import { useTranslation } from"react-i18next";
 interface Organization {

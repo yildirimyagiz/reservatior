@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Clock, CheckCircle, AlertCircle, MapPin, Users, ChevronLeft, ChevronRight, Plus, CalendarDays, CalendarClock, CalendarCheck, Activity, Zap, Target, FileBarChart, Sparkles, TrendingUp, Building2, ArrowRight, ShieldCheck, LifeBuoy, Key, DollarSign, FileText, CheckSquare, Search, Bell, Home, Star, Tag, Percent, TrendingDown, Globe, Flame, LayoutDashboard, Brain, Link, Share2, ExternalLink, Wifi, Video, GanttChartSquare, BarChart4, Briefcase, MonitorCheck, Radar, Pocket } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -196,7 +196,7 @@ export default function BookingCenter() {
         <div className="xl:col-span-9 space-y-12">
            <AnimatePresence mode="wait">
              
-             {activeTab === "ai_intelligence" && <motion.div initial={{
+             {activeTab === "ai_intelligence" && <m.div initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -281,10 +281,10 @@ export default function BookingCenter() {
                            </Card>)}
                       </div>
                    </div>          </div>
-                </motion.div>}
+                </m.div>}
 
              {/* OTHER TABS... */}
-             {activeTab === "calendar" && <motion.div initial={{
+             {activeTab === "calendar" && <m.div initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -314,7 +314,7 @@ export default function BookingCenter() {
                             </div>)}
                       </div>
                    </Card>
-                </motion.div>}
+                </m.div>}
            </AnimatePresence>
         </div>
       </div>

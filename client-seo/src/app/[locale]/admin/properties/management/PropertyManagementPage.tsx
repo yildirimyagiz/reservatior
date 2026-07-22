@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { 
   Building2, Search, Plus, Edit, Trash2, ArrowUpRight, MapPin, Bed, Bath, DollarSign, Check, AlertTriangle
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -266,7 +266,7 @@ export default function PropertyManagementPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">{t("admin_properties_management_title")}</h1>
@@ -276,9 +276,9 @@ export default function PropertyManagementPage() {
               <ArrowUpRight className="w-4 h-4 mr-2" />{t("admin_properties_management_back_to_dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
           <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -294,13 +294,13 @@ export default function PropertyManagementPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence>
               {filteredProperties.map((property) => (
-                <motion.div key={property.id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}>
+                <m.div key={property.id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}>
                   <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20 hover:border-slate-500/40 transition-all group">
                     <CardHeader>
                       <div className="flex items-start justify-between mb-2">
@@ -334,14 +334,14 @@ export default function PropertyManagementPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </AnimatePresence>
           </div>
           {filteredProperties.length === 0 && (
             <div className="py-12 text-center text-slate-500">{t("admin_auto_no_results_found", "No results found")}</div>
           )}
-        </motion.div>
+        </m.div>
 
         <CreatePropertyDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
         {editingItem && <EditPropertyDialog open={!!editingItem} onOpenChange={(open: boolean) => !open && setEditingItem(null)} item={editingItem} onSubmit={handleEdit} />}

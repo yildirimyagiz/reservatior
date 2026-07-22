@@ -112,18 +112,18 @@ export function NotificationRing() {
                     <div className="flex items-center justify-between pt-2">
                        <span className="text-[8px] font-black text-muted-foreground/30 uppercase tracking-[0.2em]">{t("client.src.type")}{notification.type || 'SYSTEM'}</span>
                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          {!notification.readAt && <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg hover:bg-primary/20 text-primary border border-primary/20" onClick={e => {
+                           {!notification.readAt && <Button variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 rounded-lg hover:bg-primary/20 text-primary border border-primary/20" onClick={e => {
                     e.stopPropagation();
                     markAsRead(notification.id);
                   }}>
-                                <Check className="h-3 w-3" />
-                             </Button>}
-                          <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg hover:bg-red-500/20 text-red-500 border border-red-500/20" onClick={e => {
+                                 <Check className="h-4 w-4" />
+                              </Button>}
+                           <Button variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 rounded-lg hover:bg-red-500/20 text-red-500 border border-red-500/20" onClick={e => {
                     e.stopPropagation();
                   }}>
-                             <Trash2 className="h-3 w-3" />
-                          </Button>
-                       </div>
+                              <Trash2 className="h-4 w-4" />
+                           </Button>
+                        </div>
                     </div>
                   </div>
                   {!notification.readAt && <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />}

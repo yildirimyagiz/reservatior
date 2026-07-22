@@ -1,10 +1,9 @@
 "use client";
 
-import { Helmet } from "react-helmet-async";
 import { FAQPageSchema } from "@/components/seo/SchemaScript";
 import { Button } from "@/components/ui/button";
 import { Check, Zap, Shield, Activity, Star, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
@@ -111,7 +110,7 @@ export default function Pricing() {
       </div>
 
       <div className="relative z-10 max-w-[1600px] mx-auto px-6 py-24">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-20 space-y-6"
@@ -140,7 +139,7 @@ export default function Pricing() {
               { label: t('pricingLatency', 'API GECİKMESİ'), value: "4ms", color: "text-neutral-500 dark:text-slate-400" },
               { label: t('globalReach', 'KÜRESEL ERİŞİM'), value: "42 BÖLGE", color: "text-purple-600 dark:text-purple-400" }
             ].map((stat, i) => (
-              <motion.div
+              <m.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -149,10 +148,10 @@ export default function Pricing() {
               >
                 <p className="text-2xl font-black tracking-tight text-neutral-900 dark:text-white">{stat.value}</p>
                 <p className="text-xs font-semibold text-neutral-500 dark:text-slate-400 mt-1 tracking-wider">{stat.label}</p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {isLoading ? (
@@ -171,7 +170,7 @@ export default function Pricing() {
           ) : plans.map((plan: any, index: number) => {
             const isPopular = plan.priceMonthlyCents !== null && plan.priceMonthlyCents > 5000 && plan.priceMonthlyCents < 20000;
             return (
-              <motion.div
+              <m.div
                 key={plan.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -247,12 +246,12 @@ export default function Pricing() {
                   <Activity className="w-4 h-4 text-neutral-400 dark:text-slate-500" />
                   <Sparkles className="w-4 h-4 text-indigo-400" />
                 </div>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -274,7 +273,7 @@ export default function Pricing() {
               </span>
             ))}
           </div>
-        </motion.div>
+        </m.div>
       </div>
       <FAQPageSchema questions={[
         { question: "Which pricing plan is right for my business?", answer: "We offer plans from Starter (10 properties) to Enterprise (unlimited). The Professional plan is our most popular choice, offering 50 properties, AI features, and priority support. You can upgrade at any time." },

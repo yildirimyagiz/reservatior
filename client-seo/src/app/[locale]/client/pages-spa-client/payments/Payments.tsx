@@ -159,7 +159,7 @@ export default function Payments() {
             </div>
             
             <div className="flex gap-2">
-              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <select aria-label="Filter by payment status" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                 <option value="all">{t("client.src.all_status")}</option>
                 <option value="completed">{t("client.src.completed")}</option>
                 <option value="pending">{t("client.src.pending")}</option>
@@ -173,7 +173,7 @@ export default function Payments() {
 
             {/* Time Filter */}
             <div className="flex gap-2">
-              <select value={timeFilter} onChange={e => setTimeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <select aria-label="Filter by time range" value={timeFilter} onChange={e => setTimeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                 <option value="today">{t("client.src.today")}</option>
                 <option value="week">{t("client.src.this_week")}</option>
                 <option value="month">{t("client.src.this_month")}</option>

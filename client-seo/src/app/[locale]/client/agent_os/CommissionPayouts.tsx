@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { io } from "socket.io-client";
+import { useBfcache } from "@/hooks/use-bfcache";
 
 interface Commission {
   id: string;
@@ -51,6 +52,8 @@ export function CommissionPayouts() {
   const [stream, setStream] = useState<StreamEvent[]>([]);
   const streamRef = useRef<HTMLDivElement>(null);
 
+  const wsRef = useRef<ReturnType<typeof io> | null>(null);
+
   // Revenue forecast (mock — in prod, fetch from /api/v1/commissions/forecast)
   const forecast = {
     pendingDeals: 120000,
@@ -59,9 +62,15 @@ export function CommissionPayouts() {
     nextSettlementDays: 14,
   };
 
+  useBfcache(() => {
+    wsRef.current?.disconnect();
+    wsRef.current = null;
+  });
+
   useEffect(() => {
     const SOCKET_URL = process.env.NEXT_PUBLIC_WS_URL || "http://localhost:3002";
     const socket = io(SOCKET_URL, { transports: ["websocket"] });
+    wsRef.current = socket;
 
     socket.on("notification:new", (event: { type: string; payload: any }) => {
       const label = EVENT_LABELS[event.type] || `📡 ${event.type}`;
@@ -76,7 +85,10 @@ export function CommissionPayouts() {
       ]);
     });
 
-    return () => { socket.disconnect(); };
+    return () => {
+      socket.disconnect();
+      wsRef.current = null;
+    };
   }, []);
 
   useEffect(() => {

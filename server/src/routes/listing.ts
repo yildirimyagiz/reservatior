@@ -13,18 +13,18 @@ export const listingRoutes = new Elysia({ prefix: "/listing" })
 
   /**
    * GET /listing
-   * Retrieves all Listing with pagination and basic filtering.
+   * Retrieves all Listing with pagination, sorting, and basic filtering.
+   * Supports smart ranking sort options: recommended, fast_rental, lowest_vacancy, ai_recommended
    */
   .get("/", async ({ query, db, orgId, userId }) => {
-    const { page = "1", limit = "20", mine, ...where } = query as any;
+    const { page = "1", limit = "20", mine, sortBy, ...where } = query as any;
+    delete where.sortBy;
     const regionDb = db as any;
 
-    // Filter by the user's organization if present
     if (orgId) {
       where.orgId = orgId;
     }
 
-    // If mine=true, filter by the current user's ownership
     if (mine === "true" && userId) {
       where.OR = [
         { userId },
@@ -34,11 +34,35 @@ export const listingRoutes = new Elysia({ prefix: "/listing" })
       ];
     }
 
+    let orderBy: any = { createdAt: "desc" };
+    switch (sortBy) {
+      case "price_asc":
+        orderBy = { price: "asc" };
+        break;
+      case "price_desc":
+        orderBy = { price: "desc" };
+        break;
+      case "date_asc":
+        orderBy = { createdAt: "asc" };
+        break;
+      case "date_desc":
+        orderBy = { createdAt: "desc" };
+        break;
+      case "recommended":
+      case "ai_recommended":
+        orderBy = [{ rankingScore: "desc" }, { boostScore: "desc" }, { createdAt: "desc" }];
+        break;
+      case "fast_rental":
+      case "lowest_vacancy":
+        orderBy = [{ vacancyDays: "asc" }, { vacancyScore: "asc" }, { rankingScore: "desc" }];
+        break;
+    }
+
     const listings = await regionDb.listing.findMany({
       where,
       skip: (parseInt(page) - 1) * parseInt(limit),
       take: parseInt(limit),
-      orderBy: { createdAt: "desc" },
+      orderBy,
       include: {
         property: true,
         category: true,
@@ -61,6 +85,7 @@ export const listingRoutes = new Elysia({ prefix: "/listing" })
     query: t.Partial(t.Object({
       page: t.Optional(t.String()),
       limit: t.Optional(t.String()),
+      sortBy: t.Optional(t.String()),
       orgId: t.Optional(t.String()),
       mine: t.Optional(t.String()),
       userId: t.Optional(t.String()),

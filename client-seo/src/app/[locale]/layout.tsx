@@ -108,24 +108,23 @@ export default function RootLayout({
   params: { locale: string };
 }>) {
   return (
-    <html lang={locale || "en"} suppressHydrationWarning>
+    <html lang={locale || "en"} dir={locale === "ar" ? "rtl" : "ltr"} suppressHydrationWarning>
       <head>
-        <link rel="preload" href="/videos/ozak-bg.mp4" as="video" type="video/mp4" />
-        <link rel="preload" href="/videos/poster.webp" as="image" />
+        <link rel="preload" href="/videos/poster.webp" as="image" fetchPriority="high" />
+        <link rel="preload" href="/llms.txt" as="text" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
-        <Script id="locale-init" strategy="afterInteractive">
-          {`(function(){var urlLocale="${locale}"; var l=urlLocale||localStorage.getItem("i18nextLng")||localStorage.getItem("reservatior_lang");if(l){if(l==="tr-TR")l="tr";document.documentElement.lang=l;if(l==="ar"){document.documentElement.dir="rtl"}else{document.documentElement.dir="ltr"}}})()`}
-        </Script>
-        <Script id="localization-init" strategy="beforeInteractive">
-          {`(function(){var urlLocale="${locale}"; var countryCode="US"; var currency="USD"; if(urlLocale==="tr"){countryCode="TR";currency="TRY"}else if(urlLocale==="ar"){countryCode="SA";currency="SAR"}else if(urlLocale==="es"){countryCode="ES";currency="EUR"}else if(urlLocale==="fr"){countryCode="FR";currency="EUR"}else if(urlLocale==="de"){countryCode="DE";currency="EUR"}else if(urlLocale==="ru"){countryCode="RU";currency="RUB"}else if(urlLocale==="pt"){countryCode="PT";currency="EUR"}else if(urlLocale==="zh"){countryCode="CN";currency="CNY"}else if(urlLocale==="ja"){countryCode="JP";currency="JPY"}else if(urlLocale==="ko"){countryCode="KR";currency="KRW"}else if(urlLocale==="it"){countryCode="IT";currency="EUR"}else if(urlLocale==="nl"){countryCode="NL";currency="EUR"}else if(urlLocale==="pl"){countryCode="PL";currency="PLN"}else if(urlLocale==="sv"){countryCode="SE";currency="SEK"}else if(urlLocale==="da"){countryCode="DK";currency="DKK"}else if(urlLocale==="fi"){countryCode="FI";currency="EUR"}else if(urlLocale==="el"){countryCode="GR";currency="EUR"}else if(urlLocale==="hi"){countryCode="IN";currency="INR"}else if(urlLocale==="id"){countryCode="ID";currency="IDR"};localStorage.setItem("countryCode",localStorage.getItem("countryCode")||countryCode);localStorage.setItem("language",localStorage.getItem("language")||urlLocale||"en");localStorage.setItem("currency",localStorage.getItem("currency")||currency);localStorage.setItem("timezone",localStorage.getItem("timezone")||Intl.DateTimeFormat().resolvedOptions().timeZone)()`}
-        </Script>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" tabIndex={1}>
+          Skip to main content
+        </a>
         <OrganizationSchema />
         <WebsiteSchema />
         <LocalizationProvider>
-          <Providers>{children}</Providers>
+          <Providers><div id="main-content">{children}</div></Providers>
         </LocalizationProvider>
       </body>
     </html>

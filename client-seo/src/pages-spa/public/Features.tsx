@@ -1,7 +1,7 @@
 "use client";
 
 import { t } from "i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Brain, Sparkles, Video, ShieldCheck, Banknote, LayoutDashboard, Zap, Globe, Clock, Scale, Building2, BarChart3, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -91,7 +91,7 @@ export default function Features() {
       <div className="relative z-10 container mx-auto px-6 py-24 lg:py-32">
         {/* Header Section */}
         <div className="max-w-3xl mb-24">
-          <motion.div initial={{
+          <m.div initial={{
           opacity: 0,
           x: -20
         }} whileInView={{
@@ -105,12 +105,12 @@ export default function Features() {
             <p className="text-xl text-slate-400 max-w-2xl leading-relaxed italic border-l-2 border-primary/30 pl-6">
               {t('heroSubtitle')}
             </p>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Features Mapping */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {FEATURES.map((group, gIdx) => <motion.div key={group.category} initial={{
+          {FEATURES.map((group, gIdx) => <m.div key={group.category} initial={{
           opacity: 0,
           y: 30
         }} whileInView={{
@@ -141,11 +141,11 @@ export default function Features() {
                     </CardContent>
                   </Card>)}
               </div>
-            </motion.div>)}
+            </m.div>)}
         </div>
 
         {/* Live Ecosystem Stats Section */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 40
       }} whileInView={{
@@ -199,10 +199,10 @@ export default function Features() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* CTA Section */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.95
       }} whileInView={{
@@ -227,7 +227,7 @@ export default function Features() {
               </Link>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* User Guidance / Guidance Comments */}
         <div className="mt-40 border-t border-white/5 pt-24 grid grid-cols-1 md:grid-cols-3 gap-12">

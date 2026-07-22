@@ -1,5 +1,6 @@
+import Image from "next/image";
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Sparkles, Image as ImageIcon, Camera, RefreshCw, ShoppingCart, Layers } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
@@ -32,7 +33,7 @@ export default function AIDesignStudio() {
     <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-slate-100 p-6 md:p-12 font-sans">
       
       {/* Header */}
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-12 text-center max-w-3xl mx-auto"
@@ -44,7 +45,7 @@ export default function AIDesignStudio() {
         <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
           Bored of your current setup? Snap a photo of your empty room and visualize our premium furniture packages in your space before committing to a style refresh.
         </p>
-      </motion.div>
+      </m.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
         
@@ -68,7 +69,7 @@ export default function AIDesignStudio() {
                   }`}
                 >
                   <div className="flex gap-4 relative z-10">
-                    <img src={pkg.img} alt={pkg.name} className="w-20 h-20 rounded-xl object-cover" />
+                    <Image src={pkg.img} alt={pkg.name} width={80} height={80} className="rounded-xl object-cover" />
                     <div>
                       <h4 className="font-bold text-slate-900 dark:text-white">{pkg.name}</h4>
                       <p className="text-sm font-black text-blue-600 dark:text-blue-400 mt-1">{pkg.price} <span className="text-xs font-normal text-slate-500">one-time</span></p>
@@ -132,7 +133,7 @@ export default function AIDesignStudio() {
 
               {isGenerating && (
                 <div className="text-center z-10">
-                  <motion.div 
+                  <m.div 
                     animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
                     transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                     className="w-20 h-20 border-4 border-purple-500/30 border-t-purple-600 rounded-full mx-auto mb-6"
@@ -143,12 +144,12 @@ export default function AIDesignStudio() {
               )}
 
               {generatedImage && !isGenerating && (
-                <motion.div 
+                <m.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="w-full h-full relative"
                 >
-                  <img src={generatedImage} alt="AI Generated Room" className="w-full h-full object-cover" />
+                  <Image src={generatedImage} alt="AI Generated Room" fill className="object-cover" sizes="100vw" />
                   
                   {/* Floating Action Button */}
                   <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
@@ -156,7 +157,7 @@ export default function AIDesignStudio() {
                       <ShoppingCart className="w-5 h-5" /> Order Refresh
                     </button>
                   </div>
-                </motion.div>
+                </m.div>
               )}
 
             </CardContent>

@@ -22,7 +22,7 @@ import {
   FileText,
   Zap
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const metrics = [
@@ -124,7 +124,7 @@ export default function AdminDashboardPage() {
     <div className="min-h-screen bg-background">
       <div className="px-6 py-8 max-w-[1600px] mx-auto">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
@@ -148,17 +148,17 @@ export default function AdminDashboardPage() {
               {t("admin_view_site", "View Site")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Metrics Grid */}
-        <motion.div
+        <m.div
           variants={container}
           initial="hidden"
           animate="show"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
         >
           {metrics.map((metric, idx) => (
-            <motion.div key={idx} variants={item}>
+            <m.div key={idx} variants={item}>
               <Card className="bg-card border-border overflow-hidden group hover:border-primary/30 transition-all duration-300">
                 <CardContent className="p-5">
                   <div className="flex items-start justify-between mb-3">
@@ -180,14 +180,14 @@ export default function AdminDashboardPage() {
                   <div className={`h-0.5 mt-4 rounded-full bg-gradient-to-r ${metric.gradient} opacity-60`} />
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent Activities — wider column */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4 }}
@@ -231,12 +231,12 @@ export default function AdminDashboardPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Right Column */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.4 }}
@@ -264,10 +264,10 @@ export default function AdminDashboardPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
 
             {/* System Status */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
@@ -309,12 +309,12 @@ export default function AdminDashboardPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           </div>
         </div>
 
         {/* Performance Overview Bar */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.4 }}
@@ -356,7 +356,7 @@ export default function AdminDashboardPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

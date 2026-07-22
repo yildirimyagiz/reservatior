@@ -113,7 +113,7 @@ export default function MediaGallery({
   const renderMediaGrid = (items: MediaItem[]) => <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {items.map(item => <Card key={item.id} className="cursor-pointer overflow-hidden hover:shadow-lg transition-shadow" onClick={() => handleMediaClick(item)}>
           <div className="relative aspect-square">
-            <Image src={(item.type === "video" ? item.thumbnail : item.url) as string} alt={item.caption || ""} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+            <Image src={(item.type === "video" ? item.thumbnail : item.url) as string} alt={item.caption || ""} fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
             {item.type === "video" && <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                 <Play className="w-8 h-8 text-white" />
               </div>}
@@ -173,7 +173,7 @@ export default function MediaGallery({
                         <div className="relative aspect-video">
                           {featuredMedia.type === "video" ? <video className="w-full h-full object-cover" controls poster={featuredMedia.thumbnail}>
                               <source src={featuredMedia.url as string} type="video/mp4" />
-                            </video> : <Image src={featuredMedia.url as string} alt={featuredMedia.caption || ""} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />}
+                            </video> : <Image src={featuredMedia.url as string} alt={featuredMedia.caption || ""} fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />}
                         </div>
                         <CardContent className="p-4">
                           <h4 className="font-semibold">{featuredMedia.caption}</h4>
@@ -219,7 +219,7 @@ export default function MediaGallery({
               <div className="relative aspect-video">
                 {selectedMedia.type === "video" ? <video className="w-full h-full object-contain bg-black" controls autoPlay={isPlaying} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}>
                     <source src={selectedMedia.url as string} type="video/mp4" />
-                  </video> : <Image src={selectedMedia.url as string} alt={selectedMedia.caption || ""} fill className="object-contain" sizes="(max-width: 768px) 100vw, 50vw" />}
+                  </video> : <Image src={selectedMedia.url as string} alt={selectedMedia.caption || ""} fill className="object-contain" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />}
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-sm text-gray-600">{selectedMedia.caption}</p>

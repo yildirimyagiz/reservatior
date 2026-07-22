@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Search, Filter, Plus, Phone, Mail, Calendar, Star, CheckCircle, Clock, AlertCircle, MessageSquare, FileText, CreditCard, UserX, Users, MoreVertical, Download, Upload, Zap, Activity, Shield, TrendingUp, MapPin, ArrowUpRight, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { guestsApi } from '@/lib/api/guests';
 
@@ -112,7 +112,7 @@ export default function Guests() {
             
             <div className="flex gap-3">
               <div className="flex-1">
-                <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="w-full h-12 bg-black/20 border border-white/5 rounded-xl px-4 text-[10px] font-black text-white tracking-widest italic focus:outline-none focus:ring-2 focus:ring-blue-500/20 border-l border-t">
+                <select aria-label="Filter by guest status" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="w-full h-12 bg-black/20 border border-white/5 rounded-xl px-4 text-[10px] font-black text-white tracking-widest italic focus:outline-none focus:ring-2 focus:ring-blue-500/20 border-l border-t">
                   <option value="all">{t("client.src.all_entities")}</option>
                   <option value="active">{t("client.src.active_signals")}</option>
                   <option value="pending">{t("client.src.pending_sync")}</option>
@@ -139,7 +139,7 @@ export default function Guests() {
                 <p className="text-[10px] font-black tracking-widest italic">{t("client.src.no_entities_found")}</p>
               </div>
             ) : (
-              filteredGuests.map((guest: any) => <motion.div layout key={guest.id} onClick={() => setSelectedGuest(guest.id)} className={cn("p-5 rounded-3xl cursor-pointer transition-all border-l border-t relative group", selectedGuest === guest.id ? "bg-blue-600/10 border-blue-500/30 shadow-[0_0_20px_rgba(37,99,235,0.1)]" : "bg-white/2 hover:bg-white/5 border-white/5 shadow-xl")}>
+              filteredGuests.map((guest: any) => <m.div layout key={guest.id} onClick={() => setSelectedGuest(guest.id)} className={cn("p-5 rounded-3xl cursor-pointer transition-all border-l border-t relative group", selectedGuest === guest.id ? "bg-blue-600/10 border-blue-500/30 shadow-[0_0_20px_rgba(37,99,235,0.1)]" : "bg-white/2 hover:bg-white/5 border-white/5 shadow-xl")}>
                 <div className="flex items-start gap-4">
                   <div className="relative shrink-0">
                     <Avatar className={cn("w-14 h-14 border-2 rounded-2xl p-0.5", selectedGuest === guest.id ? "border-blue-500/50" : "border-white/5")}>
@@ -177,7 +177,7 @@ export default function Guests() {
                     </div>
                   </div>
                 </div>
-              </motion.div>)
+              </m.div>)
             )}
           </div>
         </ScrollArea>
@@ -186,7 +186,7 @@ export default function Guests() {
       {/* Guest Intelligence Hub */}
       <div className="flex-1 flex flex-col bg-[#14151a]">
         <AnimatePresence mode="wait">
-          {currentGuest ? <motion.div key={currentGuest.id} initial={{
+          {currentGuest ? <m.div key={currentGuest.id} initial={{
           opacity: 0,
           x: 20
         }} animate={{
@@ -461,7 +461,7 @@ export default function Guests() {
                   </div>
                 </div>
               </ScrollArea>
-            </motion.div> : <div className="flex-1 flex flex-col items-center justify-center space-y-6 opacity-40">
+            </m.div> : <div className="flex-1 flex flex-col items-center justify-center space-y-6 opacity-40">
               <div className="h-32 w-32 rounded-4xl bg-white/2 border border-white/5 flex items-center justify-center animate-pulse">
                  <Users className="w-12 h-12 text-slate-600" />
               </div>

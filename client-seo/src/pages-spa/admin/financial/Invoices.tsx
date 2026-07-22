@@ -15,7 +15,7 @@ import { propertiesApi, type Property } from"@/lib/api/properties";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
 import { useTranslation } from"react-i18next";
 import { cn } from"@/lib/utils";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from"@/components/ui/dialog";
@@ -142,7 +142,7 @@ export default function FinancialInvoices() {
  <div className="space-y-10 pb-20 selection:bg-primary/30">
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -160,9 +160,9 @@ export default function FinancialInvoices() {
  <h3 className="text-xl font-bold text-foreground leading-none">{stats.total}</h3>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -180,9 +180,9 @@ export default function FinancialInvoices() {
  <h3 className="text-xl font-bold text-orange-400 leading-none">{t("currency_symbol", "$")}{stats.outstanding.toLocaleString()}</h3>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -200,9 +200,9 @@ export default function FinancialInvoices() {
  <h3 className="text-xl font-bold text-emerald-400 leading-none">{t("currency_symbol", "$")}{stats.paidThisMonth.toLocaleString()}</h3>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -220,7 +220,7 @@ export default function FinancialInvoices() {
  <h3 className="text-xl font-bold text-red-400 leading-none">{t("currency_symbol", "$")}{stats.overdue.toLocaleString()}</h3>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
  </div>
 
  {/* Tactical Search & Actions Interface */}

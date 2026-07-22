@@ -1,10 +1,18 @@
 import { useEffect, useRef } from 'react';
 import type { Socket } from 'socket.io-client';
 import { useToast } from '@/hooks/use-toast';
+import { useBfcache } from '@/hooks/use-bfcache';
+
+const disconnectSocket = (ref: { current: Socket | null }) => {
+  ref.current?.disconnect();
+  ref.current = null;
+};
 
 export function useReservatiorEvents() {
   const socketRef = useRef<Socket | null>(null);
   const { toast } = useToast();
+
+  useBfcache(() => disconnectSocket(socketRef));
 
   useEffect(() => {
     let cancelled = false;
@@ -49,7 +57,7 @@ export function useReservatiorEvents() {
 
     return () => {
       cancelled = true;
-      socketRef.current?.disconnect();
+      disconnectSocket(socketRef);
       socket?.disconnect();
     };
   }, [toast]);

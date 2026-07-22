@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { MessageSquare, Send, Bell, Plus, Users, Clock, CheckCircle, XCircle, Star, Search, Settings, Zap, Activity, Shield, Terminal, ChevronRight, MoreVertical, Hash, Paperclip, Smile, Phone, Video } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { communicationsApi, Channel } from "@/lib/api/communications";
 import { cn } from "@/lib/utils";
@@ -184,7 +184,7 @@ export default function Communications() {
                 {isLoadingChannels ? <div className="p-10 text-center space-y-4 opacity-40">
                      <Activity className="w-10 h-10 mx-auto text-slate-600 animate-spin" />
                      <p className="text-[10px] font-black tracking-widest italic text-slate-500">{t("client.src.scanning_frequencies")}</p>
-                  </div> : filteredChannels.map(channel => <motion.div key={channel.id} layoutId={`channel-${channel.id}`} className={cn("p-5 rounded-[28px] cursor-pointer transition-all relative group flex items-start gap-5", selectedChannel?.id === channel.id ? "bg-blue-600/10 border border-blue-500/30 shadow-2xl" : "hover:bg-white/5 border border-transparent")} onClick={() => setSelectedChannel(channel)}>
+                  </div> : filteredChannels.map(channel => <m.div key={channel.id} layoutId={`channel-${channel.id}`} className={cn("p-5 rounded-[28px] cursor-pointer transition-all relative group flex items-start gap-5", selectedChannel?.id === channel.id ? "bg-blue-600/10 border border-blue-500/30 shadow-2xl" : "hover:bg-white/5 border border-transparent")} onClick={() => setSelectedChannel(channel)}>
                     <div className="relative">
                        <Avatar className="w-14 h-14 border-2 border-white/5 rounded-[18px] p-0.5 group-hover:scale-105 transition-transform">
                           <AvatarFallback className="bg-slate-900 text-blue-500 font-black italic rounded-[16px]"><Users className="w-6 h-6" /></AvatarFallback>
@@ -199,7 +199,7 @@ export default function Communications() {
                       <p className="text-[10px] font-bold text-slate-500 tracking-widest italic truncate">{channel.type}{t("client.src.channel")}</p>
                     </div>
                     {selectedChannel?.id === channel.id && <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-500 rounded-l-full shadow-[0_0_15px_#3b82f6]" />}
-                  </motion.div>)}
+                  </m.div>)}
               </div>
             </CardContent>
           </Card>
@@ -249,7 +249,7 @@ export default function Communications() {
                     <AnimatePresence>
                       {messages.map((message, idx) => {
                     const isMe = message.sender?.id === user?.id;
-                    return <motion.div key={message.id} initial={{
+                    return <m.div key={message.id} initial={{
                       opacity: 0,
                       y: 10,
                       scale: 0.95
@@ -279,7 +279,7 @@ export default function Communications() {
                                 {isMe && getStatusIcon(message.status)}
                               </div>
                             </div>
-                          </motion.div>;
+                          </m.div>;
                   })}
                     </AnimatePresence>
                     <div ref={messagesEndRef} />

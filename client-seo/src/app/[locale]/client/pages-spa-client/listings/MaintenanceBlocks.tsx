@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Wrench, Calendar, Clock, AlertTriangle, CheckCircle, Plus, Search, Filter, MoreHorizontal, Edit, Trash2, Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { maintenanceBlocksApi, MaintenanceBlock as ApiMaintenanceBlock } from "@/lib/api/maintenance-blocks";
@@ -189,7 +189,7 @@ export default function MaintenanceBlocks() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
             {filtered.map((block: MaintenanceBlock, idx: number) => (
-              <motion.div
+              <m.div
                 key={block.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -243,7 +243,7 @@ export default function MaintenanceBlocks() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </AnimatePresence>
         </div>

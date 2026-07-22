@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FileText, Cpu, Shield, Globe } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 export function TermsContent() {
@@ -14,7 +14,7 @@ export function TermsContent() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
       <div className="container mx-auto px-4 py-24 max-w-4xl">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-20"
@@ -45,10 +45,10 @@ export function TermsContent() {
             <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
             <span className="text-xs font-bold text-gray-400 tracking-widest">{t("terms.termscontent.auto_ext_5")}</span>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Content */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -127,7 +127,7 @@ export function TermsContent() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

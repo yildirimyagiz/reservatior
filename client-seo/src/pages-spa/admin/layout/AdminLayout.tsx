@@ -10,6 +10,7 @@ const MessageDropdown = dynamic(() => import("@/components/layout/MessageDropdow
 const UserMenu = dynamic(() => import("@/components/layout/UserMenu").then(m => m.UserMenu), { ssr: false });
 import { useLanguage, LANGUAGES } from"@/lib/languages";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from"@/components/ui/dropdown-menu";
+import Image from "next/image";
 import { useTheme } from"next-themes";
 import { usePathname, useRouter } from"next/navigation";
 import { cn } from"@/lib/utils";
@@ -611,7 +612,7 @@ export function AdminLayout({
  onClick={() => !sidebarOpen && setSidebarOpen(true)}
  >
  <div className="flex items-center overflow-hidden">
- <img src="/logo-r.jpeg" alt="Reservatior Logo" className="w-8 h-8 shrink-0 rounded-lg object-contain bg-background" />
+ <Image src="/logo-r.jpeg" alt="Reservatior Logo" width={32} height={32} loading="lazy" sizes="32px" className="w-8 h-8 shrink-0 rounded-lg object-contain bg-background" />
  <span className={cn("text-lg font-bold text-foreground tracking-tight whitespace-nowrap transition-all duration-300",
  sidebarOpen ?"ml-2 opacity-100 max-w-[150px]" :"ml-0 opacity-0 max-w-0"
  )}>
@@ -713,6 +714,7 @@ export function AdminLayout({
  <input 
  ref={inputRef}
  type="text" 
+ aria-label="Search"
  placeholder={t("admin_search_placeholder","Search properties, users, bookings...")}
  value={searchQuery}
  onChange={(e) => {

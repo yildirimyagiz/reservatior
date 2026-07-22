@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/auth/hooks";
 import { apiClient } from "@/lib/api/client";
 
@@ -168,7 +168,7 @@ export function MessageDropdown() {
           ) : (
             <AnimatePresence mode="popLayout">
               {filteredConversations.map((chat) => (
-                <motion.div
+                <m.div
                   key={chat.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -218,7 +218,7 @@ export function MessageDropdown() {
                       <div className="absolute right-4 bottom-4 h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(var(--primary),0.5)] animate-pulse" />
                     )}
                   </Link>
-                </motion.div>
+                </m.div>
               ))}
             </AnimatePresence>
           )}

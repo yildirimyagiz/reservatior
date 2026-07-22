@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ShieldCheck, Battery, Wifi, AlertTriangle, Lock, Thermometer, Waves, Search, Filter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,6 +37,7 @@ export default function IoTDashboard() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input 
               type="text" 
+              aria-label="Search devices or properties"
               placeholder={t("admin_auto_search_devices_or_properties", "Search devices or properties...")} 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}

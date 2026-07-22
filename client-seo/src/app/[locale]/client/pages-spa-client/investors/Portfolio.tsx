@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Building2, TrendingUp, DollarSign, PieChart, Plus, ArrowUpRight, BarChart3, Download, Zap, ShieldCheck, Globe, ChevronRight, Loader2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { investorsApi } from "@/lib/api/investors";
@@ -146,7 +146,7 @@ export default function InvestorPortfolio() {
                 <div className="flex flex-col items-center justify-center h-64 space-y-4">
                   <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{t("investors.portfolio.no_portfolios", "No investment portfolio found yet.")}</p>
                 </div>
-              ) : portfolios.map(p => <motion.div key={p.id} whileHover={{
+              ) : portfolios.map(p => <m.div key={p.id} whileHover={{
             y: -5
           }} className="group">
                   <Card className="border-white/5 bg-[#1a1b1e]/40 backdrop-blur-3xl rounded-[40px] overflow-hidden shadow-3xl border-l border-t relative hover:bg-white/5 transition-all">
@@ -200,7 +200,7 @@ export default function InvestorPortfolio() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>)}
+                </m.div>)}
            </div>
         </div>
 

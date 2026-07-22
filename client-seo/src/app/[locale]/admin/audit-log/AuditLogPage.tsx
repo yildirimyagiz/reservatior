@@ -15,7 +15,7 @@ import {
   ArrowUpRight,
   ChevronRight,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Select,
@@ -142,7 +142,7 @@ export default function AuditLogPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_audit_title", "Financial Audit Log")}</h1>
@@ -153,10 +153,10 @@ export default function AuditLogPage() {
               {t("admin_audit_back_to_dashboard", "Back to Dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Summary Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -190,10 +190,10 @@ export default function AuditLogPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Search and Filter */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4 flex-wrap">
@@ -240,10 +240,10 @@ export default function AuditLogPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Audit Table */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card className="bg-card border-border">
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
@@ -279,10 +279,10 @@ export default function AuditLogPage() {
                         <td className="py-3 px-4">{STATUS_ICONS[entry.status]}</td>
                         <td className="py-3 px-4">
                           <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
-                            <Button onClick={() => handleVerify(entry.id)} variant="ghost" size="icon" className="h-8 w-8">
+                            <Button onClick={() => handleVerify(entry.id)} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10">
                               {verifyingId === entry.id ? <span className="animate-spin w-4 h-4 border-2 border-primary border-t-transparent rounded-full" /> : <ShieldCheck className={`w-4 h-4 ${entry.verified ? "text-green-400" : "text-muted-foreground"}`} />}
                             </Button>
-                            <Button onClick={() => setExpandedEntry(expandedEntry?.id === entry.id ? null : entry)} variant="ghost" size="icon" className="h-8 w-8">
+                            <Button onClick={() => setExpandedEntry(expandedEntry?.id === entry.id ? null : entry)} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10">
                               <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${expandedEntry?.id === entry.id ? "rotate-90" : ""}`} />
                             </Button>
                           </div>
@@ -294,11 +294,11 @@ export default function AuditLogPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Expanded Diff View */}
         {expandedEntry && (expandedEntry.oldValues || expandedEntry.newValues) && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
             <Card className="bg-card border-border">
               <CardHeader>
                 <CardTitle className="text-foreground flex items-center gap-2">
@@ -309,7 +309,7 @@ export default function AuditLogPage() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-4 bg-red-500/5 rounded-lg border border-red-500/20">
-                    <h4 className="text-sm font-medium text-red-400 mb-3">{t("admin_audit_old_values", "Old Values")}</h4>
+                    <h2 className="text-sm font-medium text-red-400 mb-3">{t("admin_audit_old_values", "Old Values")}</h2>
                     <pre className="text-xs text-foreground font-mono whitespace-pre-wrap">{expandedEntry.oldValues ? JSON.stringify(expandedEntry.oldValues, null, 2) : t("admin_audit_no_previous", "No previous values")}</pre>
                   </div>
                   <div className="p-4 bg-green-500/5 rounded-lg border border-green-500/20">
@@ -319,7 +319,7 @@ export default function AuditLogPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { PageShell } from "../../client/layout/PageShell";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +12,7 @@ import { Building, MapPin, Search, MoreHorizontal, Activity, Edit, BarChart3, Ma
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { propertiesApi } from "@/lib/api/properties";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "@/lib/react-router-shim";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -508,7 +509,7 @@ export default function Properties() {
 
         {/* Search Modal Dropdown (AI + Geo Location filters) */}
         {searchModalOpen && (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: -10 }} 
             animate={{ opacity: 1, y: 0 }} 
             className="p-6 rounded-[2.5rem] bg-background/60 border border-border/40 backdrop-blur-2xl shadow-xl space-y-6 relative z-30"
@@ -649,12 +650,12 @@ export default function Properties() {
                 Clear Location & AI Filters
               </Button>
             </div>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Collapsible Advanced Filters panel */}
         {showAdvanced && (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: -10 }} 
             animate={{ opacity: 1, y: 0 }} 
             className="p-6 rounded-[2rem] bg-background/20 border border-border/40 backdrop-blur-xl shadow-md space-y-6"
@@ -766,7 +767,7 @@ export default function Properties() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
 
 
@@ -777,7 +778,7 @@ export default function Properties() {
             {activeFiltersList.map(filter => (
               <Badge key={filter.key} className="bg-primary/10 text-primary border-primary/20 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1.5 shadow-sm">
                 {filter.label}
-                <button onClick={filter.clear} className="hover:text-foreground transition-colors ml-1">
+                <button onClick={filter.clear} aria-label="Remove filter" className="hover:text-foreground transition-colors ml-1">
                   <X className="w-2.5 h-2.5" />
                 </button>
               </Badge>
@@ -839,7 +840,7 @@ export default function Properties() {
                             <div className="flex items-center gap-6">
                               <div className="w-16 h-16 bg-muted/40 border border-border/50 rounded-xl flex items-center justify-center group-hover:scale-105 transition-all overflow-hidden relative shadow-inner">
                                 {property.photos?.[0]?.url || property.image ? (
-                                  <img src={property.photos?.[0]?.url || property.image} className="w-full h-full object-cover" alt="" />
+                                   <Image src={property.photos?.[0]?.url || property.image} alt="" fill loading="lazy" className="object-cover" sizes="80px" />
                                 ) : (
                                   <Building className="w-8 h-8 text-muted-foreground/60" />
                                 )}

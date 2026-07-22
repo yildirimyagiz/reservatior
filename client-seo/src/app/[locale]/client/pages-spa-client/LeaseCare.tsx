@@ -6,7 +6,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Shield, ArrowRight, CheckCircle2, Users, Building2,
   Lock, Sparkles, Calculator, ArrowLeftRight, Percent, 
@@ -333,7 +333,7 @@ export default function LeaseCare() {
                     <role.icon className={`w-5 h-5 ${activeRole === role.id ? "text-emerald-500" : "text-muted-foreground"}`} />
                     {role.label}
                     {activeRole === role.id && (
-                      <motion.div layoutId="activeRoleIndicatorSPA" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-emerald-500" />
+                      <m.div layoutId="activeRoleIndicatorSPA" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-emerald-500" />
                     )}
                   </button>
                 ))}
@@ -343,7 +343,7 @@ export default function LeaseCare() {
             <div className="grid lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
               
               {/* Value Props Content based on Role */}
-              <motion.div 
+              <m.div 
                 key={`${activeRole}-${transactionMode}`}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -418,10 +418,10 @@ export default function LeaseCare() {
                     </div>
                   </>
                 )}
-              </motion.div>
+              </m.div>
 
               {/* Interactive Calculator */}
-              <motion.div 
+              <m.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="lg:col-span-7 p-8 md:p-12 rounded-[2.5rem] bg-card border border-border shadow-2xl relative overflow-hidden"
@@ -538,7 +538,7 @@ export default function LeaseCare() {
                   )}
 
                 </div>
-              </motion.div>
+              </m.div>
 
             </div>
           </div>

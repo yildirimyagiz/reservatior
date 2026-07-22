@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Activity, Clock, CheckCircle, XCircle, AlertTriangle, Filter, Search, Download, Play, Pause, RotateCcw, Zap, ChevronRight, Sparkles, Terminal, Cpu, ShieldCheck } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 interface ActivityLog {
@@ -220,7 +220,7 @@ export default function ActivityTracking() {
                       <Badge className="bg-white/5 text-slate-500 border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
                    </div>
                    <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{stat.label}</p>
-                   <h3 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h3>
+                   <h2 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h2>
                 </CardContent>
              </Card>)}
         </div>
@@ -234,7 +234,7 @@ export default function ActivityTracking() {
                  </h2>
                  <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
-                    <input type="text" placeholder={t("activityFilterplaceholder")} className="bg-[#1a1b1e]/60 border border-white/5 rounded-2xl py-3 pl-12 pr-6 text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all w-80" onChange={e => setFilter({
+                    <input type="text" aria-label="Search activity" placeholder={t("activityFilterplaceholder")} className="bg-[#1a1b1e]/60 border border-white/5 rounded-2xl py-3 pl-12 pr-6 text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all w-80" onChange={e => setFilter({
                 ...filter,
                 search: e.target.value
               })} />
@@ -243,7 +243,7 @@ export default function ActivityTracking() {
 
               <div className="space-y-4">
                 <AnimatePresence initial={false}>
-                  {filteredLogs.map(log => <motion.div key={log.id} initial={{
+                  {filteredLogs.map(log => <m.div key={log.id} initial={{
                 opacity: 0,
                 x: -20,
                 height: 0
@@ -262,7 +262,7 @@ export default function ActivityTracking() {
                           </div>
                           <div className="flex-1 space-y-1">
                              <div className="flex items-center gap-3">
-                                <h4 className="text-xl font-black italic tracking-tighter leading-none">{log.action}</h4>
+                                 <h3 className="text-xl font-black italic tracking-tighter leading-none">{log.action}</h3>
                                 <Badge className="bg-black/40 border-white/5 text-slate-500 text-[8px] font-black italic tracking-widest">{log.category}</Badge>
                              </div>
                              <p className="text-[11px] font-bold text-slate-500 tracking-tight italic line-clamp-1">{log.details}</p>
@@ -275,7 +275,7 @@ export default function ActivityTracking() {
                           </div>
                        </div>
                        {log.severity === 'critical' && <div className="absolute right-0 top-0 bottom-0 w-1 bg-red-600 shadow-[0_0_15px_#ef4444]"></div>}
-                    </motion.div>)}
+                    </m.div>)}
                 </AnimatePresence>
               </div>
            </div>
@@ -296,7 +296,7 @@ export default function ActivityTracking() {
                          <div className="absolute top-0 right-0 p-4 opacity-10">
                             <Sparkles className="w-12 h-12 text-blue-500" />
                          </div>
-                         <h4 className="text-[10px] font-black text-blue-400 italic tracking-widest mb-2">{t("patternRecognition")}</h4>
+                         <h3 className="text-[10px] font-black text-blue-400 italic tracking-widest mb-2">{t("patternRecognition")}</h3>
                          <p className="text-xs font-bold text-slate-400 italic leading-relaxed">{t("patternDesc")}</p>
                       </div>
 
@@ -323,7 +323,7 @@ export default function ActivityTracking() {
                                 <span className="text-white">{cal.val}</span>
                              </div>
                              <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner">
-                                <motion.div initial={{
+                                <m.div initial={{
                         width: 0
                       }} animate={{
                         width: cal.val
@@ -344,7 +344,7 @@ export default function ActivityTracking() {
 
       {/* Detail Overlay */}
       {selectedLog && <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-8 z-50">
-           <motion.div initial={{
+           <m.div initial={{
         opacity: 0,
         scale: 0.9
       }} animate={{
@@ -387,7 +387,7 @@ export default function ActivityTracking() {
                     {t("closeAnalysis")}
                  </Button>
               </div>
-           </motion.div>
+           </m.div>
         </div>}
     </div>;
 }

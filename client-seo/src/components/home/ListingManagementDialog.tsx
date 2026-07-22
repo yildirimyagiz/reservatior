@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PlusCircle, Globe, Sparkles, Video, FileText, Zap, ArrowRight, ShieldCheck, TrendingUp, Mic2, Languages, Cpu, BrainCircuit, MessageSquare, PlayCircle, CheckCircle2, Activity, MapPin, Home, DollarSign, Building, Camera } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { propertiesApi } from "@/lib/api/properties";
 import { apiClient } from "@/lib/api/client";
@@ -266,7 +266,7 @@ export function ListingManagementDialog({
                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic ml-1">{t("client.src.paste_cloud_link_drivedropboxwetransfer")}</p>
                 <div className="flex gap-2">
                    <div className="flex-1 relative">
-                      <input value={syncLink} onChange={e => setSyncLink(e.target.value)} placeholder={t("client.src.httpsdrivegooglecom")} className="w-full h-14 rounded-2xl bg-white/5 border border-white/5 px-4 text-xs font-medium focus:border-orange-500/50 outline-hidden transition-all text-slate-300" />
+                       <input value={syncLink} onChange={e => setSyncLink(e.target.value)} aria-label="Cloud sync link" placeholder={t("client.src.httpsdrivegooglecom")} className="w-full h-14 rounded-2xl bg-white/5 border border-white/5 px-4 text-xs font-medium focus:border-orange-500/50 outline-hidden transition-all text-slate-300" />
                       <Globe className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
                    </div>
                    <Button onClick={handleDriveSync} disabled={!syncLink || isSyncing} className="h-14 px-6 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black uppercase text-[10px] tracking-widest disabled:opacity-50">
@@ -279,7 +279,7 @@ export function ListingManagementDialog({
                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic ml-1">{t("client.src.portal_oneclick_import_sahibindenzillowemlakjet")}</p>
                 <div className="flex gap-2">
                    <div className="flex-1 relative">
-                      <input value={externalUrl} onChange={e => setExternalUrl(e.target.value)} placeholder={t("client.src.paste_listing_url_here")} className="w-full h-14 rounded-2xl bg-white/5 border border-white/5 px-4 text-xs font-medium focus:border-emerald-500/50 outline-hidden transition-all text-slate-300" />
+                       <input value={externalUrl} onChange={e => setExternalUrl(e.target.value)} aria-label="External URL import" placeholder={t("client.src.paste_listing_url_here")} className="w-full h-14 rounded-2xl bg-white/5 border border-white/5 px-4 text-xs font-medium focus:border-emerald-500/50 outline-hidden transition-all text-slate-300" />
                       <Zap className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-500" />
                    </div>
                    <Button onClick={handleExternalImport} disabled={!externalUrl || isImporting} className="h-14 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase text-[10px] tracking-widest disabled:opacity-50">
@@ -441,7 +441,7 @@ function CardLayout({
   badge?: string;
   children: React.ReactNode;
 }) {
-  return <motion.div whileHover={{
+  return <m.div whileHover={{
     scale: 1.02
   }} className="p-6 bg-[#14151a]/40 border border-white/5 rounded-3xl relative overflow-hidden group">
       <div className="flex items-center justify-between mb-2">
@@ -452,7 +452,7 @@ function CardLayout({
       </div>
       <h3 className="font-black text-sm italic tracking-tighter text-white">{title}</h3>
       {children}
-    </motion.div>;
+    </m.div>;
 }
 function FeatureItem({
   text,

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Building2, Sparkles, Zap, ChevronRight, Share2, CheckCircle2, TrendingUp, Trophy, ArrowRight, ShieldCheck } from "lucide-react";
@@ -71,7 +71,7 @@ export default function InmanConnect() {
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-24">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -79,29 +79,29 @@ export default function InmanConnect() {
           >
             <Sparkles className="w-4 h-4 text-yellow-400 animate-pulse" />
             <span>We didn&apos;t open a physical booth because we already optimized your listings!</span>
-          </motion.div>
+          </m.div>
           
-          <motion.h1
+          <m.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl sm:text-6xl font-black tracking-tight leading-none bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent mb-6"
           >
             Zero Days Vacant.<br />Zero Upfront Commission.
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-slate-400 text-base sm:text-xl leading-relaxed"
           >
             Paste your StreetEasy or Zillow listing link. Instantly see how AI virtual stages your photo (AI Staging), optimizes your description copy, and how **LeaseCare+** spreads the 3-month upfront commission hurdle into a transparent 3.5% monthly model.
-          </motion.p>
+          </m.p>
         </div>
 
         {/* Action Sandbox */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
@@ -137,7 +137,7 @@ export default function InmanConnect() {
           {/* Loader Simulation */}
           <AnimatePresence>
             {isAnalyzing && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
@@ -150,21 +150,21 @@ export default function InmanConnect() {
                   </span>
                 </div>
                 <div className="w-full bg-[#14151a] h-2 rounded-full overflow-hidden">
-                  <motion.div
+                  <m.div
                     className="bg-blue-500 h-full"
                     initial={{ width: "0%" }}
                     animate={{ width: `${((analysisStep + 1) / mockSteps.length) * 100}%` }}
                     transition={{ duration: 1 }}
                   />
                 </div>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
           {/* Results Simulation */}
           <AnimatePresence>
             {showResult && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-8 mt-4 pt-4 border-t border-[#24262f]"
@@ -173,7 +173,7 @@ export default function InmanConnect() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative h-64 rounded-2xl overflow-hidden border border-[#24262f] bg-[#0a0a0c]">
                     <span className="absolute top-4 left-4 bg-red-500/80 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Current Listing (Before)</span>
-                    <Image src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" alt="Before Staging" fill className="object-cover opacity-50 grayscale" sizes="(max-width: 768px) 100vw, 50vw" />
+                    <Image src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" alt="Before Staging" fill className="object-cover opacity-50 grayscale" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                     <div className="p-4">
                       <h4 className="font-bold text-slate-400">Traditional Listing Copy & Photo</h4>
                       <p className="text-slate-500 text-xs mt-1">Standard empty spacious room, cold lighting, poor description copy.</p>
@@ -187,7 +187,7 @@ export default function InmanConnect() {
                     <span className="absolute top-4 left-4 bg-emerald-500/80 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
                       <Sparkles className="w-3 h-3" /> AI Staged & Optimized (After)
                     </span>
-                    <Image src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600&q=80" alt="After Staging" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                    <Image src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600&q=80" alt="After Staging" fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                     <div className="p-4 bg-gradient-to-b from-transparent to-blue-500/5">
                       <h4 className="font-bold text-white flex items-center gap-1.5">
                         Modern Premium Loft Manhattan
@@ -236,10 +236,10 @@ export default function InmanConnect() {
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
 
         {/* Demo Cases */}
         <div className="mb-20">

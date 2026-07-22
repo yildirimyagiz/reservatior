@@ -180,14 +180,14 @@ export default function Deposits() {
             </div>
             
             <div className="flex gap-2">
-              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <select aria-label="Filter by deposit status" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                 <option value="all">{t("client.src.all_status")}</option>
                 <option value="held">{t("client.src.held")}</option>
                 <option value="refunded">{t("client.src.refunded")}</option>
                 <option value="partial_refund">{t("client.src.partial_refund")}</option>
                 <option value="forfeited">{t("client.src.forfeited")}</option>
               </select>
-              <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <select aria-label="Filter by deposit type" value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                 <option value="all">{t("client.src.all_types")}</option>
                 <option value="security">{t("client.src.security")}</option>
                 <option value="pet">{t("client.src.pet")}</option>

@@ -45,6 +45,9 @@ export class FinancePipelineSaga extends BaseSaga {
 
   protected async compensate(): Promise<void> {
     console.log(`[FinancePipelineSaga] Compensating deal ${this.dealId}. Reversing financial operations...`);
+    eventBus.publish(DomainEvents.COMMISSION_VOIDED, { dealId: this.dealId, reason: 'COMPENSATION' }, 'FinanceOS', this.sagaId);
+    eventBus.publish(DomainEvents.PAYMENT_REVERSED, { dealId: this.dealId, amount: this.amount, currency: this.localization.currency }, 'FinanceOS', this.sagaId);
+    await super.compensate();
   }
 
   public async onDealClosed() {

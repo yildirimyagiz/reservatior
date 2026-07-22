@@ -13,7 +13,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Home, Search, MapPin, Bed, Bath, DollarSign, Edit, Trash2, MoreHorizontal, Grid3X3, List, CheckCircle, Plus, Building, Building2, HomeIcon, Store, Factory, Trees, Save, Sparkles, Video, ChevronRight, Maximize2, Cpu, ArrowRight, LayoutDashboard, Activity, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { propertiesApi, Property } from "@/lib/api/properties";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -159,7 +159,7 @@ export default function PropertyManagement() {
 
       <div className="max-w-[1600px] mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -190,7 +190,7 @@ export default function PropertyManagement() {
                <Plus className="w-5 h-5 mr-3" /> {t('addNew')}
              </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -218,7 +218,7 @@ export default function PropertyManagement() {
           icon: DollarSign,
           color: "text-pink-400",
           bg: "bg-pink-500/10"
-        }].map((s, i) => <motion.div key={i} initial={{
+        }].map((s, i) => <m.div key={i} initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -244,11 +244,11 @@ export default function PropertyManagement() {
                  {/* Decorative bottom line */}
                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
                </Card>
-             </motion.div>)}
+             </m.div>)}
         </div>
 
         {/* Filters Card */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.98
       }} animate={{
@@ -259,7 +259,7 @@ export default function PropertyManagement() {
             <div className="flex flex-col md:flex-row items-center gap-8">
                <div className="flex-1 w-full relative group">
                   <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                  <input placeholder={t('client.property.management.search')} className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+                  <input placeholder={t('client.property.management.search')} aria-label="Search properties" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
                </div>
                <div className="flex items-center gap-4">
                   <Select value={filterStatus} onValueChange={setFilterStatus}>
@@ -278,19 +278,19 @@ export default function PropertyManagement() {
                </div>
             </div>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Content Surface */}
         <AnimatePresence mode="wait">
           {loading ? <div className="py-32 flex flex-col items-center justify-center gap-6">
               <Activity className="w-12 h-12 text-blue-500 animate-spin opacity-40" />
               <p className="text-[10px] font-black tracking-[0.3em] italic text-slate-600">{t('client.property.management.syncing')}</p>
-            </div> : viewMode === "grid" ? <motion.div initial={{
+            </div> : viewMode === "grid" ? <m.div initial={{
           opacity: 0
         }} animate={{
           opacity: 1
         }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-               {filteredProperties.map((p, idx) => <motion.div key={p.id} layout initial={{
+               {filteredProperties.map((p, idx) => <m.div key={p.id} layout initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -302,7 +302,7 @@ export default function PropertyManagement() {
                      <Card className="group relative bg-[#1a1b1e]/40 border border-white/5 rounded-[40px] overflow-hidden backdrop-blur-xl transition-all duration-700 hover:shadow-[0_0_50px_rgba(59,130,246,0.15)] hover:border-blue-500/40 h-full flex flex-col hover:-translate-y-3">
                         <div className="aspect-[4/3] relative overflow-hidden">
                            <div className="absolute inset-0 bg-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay z-10 pointer-events-none" />
-                          {p.photos?.[0] ? <Image src={p.photos[0].url} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-1000 brightness-90 group-hover:brightness-110" sizes="(max-width: 768px) 100vw, 50vw" /> : <div className="w-full h-full flex items-center justify-center bg-black/40">
+                          {p.photos?.[0] ? <Image src={p.photos[0].url} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-1000 brightness-90 group-hover:brightness-110" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" /> : <div className="w-full h-full flex items-center justify-center bg-black/40">
                               <Home className="w-20 h-20 text-white/5" />
                             </div>}
                           <div className="absolute inset-0 bg-gradient-to-t from-[#14151a] via-[#14151a]/40 to-transparent opacity-90 z-10" />
@@ -351,8 +351,8 @@ export default function PropertyManagement() {
                           </div>
                         </CardContent>
                      </Card>
-                  </motion.div>)}
-            </motion.div> : <motion.div initial={{
+                  </m.div>)}
+            </m.div> : <m.div initial={{
           opacity: 0
         }} animate={{
           opacity: 1
@@ -373,7 +373,7 @@ export default function PropertyManagement() {
                           <TableCell className="px-10 py-8">
                              <div className="flex items-center gap-8">
                                 <div className="relative w-16 h-16 rounded-[20px] bg-black/40 overflow-hidden border border-white/5 shadow-inner grow-0 shrink-0 group-hover/row:scale-110 transition-transform duration-500">
-                                   {p.photos?.[0] ? <Image src={p.photos[0].url} alt="" fill className="object-cover" sizes="64px" /> : <Home className="w-full h-full p-4 opacity-10" />}
+                                   {p.photos?.[0] ? <Image src={p.photos[0].url} alt="" fill className="object-cover" loading="lazy" sizes="64px" /> : <Home className="w-full h-full p-4 opacity-10" />}
                                </div>
                                <div className="space-y-1.5">
                                  <p className="font-black text-white text-xl italic tracking-tighter leading-none group-hover:text-blue-400 transition-colors">{p.name}</p>
@@ -425,7 +425,7 @@ export default function PropertyManagement() {
                         </TableRow>)}
                   </TableBody>
                </Table>
-            </motion.div>}
+            </m.div>}
         </AnimatePresence>
 
         {/* Create/Edit Dialog */}

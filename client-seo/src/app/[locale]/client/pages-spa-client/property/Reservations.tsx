@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, MoreHorizontal, Calendar, User, Building, Search, Plus, Activity, Zap, LayoutGrid, List, ArrowLeft, ChevronRight, Filter, DollarSign, Mail, Clock, CheckCircle2, XCircle, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 const MOCK: any[] = [{
@@ -151,7 +151,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
     } = useTranslation();
     return <div className="bg-[#1a1b1e] border-white/10 text-white rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-3xl">
       <div className="p-10 pb-0">
-        <h2 className="text-3xl font-black italic tracking-tighter text-blue-400">{title}</h2>
+        <h1 className="text-3xl font-black italic tracking-tighter text-blue-400">{title}</h1>
         <p className="text-slate-500 font-black italic tracking-widest text-[10px] pt-4 leading-relaxed">{desc}</p>
       </div>
       <form onSubmit={onSubmit} className="p-10 space-y-8">
@@ -238,7 +238,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
 
       <div className="max-w-[1600px] mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -254,7 +254,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1">
-              <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">{t('client.property.reservations.title')}</h1>
+              <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">{t('client.property.reservations.title')}</h2>
               <p className="text-slate-500 text-sm font-black tracking-widest italic">{t('client.property.reservations.subtitle')}</p>
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
         }} className="h-16 px-10 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
             <Plus className="w-5 h-5 mr-3" /> {t('client.property.reservations.add')}
           </Button>
-        </motion.div>
+        </m.div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -292,7 +292,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
           icon: Zap,
           color: "text-purple-400",
           bg: "bg-purple-500/10"
-        }].map((s, i) => <motion.div key={i} initial={{
+        }].map((s, i) => <m.div key={i} initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -306,18 +306,18 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
                  <div className="flex justify-between items-start relative z-10">
                    <div className="space-y-1">
                       <p className="text-[10px] font-black tracking-widest text-slate-500 italic">{s.label}</p>
-                      <h3 className="text-3xl font-black text-white italic tracking-tighter leading-none">{s.value}</h3>
+                       <h2 className="text-3xl font-black text-white italic tracking-tighter leading-none">{s.value}</h2>
                    </div>
                    <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border border-white/5 shadow-inner backdrop-blur-md", s.bg)}>
                       <s.icon className={cn("w-6 h-6", s.color)} />
                    </div>
                  </div>
                </Card>
-             </motion.div>)}
+             </m.div>)}
         </div>
 
         {/* Filters Card */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.98
       }} animate={{
@@ -328,7 +328,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
             <div className="flex flex-col md:flex-row items-center gap-8">
                <div className="flex-1 w-full relative group">
                   <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                  <input placeholder={t('client.property.reservations.search')} className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={search} onChange={e => setSearch(e.target.value)} />
+                   <input placeholder={t('client.property.reservations.search')} aria-label="Search reservations" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={search} onChange={e => setSearch(e.target.value)} />
                </div>
                <Select value={filterStatus} onValueChange={setFilterStatus}>
                   <SelectTrigger className="w-full md:w-64 h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest px-6"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
@@ -342,10 +342,10 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
                </Select>
             </div>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Reservations Table */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -420,7 +420,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
               </TableBody>
             </Table>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>

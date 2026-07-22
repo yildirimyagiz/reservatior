@@ -6,7 +6,7 @@ import { FileUp, ShieldCheck, UploadCloud, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 import { apiClient } from "@/lib/api/client";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface DocEntry {
@@ -164,7 +164,7 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
 
           <AnimatePresence mode="wait">
             {step === 1 ? (
-              <motion.div key="step1" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
+              <m.div key="step1" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
                 
                 {/* ID Upload */}
                 <div className="space-y-2">
@@ -214,9 +214,9 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
                   Devam Et
                 </Button>
 
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+              <m.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                 
                 <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl flex gap-3">
                   <AlertCircle className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
@@ -244,7 +244,7 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
                   </Button>
                 </div>
 
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>

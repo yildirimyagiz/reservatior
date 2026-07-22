@@ -21,7 +21,7 @@ import {
   Zap,
   Terminal
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 interface ActivityLog {
@@ -132,7 +132,7 @@ export default function ActivityTrackingPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -160,11 +160,11 @@ export default function ActivityTrackingPage() {
               </Button>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -182,9 +182,9 @@ export default function ActivityTrackingPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -202,9 +202,9 @@ export default function ActivityTrackingPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -222,9 +222,9 @@ export default function ActivityTrackingPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -242,11 +242,11 @@ export default function ActivityTrackingPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Toolbar */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -277,10 +277,10 @@ export default function ActivityTrackingPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Logs */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
@@ -326,7 +326,7 @@ export default function ActivityTrackingPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

@@ -410,7 +410,7 @@ export default function GuestFollowUp() {
           <div className="flex items-center gap-2">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <input type="text" placeholder={t("client.src.search_guests")} className="pl-8 pr-3 py-2 border rounded-md text-sm" value={filter.search || ''} onChange={e => setFilter({
+              <input type="text" aria-label="Search guests" placeholder={t("client.src.search_guests")} className="pl-8 pr-3 py-2 border rounded-md text-sm" value={filter.search || ''} onChange={e => setFilter({
               ...filter,
               search: e.target.value || undefined
             })} />
@@ -423,7 +423,7 @@ export default function GuestFollowUp() {
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-6">
-          <select className="px-3 py-1 border rounded-md text-sm" value={filter.status || ''} onChange={e => setFilter({
+          <select aria-label="Filter by follow-up status" className="px-3 py-1 border rounded-md text-sm" value={filter.status || ''} onChange={e => setFilter({
           ...filter,
           status: e.target.value || undefined
         })}>
@@ -435,7 +435,7 @@ export default function GuestFollowUp() {
             <option value="cancelled">{t("client.src.cancelled")}</option>
           </select>
 
-          <select className="px-3 py-1 border rounded-md text-sm" value={filter.type || ''} onChange={e => setFilter({
+          <select aria-label="Filter by follow-up type" className="px-3 py-1 border rounded-md text-sm" value={filter.type || ''} onChange={e => setFilter({
           ...filter,
           type: e.target.value || undefined
         })}>
@@ -448,7 +448,7 @@ export default function GuestFollowUp() {
             <option value="loyalty">{t("client.src.loyalty")}</option>
           </select>
 
-          <select className="px-3 py-1 border rounded-md text-sm" value={filter.priority || ''} onChange={e => setFilter({
+          <select aria-label="Filter by priority" className="px-3 py-1 border rounded-md text-sm" value={filter.priority || ''} onChange={e => setFilter({
           ...filter,
           priority: e.target.value || undefined
         })}>
@@ -489,7 +489,7 @@ export default function GuestFollowUp() {
                             </div>
                             <div>
                               <div className="flex items-center gap-2 mb-1">
-                                <h4 className="font-medium">{followUp.guest.name}</h4>
+                                <h2 className="font-medium">{followUp.guest.name}</h2>
                                 <Badge className={getPriorityColor(followUp.priority)}>
                                   {followUp.priority}
                                 </Badge>

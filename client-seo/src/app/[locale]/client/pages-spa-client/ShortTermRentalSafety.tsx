@@ -6,7 +6,7 @@ import { CTA } from "@/components/home/CTA";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { SEOMetadata } from "@/components/seo/SEOMetadata";
 
 const fadeUp = {
@@ -160,7 +160,7 @@ export default function ShortTermRentalSafety() {
         <div className="text-center relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/8 blur-[160px] pointer-events-none rounded-full" />
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <Badge className="mb-6 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-5 py-1.5 text-xs font-bold tracking-wider rounded-full">
               <Shield className="w-3 h-3 mr-2" /> SHORT-TERM RENTAL SECURITY
             </Badge>
@@ -174,11 +174,11 @@ export default function ShortTermRentalSafety() {
               Our comprehensive security framework ensures short-term rentals operate at the highest standards — 
               protecting residents while maximizing owner revenue through quality-focused operations.
             </p>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* ─── SAFETY METRICS BAR ────────────────────────────────────────── */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -195,11 +195,11 @@ export default function ShortTermRentalSafety() {
               <p className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">{m.label}</p>
             </div>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* ─── SECURITY PILLARS ─────────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               SECURITY FRAMEWORK
             </Badge>
@@ -209,11 +209,11 @@ export default function ShortTermRentalSafety() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Every short-term rental on Reservatior must pass through four security layers designed to ensure safety and quality.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {SECURITY_PILLARS.map((pillar, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -246,14 +246,14 @@ export default function ShortTermRentalSafety() {
                     </ul>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── VERIFICATION PROCESS ─────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               GUEST VERIFICATION
             </Badge>
@@ -263,11 +263,11 @@ export default function ShortTermRentalSafety() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Every guest undergoes comprehensive screening before booking approval.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {VERIFICATION_STEPS.map((step, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -286,14 +286,14 @@ export default function ShortTermRentalSafety() {
                   <h3 className="text-lg font-black text-neutral-900 dark:text-white tracking-tight mb-3">{step.title}</h3>
                   <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── OPERATOR REQUIREMENTS ───────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               OPERATOR STANDARDS
             </Badge>
@@ -303,11 +303,11 @@ export default function ShortTermRentalSafety() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Property management companies must meet strict criteria to operate on our platform.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {OPERATOR_REQUIREMENTS.map((req, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -324,14 +324,14 @@ export default function ShortTermRentalSafety() {
                   <h3 className="text-lg font-black text-neutral-900 dark:text-white tracking-tight mb-3">{req.requirement}</h3>
                   <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 leading-relaxed">{req.description}</p>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── ENFORCEMENT TIERS ───────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               ENFORCEMENT POLICY
             </Badge>
@@ -341,11 +341,11 @@ export default function ShortTermRentalSafety() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Escalating penalties ensure compliance and protect community standards.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {ENFORCEMENT_TIERS.map((tier, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -364,14 +364,14 @@ export default function ShortTermRentalSafety() {
                   </div>
                   <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 leading-relaxed text-center">{tier.description}</p>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── REGIONAL CONFIGURATION ───────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               REGIONAL STANDARDS
             </Badge>
@@ -381,9 +381,9 @@ export default function ShortTermRentalSafety() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Security standards adapted to local regulations and market conditions.
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -405,11 +405,11 @@ export default function ShortTermRentalSafety() {
                 <span className="text-sm font-semibold text-neutral-600 dark:text-slate-400 tracking-wide text-center">{config.noiseLimit}</span>
               </div>
             ))}
-          </motion.div>
+          </m.div>
         </section>
 
         {/* ─── CTA SECTION ─────────────────────────────────────────────── */}
-        <motion.section
+        <m.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -439,7 +439,7 @@ export default function ShortTermRentalSafety() {
               View Hospitality Standards
             </Button>
           </div>
-        </motion.section>
+        </m.section>
       </main>
 
       <CTA />

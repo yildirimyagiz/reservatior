@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Users, FileText, CheckSquare, Settings, Bell, Shield } from "lucide-react";
@@ -16,20 +16,21 @@ export function HoaContent() {
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
-        <motion.div style={{ opacity }} className="absolute inset-0">
+        <m.div style={{ opacity }} className="absolute inset-0">
           <Image 
             src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2535&auto=format&fit=crop" 
             alt="HOA" 
             fill 
+            sizes="100vw"
             className="object-cover opacity-35 transform scale-105" 
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#030712]/90 via-transparent to-transparent" />
-        </motion.div>
+        </m.div>
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
+          <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-300 mb-6 backdrop-blur-md">
               <Users className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.hoa.badge", { defaultValue: "HOA Dashboard" })}</span>
@@ -48,7 +49,7 @@ export function HoaContent() {
                 {t("client.hoa.cta_secondary", { defaultValue: "Declarations" })}
               </Button>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -58,7 +59,7 @@ export function HoaContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Outstanding Balances */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <FileText className="w-10 h-10 text-teal-400 mb-6" />
@@ -68,10 +69,10 @@ export function HoaContent() {
                 </p>
               </div>
               <h4 className="text-4xl font-black mt-8 text-teal-400">$0.00</h4>
-            </motion.div>
+            </m.div>
 
             {/* Active Violations */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <CheckSquare className="w-10 h-10 text-red-400 mb-6" />
@@ -81,10 +82,10 @@ export function HoaContent() {
                 </p>
               </div>
               <h4 className="text-4xl font-black mt-8 text-red-400">0</h4>
-            </motion.div>
+            </m.div>
 
             {/* Announcements */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Bell className="w-10 h-10 text-yellow-400 mb-6" />
@@ -94,10 +95,10 @@ export function HoaContent() {
                 </p>
               </div>
               <h4 className="text-xl font-bold mt-8 text-slate-300">{t("client.hoa.no_notifs", { defaultValue: "No active announcements" })}</h4>
-            </motion.div>
+            </m.div>
 
             {/* General HOA Info Bento */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
               className="md:col-span-3 bg-gradient-to-br from-teal-950/40 to-slate-950/40 border border-teal-500/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-[120px]" />
               <div className="relative z-10">
@@ -107,7 +108,7 @@ export function HoaContent() {
                   {t("client.hoa.panel4_desc", { defaultValue: "All community documents are securely encrypted. Board members can manage roles, approve budgets, and sign off legal files within our secure workspace." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>

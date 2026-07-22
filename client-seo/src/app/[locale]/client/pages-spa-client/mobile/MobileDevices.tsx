@@ -151,27 +151,27 @@ const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
 
       {isModalOpen && <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
           <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">
               {editingDevice ? "Edit Device" : "Add New Device"}
-            </h3>
+            </h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">{t("client.src.user_id")}</label>
-                <input type="text" required value={formData.userId} onChange={e => setFormData({
+                <input type="text" required aria-label="User ID" value={formData.userId} onChange={e => setFormData({
               ...formData,
               userId: e.target.value
             })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">{t("client.src.device_id")}</label>
-                <input type="text" required value={formData.deviceId} onChange={e => setFormData({
+                <input type="text" required aria-label="Device ID" value={formData.deviceId} onChange={e => setFormData({
               ...formData,
               deviceId: e.target.value
             })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">{t("client.src.platform")}</label>
-                <select value={formData.platform} onChange={e => setFormData({
+                <select aria-label="Platform" value={formData.platform} onChange={e => setFormData({
               ...formData,
               platform: e.target.value
             })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">

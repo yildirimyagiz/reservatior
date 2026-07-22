@@ -2,7 +2,7 @@ import Image from "next/image";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { MapPin, Bed, Bath, Square, Share2, Heart, PlayCircle, Image as ImageIcon, FileText, Download, Calendar, ChevronRight, Languages, QrCode, Copy, Sofa, Camera, Loader2, Play, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -139,7 +139,7 @@ export function StageViewer({
               {/* Content Display */}
               <div className="flex-1 bg-zinc-900 relative">
                 <AnimatePresence mode="wait">
-                  {activeTab === "photos" && <motion.div key="photos" initial={{
+                  {activeTab === "photos" && <m.div key="photos" initial={{
                   opacity: 0
                 }} animate={{
                   opacity: 1
@@ -158,9 +158,9 @@ export function StageViewer({
                           <Camera className="w-8 h-8 text-blue-500" />
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                         </div>)}
-                    </motion.div>}
+                    </m.div>}
 
-                  {activeTab === "video" && <motion.div key="video" initial={{
+                  {activeTab === "video" && <m.div key="video" initial={{
                   opacity: 0
                 }} animate={{
                   opacity: 1
@@ -172,7 +172,7 @@ export function StageViewer({
                             <span className="text-white/50 animate-pulse">{t("client.src.playing_ai_walkthrough")}</span>
                           </div>
                           {/* Placeholder for video element */}
-                          <Image src="/api/placeholder/400/300" alt={t("client.src.video_placeholder")} fill className="object-cover opacity-50 blur-sm animate-pulse" sizes="(max-width: 768px) 100vw, 50vw" />
+                          <Image src="/api/placeholder/400/300" alt={t("client.src.video_placeholder")} fill className="object-cover opacity-50 blur-sm animate-pulse" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
 
                           {/* Controls Overlay */}
                           <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
@@ -205,11 +205,11 @@ export function StageViewer({
 
                       {/* Background Blur for Video Tab */}
                       {!isVideoPlaying && <div className="absolute inset-0 opacity-20 blur-xl pointer-events-none">
-                          <Image src="/api/placeholder/400/300" alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                          <Image src="/api/placeholder/400/300" alt="" fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                         </div>}
-                    </motion.div>}
+                    </m.div>}
 
-                  {activeTab === "floorplan" && <motion.div key="floorplan" initial={{
+                  {activeTab === "floorplan" && <m.div key="floorplan" initial={{
                   opacity: 0
                 }} animate={{
                   opacity: 1
@@ -220,7 +220,7 @@ export function StageViewer({
                         <FileText className="w-16 h-16 mx-auto mb-4 opacity-50" />
                         <p>{t("client.src.floorplan_document_preview")}</p>
                       </div>
-                    </motion.div>}
+                    </m.div>}
                 </AnimatePresence>
               </div>
             </div>

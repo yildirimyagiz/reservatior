@@ -245,7 +245,7 @@ export default function PropertyImport() {
             </div> : <div className="space-y-4">
               <div>
                 <label className="text-sm font-medium">{t("client.src.property_urls_one_per")}</label>
-                <textarea placeholder={t("client.src.httpssahibindencomilan1_httpshurriyetemlakcomilan2_httpszillowcomhomedetails3")} value={bulkUrls} onChange={e => setBulkUrls(e.target.value)} className="w-full mt-1 p-3 border rounded-md h-32 font-mono text-sm" />
+                <textarea aria-label="Property URLs" placeholder={t("client.src.httpssahibindencomilan1_httpshurriyetemlakcomilan2_httpszillowcomhomedetails3")} value={bulkUrls} onChange={e => setBulkUrls(e.target.value)} className="w-full mt-1 p-3 border rounded-md h-32 font-mono text-sm" />
               </div>
               <Button onClick={handleBulkImport} disabled={loading || !bulkUrls.trim()} className="w-full">
                 {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("client.src.bulk_importing")}</> : <><Zap className="w-4 h-4 mr-2" />{t("client.src.import_all_properties")}</>}

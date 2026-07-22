@@ -3,7 +3,7 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Sparkles, ChevronRight, Eye, Clapperboard, Globe, CheckCircle2, TrendingUp, Calendar, ShieldCheck, Zap, Play } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -75,7 +75,7 @@ export default function NeuralReview() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
              <AnimatePresence mode="wait">
-               {activeTab === "comparison" && <motion.div key="comparison" initial={{
+               {activeTab === "comparison" && <m.div key="comparison" initial={{
               opacity: 0,
               x: -20
             }} animate={{
@@ -86,7 +86,7 @@ export default function NeuralReview() {
               x: 20
             }} className="relative group rounded-3xl overflow-hidden border border-white/10 shadow-2xl h-[500px]">
                     {/* Simulated Comparison Slider */}
-                    <Image src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt={t("client.src.modern_home")} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 66vw" />
+                    <Image src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt={t("client.src.modern_home")} fill className="object-cover" loading="lazy" sizes="(max-width: 1024px) 100vw, 66vw" />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all duration-500">
                        <div className="flex items-center gap-8 px-12">
                           <div className="text-center space-y-2">
@@ -108,9 +108,9 @@ export default function NeuralReview() {
                        <Button variant="ghost" className="text-xs font-black tracking-widest text-emerald-400">{t("client.src.view_gallery")}<ChevronRight className="w-4 h-4 ml-2" />
                        </Button>
                     </div>
-                 </motion.div>}
+                 </m.div>}
 
-               {activeTab === "video" && <motion.div key="video" initial={{
+               {activeTab === "video" && <m.div key="video" initial={{
               opacity: 0,
               scale: 0.95
             }} animate={{
@@ -118,7 +118,7 @@ export default function NeuralReview() {
               scale: 1
             }} className="relative rounded-3xl overflow-hidden border border-white/10 aspect-video bg-black flex items-center justify-center">
                     <div className="absolute inset-0 opacity-40">
-                       <Image src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d" alt={t("client.src.video_background")} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 66vw" />
+                       <Image src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d" alt={t("client.src.video_background")} fill className="object-cover" loading="lazy" sizes="(max-width: 1024px) 100vw, 66vw" />
                     </div>
                     <div className="relative z-10 flex flex-col items-center gap-6">
                        <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.5)] cursor-pointer hover:scale-110 transition-transform">
@@ -127,7 +127,7 @@ export default function NeuralReview() {
                        <h3 className="text-2xl font-black italic tracking-tighter">{t("client.src.preview_neural_reel")}</h3>
                        <p className="text-sm text-slate-300">{t("client.src.generated_for_instagram_tiktok")}</p>
                     </div>
-                 </motion.div>}
+                 </m.div>}
              </AnimatePresence>
 
              {/* Dynamic Stats Grid */}

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Play, X, Volume2, VolumeX, MessageSquare, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -73,7 +73,7 @@ export function VideoGallery({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {videos.map(video => <motion.div key={video.id} whileHover={{
+        {videos.map(video => <m.div key={video.id} whileHover={{
         scale: 1.02
       }} whileTap={{
         scale: 0.98
@@ -88,7 +88,7 @@ export function VideoGallery({
       }}>
             <Card className="overflow-hidden cursor-pointer group relative border-none shadow-premium bg-secondary/10" onClick={() => setSelectedVideo(video)}>
               <div className="relative aspect-video">
-                <Image src={video.thumbnail} alt={video.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="(max-width: 768px) 100vw, 50vw" />
+                <Image src={video.thumbnail} alt={video.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center text-white transform group-hover:scale-110 transition-transform">
                     <Play className="w-6 h-6 fill-current" />
@@ -108,12 +108,12 @@ export function VideoGallery({
                 <p className="text-sm text-muted-foreground mt-1">{t("client.src.aipowered_virtual_tour_experience")}</p>
               </CardContent>
             </Card>
-          </motion.div>)}
+          </m.div>)}
       </div>
 
       {/* Video Lightbox */}
       <AnimatePresence>
-        {selectedVideo && <motion.div initial={{
+        {selectedVideo && <m.div initial={{
         opacity: 0
       }} animate={{
         opacity: 1
@@ -169,7 +169,7 @@ export function VideoGallery({
                   </div>
                 </div>}
             </div>
-          </motion.div>}
+          </m.div>}
       </AnimatePresence>
     </section>;
 }

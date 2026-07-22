@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Sparkles, X, Send, Paperclip } from "lucide-react";
 
 interface SupportMessage {
@@ -134,7 +134,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -151,7 +151,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
                 <p className="text-xs text-green-500 font-medium">● Online</p>
               </div>
             </div>
-            <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+            <button onClick={onClose} aria-label="Close support chat" className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
               <X className="w-5 h-5 text-slate-600 dark:text-slate-400" />
             </button>
           </div>
@@ -277,6 +277,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
               </label>
               <input
                 type="text"
+                aria-label="Describe your issue"
                 value={supportInput}
                 onChange={(e) => setSupportInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSupportSend()}
@@ -286,13 +287,14 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
               <button
                 onClick={handleSupportSend}
                 disabled={supportIsLoading}
+                aria-label="Send message"
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded-full transition-colors"
               >
                 <Send className="w-4 h-4" />
               </button>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

@@ -508,7 +508,7 @@ export default function UserManagement() {
  <TableCell className="font-medium">
  <div className="flex items-center gap-3">
  <div className="relative w-8 h-8 bg-card rounded-full flex items-center justify-center">
- {user.avatar ? <Image src={user.avatar} alt={t("admin_organization_avatar")} width={32} height={32} className="rounded-full" /> : <span className="text-sm font-medium">
+ {user.avatar ? <Image src={user.avatar} alt={t("admin_organization_avatar")} width={32} height={32} loading="lazy" sizes="32px" className="rounded-full" /> : <span className="text-sm font-medium">
  {user.firstName[0]}{user.lastName[0]}
  </span>}
  </div>

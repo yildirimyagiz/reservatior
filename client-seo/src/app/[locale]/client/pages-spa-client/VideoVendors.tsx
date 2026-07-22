@@ -2,7 +2,7 @@
 
 import { t } from "i18next";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -251,7 +251,7 @@ export default function VideoVendorMarketplace() {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
           {filteredVendors.map((vendor, index) => {
           const TierIcon = getTierIcon(vendor.tier);
-          return <motion.div key={vendor.id} initial={{
+          return <m.div key={vendor.id} initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -315,7 +315,7 @@ export default function VideoVendorMarketplace() {
                           <span className="text-white">{vendor.qualityScore}/5</span>
                        </div>
                        <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner">
-                          <motion.div initial={{
+                          <m.div initial={{
                       width: 0
                     }} animate={{
                       width: `${vendor.qualityScore * 20}%`
@@ -339,7 +339,7 @@ export default function VideoVendorMarketplace() {
                     </div>
                   </div>
                 </Card>
-              </motion.div>;
+              </m.div>;
         })}
         </div>
       </div>
@@ -347,7 +347,7 @@ export default function VideoVendorMarketplace() {
       {/* Detail HUD Overlay */}
       <AnimatePresence>
         {selectedVendor && <div className="fixed inset-0 bg-black/90 backdrop-blur-xl flex items-center justify-center p-8 z-50">
-             <motion.div initial={{
+             <m.div initial={{
           opacity: 0,
           scale: 0.95
         }} animate={{
@@ -469,7 +469,7 @@ export default function VideoVendorMarketplace() {
                       </Button>
                    </div>
                 </div>
-             </motion.div>
+             </m.div>
           </div>}
       </AnimatePresence>
     </PageShell>;

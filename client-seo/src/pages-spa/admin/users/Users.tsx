@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from"@/components/ui/avatar";
 import { Search, Filter, Plus, Edit, Trash2, Shield, UserCheck, UserX, Users as UsersIcon, Zap, Activity, Fingerprint, Terminal, ChevronRight, MoreVertical } from"lucide-react";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 import { useState, useEffect } from"react";
 import { useToast } from"@/hooks/use-toast";
 import { useQuery } from"@tanstack/react-query";
@@ -232,7 +232,7 @@ export default function Users() {
  {/* Identity Grid */}
  <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8 px-4">
  <AnimatePresence>
- {users.map((user, idx) => <motion.div layout key={user.id} initial={{
+ {users.map((user, idx) => <m.div layout key={user.id} initial={{
  opacity: 0,
  scale: 0.9
  }} animate={{
@@ -300,7 +300,7 @@ export default function Users() {
  </Button>
  </div>
  </Card>
- </motion.div>)}
+ </m.div>)}
  </AnimatePresence>
  </div>
 

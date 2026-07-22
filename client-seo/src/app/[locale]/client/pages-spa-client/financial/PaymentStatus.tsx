@@ -3,7 +3,7 @@
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams, Link } from "@/lib/react-router-shim";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CheckCircle2, XCircle, ArrowRight, Home, Receipt, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "../layout/PageShell";
@@ -26,7 +26,7 @@ export default function PaymentStatus() {
   const isSuccess = status === "success";
   return <PageShell title={t("client.src.transaction_status")} description={t("client.src.realtime_financial_synchronization_status")}>
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <motion.div initial={{
+        <m.div initial={{
         scale: 0.8,
         opacity: 0
       }} animate={{
@@ -39,9 +39,9 @@ export default function PaymentStatus() {
             </div> : <div className="bg-rose-500/10 border border-rose-500/20 p-8 rounded-full">
               <XCircle className="w-20 h-20 text-rose-400" />
             </div>}
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{
+        <m.div initial={{
         y: 20,
         opacity: 0
       }} animate={{
@@ -74,9 +74,9 @@ export default function PaymentStatus() {
                 <Button variant="outline" size="lg" onClick={() => window.history.back()}>{t("client.src.try_again")}</Button>
               </>}
           </div>
-        </motion.div>
+        </m.div>
 
-        {isSuccess && <motion.div initial={{
+        {isSuccess && <m.div initial={{
         opacity: 0
       }} animate={{
         opacity: 1
@@ -92,7 +92,7 @@ export default function PaymentStatus() {
               <Receipt className="w-4 h-4 text-blue-400" />
               <span className="text-sm italic">{t("client.src.receipt_generated")}{sessionId?.slice(-8).toUpperCase()}</span>
             </div>
-          </motion.div>}
+          </m.div>}
       </div>
     </PageShell>;
 }

@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, MoreHorizontal, Database, RefreshCw, Globe, Shield, Zap, Search, Activity, History, CloudLightning, Fingerprint, Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { mlsApi } from "@/lib/api/mls";
@@ -154,7 +154,7 @@ export default function MLSConnections() {
         {/* Global Search */}
         <div className="relative max-w-2xl mx-auto group">
            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-           <input type="text" placeholder={t("client.src.search_link_clusters")} className="w-full h-16 pl-16 pr-8 bg-[#1a1b1e]/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
+           <input type="text" aria-label="Search link clusters" placeholder={t("client.src.search_link_clusters")} className="w-full h-16 pl-16 pr-8 bg-[#1a1b1e]/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
         </div>
 
         {/* Tactical Feed Grid */}
@@ -163,7 +163,7 @@ export default function MLSConnections() {
              <div className="col-span-1 lg:col-span-2 flex justify-center py-20"><Loader2 className="w-12 h-12 animate-spin text-blue-500" /></div>
           ) : (
             <AnimatePresence mode="popLayout">
-              {filtered.map((row, idx) => <motion.div key={row.id || idx} initial={{
+              {filtered.map((row, idx) => <m.div key={row.id || idx} initial={{
             opacity: 0,
             y: 30
           }} animate={{
@@ -220,7 +220,7 @@ export default function MLSConnections() {
                      <Trash2 className="w-5 h-5" />
                    </Button>
                 </div>
-              </motion.div>)}
+              </m.div>)}
             </AnimatePresence>
           )}
         </div>

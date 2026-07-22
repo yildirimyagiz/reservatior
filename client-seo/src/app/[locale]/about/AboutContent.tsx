@@ -14,15 +14,15 @@ export function AboutContent() {
       <AppHeader />
       {/* Hero Section */}
       <section className="relative py-20 px-4">
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1499244571912-9dd7b5ed6f11?q=80&w=2070&auto=format&fit=crop)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        >
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://images.unsplash.com/photo-1499244571912-9dd7b5ed6f11?q=80&w=2070&auto=format&fit=crop"
+            alt=""
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-slate-50 dark:to-slate-900"></div>
         </div>
         <div className="relative z-10 max-w-6xl mx-auto text-center">
@@ -46,6 +46,7 @@ export function AboutContent() {
                   alt="About Us"
                   width={600}
                   height={400}
+                  loading="lazy" sizes="(max-width: 768px) 100vw, 50vw"
                   className="rounded-2xl shadow-lg"
                 />
               </div>
@@ -83,6 +84,7 @@ export function AboutContent() {
                     alt="Yağız Yıldırım"
                     width={200}
                     height={200}
+                    loading="lazy" sizes="200px"
                     className="rounded-xl shadow-lg object-cover"
                   />
                 </div>

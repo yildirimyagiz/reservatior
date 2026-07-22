@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, ArrowLeft, ArrowRight, CheckCircle, RefreshCw } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 export default function VerifyEmailPage() {
@@ -29,7 +29,7 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
@@ -118,7 +118,7 @@ export default function VerifyEmailPage() {
             )}
           </CardContent>
         </Card>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

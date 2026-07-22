@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Clock, CheckCircle, XCircle, AlertCircle, MapPin, Users, ChevronLeft, ChevronRight, Plus, CalendarDays, Eye, Edit, Trash2, Search } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 interface CalendarEvent {
   id: string;
   title: string;
@@ -289,7 +289,7 @@ export function CalendarView() {
               </CardHeader>
               <CardContent>
                 {selectedDateEvents.length > 0 ? <div className="space-y-3">
-                    {selectedDateEvents.map(event => <motion.div key={event.id} initial={{
+                    {selectedDateEvents.map(event => <m.div key={event.id} initial={{
                 opacity: 0,
                 y: 10
               }} animate={{
@@ -343,7 +343,7 @@ export function CalendarView() {
                             </Button>
                           </div>
                         </div>
-                      </motion.div>)}
+                      </m.div>)}
                   </div> : <div className="text-center py-8 text-gray-500">{t("client.src.no_events_scheduled_for")}</div>}
               </CardContent>
             </Card>}

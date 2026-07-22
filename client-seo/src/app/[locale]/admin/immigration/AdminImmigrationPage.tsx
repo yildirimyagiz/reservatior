@@ -16,7 +16,7 @@ import {
   FolderOpen,
   Clock,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -82,7 +82,7 @@ export default function AdminImmigrationPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_immigration_title")}</h1>
@@ -93,9 +93,9 @@ export default function AdminImmigrationPage() {
               {t("admin_immigration_back_to_dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -117,9 +117,9 @@ export default function AdminImmigrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card className="bg-card border-border">
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
@@ -150,8 +150,8 @@ export default function AdminImmigrationPage() {
                     <div className="flex items-center gap-4">
                       <Badge className={STATUS_COLORS[doc.status]}>{t("admin_immigration_status_" + doc.status.toLowerCase())}</Badge>
                       <div className="flex gap-2">
-                        <Button onClick={() => { setEditingItem(doc); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
-                        <Button onClick={() => { setDeletingItem(doc); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setEditingItem(doc); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setDeletingItem(doc); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                       </div>
                     </div>
                   </div>
@@ -159,7 +159,7 @@ export default function AdminImmigrationPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
         {/* Create Dialog */}
         <CreateDocumentDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
         {/* Edit Dialog */}

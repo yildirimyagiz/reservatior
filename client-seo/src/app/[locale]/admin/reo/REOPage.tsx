@@ -17,7 +17,7 @@ import {
   Users,
   Percent,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -153,7 +153,7 @@ export default function REOPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_reo_title", "REO Portfolio")}</h1>
@@ -164,10 +164,10 @@ export default function REOPage() {
               {t("admin_reo_back_to_dashboard", "Back to Dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Summary Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -212,10 +212,10 @@ export default function REOPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Search and Filter */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4 flex-wrap">
@@ -251,10 +251,10 @@ export default function REOPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Portfolio Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filtered.map((portfolio) => (
               <Card key={portfolio.id} className="bg-card border-border">
@@ -266,8 +266,8 @@ export default function REOPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge className={STATUS_COLORS[portfolio.status]}>{portfolio.status.replace(/_/g, " ")}</Badge>
-                      <Button onClick={() => { setEditingItem(portfolio); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
-                      <Button onClick={() => { setDeletingItem(portfolio); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                      <Button onClick={() => { setEditingItem(portfolio); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                      <Button onClick={() => { setDeletingItem(portfolio); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                     </div>
                   </div>
                 </CardHeader>
@@ -305,7 +305,7 @@ export default function REOPage() {
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Create Dialog */}
         <CreatePortfolioDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />

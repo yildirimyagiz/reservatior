@@ -200,7 +200,7 @@ export default function SystemMonitoring() {
  <Button variant="outline" size="sm" onClick={exportMonitoringData}>
  <Download className="w-4 h-4 mr-2" />{t("admin_system_download")}</Button>
  </div>
- <select className="px-3 py-1 border rounded-xl text-sm bg-card border-border text-foreground" value={timeRange} onChange={e => setTimeRange(e.target.value as any)}>
+ <select aria-label="Filter by time range" className="px-3 py-1 border rounded-xl text-sm bg-card border-border text-foreground" value={timeRange} onChange={e => setTimeRange(e.target.value as any)}>
  <option value="1h">{t("admin_system_last_1_hour")}</option>
  <option value="6h">{t("admin_system_last_6_hours")}</option>
  <option value="24h">{t("admin_system_last_24_hours")}</option>

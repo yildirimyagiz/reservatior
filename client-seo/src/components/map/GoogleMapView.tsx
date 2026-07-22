@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 import { Property } from "@/lib/api/properties";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -212,7 +212,7 @@ export default function GoogleMapView({
       </div>
 
       {selectedProperty && <div className="absolute left-1/2 -translate-x-1/2 bottom-8 z-10 w-[340px]">
-          <motion.div initial={{
+          <m.div initial={{
         opacity: 0,
         x: -20
       }} animate={{
@@ -234,7 +234,7 @@ export default function GoogleMapView({
               </div>
               <Button size="sm" className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl h-9 text-xs" onClick={() => navigate(`/property/${selectedProperty.id}`)}>{t("client.src.view_details")}</Button>
             </Card>
-          </motion.div>
+          </m.div>
         </div>}
     </div>;
 }

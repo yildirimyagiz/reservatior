@@ -1,16 +1,7 @@
-/**
- * Investment Analysis Saga
- * 
- * Flow: DEAL_CREATED → valuation → comparables → projection → recommendation
- * Each step has compensation for rollback.
- */
 import { eventBus } from "../events/event-bus";
 import { v4 as uuidv4 } from "uuid";
 
-const sagaSteps: string[] = [];
-const completedSteps: { step: string;补偿: () => void }[] = [];
-
-function compensate() {
+function compensate(completedSteps: { step: string;补偿: () => void }[]) {
   for (const step of [...completedSteps].reverse()) {
     try { step.补偿(); } catch (e) { /* best effort */ }
   }
@@ -19,10 +10,9 @@ function compensate() {
 export function registerInvestmentAnalysisListeners() {
   eventBus.subscribe("DEAL_CREATED", async (payload: any) => {
     const sagaId = uuidv4();
-    completedSteps.length = 0;
-    
+    const completedSteps: { step: string;补偿: () => void }[] = [];
+
     try {
-      // Step 1: Trigger property valuation
       eventBus.publish("VALUATION_REQUESTED", {
         sagaId,
         propertyId: payload.propertyId,
@@ -33,7 +23,6 @@ export function registerInvestmentAnalysisListeners() {
         补偿: () => eventBus.publish("VALUATION_CANCELLED", { sagaId }),
       });
 
-      // Step 2: Fetch market comparables
       eventBus.publish("COMPARABLES_FETCHED", {
         sagaId,
         propertyId: payload.propertyId,
@@ -44,7 +33,6 @@ export function registerInvestmentAnalysisListeners() {
         补偿: () => eventBus.publish("COMPARABLES_DISCARDED", { sagaId }),
       });
 
-      // Step 3: Generate investment projection
       eventBus.publish("PROJECTION_GENERATED", {
         sagaId,
         dealId: payload.dealId,
@@ -55,7 +43,6 @@ export function registerInvestmentAnalysisListeners() {
         补偿: () => eventBus.publish("PROJECTION_DISCARDED", { sagaId }),
       });
 
-      // Step 4: Emit AI recommendation
       eventBus.publish("INVESTMENT_RECOMMENDATION_READY", {
         sagaId,
         dealId: payload.dealId,
@@ -74,7 +61,7 @@ export function registerInvestmentAnalysisListeners() {
         dealId: payload.dealId,
         error: error.message,
       });
-      compensate();
+      compensate(completedSteps);
     }
   });
 

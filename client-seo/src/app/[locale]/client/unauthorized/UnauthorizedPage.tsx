@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Shield, Home, LogIn } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 export default function UnauthorizedPage() {
@@ -13,7 +13,7 @@ export default function UnauthorizedPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
       <div className="text-center max-w-md">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="mb-8"
@@ -23,9 +23,9 @@ export default function UnauthorizedPage() {
           </div>
           <h1 className="text-4xl font-bold text-white mb-4">{t("unauthorized.unauthorizedpage.auto_ext_1")}</h1>
           <p className="text-gray-400 mb-8">{t("unauthorized.unauthorizedpage.auto_ext_2")}</p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -46,7 +46,7 @@ export default function UnauthorizedPage() {
             <LogIn className="w-4 h-4 mr-2" />
             {t("unauthorized.unauthorizedpage.auto_ext_4")}
                                 </Button>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

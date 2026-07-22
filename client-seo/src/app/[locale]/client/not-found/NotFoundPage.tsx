@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Home, ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 export default function NotFoundPage() {
@@ -13,16 +13,16 @@ export default function NotFoundPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
       <div className="text-center">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
           <h1 className="text-9xl font-bold text-white mb-4">404</h1>
           <p className="text-2xl text-gray-400 mb-8">{t("not_found.notfoundpage.auto_ext_1")}</p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -43,7 +43,7 @@ export default function NotFoundPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             {t("not_found.notfoundpage.auto_ext_3")}
                                 </Button>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

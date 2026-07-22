@@ -15,7 +15,7 @@ import {
   ArrowUpRight,
   Mail
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -235,7 +235,7 @@ export default function AdminUsersPage() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -253,10 +253,10 @@ export default function AdminUsersPage() {
               {t("admin_users_back_to_dashboard")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Toolbar */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -283,10 +283,10 @@ export default function AdminUsersPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Users List */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -321,10 +321,10 @@ export default function AdminUsersPage() {
                       <Badge className={ROLE_COLORS[user.role]}>{user.role}</Badge>
                       <Badge className={STATUS_COLORS[user.status]}>{t("admin_status_" + String(user.status).toLowerCase())}</Badge>
                       <div className="flex gap-2">
-                        <Button onClick={() => { setEditingItem(user); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8">
+                        <Button onClick={() => { setEditingItem(user); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button onClick={() => { setDeletingItem(user); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400">
+                        <Button onClick={() => { setDeletingItem(user); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -334,7 +334,7 @@ export default function AdminUsersPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
         {/* Create Dialog */}
         <CreateUserDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
         {/* Edit Dialog */}

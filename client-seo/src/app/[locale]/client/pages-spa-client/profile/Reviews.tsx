@@ -21,7 +21,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export default function Reviews() {
@@ -82,7 +82,7 @@ export default function Reviews() {
 
       <div className="max-w-5xl mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col md:flex-row md:items-center justify-between gap-8"
@@ -104,7 +104,7 @@ export default function Reviews() {
             </div>
           </div>
 
-          <motion.div 
+          <m.div 
              initial={{ opacity: 0, scale: 0.95 }}
              animate={{ opacity: 1, scale: 1 }}
              className="px-8 py-5 bg-[#1a1b1e]/60 border border-white/10 rounded-[32px] backdrop-blur-3xl shadow-3xl flex items-center gap-8"
@@ -121,8 +121,8 @@ export default function Reviews() {
                <p className="text-[10px] font-black text-blue-400 italic tracking-widest leading-none">{t('reviewCount', { count: 128 })}</p>
                <p className="text-[10px] font-black text-emerald-500 italic tracking-widest leading-none">{t('newThisMonth', { count: 12 })}</p>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
         <Tabs defaultValue="received" onValueChange={setActiveTab} className="space-y-10">
           <TabsList className="bg-[#1a1b1e]/60 p-2 border border-white/5 h-16 w-full md:w-fit rounded-2xl backdrop-blur-xl">
@@ -139,7 +139,7 @@ export default function Reviews() {
               {reviews
                 .filter(r => r.type === activeTab)
                 .map((review, index) => (
-                  <motion.div
+                  <m.div
                     key={review.id}
                     layout
                     initial={{ opacity: 0, y: 20 }}
@@ -204,19 +204,19 @@ export default function Reviews() {
                         </div>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                 ))}
             </AnimatePresence>
             
             {reviews.filter(r => r.type === activeTab).length === 0 && (
-               <motion.div 
+               <m.div 
                  initial={{ opacity: 0 }}
                  animate={{ opacity: 1 }}
                  className="text-center py-24 bg-[#1a1b1e]/40 rounded-[64px] border-2 border-dashed border-white/5"
                >
                  <Zap className="w-12 h-12 text-slate-800 mx-auto mb-6" />
                  <p className="text-[10px] font-black text-slate-600 italic tracking-widest">{t('noReviews')}</p>
-               </motion.div>
+               </m.div>
             )}
           </div>
         </Tabs>

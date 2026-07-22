@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Video, Upload, Wand2, Sparkles, Play, Pause, SkipForward, Download, Trash2, Eye, Film, Layers, Palette, Music, Type, Scissors, RotateCcw, Maximize, SlidersHorizontal, Zap, Clock, FileVideo, ImagePlus, Camera, Globe, TrendingUp, ChevronRight, Plus, Search, Filter, MonitorPlay, Cpu, CloudLightning, Box, Clapperboard, Volume2, Subtitles, Move3D, Sun, Contrast, Droplets } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { apiClient } from "@/lib/api/client";
 import { Share2 } from "lucide-react";
@@ -495,7 +495,7 @@ export default function VideoContentManagement() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {filteredProjects.map((project, idx) => {
             const st = statusConfig[project.status];
-            return <motion.div key={project.id} initial={{
+            return <m.div key={project.id} initial={{
               opacity: 0,
               y: 20
             }} animate={{
@@ -577,7 +577,7 @@ export default function VideoContentManagement() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>;
+                </m.div>;
           })}
           </div>
         </TabsContent>
@@ -665,7 +665,7 @@ export default function VideoContentManagement() {
                   {/* Tools Grid */}
                   <div className="space-y-2">
                     <AnimatePresence mode="wait">
-                      {toolsByCategory.map((tool, idx) => <motion.div key={tool.id} initial={{
+                      {toolsByCategory.map((tool, idx) => <m.div key={tool.id} initial={{
                       opacity: 0,
                       x: 10
                     }} animate={{
@@ -690,7 +690,7 @@ export default function VideoContentManagement() {
                             </div>
                             <ChevronRight className="w-3.5 h-3.5 text-slate-700 group-hover:text-violet-400 transition-colors" />
                           </div>
-                        </motion.div>)}
+                        </m.div>)}
                     </AnimatePresence>
                   </div>
                 </CardContent>
@@ -733,7 +733,7 @@ export default function VideoContentManagement() {
         {/* ── Pipelines Tab ────────────────────────────────────────── */}
         <TabsContent value="pipelines" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {PIPELINES.map((pipe, idx) => <motion.div key={pipe.id} initial={{
+            {PIPELINES.map((pipe, idx) => <m.div key={pipe.id} initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -773,7 +773,7 @@ export default function VideoContentManagement() {
                     </div>
                   </div>
                 </Card>
-              </motion.div>)}
+              </m.div>)}
           </div>
 
           {/* LoRA Styles Showcase */}

@@ -85,17 +85,17 @@ export default function Mortgages() {
                <div className="flex gap-4">
                   <div className="flex-1 space-y-1">
                     <label className="text-xs font-bold text-slate-500 tracking-wider">{t("client.src.home_price")}</label>
-                    <input type="text" defaultValue="$450,000" className="w-full bg-slate-100 border-none rounded-xl h-11 px-4 font-bold" />
+                    <input type="text" aria-label="Home Price" defaultValue="$450,000" className="w-full bg-slate-100 border-none rounded-xl h-11 px-4 font-bold" />
                   </div>
                   <div className="flex-1 space-y-1">
                     <label className="text-xs font-bold text-slate-500 tracking-wider">{t("client.src.down_payment")}</label>
-                    <input type="text" defaultValue="$90,000" className="w-full bg-slate-100 border-none rounded-xl h-11 px-4 font-bold" />
+                    <input type="text" aria-label="Down Payment" defaultValue="$90,000" className="w-full bg-slate-100 border-none rounded-xl h-11 px-4 font-bold" />
                   </div>
                </div>
                <div className="p-4 bg-indigo-50 rounded-2xl flex justify-between items-center">
                   <div>
                     <p className="text-xs text-indigo-600 font-bold">{t("client.src.estimated_monthly")}</p>
-                    <h3 className="text-2xl font-black text-indigo-950">$2,415.50</h3>
+                    <h2 className="text-2xl font-black text-indigo-950">$2,415.50</h2>
                   </div>
                   <Button size="icon" className="bg-white text-indigo-600 hover:bg-white shadow-sm border border-indigo-100 rounded-xl">
                     <ArrowRight className="w-5 h-5" />

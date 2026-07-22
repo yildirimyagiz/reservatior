@@ -17,7 +17,7 @@ import { format } from "date-fns";
 import { Search, Filter, Plus, Play, Download, TrendingUp, Activity, Zap, BarChart3, Clock, CheckCircle2, AlertCircle, Building, ArrowLeft, ChevronRight, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 export default function Valuations({ propertyId }: { propertyId?: string }) {
   const {
@@ -148,7 +148,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
 
       <div className="max-w-[1600px] mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -255,7 +255,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
               </div>
             </DialogContent>
           </Dialog>
-        </motion.div>
+        </m.div>
 
         {/* Stats HUD */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -287,7 +287,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
           icon: Clock,
           color: "text-orange-400",
           bg: "bg-orange-500/10"
-        }].map((s, i) => <motion.div key={i} initial={{
+        }].map((s, i) => <m.div key={i} initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -311,11 +311,11 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                    </div>
                  </div>
                </Card>
-             </motion.div>)}
+             </m.div>)}
         </div>
 
         {/* Filters Card */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.98
       }} animate={{
@@ -326,7 +326,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
             <div className="flex flex-col lg:flex-row items-center gap-8">
                <div className="flex-1 w-full relative group">
                   <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                  <input placeholder={t('client.property.valuations.filters.search')} className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={filters.search} onChange={e => setFilters(prev => ({
+                   <input placeholder={t('client.property.valuations.filters.search')} aria-label="Search valuations" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={filters.search} onChange={e => setFilters(prev => ({
                 ...prev,
                 search: e.target.value
               }))} />
@@ -372,10 +372,10 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                </div>
             </div>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Valuations Table */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -487,7 +487,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                 </div>}
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>;
 }

@@ -9,7 +9,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, AreaChart, Area, ReferenceLine,
 } from "recharts";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 
 const DEMO_CHART = [
@@ -110,7 +110,7 @@ export default function LocalizationDashboard() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi, i) => (
-          <motion.div
+          <m.div
             key={kpi.title}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -132,7 +132,7 @@ export default function LocalizationDashboard() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         ))}
       </div>
 

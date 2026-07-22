@@ -10,7 +10,7 @@ import { PlayCircle, Sparkles, Layout, MapPin, BarChart3, Calendar, DollarSign, 
 import { useToast } from "@/hooks/use-toast";
 import { videoApi } from "@/lib/api/video";
 import { Progress } from "@/components/ui/progress";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 interface NeuralReelsGeneratorProps {
   projectId?: string;
   projectName?: string;
@@ -95,7 +95,7 @@ export function NeuralReelsGenerator({
         </DialogHeader>
 
         <AnimatePresence mode="wait">
-          {isGenerating ? <motion.div initial={{
+          {isGenerating ? <m.div initial={{
           opacity: 0,
           y: 10
         }} animate={{
@@ -113,7 +113,7 @@ export function NeuralReelsGenerator({
                 <Progress value={progress} className="h-2 bg-white/5" />
               </div>
 
-              {isSuccess ? <motion.div initial={{
+              {isSuccess ? <m.div initial={{
             scale: 0.9,
             opacity: 0
           }} animate={{
@@ -128,13 +128,13 @@ export function NeuralReelsGenerator({
                     <p className="text-slate-400 text-xs">{t("client.src.ready_for_social_distribution")}</p>
                   </div>
                   <Button className="ml-auto bg-white text-black hover:bg-slate-200 text-xs font-black px-4 h-9">{t("client.src.preview")}</Button>
-                </motion.div> : <div className="flex justify-center py-4">
+                </m.div> : <div className="flex justify-center py-4">
                   <div className="relative">
                     <Activity className="w-16 h-16 text-emerald-600/20" />
                     <Sparkles className="w-6 h-6 text-emerald-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-bounce" />
                   </div>
                 </div>}
-            </motion.div> : <motion.div initial={{
+            </m.div> : <m.div initial={{
           opacity: 0
         }} animate={{
           opacity: 1
@@ -185,7 +185,7 @@ export function NeuralReelsGenerator({
 
               <Button onClick={handleGenerate} className="w-full h-16 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase tracking-widest shadow-2xl shadow-emerald-600/30 gap-3">
                 <PlayCircle className="w-5 h-5" />{t("client.src.initiate_neural_generation")}</Button>
-            </motion.div>}
+            </m.div>}
         </AnimatePresence>
       </DialogContent>
     </Dialog>;

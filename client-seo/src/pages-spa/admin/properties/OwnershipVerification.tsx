@@ -84,7 +84,7 @@ export default function OwnershipVerification() {
  </div>
  <div className="relative group min-w-[280px]">
  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
- <input placeholder={t("admin_property_filter_by_node_identity")} className="bg-card border border-border rounded-xl pl-12 h-10 text-[10px] text-foreground w-full focus:ring-primary/20 focus:border-primary/40 transition-all font-bold" />
+ <input placeholder={t("admin_property_filter_by_node_identity")} aria-label="Filter by node identity" className="bg-card border border-border rounded-xl pl-12 h-10 text-[10px] text-foreground w-full focus:ring-primary/20 focus:border-primary/40 transition-all font-bold" />
  </div>
  </CardHeader>
  <CardContent className="p-0">

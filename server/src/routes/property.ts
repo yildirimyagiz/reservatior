@@ -13,18 +13,40 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
 
   /**
    * GET /property
-   * Retrieves all Property with pagination and basic filtering.
+   * Retrieves all Property with pagination, sorting, and basic filtering.
    */
   .get("/", async ({ query, db }) => {
-    const { page = "1", limit = "20", ...where } = query as any;
+    const { page = "1", limit = "20", sortBy, ...where } = query as any;
+    delete where.sortBy;
     const regionDb = db as any;
-    
-    // Use direct queries for relationships to avoid cross-database schema issues
+
+    let orderBy: any = { createdAt: "desc" };
+    switch (sortBy) {
+      case "price_asc":
+        orderBy = { price: "asc" };
+        break;
+      case "price_desc":
+        orderBy = { price: "desc" };
+        break;
+      case "date_asc":
+        orderBy = { createdAt: "asc" };
+        break;
+      case "date_desc":
+        orderBy = { createdAt: "desc" };
+        break;
+      case "size_asc":
+        orderBy = { areaSqm: "asc" };
+        break;
+      case "size_desc":
+        orderBy = { areaSqm: "desc" };
+        break;
+    }
+
     const properties = await regionDb.property.findMany({
       where,
       skip: (parseInt(page) - 1) * parseInt(limit),
       take: parseInt(limit),
-      orderBy: { createdAt: "desc" }
+      orderBy,
     });
     
     // Manually fetch related data
@@ -61,6 +83,7 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
     query: t.Partial(t.Object({
       page: t.Optional(t.String()),
       limit: t.Optional(t.String()),
+      sortBy: t.Optional(t.String()),
       orgId: t.Optional(t.String()),
     }))
   })

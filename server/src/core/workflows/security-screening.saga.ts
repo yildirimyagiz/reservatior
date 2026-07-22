@@ -1,14 +1,7 @@
-/**
- * Security Screening Saga
- * 
- * Flow: booking → KYC → fraud check → resolved → approve/reject branch
- */
 import { eventBus } from "../events/event-bus";
 import { v4 as uuidv4 } from "uuid";
 
-const completedSteps: { step: string; compensate: () => void }[] = [];
-
-function compensate() {
+function compensate(completedSteps: { step: string; compensate: () => void }[]) {
   for (const step of [...completedSteps].reverse()) {
     try { step.compensate(); } catch (e) { /* best effort */ }
   }
@@ -17,10 +10,9 @@ function compensate() {
 export function registerSecurityScreeningListeners() {
   eventBus.subscribe("BOOKING_CREATED", async (payload: any) => {
     const sagaId = uuidv4();
-    completedSteps.length = 0;
+    const completedSteps: { step: string; compensate: () => void }[] = [];
 
     try {
-      // Step 1: Initiate KYC verification
       eventBus.publish("KYC_INITIATED", {
         sagaId,
         userId: payload.userId,
@@ -32,7 +24,6 @@ export function registerSecurityScreeningListeners() {
         compensate: () => eventBus.publish("KYC_CANCELLED", { sagaId }),
       });
 
-      // Step 2: Run fraud detection
       eventBus.publish("FRAUD_CHECK_INITIATED", {
         sagaId,
         userId: payload.userId,
@@ -44,7 +35,6 @@ export function registerSecurityScreeningListeners() {
         compensate: () => eventBus.publish("FRAUD_CHECK_CANCELLED", { sagaId }),
       });
 
-      // Step 3: Log the screening event
       eventBus.publish("SECURITY_SCREENING_COMPLETED", {
         sagaId,
         bookingId: payload.bookingId,
@@ -53,7 +43,6 @@ export function registerSecurityScreeningListeners() {
         completedAt: new Date(),
       });
 
-      // Step 4: Decision based on results (default approve if no flags)
       eventBus.publish("SECURITY_APPROVED", {
         sagaId,
         bookingId: payload.bookingId,
@@ -66,7 +55,7 @@ export function registerSecurityScreeningListeners() {
         bookingId: payload.bookingId,
         error: error.message,
       });
-      compensate();
+      compensate(completedSteps);
     }
   });
 

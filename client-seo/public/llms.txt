@@ -1,0 +1,29 @@
+# Reservatior
+
+AI-native Residential Real Estate Market Infrastructure Platform
+
+Reservatior is a comprehensive real estate platform that combines AI-powered property search, automated valuations, virtual staging, and smart home integration. Built for property managers, hosts, agents, and investors across 20+ countries.
+
+## Core Features
+
+- AI Property Search with natural language queries
+- Neural Property Valuations using machine learning
+- Virtual Staging and interior design generation
+- Smart Home IoT integration and monitoring
+- Automated Booking and reservation management
+- Commission and payout automation
+- Multi-language support (20 languages)
+- Multi-currency and multi-region support
+
+## API Documentation
+
+- [API Reference](/api/docs)
+- [Webhooks](/api/webhooks)
+
+## Platform Pages
+
+- [Home](/)
+- [Features](/features)
+- [About](/about)
+- [Login](/login)
+- [Signup](/signup)

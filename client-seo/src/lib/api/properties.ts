@@ -225,6 +225,7 @@ export const propertiesApi = {
   getAll: async (params?: {
     page?: number;
     limit?: number;
+    sortBy?: string;
     search?: string;
     region?: string;
     propertyType?: string;

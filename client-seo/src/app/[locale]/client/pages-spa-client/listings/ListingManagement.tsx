@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { PricingIntelligence } from "@/components/ai/PricingIntelligence";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +38,7 @@ import {
   Layers,
   Grid3X3
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
@@ -90,6 +91,7 @@ export default function ListingManagement() {
   const [tagDialogOpen, setTagDialogOpen] = useState(false);
   const [promotionDialogOpen, setPromotionDialogOpen] = useState(false);
   const [renewalDialogOpen, setRenewalDialogOpen] = useState(false);
+  const [aiPriceDialogOpen, setAIPriceDialogOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const { data: listings = [], isLoading: listingsLoading } = useQuery({
@@ -230,7 +232,7 @@ export default function ListingManagement() {
 
       <div className="max-w-[1800px] mx-auto space-y-8 relative z-10">
         {/* Hero Header */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative"
@@ -260,7 +262,7 @@ export default function ListingManagement() {
                   { label: "Promoted", value: listings.filter((l: Listing) => l.isPromoted).length, icon: Crown, color: "from-amber-500 to-amber-600" },
                   { label: "Expiring Soon", value: listings.filter((l: Listing) => l.expiresAt && new Date(l.expiresAt) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)).length, icon: Clock, color: "from-rose-500 to-rose-600" }
                 ].map((stat, i) => (
-                  <motion.div
+                  <m.div
                     key={i}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -276,15 +278,15 @@ export default function ListingManagement() {
                         <p className="text-2xl font-black text-white italic tracking-tighter">{stat.value}</p>
                       </div>
                     </div>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Search & Filter Bar */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -294,6 +296,7 @@ export default function ListingManagement() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
             <input 
               placeholder="Search listings..."
+              aria-label="Search listings"
               className="w-full pl-12 pr-4 h-12 bg-black/40 border border-white/10 rounded-xl text-white font-black italic text-sm tracking-wider focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all placeholder:text-slate-600"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -313,12 +316,12 @@ export default function ListingManagement() {
               </SelectContent>
             </Select>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Listings Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredListings.map((listing: Listing, idx: number) => (
-            <motion.div
+            <m.div
               key={listing.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -397,6 +400,7 @@ export default function ListingManagement() {
                           {lt.tag?.name}
                           <button
                             onClick={() => handleRemoveTag(lt.id)}
+                            aria-label="Remove tag"
                             className="hover:text-red-400 transition-colors ml-0.5"
                           >
                             <X className="w-3 h-3" />
@@ -462,6 +466,15 @@ export default function ListingManagement() {
                     >
                       <ArrowUpRight className="w-4 h-4" /> View
                     </Button>
+                    <Button
+                      onClick={() => {
+                        setSelectedListing(listing);
+                        setAIPriceDialogOpen(true);
+                      }}
+                      className="h-11 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black italic text-[10px] tracking-wider gap-2 shadow-lg shadow-emerald-500/30 transition-all hover:scale-105"
+                    >
+                      <Sparkles className="w-4 h-4" /> AI Price
+                    </Button>
                   </div>
 
                   {/* Expiry Info */}
@@ -478,13 +491,13 @@ export default function ListingManagement() {
                   )}
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
         {/* Empty State */}
         {filteredListings.length === 0 && !listingsLoading && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="text-center py-20"
@@ -496,7 +509,7 @@ export default function ListingManagement() {
             <p className="text-slate-500 text-sm font-black italic tracking-wider">
               Try adjusting your search or filters
             </p>
-          </motion.div>
+          </m.div>
         )}
       </div>
 
@@ -686,6 +699,28 @@ export default function ListingManagement() {
               </Button>
             </DialogFooter>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* AI Price Dialog */}
+      <Dialog open={aiPriceDialogOpen} onOpenChange={setAIPriceDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-900 to-slate-800 border border-white/10">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black italic text-white flex items-center gap-3">
+              <Sparkles className="w-6 h-6 text-emerald-400" />
+              AI Pricing Intelligence
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              AI-powered price analysis for {selectedListing?.title || "this listing"}
+            </DialogDescription>
+          </DialogHeader>
+          {selectedListing && (
+            <PricingIntelligence
+              listingId={selectedListing.id}
+              currentPrice={selectedListing.price || 0}
+              currency={selectedListing.currency || "USD"}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </div>

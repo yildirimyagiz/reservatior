@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Plus, Edit, Trash2, Settings, BarChart3, Users, Calendar, DollarSign, MapPin, TrendingUp, Activity as ActivityIcon } from "lucide-react";
 import { dashboardWidgetsApi } from "@/lib/api/dashboard-widgets";
@@ -201,7 +201,7 @@ export default function DashboardWidgets() {
         {widgets.map((widget, idx) => {
         const widgetType = WIDGET_TYPES(t).find(t => t.value === widget.widgetType);
         const Icon = widgetType?.icon || Settings;
-        return <motion.div initial={{
+        return <m.div initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -257,7 +257,7 @@ export default function DashboardWidgets() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>;
+            </m.div>;
       })}
       </div>
 

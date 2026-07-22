@@ -110,7 +110,7 @@ export default function TaxOverview() {
                     <TrendingUp className="w-5 h-5 text-emerald-500" />{t("client.src.tax_history")}</CardTitle>
                 <CardDescription>{t("client.src.monthly_withholding_trends_across")}</CardDescription>
               </div>
-              <Select defaultValue="6m">
+              <Select defaultValue="6m" ariaLabel="Filter">
                 <option value="6m">{t("client.src.last_6_months")}</option>
                 <option value="1y">{t("client.src.last_year")}</option>
               </Select>
@@ -207,12 +207,14 @@ export default function TaxOverview() {
 // Minimal select for the demo
 function Select({
   children,
-  defaultValue
+  defaultValue,
+  ariaLabel
 }: {
   children: React.ReactNode;
   defaultValue: string;
+  ariaLabel: string;
 }) {
-  return <select defaultValue={defaultValue} className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 outline-none font-medium">
+  return <select aria-label={ariaLabel} defaultValue={defaultValue} className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 outline-none font-medium">
             {children}
         </select>;
 }

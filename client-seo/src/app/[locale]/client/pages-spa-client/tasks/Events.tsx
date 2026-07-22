@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, MoreHorizontal, Calendar, MapPin, Users, Tag, Clock, ArrowUpRight, Plus, Search, Zap, Globe, Shield, Activity } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 const STATUS_CONFIG: Record<string, {
   label: string;
@@ -162,13 +162,13 @@ export default function Events() {
         {/* Global Filter */}
         <div className="relative max-w-2xl mx-auto group">
            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-           <input type="text" placeholder={t("client.src.search_event_nodes")} className="w-full h-16 pl-16 pr-8 bg-[#1a1b1e]/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
+           <input type="text" aria-label="Search events" placeholder={t("client.src.search_event_nodes")} className="w-full h-16 pl-16 pr-8 bg-[#1a1b1e]/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
         </div>
 
         {/* Tactical Timeline Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <AnimatePresence mode="popLayout">
-            {filtered.map((row, idx) => <motion.div key={row.id} initial={{
+            {filtered.map((row, idx) => <m.div key={row.id} initial={{
             opacity: 0,
             scale: 0.95
           }} animate={{
@@ -230,7 +230,7 @@ export default function Events() {
                      <Trash2 className="w-5 h-5" />
                    </Button>
                 </div>
-              </motion.div>)}
+              </m.div>)}
           </AnimatePresence>
         </div>
       </div>

@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { Label } from"@/components/ui/label";
 import { Progress } from"@/components/ui/progress";
 import { Users, FileText, Download, Send, CheckCircle, AlertTriangle, Clock, DollarSign, TrendingUp, Calendar, Mail, Phone, Search, Plus, Eye, CreditCard, BarChart3, Activity } from"lucide-react";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 import { cn } from"@/lib/utils";
 import { useToast } from"@/hooks/use-toast";
 import { useNavigate } from"@/lib/react-router-shim";
@@ -457,7 +457,7 @@ export default function CustomerInvoices() {
  <CardContent>
  <div className="space-y-4">
  {filteredInvoices.map((invoice: any) => (
- <motion.div key={invoice.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl p-4 border border-border">
+ <m.div key={invoice.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl p-4 border border-border">
  <div className="flex items-center justify-between">
  <div className="flex-1">
  <div className="flex items-center gap-3 mb-2">
@@ -502,7 +502,7 @@ export default function CustomerInvoices() {
  </div>
  </div>
  </div>
- </motion.div>
+ </m.div>
  ))}
  </div>
  </CardContent>
@@ -522,7 +522,7 @@ export default function CustomerInvoices() {
  <CardContent>
  <div className="space-y-4">
  {customers.map((customer: any) => (
- <motion.div key={customer.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl p-4 border border-border">
+ <m.div key={customer.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl p-4 border border-border">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
@@ -548,7 +548,7 @@ export default function CustomerInvoices() {
  </div>
  </div>
  </div>
- </motion.div>
+ </m.div>
  ))}
  </div>
  </CardContent>
@@ -578,7 +578,7 @@ export default function CustomerInvoices() {
  }, {
  name:"Bulk Deposit", type: t("admin_invoices_brokerage_type","Komisyon"), color:"slate", usage: 67
  }].map((template, i) => (
- <motion.div key={i} whileHover={{ y: -5 }} className="bg-card border border-border rounded-xl p-6 group cursor-pointer relative overflow-hidden">
+ <m.div key={i} whileHover={{ y: -5 }} className="bg-card border border-border rounded-xl p-6 group cursor-pointer relative overflow-hidden">
  <div className={cn("absolute top-0 left-0 w-1 h-full opacity-30 group-hover:w-full transition-all duration-500", template.color === 'slate' ?"bg-muted0" : template.color === 'emerald' ?"bg-emerald-500" : template.color === 'red' ?"bg-red-500" : template.color === 'orange' ?"bg-orange-500" :"bg-muted0")} />
  <div className="relative z-10 flex flex-col h-full">
  <div className="flex justify-between items-start mb-4">
@@ -594,7 +594,7 @@ export default function CustomerInvoices() {
  <Button size="sm" className="h-8 bg-slate-600 hover:bg-muted0 text-[10px] font-bold">{t("admin_invoices_use_now")}</Button>
  </div>
  </div>
- </motion.div>
+ </m.div>
  ))}
  <div className="border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center p-8 hover:bg-card transition-colors cursor-pointer group">
  <Plus className="w-8 h-8 text-slate-600 group-hover:text-slate-500 transition-colors mb-2" />
@@ -677,9 +677,9 @@ export default function CustomerInvoices() {
  <CardContent>
  <div className="h-48 flex items-end justify-between gap-2 px-4 pb-4">
  {[45, 62, 58, 75, 42, 68, 85, 55, 92, 78, 64, 82].map((val, i) => (
- <motion.div key={i} initial={{ height: 0 }} animate={{ height: `${val}%` }} transition={{ delay: i * 0.05, duration: 1, ease:"circOut" }} className="flex-1 bg-gradient-to-t from-slate-600/20 to-slate-500/40 rounded-t-lg relative group cursor-pointer">
+ <m.div key={i} initial={{ height: 0 }} animate={{ height: `${val}%` }} transition={{ delay: i * 0.05, duration: 1, ease:"circOut" }} className="flex-1 bg-gradient-to-t from-slate-600/20 to-slate-500/40 rounded-t-lg relative group cursor-pointer">
  <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-card text-card-foreground border-border text-card-foreground text-[9px] font-bold px-1.5 py-0.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{t("currency_symbol", "$")}{val}{t("admin_auto_k", "k")}</div>
- </motion.div>
+ </m.div>
  ))}
  </div>
  <div className="flex justify-between text-[9px] font-bold text-slate-600 tracking-[0.2em] px-4 pt-4 border-t border-border">

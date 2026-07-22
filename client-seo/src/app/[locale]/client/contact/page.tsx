@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
-import { ContactContent } from "./ContactContent";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import { BreadcrumbSchema } from "@/components/seo/SchemaScript";
+
+const ContactContent = dynamic(() => import("./ContactContent").then(mod => ({ default: mod.ContactContent })), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+    </div>
+  ),
+});
 
 export const metadata: Metadata = {
   title: "Contact Us - Get in Touch | Reservatior",
@@ -25,7 +34,13 @@ export default function ContactPage() {
         { name: "Home", url: "/" },
         { name: "Contact", url: "/client/contact" },
       ]} />
-      <ContactContent />
+      <Suspense fallback={
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+        </div>
+      }>
+        <ContactContent />
+      </Suspense>
     </>
   );
 }

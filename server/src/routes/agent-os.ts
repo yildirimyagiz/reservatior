@@ -210,4 +210,46 @@ export const agentOSRoutes = new Elysia({ prefix: "/agent-os" })
       set.status = 500;
       return { success: false, error: error.message };
     }
+  })
+
+  // GET /agent-os/vacancy-alerts — listings with high vacancy days for Agent OS dashboard
+  .get("/vacancy-alerts", async ({ query, set }) => {
+    try {
+      const orgId = query.orgId as string;
+
+      const where: any = {
+        vacancyDays: { gt: 20 },
+        status: { in: ["AVAILABLE", "VACANT"] },
+        deletedAt: null,
+      };
+      if (orgId) where.orgId = orgId;
+
+      const listings = await prisma.listing.findMany({
+        where,
+        orderBy: { vacancyDays: "desc" },
+        take: 20,
+        include: {
+          property: { select: { id: true, name: true, price: true, currency: true } },
+        },
+      });
+
+      return {
+        success: true,
+        data: listings.map((l) => ({
+          listingId: l.id,
+          listingTitle: l.title || l.property?.name || "Unknown",
+          currentPrice: l.price ? Number(l.price) : l.property?.price ? Number(l.property.price) : 0,
+          currency: l.priceCurrency || "USD",
+          vacancyDays: l.vacancyDays,
+          marketPosition: l.vacancyDays > 60 ? "Below Average" : l.vacancyDays > 30 ? "Average" : "Above Average",
+          suggestedDiscount: l.vacancyDays > 60 ? 0.08 : l.vacancyDays > 30 ? 0.05 : 0.03,
+          projectedOccupancy: Math.max(40, 100 - l.vacancyDays * 0.5),
+          estimatedMonthlyGain: Math.round((l.price ? Number(l.price) : 100000) * 0.005),
+          optimizationStatus: l.optimizationStatus,
+        })),
+      };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
   });

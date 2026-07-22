@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Calendar, Search, Filter, ArrowUpRight, Building2, Clock, CheckCircle, XCircle, AlertCircle, Edit, Trash2, Check, AlertTriangle, Plus
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -252,7 +252,7 @@ export default function PropertyReservationsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">{t("reservations.propertyreservationspage.auto_ext_1", "Property Reservations")}</h1>
@@ -263,9 +263,9 @@ export default function PropertyReservationsPage() {
               {t("admin_adminpage_auto_ext_3", "Dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
           <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -287,9 +287,9 @@ export default function PropertyReservationsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
@@ -303,7 +303,7 @@ export default function PropertyReservationsPage() {
                   {filteredReservations.map((reservation) => {
                     const StatusIcon = STATUS_ICONS[reservation.status];
                     return (
-                      <motion.div
+                      <m.div
                         key={reservation.id}
                         layout
                         initial={{ opacity: 0, scale: 0.98 }}
@@ -343,7 +343,7 @@ export default function PropertyReservationsPage() {
                             </Button>
                           </div>
                         </div>
-                      </motion.div>
+                      </m.div>
                     );
                   })}
                 </AnimatePresence>
@@ -355,7 +355,7 @@ export default function PropertyReservationsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Modals */}
         <CreateReservationDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />

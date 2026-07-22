@@ -12,7 +12,7 @@ import {
   CreditCard,
   PiggyBank
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const financialMetrics = [
@@ -66,7 +66,7 @@ export default function AdminFinancialPage() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -84,10 +84,10 @@ export default function AdminFinancialPage() {
               {t("admin_financial_back_to_dashboard")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Metrics */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -108,10 +108,10 @@ export default function AdminFinancialPage() {
               </CardContent>
             </Card>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Recent Transactions */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -139,7 +139,7 @@ export default function AdminFinancialPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

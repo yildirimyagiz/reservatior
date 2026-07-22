@@ -43,6 +43,7 @@ export interface UserState {
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   login: (email: string, password: string) => Promise<void>;
+  devLogin: (email: string, role?: User["role"]) => void;
   register: (
     email: string,
     password: string,

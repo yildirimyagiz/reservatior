@@ -25,7 +25,7 @@ import {
   BadgeCheck,
   Percent,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -297,7 +297,7 @@ export default function AgentMobilePage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-6 md:py-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 md:mb-8"
@@ -316,7 +316,7 @@ export default function AgentMobilePage() {
               </p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-card border border-border p-1 h-auto w-full md:w-auto flex overflow-x-auto">
@@ -348,7 +348,7 @@ export default function AgentMobilePage() {
 
           {/* TAB 1: Property Scanner */}
           <TabsContent value="scanner" className="space-y-6">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
@@ -420,7 +420,7 @@ export default function AgentMobilePage() {
                       className="bg-primary hover:bg-primary/90 w-full sm:w-auto"
                     >
                       {isScanning ? (
-                        <motion.div
+                        <m.div
                           animate={{ rotate: 360 }}
                           transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                           className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full mr-2"
@@ -433,10 +433,10 @@ export default function AgentMobilePage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
 
             {/* Scan Results */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -453,7 +453,7 @@ export default function AgentMobilePage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {scanResults.map((property, index) => (
-                    <motion.div
+                    <m.div
                       key={property.propertyId}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -463,9 +463,9 @@ export default function AgentMobilePage() {
                         <CardContent className="p-4 flex flex-col flex-1">
                           <div className="flex items-start justify-between mb-3">
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-sm font-semibold text-foreground truncate">
+                              <h2 className="text-sm font-semibold text-foreground truncate">
                                 {property.address}
-                              </h3>
+                              </h2>
                               <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
                                 <MapPin className="w-3 h-3" />
                                 {property.city}
@@ -559,16 +559,16 @@ export default function AgentMobilePage() {
                           </div>
                         </CardContent>
                       </Card>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               )}
-            </motion.div>
+            </m.div>
           </TabsContent>
 
           {/* TAB 2: My Offers */}
           <TabsContent value="offers" className="space-y-6">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
@@ -601,7 +601,7 @@ export default function AgentMobilePage() {
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                     {filteredOffers.map((offer, index) => (
-                      <motion.div
+                      <m.div
                         key={offer.id}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -654,18 +654,18 @@ export default function AgentMobilePage() {
                             )}
                           </CardContent>
                         </Card>
-                      </motion.div>
+                      </m.div>
                     ))}
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           </TabsContent>
 
           {/* TAB 3: Commission Dashboard */}
           <TabsContent value="commission" className="space-y-6">
             {/* Summary Cards */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
@@ -739,10 +739,10 @@ export default function AgentMobilePage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
 
             {/* Secondary Stats */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
@@ -782,10 +782,10 @@ export default function AgentMobilePage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
 
             {/* Recent Orders */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -859,10 +859,10 @@ export default function AgentMobilePage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
 
             {/* Top Properties */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
@@ -905,7 +905,7 @@ export default function AgentMobilePage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           </TabsContent>
         </Tabs>
       </div>

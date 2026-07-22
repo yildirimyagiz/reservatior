@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Download, Play, Pause, CheckCircle, XCircle, AlertCircle, BarChart3, Calendar, Users, Mail, Eye, Edit, Trash2, MoreHorizontal, RefreshCw, Activity, Zap, Shield, Search, Plus, ArrowUpRight, Cpu, Layers, Fingerprint, Building } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { reportsApi, ReportStatus, ReportExecutionStatus } from "@/lib/api/reports";
@@ -197,7 +197,7 @@ export default function ReportsEnhanced() {
                 {filteredReports.map((report: any, idx: number) => {
                 const rType = REPORT_TYPES[report.reportType as keyof typeof REPORT_TYPES] || REPORT_TYPES.FINANCIAL;
                 const Icon = rType.icon;
-                return <motion.div key={report.id} initial={{
+                return <m.div key={report.id} initial={{
                   opacity: 0,
                   y: 20
                 }} animate={{
@@ -269,7 +269,7 @@ export default function ReportsEnhanced() {
                            {generatingReport === report.id ? "SYNCING..." : "EXECUTE"}
                          </Button>
                       </div>
-                    </motion.div>;
+                    </m.div>;
               })}
               </div>
             </TabsContent>

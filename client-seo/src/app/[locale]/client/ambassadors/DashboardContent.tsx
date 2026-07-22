@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Users, Award, TrendingUp, Sparkles, Share2, DollarSign, QrCode } from "lucide-react";
@@ -16,20 +16,21 @@ export function DashboardContent() {
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
-        <motion.div style={{ opacity }} className="absolute inset-0">
+        <m.div style={{ opacity }} className="absolute inset-0">
           <Image 
             src="https://images.unsplash.com/photo-1552581230-c01374104636?q=80&w=2670&auto=format&fit=crop" 
             alt="Ambassadors" 
             fill 
+            sizes="100vw"
             className="object-cover opacity-40 transform scale-105" 
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#05020c] via-transparent to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#05020c]/90 via-transparent to-transparent" />
-        </motion.div>
+        </m.div>
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
+          <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 border border-pink-500/30 text-pink-300 mb-6 backdrop-blur-md">
               <Award className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.ambassador.badge", { defaultValue: "Ambassador Program" })}</span>
@@ -48,7 +49,7 @@ export function DashboardContent() {
                 {t("client.ambassador.cta_secondary", { defaultValue: "Commission Structure" })}
               </Button>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -58,7 +59,7 @@ export function DashboardContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Rewards Card */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <DollarSign className="w-10 h-10 text-emerald-400 mb-6" />
@@ -68,10 +69,10 @@ export function DashboardContent() {
                 </p>
               </div>
               <h4 className="text-4xl font-black mt-8 text-emerald-400">$0.00</h4>
-            </motion.div>
+            </m.div>
 
             {/* Links and Shares */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
               className="md:col-span-2 bg-white/5 border border-white/10 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-80 h-80 bg-pink-500/10 rounded-full blur-[100px] group-hover:bg-pink-500/20 transition-all duration-700" />
               <Share2 className="w-12 h-12 text-pink-400 mb-6" />
@@ -84,20 +85,20 @@ export function DashboardContent() {
                   {t("client.ambassador.copy_link", { defaultValue: "Copy Referral Link" })}
                 </Button>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* QR Codes */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group">
               <QrCode className="w-10 h-10 text-pink-400 mb-6" />
               <h3 className="text-2xl font-bold mb-4">{t("client.ambassador.panel3_title", { defaultValue: "Flyer Creator" })}</h3>
               <p className="text-slate-400 text-sm">
                 {t("client.ambassador.panel3_desc", { defaultValue: "Generate ready-to-print flyers and QR codes with your referral parameters." })}
               </p>
-            </motion.div>
+            </m.div>
 
             {/* Program details */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
               className="md:col-span-2 bg-gradient-to-br from-pink-950/40 to-slate-950/40 border border-pink-500/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Users className="w-12 h-12 text-pink-400 mb-6" />
@@ -106,7 +107,7 @@ export function DashboardContent() {
                   {t("client.ambassador.panel4_desc", { defaultValue: "See how many users registered using your link and the total listings they brought to the platform." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>

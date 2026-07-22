@@ -1,5 +1,6 @@
+import Image from "next/image";
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Star, ExternalLink, Info, CheckCircle2, PackageOpen, Zap, Tag } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -70,7 +71,7 @@ export default function InRoomShowroom() {
     <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-slate-100 p-6 md:p-12 font-sans">
       
       {/* Header Section */}
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-12"
@@ -84,7 +85,7 @@ export default function InRoomShowroom() {
         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
           Love what you see? Every piece of furniture and appliance in your suite is carefully curated. Purchase them directly via Amazon and have them delivered to your home.
         </p>
-      </motion.div>
+      </m.div>
 
       {/* Category Filter */}
       <div className="flex flex-wrap gap-3 mb-8">
@@ -104,10 +105,10 @@ export default function InRoomShowroom() {
       </div>
 
       {/* Grid */}
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <m.div layout className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <AnimatePresence>
           {filteredItems.map(item => (
-            <motion.div
+            <m.div
               layout
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -117,10 +118,13 @@ export default function InRoomShowroom() {
             >
               {/* Image Container */}
               <div className="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-800">
-                <img 
+                <Image 
                   src={item.image} 
                   alt={item.name} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  fill
+                  loading="lazy"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes="400px"
                 />
                 <div className="absolute top-4 left-4 flex gap-2">
                   <span className="px-3 py-1 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md text-xs font-bold flex items-center gap-1 shadow-sm">
@@ -169,6 +173,7 @@ export default function InRoomShowroom() {
                   </a>
                   <button 
                     onClick={() => setSelectedItem(selectedItem === item.id ? null : item.id)}
+                    aria-label="More info"
                     className="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                   >
                     <Info className="w-5 h-5" />
@@ -178,7 +183,7 @@ export default function InRoomShowroom() {
                 {/* Expandable Info */}
                 <AnimatePresence>
                   {selectedItem === item.id && (
-                    <motion.div
+                    <m.div
                       initial={{ opacity: 0, height: 0, marginTop: 0 }}
                       animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
                       exit={{ opacity: 0, height: 0, marginTop: 0 }}
@@ -192,15 +197,15 @@ export default function InRoomShowroom() {
                           Purchasing this item via the link above supports our ecosystem. As an Amazon Associate, Reservatior earns from qualifying purchases. This specific item is currently deployed in your suite for your trial.
                         </p>
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
 
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
-      </motion.div>
+      </m.div>
 
     </div>
   );

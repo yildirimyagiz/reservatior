@@ -30,7 +30,7 @@ export function TechHighlight() {
           <div className="relative">
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl opacity-20 blur-2xl animate-pulse" />
             <div className="relative bg-card border border-border rounded-2xl overflow-hidden shadow-2xl">
-              <Image src={MOCK_PROPERTIES[0].images[3]} alt={t("client.src.ai_tech_interface")} width={1200} height={800} className="w-full h-auto" />
+              <Image src={MOCK_PROPERTIES[0].images[3]} alt={t("client.src.ai_tech_interface")} width={1200} height={800} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" className="w-full h-auto" />
               <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                 <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl text-center">
                   <p className="text-white font-mono text-sm mb-2">{t("client.src.analyzing_scene_depth")}</p>

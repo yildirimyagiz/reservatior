@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 
+import { useBfcache } from "@/hooks/use-bfcache";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import {
   Sparkles, MapPin, Zap, ArrowRight, Search, Building, TrendingUp,
   AlertTriangle, ChevronRight, Loader2, CheckCircle2, Brain,
@@ -112,6 +113,8 @@ export function AISearchResultsContent() {
 
   const esRef = useRef<(() => void) | null>(null);
 
+  useBfcache(() => esRef.current?.());
+
   useEffect(() => {
     if (query && !state.isStreaming && !state.completeResult) {
       setSearchInput(query);
@@ -179,7 +182,7 @@ export function AISearchResultsContent() {
               className="flex-1 bg-transparent px-4 py-4 text-white placeholder:text-white/25 text-[15px] font-medium focus:outline-none"
             />
             {state.isStreaming && (
-              <button onClick={() => {}} className="mr-2 p-2 rounded-lg hover:bg-white/5 text-white/40">
+              <button onClick={() => {}} aria-label="Cancel" className="mr-2 p-2 rounded-lg hover:bg-white/5 text-white/40">
                 <X className="w-4 h-4" />
               </button>
             )}
@@ -205,7 +208,7 @@ export function AISearchResultsContent() {
                 const Icon = config.icon;
 
                 return (
-                  <motion.div
+                  <m.div
                     key={stage}
                     initial={false}
                     animate={{
@@ -237,13 +240,13 @@ export function AISearchResultsContent() {
                     {isCompleted && !isCurrent && (
                       <CheckCircle2 className="w-3 h-3 text-emerald-500/50 ml-auto" />
                     )}
-                  </motion.div>
+                  </m.div>
                 );
               })}
 
               {/* Filters detected */}
               {state.filters && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-6 p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-3"
@@ -272,12 +275,12 @@ export function AISearchResultsContent() {
                       {t("search_results.aisearchresultscontent.auto_ext_9")} {(intent as any)?.routeUsed}
                     </div>
                   )}
-                </motion.div>
+                </m.div>
               )}
 
               {/* Market context */}
               {state.marketContext && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-4 p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2"
@@ -293,7 +296,7 @@ export function AISearchResultsContent() {
                       {t("search_results.aisearchresultscontent.auto_ext_12")} <span className="text-white/70 font-semibold">{state.marketContext.pricingPressure}</span>
                     </div>
                   )}
-                </motion.div>
+                </m.div>
               )}
             </div>
           </div>
@@ -303,7 +306,7 @@ export function AISearchResultsContent() {
             {/* Properties Grid */}
             <AnimatePresence mode="wait">
               {state.properties.length > 0 && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-4"
@@ -322,7 +325,7 @@ export function AISearchResultsContent() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {state.properties.map((prop, idx) => (
-                      <motion.div
+                      <m.div
                         key={prop.id}
                         initial={{ opacity: 0, y: 20, scale: 0.97 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -332,7 +335,7 @@ export function AISearchResultsContent() {
                       >
                         {/* Image */}
                         <div className="h-44 overflow-hidden relative">
-                          <Image src={prop.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600"} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                          <Image src={prop.image || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600"} alt={prop.title} fill loading="lazy" sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                           <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/40 backdrop-blur-md rounded-lg text-white text-sm font-bold border border-white/10">
                             {prop.price}
@@ -365,17 +368,17 @@ export function AISearchResultsContent() {
                             </div>
                           </div>
                         </div>
-                      </motion.div>
+                      </m.div>
                     ))}
                   </div>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
 
             {/* AI Analysis Text */}
             <AnimatePresence>
               {state.analysisText && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="relative p-6 rounded-2xl bg-gradient-to-br from-indigo-500/5 to-purple-500/5 border border-indigo-500/10"
@@ -395,14 +398,14 @@ export function AISearchResultsContent() {
                       {t("search_results.aisearchresultscontent.auto_ext_18")} {state.costCharged} {t("search_results.aisearchresultscontent.auto_ext_19")}
                                                               </div>
                   )}
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
 
             {/* Upsell Banner */}
             <AnimatePresence>
               {state.isUpsellTriggered && state.upsellMessage && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="p-6 rounded-2xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20"
@@ -418,20 +421,20 @@ export function AISearchResultsContent() {
                                                                     </button>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
 
             {/* Error State */}
             {state.error && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="p-6 rounded-2xl bg-red-500/5 border border-red-500/20 flex items-center gap-4"
               >
                 <AlertTriangle className="w-5 h-5 text-red-400" />
                 <p className="text-sm text-red-300/80">{state.error}</p>
-              </motion.div>
+              </m.div>
             )}
 
             {/* Empty State (no query yet) */}

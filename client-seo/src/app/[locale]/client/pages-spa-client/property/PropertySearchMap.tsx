@@ -20,6 +20,7 @@ import { useAuth } from "@/lib/auth/hooks";
 import GoogleMapView from "@/components/map/GoogleMapView";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { type Property } from "@/lib/api/properties";
+type SortOption = "price_asc" | "price_desc" | "date_asc" | "date_desc" | "size_asc" | "size_desc" | "recommended" | "fast_rental" | "lowest_vacancy" | "ai_recommended";
 interface SearchFilters {
   search: string;
   propertyTypes: string[];
@@ -30,7 +31,7 @@ interface SearchFilters {
   bedrooms: [number, number];
   bathrooms: [number, number];
   areaRange: [number, number];
-  sortBy: "price_asc" | "price_desc" | "date_asc" | "date_desc" | "size_asc" | "size_desc" | "rating_desc";
+  sortBy: SortOption;
   featuredOnly: boolean;
   verifiedOnly: boolean;
   radius: number;
@@ -175,6 +176,15 @@ const LISTING_STATUSES = [{
   label: t("client.src.coming_soon")
 }];
 const SORT_OPTIONS = [{
+  value: "recommended",
+  label: "AI Recommended"
+}, {
+  value: "fast_rental",
+  label: "Fast Rental"
+}, {
+  value: "lowest_vacancy",
+  label: "Lowest Vacancy"
+}, {
   value: "price_asc",
   label: t("client.src.price_low_to_high")
 }, {
@@ -202,8 +212,8 @@ export default function PropertySearch() {
     provider
   } = useMapProvider();
   const { data: properties = [], isLoading: loading } = useQuery({
-    queryKey: ['properties'],
-    queryFn: () => propertiesApi.getAll()
+    queryKey: ['properties', filters.sortBy],
+    queryFn: () => propertiesApi.getAll({ sortBy: filters.sortBy })
   });
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
@@ -247,7 +257,7 @@ export default function PropertySearch() {
       bedrooms: [0, 10],
       bathrooms: [0, 10],
       areaRange: [0, 5000],
-      sortBy: 'date_desc',
+    sortBy: 'recommended',
       featuredOnly: false,
       verifiedOnly: false,
       radius: 50,
@@ -305,6 +315,29 @@ export default function PropertySearch() {
       return false;
     }
     return true;
+  }).sort((a, b) => {
+    switch (filters.sortBy) {
+      case "price_asc":
+        return (a.listingPrice || 0) - (b.listingPrice || 0);
+      case "price_desc":
+        return (b.listingPrice || 0) - (a.listingPrice || 0);
+      case "date_asc":
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      case "date_desc":
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case "size_asc":
+        return (a.areaSqm || 0) - (b.areaSqm || 0);
+      case "size_desc":
+        return (b.areaSqm || 0) - (a.areaSqm || 0);
+      case "fast_rental":
+        return ((a as any).vacancyDays || 999) - ((b as any).vacancyDays || 999);
+      case "lowest_vacancy":
+        return ((a as any).vacancyDays || 999) - ((b as any).vacancyDays || 999);
+      case "ai_recommended":
+        return ((b as any).rankingScore || 0) - ((a as any).rankingScore || 0);
+      default:
+        return ((b as any).rankingScore || 0) - ((a as any).rankingScore || 0);
+    }
   });
   return <div className="min-h-screen bg-[#0a0b0d]">
       {/* Header */}

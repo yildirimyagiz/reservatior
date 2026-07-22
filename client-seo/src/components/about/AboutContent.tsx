@@ -16,6 +16,7 @@ export default function AboutContent() {
             src="/images/seattle-hero.jpg"
             alt="Seattle Skyline"
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />
@@ -61,6 +62,7 @@ export default function AboutContent() {
                   alt="Yağız Yıldırım"
                   width={64}
                   height={64}
+                  loading="lazy" sizes="64px"
                   className="w-16 h-16 rounded-full object-cover border-2 border-blue-200 dark:border-blue-800"
                 />
                 <div>

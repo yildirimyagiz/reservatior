@@ -255,7 +255,7 @@ export default function AIMigration() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium">{t("client.src.staging_style")}</label>
-              <select value={preferences.stagingStyle} onChange={e => setPreferences({
+              <select aria-label="Staging Style" value={preferences.stagingStyle} onChange={e => setPreferences({
               ...preferences,
               stagingStyle: e.target.value
             })} className="w-full mt-1 p-2 border rounded-md">
@@ -266,7 +266,7 @@ export default function AIMigration() {
             </div>
             <div>
               <label className="text-sm font-medium">{t("client.src.video_length")}</label>
-              <select value={preferences.videoLength} onChange={e => setPreferences({
+              <select aria-label="Video Length" value={preferences.videoLength} onChange={e => setPreferences({
               ...preferences,
               videoLength: e.target.value
             })} className="w-full mt-1 p-2 border rounded-md">

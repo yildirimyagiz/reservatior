@@ -11,7 +11,7 @@ import {
   FileText,
   Search
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const verificationSteps = [
@@ -49,7 +49,7 @@ export default function TenantVerificationPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -67,12 +67,12 @@ export default function TenantVerificationPage() {
               {t("tenant_verification.tenantverificationpage.auto_ext_3")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Verification Steps */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {verificationSteps.map((step, idx) => (
-            <motion.div
+            <m.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -102,7 +102,7 @@ export default function TenantVerificationPage() {
                   <p className="text-gray-400">{step.description}</p>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
@@ -114,7 +114,7 @@ export default function TenantVerificationPage() {
             { label: "Avg. Processing Time", value: "2 days" },
             { label: "Accuracy", value: "99.5%" }
           ].map((stat, idx) => (
-            <motion.div
+            <m.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -126,7 +126,7 @@ export default function TenantVerificationPage() {
                   <div className="text-sm text-gray-400">{stat.label}</div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

@@ -18,7 +18,7 @@ import { paymentsApi, type Payment, PaymentLedgerStatus } from"@/lib/api/payment
 import { Edit, Trash2, MoreHorizontal, CheckCircle2, Clock, AlertCircle, TrendingUp, Plus, Search, Loader2, CreditCard, Activity, DollarSign, Shield, Zap, Maximize2, Copy } from"lucide-react";
 import { useTranslation } from"react-i18next";
 import { cn } from"@/lib/utils";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 const STATUS_CONFIG = (t: any) => {
  return {
@@ -180,7 +180,7 @@ export default function Payments() {
  <div className="space-y-10 pb-20 selection:bg-primary/30">
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -199,9 +199,9 @@ export default function Payments() {
  <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_financial_globalflow")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -220,9 +220,9 @@ export default function Payments() {
  <p className="text-[10px] font-bold text-emerald-500/60 mt-4 flex items-center gap-1">{t("admin_financial_synccomplete")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -241,9 +241,9 @@ export default function Payments() {
  <p className="text-[10px] font-bold text-orange-500/60 mt-4 flex items-center gap-1">{t("admin_financial_awaitingsync")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -262,7 +262,7 @@ export default function Payments() {
  <p className="text-[10px] font-bold text-red-500/60 mt-4 flex items-center gap-1">{t("admin_financial_faultynode")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
  </div>
 
  {/* Tactical Search & Actions Interface */}

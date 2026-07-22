@@ -3,7 +3,7 @@
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "@/lib/react-router-shim";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { apiClient } from "@/lib/api/client";
@@ -35,7 +35,7 @@ export default function VerifyEmail() {
   return <div className="min-h-screen bg-background flex flex-col">
       
       <div className="flex-1 flex items-center justify-center p-4">
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.95
       }} animate={{
@@ -67,7 +67,7 @@ export default function VerifyEmail() {
               <p className="text-slate-400 mb-8">{t("client.src.we_couldnt_verify_your")}</p>
               <Button onClick={() => navigate("/signup")} className="w-full h-11 bg-slate-800 hover:bg-slate-700 text-white rounded-xl mb-3">{t("client.src.back_to_sign_up")}</Button>
             </div>}
-        </motion.div>
+        </m.div>
       </div>
     </div>;
 }

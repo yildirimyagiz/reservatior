@@ -186,6 +186,7 @@ export default function AdminSidebar({ sidebarOpen, onToggle }: AdminSidebarProp
       {/* Toggle header */}
       <div className="flex items-center justify-end px-4 py-5 border-b border-white/10 min-h-[69px]">
         <button
+          aria-label="Toggle sidebar"
           className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
           onClick={onToggle}
         >

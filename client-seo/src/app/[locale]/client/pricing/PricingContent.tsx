@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Check, Zap, Shield, Activity, Fingerprint, Star, ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
@@ -93,7 +93,7 @@ export function PricingContent() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -111,14 +111,14 @@ export function PricingContent() {
               {t("pricing.pricingcontent.auto_ext_3")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-[1600px] mx-auto">
           {plans.map((plan, index) => {
               const { t } = useTranslation();
             const isPopular = plan.priceMonthlyCents !== null && plan.priceMonthlyCents > 5000 && plan.priceMonthlyCents < 20000;
             return (
-              <motion.div
+              <m.div
                 key={plan.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -182,12 +182,12 @@ export function PricingContent() {
                   <Shield className="w-4 h-4 text-gray-500" />
                   <Activity className="w-4 h-4 text-gray-500" />
                 </div>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -202,7 +202,7 @@ export function PricingContent() {
               <span key={auth} className="text-xs font-bold text-gray-600 tracking-widest">{auth}</span>
             ))}
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

@@ -171,7 +171,7 @@ export function Navbar() {
         </div>
  
         {/* Mobile Toggle */}
-        <button className="md:hidden text-foreground shrink-0 flex items-center justify-center w-full h-full" onClick={() => setIsOpen(!isOpen)}>
+        <button aria-label="Toggle menu" className="md:hidden text-foreground shrink-0 flex items-center justify-center w-full h-full" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>

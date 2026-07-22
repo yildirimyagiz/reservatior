@@ -6,7 +6,7 @@ import { CTA } from "@/components/home/CTA";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { SEOMetadata } from "@/components/seo/SEOMetadata";
 
 const fadeUp = {
@@ -233,7 +233,7 @@ export default function TenantVerification() {
         <div className="text-center relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/8 blur-[160px] pointer-events-none rounded-full" />
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <Badge className="mb-6 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-5 py-1.5 text-xs font-bold tracking-wider rounded-full">
               <Sparkles className="w-3 h-3 mr-2" /> PROGRESSIVE VERIFICATION
             </Badge>
@@ -247,11 +247,11 @@ export default function TenantVerification() {
               Start browsing in 2 minutes. Add verification when you&apos;re ready to book. 
               Each step unlocks better properties, lower rates, and exclusive benefits.
             </p>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* ─── TRUST METRICS ─────────────────────────────────────────────── */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -268,11 +268,11 @@ export default function TenantVerification() {
               <p className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">{m.label}</p>
             </div>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* ─── MARKETING ANGLES ──────────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               WHY VERIFY?
             </Badge>
@@ -282,11 +282,11 @@ export default function TenantVerification() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               We&apos;ve designed verification to enhance your experience, not restrict it.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {MARKETING_ANGLES.map((angle, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -310,14 +310,14 @@ export default function TenantVerification() {
                     <p className="text-sm font-medium text-neutral-600 dark:text-slate-400 leading-relaxed">{angle.description}</p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── VERIFICATION TIERS ───────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               PROGRESSION PATH
             </Badge>
@@ -327,11 +327,11 @@ export default function TenantVerification() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Start simple, add more verification as you need. Each stage unlocks new benefits.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="space-y-6">
             {VERIFICATION_TIERS.map((tier, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -398,14 +398,14 @@ export default function TenantVerification() {
                     </div>
                   </div>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── EVALUATION CRITERIA ─────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               EVALUATION CRITERIA
             </Badge>
@@ -415,11 +415,11 @@ export default function TenantVerification() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Clear, transparent criteria with visible benefits for each verification step.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {EVALUATION_CRITERIA.map((category, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -451,14 +451,14 @@ export default function TenantVerification() {
                     ))}
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── TRAVEL PURPOSES ─────────────────────────────────────────── */}
         <section>
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+          <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
             <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               PERSONALIZATION
             </Badge>
@@ -468,11 +468,11 @@ export default function TenantVerification() {
             <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
               Your travel purpose helps us match you with the perfect property and provide personalized recommendations.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {TRAVEL_PURPOSES.map((purpose, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 custom={idx}
                 initial="hidden"
@@ -486,13 +486,13 @@ export default function TenantVerification() {
                 </div>
                 <h3 className="text-sm font-bold text-neutral-900 dark:text-white tracking-tight mb-2">{purpose.label}</h3>
                 <p className="text-xs font-medium text-neutral-500 dark:text-slate-400 leading-relaxed">{purpose.description}</p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
 
         {/* ─── CTA SECTION ─────────────────────────────────────────────── */}
-        <motion.section
+        <m.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -522,7 +522,7 @@ export default function TenantVerification() {
               Learn About Security
             </Button>
           </div>
-        </motion.section>
+        </m.section>
       </main>
 
       <CTA />

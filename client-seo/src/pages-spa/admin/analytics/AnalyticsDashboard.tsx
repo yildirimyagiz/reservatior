@@ -12,7 +12,7 @@ import { analyticsApi } from"@/lib/api/analytics";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, AreaChart, Area } from"recharts";
 import { Users, Activity, Eye, Download, Monitor, Tablet, Smartphone, Target, Zap, TrendingUp, Cpu, Globe, MoreVertical, ZapOff, Loader2 } from"lucide-react";
 import { cn } from"@/lib/utils";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 interface AnalyticsMetrics {
  totalEvents: number;
  uniqueUsers: number;
@@ -306,7 +306,7 @@ export default function AnalyticsDashboard() {
  color:"text-orange-500",
  trend:"+2.1%",
  trendColor:"text-orange-400"
- }].map((stat, i) => <motion.div key={i} initial={{
+ }].map((stat, i) => <m.div key={i} initial={{
  opacity: 0,
  y: 15
  }} animate={{
@@ -326,7 +326,7 @@ export default function AnalyticsDashboard() {
  <h3 className="text-xl font-bold text-foreground leading-none">{stat.value}</h3>
  <div className={cn("absolute bottom-0 left-0 w-full h-1", stat.color.replace('text-', 'bg-'))}></div>
  </div>
- </motion.div>)}
+ </m.div>)}
  </div>
  )}
 

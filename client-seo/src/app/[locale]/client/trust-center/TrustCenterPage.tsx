@@ -5,7 +5,7 @@ import { Shield, ShieldCheck, Gavel, Lock, CheckCircle, Globe, Sparkles, ArrowUp
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const sections = [
@@ -37,7 +37,7 @@ export default function TrustCenterPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-24">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
@@ -62,12 +62,12 @@ export default function TrustCenterPage() {
               {t("trust_center.trustcenterpage.auto_ext_5")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Feature Matrix */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-20">
           {sections.map((section, idx) => (
-            <motion.div
+            <m.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -95,7 +95,7 @@ export default function TrustCenterPage() {
                   </ul>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 

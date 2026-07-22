@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Briefcase, Camera, Paintbrush, ShieldCheck, Heart, Star, Wrench } from "lucide-react";
@@ -16,20 +16,21 @@ export function MarketplaceContent() {
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
-        <motion.div style={{ opacity }} className="absolute inset-0">
+        <m.div style={{ opacity }} className="absolute inset-0">
           <Image 
             src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2670&auto=format&fit=crop" 
             alt="Service Marketplace" 
             fill 
+            sizes="100vw"
             className="object-cover opacity-35 transform scale-105" 
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#030308] via-transparent to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#030308]/90 via-transparent to-transparent" />
-        </motion.div>
+        </m.div>
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
+          <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 mb-6 backdrop-blur-md">
               <Briefcase className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.marketplace.badge", { defaultValue: "Service Marketplace" })}</span>
@@ -48,7 +49,7 @@ export function MarketplaceContent() {
                 {t("client.marketplace.cta_secondary", { defaultValue: "Become a Vendor" })}
               </Button>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -58,7 +59,7 @@ export function MarketplaceContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Cleaning */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Paintbrush className="w-10 h-10 text-indigo-400 mb-6" />
@@ -67,10 +68,10 @@ export function MarketplaceContent() {
                   {t("client.marketplace.panel1_desc", { defaultValue: "Expert hospitality-grade cleaners specializing in short-term rental checkout turnarounds." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Maintenance */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Wrench className="w-10 h-10 text-indigo-400 mb-6" />
@@ -79,10 +80,10 @@ export function MarketplaceContent() {
                   {t("client.marketplace.panel2_desc", { defaultValue: "On-call plumbers, electricians, locksmiths, and painters available for emergency responses." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Media Photography */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Camera className="w-10 h-10 text-indigo-400 mb-6" />
@@ -91,10 +92,10 @@ export function MarketplaceContent() {
                   {t("client.marketplace.panel3_desc", { defaultValue: "Professional real estate photographers, drone pilots, and Matterport 3D scanner operators." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Trust and Safety Bento */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
               className="md:col-span-3 bg-gradient-to-br from-indigo-950/30 to-slate-950/40 border border-indigo-500/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px]" />
               <div className="relative z-10">
@@ -104,7 +105,7 @@ export function MarketplaceContent() {
                   {t("client.marketplace.panel4_desc", { defaultValue: "Every service professional listed on our platform is background checked, identity verified, and fully insured up to $1M in property liability." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>

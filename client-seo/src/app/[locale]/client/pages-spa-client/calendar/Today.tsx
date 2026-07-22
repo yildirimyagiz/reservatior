@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Clock, CheckCircle, AlertCircle, MapPin, Users, ChevronLeft, ChevronRight, Plus, CalendarDays, CalendarClock, CalendarCheck, Activity, Zap, Target, FileBarChart, Sparkles, TrendingUp, Building2, ArrowRight, ShieldCheck, LifeBuoy, Briefcase, Key, DollarSign, FileText, CheckSquare, Search, Bell } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // --- Sector Types Based on User Request ---
@@ -294,7 +294,7 @@ export default function Today() {
               <TabsContent value={activeSector} className="mt-0 outline-none">
                  <div className="grid gap-6">
                     <AnimatePresence mode="popLayout">
-                      {filteredAgenda.map((item, idx) => <motion.div key={item.id} layout initial={{
+                      {filteredAgenda.map((item, idx) => <m.div key={item.id} layout initial={{
                   opacity: 0,
                   y: 20
                 }} animate={{
@@ -355,7 +355,7 @@ export default function Today() {
                                    </div>}
                              </CardContent>
                           </Card>
-                        </motion.div>)}
+                        </m.div>)}
                     </AnimatePresence>
                  </div>
               </TabsContent>
@@ -436,7 +436,7 @@ export default function Today() {
                           <span className={cn("text-xs font-black", metric.color === 'purple' ? 'text-purple-400' : metric.color === 'emerald' ? 'text-emerald-400' : 'text-blue-400')}>{metric.val}%</span>
                        </div>
                        <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                         <motion.div initial={{
+                         <m.div initial={{
                   width: 0
                 }} animate={{
                   width: `${metric.val}%`

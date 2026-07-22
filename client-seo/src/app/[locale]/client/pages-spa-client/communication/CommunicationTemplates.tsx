@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Clock, Copy, Download, Edit, Eye, FileCheck, FilePlus, FileSignature, FileSpreadsheet, FileText, Folder, Grid3X3, List, Mail, MoreHorizontal, Plus, Search, Share2, Star, Trash2, TrendingUp, Unlock, LockKeyhole } from "lucide-react";
 interface Template {
   id: string;
@@ -712,7 +712,7 @@ export default function Templates() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {favoriteTemplates.slice(0, 3).map(template => <motion.div key={template.id} initial={{
+                      {favoriteTemplates.slice(0, 3).map(template => <m.div key={template.id} initial={{
                   opacity: 0,
                   y: 10
                 }} animate={{
@@ -732,7 +732,7 @@ export default function Templates() {
                               {getRatingStars(template.usage.averageRating)}
                             </div>
                           </div>
-                        </motion.div>)}
+                        </m.div>)}
                     </div>
                   </CardContent>
                 </Card>}
@@ -744,7 +744,7 @@ export default function Templates() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {recentlyUsed.map(usage => <motion.div key={usage.id} initial={{
+                      {recentlyUsed.map(usage => <m.div key={usage.id} initial={{
                   opacity: 0,
                   y: 10
                 }} animate={{
@@ -762,7 +762,7 @@ export default function Templates() {
                           <Button size="sm" variant="outline">
                             <Eye className="w-4 h-4" />
                           </Button>
-                        </motion.div>)}
+                        </m.div>)}
                     </div>
                   </CardContent>
                 </Card>}
@@ -842,7 +842,7 @@ export default function Templates() {
             </CardHeader>
             <CardContent>
               {viewMode === "grid" ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {sortedTemplates.map(template => <motion.div key={template.id} initial={{
+                  {sortedTemplates.map(template => <m.div key={template.id} initial={{
                 opacity: 0,
                 scale: 0.9
               }} animate={{
@@ -882,9 +882,9 @@ export default function Templates() {
                             +{template.tags.length - 2}
                           </Badge>}
                       </div>
-                    </motion.div>)}
+                    </m.div>)}
                 </div> : <div className="space-y-3">
-                  {sortedTemplates.map(template => <motion.div key={template.id} initial={{
+                  {sortedTemplates.map(template => <m.div key={template.id} initial={{
                 opacity: 0,
                 x: -10
               }} animate={{
@@ -951,7 +951,7 @@ export default function Templates() {
                           </DropdownMenu>
                         </div>
                       </div>
-                    </motion.div>)}
+                    </m.div>)}
                 </div>}
             </CardContent>
           </Card>
@@ -965,7 +965,7 @@ export default function Templates() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {folders.map(folder => <motion.div key={folder.id} initial={{
+                {folders.map(folder => <m.div key={folder.id} initial={{
                 opacity: 0,
                 y: 10
               }} animate={{
@@ -987,7 +987,7 @@ export default function Templates() {
                       <span>{t("client.src.created")}{format(new Date(folder.createdAt), "MMM d, yyyy")}</span>
                       <span>{folder.path}</span>
                     </div>
-                  </motion.div>)}
+                  </m.div>)}
               </div>
             </CardContent>
           </Card>
@@ -1079,7 +1079,7 @@ export default function Templates() {
                 name: "Proposal",
                 icon: FileText,
                 description: t("client.src.business_proposal_template")
-              }].map(templateType => <motion.div key={templateType.type} initial={{
+              }].map(templateType => <m.div key={templateType.type} initial={{
                 opacity: 0,
                 scale: 0.9
               }} animate={{
@@ -1093,7 +1093,7 @@ export default function Templates() {
                       <h3 className="font-medium mb-1">{templateType.name}</h3>
                       <p className="text-sm text-gray-600">{templateType.description}</p>
                     </div>
-                  </motion.div>)}
+                  </m.div>)}
               </div>
             </CardContent>
           </Card>

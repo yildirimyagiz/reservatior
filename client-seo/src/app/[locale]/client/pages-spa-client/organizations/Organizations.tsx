@@ -11,7 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Building2, Users, Settings, TrendingUp, Search, Plus, MoreVertical, Shield, CreditCard, Activity, ArrowUpRight, MapPin, Mail, Filter, Download } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 const kpis = [{
   label: t("client.src.total_organizations"),
   value: "124",
@@ -155,7 +155,7 @@ export default function Organizations() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {kpis.map(kpi => <motion.div key={kpi.label} initial={{
+        {kpis.map(kpi => <m.div key={kpi.label} initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -179,7 +179,7 @@ export default function Organizations() {
                 <h3 className="text-2xl font-bold mt-1">{kpi.value}</h3>
               </CardContent>
             </Card>
-          </motion.div>)}
+          </m.div>)}
       </div>
 
       {/* Main Content */}

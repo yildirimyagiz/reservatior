@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Save, ArrowLeft, MapPin, Home, Building, DollarSign, Bed, Bath, Square, Camera, Video, Calendar, CheckCircle, AlertTriangle, Activity, Upload, Sparkles, Zap } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { propertiesApi, type Property } from "@/lib/api/properties";
 import { useToast } from "@/hooks/use-toast";
@@ -314,7 +314,7 @@ export default function PropertyEdit() {
         {/* Form Stepper UI */}
         <div className="flex items-center justify-between mb-8 relative px-4">
           <div className="absolute left-8 right-8 top-1/2 h-1 bg-[#14151a] border border-white/5 -z-10 -translate-y-1/2 rounded-full overflow-hidden">
-            <motion.div 
+            <m.div 
               className="h-full bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]" 
               initial={{ width: 0 }}
               animate={{ width: `${((currentStep - 1) / 3) * 100}%` }}
@@ -350,7 +350,7 @@ export default function PropertyEdit() {
         <div className="min-h-[450px]">
           <AnimatePresence mode="wait">
             {currentStep === 1 && (
-              <motion.div key="step1" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <m.div key="step1" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
                 <Card className="bg-[#14151a]/60 backdrop-blur-3xl border-white/5 rounded-[32px] p-10 shadow-2xl border-l border-t">
                   <CardHeader className="px-0 pt-0 pb-8">
                     <CardTitle className="text-2xl font-black text-white italic tracking-tighter flex items-center gap-3">
@@ -440,11 +440,11 @@ export default function PropertyEdit() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             )}
 
             {currentStep === 2 && (
-              <motion.div key="step2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <m.div key="step2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
                 <Card className="bg-[#14151a]/60 backdrop-blur-3xl border-white/5 rounded-[32px] p-10 shadow-2xl border-l border-t">
                   <CardHeader className="px-0 pt-0 pb-8">
                     <CardTitle className="text-2xl font-black text-white italic tracking-tighter flex items-center gap-3">
@@ -473,11 +473,11 @@ export default function PropertyEdit() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             )}
 
             {currentStep === 3 && (
-              <motion.div key="step3" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <m.div key="step3" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
                 <Card className="bg-[#14151a]/60 backdrop-blur-3xl border-white/5 rounded-[32px] p-10 shadow-2xl border-l border-t">
                   <CardHeader className="px-0 pt-0 pb-8">
                     <CardTitle className="text-2xl font-black text-white italic tracking-tighter flex items-center gap-3">
@@ -506,11 +506,11 @@ export default function PropertyEdit() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             )}
 
             {currentStep === 4 && (
-              <motion.div key="step4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <m.div key="step4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
                 <Card className="bg-[#14151a]/60 backdrop-blur-3xl border-white/5 rounded-[32px] p-10 shadow-2xl border-l border-t">
                   <CardHeader className="px-0 pt-0 pb-8">
                     <CardTitle className="text-2xl font-black text-white italic tracking-tighter flex items-center gap-3">
@@ -529,7 +529,7 @@ export default function PropertyEdit() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>

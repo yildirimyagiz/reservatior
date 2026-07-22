@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { MOCK_PROPERTIES } from "@/lib/mock-data";
 import { Link } from "@/lib/react-router-shim";
 import { ArrowRight, MapPin, Bed, Bath, Square, Play, Video } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 export function FeaturedProperties() {
   const {
     t
@@ -21,7 +21,7 @@ export function FeaturedProperties() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {(MOCK_PROPERTIES as any[]).map((prop, index) => <motion.div key={prop.id} initial={{
+        {(MOCK_PROPERTIES as any[]).map((prop, index) => <m.div key={prop.id} initial={{
         opacity: 0,
         y: 20
       }} whileInView={{
@@ -34,7 +34,7 @@ export function FeaturedProperties() {
       }} className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-1">
             <Link to={`/property/${prop.id}`}>
               <div className="aspect-[4/3] overflow-hidden relative">
-                <Image src={prop.coverImage} alt={prop.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" sizes="(max-width: 768px) 100vw, 50vw" />
+                <Image src={prop.coverImage} alt={prop.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                 
                 {/* Video Play Indicator */}
                 {prop.video && <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -86,7 +86,7 @@ export function FeaturedProperties() {
                 </div>
               </div>
             </Link>
-          </motion.div>)}
+          </m.div>)}
       </div>
     </section>;
 }

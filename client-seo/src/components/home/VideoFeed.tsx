@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Heart, MessageCircle, Bookmark, MapPin, User, Zap, Star, TrendingUp, Volume2, VolumeX, Play, Eye, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -100,7 +100,7 @@ export function VideoFeed({
 
         {/* Info Grid (Visible on Desktop) - Only in Section Mode */}
         {!isFullPage && <div className="hidden lg:grid grid-cols-1 gap-6 w-full max-w-sm h-full overflow-y-auto pr-4">
-            {items.map((listing, index) => <motion.div key={listing.id} onClick={() => {
+            {items.map((listing, index) => <m.div key={listing.id} onClick={() => {
           containerRef.current?.scrollTo({
             top: index * containerRef.current.clientHeight,
             behavior: 'smooth'
@@ -110,7 +110,7 @@ export function VideoFeed({
         }}>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-slate-800 rounded-lg overflow-hidden relative">
-                    <Image src={listing.videoContents[0]?.thumbnailUrl || "/logo.png"} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                    <Image src={listing.videoContents[0]?.thumbnailUrl || "/logo.png"} alt="" fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                     {listing.isPromoted && <div className="absolute top-0 right-0 bg-gold text-black p-0.5 rounded-bl-md">
                         <Star className="w-2.5 h-2.5 fill-current" />
                       </div>}
@@ -120,7 +120,7 @@ export function VideoFeed({
                     <p className="text-xs text-slate-400 capitalize">{listing.property.city}, {listing.property.region}</p>
                   </div>
                 </div>
-              </motion.div>)}
+              </m.div>)}
           </div>}
       </div>
     </section>;
@@ -207,7 +207,7 @@ function VideoSlide({
 
       {/* Play/Pause indicator */}
       {!isPlaying && <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <motion.div initial={{
+          <m.div initial={{
         scale: 0.5,
         opacity: 0
       }} animate={{
@@ -215,7 +215,7 @@ function VideoSlide({
         opacity: 1
       }}>
             <Play className="w-16 h-16 text-white/50 fill-current" />
-          </motion.div>
+          </m.div>
         </div>}
 
       {/* Vertical Actions */}
@@ -223,7 +223,7 @@ function VideoSlide({
         <ActionButton icon={<Heart className={`w-7 h-7 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />} label={localLikes.toString()} onClick={handleLike} />
         <ActionButton icon={<MessageCircle className="w-7 h-7" />} label="24" />
         <ActionButton icon={<Bookmark className="w-7 h-7" />} label={t("client.src.save")} />
-        <button onClick={toggleMute} className="p-3 bg-black/40 rounded-full backdrop-blur-md">
+        <button onClick={toggleMute} aria-label={muted ? "Unmute video" : "Mute video"} className="p-3 bg-black/40 rounded-full backdrop-blur-md">
           {muted ? <VolumeX className="w-5 h-5 text-gold" /> : <Volume2 className="w-5 h-5 text-white" />}
         </button>
       </div>

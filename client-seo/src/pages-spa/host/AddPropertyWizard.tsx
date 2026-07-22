@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useRef } from "react";
 import { useNavigate, useLocation } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -223,7 +224,7 @@ export default function AddPropertyWizard() {
 
       {/* Progress Bar */}
       <div className="h-1 bg-muted/20 w-full">
-        <motion.div 
+        <m.div 
           className="h-full bg-blue-500"
           initial={{ width: "0%" }}
           animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
@@ -235,7 +236,7 @@ export default function AddPropertyWizard() {
       <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-12">
         <div className="w-full max-w-2xl relative min-h-[500px]">
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={currentStep}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -461,10 +462,13 @@ export default function AddPropertyWizard() {
                     <div className="grid grid-cols-3 gap-3">
                       {formData.photos.map((photo: any, idx: number) => (
                         <div key={idx} className="relative group aspect-square rounded-2xl overflow-hidden bg-muted/20 border border-border">
-                          <img
+                           <Image
                             src={photo.url}
                             alt={photo.name || `Photo ${idx + 1}`}
-                            className="w-full h-full object-cover"
+                            fill
+                            loading="lazy"
+                            className="object-cover"
+                            sizes="33vw"
                             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                           />
                           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -513,7 +517,7 @@ export default function AddPropertyWizard() {
                 </div>
               )}
 
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
       </div>

@@ -16,7 +16,7 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -77,17 +77,17 @@ export default function CampaignsPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_campaigns_title", "Marketing Campaigns")}</h1>
               <p className="text-muted-foreground">{t("admin_campaigns_description", "Create and manage marketing campaigns and promotions")}</p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Summary Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -121,10 +121,10 @@ export default function CampaignsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Search and Filter */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4 flex-wrap">
@@ -155,16 +155,16 @@ export default function CampaignsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Campaign Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((campaign) => (
             <Card key={campaign.id} className="bg-card border-border hover:border-primary/20 transition-colors">
               <CardContent className="p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="font-semibold text-foreground">{campaign.name}</h3>
+                    <h2 className="font-semibold text-foreground">{campaign.name}</h2>
                     <Badge className={`${STATUS_COLORS[campaign.status]} mt-1`}>{campaign.status}</Badge>
                   </div>
                   <Badge className="bg-slate-500/20 text-slate-400">{campaign.campaignType.replace(/_/g, " ")}</Badge>
@@ -192,13 +192,13 @@ export default function CampaignsPage() {
                   ) : (
                     <Button variant="ghost" size="sm" className="flex-1"><Play className="w-3.5 h-3.5 mr-1" />{t("admin_action_activate", "Activate")}</Button>
                   )}
-                  <Button onClick={() => { setEditingItem(campaign); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-3.5 h-3.5" /></Button>
-                  <Button onClick={() => { setDeletingItem(campaign); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-3.5 h-3.5" /></Button>
+                  <Button onClick={() => { setEditingItem(campaign); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                  <Button onClick={() => { setDeletingItem(campaign); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                 </div>
               </CardContent>
             </Card>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Dialogs */}
         <CreateCampaignDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />

@@ -17,7 +17,7 @@ import { Edit, Trash2, MoreHorizontal, Loader2, RefreshCw, CreditCard, Activity,
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
 import { useTranslation } from"react-i18next";
 import { cn } from"@/lib/utils";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 import { Card, CardContent } from"@/components/ui/card";
 const STATUS_CONFIG = (t: any) => {
  return {

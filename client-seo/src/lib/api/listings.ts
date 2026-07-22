@@ -52,6 +52,7 @@ export const listingsApi = {
     page?: number;
     limit?: number;
     mine?: boolean;
+    sortBy?: string;
   }) => apiClient.get("/api/v1/listing", params),
   getListingById: (id: string) => apiClient.get(`/api/v1/listing/${id}`),
   createListing: (data: Partial<Listing>) => apiClient.post("/api/v1/listing", data),

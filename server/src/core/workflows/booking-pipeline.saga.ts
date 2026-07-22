@@ -41,14 +41,17 @@ export class BookingPipelineSaga extends BaseSaga {
   }
 
   protected async compensate(): Promise<void> {
-    console.log(`[BookingPipelineSaga] Compensating booking ${this.bookingId}. Rolling back booking process...`);
+    console.log(`[BookingPipelineSaga] Compensating booking ${this.bookingId}. Rolling back...`);
+    await super.compensate();
   }
 
   public async onBookingCreated() {
     console.log(`[BookingPipelineSaga] Booking ${this.bookingId} created. Processing payment...`);
     await this.transition({ step: 'PROCESSING_PAYMENT' });
+    this.registerCompensation('cancel_booking', async () => {
+      eventBus.publish(DomainEvents.BOOKING_CANCELLED, { bookingId: this.bookingId, reason: 'saga_compensation' }, 'BookingPipelineSaga', this.sagaId);
+    });
 
-    // Simulate payment processing
     setTimeout(() => {
       eventBus.publish(DomainEvents.BOOKING_DEPOSIT_PAID, {
         bookingId: this.bookingId,
@@ -63,6 +66,9 @@ export class BookingPipelineSaga extends BaseSaga {
   public async onDepositPaid(msg: EventMessage) {
     console.log(`[BookingPipelineSaga] Deposit paid for booking ${this.bookingId}. Confirming booking...`);
     await this.transition({ step: 'CONFIRMING_BOOKING' });
+    this.registerCompensation('refund_deposit', async () => {
+      eventBus.publish(DomainEvents.BOOKING_PAYMENT_REFUNDED, { bookingId: this.bookingId, amount: this.amount }, 'BookingPipelineSaga', this.sagaId);
+    });
 
     setTimeout(() => {
       eventBus.publish(DomainEvents.BOOKING_CONFIRMED, {

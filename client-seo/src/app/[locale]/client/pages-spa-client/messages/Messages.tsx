@@ -13,7 +13,7 @@ import { Send, Search, Paperclip, Smile, Phone, MoreVertical, Check, CheckCheck,
 import { messagesApi } from '@/lib/api/messages';
 import { communicationsApi } from '@/lib/api/communications';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useToast } from "@/hooks/use-toast";
 
 // AI Chat Masking Utility
@@ -205,7 +205,7 @@ export default function Messages() {
         {/* List */}
         <ScrollArea className="flex-1">
           <div className="p-2 space-y-1">
-            {filteredList.map(chat => <motion.div key={chat.id} initial={{
+            {filteredList.map(chat => <m.div key={chat.id} initial={{
             opacity: 0,
             x: -10
           }} animate={{
@@ -239,7 +239,7 @@ export default function Messages() {
                       </Badge>}
                   </div>
                 </div>
-              </motion.div>)}
+              </m.div>)}
           </div>
         </ScrollArea>
       </div>
@@ -283,7 +283,7 @@ export default function Messages() {
             <ScrollArea className="flex-1 px-6 py-6">
               <div className="max-w-4xl mx-auto space-y-6">
                 <AnimatePresence initial={false}>
-                  {messages.map((msg: any) => <motion.div key={msg.id} initial={{
+                  {messages.map((msg: any) => <m.div key={msg.id} initial={{
                 opacity: 0,
                 y: 10,
                 scale: 0.95
@@ -299,7 +299,7 @@ export default function Messages() {
                           {msg.senderId === 'me' && (msg.status === 'read' ? <CheckCheck className="w-3 h-3 text-white/90" /> : <Check className="w-3 h-3 text-white/50" />)}
                         </div>
                       </div>
-                    </motion.div>)}
+                    </m.div>)}
                 </AnimatePresence>
               </div>
             </ScrollArea>
@@ -311,7 +311,7 @@ export default function Messages() {
                   <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white rounded-xl shrink-0">
                     <Paperclip className="w-5 h-5" />
                   </Button>
-                  <textarea rows={1} value={message} onChange={e => setMessage(e.target.value)} placeholder={t("client.src.type_a_message")} className="flex-1 bg-transparent border-none text-slate-200 placeholder:text-slate-600 focus:ring-0 text-sm py-2.5 resize-none min-h-[40px] max-h-[120px] custom-scrollbar" onKeyDown={e => {
+                  <textarea aria-label="Type a message" rows={1} value={message} onChange={e => setMessage(e.target.value)} placeholder={t("client.src.type_a_message")} className="flex-1 bg-transparent border-none text-slate-200 placeholder:text-slate-600 focus:ring-0 text-sm py-2.5 resize-none min-h-[40px] max-h-[120px] custom-scrollbar" onKeyDown={e => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleSendMessage();

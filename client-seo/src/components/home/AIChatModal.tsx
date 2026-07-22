@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Sparkles,
@@ -139,13 +139,13 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-neutral-900/40 dark:bg-black/60 backdrop-blur-sm"
         >
-          <motion.div
+          <m.div
             initial={{ scale: 0.95, y: 20, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.95, y: 20, opacity: 0 }}
@@ -161,7 +161,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   Reservatior AI
                 </span>
               </div>
-              <button onClick={onClose} className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-slate-800 transition-colors">
+              <button onClick={onClose} aria-label="Close chat" className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-slate-800 transition-colors">
                 <X className="w-6 h-6 text-neutral-600 dark:text-slate-400" />
               </button>
             </div>
@@ -217,6 +217,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       {/* Message Menu Button */}
                       <button
                         onClick={() => setMessageMenuOpen(messageMenuOpen === msg.id ? null : msg.id)}
+                        aria-label="More options"
                         className="absolute -top-2 right-0 p-1.5 rounded-full bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border border-white/60 dark:border-slate-600/60 opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-white dark:hover:bg-slate-600"
                       >
                         <MoreVertical className="w-4 h-4 text-neutral-600 dark:text-slate-300" />
@@ -225,7 +226,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       {/* Message Menu Dropdown */}
                       <AnimatePresence>
                         {messageMenuOpen === msg.id && (
-                          <motion.div
+                          <m.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
@@ -253,7 +254,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                               <Trash2 className="w-4 h-4 text-red-500" />
                               <span className="text-sm font-medium text-red-600 dark:text-red-400">Sil</span>
                             </button>
-                          </motion.div>
+                          </m.div>
                         )}
                       </AnimatePresence>
 
@@ -293,7 +294,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                         {msg.properties.map((prop, idx) => (
                           <div key={idx} className="flex-none w-80 bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 rounded-4xl overflow-hidden group cursor-pointer shadow-xl shadow-neutral-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/10 transition-all hover:-translate-y-1 snap-center">
                             <div className="h-48 overflow-hidden relative m-2 rounded-3xl">
-                              <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 768px) 100vw, 400px" />
+                              <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" sizes="(max-width: 768px) 100vw, 400px" />
                               <div className="absolute top-3 right-3 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full text-white text-sm font-bold border border-white/20">
                                 {prop.price}
                               </div>
@@ -312,7 +313,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                                   <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg"><Bed className="w-4 h-4 text-neutral-400 dark:text-slate-500"/> {prop.beds}</span>
                                   <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg"><Bath className="w-4 h-4 text-neutral-400 dark:text-slate-500"/> {prop.baths}</span>
                                 </div>
-                                <button className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                                <button aria-label="Go to property" className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:text-white transition-colors">
                                   <ArrowRight className="w-4 h-4" />
                                 </button>
                               </div>
@@ -346,7 +347,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
                 <div className="relative flex items-center bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-2xl border border-white dark:border-slate-800 shadow-2xl shadow-indigo-900/5 dark:shadow-none rounded-[2.5rem] p-2 focus-within:bg-white/90 dark:focus-within:bg-[#14151a]/90 transition-all">
 
-                  <button className="p-4 text-neutral-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                  <button aria-label="Voice input" className="p-4 text-neutral-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                     <Mic className="w-6 h-6" />
                   </button>
 
@@ -367,6 +368,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   <button
                     onClick={handleAISend}
                     disabled={!aiInput.trim() || aiIsLoading}
+                    aria-label="Send message"
                     className="m-1.5 p-4 bg-gradient-to-br from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-neutral-300 disabled:to-neutral-300 disabled:text-neutral-500 dark:disabled:from-slate-800 dark:disabled:to-slate-800 dark:disabled:text-slate-600 text-white rounded-[1.8rem] transition-all shrink-0 shadow-md shadow-indigo-500/25 dark:shadow-none active:scale-95"
                   >
                     <Send className="w-5 h-5 ml-0.5" />
@@ -377,8 +379,8 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                 Reservatior AI hata yapabilir. Bilgileri doğrulayınız.
               </p>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

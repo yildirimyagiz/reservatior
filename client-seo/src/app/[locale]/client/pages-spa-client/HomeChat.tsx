@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Send, Sparkles, MapPin, Bed, Bath, ArrowRight, Mic, Zap } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/react-router-shim";
@@ -133,7 +133,7 @@ export const HomeChat = () => {
         <div className="max-w-4xl mx-auto space-y-8 pb-10">
           
           {messages.length === 0 && (
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
@@ -157,7 +157,7 @@ export const HomeChat = () => {
               
               <div className="flex flex-wrap justify-center gap-3 mt-8 max-w-3xl">
                 {suggestions.map((suggestion, i) => (
-                  <motion.button 
+                  <m.button 
                     key={suggestion}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -166,15 +166,15 @@ export const HomeChat = () => {
                     className="px-5 py-3 bg-white/60 dark:bg-slate-800/40 backdrop-blur-md border border-white dark:border-slate-700 hover:border-indigo-200 dark:hover:border-indigo-500/50 rounded-2xl text-sm font-semibold text-neutral-700 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-400 hover:bg-white/90 dark:hover:bg-slate-800/80 hover:shadow-lg hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5 transition-all active:scale-95"
                   >
                     {suggestion}
-                  </motion.button>
+                  </m.button>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           )}
 
           <AnimatePresence initial={false}>
             {messages.map((msg) => (
-              <motion.div
+              <m.div
                 key={msg.id}
                 initial={{ opacity: 0, y: 15, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -193,7 +193,7 @@ export const HomeChat = () => {
                 {msg.properties && (
                   <div className="mt-6 flex flex-col md:flex-row gap-5 w-full max-w-4xl overflow-x-auto pb-6 pt-2 pl-2 snap-x">
                     {msg.properties.map((prop, idx) => (
-                      <motion.div 
+                      <m.div 
                         key={idx}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -201,7 +201,7 @@ export const HomeChat = () => {
                         className="flex-none w-80 bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 rounded-4xl overflow-hidden group cursor-pointer shadow-xl shadow-neutral-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/10 transition-all hover:-translate-y-1 snap-center"
                       >
                         <div className="h-48 overflow-hidden relative m-2 rounded-3xl">
-                          <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 768px) 100vw, 400px" />
+                          <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" sizes="(max-width: 768px) 100vw, 400px" />
                           <div className="absolute top-3 right-3 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full text-white text-sm font-bold border border-white/20">
                             {prop.price}
                           </div>
@@ -222,22 +222,23 @@ export const HomeChat = () => {
                             </div>
                             <button 
                               onClick={() => setSelectedPropertyForBooking(prop)}
+                              aria-label="Book property"
                               className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:text-white transition-colors"
                             >
                               <ArrowRight className="w-4 h-4" />
                             </button>
                           </div>
                         </div>
-                      </motion.div>
+                      </m.div>
                     ))}
                   </div>
                 )}
-              </motion.div>
+              </m.div>
             ))}
           </AnimatePresence>
 
           {isLoading && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-start">
+            <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-start">
               <div className="bg-white/80 dark:bg-slate-800/60 backdrop-blur-xl border border-white/80 dark:border-slate-700/80 rounded-4xl rounded-bl-md p-5 px-6 flex items-center gap-2 shadow-sm dark:shadow-none">
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 bg-indigo-400 rounded-full animate-bounce" />
@@ -245,7 +246,7 @@ export const HomeChat = () => {
                   <div className="w-2.5 h-2.5 bg-indigo-600 rounded-full animate-bounce delay-300" />
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           )}
           <div ref={messagesEndRef} className="h-4" />
         </div>
@@ -258,7 +259,7 @@ export const HomeChat = () => {
           
           <div className="relative flex items-center bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-2xl border border-white dark:border-slate-800 shadow-2xl shadow-indigo-900/5 dark:shadow-none rounded-[2.5rem] p-2 focus-within:bg-white/90 dark:focus-within:bg-[#14151a]/90 transition-all">
             
-            <button className="p-4 text-neutral-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <button aria-label="Voice input" className="p-4 text-neutral-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
               <Mic className="w-6 h-6" />
             </button>
 
@@ -279,6 +280,7 @@ export const HomeChat = () => {
             <button 
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
+              aria-label="Send message"
               className="m-1.5 p-4 bg-gradient-to-br from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-neutral-300 disabled:to-neutral-300 disabled:text-neutral-500 dark:disabled:from-slate-800 dark:disabled:to-slate-800 dark:disabled:text-slate-600 text-white rounded-[1.8rem] transition-all shrink-0 shadow-md shadow-indigo-500/25 dark:shadow-none active:scale-95"
             >
               <Send className="w-5 h-5 ml-0.5" />
@@ -293,13 +295,13 @@ export const HomeChat = () => {
       {/* Pre-Booking Requirements Form Modal */}
       <AnimatePresence>
         {selectedPropertyForBooking && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-900/40 dark:bg-black/60 backdrop-blur-sm"
           >
-            <motion.div
+            <m.div
               initial={{ scale: 0.95, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 20, opacity: 0 }}
@@ -366,6 +368,7 @@ export const HomeChat = () => {
                 <div>
                   <label className="block text-sm font-bold text-neutral-700 dark:text-slate-300 mb-2">{t("client.src.guest_profile_visit_purpose")}</label>
                   <textarea 
+                    aria-label="Guest Details"
                     value={bookingForm.guestDetails}
                     onChange={(e) => setBookingForm(p => ({ ...p, guestDetails: e.target.value }))}
                     placeholder={t("client.src.guest_profile_placeholder")}
@@ -393,8 +396,8 @@ export const HomeChat = () => {
                   {t("client.src.submit_request")}
                 </button>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

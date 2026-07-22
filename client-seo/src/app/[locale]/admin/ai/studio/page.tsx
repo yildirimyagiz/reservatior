@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
-import { AIStudioContent } from "./AIStudioContent";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import { BreadcrumbSchema } from "@/components/seo/SchemaScript";
+
+const AIStudioContent = dynamic(() => import("./AIStudioContent").then(mod => ({ default: mod.AIStudioContent })), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+    </div>
+  ),
+});
 
 export const metadata: Metadata = {
   title: "AI Studio - AI-Powered Tools | Reservatior",
@@ -25,7 +34,13 @@ export default function AIStudioPage() {
         { name: "Home", url: "/" },
         { name: "AI Studio", url: "/admin/ai/studio" },
       ]} />
-      <AIStudioContent />
+      <Suspense fallback={
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+        </div>
+      }>
+        <AIStudioContent />
+      </Suspense>
     </>
   );
 }

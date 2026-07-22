@@ -12,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Textarea } from"@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Building, Users, FileText, CheckCircle, AlertTriangle, Clock, DollarSign, TrendingUp, Calendar, Target, Award, Star, Zap, Shield, Globe, Settings, Plus, Edit, Trash2, Download, Upload } from"lucide-react";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 import { cn } from"@/lib/utils";
 import { useToast } from"@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from"@/components/ui/dialog";
@@ -472,7 +472,7 @@ export default function CompanyManagement() {
  
  </CardHeader>
  <CardContent className="space-y-4">
- {documents.map(document => <motion.div key={document.id} initial={{
+ {documents.map(document => <m.div key={document.id} initial={{
  opacity: 0,
  y: 10
  }} animate={{
@@ -507,7 +507,7 @@ export default function CompanyManagement() {
  <Edit className="w-3 h-3 mr-1" />{t("admin_company_edit")}</Button>
  </div>
  </div>
- </motion.div>)}
+ </m.div>)}
  </CardContent>
  </Card>}
 
@@ -520,7 +520,7 @@ export default function CompanyManagement() {
  <Plus className="w-4 h-4 mr-2" />{t("admin_company_add_milestone")}</Button>
  </CardHeader>
  <CardContent className="space-y-4">
- {milestones.map(milestone => <motion.div key={milestone.id} initial={{
+ {milestones.map(milestone => <m.div key={milestone.id} initial={{
  opacity: 0,
  y: 10
  }} animate={{
@@ -553,7 +553,7 @@ export default function CompanyManagement() {
  </div>
  <Progress value={milestone.progress} className="h-2" />
  </div>
- </motion.div>)}
+ </m.div>)}
  </CardContent>
  </Card>}
 
@@ -567,11 +567,11 @@ export default function CompanyManagement() {
  </CardHeader>
  <CardContent className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
- {team.map(member => <motion.div key={member.id} whileHover={{
+ {team.map(member => <m.div key={member.id} whileHover={{
  scale: 1.02
  }} className="bg-muted/50 rounded-2xl p-4 border border-border">
  <div className="flex items-center gap-4 relative">
- <Image src={member.avatar} alt={member.name} width={48} height={48} className="rounded-full" />
+ <Image src={member.avatar} alt={member.name} width={48} height={48} loading="lazy" sizes="48px" className="rounded-full" />
  <div className="flex-1">
  <h4 className="text-sm font-bold text-foreground">{member.name}</h4>
  <p className="text-xs text-muted-foreground">{member.role}</p>
@@ -586,7 +586,7 @@ export default function CompanyManagement() {
  </Badge>
  </div>
  </div>
- </motion.div>)}
+ </m.div>)}
  </div>
  </CardContent>
  </Card>}

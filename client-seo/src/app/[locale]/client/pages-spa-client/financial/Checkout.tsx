@@ -3,7 +3,7 @@
 import { useTranslation } from "react-i18next";
 import { useState, useMemo } from "react";
 import { useSearchParams, useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { CreditCard, ShieldCheck, Zap, Receipt, AlertCircle, Check, FileText, ChevronRight, ChevronLeft, Building2, Rocket, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "../layout/PageShell";
@@ -132,7 +132,7 @@ export default function Checkout() {
         <AnimatePresence mode="wait">
           {/* STEP 0: Plan Summary */}
           {step === 0 && (
-            <motion.div key="summary" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 30 }} className="grid md:grid-cols-2 gap-8">
+            <m.div key="summary" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 30 }} className="grid md:grid-cols-2 gap-8">
               <div className="bg-[#1a1b1e]/60 backdrop-blur-xl border border-slate-800 p-8 rounded-3xl">
                 <div className="flex items-center gap-3 mb-6">
                   <Building2 className="w-6 h-6 text-blue-400" />
@@ -179,12 +179,12 @@ export default function Checkout() {
                   {t("checkout.continue_contract", "Continue to Contract")} <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
-            </motion.div>
+            </m.div>
           )}
 
           {/* STEP 1: Contract */}
           {step === 1 && (
-            <motion.div key="contract" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 30 }}>
+            <m.div key="contract" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 30 }}>
               <div className="bg-[#1a1b1e]/60 backdrop-blur-xl border border-slate-800 p-8 rounded-3xl mb-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-lg font-black text-white flex items-center gap-3"><FileText className="w-6 h-6 text-blue-400" /> {t("checkout.service_agreement", "Service Agreement")}</h2>
@@ -225,12 +225,12 @@ export default function Checkout() {
                   {t("checkout.continue_payment", "Continue to Payment")} <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
-            </motion.div>
+            </m.div>
           )}
 
           {/* STEP 2: Payment */}
           {step === 2 && (
-            <motion.div key="payment" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 30 }} className="grid md:grid-cols-2 gap-8">
+            <m.div key="payment" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 30 }} className="grid md:grid-cols-2 gap-8">
               <div className="bg-[#1a1b1e]/60 backdrop-blur-xl border border-slate-800 p-8 rounded-3xl">
                 <h2 className="text-lg font-black text-white flex items-center gap-3 mb-8"><CreditCard className="w-6 h-6 text-blue-400" /> {t("checkout.payment_info", "Payment Information")}</h2>
 
@@ -288,7 +288,7 @@ export default function Checkout() {
                   <ChevronLeft className="w-4 h-4" /> {t("checkout.back_contract", "Back to Contract")}
                 </Button>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>

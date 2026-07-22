@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useLocalization } from "@/contexts/LocalizationContext";
 import { useQuery } from "@tanstack/react-query";
 import { financeOSApi } from "@/lib/api/finance-os";
+import CommissionRuleEngineDashboard from "@/components/financial/CommissionRuleEngineDashboard";
 import { 
   DollarSign, 
   TrendingUp, 
@@ -245,6 +246,11 @@ export default function FinanceOSDashboard() {
       </div>
 
       {/* Alerts Section */}
+      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Commission Rule Engine</h2>
+        <CommissionRuleEngineDashboard />
+      </div>
+
       <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-900">Alerts & Notifications</h2>

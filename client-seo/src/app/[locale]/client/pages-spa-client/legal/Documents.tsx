@@ -17,7 +17,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Lock as LockIcon, Unlock as UnlockIcon, File as FileIcon, Folder, MoreHorizontal, FileImage, FileVideo, FileAudio, FileArchive, FileCode, FileSpreadsheet, FileText, Upload, Download, Search, Eye, Edit, Trash2, Share2, FilePlus, Grid3X3, List, Star, SortAsc, SortDesc } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
 import { apiClient } from "@/lib/api/client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 interface DocumentItem {
   id: string;
   title: string;
@@ -346,7 +346,7 @@ export default function Documents() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {folders.map(folder => <motion.div key={folder.id} initial={{
+              {folders.map(folder => <m.div key={folder.id} initial={{
             opacity: 0,
             y: 10
           }} animate={{
@@ -363,7 +363,7 @@ export default function Documents() {
                     </div>
                     {folder.isShared && <Share2 className="w-4 h-4 text-purple-500" />}
                   </div>
-                </motion.div>)}
+                </m.div>)}
             </div>
           </CardContent>
         </Card>}
@@ -389,7 +389,7 @@ export default function Documents() {
         </CardHeader>
         <CardContent>
           {viewMode === "grid" ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {sortedDocuments.map(doc => <motion.div key={doc.id} initial={{
+              {sortedDocuments.map(doc => <m.div key={doc.id} initial={{
             opacity: 0,
             scale: 0.9
           }} animate={{
@@ -421,9 +421,9 @@ export default function Documents() {
                         +{doc.tags.length - 2}
                       </Badge>}
                   </div>
-                </motion.div>)}
+                </m.div>)}
             </div> : <div className="space-y-2">
-              {sortedDocuments.map(doc => <motion.div key={doc.id} initial={{
+              {sortedDocuments.map(doc => <m.div key={doc.id} initial={{
             opacity: 0,
             x: -10
           }} animate={{
@@ -480,7 +480,7 @@ export default function Documents() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                </motion.div>)}
+                </m.div>)}
             </div>}
         </CardContent>
       </Card>

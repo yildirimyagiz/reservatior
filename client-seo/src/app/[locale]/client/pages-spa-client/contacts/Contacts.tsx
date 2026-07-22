@@ -3,7 +3,7 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -247,7 +247,7 @@ export default function Contacts() {
         <div className="px-4 sm:px-6 lg:px-8 py-8">
           {isLoading ? <div className="flex items-center justify-center h-64">
               <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
-            </div> : <motion.div initial={{
+            </div> : <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -339,7 +339,7 @@ export default function Contacts() {
                   </Table>
                 </CardContent>
               </Card>
-            </motion.div>}
+            </m.div>}
         </div>
 
         {/* Create/Edit Dialog */}

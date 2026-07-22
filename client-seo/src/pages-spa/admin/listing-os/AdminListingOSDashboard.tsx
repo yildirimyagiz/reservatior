@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const HEALTH_STREAM = [
   { id: "h1", property: "Marina Residences #4B", event: "Cleaning inspection PASSED", score: 98, time: "2m ago", ok: true },
@@ -50,7 +50,7 @@ export default function AdminListingOSDashboard() {
       {/* KPIs */}
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
-          <motion.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
+          <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
             <Card className="bg-slate-900/60 border-slate-800">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
@@ -61,7 +61,7 @@ export default function AdminListingOSDashboard() {
                 <p className="text-xs text-slate-500 mt-1">{kpi.trend}</p>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         ))}
       </div>
 
@@ -89,7 +89,7 @@ export default function AdminListingOSDashboard() {
               <CardContent>
                 <div className="space-y-3">
                   {HEALTH_STREAM.map((item, i) => (
-                    <motion.div
+                    <m.div
                       key={item.id}
                       initial={{ opacity: 0, x: -8 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -104,7 +104,7 @@ export default function AdminListingOSDashboard() {
                         <p className="text-xs text-slate-500">{item.event}</p>
                       </div>
                       <span className="text-xs text-slate-600 whitespace-nowrap">{item.time}</span>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               </CardContent>
@@ -124,7 +124,7 @@ export default function AdminListingOSDashboard() {
               <CardContent>
                 <div className="space-y-4">
                   {SYNDICATION.map((ch, i) => (
-                    <motion.div 
+                    <m.div 
                       key={ch.channel}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -143,7 +143,7 @@ export default function AdminListingOSDashboard() {
                       }`}>
                         {ch.status}
                       </div>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               </CardContent>

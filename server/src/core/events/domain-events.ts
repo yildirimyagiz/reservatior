@@ -339,6 +339,17 @@ export const DomainEvents = {
   PLATFORM_HEALTH_CHECK_FAILED: 'platform.health.check.failed',
   PLATFORM_BACKUP_COMPLETED: 'platform.backup.completed',
   PLATFORM_AUDIT_TRAIL: 'platform.audit.trail',
+
+  // ── Smart Ranking & Price Optimization ──────────────────────────────────────
+  PRICE_OPTIMIZATION_SUGGESTED: 'price.optimization.suggested',
+  PRICE_OPTIMIZATION_ACCEPTED: 'price.optimization.accepted',
+  PRICE_OPTIMIZATION_DECLINED: 'price.optimization.declined',
+  LISTING_BOOSTED: 'listing.boosted',
+  VACANCY_THRESHOLD_REACHED: 'vacancy.threshold.reached',
+  VACANCY_ANALYZED: 'vacancy.analyzed',
+  BOOST_SCORE_UPDATED: 'boost.score.updated',
+  RANKING_RECALCULATED: 'ranking.recalculated',
+  SEARCH_PRIORITY_UPDATED: 'search.priority.updated',
 } as const;
 
 export type DomainEvent = typeof DomainEvents[keyof typeof DomainEvents];

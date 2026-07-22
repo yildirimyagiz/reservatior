@@ -4,6 +4,52 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+const ICON_ARIA_LABELS: Record<string, string> = {
+  MoreHorizontal: "More options",
+  Edit: "Edit",
+  Trash2: "Delete",
+  Eye: "View",
+  X: "Close",
+  ChevronLeft: "Previous",
+  ChevronRight: "Next",
+  Search: "Search",
+  Plus: "Add",
+  Download: "Download",
+  Upload: "Upload",
+  Settings: "Settings",
+  Bell: "Notifications",
+  Menu: "Menu",
+  ChevronDown: "Expand",
+  ChevronUp: "Collapse",
+  ArrowUpRight: "Open",
+  ArrowLeft: "Back",
+  ArrowRight: "Forward",
+  Filter: "Filter",
+  Heart: "Favorite",
+  Star: "Star",
+  Share2: "Share",
+  Clock: "Clock",
+  Calendar: "Calendar",
+  MapPin: "Location",
+  Home: "Home",
+  Info: "Information",
+  AlertCircle: "Alert",
+  CheckCircle2: "Complete",
+  XCircle: "Cancel",
+  Send: "Send",
+  RefreshCw: "Refresh",
+  MoreVertical: "More options",
+  Pencil: "Edit",
+  Copy: "Copy",
+  ExternalLink: "Open in new tab",
+  HelpCircle: "Help",
+  Maximize2: "Maximize",
+  Minimize2: "Minimize",
+  Sun: "Light mode",
+  Moon: "Dark mode",
+  Monitor: "System mode",
+};
+
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0" +
 " hover-elevate active-elevate-2",
@@ -29,10 +75,10 @@ const buttonVariants = cva(
       },
       size: {
         // @replit changed sizes
-        default: "min-h-9 px-4 py-2",
-        sm: "min-h-8 rounded-md px-3 text-xs",
-        lg: "min-h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: "min-h-12 px-4 py-2",
+        sm: "min-h-10 rounded-md px-3 text-xs",
+        lg: "min-h-12 rounded-md px-8",
+        icon: "min-h-12 min-w-12 h-12 w-12",
       },
     },
     defaultVariants: {
@@ -51,10 +97,16 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+    const ariaLabel = props['aria-label'] || props['aria-labelledby']
+      ? undefined
+      : size === 'icon' && typeof props.children === 'object' && props.children !== null && 'type' in (props.children as any)
+        ? ICON_ARIA_LABELS[(props.children as any).type?.displayName || ''] || ICON_ARIA_LABELS[(props.children as any).type?.name || ''] || undefined
+        : undefined
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        aria-label={ariaLabel}
         {...props}
       />
     )

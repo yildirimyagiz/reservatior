@@ -3,7 +3,7 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -81,7 +81,7 @@ export default function AgencyDashboard() {
         </div>
 
         <AnimatePresence mode="wait">
-          {viewMode === "overview" && <motion.div initial={{
+          {viewMode === "overview" && <m.div initial={{
           opacity: 0
         }} animate={{
           opacity: 1
@@ -89,7 +89,7 @@ export default function AgencyDashboard() {
           opacity: 0
         }} className="space-y-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {agencies.map((agency, index) => <motion.div key={agency.id} initial={{
+                {agencies.map((agency, index) => <m.div key={agency.id} initial={{
               opacity: 0,
               y: 20
             }} animate={{
@@ -149,11 +149,11 @@ export default function AgencyDashboard() {
                         </div>
                       </CardContent>
                     </Card>
-                  </motion.div>)}
+                  </m.div>)}
               </div>
-            </motion.div>}
+            </m.div>}
 
-          {viewMode === "agents" && <motion.div initial={{
+          {viewMode === "agents" && <m.div initial={{
           opacity: 0,
           x: 20
         }} animate={{
@@ -173,7 +173,7 @@ export default function AgencyDashboard() {
                   <Button className="bg-violet-600 rounded-xl font-bold h-11 px-6">{t("client.src.add_license")}</Button>
                 </CardHeader>
                 <CardContent className="px-0 pt-8 space-y-4">
-                  {agents.map((agent, index) => <motion.div key={agent.id} initial={{
+                  {agents.map((agent, index) => <m.div key={agent.id} initial={{
                 opacity: 0,
                 x: -20
               }} animate={{
@@ -202,12 +202,12 @@ export default function AgencyDashboard() {
                         </div>
                         <Button variant="ghost" className="h-12 w-12 rounded-xl group-hover:bg-violet-600 transition-all"><ArrowRight className="w-5 h-5 text-white" /></Button>
                       </div>
-                    </motion.div>)}
+                    </m.div>)}
                 </CardContent>
               </Card>
-            </motion.div>}
+            </m.div>}
 
-          {viewMode === "partners" && <motion.div initial={{
+          {viewMode === "partners" && <m.div initial={{
           opacity: 0,
           scale: 0.98
         }} animate={{
@@ -265,9 +265,9 @@ export default function AgencyDashboard() {
                        </div>
                     </Card>)}
                </div>
-            </motion.div>}
+            </m.div>}
 
-          {viewMode === "performance" && <motion.div initial={{
+          {viewMode === "performance" && <m.div initial={{
           opacity: 0,
           scale: 0.95
         }} animate={{
@@ -310,7 +310,7 @@ export default function AgencyDashboard() {
                     </div>
                   </Card>)}
               </div>
-            </motion.div>}
+            </m.div>}
         </AnimatePresence>
       </div>
     </div>;

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/react-router-shim";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 export default function NotFound() {
   const {
     t
@@ -17,7 +17,7 @@ export default function NotFound() {
       {/* Background Decor */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       
-      <motion.div initial={{
+      <m.div initial={{
       opacity: 0,
       y: 15
     }} animate={{
@@ -60,6 +60,6 @@ export default function NotFound() {
              </div>
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </div>;
 }

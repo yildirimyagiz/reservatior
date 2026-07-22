@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiClient } from "@/lib/api/client";
 import { RefreshCw, CheckCircle2, XCircle, Settings, MoreHorizontal, Plus, Search, Link, AlertTriangle, Clock, Zap, Globe, Shield, Terminal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 interface ApiIntegration {
   id: string;
   orgId: string;
@@ -242,7 +242,7 @@ export default function Integrations() {
             {activeTab === "integrations" ? filteredIntegrations.map((integration, idx) => {
             const Icon = PROVIDER_ICONS[integration.provider.toUpperCase()] || Terminal;
             const status = STATUS_CONFIG[integration.status];
-            return <motion.div key={integration.id} initial={{
+            return <m.div key={integration.id} initial={{
               opacity: 0,
               y: 20
             }} animate={{
@@ -312,8 +312,8 @@ export default function Integrations() {
                           </DropdownMenu>
                        </div>
                     </div>
-                  </motion.div>;
-          }) : filteredWebhooks.map((webhook, idx) => <motion.div key={webhook.id} initial={{
+                  </m.div>;
+          }) : filteredWebhooks.map((webhook, idx) => <m.div key={webhook.id} initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -363,7 +363,7 @@ export default function Integrations() {
                         </Button>
                      </div>
                   </div>
-                </motion.div>)}
+                </m.div>)}
           </AnimatePresence>
         </div>
       </div>

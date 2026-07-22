@@ -19,7 +19,7 @@ import { useMutation, useQueryClient } from"@tanstack/react-query";
 import { apiClient } from"@/lib/api/client";
 import { reportsApi, ReportStatus, ReportExecutionStatus, type Report } from"@/lib/api/reports";
 import { cn } from"@/lib/utils";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 enum ReportType {
  FINANCIAL ="FINANCIAL",
  OCCUPANCY ="OCCUPANCY",

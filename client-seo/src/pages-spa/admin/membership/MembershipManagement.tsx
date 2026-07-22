@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { Label } from"@/components/ui/label";
 import { Progress } from"@/components/ui/progress";
 import { Users, CreditCard, Crown, Star, Calendar, TrendingUp, Gift, Settings, CheckCircle, AlertTriangle, Clock, DollarSign, Award, Shield, Zap, Plus, Edit, Trash2, Download, Eye, Mail, Phone } from"lucide-react";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 import { cn } from"@/lib/utils";
 import { useToast } from"@/hooks/use-toast";
 import { useNavigate } from"@/lib/react-router-shim";
@@ -409,10 +409,10 @@ export default function MembershipManagement() {
  <CardContent>
  <div className="space-y-4">
  {filteredMembers.map(member => (
- <motion.div key={member.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl p-4 border border-border">
+ <m.div key={member.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl p-4 border border-border">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-3 relative">
- <Image src={member.avatar} alt={member.name} width={48} height={48} className="rounded-full" />
+ <Image src={member.avatar} alt={member.name} width={48} height={48} loading="lazy" sizes="48px" className="rounded-full" />
  <div>
  <h4 className="text-sm font-bold text-foreground">{member.name}</h4>
  <p className="text-xs text-muted-foreground">{member.email}</p>
@@ -452,7 +452,7 @@ export default function MembershipManagement() {
  <Trash2 className="w-3 h-3 mr-1" />{t("admin_membership_cancel")}
  </Button>
  </div>
- </motion.div>
+ </m.div>
  ))}
  </div>
  </CardContent>
@@ -472,7 +472,7 @@ export default function MembershipManagement() {
  <CardContent>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
  {tiers.map(tier => (
- <motion.div key={tier.id} whileHover={{ scale: 1.02 }} className={cn("bg-card rounded-2xl p-6 border border-border", tier.color)}>
+ <m.div key={tier.id} whileHover={{ scale: 1.02 }} className={cn("bg-card rounded-2xl p-6 border border-border", tier.color)}>
  <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-3">
  {getTierIcon(tier.icon)}
@@ -506,7 +506,7 @@ export default function MembershipManagement() {
  <p>{t("admin_membership_support")}{tier.supportLevel}</p>
  </div>
  </div>
- </motion.div>
+ </m.div>
  ))}
  </div>
  </CardContent>
@@ -526,7 +526,7 @@ export default function MembershipManagement() {
  <CardContent>
  <div className="space-y-4">
  {features.map(feature => (
- <motion.div key={feature.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl p-4 border border-border">
+ <m.div key={feature.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl p-4 border border-border">
  <div className="flex items-center justify-between">
  <div className="flex-1">
  <h4 className="text-sm font-bold text-foreground">{feature.name}</h4>
@@ -548,7 +548,7 @@ export default function MembershipManagement() {
  <Progress value={feature.currentUsage ? feature.currentUsage / feature.usageLimit * 100 : 0} className="h-2 bg-card" />
  </div>
  )}
- </motion.div>
+ </m.div>
  ))}
  </div>
  </CardContent>

@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 interface Message {
   id: string;
   text: string;
@@ -61,7 +61,7 @@ export function CustomerSupport() {
   };
   return <div className="fixed bottom-6 right-6 z-100">
       <AnimatePresence>
-        {!isOpen && <motion.button initial={{
+        {!isOpen && <m.button initial={{
         scale: 0,
         opacity: 0
       }} animate={{
@@ -76,9 +76,9 @@ export function CustomerSupport() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
             </span>
-          </motion.button>}
+          </m.button>}
 
-        {isOpen && <motion.div initial={{
+        {isOpen && <m.div initial={{
         y: 50,
         opacity: 0,
         scale: 0.9
@@ -155,7 +155,7 @@ export function CustomerSupport() {
                   </CardFooter>
                 </>}
             </Card>
-          </motion.div>}
+          </m.div>}
       </AnimatePresence>
     </div>;
 }

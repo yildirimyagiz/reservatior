@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { TrendingUp, DollarSign, Percent, PieChart, ShieldCheck, MapPin } from "lucide-react";
@@ -16,20 +16,21 @@ export function PropertiesContent() {
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
-        <motion.div style={{ opacity }} className="absolute inset-0">
+        <m.div style={{ opacity }} className="absolute inset-0">
           <Image 
             src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
             alt="Investors" 
             fill 
+            sizes="100vw"
             className="object-cover opacity-30 transform scale-105" 
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#020617]/90 via-transparent to-transparent" />
-        </motion.div>
+        </m.div>
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
+          <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 mb-6 backdrop-blur-md">
               <PieChart className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.investor.badge", { defaultValue: "Investor Portal" })}</span>
@@ -48,7 +49,7 @@ export function PropertiesContent() {
                 {t("client.investor.cta_secondary", { defaultValue: "Download Report" })}
               </Button>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -58,7 +59,7 @@ export function PropertiesContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Net Asset Value */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <DollarSign className="w-10 h-10 text-indigo-400 mb-6" />
@@ -68,10 +69,10 @@ export function PropertiesContent() {
                 </p>
               </div>
               <h4 className="text-4xl font-black mt-8 text-indigo-400">$0.00</h4>
-            </motion.div>
+            </m.div>
 
             {/* Dividend Yield */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Percent className="w-10 h-10 text-emerald-400 mb-6" />
@@ -81,10 +82,10 @@ export function PropertiesContent() {
                 </p>
               </div>
               <h4 className="text-4xl font-black mt-8 text-emerald-400">8.4% - 12.1%</h4>
-            </motion.div>
+            </m.div>
 
             {/* Smart Diversification */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <TrendingUp className="w-10 h-10 text-purple-400 mb-6" />
@@ -94,10 +95,10 @@ export function PropertiesContent() {
                 </p>
               </div>
               <h4 className="text-4xl font-black mt-8 text-purple-400">{t("investors.propertiescontent.auto_ext_1")}</h4>
-            </motion.div>
+            </m.div>
 
             {/* Featured Investment Bento Box */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
               className="md:col-span-3 bg-gradient-to-br from-indigo-950/40 to-slate-950/40 border border-indigo-500/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px]" />
               <div className="relative z-10">
@@ -107,7 +108,7 @@ export function PropertiesContent() {
                   {t("client.investor.panel4_desc", { defaultValue: "All properties are fully managed, legal structures secured under LLCs, and audited by tier-1 compliance professionals to guarantee hassle-free yield." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>

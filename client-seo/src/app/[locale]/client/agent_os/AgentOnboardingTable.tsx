@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Check, Mail, Smartphone, Globe, RefreshCcw } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const MOCK_AGENTS = [
   { id: 1, name: "Jessica H.", provider: "NWMLS", status: "PENDING", phone: "+1 (206) 555-0100", email: "jess@example.com" },

@@ -15,6 +15,14 @@ export const agentOSApi = {
     if (!res.ok) throw new Error("Failed to fetch network signals");
     return res.json();
   },
+  getVacancyAlerts: async (orgId?: string) => {
+    const params = orgId ? `?orgId=${orgId}` : "";
+    const res = await fetch(`/api/v1/agent-os/vacancy-alerts${params}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error("Failed to fetch vacancy alerts");
+    return res.json();
+  },
 
   // Notification OS integration
   sendAgentNotification: async (agentId: string, type: string, userId: string) => {

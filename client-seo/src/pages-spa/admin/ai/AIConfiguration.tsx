@@ -19,7 +19,7 @@ import { useToast } from"@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
 import { aiApi } from"@/lib/api/ai";
 import { Brain, Cpu, Zap, Settings, Play, RefreshCw, Edit, Eye, Plus, MoreHorizontal, Activity, Database, Globe, BarChart3, FileText, TrendingUp, Clock, DollarSign, ArrowRight, Loader2 } from"lucide-react";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 import { cn } from"@/lib/utils";
 import { Progress } from"@/components/ui/progress";
 import { apiClient } from"@/lib/api";
@@ -415,7 +415,7 @@ export default function AIConfiguration() {
  <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20 selection:bg-primary/30">
  {/* Stats Cards - Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -434,9 +434,9 @@ export default function AIConfiguration() {
  <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_ai_of")}{stats.totalModels}{t("admin_ai_total")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -455,9 +455,9 @@ export default function AIConfiguration() {
  <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_ai_of")}{stats.totalWorkflows}{t("admin_ai_total")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -477,9 +477,9 @@ export default function AIConfiguration() {
  <Activity className="w-3 h-3" />{t("admin_ai_alltimesync")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
 
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -499,7 +499,7 @@ export default function AIConfiguration() {
  <TrendingUp className="w-3 h-3" />{t("admin_ai_monthlyburn")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
  </div>
 
  {/* Neural Hub Tabs */}

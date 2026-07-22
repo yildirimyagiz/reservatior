@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { Building, Users, Calendar, TrendingUp } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 const stats = [{
   icon: Building,
   label: t("client.src.properties_listed"),
@@ -26,7 +26,7 @@ export function Stats() {
   return <section className="py-16 px-4 md:px-6 bg-primary/5 border-y border-border">
       <div className="container mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => <motion.div key={index} initial={{
+          {stats.map((stat, index) => <m.div key={index} initial={{
           opacity: 0,
           scale: 0.9
         }} whileInView={{
@@ -42,7 +42,7 @@ export function Stats() {
               </div>
               <div className="text-3xl font-bold mb-2">{stat.value}</div>
               <div className="text-sm text-muted-foreground">{stat.label}</div>
-            </motion.div>)}
+            </m.div>)}
         </div>
       </div>
     </section>;

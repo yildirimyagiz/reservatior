@@ -266,7 +266,7 @@ export default function ChannelManagement() {
           <div className="flex items-center gap-2">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <input type="text" placeholder={t("client.src.search_channels")} className="pl-8 pr-3 py-2 border rounded-md text-sm" value={filter.search || ''} onChange={e => setFilter({
+              <input type="text" aria-label="Search channels" placeholder={t("client.src.search_channels")} className="pl-8 pr-3 py-2 border rounded-md text-sm" value={filter.search || ''} onChange={e => setFilter({
               ...filter,
               search: e.target.value || undefined
             })} />
@@ -287,7 +287,7 @@ export default function ChannelManagement() {
           <TabsContent value="channels" className="space-y-6">
             {/* Channel Filters */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <select className="px-3 py-1 border rounded-md text-sm" value={filter.status || ''} onChange={e => setFilter({
+              <select aria-label="Filter by status" className="px-3 py-1 border rounded-md text-sm" value={filter.status || ''} onChange={e => setFilter({
               ...filter,
               status: e.target.value || undefined
             })}>
@@ -298,7 +298,7 @@ export default function ChannelManagement() {
                 <option value="suspended">{t("client.src.suspended")}</option>
               </select>
 
-              <select className="px-3 py-1 border rounded-md text-sm" value={filter.type || ''} onChange={e => setFilter({
+              <select aria-label="Filter by channel type" className="px-3 py-1 border rounded-md text-sm" value={filter.type || ''} onChange={e => setFilter({
               ...filter,
               type: e.target.value || undefined
             })}>
@@ -329,7 +329,7 @@ export default function ChannelManagement() {
                           </div>
                           <div>
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-medium">{channel.name}</h4>
+                              <h2 className="font-medium">{channel.name}</h2>
                               <Badge className={getStatusColor(channel.status)}>
                                 {channel.status}
                               </Badge>

@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Home, Search, Filter, Building, Building2, ShieldCheck, X, MapPin, Zap, TrendingUp, Activity, Layers, Sparkles, ArrowUpRight, Maximize2, Compass, Navigation } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { apiClient } from "@/lib/api/client";
 interface Property {
@@ -242,7 +242,7 @@ export default function PropertySearch() {
       <div className="flex-1 flex overflow-hidden relative">
         {/* Spatial Matrix Sub-HUD (Filters Overlay) */}
         <AnimatePresence>
-          {showFilters && <motion.div initial={{
+          {showFilters && <m.div initial={{
           height: 0,
           opacity: 0
         }} animate={{
@@ -297,7 +297,7 @@ export default function PropertySearch() {
                     </Button>
                  </div>
               </div>
-            </motion.div>}
+            </m.div>}
         </AnimatePresence>
 
         {/* Global Map Display Node */}
@@ -315,7 +315,7 @@ export default function PropertySearch() {
                </div>
                
                {/* Mock Map Markers */}
-               {filteredProperties.map((p, i) => <motion.div key={p.id} initial={{
+               {filteredProperties.map((p, i) => <m.div key={p.id} initial={{
             scale: 0,
             opacity: 0
           }} animate={{
@@ -333,12 +333,12 @@ export default function PropertySearch() {
                       </div>
                       <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-8 border-t-blue-600"></div>
                    </div>
-                 </motion.div>)}
+                 </m.div>)}
             </div>}
 
           {/* Result Hud Overlay */}
           <AnimatePresence>
-            {showPropertyCards && !isMapLoading && <motion.div initial={{
+            {showPropertyCards && !isMapLoading && <m.div initial={{
             y: 50,
             opacity: 0
           }} animate={{
@@ -361,7 +361,7 @@ export default function PropertySearch() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-8 pt-0 space-y-6">
-                    {filteredProperties.slice(0, 2).map(property => <motion.div layout key={property.id} className="group relative bg-[#14151a]/60 border border-white/5 rounded-3xl p-6 transition-all hover:bg-white/5 hover:border-blue-500/30 overflow-hidden cursor-pointer">
+                    {filteredProperties.slice(0, 2).map(property => <m.div layout key={property.id} className="group relative bg-[#14151a]/60 border border-white/5 rounded-3xl p-6 transition-all hover:bg-white/5 hover:border-blue-500/30 overflow-hidden cursor-pointer">
                         <div className="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-all text-blue-500">
                            <ShieldCheck className="w-20 h-20 rotate-12" />
                         </div>
@@ -400,14 +400,14 @@ export default function PropertySearch() {
                               {t("scanDetails")} <ArrowUpRight className="w-3 h-3" />
                            </Button>
                         </div>
-                      </motion.div>)}
+                      </m.div>)}
                     
                     <Button variant="ghost" className="w-full h-10 rounded-xl text-[9px] font-black text-slate-500 hover:text-white tracking-widest italic glass border-white/5">
                        {t("propertySearchViewall")}
                     </Button>
                   </CardContent>
                 </Card>
-              </motion.div>}
+              </m.div>}
           </AnimatePresence>
         </div>
       </div>

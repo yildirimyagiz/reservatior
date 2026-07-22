@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
   Clock,
@@ -31,7 +32,7 @@ import {
 import { propertiesApi } from "@/lib/api/properties";
 import { Link, useNavigate } from "@/lib/react-router-shim";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export default function MyListings() {
@@ -87,7 +88,7 @@ export default function MyListings() {
 
       <div className="max-w-7xl mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col md:flex-row md:items-center justify-between gap-8"
@@ -127,7 +128,7 @@ export default function MyListings() {
               </Button>
             </Link>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Stats Matrix */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -137,7 +138,7 @@ export default function MyListings() {
             { label: t('avgResponse'), value: "2.4H", icon: Clock, color: "text-purple-500", bg: "bg-purple-500/5" },
             { label: t('approveRate'), value: "98%", icon: CheckCircle2, color: "text-amber-500", bg: "bg-amber-500/5" },
           ].map((stat, i) => (
-            <motion.div
+            <m.div
                key={i}
                initial={{ opacity: 0, scale: 0.95 }}
                animate={{ opacity: 1, scale: 1 }}
@@ -154,7 +155,7 @@ export default function MyListings() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
@@ -168,7 +169,7 @@ export default function MyListings() {
           <div className="space-y-6">
             <AnimatePresence mode="popLayout">
               {filteredListings.map((listing, index) => (
-                <motion.div
+                <m.div
                   key={listing.id}
                   layout
                   initial={{ opacity: 0, x: -20 }}
@@ -181,10 +182,13 @@ export default function MyListings() {
                     
                     <div className="flex flex-col md:flex-row h-full">
                       <div className="w-full md:w-60 aspect-video md:aspect-square overflow-hidden relative">
-                        <img 
+                        <Image 
                           src={listing.images?.[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'} 
                           alt={listing.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100"
+                          fill
+                          loading="lazy"
+                          className="object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100"
+                          sizes="240px"
                         />
                         <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex justify-center">
                            {getStatusBadge("ACTIVE")}
@@ -249,12 +253,12 @@ export default function MyListings() {
                       </CardContent>
                     </div>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </AnimatePresence>
           </div>
         ) : (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="text-center py-32 bg-[#1a1b1e]/40 rounded-[64px] border-2 border-dashed border-white/5 backdrop-blur-3xl"
@@ -270,7 +274,7 @@ export default function MyListings() {
               <Plus className="w-4 h-4" />
               {t('myListingsNewlisting')}
             </Button>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

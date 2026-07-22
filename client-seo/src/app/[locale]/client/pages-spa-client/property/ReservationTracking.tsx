@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogTitle, DialogHeader } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 export default function ReservationTracking({ propertyId }: { propertyId?: string }) {
@@ -116,7 +116,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
       
       <div className="max-w-[1600px] mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -147,11 +147,11 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                <Download className="w-5 h-5 mr-3" /> {t('client.property.reservationTracking.controls.download')}
              </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Analytics Grid */}
         {analytics && <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <motion.div initial={{
+            <m.div initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -170,9 +170,9 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                 })}</p>
                 </div>
               </Card>
-            </motion.div>
+            </m.div>
 
-            <motion.div initial={{
+            <m.div initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -191,9 +191,9 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                 })}</p>
                 </div>
               </Card>
-            </motion.div>
+            </m.div>
 
-            <motion.div initial={{
+            <m.div initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -215,9 +215,9 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                 })}</p>
                 </div>
               </Card>
-            </motion.div>
+            </m.div>
 
-            <motion.div initial={{
+            <m.div initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -239,7 +239,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                    </div>
                 </div>
               </Card>
-            </motion.div>
+            </m.div>
           </div>}
 
         {/* Status Hub */}
@@ -289,7 +289,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
         </div>
 
         {/* Dynamic Controls Surface */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.98
       }} animate={{
@@ -299,14 +299,14 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
           <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="flex-1 max-w-2xl relative group">
                <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-               <input placeholder={t('client.property.reservationTracking.controls.search')} className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={filter.search || ''} onChange={e => setFilter({
+               <input placeholder={t('client.property.reservationTracking.controls.search')} aria-label="Search reservations" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={filter.search || ''} onChange={e => setFilter({
               ...filter,
               search: e.target.value || undefined
             })} />
             </div>
 
             <div className="flex flex-wrap items-center gap-6">
-                <select className="h-16 px-8 rounded-2xl bg-black/40 border-white/5 text-slate-400 font-black italic text-[10px] tracking-widest focus:ring-2 focus:ring-blue-600/50 outline-none" value={filter.status || ''} onChange={e => setFilter({
+                <select aria-label="Filter by status" className="h-16 px-8 rounded-2xl bg-black/40 border-white/5 text-slate-400 font-black italic text-[10px] tracking-widest focus:ring-2 focus:ring-blue-600/50 outline-none" value={filter.status || ''} onChange={e => setFilter({
               ...filter,
               status: e.target.value || undefined
             })}>
@@ -325,11 +325,11 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                 </div>
             </div>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Component Manifest */}
         <AnimatePresence mode="wait">
-           {viewMode === 'list' && <motion.div key="list" initial={{
+           {viewMode === 'list' && <m.div key="list" initial={{
           opacity: 0,
           x: -20
         }} animate={{
@@ -372,9 +372,9 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                          </div>)}
                    </div>
                 </Card>
-             </motion.div>}
+             </m.div>}
 
-           {viewMode === 'grid' && <motion.div key="grid" initial={{
+           {viewMode === 'grid' && <m.div key="grid" initial={{
           opacity: 0,
           scale: 0.95
         }} animate={{
@@ -386,7 +386,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
         }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredReservations.map((res: any) => <Card key={res.id} onClick={() => setSelectedReservation(res)} className="bg-[#1a1b1e]/60 border-white/5 border-l border-t rounded-[40px] overflow-hidden hover:bg-white/5 transition-all shadow-3xl cursor-pointer group">
                      <div className="aspect-video relative overflow-hidden">
-                        <Image src={res.property.image} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-60 group-hover:opacity-100" sizes="(max-width: 768px) 100vw, 50vw" />
+                        <Image src={res.property.image} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-60 group-hover:opacity-100" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#1a1b1e] to-transparent" />
                         <Badge className={cn("absolute top-6 right-6 px-4 h-8  text-[9px] font-black tracking-widest rounded-full italic border-none", getStatusColor(res.status))}>{res.status}</Badge>
                      </div>
@@ -412,9 +412,9 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                         </Button>
                      </div>
                   </Card>)}
-             </motion.div>}
+             </m.div>}
 
-           {viewMode === 'kanban' && <motion.div key="kanban" initial={{
+           {viewMode === 'kanban' && <m.div key="kanban" initial={{
           opacity: 0,
           y: 20
         }} animate={{
@@ -433,7 +433,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                         <Badge className="bg-white/5 text-white/40 border-none font-black px-4">{filteredReservations.filter((r: any) => r.status === status).length}</Badge>
                      </div>
                      <div className="flex-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
-                        {filteredReservations.filter((res: any) => res.status === status).map((res: any) => <motion.div key={res.id} whileHover={{
+                        {filteredReservations.filter((res: any) => res.status === status).map((res: any) => <m.div key={res.id} whileHover={{
                 scale: 1.02
               }} className="bg-[#1a1b1e] border-white/5 border-l border-t rounded-[24px] p-6 shadow-xl cursor-grab active:cursor-grabbing group">
                              <p className="text-sm font-black text-white italic tracking-tighter group-hover:text-blue-400 transition-colors truncate mb-3">{res.property.name}</p>
@@ -441,10 +441,10 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                                 <span>{res.guest.name}</span>
                                 <span className="text-emerald-400">{formatCurrency(res.pricing.totalAmount, res.pricing.currency)}</span>
                              </div>
-                          </motion.div>)}
+                          </m.div>)}
                      </div>
                   </div>)}
-             </motion.div>}
+             </m.div>}
         </AnimatePresence>
 
         {/* Analytics Deep HUD */}
@@ -456,7 +456,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
               </div>
               <div className="h-[250px] flex items-end gap-3 pb-8">
                 {[45, 62, 58, 75, 90, 85, 95, 60, 40, 80].map((val, i) => <div key={i} className="flex-1 bg-white/2 rounded-full relative group cursor-pointer h-full">
-                    <motion.div initial={{
+                    <m.div initial={{
                 height: 0
               }} animate={{
                 height: `${val}%`
@@ -501,7 +501,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                           <span className="text-white">{item.value}%</span>
                        </div>
                        <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden shadow-inner">
-                          <motion.div initial={{
+                          <m.div initial={{
                   width: 0
                 }} animate={{
                   width: `${item.value}%`
@@ -519,7 +519,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
       {/* Reservation Manifest Dialog */}
       <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
         <DialogContent className="max-w-[1000px] p-0 border-none bg-transparent overflow-hidden shadow-none">
-           {selectedReservation && <motion.div initial={{
+           {selectedReservation && <m.div initial={{
           opacity: 0,
           scale: 0.95
         }} animate={{
@@ -564,7 +564,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                       <Card className="bg-black/20 border-white/5 rounded-3xl p-6 hover:bg-white/5 transition-all group">
                          <div className="flex gap-8">
                             <div className="w-32 h-32 rounded-2xl overflow-hidden shadow-2xl relative">
-                                <Image src={selectedReservation.property.image} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="128px" />
+                                <Image src={selectedReservation.property.image} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" sizes="128px" />
                                <div className="absolute inset-0 bg-blue-600/10 mix-blend-overlay" />
                             </div>
                             <div className="flex-1 space-y-4 pt-2">
@@ -607,7 +607,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
                       </Card>
                    </div>
                 </div>
-             </motion.div>}
+             </m.div>}
         </DialogContent>
       </Dialog>
     </div>;

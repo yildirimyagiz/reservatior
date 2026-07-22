@@ -2,12 +2,12 @@
 
 import { useEffect, Suspense, lazy } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { queryClient } from "@/lib/query-client";
 import { MapProviderWrapper } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
 import { ThemeProvider } from "next-themes";
 import dynamic from "next/dynamic";
+import { LazyMotion, domAnimation } from "framer-motion";
 import "@/i18n";
 
 const Toaster = dynamic(() => import("@/components/ui/toaster").then(m => m.Toaster), { ssr: false });
@@ -35,13 +35,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-        <TooltipProvider>
           <MapProviderWrapper>
-            <RegionBootstrap />
-            {children}
+            <LazyMotion features={domAnimation}>
+              <RegionBootstrap />
+              {children}
+            </LazyMotion>
             <Toaster />
           </MapProviderWrapper>
-        </TooltipProvider>
       </ThemeProvider>
       {process.env.NODE_ENV === "development" && (
         <Suspense fallback={null}>

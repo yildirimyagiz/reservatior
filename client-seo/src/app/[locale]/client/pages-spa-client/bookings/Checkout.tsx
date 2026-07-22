@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -138,9 +138,9 @@ export default function Checkout() {
                   className="w-full h-16 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-lg tracking-widest shadow-2xl shadow-emerald-600/30 flex justify-center items-center gap-2"
                 >
                   {isProcessing ? (
-                    <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
+                    <m.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
                       <Lock className="w-5 h-5" />
-                    </motion.div>
+                    </m.div>
                   ) : isSuccess ? (
                     <>
                       <CheckCircle2 className="w-5 h-5" /> Başarılı
@@ -166,7 +166,7 @@ export default function Checkout() {
               <div className="flex gap-4 mb-8">
                 {property.photos && property.photos.length > 0 ? (
                   <div className="relative w-24 h-24 shrink-0 overflow-hidden rounded-2xl">
-                    <Image src={property.photos[0].url} alt={property.name} fill className="object-cover" sizes="96px" />
+                    <Image src={property.photos[0].url} alt={property.name} fill className="object-cover" loading="lazy" sizes="96px" />
                   </div>
                 ) : (
                   <div className="w-24 h-24 rounded-2xl bg-white/5 flex items-center justify-center">

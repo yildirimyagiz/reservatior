@@ -22,22 +22,22 @@ export function Footer() {
           {/* Quick Links */}
           <div>
             <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.platform")}</h4>
-            <ul className="space-y-3">
-              <li><Link to="/property" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" suppressHydrationWarning>{t("client.src.inventory")}</Link></li>
-              <li><Link to="/bookings" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" suppressHydrationWarning>{t("client.src.bookings")}</Link></li>
-              <li><Link to="/ai-studio" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" suppressHydrationWarning>{t("client.src.ai_studio")}</Link></li>
-              <li><Link to="/analytics" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" suppressHydrationWarning>{t("client.src.analytics")}</Link></li>
+            <ul className="space-y-1">
+              <li><Link to="/property" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.inventory")}</Link></li>
+              <li><Link to="/bookings" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.bookings")}</Link></li>
+              <li><Link to="/ai-studio" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.ai_studio")}</Link></li>
+              <li><Link to="/analytics" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.analytics")}</Link></li>
             </ul>
           </div>
 
           {/* Support */}
           <div>
             <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.support")}</h4>
-            <ul className="space-y-3">
-              <li><Link to="/support" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" suppressHydrationWarning>{t("client.src.help_center")}</Link></li>
-              <li><Link to="/legal/compliance" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" suppressHydrationWarning>{t("client.src.compliance")}</Link></li>
-              <li><Link to="/privacy" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" suppressHydrationWarning>{t("client.src.privacy_policy")}</Link></li>
-              <li><Link to="/terms" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" suppressHydrationWarning>{t("client.src.terms_of_service")}</Link></li>
+            <ul className="space-y-1">
+              <li><Link to="/support" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.help_center")}</Link></li>
+              <li><Link to="/legal/compliance" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.compliance")}</Link></li>
+              <li><Link to="/privacy" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.privacy_policy")}</Link></li>
+              <li><Link to="/terms" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.terms_of_service")}</Link></li>
             </ul>
           </div>
 
@@ -45,13 +45,13 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.connect")}</h4>
             <div className="flex gap-4 mb-6">
-              <a href="https://twitter.com/reservatior" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-blue-600 dark:hover:bg-blue-600 hover:border-blue-600 dark:hover:border-blue-600 transition-all duration-300">
+              <a href="https://twitter.com/reservatior" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="min-h-12 min-w-12 w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-blue-600 dark:hover:bg-blue-600 hover:border-blue-600 dark:hover:border-blue-600 transition-all duration-300">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="https://linkedin.com/company/reservatior" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-blue-700 dark:hover:bg-blue-700 hover:border-blue-700 dark:hover:border-blue-700 transition-all duration-300">
+              <a href="https://linkedin.com/company/reservatior" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="min-h-12 min-w-12 w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-blue-700 dark:hover:bg-blue-700 hover:border-blue-700 dark:hover:border-blue-700 transition-all duration-300">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="https://github.com/reservatior" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-indigo-600 dark:hover:bg-indigo-600 hover:border-indigo-600 dark:hover:border-indigo-600 transition-all duration-300">
+              <a href="https://github.com/reservatior" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="min-h-12 min-w-12 w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-indigo-600 dark:hover:bg-indigo-600 hover:border-indigo-600 dark:hover:border-indigo-600 transition-all duration-300">
                 <Github className="w-5 h-5" />
               </a>
             </div>
@@ -66,10 +66,10 @@ export function Footer() {
         <div className="pt-8 border-t border-slate-200 dark:border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-700 dark:text-slate-200 flex items-center gap-1 font-medium" suppressHydrationWarning>
             © {currentYear}{t("client.src.reservatior_inc_made_with")}<Heart className="w-3 h-3 text-rose-500 fill-rose-500" />{t("client.src.by_deepmind_engineering")}</p>
-          <div className="flex gap-6">
-            <Link to="/privacy" className="text-xs uppercase font-bold tracking-widest text-slate-600 dark:text-slate-300 hover:text-foreground transition-colors" suppressHydrationWarning>{t("client.src.privacy")}</Link>
-            <Link to="/terms" className="text-xs uppercase font-bold tracking-widest text-slate-600 dark:text-slate-300 hover:text-foreground transition-colors" suppressHydrationWarning>{t("client.src.terms")}</Link>
-            <Link to="/cookies" className="text-xs uppercase font-bold tracking-widest text-slate-600 dark:text-slate-300 hover:text-foreground transition-colors" suppressHydrationWarning>{t("client.src.cookies")}</Link>
+          <div className="flex gap-2">
+            <Link to="/privacy" className="text-xs uppercase font-bold tracking-widest text-slate-600 dark:text-slate-300 hover:text-foreground transition-colors min-h-12 flex items-center px-2" suppressHydrationWarning>{t("client.src.privacy")}</Link>
+            <Link to="/terms" className="text-xs uppercase font-bold tracking-widest text-slate-600 dark:text-slate-300 hover:text-foreground transition-colors min-h-12 flex items-center px-2" suppressHydrationWarning>{t("client.src.terms")}</Link>
+            <Link to="/cookies" className="text-xs uppercase font-bold tracking-widest text-slate-600 dark:text-slate-300 hover:text-foreground transition-colors min-h-12 flex items-center px-2" suppressHydrationWarning>{t("client.src.cookies")}</Link>
           </div>
         </div>
       </div>

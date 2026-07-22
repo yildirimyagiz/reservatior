@@ -4,7 +4,7 @@ import { useNavigate } from "@/lib/react-router-shim";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FileText, Shield, Globe, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function Terms() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export default function Terms() {
       </div>
 
       <div className="container mx-auto px-4 py-24 max-w-4xl relative z-10">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-16"
@@ -55,9 +55,9 @@ export default function Terms() {
               {t('termsLastupdated')}
             </span>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.15 }}
@@ -146,7 +146,7 @@ export default function Terms() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

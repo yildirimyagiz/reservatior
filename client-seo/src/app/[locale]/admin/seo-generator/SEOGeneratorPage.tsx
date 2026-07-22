@@ -16,7 +16,7 @@ import {
   Copy,
   Check,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { seoDataApi, type PropertySEOData, type InvestmentScore, type RentalYield } from "@/lib/api/seo-data";
 
@@ -147,7 +147,7 @@ export default function SEOGeneratorPage() {
 
       <AnimatePresence>
         {seoData && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
@@ -372,7 +372,7 @@ export default function SEOGeneratorPage() {
                 )}
               </TabsContent>
             </Tabs>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>
@@ -390,7 +390,7 @@ function ScoreBar({ label, score }: { label: string; score: number }) {
         <span className="font-semibold">{score}</span>
       </div>
       <div className="h-2 rounded-full bg-muted overflow-hidden">
-        <motion.div
+        <m.div
           className={`h-full rounded-full ${color}`}
           initial={{ width: 0 }}
           animate={{ width: `${score}%` }}

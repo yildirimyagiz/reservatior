@@ -15,7 +15,7 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -80,17 +80,17 @@ export default function SuppliersPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_suppliers_title", "Supplier Directory")}</h1>
               <p className="text-muted-foreground">{t("admin_suppliers_description", "Manage suppliers, contacts, and commission rates")}</p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Summary Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -124,10 +124,10 @@ export default function SuppliersPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Search and Filter */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4 flex-wrap">
@@ -158,16 +158,16 @@ export default function SuppliersPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Suppliers Grid */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((supplier) => (
             <Card key={supplier.id} className="bg-card border-border hover:border-primary/20 transition-colors">
               <CardContent className="p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="font-semibold text-foreground">{supplier.name}</h3>
+                    <h2 className="font-semibold text-foreground">{supplier.name}</h2>
                     <p className="text-xs text-muted-foreground">{supplier.businessType?.replace(/_/g, " ")}</p>
                   </div>
                   <Badge className={STATUS_COLORS[supplier.status]}>{supplier.status}</Badge>
@@ -182,14 +182,14 @@ export default function SuppliersPage() {
                 <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
                   <div className="text-xs text-muted-foreground">{t("admin_suppliers_commission", "Commission")}: <span className="text-foreground font-medium">{supplier.commissionRate}%</span></div>
                   <div className="flex gap-1">
-                    <Button onClick={() => { setEditingItem(supplier); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-7 w-7"><Edit className="w-3.5 h-3.5" /></Button>
-                    <Button onClick={() => { setDeletingItem(supplier); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-7 w-7 text-red-400"><Trash2 className="w-3.5 h-3.5" /></Button>
+                    <Button onClick={() => { setEditingItem(supplier); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                    <Button onClick={() => { setDeletingItem(supplier); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                   </div>
                 </div>
               </CardContent>
             </Card>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Dialogs */}
         <CreateSupplierDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} />

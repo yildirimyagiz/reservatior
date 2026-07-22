@@ -19,6 +19,7 @@ export abstract class BaseSaga {
   public status: SagaStatus;
   protected state: any;
   protected localization: LocalizationContext;
+  protected compensationSteps: { name: string; undo: () => Promise<void> }[] = [];
 
   constructor(sagaId?: string, initialState: any = {}, localization?: LocalizationContext) {
     this.sagaId = sagaId || uuidv4();
@@ -31,6 +32,13 @@ export abstract class BaseSaga {
       timezone: 'America/New_York'
     };
     this.persistState();
+  }
+
+  /**
+   * Register a compensation step that will be called in reverse order on failure.
+   */
+  protected registerCompensation(name: string, undo: () => Promise<void>): void {
+    this.compensationSteps.push({ name, undo });
   }
 
   /**
@@ -55,17 +63,29 @@ export abstract class BaseSaga {
   }
 
   protected async fail(reason: string): Promise<void> {
-    this.status = SagaStatus.FAILED;
+    this.status = SagaStatus.COMPENSATING;
     this.state.failureReason = reason;
     await this.persistState();
     console.error(`[Saga ${this.constructor.name}] Failed: ${this.sagaId} - ${reason}`);
     await this.compensate();
+    this.status = SagaStatus.FAILED;
+    await this.persistState();
   }
 
   /**
-   * Implement compensating transactions here (e.g. rollback DB, cancel stripe charge)
+   * Execute all registered compensation steps in reverse order.
+   * Override in subclass to add custom compensation before/after.
    */
-  protected abstract compensate(): Promise<void>;
+  protected async compensate(): Promise<void> {
+    for (const step of [...this.compensationSteps].reverse()) {
+      try {
+        await step.undo();
+        console.log(`[Saga ${this.constructor.name}] Compensation done: ${step.name}`);
+      } catch (err) {
+        console.error(`[Saga ${this.constructor.name}] Compensation failed for ${step.name}:`, err);
+      }
+    }
+  }
 
   /**
    * Real persistence to Prisma Event Sourcing Table

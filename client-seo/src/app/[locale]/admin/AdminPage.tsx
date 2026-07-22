@@ -31,10 +31,10 @@ import {
   CheckSquare,
   Target,
   TrendingUp,
-  Handshake,
+  HeartHandshake,
   Key
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 export default function AdminPage() {
@@ -59,7 +59,7 @@ export default function AdminPage() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -77,12 +77,12 @@ export default function AdminPage() {
               {t("admin_main_view_site")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
-            <motion.div
+            <m.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -102,7 +102,7 @@ export default function AdminPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
@@ -119,7 +119,7 @@ export default function AdminPage() {
           <TabsContent value="overview">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Recent Alerts */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
               >
@@ -149,10 +149,10 @@ export default function AdminPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
 
               {/* Quick Actions */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
               >
@@ -194,12 +194,12 @@ export default function AdminPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             </div>
           </TabsContent>
 
           <TabsContent value="os-modules">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -434,7 +434,7 @@ export default function AdminPage() {
                       className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
                       onClick={() => router.push('/admin/partner-os')}
                     >
-                      <Handshake className="w-6 h-6 mb-2 text-teal-400" />
+                      <HeartHandshake className="w-6 h-6 mb-2 text-teal-400" />
                       <div className="text-left">
                         <div className="font-semibold">Partner OS</div>
                         <div className="text-xs text-muted-foreground">Partner relationships</div>
@@ -465,11 +465,11 @@ export default function AdminPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           </TabsContent>
 
           <TabsContent value="users">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -484,11 +484,11 @@ export default function AdminPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           </TabsContent>
 
           <TabsContent value="triggers">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -513,11 +513,11 @@ export default function AdminPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           </TabsContent>
 
           <TabsContent value="system">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -560,7 +560,7 @@ export default function AdminPage() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           </TabsContent>
         </Tabs>
       </div>

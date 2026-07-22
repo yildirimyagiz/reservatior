@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Edit, Trash2, AlertCircle, CheckCircle2, Clock, Search, Plus, Users, Building, CreditCard, Zap, Shield, Activity, ArrowUpRight, Fingerprint, Brain, Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { tenantsApi, Tenant } from "@/lib/api/tenants";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -126,7 +126,7 @@ export default function Tenants() {
         {/* Resident Nodes Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 px-4">
            <AnimatePresence mode="popLayout">
-              {tenantsData?.map((tenant, idx) => <motion.div key={tenant.id} initial={{
+              {tenantsData?.map((tenant, idx) => <m.div key={tenant.id} initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -207,7 +207,7 @@ export default function Tenants() {
                      <Button variant="ghost" onClick={() => setSelectedTenant(tenant)} className="h-10 text-xs font-bold text-blue-400 hover:text-foreground gap-2 group/btn">{t("client.src.scan_record")}<ArrowUpRight className="w-3 h-3 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                      </Button>
                   </div>
-                </motion.div>)}
+                </m.div>)}
            </AnimatePresence>
         </div>
       </div>

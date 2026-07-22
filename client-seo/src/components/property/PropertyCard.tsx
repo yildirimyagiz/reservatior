@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { Link } from "@/lib/react-router-shim";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Heart, MapPin, Bed, Bath, Maximize2, ShieldCheck, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { QualityScoreBadge } from "@/components/cleaning/QualityScoreBadge";
+import { ListingBadges } from "@/components/listing/ListingBadges";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useTranslation } from "react-i18next";
 import * as React from "react";
@@ -72,7 +73,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
     : [p.image || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80"];
 
   return (
-    <motion.article 
+    <m.article 
       initial={{ opacity: 0, y: 20 }} 
       animate={{ opacity: 1, y: 0 }} 
       transition={{ delay: index * 0.05, duration: 0.4, ease: "easeOut" }} 
@@ -95,7 +96,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
                       alt={`Optimized rental listing staging by Reservatior - ${p.name || 'Property'} - View ${idx + 1}`} 
                       fill 
                       className="object-cover transition-transform duration-700 group-hover:scale-105" 
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      loading="lazy" sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </Link>
                 </CarouselItem>
@@ -117,7 +118,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
               alt={`Optimized rental listing staging by Reservatior - ${p.name || 'Property'}`} 
               fill 
               className="object-cover transition-transform duration-700 group-hover:scale-105" 
-              sizes="(max-width: 768px) 100vw, 50vw"
+              loading="lazy" sizes="(max-width: 768px) 100vw, 50vw"
             />
           </Link>
         )}
@@ -132,6 +133,13 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
             )}
           </div>
           {getPromotionBadge(p.promotion)}
+          <ListingBadges
+            isOptimizedForSpeed={p.isOptimizedForSpeed}
+            optimizationStatus={p.optimizationStatus}
+            vacancyDays={p.vacancyDays}
+            isPromoted={p.isPromoted}
+            className="mt-1"
+          />
         </div>
 
         {/* Favorite Button */}
@@ -139,7 +147,8 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
           <Button 
             size="icon" 
             variant="ghost" 
-            className="h-9 w-9 rounded-full bg-black/20 backdrop-blur-md hover:bg-white text-white hover:text-red-500 border border-white/20 transition-all duration-300"
+            aria-label="Add to favorites"
+            className="h-10 w-10 rounded-full bg-black/20 backdrop-blur-md hover:bg-white text-white hover:text-red-500 border border-white/20 transition-all duration-300"
           >
             <Heart className="w-4 h-4" />
           </Button>
@@ -204,6 +213,6 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
           </div>
         </div>
       </Link>
-    </motion.article>
+    </m.article>
   );
 }

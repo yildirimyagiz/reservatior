@@ -1,5 +1,6 @@
+import Image from "next/image";
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Wand2, Image as ImageIcon, Upload, Loader2, SlidersHorizontal, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -151,7 +152,7 @@ export default function VirtualStaging() {
               {!isGenerated && !isGenerating && (
                 <div className="text-center p-8">
                   {uploadedImage ? (
-                    <img src={uploadedImage} alt="Uploaded Empty Room" className="max-h-[500px] object-contain rounded-xl shadow-lg mx-auto" />
+                    <Image src={uploadedImage} alt="Uploaded Empty Room" width={500} height={500} loading="lazy" sizes="500px" className="max-h-[500px] object-contain rounded-xl shadow-lg mx-auto" />
                   ) : (
                     <div className="flex flex-col items-center">
                       <ImageIcon className="w-16 h-16 text-slate-300 dark:text-slate-700 mb-4" />
@@ -163,15 +164,15 @@ export default function VirtualStaging() {
 
               {isGenerating && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm z-10">
-                  <motion.div 
+                  <m.div 
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
                   >
                     <Wand2 className="w-12 h-12 text-blue-600 mb-4" />
-                  </motion.div>
+                  </m.div>
                   <p className="text-lg font-bold text-slate-800 dark:text-slate-200">{t("admin_auto_ai_is_analyzing_spatial_geometry", "AI is analyzing spatial geometry...")}</p>
                   <div className="w-48 h-2 bg-slate-200 dark:bg-slate-800 rounded-full mt-4 overflow-hidden">
-                    <motion.div 
+                    <m.div 
                       className="h-full bg-blue-600 rounded-full"
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
@@ -185,7 +186,7 @@ export default function VirtualStaging() {
                 <div className="relative w-full h-full min-h-[500px] select-none">
                   {/* After Image (Furnished) - Background */}
                   <div className="absolute inset-0 w-full h-full">
-                    <img src={afterImage} alt="Furnished Room" className="w-full h-full object-cover" />
+                    <Image src={afterImage} alt="Furnished Room" fill loading="lazy" className="object-cover" sizes="100vw" />
                   </div>
                   
                   {/* Before Image (Empty) - Foreground, clipped by slider */}
@@ -193,7 +194,7 @@ export default function VirtualStaging() {
                     className="absolute inset-0 w-full h-full"
                     style={{ clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)` }}
                   >
-                    <img src={beforeImage} alt="Empty Room" className="w-full h-full object-cover grayscale" />
+                    <Image src={beforeImage} alt="Empty Room" fill loading="lazy" className="object-cover grayscale" sizes="100vw" />
                   </div>
 
                   {/* Slider Control */}

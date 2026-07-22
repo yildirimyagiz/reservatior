@@ -5,7 +5,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Shield, ArrowRight, CheckCircle2, Users, Building2,
   Lock, Sparkles, Calculator, ArrowLeftRight, Percent, 
@@ -168,43 +168,43 @@ export default function LeaseCarePage() {
         </div>
 
         <div className="relative z-10 container mx-auto px-6">
-          <motion.div 
+          <m.div 
             className="text-center max-w-4xl mx-auto space-y-8"
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
           >
-            <motion.div variants={fadeIn}>
+            <m.div variants={fadeIn}>
               <Badge className="bg-white/50 dark:bg-slate-900/50 backdrop-blur-md text-emerald-600 dark:text-emerald-400 border-emerald-500/20 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase shadow-sm">
                 <Sparkles className="w-4 h-4 mr-2 inline-block" /> {t("leasecare.industry_first", "Industry First Model")}
               </Badge>
-            </motion.div>
+            </m.div>
 
-            <motion.h1 variants={fadeIn} className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] drop-shadow-sm">
+            <m.h1 variants={fadeIn} className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] drop-shadow-sm">
               <span className="text-slate-900 dark:text-white">LeaseCare</span>
               <span className="bg-gradient-to-r from-emerald-500 to-blue-500 bg-clip-text text-transparent drop-shadow-md">+</span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.p variants={fadeIn} className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium">
+            <m.p variants={fadeIn} className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium">
               <span dangerouslySetInnerHTML={{ __html: t("leasecare.hero_desc_hidden", "Traditional <span class='font-bold text-slate-900 dark:text-white'>upfront deposits</span> and <span class='font-bold text-slate-900 dark:text-white'>heavy commission burdens</span> are over. Everyone wins with <span class='font-bold text-emerald-600 dark:text-emerald-400'>dynamic micro-payments</span>.") }} />
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeIn} className="flex flex-wrap justify-center gap-4 pt-6">
+            <m.div variants={fadeIn} className="flex flex-wrap justify-center gap-4 pt-6">
               <Button size="lg" className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white h-14 px-8 rounded-2xl font-bold shadow-xl shadow-emerald-500/20 group text-lg transition-all hover:scale-105">
                 {t("leasecare.apply_now", "Apply Now")} <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button size="lg" variant="outline" className="h-14 px-8 rounded-2xl font-semibold bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border-slate-200 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-800 text-lg transition-all hover:scale-105 shadow-sm">
                 <Calculator className="mr-2 w-5 h-5 text-emerald-500" /> {t("leasecare.calculate", "Calculate")}
               </Button>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
       </section>
 
       {/* ══════ COMPARISON ══════ */}
       <section className="py-24 relative z-20">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <m.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -217,9 +217,9 @@ export default function LeaseCarePage() {
             <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl mx-auto font-medium">
               {t("leasecare.comparison_desc", "Same home, same rent — but a very different move-in cost")}
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div 
+          <m.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -227,7 +227,7 @@ export default function LeaseCarePage() {
             className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto"
           >
             {/* Traditional */}
-            <motion.div 
+            <m.div 
               variants={fadeIn}
               whileHover={{ y: -5 }}
               className="p-8 md:p-10 rounded-[2.5rem] bg-white/40 dark:bg-slate-900/40 backdrop-blur-2xl border border-red-500/20 shadow-2xl shadow-red-500/5 space-y-8 relative overflow-hidden transition-all duration-300"
@@ -252,10 +252,10 @@ export default function LeaseCarePage() {
                 
                 <div className="flex justify-between items-center"><span className="font-bold text-lg text-red-500">{t("leasecare.total_first_day", "Total First Day")}</span><span className="text-3xl font-black text-red-500 drop-shadow-sm">{t("leasecare.costly", "Costly")}</span></div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* LeaseCare+ */}
-            <motion.div 
+            <m.div 
               variants={fadeIn}
               whileHover={{ y: -5 }}
               className="p-8 md:p-10 rounded-[2.5rem] bg-white/60 dark:bg-slate-900/60 backdrop-blur-3xl border border-emerald-500/30 shadow-2xl shadow-emerald-500/10 space-y-8 relative overflow-hidden transition-all duration-300 ring-1 ring-white/20 dark:ring-white/10"
@@ -296,15 +296,15 @@ export default function LeaseCarePage() {
                   {t("leasecare.up_to_85_savings", "Up to 85% Savings on Move-in!")}
                 </span>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
       </section>
 
       {/* ══════ HOW IT WORKS ══════ */}
       <section className="py-24 relative">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <m.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -314,9 +314,9 @@ export default function LeaseCarePage() {
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white">
               <span dangerouslySetInnerHTML={{ __html: t("leasecare.how_it_works", "How it <span class='text-emerald-500'>Works?</span>") }} />
             </h2>
-          </motion.div>
+          </m.div>
 
-          <motion.div 
+          <m.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -328,7 +328,7 @@ export default function LeaseCarePage() {
               { icon: PiggyBank, title: t("leasecare.dynamic_deposit", "Dynamic Micro Deposit"), desc: t("leasecare.dynamic_deposit_desc", "Tenants accumulate their deposit dynamically alongside their rent via micro-installments."), color: "from-violet-500 to-fuchsia-500", shadow: "shadow-violet-500/20" },
               { icon: Lock, title: t("leasecare.escrow_assurance", "Escrow Assurance"), desc: t("leasecare.escrow_desc", "All deposits are securely held in Reservatior Escrow account. Neutral mediation in case of dispute."), color: "from-emerald-400 to-emerald-600", shadow: "shadow-emerald-500/20" },
             ].map((s, i) => (
-              <motion.div 
+              <m.div 
                 key={i} 
                 variants={fadeIn}
                 whileHover={{ y: -10, scale: 1.02 }}
@@ -339,12 +339,12 @@ export default function LeaseCarePage() {
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">{s.title}</h3>
                 <p className="text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed">{s.desc}</p>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
 
           {/* Payment Flow Diagram */}
-          <motion.div 
+          <m.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -373,7 +373,7 @@ export default function LeaseCarePage() {
 
               <div className="hidden md:flex flex-col items-center flex-1">
                 <div className="w-full h-1 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full relative overflow-hidden">
-                  <motion.div 
+                  <m.div 
                     className="absolute top-0 bottom-0 left-0 w-1/3 bg-white/50 blur-[2px]"
                     animate={{ x: ["-100%", "300%"] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
@@ -398,7 +398,7 @@ export default function LeaseCarePage() {
 
               <div className="hidden md:flex flex-col items-center flex-1">
                 <div className="w-full h-1 bg-gradient-to-r from-emerald-500 to-amber-500 rounded-full relative overflow-hidden">
-                  <motion.div 
+                  <m.div 
                     className="absolute top-0 bottom-0 left-0 w-1/3 bg-white/50 blur-[2px]"
                     animate={{ x: ["-100%", "300%"] }}
                     transition={{ duration: 2, delay: 1, repeat: Infinity, ease: "linear" }}
@@ -422,7 +422,7 @@ export default function LeaseCarePage() {
               </div>
 
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -432,7 +432,7 @@ export default function LeaseCarePage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="container mx-auto px-6 relative z-10">
-          <motion.div 
+          <m.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -445,7 +445,7 @@ export default function LeaseCarePage() {
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white">
               {t("leasecare.how_much_save", "How much will you save?")}
             </h2>
-          </motion.div>
+          </m.div>
 
           {/* Transaction Mode Toggle */}
           <div className="flex justify-center mb-10">
@@ -481,7 +481,7 @@ export default function LeaseCarePage() {
                   <role.icon className={`w-5 h-5 ${activeRole === role.id ? "text-emerald-500" : "text-slate-400"}`} />
                   {role.label}
                   {activeRole === role.id && (
-                    <motion.div layoutId="activeRoleIndicatorAppRouter" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-emerald-500" />
+                    <m.div layoutId="activeRoleIndicatorAppRouter" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-emerald-500" />
                   )}
                 </button>
               ))}
@@ -491,7 +491,7 @@ export default function LeaseCarePage() {
           <div className="grid lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
             
             {/* Value Props Content based on Role */}
-            <motion.div 
+            <m.div 
               key={`${activeRole}-${transactionMode}`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -566,10 +566,10 @@ export default function LeaseCarePage() {
                   </div>
                 </>
               )}
-            </motion.div>
+            </m.div>
 
             {/* Interactive Calculator */}
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="lg:col-span-7 p-8 md:p-12 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl relative overflow-hidden"
@@ -690,7 +690,7 @@ export default function LeaseCarePage() {
                 )}
 
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>
@@ -699,7 +699,7 @@ export default function LeaseCarePage() {
       {/* ══════ BENEFITS ══════ */}
       <section className="py-24 bg-slate-100/50 dark:bg-slate-900/50">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <m.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -709,9 +709,9 @@ export default function LeaseCarePage() {
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white">
               {t("leasecare.everyone_wins", "Everyone Wins")}
             </h2>
-          </motion.div>
+          </m.div>
 
-          <motion.div 
+          <m.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -719,7 +719,7 @@ export default function LeaseCarePage() {
             className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto"
           >
             {/* Tenant Benefits */}
-            <motion.div variants={fadeIn} className="p-8 md:p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-8">
+            <m.div variants={fadeIn} className="p-8 md:p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-8">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center">
                   <Users className="w-7 h-7 text-blue-600 dark:text-blue-400" />
@@ -738,10 +738,10 @@ export default function LeaseCarePage() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Landlord Benefits */}
-            <motion.div variants={fadeIn} className="p-8 md:p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-8">
+            <m.div variants={fadeIn} className="p-8 md:p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-8">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center">
                   <Building2 className="w-7 h-7 text-amber-600 dark:text-amber-400" />
@@ -760,15 +760,15 @@ export default function LeaseCarePage() {
                   </div>
                 ))}
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
       </section>
 
       {/* ══════ CTA ══════ */}
       <section className="py-32">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -791,7 +791,7 @@ export default function LeaseCarePage() {
                 </Button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 

@@ -15,7 +15,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { CalendarIcon, Clock, MapPin, Users, Video, Bell, Search, Plus, Eye, Edit, Trash2, Share2, MoreHorizontal, ChevronLeft, ChevronRight, CalendarDays, CheckCircle, AlertCircle, RefreshCw, Archive, Pause, Building, Zap, Activity, Cpu, Fingerprint, Layers, ArrowUpRight, Shield, Play, Terminal, Sparkles, XCircle, Database, Settings } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { PageShell } from "./layout/PageShell";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
@@ -511,7 +511,7 @@ export default function Events() {
           </div>
 
           <div className="space-y-4">
-            {dayEvents.map(event => <motion.div key={event.id} initial={{
+            {dayEvents.map(event => <m.div key={event.id} initial={{
             opacity: 0,
             scale: 0.95
           }} animate={{
@@ -534,7 +534,7 @@ export default function Events() {
                    </div>
                    <Badge className="bg-white/5 text-slate-500 border-none p-0 scale-75 origin-right">{event.type}</Badge>
                 </div>
-              </motion.div>)}
+              </m.div>)}
             {dayEvents.length === 0 && <div className="flex flex-col items-center justify-center py-10 opacity-10">
                  <Cpu className="w-8 h-8 text-slate-500 mb-2" />
                  <p className="text-[8px] font-black text-slate-500 tracking-widest">{t("client.src.stdby")}</p>
@@ -546,7 +546,7 @@ export default function Events() {
   };
   const renderListView = () => {
     return <div className="space-y-6">
-        {filteredEvents.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()).map(event => <motion.div key={event.id} initial={{
+        {filteredEvents.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()).map(event => <m.div key={event.id} initial={{
         opacity: 0,
         x: -20
       }} animate={{
@@ -612,7 +612,7 @@ export default function Events() {
                     </div>
                  </div>
               </div>
-            </motion.div>)}
+            </m.div>)}
         {filteredEvents.length === 0 && <div className="py-20 text-center space-y-4 rounded-[40px] border border-dashed border-white/10 bg-black/20">
              <Layers className="w-12 h-12 text-slate-800 mx-auto opacity-20" />
              <p className="text-[10px] font-black text-slate-600 tracking-widest italic">{t("noEvents")}</p>
@@ -695,7 +695,7 @@ export default function Events() {
                       <Badge className="bg-white/5 text-slate-500 border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
                    </div>
                    <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{stat.label}</p>
-                   <h3 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h3>
+                   <h2 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h2>
                 </CardContent>
              </Card>)}
         </div>
@@ -726,7 +726,7 @@ export default function Events() {
                     <div className="flex items-center gap-4 flex-1">
                       <div className="relative group flex-1">
                          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
-                         <input type="text" placeholder={t("client.src.filter_temporal_data")} className="bg-black/40 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all w-full" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+                         <input type="text" aria-label="Filter events" placeholder={t("client.src.filter_temporal_data")} className="bg-black/40 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all w-full" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
                       </div>
                     </div>
                     
@@ -793,7 +793,7 @@ export default function Events() {
                   <Badge className="bg-purple-500/10 text-purple-400 border border-purple-500/20 font-black italic text-[9px] px-3 py-1">{eventSeries.length}{t("client.src.active")}</Badge>
                </div>
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {eventSeries.map(series => <motion.div key={series.id} initial={{
+                  {eventSeries.map(series => <m.div key={series.id} initial={{
                 opacity: 0,
                 y: 20
               }} animate={{
@@ -816,7 +816,7 @@ export default function Events() {
                        <Button variant="ghost" className="h-12 w-12 rounded-xl bg-white/5 hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-all">
                           <Settings className="w-5 h-5 text-slate-500" />
                        </Button>
-                    </motion.div>)}
+                    </m.div>)}
                </div>
             </TabsContent>
 
@@ -837,7 +837,7 @@ export default function Events() {
                                   <span className="text-white">{count}{t("client.src.units")}{percentage.toFixed(1)}%)</span>
                                </div>
                                <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner flex">
-                                  <motion.div initial={{
+                                  <m.div initial={{
                           width: 0
                         }} animate={{
                           width: `${percentage}%`
@@ -860,7 +860,7 @@ export default function Events() {
                                    <Zap className="w-4 h-4" />
                                 </div>
                                 <div>
-                                   <h4 className="text-sm font-black text-white italic tracking-widest leading-none mb-1">{event.title}</h4>
+                                    <h3 className="text-sm font-black text-white italic tracking-widest leading-none mb-1">{event.title}</h3>
                                    <p className="text-[9px] font-bold text-slate-600 italic">{format(new Date(event.startDate), "MMM d, yyyy @ h:mm a")}</p>
                                 </div>
                              </div>
@@ -875,7 +875,7 @@ export default function Events() {
 
       {/* Detail Overlay */}
       {selectedEvent && <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-8 z-50">
-           <motion.div initial={{
+           <m.div initial={{
           opacity: 0,
           scale: 0.95
         }} animate={{
@@ -951,7 +951,7 @@ export default function Events() {
                        <Edit className="w-4 h-4 mr-3" />{t("client.src.edit_node")}</Button>
                  </div>
               </div>
-           </motion.div>
+           </m.div>
         </div>}
       </>
     </PageShell>;

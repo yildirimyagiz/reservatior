@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { tagsApi, Tag, TagCreate, TagUpdate } from "@/lib/api/tags";
 import { Plus, Search, Tag as TagIcon, Edit, Trash2, Fingerprint, Hash, Palette, Activity, Shield, Globe, Zap, MoreHorizontal } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 const TagsPage: React.FC = () => {
   const {
@@ -154,13 +154,13 @@ const TagsPage: React.FC = () => {
         {/* Global Search Component */}
         <div className="relative max-w-2xl mx-auto group mb-12">
            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-           <input type="text" placeholder={t("client.src.search_taxonomy_streams")} className="w-full h-16 pl-16 pr-8 bg-[#1a1b1e]/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
+           <input type="text" aria-label="Search taxonomy streams" placeholder={t("client.src.search_taxonomy_streams")} className="w-full h-16 pl-16 pr-8 bg-[#1a1b1e]/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
         </div>
 
         {/* Tactical Tag Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
-            {filtered.map((tag, idx) => <motion.div key={tag.id} initial={{
+            {filtered.map((tag, idx) => <m.div key={tag.id} initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -207,7 +207,7 @@ const TagsPage: React.FC = () => {
                      <Trash2 className="w-4 h-4" />
                    </Button>
                 </div>
-              </motion.div>)}
+              </m.div>)}
           </AnimatePresence>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/react-router-shim";
 export function CTA() {
@@ -9,7 +9,7 @@ export function CTA() {
   } = useTranslation();
   return <section className="py-24 px-4 md:px-6">
       <div className="container mx-auto text-center">
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: 20
       }} whileInView={{
@@ -31,7 +31,7 @@ export function CTA() {
             </Link>
           </div>
           <p className="text-sm text-muted-foreground mt-6">{t("client.src.no_credit_card_required")}</p>
-        </motion.div>
+        </m.div>
       </div>
     </section>;
 }

@@ -6,7 +6,7 @@ import { ShieldX, Home, ArrowLeft, LogOut, Lock, Fingerprint } from "lucide-reac
 import { useNavigate } from "@/lib/react-router-shim";
 import { useAuth } from "@/lib/auth/hooks";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function Unauthorized() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export default function Unauthorized() {
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[40px_40px] z-0" />
       </div>
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -119,7 +119,7 @@ export default function Unauthorized() {
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

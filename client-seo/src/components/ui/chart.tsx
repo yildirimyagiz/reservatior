@@ -1,9 +1,17 @@
 "use client";
 
 import * as React from "react";
-import * as RechartsPrimitive from "recharts";
-
 import { cn } from "@/lib/utils";
+
+const LazyResponsiveContainer = React.lazy(() =>
+  import("recharts").then((m) => ({ default: m.ResponsiveContainer }))
+);
+const LazyTooltip = React.lazy(() =>
+  import("recharts").then((m) => ({ default: m.Tooltip }))
+);
+const LazyLegend = React.lazy(() =>
+  import("recharts").then((m) => ({ default: m.Legend }))
+);
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -39,7 +47,7 @@ const ChartContainer = React.forwardRef<
   React.ComponentProps<"div"> & {
     config: ChartConfig;
     children: React.ComponentProps<
-      typeof RechartsPrimitive.ResponsiveContainer
+      typeof LazyResponsiveContainer
     >["children"];
   }
 >(({ id, className, children, config, ...props }, ref) => {
@@ -58,9 +66,11 @@ const ChartContainer = React.forwardRef<
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>
-          {children}
-        </RechartsPrimitive.ResponsiveContainer>
+        <React.Suspense fallback={<div className="flex aspect-video items-center justify-center"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary" /></div>}>
+          <LazyResponsiveContainer>
+            {children}
+          </LazyResponsiveContainer>
+        </React.Suspense>
       </div>
     </ChartContext.Provider>
   );
@@ -100,7 +110,7 @@ ${colorConfig
   );
 };
 
-const ChartTooltip = RechartsPrimitive.Tooltip;
+const ChartTooltip = LazyTooltip;
 
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
@@ -265,7 +275,7 @@ const ChartTooltipContent = React.forwardRef<
 );
 ChartTooltipContent.displayName = "ChartTooltip";
 
-const ChartLegend = RechartsPrimitive.Legend;
+const ChartLegend = LazyLegend;
 
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,

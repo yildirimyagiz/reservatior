@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate, useSearchParams } from "@/lib/react-router-shim";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Mail, Eye, EyeOff, AlertCircle, Check, Zap, ChevronRight, Facebook, Twitter, Building2, User, Linkedin } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/lib/auth/hooks";
@@ -171,13 +171,13 @@ export default function Signup() {
         <div className="w-full max-w-xl bg-card/90 backdrop-blur-xl border border-border rounded-[2rem] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
           
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
             <div className="mb-8 text-center">
-              <Link href="/" className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-6 hover:bg-primary/20 transition-colors">
+              <Link href="/" aria-label="Go to home page" className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-6 hover:bg-primary/20 transition-colors">
                  <Building2 className="w-6 h-6 text-primary" />
               </Link>
               <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 tracking-tight">
@@ -189,7 +189,7 @@ export default function Signup() {
             </div>
 
             {leadId && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20 backdrop-blur-md"
@@ -199,13 +199,13 @@ export default function Signup() {
                     <Zap className="text-blue-500 w-5 h-5 animate-pulse" />
                   </div>
                   <div>
-                    <h4 className="text-foreground font-bold text-sm tracking-wide">💼 Eşleşen Müşteri Talebiniz Hazır!</h4>
+                    <h3 className="text-foreground font-bold text-sm tracking-wide">💼 Eşleşen Müşteri Talebiniz Hazır!</h3>
                     <p className="text-muted-foreground text-xs mt-1.5 leading-relaxed">
                       Kayıt işleminizi tamamlayarak hazır müşterinizle <b>Taksitli Depozito</b> vb. avantajlarla güvenli sözleşme sürecini hemen başlatabilirsiniz.
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             )}
 
             <Tabs 
@@ -238,7 +238,7 @@ export default function Signup() {
               
               <AnimatePresence mode="popLayout">
                 {accountType === "CORPORATE" && (
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
@@ -274,7 +274,7 @@ export default function Signup() {
                         />
                       </div>
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
 
@@ -428,7 +428,7 @@ export default function Signup() {
               Already have an account?{" "}
               <Link to="/client/login" className="text-foreground hover:text-primary transition-all font-bold underline underline-offset-4 decoration-border hover:decoration-primary">Log in</Link>
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 

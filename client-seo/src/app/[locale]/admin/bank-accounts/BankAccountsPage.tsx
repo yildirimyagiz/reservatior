@@ -17,7 +17,7 @@ import {
   ShieldCheck,
   CreditCard,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -143,7 +143,7 @@ export default function BankAccountsPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_bank_title", "Bank Accounts")}</h1>
@@ -154,10 +154,10 @@ export default function BankAccountsPage() {
               {t("admin_bank_back_to_dashboard", "Back to Dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Search and Filter */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex gap-4 flex-wrap">
@@ -191,10 +191,10 @@ export default function BankAccountsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Account Cards */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((account) => (
               <Card key={account.id} className="bg-card border-border hover:bg-muted/30 transition-colors">
@@ -203,7 +203,7 @@ export default function BankAccountsPage() {
                     <div className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-muted/50"><Landmark className="w-5 h-5 text-muted-foreground" /></div>
                       <div>
-                        <h3 className="text-foreground font-semibold">{account.bankName}</h3>
+                        <h2 className="text-foreground font-semibold">{account.bankName}</h2>
                         <p className="text-sm text-muted-foreground">{account.accountName}</p>
                       </div>
                     </div>
@@ -238,16 +238,16 @@ export default function BankAccountsPage() {
                   </div>
                   <div className="flex justify-end gap-2 mt-3 pt-3 border-t border-border/50">
                     {account.status === "VERIFICATION_PENDING" && (
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-green-400"><ShieldCheck className="w-4 h-4" /></Button>
+                      <Button variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-green-400"><ShieldCheck className="w-4 h-4" /></Button>
                     )}
-                    <Button onClick={() => { setEditingItem(account); setIsEditOpen(true); }} variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
-                    <Button onClick={() => { setDeletingItem(account); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="h-8 w-8 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                    <Button onClick={() => { setEditingItem(account); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                    <Button onClick={() => { setDeletingItem(account); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Create Dialog */}
         <CreateAccountDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />

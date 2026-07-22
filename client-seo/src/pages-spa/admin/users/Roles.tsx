@@ -19,7 +19,7 @@ import { Edit, Trash2, Shield, Lock, Plus, Search, Users, ShieldAlert, ShieldChe
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { cn } from"@/lib/utils";
 import { useQuery, useQueryClient } from"@tanstack/react-query";
-import { motion, AnimatePresence } from"framer-motion";
+import { m, AnimatePresence } from"framer-motion";
 interface Permission {
  id: string;
  key: string;
@@ -266,7 +266,7 @@ export default function Roles() {
  value: stats.users,
  icon: Users,
  color:"text-slate-500"
- }].map((stat, i) => <motion.div key={i} initial={{
+ }].map((stat, i) => <m.div key={i} initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -283,7 +283,7 @@ export default function Roles() {
  <h3 className="text-xl font-bold text-foreground leading-none">{stat.value}</h3>
  <div className={cn("absolute bottom-0 left-0 w-full h-1 opacity-50", stat.color.replace('text-', 'bg-'))}></div>
  </div>
- </motion.div>)}
+ </m.div>)}
  </div>
 
  {/* Tactical Search & Actions Interface */}

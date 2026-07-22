@@ -10,7 +10,7 @@ import { Progress } from"@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
 import { BarChart3, TrendingUp, Brain, Target, Sparkles, Activity, Clock, CheckCircle2, AlertTriangle, ArrowUpRight, Cpu, Database, Zap, RefreshCw } from"lucide-react";
 import { AreaChart, Area, BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from"recharts";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 const performanceData = [{
  date:"Mon",
  accuracy: 94.2,
@@ -176,7 +176,7 @@ export default function AIAnalytics() {
 
  {/* KPI Cards */}
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
- {kpis.map((kpi, idx) => <motion.div key={kpi.label} initial={{
+ {kpis.map((kpi, idx) => <m.div key={kpi.label} initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -200,7 +200,7 @@ export default function AIAnalytics() {
  <h3 className="text-2xl font-bold mt-1 text-foreground">{kpi.value}</h3>
  </CardContent>
  </Card>
- </motion.div>)}
+ </m.div>)}
  </div>
 
  <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -278,7 +278,7 @@ export default function AIAnalytics() {
 
  <TabsContent value="models" className="space-y-6 mt-6">
  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
- {models.map((model, idx) => <motion.div key={model.name} initial={{
+ {models.map((model, idx) => <m.div key={model.name} initial={{
  opacity: 0,
  y: 15
  }} animate={{
@@ -327,7 +327,7 @@ export default function AIAnalytics() {
  </div>
  </CardContent>
  </Card>
- </motion.div>)}
+ </m.div>)}
  </div>
  </TabsContent>
 
@@ -339,7 +339,7 @@ export default function AIAnalytics() {
  <CardDescription className="text-muted-foreground">{t("admin_ai_automated_analysis_and_recommendations")}</CardDescription>
  </CardHeader>
  <CardContent className="space-y-4">
- {insights.map((insight, idx) => <motion.div key={idx} initial={{
+ {insights.map((insight, idx) => <m.div key={idx} initial={{
  opacity: 0,
  x: -10
  }} animate={{
@@ -361,7 +361,7 @@ export default function AIAnalytics() {
  <p className="text-[10px] text-muted-foreground">{t("admin_ai_confidence")}</p>
  </div>
  </div>
- </motion.div>)}
+ </m.div>)}
  </CardContent>
  </Card>
  </TabsContent>

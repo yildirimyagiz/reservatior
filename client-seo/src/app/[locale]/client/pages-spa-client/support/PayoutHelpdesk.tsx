@@ -707,7 +707,7 @@ export default function PayoutAndHelpDesk() {
           <div className="flex items-center gap-2">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <input type="text" placeholder={t("client.src.search_payout_or_support")} className="pl-8 pr-3 py-2 border rounded-md text-sm" value={filter.search || ''} onChange={e => setFilter({
+              <input type="text" aria-label="Search payouts or support" placeholder={t("client.src.search_payout_or_support")} className="pl-8 pr-3 py-2 border rounded-md text-sm" value={filter.search || ''} onChange={e => setFilter({
               ...filter,
               search: e.target.value || undefined
             })} />
@@ -727,7 +727,7 @@ export default function PayoutAndHelpDesk() {
           <TabsContent value="payouts" className="space-y-6">
             {/* Payout Filters */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <select className="px-3 py-1 border rounded-md text-sm" value={filter.status || ''} onChange={e => setFilter({
+              <select aria-label="Filter by status" className="px-3 py-1 border rounded-md text-sm" value={filter.status || ''} onChange={e => setFilter({
               ...filter,
               status: e.target.value || undefined
             })}>
@@ -740,7 +740,7 @@ export default function PayoutAndHelpDesk() {
                 <option value="refunded">{t("client.src.refunded")}</option>
               </select>
 
-              <select className="px-3 py-1 border rounded-md text-sm" value={filter.method || ''} onChange={e => setFilter({
+              <select aria-label="Filter by payment method" className="px-3 py-1 border rounded-md text-sm" value={filter.method || ''} onChange={e => setFilter({
               ...filter,
               method: e.target.value || undefined
             })}>
@@ -768,7 +768,7 @@ export default function PayoutAndHelpDesk() {
                           </div>
                           <div>
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-medium">{payout.guest.name}</h4>
+                              <h2 className="font-medium">{payout.guest.name}</h2>
                               <Badge className={getStatusColor(payout.status)}>
                                 {payout.status}
                               </Badge>
@@ -810,7 +810,7 @@ export default function PayoutAndHelpDesk() {
           <TabsContent value="help-desk" className="space-y-6">
             {/* Help Desk Filters */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <select className="px-3 py-1 border rounded-md text-sm" value={filter.category || ''} onChange={e => setFilter({
+              <select aria-label="Filter by category" className="px-3 py-1 border rounded-md text-sm" value={filter.category || ''} onChange={e => setFilter({
               ...filter,
               category: e.target.value || undefined
             })}>
@@ -823,7 +823,7 @@ export default function PayoutAndHelpDesk() {
                 <option value="feature_request">{t("client.src.feature_request")}</option>
               </select>
 
-              <select className="px-3 py-1 border rounded-md text-sm" value={filter.priority || ''} onChange={e => setFilter({
+              <select aria-label="Filter by priority" className="px-3 py-1 border rounded-md text-sm" value={filter.priority || ''} onChange={e => setFilter({
               ...filter,
               priority: e.target.value || undefined
             })}>

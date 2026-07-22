@@ -23,6 +23,9 @@ import { csrfMiddleware } from "./middleware/csrf";
 import { auditLogMiddleware } from "./middleware/audit-log";
 import { shareToLinkedInCompany } from "./services/linkedin";
 import { fintechRoutes } from "./routes/fintech";
+import { aiPricingIntelligenceRoutes } from "./routes/ai-pricing-intelligence";
+import { commissionRuleEngineRoutes } from "./routes/commission-rule-engine";
+import { priceOptimizationDashboardRoutes } from "./routes/price-optimization-dashboard";
 import { runEarlyCaptureScheduler } from "./services/fintech/early-capture-scheduler";
 import { RegionManager } from "./lib/config/RegionManager";
 
@@ -600,6 +603,9 @@ const appCore = appBase
 
   .use(router)
   .use(fintechRoutes)
+  .use(aiPricingIntelligenceRoutes)
+  .use(commissionRuleEngineRoutes)
+  .use(priceOptimizationDashboardRoutes)
   .use(cronScheduler) as unknown as Elysia;
 
 // ── Additional route group (split to prevent TS type-depth overflow) ─────────

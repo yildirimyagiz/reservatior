@@ -378,7 +378,7 @@ export default function Home() {
           {slides.map((s: any, i: number) => (
             <div key={i} 
                  className={`absolute inset-0 bg-black transition-opacity duration-1000 ${i === current ? "opacity-100 z-0" : "opacity-0 -z-10"}`}>
-              <Image src={s.image} alt={s.title} fill className="object-cover opacity-80" sizes="100vw" />
+              <Image src={s.image} alt={s.title} fill className="object-cover opacity-80" loading="lazy" sizes="100vw" />
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80" />
             </div>
           ))}
@@ -583,16 +583,16 @@ export default function Home() {
               </div>
 
               <div className="flex items-center gap-3 bg-background/80 dark:bg-black/60 backdrop-blur-2xl border border-border/20 rounded-full p-2 shadow-2xl pointer-events-auto">
-                <button onClick={prev} className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-muted transition-colors group">
+                <button onClick={prev} aria-label="Previous slide" className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-muted transition-colors group">
                   <ChevronLeft className="w-5 h-5 text-foreground group-hover:-translate-x-0.5 transition-transform" />
                 </button>
                 <div className="flex gap-2 mx-1">
                   {slides.map((_: any, i: number) => (
-                    <button key={i} onClick={() => setCurrent(i)}
+                    <button key={i} onClick={() => setCurrent(i)} aria-label={`Go to slide ${i + 1}`}
                       className={`h-2 rounded-full transition-all duration-500 ${i === current ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/60"}`} />
                   ))}
                 </div>
-                <button onClick={next} className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-muted transition-colors group">
+                <button onClick={next} aria-label="Next slide" className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-muted transition-colors group">
                   <ChevronRight className="w-5 h-5 text-foreground group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
@@ -773,7 +773,7 @@ export default function Home() {
                     Reservatior AI
                   </span>
                 </div>
-                <button onClick={() => setShowAIChat(false)} className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-slate-800 transition-colors">
+                <button onClick={() => setShowAIChat(false)} aria-label="Close AI chat" className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-slate-800 transition-colors">
                   <X className="w-6 h-6 text-neutral-600 dark:text-slate-400" />
                 </button>
               </div>
@@ -830,13 +830,13 @@ export default function Home() {
                           {msg.properties.map((prop, idx) => (
                             <div key={idx} className="flex-none w-80 bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 rounded-4xl overflow-hidden group cursor-pointer shadow-xl shadow-neutral-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/10 transition-all hover:-translate-y-1 snap-center">
                               <div className="h-48 overflow-hidden relative m-2 rounded-3xl">
-                                <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="(max-width: 768px) 100vw, 400px" />
+                                <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" sizes="(max-width: 768px) 100vw, 400px" />
                                 <div className="absolute top-3 right-3 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full text-white text-sm font-bold border border-white/20">
                                   {prop.price}
                                 </div>
                               </div>
                               <div className="p-5 pt-3">
-                                <h3 className="font-bold text-lg text-neutral-900 dark:text-white truncate mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{prop.title}</h3>
+                                <h2 className="font-bold text-lg text-neutral-900 dark:text-white truncate mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{prop.title}</h2>
                                 <div className="flex items-center gap-1.5 text-neutral-500 dark:text-slate-400 mb-4 text-sm font-medium">
                                   <MapPin className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                                   <span className="truncate">{prop.location}</span>
@@ -849,7 +849,7 @@ export default function Home() {
                                     <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg"><Bed className="w-4 h-4 text-neutral-400 dark:text-slate-500"/> {prop.beds}</span>
                                     <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg"><Bath className="w-4 h-4 text-neutral-400 dark:text-slate-500"/> {prop.baths}</span>
                                   </div>
-                                  <button className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                                  <button aria-label="Go to property" className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:text-white transition-colors">
                                     <ArrowRight className="w-4 h-4" />
                                   </button>
                                 </div>
@@ -883,7 +883,7 @@ export default function Home() {
 
                   <div className="relative flex items-center bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-2xl border border-white dark:border-slate-800 shadow-2xl shadow-indigo-900/5 dark:shadow-none rounded-[2.5rem] p-2 focus-within:bg-white/90 dark:focus-within:bg-[#14151a]/90 transition-all">
 
-                    <button className="p-4 text-neutral-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                    <button aria-label="Voice input" className="p-4 text-neutral-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                       <Mic className="w-6 h-6" />
                     </button>
 
@@ -904,6 +904,7 @@ export default function Home() {
                     <button
                       onClick={handleAISend}
                       disabled={!aiInput.trim() || aiIsLoading}
+                      aria-label="Send message"
                       className="m-1.5 p-4 bg-gradient-to-br from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-neutral-300 disabled:to-neutral-300 disabled:text-neutral-500 dark:disabled:from-slate-800 dark:disabled:to-slate-800 dark:disabled:text-slate-600 text-white rounded-[1.8rem] transition-all shrink-0 shadow-md shadow-indigo-500/25 dark:shadow-none active:scale-95"
                     >
                       <Send className="w-5 h-5 ml-0.5" />
@@ -932,7 +933,7 @@ export default function Home() {
                   <p className="text-xs text-green-500 font-medium">● Online</p>
                 </div>
               </div>
-              <button onClick={() => setShowSupportChat(false)} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+              <button onClick={() => setShowSupportChat(false)} aria-label="Close support chat" className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
                 <X className="w-5 h-5 text-slate-600 dark:text-slate-400" />
               </button>
             </div>
@@ -1014,6 +1015,7 @@ export default function Home() {
                 </label>
                 <input
                   type="text"
+                  aria-label="Describe your issue"
                   value={supportInput}
                   onChange={(e) => setSupportInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSupportSend()}
@@ -1023,6 +1025,7 @@ export default function Home() {
                 <button
                   onClick={handleSupportSend}
                   disabled={supportIsLoading}
+                  aria-label="Send message"
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded-full transition-colors"
                 >
                   <Send className="w-4 h-4" />

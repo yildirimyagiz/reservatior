@@ -214,7 +214,7 @@ export default function FacilityManagement() {
             </div>
             
             <div className="flex gap-2">
-              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <select aria-label="Filter by status" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                 <option value="all">{t("client.src.all_status")}</option>
                 <option value="active">{t("client.src.active")}</option>
                 <option value="scheduled">{t("client.src.scheduled")}</option>
@@ -222,7 +222,7 @@ export default function FacilityManagement() {
                 <option value="completed">{t("client.src.completed")}</option>
                 <option value="cancelled">{t("client.src.cancelled")}</option>
               </select>
-              <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <select aria-label="Filter by type" value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                 <option value="all">{t("client.src.all_types")}</option>
                 <option value="cleaning">{t("client.src.cleaning")}</option>
                 <option value="maintenance">{t("client.src.maintenance")}</option>

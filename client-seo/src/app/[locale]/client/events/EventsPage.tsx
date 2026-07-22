@@ -16,7 +16,7 @@ import {
   Trash2, 
   ArrowUpRight
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 interface Event {
@@ -104,7 +104,7 @@ export default function EventsPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -128,7 +128,7 @@ export default function EventsPage() {
                                             </Button>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -141,7 +141,7 @@ export default function EventsPage() {
           <TabsContent value="upcoming">
             <div className="grid gap-4">
               {upcomingEvents.map((event, index) => (
-                <motion.div
+                <m.div
                   key={event.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -186,7 +186,7 @@ export default function EventsPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </TabsContent>
@@ -194,7 +194,7 @@ export default function EventsPage() {
           <TabsContent value="past">
             <div className="grid gap-4">
               {pastEvents.map((event, index) => (
-                <motion.div
+                <m.div
                   key={event.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -222,7 +222,7 @@ export default function EventsPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </TabsContent>

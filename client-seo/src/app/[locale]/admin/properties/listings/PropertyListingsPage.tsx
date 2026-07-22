@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { 
   Building2, Search, Plus, Edit, Trash2, ArrowUpRight, MapPin, DollarSign, Star, Check, AlertTriangle
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -243,7 +243,7 @@ export default function PropertyListingsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">{t("client.src.property_listings", "Property Listings")}</h1>
@@ -253,9 +253,9 @@ export default function PropertyListingsPage() {
               <ArrowUpRight className="w-4 h-4 mr-2" />{t("admin_adminpage_auto_ext_3", "Dashboard")}
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
           <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -271,9 +271,9 @@ export default function PropertyListingsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card className="bg-white/5 backdrop-blur-xl border-slate-500/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
@@ -285,7 +285,7 @@ export default function PropertyListingsPage() {
               <div className="space-y-4">
                 <AnimatePresence>
                   {filteredListings.map((listing) => (
-                    <motion.div key={listing.id} layout initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }}
+                    <m.div key={listing.id} layout initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }}
                       className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all border border-transparent hover:border-slate-500/30 group"
                     >
                       <div className="flex items-center gap-4">
@@ -316,7 +316,7 @@ export default function PropertyListingsPage() {
                           </Button>
                         </div>
                       </div>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </AnimatePresence>
                 {filteredListings.length === 0 && (
@@ -325,7 +325,7 @@ export default function PropertyListingsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         <CreateListingDialog open={isCreateOpen} onOpenChange={setIsCreateOpen} onSubmit={handleCreate} />
         {editingItem && <EditListingDialog open={!!editingItem} onOpenChange={(open: boolean) => !open && setEditingItem(null)} item={editingItem} onSubmit={handleEdit} />}

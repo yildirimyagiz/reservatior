@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Brain, Video, TrendingUp, Shield, Zap, Users, DollarSign, Target } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 const features = [{
@@ -85,7 +85,7 @@ export function Features() {
               <p className="text-muted-foreground">{t("client.src.our_flagship_aipowered_capabilities")}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {features.filter(f => f.featured).map((feature, index) => <motion.div key={index} initial={{
+              {features.filter(f => f.featured).map((feature, index) => <m.div key={index} initial={{
               opacity: 0,
               y: 20
             }} whileInView={{
@@ -117,7 +117,7 @@ export function Features() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>)}
+                </m.div>)}
             </div>
           </div>
 
@@ -128,7 +128,7 @@ export function Features() {
               <p className="text-muted-foreground">{t("client.src.additional_tools_to_enhance")}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {features.filter(f => !f.featured).map((feature, index) => <motion.div key={index} initial={{
+              {features.filter(f => !f.featured).map((feature, index) => <m.div key={index} initial={{
               opacity: 0,
               y: 20
             }} whileInView={{
@@ -157,7 +157,7 @@ export function Features() {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>)}
+                </m.div>)}
             </div>
           </div>
         </div>
@@ -165,7 +165,7 @@ export function Features() {
         {/* Stats Section */}
         <div className="mt-24 text-center">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <motion.div initial={{
+            <m.div initial={{
             opacity: 0,
             scale: 0.9
           }} whileInView={{
@@ -176,8 +176,8 @@ export function Features() {
           }}>
               <div className="text-4xl font-bold text-primary mb-2">95%</div>
               <div className="text-muted-foreground">{t("client.src.ai_prediction_accuracy")}</div>
-            </motion.div>
-            <motion.div initial={{
+            </m.div>
+            <m.div initial={{
             opacity: 0,
             scale: 0.9
           }} whileInView={{
@@ -190,8 +190,8 @@ export function Features() {
           }}>
               <div className="text-4xl font-bold text-primary mb-2">500+</div>
               <div className="text-muted-foreground">{t("client.src.video_vendors")}</div>
-            </motion.div>
-            <motion.div initial={{
+            </m.div>
+            <m.div initial={{
             opacity: 0,
             scale: 0.9
           }} whileInView={{
@@ -204,8 +204,8 @@ export function Features() {
           }}>
               <div className="text-4xl font-bold text-primary mb-2">{t("client.src.1m")}</div>
               <div className="text-muted-foreground">{t("client.src.properties_analyzed")}</div>
-            </motion.div>
-            <motion.div initial={{
+            </m.div>
+            <m.div initial={{
             opacity: 0,
             scale: 0.9
           }} whileInView={{
@@ -218,7 +218,7 @@ export function Features() {
           }}>
               <div className="text-4xl font-bold text-primary mb-2">24/7</div>
               <div className="text-muted-foreground">{t("client.src.ai_support")}</div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>

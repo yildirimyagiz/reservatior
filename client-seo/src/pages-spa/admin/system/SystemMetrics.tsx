@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import React, { useState, useEffect } from"react";
 import { useTranslation } from"react-i18next";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 import { PageShell } from"../../client/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -267,7 +267,7 @@ export default function SystemMetrics() {
  <div className="space-y-10 pb-20 selection:bg-primary/30">
  {/* Summary Cards - Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -286,9 +286,9 @@ export default function SystemMetrics() {
  <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_system_activesensors")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
  
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -307,9 +307,9 @@ export default function SystemMetrics() {
  <p className="text-[10px] font-bold text-emerald-500/60 mt-4 flex items-center gap-1">{t("admin_system_nominalstatus")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
  
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -328,9 +328,9 @@ export default function SystemMetrics() {
  <p className="text-[10px] font-bold text-orange-500/60 mt-4 flex items-center gap-1">{t("admin_system_attentionreq")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
  
- <motion.div initial={{
+ <m.div initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -349,7 +349,7 @@ export default function SystemMetrics() {
  <p className="text-[10px] font-bold text-red-500/60 mt-4 flex items-center gap-1">{t("admin_system_urgentintervention")}</p>
  </CardContent>
  </Card>
- </motion.div>
+ </m.div>
  </div>
 
  {/* Filters and Actions */}

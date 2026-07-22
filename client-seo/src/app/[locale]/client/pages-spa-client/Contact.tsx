@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, Building, Clock, Send, MessageSquare, Zap, Shield, Activity, Globe, Cpu, Fingerprint, RefreshCw } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
@@ -67,7 +67,7 @@ export default function Contact() {
   }]}>
       <div className="grid lg:grid-cols-2 gap-12 px-4">
         {/* Contact Form Node */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         x: -30
       }} animate={{
@@ -117,12 +117,12 @@ export default function Contact() {
               </Button>
             </form>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Contact Info Grid */}
         <div className="space-y-8">
            <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-6">
-              {contactNodes.map((node, idx) => <motion.div key={node.label} initial={{
+              {contactNodes.map((node, idx) => <m.div key={node.label} initial={{
             opacity: 0,
             y: 20
           }} animate={{
@@ -141,11 +141,11 @@ export default function Contact() {
                       <p className="text-[8px] font-black text-slate-600 tracking-[0.2em] italic">{node.sub}</p>
                     </div>
                   </div>
-                </motion.div>)}
+                </m.div>)}
            </div>
 
            {/* Legal Node */}
-           <motion.div initial={{
+           <m.div initial={{
           opacity: 0,
           scale: 0.95
         }} animate={{
@@ -173,7 +173,7 @@ export default function Contact() {
                     </div>
                  </div>
               </div>
-           </motion.div>
+           </m.div>
         </div>
       </div>
     </PageShell>;

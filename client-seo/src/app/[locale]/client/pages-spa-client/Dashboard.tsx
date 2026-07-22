@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { useAuth } from "@/lib/auth/hooks";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { AIWidget } from "@/components/dashboard/AIWidget";
 import { ComplianceWidget } from "@/components/dashboard/ComplianceWidget";
 import { SmartAccessWidget } from "@/components/dashboard/SmartAccessWidget";
@@ -212,7 +212,7 @@ export default function Dashboard() {
 
       {/* Neural KPIs Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {stats(t).map((stat: any, idx: number) => <motion.div initial={{
+        {stats(t).map((stat: any, idx: number) => <m.div initial={{
         opacity: 0,
         y: 20
       }} animate={{
@@ -238,7 +238,7 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>)}
+          </m.div>)}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -357,7 +357,7 @@ export default function Dashboard() {
                 <span className="text-white">{t("secure")}</span>
               </div>
               <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner border border-white/5">
-                <motion.div initial={{
+                <m.div initial={{
                 width: 0
               }} animate={{
                 width: '100%'
@@ -375,7 +375,7 @@ export default function Dashboard() {
                 })}</span>
               </div>
               <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner border border-white/5">
-                <motion.div initial={{
+                <m.div initial={{
                 width: 0
               }} animate={{
                 width: '85%'

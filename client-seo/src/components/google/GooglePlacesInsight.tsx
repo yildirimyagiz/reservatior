@@ -140,7 +140,7 @@ export const GooglePlacesInsight: React.FC<GooglePlacesInsightProps> = ({
                <CardTitle className="text-lg font-black text-slate-800">{t("client.src.nearby_gems")}</CardTitle>
             </div>
             <div className="flex items-center gap-1.5 px-3 py-1 bg-gray-50 rounded-full border border-gray-100">
-               <Image src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png" alt={t("client.src.google")} width={92} height={30} className="h-3.5 w-auto" />
+               <Image src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png" alt={t("client.src.google")} width={92} height={30} loading="lazy" sizes="92px" className="h-3.5 w-auto" />
                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t("client.src.places")}</span>
             </div>
           </div>

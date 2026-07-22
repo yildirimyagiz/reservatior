@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Sparkles, BarChart3, Users, Share2, Video, Heart, MessageSquare, Play, Send } from "lucide-react";
@@ -16,20 +16,21 @@ export function StudioContent() {
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
-        <motion.div style={{ opacity }} className="absolute inset-0">
+        <m.div style={{ opacity }} className="absolute inset-0">
           <Image 
             src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=2574&auto=format&fit=crop" 
             alt="Social Media Studio" 
             fill 
+            sizes="100vw"
             className="object-cover opacity-40 transform scale-105" 
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#020205] via-transparent to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#020205]/90 via-transparent to-transparent" />
-        </motion.div>
+        </m.div>
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
+          <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 mb-6 backdrop-blur-md">
               <Sparkles className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.social.badge", { defaultValue: "Social Media Studio" })}</span>
@@ -48,7 +49,7 @@ export function StudioContent() {
                 {t("client.social.cta_secondary", { defaultValue: "Watch Demo" })}
               </Button>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -58,7 +59,7 @@ export function StudioContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* AI Generator Panel */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               className="md:col-span-2 bg-white/5 border border-white/10 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px] group-hover:bg-purple-500/20 transition-all duration-700" />
               <Video className="w-12 h-12 text-purple-400 mb-6 animate-pulse" />
@@ -71,10 +72,10 @@ export function StudioContent() {
                   <Play className="w-4 h-4 mr-2" /> {t("client.social.generate", { defaultValue: "Generate Video" })}
                 </Button>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Campaign Analytics */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <BarChart3 className="w-10 h-10 text-pink-400 mb-6" />
@@ -88,20 +89,20 @@ export function StudioContent() {
                 <div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-400" /> <span className="font-bold">890</span></div>
                 <div className="flex items-center gap-2"><Share2 className="w-4 h-4 text-blue-400" /> <span className="font-bold">{t("social_media.studiocontent.auto_ext_2")}</span></div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Automated Scheduling */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group">
               <Send className="w-10 h-10 text-blue-400 mb-6" />
               <h3 className="text-2xl font-bold mb-4">{t("client.social.panel3_title", { defaultValue: "Autopilot Posting" })}</h3>
               <p className="text-slate-400 text-sm">
                 {t("client.social.panel3_desc", { defaultValue: "Schedule posts automatically based on maximum online activity algorithms." })}
               </p>
-            </motion.div>
+            </m.div>
 
             {/* Reach stats */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
+            <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
               className="md:col-span-2 bg-gradient-to-br from-purple-950/40 to-slate-950/40 border border-purple-500/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
                 <Users className="w-12 h-12 text-purple-400 mb-6" />
@@ -110,7 +111,7 @@ export function StudioContent() {
                   {t("client.social.panel4_desc", { defaultValue: "Leverage viral real estate algorithms to find high-value clients across visual platforms organically." })}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>

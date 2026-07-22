@@ -28,7 +28,7 @@ import {
   Cpu
 } from 'lucide-react';
 import { PageShell } from '../layout/PageShell';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
@@ -120,7 +120,7 @@ export default function Availability() {
           <ScrollArea className="flex-1">
             <div className="p-4 space-y-4">
               {properties.map((property) => (
-                <motion.div
+                <m.div
                   key={property.id}
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setSelectedProperty(property.id)}
@@ -153,7 +153,7 @@ export default function Availability() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </ScrollArea>
@@ -163,7 +163,7 @@ export default function Availability() {
         <div className="flex-1 space-y-10 overflow-y-auto pr-4 scrollbar-hide">
           {currentProperty && (
             <AnimatePresence mode="wait">
-              <motion.div 
+              <m.div 
                 key={currentProperty.id}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -218,7 +218,7 @@ export default function Availability() {
                       </div>
                       <div className="space-y-4">
                          {availabilityData.map(log => (
-                           <motion.div 
+                           <m.div 
                              key={log.id} 
                              whileHover={{ x: 5 }}
                              className="p-6 bg-black/40 border border-white/5 rounded-[28px] flex items-center justify-between group"
@@ -241,12 +241,12 @@ export default function Availability() {
                                  <div className="text-lg font-black text-white italic font-mono leading-none">{log.price}</div>
                                  <Badge className="bg-white/2 border-white/5 text-[8px] font-bold text-slate-500 mt-2">{log.status}</Badge>
                               </div>
-                           </motion.div>
+                           </m.div>
                          ))}
                       </div>
                    </div>
                 </div>
-              </motion.div>
+              </m.div>
             </AnimatePresence>
           )}
         </div>

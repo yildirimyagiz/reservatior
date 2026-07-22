@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
 import { apiClient } from "@/lib/api/client";
 export default function ForgotPassword() {
@@ -38,7 +38,7 @@ export default function ForgotPassword() {
     return <div className="min-h-screen bg-background flex flex-col">
         
         <div className="flex-1 flex items-center justify-center p-4">
-          <motion.div initial={{
+          <m.div initial={{
           opacity: 0,
           scale: 0.95
         }} animate={{
@@ -59,7 +59,7 @@ export default function ForgotPassword() {
                 <Button variant="ghost" onClick={() => setIsSubmitted(false)} className="w-full h-11 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl">{t("client.src.send_another_email")}</Button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>;
   }
@@ -72,7 +72,7 @@ export default function ForgotPassword() {
       </div>
 
       <div className="flex-1 flex items-center justify-center p-4">
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         scale: 0.95
       }} animate={{
@@ -116,7 +116,7 @@ export default function ForgotPassword() {
               <Link to="/client/login" className="text-blue-400 hover:text-blue-300 hover:underline transition-colors font-medium">{t("client.src.sign_in")}</Link>
             </p>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </div>;
 }

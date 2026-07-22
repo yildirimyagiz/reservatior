@@ -15,7 +15,7 @@ import { useAuth } from "@/lib/auth/hooks";
 import { ArrowLeft, Briefcase, Calendar, MapPin, User, Shield, Bell, CheckCircle, Fingerprint, Camera, Save } from "lucide-react";
 import { SecuritySettings } from "@/components/profile/SecuritySettings";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 export default function Profile() {
   const {
@@ -42,7 +42,7 @@ export default function Profile() {
 
       <div className="max-w-7xl mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div initial={{
+        <m.div initial={{
         opacity: 0,
         y: -20
       }} animate={{
@@ -62,11 +62,11 @@ export default function Profile() {
               <p className="text-[10px] font-black text-slate-500 tracking-[0.3em] italic">{t('profileSubtitle')}</p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Identity Card */}
-          <motion.div initial={{
+          <m.div initial={{
           opacity: 0,
           x: -20
         }} animate={{
@@ -128,10 +128,10 @@ export default function Profile() {
                 </Button>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Config Matrix */}
-          <motion.div initial={{
+          <m.div initial={{
           opacity: 0,
           x: 20
         }} animate={{
@@ -248,7 +248,7 @@ export default function Profile() {
                 </Tabs>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </div>;

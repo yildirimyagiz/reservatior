@@ -5,7 +5,7 @@ import { ShieldCheck, Clock, Users, Building2, CheckCircle, Star, Lock, ArrowUpR
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const PILLARS = [
@@ -58,7 +58,7 @@ export default function HospitalityStandardsPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-24">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
@@ -83,12 +83,12 @@ export default function HospitalityStandardsPage() {
               {t("hospitality_standards.hospitalitystandardspage.auto_ext_5")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           {PILLARS.map((pillar, idx) => (
-            <motion.div
+            <m.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -114,7 +114,7 @@ export default function HospitalityStandardsPage() {
                   </ul>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
@@ -126,7 +126,7 @@ export default function HospitalityStandardsPage() {
             { icon: ShieldCheck, label: "Safety Rating", value: "99.9%" },
             { icon: Star, label: "Guest Satisfaction", value: "4.9" }
           ].map((stat, idx) => (
-            <motion.div
+            <m.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -139,13 +139,13 @@ export default function HospitalityStandardsPage() {
                   <div className="text-sm text-gray-400">{stat.label}</div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
         {/* Features */}
         <div className="grid lg:grid-cols-2 gap-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6 }}
@@ -171,9 +171,9 @@ export default function HospitalityStandardsPage() {
                 ))}
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.7 }}
@@ -199,7 +199,7 @@ export default function HospitalityStandardsPage() {
                 ))}
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </div>

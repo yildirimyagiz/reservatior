@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "@/lib/react-router-shim";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export const ROICalculator = () => {
   const [searchParams] = useSearchParams();
@@ -34,7 +34,7 @@ export const ROICalculator = () => {
       <div className="absolute top-[-20%] left-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
 
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -67,6 +67,7 @@ export const ROICalculator = () => {
                 </div>
                 <input 
                   type="range" 
+                  aria-label="Total Units Managed"
                   min="500" max="100000" step="500"
                   value={units} 
                   onChange={(e) => setUnits(Number(e.target.value))}
@@ -82,6 +83,7 @@ export const ROICalculator = () => {
                 </div>
                 <input 
                   type="range" 
+                  aria-label="Average Monthly Rent per Unit"
                   min="800" max="5000" step="50"
                   value={rent} 
                   onChange={(e) => setRent(Number(e.target.value))}
@@ -97,6 +99,7 @@ export const ROICalculator = () => {
                 </div>
                 <input 
                   type="range" 
+                  aria-label="Estimated NOI Uplift Target"
                   min="0.5" max="10.0" step="0.1"
                   value={uplift} 
                   onChange={(e) => setUplift(Number(e.target.value))}
@@ -113,7 +116,7 @@ export const ROICalculator = () => {
           <div className="lg:col-span-7 flex flex-col justify-center space-y-6">
             
             {/* The Big Number */}
-            <motion.div 
+            <m.div 
               key={annualUplift}
               initial={{ scale: 0.95, opacity: 0.8 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -129,7 +132,7 @@ export const ROICalculator = () => {
               <p className="text-indigo-300 mt-4 text-sm">
                 Pure Net Operating Income added directly to your bottom line, requiring zero operational overhaul.
               </p>
-            </motion.div>
+            </m.div>
 
             {/* Core KPIs Expected */}
             <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl p-4 grid grid-cols-4 gap-4 divide-x divide-white/[0.05] text-center">
@@ -199,7 +202,7 @@ export const ROICalculator = () => {
             Reservatior B2B Advisory Layer. We sit on top of your existing PMS.
           </p>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 };

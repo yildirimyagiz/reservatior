@@ -1,14 +1,14 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { AI_MODELS, AIModelCategory } from "@/lib/ai-models";
 import { Sparkles, Bot, Video, Image as ImageIcon, Mic, ShieldCheck, Languages, Zap, ArrowRight, Cpu, Activity, Shield, Layers, Terminal, ChevronRight, Boxes, Workflow, Upload, FileText, Settings, Play } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { aiApi } from "@/lib/api/ai";
 import { apiClient } from "@/lib/api/client";
+import { useBfcache } from "@/hooks/use-bfcache";
 
 export function AIStudioContent() {
   const { t } = useTranslation();
@@ -52,10 +53,18 @@ export function AIStudioContent() {
   const [taskOutput, setTaskOutput] = useState<any>(null);
   const [taskError, setTaskError] = useState<string | null>(null);
 
+  const sseRef = useRef<EventSource | null>(null);
+
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
+    return () => {
+      sseRef.current?.close();
+      sseRef.current = null;
+    };
   }, []);
+
+  useBfcache(() => sseRef.current?.close());
 
   const handleStartTask = async () => {
     setIsProcessing(true);
@@ -130,11 +139,14 @@ export function AIStudioContent() {
   };
 
   const listenToTaskStream = (taskId: string) => {
+    sseRef.current?.close();
     const baseURL = apiClient.defaults.baseURL?.replace('/api/v1', '') || 'http://localhost:3000';
     const sse = new EventSource(`${baseURL}/api/v1/system/trigger-stream`);
+    sseRef.current = sse;
 
     const cleanup = () => {
       sse.close();
+      sseRef.current = null;
     };
 
     // Safety fallback: if task hangs, close SSE after 60s
@@ -310,6 +322,7 @@ export function AIStudioContent() {
                       <div>
                         <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">{t("studio.aistudiocontent.auto_ext_7")}</label>
                         <select 
+                          aria-label="Target Language"
                           value={targetLang} 
                           onChange={(e) => setTargetLang(e.target.value)}
                           className="w-full bg-[#14151a] border border-white/10 h-14 rounded-xl px-4 text-slate-200 font-bold"
@@ -348,6 +361,7 @@ export function AIStudioContent() {
                     <div>
                       <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">{t("studio.aistudiocontent.auto_ext_15")}</label>
                       <select 
+                        aria-label="Target Language (Captions & Summary)"
                         value={targetLang} 
                         onChange={(e) => setTargetLang(e.target.value)}
                         className="w-full bg-[#14151a] border border-white/10 h-14 rounded-xl px-4 text-slate-200 font-bold"
@@ -387,6 +401,7 @@ export function AIStudioContent() {
                       <div>
                         <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">Room Type</label>
                         <select 
+                          aria-label="Room Type"
                           value={roomType} 
                           onChange={(e) => setRoomType(e.target.value)}
                           className="w-full bg-[#14151a] border border-white/10 h-14 rounded-xl px-4 text-slate-200 font-bold"
@@ -399,6 +414,7 @@ export function AIStudioContent() {
                       <div>
                         <label className="text-xs font-black text-slate-400 tracking-wider block mb-2">Interior Style</label>
                         <select 
+                          aria-label="Interior Style"
                           value={stagingStyle} 
                           onChange={(e) => setStagingStyle(e.target.value)}
                           className="w-full bg-[#14151a] border border-white/10 h-14 rounded-xl px-4 text-slate-200 font-bold"
@@ -454,7 +470,7 @@ export function AIStudioContent() {
                       threshold: 90,
                       icon: Mic
                     }].map((node, i) => (
-                      <motion.div key={i} className={cn("bg-black/40 border border-white/5 rounded-3xl p-6 flex items-center justify-between group/node transition-all", isProcessing && progress > node.threshold ? "border-white/20 shadow-xl" : "")}>
+                      <m.div key={i} className={cn("bg-black/40 border border-white/5 rounded-3xl p-6 flex items-center justify-between group/node transition-all", isProcessing && progress > node.threshold ? "border-white/20 shadow-xl" : "")}>
                         <div className="flex items-center gap-6">
                            <div className={cn("h-10 w-10 rounded-2xl flex items-center justify-center transition-all duration-500", isProcessing && progress > node.threshold ? `${node.color}/20 text-white shadow-lg` : "bg-white/2 text-slate-600")}>
                               <node.icon className="w-5 h-5" />
@@ -467,17 +483,17 @@ export function AIStudioContent() {
                             <span className="text-[10px] font-black text-emerald-400 italic">{t("client.src.processing")}</span>
                           </div>
                         )}
-                      </motion.div>
+                      </m.div>
                     ))}
                     
                     <div className="relative h-2 w-full bg-black/40 rounded-full mt-6 overflow-hidden border border-white/5 shadow-inner">
-                      <motion.div className="h-full bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 relative" animate={{
+                      <m.div className="h-full bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 relative" animate={{
                         width: `${progress}%`
                       }} transition={{
                         ease: "linear"
                       }}>
                         <div className="absolute top-0 right-0 h-full w-20 bg-gradient-to-r from-transparent to-white/40 blur-sm"></div>
-                      </motion.div>
+                      </m.div>
                     </div>
                   </div>
                   
@@ -579,7 +595,7 @@ export function AIStudioContent() {
                            <span className="text-white">{t("client.src.584_gb")}<span className="text-slate-600 text-[8px]">{t("studio.aistudiocontent.auto_ext_20")}</span></span>
                         </div>
                         <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner">
-                           <motion.div initial={{ width: 0 }} animate={{ width: "73%" }} className="h-full bg-blue-600 shadow-[0_0_10px_#2563eb]" />
+                           <m.div initial={{ width: 0 }} animate={{ width: "73%" }} className="h-full bg-blue-600 shadow-[0_0_10px_#2563eb]" />
                         </div>
                       </div>
 
@@ -589,7 +605,7 @@ export function AIStudioContent() {
                            <span className="text-white">{t("client.src.412_ts")}<span className="text-emerald-500 text-[8px] animate-pulse">{t("client.src.updating")}</span></span>
                         </div>
                         <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner">
-                           <motion.div initial={{ width: 0 }} animate={{ width: "88%" }} className="h-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
+                           <m.div initial={{ width: 0 }} animate={{ width: "88%" }} className="h-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
                         </div>
                       </div>
                     </div>

@@ -10,7 +10,7 @@ import {
   Plus,
   Clock
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const events = [
@@ -42,7 +42,7 @@ export default function CalendarPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -60,11 +60,11 @@ export default function CalendarPage() {
               {t("calendar.calendarpage.auto_ext_3")}
                                       </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Calendar Grid */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
@@ -112,10 +112,10 @@ export default function CalendarPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Upcoming Events */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
@@ -152,7 +152,7 @@ export default function CalendarPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </div>

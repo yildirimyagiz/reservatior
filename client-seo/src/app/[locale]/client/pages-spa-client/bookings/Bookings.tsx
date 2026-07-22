@@ -15,7 +15,7 @@ import { useBookings, useVerifyOwnership, useCreateSecurityScreening, useBooking
 import { format } from "date-fns";
 import { Search, Shield, AlertTriangle, CheckCircle, Clock, Eye, Download, AlertCircle, Zap, Activity, ArrowUpRight, Fingerprint } from "lucide-react";
 import { PageShell } from "../layout/PageShell";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { BookingStatus, SecurityRiskLevel, VerificationMethod, SecurityScreeningStatus } from "@/lib/api/bookings";
 export default function BookingsPage() {

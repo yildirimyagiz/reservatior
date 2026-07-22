@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate, useParams } from "@/lib/react-router-shim";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Mail, Eye, EyeOff, AlertCircle, Facebook, Twitter, Linkedin } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -88,7 +88,7 @@ export default function Login() {
       </div>
 
       <div className="flex-1 flex items-center justify-center p-4 pt-20 pb-10">
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 20 }} 
           animate={{ opacity: 1, y: 0 }} 
           transition={{ duration: 0.5, ease: "easeOut" }}
@@ -146,7 +146,8 @@ export default function Login() {
                   type="button" 
                   variant="ghost" 
                   size="icon" 
-                  className="absolute right-1 top-1 h-10 w-10 hover:bg-accent rounded-lg text-muted-foreground hover:text-foreground" 
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-1 top-1 h-12 w-12 hover:bg-accent rounded-lg text-muted-foreground hover:text-foreground" 
                   onClick={() => setShowPassword(!showPassword)} 
                   disabled={loading || isLoading}
                 >
@@ -187,16 +188,16 @@ export default function Login() {
           </div>
 
           <div className="grid grid-cols-4 gap-3">
-            <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("google")} disabled={loading || isLoading}>
+            <Button type="button" variant="outline" aria-label="Sign in with Google" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("google")} disabled={loading || isLoading}>
               <GoogleIcon className="h-5 w-5" />
             </Button>
-            <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("facebook")} disabled={loading || isLoading}>
+            <Button type="button" variant="outline" aria-label="Sign in with Facebook" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("facebook")} disabled={loading || isLoading}>
               <Facebook className="h-5 w-5" />
             </Button>
-            <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("twitter")} disabled={loading || isLoading}>
+            <Button type="button" variant="outline" aria-label="Sign in with Twitter" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("twitter")} disabled={loading || isLoading}>
               <Twitter className="h-5 w-5" />
             </Button>
-            <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("linkedin")} disabled={loading || isLoading}>
+            <Button type="button" variant="outline" aria-label="Sign in with LinkedIn" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("linkedin")} disabled={loading || isLoading}>
               <Linkedin className="h-5 w-5" />
             </Button>
           </div>
@@ -204,7 +205,7 @@ export default function Login() {
           <p className="text-center text-sm text-muted-foreground mt-8">{t("client.src.dont_have_an_account")}{" "}
             <Link to="/client/signup" className="text-primary hover:text-primary/80 hover:underline transition-colors font-semibold">{t("client.src.sign_up_now")}</Link>
           </p>
-        </motion.div>
+        </m.div>
       </div>
 
     </div>

@@ -2,7 +2,7 @@
 
 import { t } from "i18next";
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -583,11 +583,12 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
                    <span className="text-slate-400">Base Revenue Estimate</span>
                    <span className="text-white">${baseRevenue.toLocaleString()}</span>
                  </div>
-                 <input 
-                   type="range" min="1000" max="50000" step="500" 
-                   value={baseRevenue} onChange={e => setBaseRevenue(Number(e.target.value))}
-                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
-                 />
+                  <input 
+                    type="range" min="1000" max="50000" step="500" 
+                    aria-label="Base Revenue Estimate"
+                    value={baseRevenue} onChange={e => setBaseRevenue(Number(e.target.value))}
+                    className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                  />
                </div>
 
                <div className="space-y-2">
@@ -595,11 +596,12 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
                    <span className="text-slate-400">Exposure Score (Visibility)</span>
                    <span className="text-orange-400">{Math.round(exposure * 100)}%</span>
                  </div>
-                 <input 
-                   type="range" min="0.1" max="1.0" step="0.05" 
-                   value={exposure} onChange={e => setExposure(Number(e.target.value))}
-                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
-                 />
+                  <input 
+                    type="range" min="0.1" max="1.0" step="0.05" 
+                    aria-label="Exposure Score"
+                    value={exposure} onChange={e => setExposure(Number(e.target.value))}
+                    className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                  />
                </div>
 
                <div className="space-y-2">
@@ -607,11 +609,12 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
                    <span className="text-slate-400">Engagement Rate</span>
                    <span className="text-orange-400">{Math.round(engagement * 100)}%</span>
                  </div>
-                 <input 
-                   type="range" min="0.1" max="1.0" step="0.05" 
-                   value={engagement} onChange={e => setEngagement(Number(e.target.value))}
-                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
-                 />
+                  <input 
+                    type="range" min="0.1" max="1.0" step="0.05" 
+                    aria-label="Engagement Rate"
+                    value={engagement} onChange={e => setEngagement(Number(e.target.value))}
+                    className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                  />
                </div>
 
                <div className="space-y-2">
@@ -619,11 +622,12 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
                    <span className="text-slate-400">Lead Conversion Prob</span>
                    <span className="text-orange-400">{Math.round(conversion * 100)}%</span>
                  </div>
-                 <input 
-                   type="range" min="0.1" max="1.0" step="0.05" 
-                   value={conversion} onChange={e => setConversion(Number(e.target.value))}
-                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
-                 />
+                  <input 
+                    type="range" min="0.1" max="1.0" step="0.05" 
+                    aria-label="Lead Conversion Probability"
+                    value={conversion} onChange={e => setConversion(Number(e.target.value))}
+                    className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                  />
                </div>
 
                <div className="space-y-2">
@@ -631,11 +635,12 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
                    <span className="text-slate-400">Monthly Time Decay</span>
                    <span className="text-blue-400">{(timeDecay).toFixed(2)}x</span>
                  </div>
-                 <input 
-                   type="range" min="0.80" max="1.0" step="0.01" 
-                   value={timeDecay} onChange={e => setTimeDecay(Number(e.target.value))}
-                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
-                 />
+                  <input 
+                    type="range" min="0.80" max="1.0" step="0.01" 
+                    aria-label="Monthly Time Decay"
+                    value={timeDecay} onChange={e => setTimeDecay(Number(e.target.value))}
+                    className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                  />
                </div>
 
                <div className="space-y-2">
@@ -643,11 +648,12 @@ function PrivateYieldDashboard({ agreement }: PrivateYieldDashboardProps) {
                    <span className="text-slate-400">Tenant Behavior Multiplier</span>
                    <span className="text-blue-400">{(behavior).toFixed(2)}x</span>
                  </div>
-                 <input 
-                   type="range" min="0.50" max="1.50" step="0.05" 
-                   value={behavior} onChange={e => setBehavior(Number(e.target.value))}
-                   className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
-                 />
+                  <input 
+                    type="range" min="0.50" max="1.50" step="0.05" 
+                    aria-label="Tenant Behavior Multiplier"
+                    value={behavior} onChange={e => setBehavior(Number(e.target.value))}
+                    className="w-full accent-orange-500 h-1 bg-white/10 rounded-lg cursor-pointer"
+                  />
                </div>
              </div>
            </div>
@@ -812,22 +818,22 @@ export default function SubscriptionsPage() {
         
         {/* Header Section */}
         <div className="text-center max-w-4xl mx-auto space-y-6 pt-10">
-          <motion.div initial={{
+          <m.div initial={{
           opacity: 0,
           scale: 0.9
         }} animate={{
           opacity: 1,
           scale: 1
         }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px] font-black tracking-widest mb-2">
-            <Sparkles className="w-4 h-4" />{t("client.src.ai_media_infrastructure")}</motion.div>
+            <Sparkles className="w-4 h-4" />{t("client.src.ai_media_infrastructure")}</m.div>
           
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 p-4 rounded-xl mb-6 shadow-lg shadow-emerald-500/10">
+          <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 p-4 rounded-xl mb-6 shadow-lg shadow-emerald-500/10">
             <div className="flex items-center justify-center gap-2 font-bold text-lg">
               <Crown className="w-6 h-6 text-emerald-400" />
               <span>{t("client.src.plans.discount_notice")}</span>
             </div>
             <p className="text-emerald-100/80 text-sm mt-1">{t("client.src.plans.commission_notice")}</p>
-          </motion.div>
+          </m.div>
           
 
 
@@ -867,7 +873,7 @@ export default function SubscriptionsPage() {
           <div className={cn("grid gap-8 max-w-7xl mx-auto auto-rows-fr mt-20 pb-20", plans.length >= 3 ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1 md:grid-cols-2")}>
           {plans.map((plan, idx) => {
           const price = isAnnual ? plan.priceYearly : plan.priceMonthly;
-          return <motion.div key={plan.id} initial={{
+          return <m.div key={plan.id} initial={{
             opacity: 0,
             y: 30
           }} animate={{
@@ -940,7 +946,7 @@ export default function SubscriptionsPage() {
                     </Button>
                   </CardFooter>
                 </Card>
-              </motion.div>;
+              </m.div>;
         })}
         </div>
         )}

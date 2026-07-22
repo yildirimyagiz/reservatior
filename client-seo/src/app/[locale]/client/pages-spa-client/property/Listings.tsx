@@ -41,7 +41,7 @@ import {
   ArrowLeft
 } from "lucide-react";
 import CategoryPicker from "@/components/property/CategoryPicker";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
@@ -180,7 +180,7 @@ export default function Listings() {
 
       <div className="max-w-[1600px] mx-auto space-y-12 relative z-10">
         {/* Header HUD */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col md:flex-row md:items-center justify-between gap-10"
@@ -234,7 +234,7 @@ export default function Listings() {
                <Plus className="w-5 h-5 mr-3" /> {t('client.property.listings.newListing')}
              </Button>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -244,7 +244,7 @@ export default function Listings() {
              { label: t('leads'), value: listings.reduce((s, l) => s + (l.leads || 0), 0), icon: MessageSquare, color: "text-blue-400", bg: "bg-blue-500/10" },
              { label: t('credits'), value: activeSub?.type || "BASIC", icon: Rocket, color: "text-purple-400", bg: "bg-purple-500/10" }
            ].map((s, i) => (
-             <motion.div
+             <m.div
                key={i}
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
@@ -264,12 +264,12 @@ export default function Listings() {
                    </div>
                  </div>
                </Card>
-             </motion.div>
+             </m.div>
            ))}
         </div>
 
         {/* Filters Card */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
         >
@@ -277,11 +277,12 @@ export default function Listings() {
             <div className="flex flex-col md:flex-row items-center gap-8">
                <div className="flex-1 w-full relative group">
                   <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                  <input 
-                    placeholder={t('client.property.listings.search')}
-                    className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800"
-                    value={search} onChange={(e) => setSearch(e.target.value)}
-                  />
+                   <input 
+                     placeholder={t('client.property.listings.search')}
+                     aria-label="Search listings"
+                     className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800"
+                     value={search} onChange={(e) => setSearch(e.target.value)}
+                   />
                </div>
                <Select value={filterStatus} onValueChange={setFilterStatus}>
                   <SelectTrigger className="w-full md:w-64 h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest">
@@ -296,7 +297,7 @@ export default function Listings() {
                </Select>
             </div>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Content Surface */}
         <AnimatePresence mode="wait">
@@ -306,15 +307,15 @@ export default function Listings() {
               <p className="text-[10px] font-black tracking-[0.3em] italic text-slate-600">{t('client.property.listings.syncing')}</p>
             </div>
           ) : viewMode === "visual" ? (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                {filtered.map((l, idx) => (
-                  <motion.div key={l.id} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
+                  <m.div key={l.id} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
                      <Card className={cn(
                        "group relative bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl transition-all duration-500 hover:shadow-3xl h-full flex flex-col hover:border-blue-500/30 hover:bg-white/5",
                        l.isDoped ? "border-amber-500/30 shadow-amber-900/10 ring-1 ring-amber-500/20" : ""
                      )}>
                         <div className="aspect-video relative overflow-hidden">
-                          {l.photos?.[0] ? <Image src={l.photos[0]} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-1000 brightness-90 group-hover:brightness-100" sizes="(max-width: 768px) 100vw, 50vw" /> : <div className="w-full h-full flex items-center justify-center bg-black/40"><Camera className="w-20 h-20 text-white/5" /></div>}
+                          {l.photos?.[0] ? <Image src={l.photos[0]} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-1000 brightness-90 group-hover:brightness-100" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" /> : <div className="w-full h-full flex items-center justify-center bg-black/40"><Camera className="w-20 h-20 text-white/5" /></div>}
                           
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 pointer-events-none" />
                           
@@ -374,11 +375,11 @@ export default function Listings() {
                            </Button>
                         </CardContent>
                      </Card>
-                  </motion.div>
+                  </m.div>
                ))}
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl">
+            <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl">
                <Table>
                   <TableHeader className="bg-white/2 border-b border-white/5">
                      <TableRow className="hover:bg-transparent border-none">
@@ -395,7 +396,7 @@ export default function Listings() {
                           <TableCell className="px-10 py-8">
                              <div className="flex items-center gap-8">
                                 <div className="w-20 h-20 rounded-[24px] bg-black/40 border border-white/5 overflow-hidden shrink-0 shadow-inner relative group-hover/row:scale-105 transition-transform duration-500">
-                                    {l.photos?.[0] ? <Image src={l.photos[0]} alt="" fill className="object-cover" sizes="80px" /> : <Camera className="w-full h-full p-6 text-white/5" />}
+                                    {l.photos?.[0] ? <Image src={l.photos[0]} alt="" fill className="object-cover" loading="lazy" sizes="80px" /> : <Camera className="w-full h-full p-6 text-white/5" />}
                                    {l.isDoped && <div className="absolute top-2 right-2"><Zap className="w-4 h-4 text-amber-500 fill-amber-500 drop-shadow-[0_0_8px_#fbbf24]" /></div>}
                                 </div>
                                 <div className="space-y-2">
@@ -461,7 +462,7 @@ export default function Listings() {
                      ))}
                   </TableBody>
                </Table>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
 
@@ -480,12 +481,12 @@ export default function Listings() {
                 </div>
                 <div className="space-y-2">
                    <label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.listings.dialog.title')}</label>
-                   <input className="w-full h-16 bg-black/40 border border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" placeholder={t('client.property.listings.dialog.titlePlaceholder')} />
+                   <input aria-label="Listing title" className="w-full h-16 bg-black/40 border border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" placeholder={t('client.property.listings.dialog.titlePlaceholder')} />
                 </div>
                 <div className="grid grid-cols-2 gap-8">
                    <div className="space-y-2">
                       <label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('price')}</label>
-                      <input type="number" className="w-full h-16 bg-black/40 border border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest" />
+                      <input type="number" aria-label="Listing price" className="w-full h-16 bg-black/40 border border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest" />
                    </div>
                    <div className="space-y-2">
                       <label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.listings.dialog.type')}</label>

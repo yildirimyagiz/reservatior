@@ -9,7 +9,7 @@ import { Button } from"@/components/ui/button";
 import { Progress } from"@/components/ui/progress";
 import { Brain, TrendingUp, Zap, BarChart3, Sparkles, Activity, AlertTriangle, CheckCircle2, Clock, ArrowUpRight, Cpu, LineChart, Target, RefreshCw, Play, Pause } from"lucide-react";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from"recharts";
-import { motion } from"framer-motion";
+import { m } from"framer-motion";
 const processingData = [{
  time:"00:00",
  requests: 2400,
@@ -212,7 +212,7 @@ export default function AIDashboard() {
  icon: Zap,
  color:"text-amber-400",
  bg:"bg-amber-500/10"
- }].map((stat, idx) => <motion.div key={stat.label} initial={{
+ }].map((stat, idx) => <m.div key={stat.label} initial={{
  opacity: 0,
  y: 20
  }} animate={{
@@ -235,7 +235,7 @@ export default function AIDashboard() {
  <h3 className="text-2xl font-bold mt-1 text-foreground">{stat.value}</h3>
  </CardContent>
  </Card>
- </motion.div>)}
+ </m.div>)}
  </div>
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -307,7 +307,7 @@ export default function AIDashboard() {
  </CardHeader>
  <CardContent>
  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
- {activeModels.map((model, idx) => <motion.div key={model.name} initial={{
+ {activeModels.map((model, idx) => <m.div key={model.name} initial={{
  opacity: 0,
  scale: 0.95
  }} animate={{
@@ -339,7 +339,7 @@ export default function AIDashboard() {
  {model.load}%
  </Badge>
  </div>
- </motion.div>)}
+ </m.div>)}
  </div>
  </CardContent>
  </Card>
@@ -351,7 +351,7 @@ export default function AIDashboard() {
  <Target className="w-5 h-5 text-primary" />{t("admin_ai_recent_ai_activities")}</CardTitle>
  </CardHeader>
  <CardContent className="space-y-3">
- {recentActivities.map((activity, idx) => <motion.div key={idx} initial={{
+ {recentActivities.map((activity, idx) => <m.div key={idx} initial={{
  opacity: 0,
  x: -10
  }} animate={{
@@ -369,7 +369,7 @@ export default function AIDashboard() {
  </div>
  {activity.accuracy !=="—" && <Badge variant="outline" className="text-xs shrink-0 text-muted-foreground">{activity.accuracy}</Badge>}
  <span className="text-xs text-muted-foreground whitespace-nowrap">{activity.time}</span>
- </motion.div>)}
+ </m.div>)}
  </CardContent>
  </Card>
  </div>;

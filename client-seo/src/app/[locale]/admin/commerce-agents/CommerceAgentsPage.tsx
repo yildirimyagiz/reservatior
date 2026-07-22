@@ -16,7 +16,7 @@ import {
   DollarSign,
   Award,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -99,7 +99,7 @@ export default function CommerceAgentsPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -117,10 +117,10 @@ export default function CommerceAgentsPage() {
               </p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Summary Cards */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -197,10 +197,10 @@ export default function CommerceAgentsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Search and Filters */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
@@ -253,10 +253,10 @@ export default function CommerceAgentsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Agents Table */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -349,7 +349,7 @@ export default function CommerceAgentsPage() {
                               }}
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8"
+                              className="min-h-10 min-w-10 h-10 w-10"
                             >
                               <Edit className="w-4 h-4" />
                             </Button>
@@ -360,7 +360,7 @@ export default function CommerceAgentsPage() {
                               }}
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 text-red-400"
+                              className="min-h-10 min-w-10 h-10 w-10 text-red-400"
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
@@ -373,7 +373,7 @@ export default function CommerceAgentsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
 
         {/* Create Dialog */}
         <CreateAgentDialog
