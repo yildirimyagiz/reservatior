@@ -5,21 +5,25 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
+import { GetCountries, GetAllCities } from "react-country-state-city";
 import type { Country, City } from "react-country-state-city/dist/umd/types";
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, 
   ArrowRight, ShieldCheck, ChevronDown, Monitor, Gem, CheckCircle2, Mouse
 } from "lucide-react";
-import { m, AnimatePresence } from "framer-motion";
-import dynamic from "next/dynamic";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
-const AIChatModal = dynamic(() => import("@/components/home/AIChatModal").then(m => m.AIChatModal), { ssr: false });
-const SupportChatModal = dynamic(() => import("@/components/home/SupportChatModal").then(m => m.SupportChatModal), { ssr: false });
+import { useIsMobile } from "@/components/hooks/use-mobile";
+import { InvestmentWidget } from "@/components/investment/InvestmentWidget";
+import dynamic from 'next/dynamic';
+
+const AIChatModal = dynamic(() => import('@/components/home/AIChatModal').then(mod => mod.AIChatModal), { ssr: false });
+const SupportChatModal = dynamic(() => import('@/components/home/SupportChatModal').then(mod => mod.SupportChatModal), { ssr: false });
 
 // Supported countries based on Prisma configurations in server/config
 const SUPPORTED_COUNTRIES = [
@@ -49,6 +53,7 @@ const VIBES = [
 ];
 
 function EcosystemPreview() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
@@ -96,7 +101,7 @@ function EcosystemPreview() {
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 mb-6 border border-purple-500/20 shadow-[0_0_30px_rgba(168,85,247,0.15)]">
               <Gem className="w-10 h-10 text-purple-500 dark:text-purple-400" />
             </div>
-            <p className="text-5xl font-black text-foreground mb-2">12,450</p>
+            <span className="text-5xl font-black text-foreground mb-2 block">12,450</span>
             <p className="text-muted-foreground font-medium">Reward Points Available</p>
           </div>
           <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl p-4 border border-purple-500/20 mt-6 text-center shadow-inner">
@@ -116,11 +121,11 @@ function EcosystemPreview() {
             { label: "Credit Score Analysis", status: "Excellent", color: "text-emerald-500 dark:text-emerald-400", bg: "bg-emerald-500/5 border-emerald-500/20" },
             { label: "Payment Escrow Account", status: "Secured", color: "text-indigo-500 dark:text-indigo-400", bg: "bg-indigo-500/5 border-indigo-500/20" },
           ].map((item, i) => (
-            <m.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}
+            <motion.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}
               className={`flex justify-between items-center p-5 rounded-2xl border ${item.bg}`}>
               <span className="text-foreground/80 font-medium">{item.label}</span>
               <span className={`font-bold ${item.color}`}>{item.status}</span>
-            </m.div>
+            </motion.div>
           ))}
         </div>
       )
@@ -136,6 +141,7 @@ function EcosystemPreview() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(i)}
+              aria-label={t(`home.tab_${tab.id}`, { defaultValue: tab.title })}
               className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all flex items-center gap-2 ${
                 activeTab === i ? 'bg-background text-foreground shadow-sm' : 'bg-transparent text-muted-foreground hover:text-foreground'
               }`}
@@ -150,7 +156,7 @@ function EcosystemPreview() {
       {/* Content area with AnimatePresence */}
       <div className="flex-1 relative overflow-hidden min-h-[250px]">
         <AnimatePresence mode="wait">
-          <m.div
+          <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -159,7 +165,7 @@ function EcosystemPreview() {
             className="absolute inset-0 flex flex-col justify-center"
           >
             {tabs[activeTab].content}
-          </m.div>
+          </motion.div>
         </AnimatePresence>
       </div>
       
@@ -198,23 +204,17 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
 
-  const [videoMounted, setVideoMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  useEffect(() => { setIsMobile(window.innerWidth < 768); setVideoMounted(true); }, []);
-
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { provider, apiKey } = useMapProvider();
-  const [heroOpacity, setHeroOpacity] = useState(1);
+  const { scrollY } = useScroll();
+  const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const opacity = Math.max(0, 1 - scrollY / 600);
-      setHeroOpacity(opacity);
-      if (scrollY > 10 && !heroRevealed) setHeroRevealed(true);
+      // Also trigger reveal on scroll
+      if (window.scrollY > 10 && !heroRevealed) setHeroRevealed(true);
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [heroRevealed]);
 
@@ -224,12 +224,13 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     return () => clearTimeout(timer);
   }, []);
 
-  // Load countries (dynamic import to reduce initial bundle)
+  // Load countries (use local data to avoid external GitHub Pages fetch)
   useEffect(() => {
     const loadCountries = async () => {
       try {
-        const { GetCountries } = await import("react-country-state-city");
-        const allCountries = await GetCountries("/country-data");
+        const folderUrl = typeof window !== 'undefined' ? `${window.location.origin}/country-data` : "/country-data";
+        const allCountries = await GetCountries(folderUrl);
+        // Filter out only the countries we have Prisma configurations for
         const supported = allCountries.filter((c: Country) => SUPPORTED_COUNTRIES.includes(c.iso2));
         setCountries(supported);
       } catch (error) {
@@ -239,13 +240,15 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     loadCountries();
   }, []);
 
-  // Load cities for autocomplete based on selected country (dynamic import)
+  // Load cities for autocomplete based on selected country (use local data)
   useEffect(() => {
     const loadCities = async () => {
       try {
-        const { GetAllCities } = await import("react-country-state-city");
-        const cities = await GetAllCities("/country-data");
-        setLocationSuggestions(cities.slice(0, 50));
+        const folderUrl = typeof window !== 'undefined' ? `${window.location.origin}/country-data` : "/country-data";
+        const cities = await GetAllCities(folderUrl);
+        // Note: City type doesn't include countryCode, so we load all cities
+        // Google Places API will handle country-specific filtering
+        setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
       } catch (error) {
         console.error('Error loading cities:', error);
       }
@@ -311,24 +314,17 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     });
   }, [response]);
 
+  const isMobile = useIsMobile();
   const [currentSlide, setCurrentSlide] = useState(0);
   useEffect(() => { const iv = setInterval(() => setCurrentSlide(c => (c + 1) % Math.max(slides.length, 4)), 6000); return () => clearInterval(iv); }, [slides.length]);
   const slide = slides[currentSlide] || slides[0];
 
   const bgVideo = useMemo(() => {
-    const videos = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4", "/videos/ozak-duyu-bg.mp4"];
+    const desktopVideos = ["/videos/ozak-bg-opt.mp4", "/videos/ozak-dragos-opt.mp4", "/videos/ozak-buyukyali-opt.mp4", "/videos/ozak-duyu-opt.mp4"];
+    const mobileVideos = ["/videos/ozak-bg-mobile.mp4", "/videos/ozak-dragos-mobile.mp4", "/videos/ozak-buyukyali-mobile.mp4", "/videos/ozak-duyu-mobile.mp4"];
+    const videos = isMobile ? mobileVideos : desktopVideos;
     return videos[currentSlide % videos.length];
-  }, [currentSlide]);
-
-  const allVideos = useMemo(() => ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4", "/videos/ozak-duyu-bg.mp4"], []);
-  const [mobileVideoPlaying, setMobileVideoPlaying] = useState(false);
-
-  const handleMobilePlay = useCallback(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-      setMobileVideoPlaying(true);
-    }
-  }, []);
+  }, [currentSlide, isMobile]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
@@ -337,114 +333,96 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       {/* ══════ CINEMATIC HERO ══════ */}
       <section className="relative h-[100svh] w-full flex flex-col overflow-hidden bg-black always-dark">
         {/* Video Background */}
-        <div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
-            {isMobile ? (
-              <div className="relative w-full h-full">
-                <Image
-                  src="/videos/poster.webp"
-                  alt="Reservatior hero"
-                  fill
-                  sizes="100vw"
-                  priority
-                  className="object-cover"
-                  style={{ filter: 'contrast(1.02) brightness(0.95)' }}
-                />
-                {!mobileVideoPlaying && (
-                  <button
-                    onClick={handleMobilePlay}
-                    className="absolute inset-0 z-10 flex items-center justify-center"
-                    aria-label="Play background video"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  </button>
-                )}
-                <video
-                  ref={videoRef}
-                  loop
-                  muted
-                  playsInline
-                  preload="none"
-                  width="1920"
-                  height="1080"
-                  onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
-                  className="w-full h-full object-cover"
-                  style={{ opacity: mobileVideoPlaying ? 1 : 0, filter: 'contrast(1.02) brightness(0.95)', transition: 'opacity 1s ease-out' }}
-                >
-                  <source src={`${bgVideo}#t=2`} type="video/mp4" />
-                </video>
-              </div>
-            ) : (
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload={currentSlide === 0 ? "metadata" : "none"}
-                width="1920"
-                height="1080"
-                poster="/videos/poster.webp"
-                onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
-                className="w-full h-full object-cover"
-                style={{ opacity: videoMounted ? 1 : 0, filter: 'contrast(1.02) brightness(0.95)', transition: 'opacity 1.5s ease-out' }}
-              >
-                <source src={`${bgVideo}#t=2`} type="video/mp4" />
-                <track kind="captions" src="/videos/captions.vtt" srcLang="en" label="English" />
-              </video>
-            )}
+        <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
+          <AnimatePresence mode="wait">
+            <motion.video
+              key={bgVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              poster="/poster.webp"
+              onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1.05 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="w-full h-full object-cover"
+            >
+              <source src={`${bgVideo}#t=2`} type="video/mp4" />
+            </motion.video>
+          </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />
-        </div>
+        </motion.div>
 
-        {/* ─── FAZ 1: LOGO + SCROLL ICON ─── */}
-        <div
-          style={{ opacity: heroRevealed ? 0 : 1, pointerEvents: heroRevealed ? 'none' : 'auto', transition: 'opacity 0.8s ease' }}
-          className="absolute inset-0 z-20 flex flex-col items-center justify-center"
-        >
-          <m.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="text-center"
-          >
-            <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-slate-400 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-              Reservatior
-            </h1>
-            <p className="text-white/80 text-sm md:text-base font-medium tracking-[0.3em] uppercase mt-4">
-              {t("home.hero.tagline", { defaultValue: "Global Luxury Real Estate OS" })}
-            </p>
-          </m.div>
-          <m.button
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer min-h-12 min-w-12 p-2"
-            onClick={() => setHeroRevealed(true)}
-            aria-label="Scroll to explore"
-          >
-            <Mouse className="w-6 h-6 text-white/80" />
-            <span className="text-white/70 text-[10px] font-bold tracking-[0.3em] uppercase">
-              {t("home.hero.scroll", { defaultValue: "Scroll to explore" })}
-            </span>
-          </m.button>
-        </div>
+        {/* ─── FAZ 1: LOGO + SCROLL ICON (Başlangıç) ─── */}
+        <AnimatePresence>
+          {!heroRevealed && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center"
+            >
+              {/* Logo */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="text-center"
+              >
+                <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-slate-400 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+                  Reservatior
+                </h1>
+                <p className="text-white/50 text-sm md:text-base font-medium tracking-[0.3em] uppercase mt-4">
+                  {t("home.hero.tagline", { defaultValue: "Global Luxury Real Estate OS" })}
+                </p>
+              </motion.div>
 
-        {/* ─── FAZ 2 & 3: SEARCH + PROJECT INFO ─── */}
-        <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end h-full pb-12 md:pb-20 min-h-[300px]">
+              {/* Scroll Down Indicator */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer"
+                onClick={() => setHeroRevealed(true)}
+              >
+                <motion.div
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Mouse className="w-6 h-6 text-white/60" />
+                </motion.div>
+                <span className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
+                  {t("home.hero.scroll", { defaultValue: "Scroll to explore" })}
+                </span>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-          {/* FLOATING SEARCH PILL */}
-          <div
-            style={{ opacity: heroRevealed ? 1 : 0, transform: heroRevealed ? 'translateY(0)' : 'translateY(60px)', transition: 'all 0.9s cubic-bezier(0.22, 1, 0.36, 1)', pointerEvents: heroRevealed ? 'auto' : 'none' }}
-            className="w-full max-w-4xl mx-auto mb-12"
-          >
+        {/* ─── FAZ 2 & 3: SEARCH + PROJECT INFO (Reveal sonrası) ─── */}
+        <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end h-full pb-12 md:pb-20">
+
+          {/* FLOATING SEARCH PILL (Faz 2) */}
+          <AnimatePresence>
+            {heroRevealed && (
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full max-w-4xl mx-auto mb-12"
+              >
                 {/* Search Tabs */}
-                <div role="tablist" className="flex justify-center items-center gap-6 mb-4">
+                <div className="flex justify-center items-center gap-6 mb-4">
                   {(["STAYS", "EXPERIENCES", "BUY"] as const).map(mode => (
-                    <button key={mode} onClick={() => setSearchMode(mode)} role="tab" aria-selected={searchMode === mode}
-                      className={`relative py-3 px-2 min-h-12 text-sm font-bold tracking-widest uppercase transition-all duration-300 ${searchMode === mode ? "text-white" : "text-white/70 hover:text-white/80"}`}>
+                    <button key={mode} onClick={() => setSearchMode(mode)}
+                      aria-label={t(`home.search.mode_${mode.toLowerCase()}`, { defaultValue: mode })}
+                      className={`relative text-sm font-bold tracking-widest uppercase transition-all duration-300 ${searchMode === mode ? "text-white" : "text-white/50 hover:text-white/80"}`}>
                       {t(`home.search.mode_${mode.toLowerCase()}`, { defaultValue: mode })}
-                      {searchMode === mode && <m.div layoutId="searchTabIndicator" className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white rounded-full" />}
+                      {searchMode === mode && <motion.div layoutId="searchTabIndicator" className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white rounded-full" />}
                     </button>
                   ))}
                 </div>
@@ -453,9 +431,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 <form onSubmit={handleSearch} className="bg-white/90 dark:bg-black/40 backdrop-blur-3xl p-3 rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.4)] border border-white/50 dark:border-white/20 relative">
                   {/* Country Selector */}
                   <div className="relative px-4 py-3 hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group">
+                    <label id="country-select-label" className="sr-only">Select Country</label>
                     <button
                       type="button"
                       onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                      aria-labelledby="country-select-label"
                       className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white"
                     >
                       <span>{countries.find(c => c.iso2 === selectedCountry)?.name || 'Turkey'}</span>
@@ -465,7 +445,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       <div className="absolute top-full left-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 w-64 max-h-80 overflow-hidden flex flex-col">
                         <div className="p-3 border-b border-slate-100 dark:border-white/10">
                           <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             <input
                               type="text"
                               aria-label={t('home.search.country_search', { defaultValue: 'Search country...' }) as string}
@@ -508,12 +488,12 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   <div className="hidden md:block w-[1px] h-10 bg-slate-300/50 dark:bg-white/10" />
 
                   <div className="flex-[1.5] px-6 py-3 w-full hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group cursor-text relative">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.where', { defaultValue: 'Location' })}</label>
+                    <label htmlFor="search-location" className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.where', { defaultValue: 'Location' })}</label>
                     <input 
                       ref={locationInputRef} 
                       type="text" 
+                      id="search-location"
                       value={searchLocation} 
-                      aria-label={t('home.search.where', { defaultValue: 'Location' }) as string}
                       onChange={(e) => {
                         setSearchLocation(e.target.value);
                         setShowLocationSuggestions(e.target.value.length > 0);
@@ -521,7 +501,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       onFocus={() => setShowLocationSuggestions(searchLocation.length > 0)}
                       onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
                       placeholder={t('home.search.where_hint', { defaultValue: 'Search destinations' }) as string}
-                      className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 placeholder:font-medium placeholder:text-slate-500" 
+                      className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 placeholder:font-medium placeholder:text-slate-400" 
                     />
                     {showLocationSuggestions && locationSuggestions.length > 0 && (
                       <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 max-h-60 overflow-y-auto">
@@ -538,7 +518,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                               }}
                               className="w-full px-6 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors flex items-center gap-3"
                             >
-                              <MapPin className="w-4 h-4 text-slate-500" />
+                              <MapPin className="w-4 h-4 text-slate-400" />
                               <span className="text-sm font-medium text-slate-900 dark:text-white">{city.name}</span>
                             </button>
                           ))}
@@ -551,8 +531,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {searchMode !== "BUY" && (
                     <>
                       <div className="flex-1 px-6 py-3 w-full hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.dates', { defaultValue: 'Dates' })}</label>
-                        <input type="date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)} aria-label={t('home.search.dates', { defaultValue: 'Dates' }) as string}
+                        <label htmlFor="search-date" className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.dates', { defaultValue: 'Dates' })}</label>
+                        <input type="date" id="search-date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)}
                           className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0" />
                       </div>
                       <div className="hidden md:block w-[1px] h-10 bg-slate-300/50 dark:bg-white/10" />
@@ -562,54 +542,60 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {searchMode !== "BUY" && (
                     <div className="flex-1 px-6 py-3 w-full hover:bg-white/50 dark:hover:bg-white/5 rounded-full transition-colors group relative">
                       <label htmlFor="search-guests" className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 block mb-1">{t('home.search.who', { defaultValue: 'Guests' })}</label>
-                      <select id="search-guests" value={searchGuests} onChange={(e) => setSearchGuests(Number(e.target.value))}
+                      <select id="search-guests" aria-label={t('home.search.who', { defaultValue: 'Guests' })} value={searchGuests} onChange={(e) => setSearchGuests(Number(e.target.value))}
                         className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 cursor-pointer appearance-none">
                         <option value={1}>{t('home.search.guest_1', { defaultValue: '1 Guest' })}</option>
                         <option value={2}>{t('home.search.guest_2', { defaultValue: '2 Guests' })}</option>
                         <option value={3}>{t('home.search.guest_3', { defaultValue: '3 Guests' })}</option>
                         <option value={4}>{t('home.search.guest_4', { defaultValue: '4+ Guests' })}</option>
                       </select>
-                      <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+                      <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                     </div>
                   )}
 
                   <div className="flex gap-2 w-full md:w-auto">
-                    <Button type="submit" aria-label="Search properties" className="w-full md:w-16 h-14 rounded-full bg-gradient-to-br from-slate-900 to-black hover:from-slate-800 hover:to-slate-900 dark:from-slate-100 dark:to-white dark:hover:from-slate-200 dark:hover:to-slate-100 dark:text-black text-white shadow-[0_0_20px_rgba(0,0,0,0.4)] border border-slate-700/50 dark:border-white/10 transition-all flex items-center justify-center shrink-0">
+                    <Button type="submit" className="w-full md:w-16 h-14 rounded-full bg-gradient-to-br from-slate-900 to-black hover:from-slate-800 hover:to-slate-900 dark:from-slate-100 dark:to-white dark:hover:from-slate-200 dark:hover:to-slate-100 dark:text-black text-white shadow-[0_0_20px_rgba(0,0,0,0.4)] border border-slate-700/50 dark:border-white/10 transition-all flex items-center justify-center shrink-0">
                       <Search className="w-6 h-6" />
                     </Button>
                     <Button 
                       type="button" 
                       onClick={() => setAiModalOpen(true)} 
-                      aria-label="AI Search"
                       className="w-full md:w-16 h-14 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 hover:from-blue-400 hover:via-indigo-400 hover:to-purple-500 text-white shadow-[0_0_30px_rgba(99,102,241,0.6)] border border-white/20 transition-all flex items-center justify-center shrink-0 group"
+                      title="AI Search"
                     >
                       <Sparkles className="w-6 h-6 animate-pulse group-hover:scale-110 transition-transform" />
                     </Button>
                   </div>
                 </form>
-              </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {/* PROJECT INFO + SLIDE CONTROLS */}
-          <div
-            style={{ opacity: heroRevealed ? 1 : 0, transform: heroRevealed ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s', pointerEvents: heroRevealed ? 'auto' : 'none' }}
-            className="w-full max-w-5xl mx-auto"
-          >
+          {/* PROJECT INFO + SLIDE CONTROLS (Faz 3) */}
+          <AnimatePresence>
+            {heroRevealed && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full"
+              >
                 <div className="flex items-end justify-between gap-6">
                   {/* Left: Project Info */}
                   <div className="flex-1 min-w-0">
                     {/* Tag */}
-                    <m.span
+                    <motion.span
                       key={`tag-${currentSlide}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="inline-block px-4 py-1.5 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border border-white/30 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
                     >
                       {slide.tag}
-                    </m.span>
+                    </motion.span>
 
                     {/* Project Name */}
                     <AnimatePresence mode="wait">
-                      <m.h2
+                      <motion.h2
                         key={`title-${currentSlide}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -618,11 +604,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                         className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300 tracking-tight leading-none mb-2 drop-shadow-lg"
                       >
                         {slide.title}
-                      </m.h2>
+                      </motion.h2>
                     </AnimatePresence>
 
                     {/* Location */}
-                    <m.div
+                    <motion.div
                       key={`loc-${currentSlide}`}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -631,7 +617,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                     >
                       <MapPin className="w-4 h-4" />
                       <span>{slide.location}</span>
-                    </m.div>
+                    </motion.div>
 
                     {/* Specs */}
                     <div className="flex items-center gap-3 flex-wrap">
@@ -654,14 +640,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => setCurrentSlide(c => (c - 1 + slides.length) % slides.length)}
-                        aria-label="Previous slide"
+                        aria-label={t('home.carousel.prev', { defaultValue: 'Previous slide' })}
                         className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all"
                       >
                         <ChevronLeft className="w-5 h-5 text-white" />
                       </button>
                       <button
                         onClick={() => setCurrentSlide(c => (c + 1) % slides.length)}
-                        aria-label="Next slide"
+                        aria-label={t('home.carousel.next', { defaultValue: 'Next slide' })}
                         className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all"
                       >
                         <ChevronRight className="w-5 h-5 text-white" />
@@ -671,20 +657,21 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 </div>
 
                 {/* Slide Indicators (Dots) */}
-                <div className="flex items-center justify-center gap-0 mt-8">
+                <div className="flex items-center justify-center gap-2 mt-8">
                   {slides.map((_: unknown, i: number) => (
                     <button
                       key={i}
                       onClick={() => setCurrentSlide(i)}
-                      aria-label={`Go to slide ${i + 1}`}
-                      className="relative w-12 h-12 flex items-center justify-center">
-                      <span className={`h-1.5 rounded-full transition-all duration-500 ${
+                      aria-label={t('home.carousel.go_to_slide', { defaultValue: `Go to slide ${i + 1}` })}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${
                         i === currentSlide ? "w-8 bg-white" : "w-3 bg-white/30 hover:bg-white/50"
-                      }`} />
-                    </button>
+                      }`}
+                    />
                   ))}
                 </div>
-              </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 
@@ -692,7 +679,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       <section className="py-12 border-b border-border bg-background">
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex gap-8 overflow-x-auto no-scrollbar snap-x pb-4">
           {VIBES.map((vibe, i) => (
-            <m.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
               className="flex flex-col items-center gap-3 min-w-[80px] cursor-pointer group snap-start">
               <div className="text-3xl grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 group-hover:-translate-y-1">
                 {vibe.icon}
@@ -700,7 +687,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               <span className="text-xs font-bold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors uppercase">
                 {vibe.name}
               </span>
-            </m.div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -708,7 +695,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       {/* ══════ BENTO GRID (FEATURED) ══════ */}
       <section className="py-24 bg-background">
         <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-          <m.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-between items-end mb-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-between items-end mb-16">
             <div>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">{t("home.curated.title", { defaultValue: "Curated Collections" })}</h2>
               <p className="text-lg text-muted-foreground max-w-xl font-medium">{t("home.curated.subtitle", { defaultValue: "Handpicked properties that redefine luxury living and smart hospitality." })}</p>
@@ -719,7 +706,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
-          </m.div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:h-[600px]">
             {/* Bento Block 1 (Large) */}
@@ -738,7 +725,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <m.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <span className="text-indigo-400 font-black tracking-widest uppercase text-sm mb-4 block">
                 {t("home.ecosystem.badge", { defaultValue: "Hospitality OS" })}
               </span>
@@ -760,7 +747,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       <feature.icon className="w-6 h-6 text-foreground" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-foreground">{feature.title}</h3>
+                      <h4 className="text-lg font-bold text-foreground">{feature.title}</h4>
                       <p className="text-muted-foreground text-sm">{feature.desc}</p>
                     </div>
                   </div>
@@ -772,14 +759,19 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {t("home.ecosystem.cta", { defaultValue: "Explore The Platform" })}
                 </Link>
               </Button>
-            </m.div>
+            </motion.div>
 
-            <m.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
               className="relative aspect-square md:aspect-auto md:h-[700px] w-full rounded-[3rem] border border-border bg-gradient-to-br from-muted/30 to-transparent overflow-hidden shadow-2xl flex items-center justify-center p-4 md:p-8">
               <EcosystemPreview />
-            </m.div>
+            </motion.div>
           </div>
         </div>
+      </section>
+
+      {/* ══════ INVESTMENT INTELLIGENCE ══════ */}
+      <section className="py-24">
+        <InvestmentWidget />
       </section>
 
       {/* ══════ FOOTER (Minimal Premium) ══════ */}
@@ -793,7 +785,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               </p>
             </div>
             <div>
-              <h3 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/70">{t("footer.company", { defaultValue: "Company" })}</h3>
+              <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.company", { defaultValue: "Company" })}</h4>
               <ul className="space-y-4">
                 <li><Link href="/about" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_3")}</Link></li>
                 <li><Link href="/careers" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_4")}</Link></li>
@@ -801,7 +793,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               </ul>
             </div>
             <div>
-              <h3 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/70">{t("footer.platform", { defaultValue: "Platform" })}</h3>
+              <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.platform", { defaultValue: "Platform" })}</h4>
               <ul className="space-y-4">
                 <li><Link href="/properties" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_6")}</Link></li>
                 <li><Link href="/client/experiences" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_7")}</Link></li>
@@ -809,7 +801,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               </ul>
             </div>
             <div>
-              <h3 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/70">{t("footer.legal", { defaultValue: "Legal" })}</h3>
+              <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.legal", { defaultValue: "Legal" })}</h4>
               <ul className="space-y-4">
                 <li><Link href="/client/terms" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_9")}</Link></li>
                 <li><Link href="/client/privacy" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_10")}</Link></li>
@@ -834,7 +826,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       {/* Floating Support Button */}
       <button
         onClick={() => setSupportModalOpen(true)}
-        aria-label="Open support chat"
+        aria-label={t('home.support.open_chat', { defaultValue: 'Open support chat' })}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform"
       >
         <Sparkles className="w-6 h-6 text-white" />
@@ -849,7 +841,7 @@ function BentoCard({ prop, className, large = false }: { prop: { id?: string; im
   if (!prop) return null;
   return (
     <Link href={`/properties/${prop.id || "#"}`} className={`group relative rounded-3xl overflow-hidden block always-dark h-[350px] md:h-full w-full ${className}`}>
-      <Image src={prop.image} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+      <Image src={prop.image} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 transition-opacity duration-500 group-hover:opacity-80" />
       
       {/* Tag */}

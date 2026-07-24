@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { propertiesApi } from "@/lib/api/properties-eden";
+import { ALL_SEO_LANDING_CONFIGS, ALL_MARKET_DATA } from "@/lib/seo/market-data";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://reservatior.com";
 const SUPPORTED_LOCALES = ["en","tr","ar","es","fr","de","ru","pt","zh","ja","ko","it","nl","pl","sv","da","fi","el","hi","id"];
@@ -26,6 +27,19 @@ const publicRoutes = [
   { url: "/client/legal", priority: 0.3, changeFrequency: "yearly" as const },
 ];
 
+const investmentOSRoutes = [
+  { url: "/investment-os/dashboard", priority: 0.8, changeFrequency: "weekly" as const },
+  { url: "/investment-os/roi-calculator", priority: 0.9, changeFrequency: "weekly" as const },
+  { url: "/investment-os/rental-yield", priority: 0.9, changeFrequency: "weekly" as const },
+  { url: "/investment-os/city-comparison", priority: 0.8, changeFrequency: "weekly" as const },
+  { url: "/investment-os/compare", priority: 0.7, changeFrequency: "weekly" as const },
+  { url: "/investment-os/reports", priority: 0.7, changeFrequency: "weekly" as const },
+  { url: "/investment-os/ai-assistant", priority: 0.6, changeFrequency: "monthly" as const },
+  { url: "/investment-os/analytics", priority: 0.5, changeFrequency: "weekly" as const },
+  { url: "/investment-os/profile", priority: 0.6, changeFrequency: "monthly" as const },
+  { url: "/investment-os/rental-management", priority: 0.8, changeFrequency: "weekly" as const },
+];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapRoutes: MetadataRoute.Sitemap = [];
 
@@ -36,6 +50,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         changeFrequency: route.changeFrequency,
         priority: route.priority,
+      });
+    }
+  }
+
+  // Investment Intelligence OS routes
+  for (const route of investmentOSRoutes) {
+    sitemapRoutes.push({
+      url: `${baseUrl}${route.url}`,
+      lastModified: new Date(),
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+    });
+  }
+
+  // Programmatic SEO landing pages for investment calculators
+  for (const config of ALL_SEO_LANDING_CONFIGS) {
+    sitemapRoutes.push({
+      url: `${baseUrl}/en/invest/${config.city}/${config.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    });
+  }
+
+  // District-level SEO pages
+  for (const [citySlug, cityData] of Object.entries(ALL_MARKET_DATA)) {
+    for (const district of cityData.districts) {
+      const districtSlug = district.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
+      sitemapRoutes.push({
+        url: `${baseUrl}/en/invest/${citySlug}/${districtSlug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
       });
     }
   }
