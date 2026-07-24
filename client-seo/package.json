@@ -68,7 +68,7 @@
     "@types/react-dom": "^18.2.17",
     "autoprefixer": "^10.4.23",
     "critters": "^0.0.24",
-    "elysia": "^1.4.28",
+    "elysia": "^1.4.29",
     "eslint": "^8",
     "eslint-config-next": "14.2.35",
     "postcss": "^8",
