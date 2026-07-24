@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
-import Script from "next/script";
 import { Providers } from "@/components/providers";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/SchemaScript";
 import { inter, outfit } from "@/lib/fonts";

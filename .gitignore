@@ -61,3 +61,5 @@ package-lock.json
 server/.wwebjs_auth/
 server/prisma-generated/
 client-seo/public/videos/istanbul/
+security-os/target/
+security-os/node_modules/

@@ -370,10 +370,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   preload="none"
                   width="1920"
                   height="1080"
+                  onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
                   className="w-full h-full object-cover"
                   style={{ opacity: mobileVideoPlaying ? 1 : 0, filter: 'contrast(1.02) brightness(0.95)', transition: 'opacity 1s ease-out' }}
                 >
-                  <source src={bgVideo} type="video/mp4" />
+                  <source src={`${bgVideo}#t=2`} type="video/mp4" />
                 </video>
               </div>
             ) : (
