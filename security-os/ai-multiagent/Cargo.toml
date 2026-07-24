@@ -1,0 +1,23 @@
+[package]
+name = "security-os-ai-multiagent"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - AI Multi-Agent System"
+
+[dependencies]
+security-os-core = { path = "../core" }
+security-os-ai = { path = "../ai" }
+security-os-ai-memory = { path = "../ai-memory" }
+security-os-knowledge-graph = { path = "../knowledge-graph" }
+security-os-risk = { path = "../risk" }
+security-os-correlation = { path = "../correlation" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+dashmap = { workspace = true }
+reqwest = { workspace = true }

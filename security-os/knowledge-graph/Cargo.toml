@@ -1,0 +1,17 @@
+[package]
+name = "security-os-knowledge-graph"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - Knowledge Graph"
+
+[dependencies]
+security-os-core = { path = "../core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+dashmap = { workspace = true }
+futures = { workspace = true }

@@ -1,0 +1,18 @@
+[package]
+name = "security-os-core"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - Core types, Event Bus, Error handling"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+async-trait = { workspace = true }
+dashmap = { workspace = true }
+regex = { workspace = true }
+toml = { workspace = true }

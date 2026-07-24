@@ -1,0 +1,21 @@
+[package]
+name = "security-os-threat-intel"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - Threat Intelligence Platform"
+
+[dependencies]
+security-os-core = { path = "../core" }
+security-os-ioc = { path = "../ioc" }
+security-os-detection-cache = { path = "../detection-cache" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+reqwest = { workspace = true }
+dashmap = { workspace = true }
+regex = { workspace = true }

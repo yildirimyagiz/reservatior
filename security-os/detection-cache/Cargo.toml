@@ -1,0 +1,14 @@
+[package]
+name = "security-os-detection-cache"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - Detection Cache"
+
+[dependencies]
+security-os-core = { path = "../core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+dashmap = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true }

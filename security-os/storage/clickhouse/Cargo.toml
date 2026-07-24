@@ -1,0 +1,16 @@
+[package]
+name = "security-os-storage-clickhouse"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - ClickHouse Telemetry Storage"
+
+[dependencies]
+security-os-core = { path = "../../core" }
+tokio = { workspace = true }
+tracing = { workspace = true }
+serde_json = { workspace = true }
+serde = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+dashmap = { workspace = true }
+thiserror = { workspace = true }

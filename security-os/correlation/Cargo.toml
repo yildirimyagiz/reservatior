@@ -1,0 +1,15 @@
+[package]
+name = "security-os-correlation"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - Kill Chain & Multi-Event Correlation Engine"
+
+[dependencies]
+security-os-core = { path = "../core" }
+tokio = { workspace = true }
+dashmap = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

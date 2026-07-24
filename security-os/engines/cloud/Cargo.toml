@@ -1,0 +1,12 @@
+[package]
+name = "security-os-engine-cloud"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+security-os-core = { path = "../../core" }
+tokio = { version = "1", features = ["full"] }
+dashmap = "6"
+tracing = "0.1"
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }

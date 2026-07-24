@@ -1,0 +1,27 @@
+[package]
+name = "security-os-eventbus"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - Distributed Event Bus"
+
+[features]
+default = ["local"]
+local = []
+nats = ["dep:async-nats"]
+kafka = ["dep:rdkafka"]
+
+[dependencies]
+security-os-core = { path = "../core" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+dashmap = { workspace = true }
+futures = { workspace = true }
+chrono = { workspace = true }
+bytes = { workspace = true }
+async-nats = { version = "0.38", optional = true }
+rdkafka = { version = "0.36", optional = true, features = ["cmake-build"] }

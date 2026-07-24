@@ -1,0 +1,16 @@
+[package]
+name = "security-os-storage"
+version = "0.1.0"
+edition = "2021"
+description = "Reservatior Security OS - PostgreSQL Storage"
+
+[dependencies]
+security-os-core = { path = "../core" }
+tokio = { workspace = true }
+sqlx = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+tracing = { workspace = true }
+async-trait = { workspace = true }
