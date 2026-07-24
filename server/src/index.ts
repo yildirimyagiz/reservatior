@@ -176,14 +176,12 @@ const appBase = new Elysia()
 
 const appCore = appBase
   // GET /api/auth/google — redirect to Google OAuth
-  .get("/api/auth/google", ({ query, redirect }) => {
-    const origin = query.origin as string || CLIENT_URL;
+  .get("/api/auth/google", ({ redirect }) => {
     const params = new URLSearchParams({
       client_id: process.env.AUTH_GOOGLE_ID || "",
       redirect_uri: `${SERVER_URL}/api/auth/callback/google`,
       response_type: "code",
       scope: "email profile",
-      state: origin,
     });
     return redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`);
   })
@@ -191,9 +189,7 @@ const appCore = appBase
   // GET /api/auth/callback/google — handle Google OAuth callback
   .get("/api/auth/callback/google", async ({ query, redirect }) => {
     const code = query.code as string;
-    const state = (query.state as string) || CLIENT_URL;
-    const redirectTarget = state;
-    if (!code) return redirect(`${redirectTarget}/auth/callback?error=NoCode`);
+    if (!code) return redirect(`${CLIENT_URL}/auth/callback?error=NoCode`);
 
     try {
       const clientId = process.env.AUTH_GOOGLE_ID!;
@@ -224,10 +220,10 @@ const appCore = appBase
       }
 
       const { token, userData } = await createAuthSessionAndRedirect(user, "google");
-      return redirect(`${redirectTarget}/auth/callback?token=${token}&user=${encodeURIComponent(userData)}`);
+      return redirect(`${CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(userData)}`);
     } catch (e) {
       console.error("Google auth callback error:", e);
-      return redirect(`${redirectTarget}/auth/login?error=GoogleAuthFailed`);
+      return redirect(`${CLIENT_URL}/auth/login?error=GoogleAuthFailed`);
     }
   })
 

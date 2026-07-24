@@ -28,7 +28,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
   const { login, loading, error } = useAuth();
   const navigate = useNavigate();
 
@@ -75,7 +75,7 @@ export default function Login() {
   };
 
   const handleSocialLogin = (provider: string) => {
-    window.location.href = `${API_BASE}/api/auth/${provider}?origin=${encodeURIComponent(window.location.origin)}`;
+    window.location.href = `${API_BASE}/api/auth/${provider}?origin=${encodeURIComponent(process.env.NEXT_PUBLIC_SITE_URL || window.location.origin)}`;
   };
 
   return (

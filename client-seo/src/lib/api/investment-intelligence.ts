@@ -25,8 +25,9 @@ export const investmentIntelligenceApi = {
   },
 
   exportReportPdf: async (id: string): Promise<Blob> => {
+    const baseUrl = typeof window !== "undefined" ? "/api/v1" : `${process.env.BACKEND_INTERNAL_URL || "https://reservatior.com"}/api/v1`;
     const response = await fetch(
-      `${typeof window !== "undefined" ? "/api/v1" : "http://localhost:3001/api/v1"}/investment-intelligence/reports/${id}/pdf`,
+      `${baseUrl}/investment-intelligence/reports/${id}/pdf`,
       {
         headers: {
           Authorization: `Bearer ${typeof window !== "undefined" ? localStorage.getItem("auth_token") : ""}`,

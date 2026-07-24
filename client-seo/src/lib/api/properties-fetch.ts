@@ -1,4 +1,4 @@
-const API_BASE_URL = typeof window !== 'undefined' ? '/api/v1' : 'http://localhost:3001/api/v1';
+const API_BASE_URL = typeof window !== 'undefined' ? '/api/v1' : `${process.env.BACKEND_INTERNAL_URL || 'https://reservatior.com'}/api/v1`;
 
 // Simple fetch-based API client
 export const propertiesApi = {

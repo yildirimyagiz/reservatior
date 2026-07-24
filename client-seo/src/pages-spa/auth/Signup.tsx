@@ -14,7 +14,7 @@ import { AuthUtils } from "@/lib/auth/utils";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 const GoogleIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -154,7 +154,7 @@ export default function Signup() {
   }, [formData, agreedToTerms, accountType]);
 
   const handleSocialLogin = (provider: string) => {
-    window.location.href = `${API_BASE}/api/auth/${provider}?origin=${encodeURIComponent(window.location.origin)}`;
+    window.location.href = `${API_BASE}/api/auth/${provider}?origin=${encodeURIComponent(process.env.NEXT_PUBLIC_SITE_URL || window.location.origin)}`;
   };
 
   return (

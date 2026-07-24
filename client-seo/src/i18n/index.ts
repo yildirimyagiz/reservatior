@@ -56,7 +56,7 @@ if (!i18n.isInitialized) {
           const lang = lngs[0];
           const file = FILE_MAP[lang] ?? lang;
           if (!isBrowser) {
-            return `http://localhost:3001/locales/${file}.json`;
+            return `${typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_SITE_URL || 'https://reservatior.com')}/locales/${file}.json`;
           }
           return `/locales/${file}.json`;
         },
