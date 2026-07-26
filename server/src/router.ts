@@ -368,6 +368,7 @@ import { spatialAnalysisRoutes, propertyHealthReportRoutes, insuranceRiskRoutes,
 import { adRouterRoutes } from "./routes/ad-router";
 import { creatorCommerceRoutes } from "./routes/creator-commerce";
 import { growthEngineRoutes } from "./routes/growth-engine";
+import { mcpRoutes } from "./routes/mcp";
 
 // Route Clusters to optimize TypeScript instantiation depth
 const cluster1 = new Elysia()
@@ -789,4 +790,5 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(adRouterRoutes)
   .use(creatorCommerceRoutes)
   .use(growthEngineRoutes)
+  .use(mcpRoutes)
 ;
