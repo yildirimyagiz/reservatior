@@ -231,7 +231,7 @@ export function PropertySearch() {
               <div className="flex-1">
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                  <Input placeholder={searchCategory === "property" ? "Search by address, city, zip code, or keywords..." : searchCategory === "agency" ? "Search by agency name, location, or license..." : searchCategory === "agent" ? "Search by agent name, specialty, or area..." : "Search for vacation rentals, villas, or cabins..."} value={filters.query} onChange={e => updateFilter("query", e.target.value)} className="pl-11 h-14 text-lg rounded-xl shadow-xs border-primary/10 focus-visible:ring-primary/20" />
+                  <Input aria-label="Search properties" placeholder={searchCategory === "property" ? "Search by address, city, zip code, or keywords..." : searchCategory === "agency" ? "Search by agency name, location, or license..." : searchCategory === "agent" ? "Search by agent name, specialty, or area..." : "Search for vacation rentals, villas, or cabins..."} value={filters.query} onChange={e => updateFilter("query", e.target.value)} className="pl-11 h-14 text-lg rounded-xl shadow-xs border-primary/10 focus-visible:ring-primary/20" />
                 </div>
               </div>
 

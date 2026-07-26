@@ -179,9 +179,9 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                     </div>
 
                     <div className="space-y-4">
-                      <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-white drop-shadow-sm">
+                      <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-white drop-shadow-sm">
                         Hayalinizdeki Evi <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 dark:from-indigo-400 dark:to-purple-400">AI ile Bulun</span>
-                      </h1>
+                      </h2>
                       <p className="text-neutral-500 dark:text-slate-400 text-xl max-w-2xl mx-auto font-medium">
                         Filtrelerle uğraşmayın. İhtiyaçlarınızı doğal dilde tarif edin, AI sizin için mükemmel seçenekleri bulsun.
                       </p>

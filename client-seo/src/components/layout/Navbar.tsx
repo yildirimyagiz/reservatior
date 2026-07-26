@@ -120,6 +120,7 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="sm"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             className="rounded-full h-8 w-8 p-0 shrink-0 bg-orange-500/10 hover:bg-orange-500/20 text-orange-600 dark:text-orange-400 border border-orange-500/20 hover:border-orange-500/30 transition-all"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
@@ -139,7 +140,7 @@ export function Navbar() {
           <div className="hidden md:block shrink-0">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="rounded-full h-8 px-3 gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/30 transition-all">
+                <Button variant="ghost" size="sm" aria-label={`Language: ${currentLang.code.toUpperCase()}`} className="rounded-full h-8 px-3 gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/30 transition-all">
                   <Globe className="w-3 h-3" />
                   <span className="text-xs font-medium">
                     {currentLang.code.toUpperCase()}
@@ -274,9 +275,10 @@ export function Navbar() {
 
           <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide snap-x">
             {LANGUAGES.map(lang => (
-              <button 
-                key={lang.code} 
-                onClick={() => setLanguage(lang.code)} 
+              <button
+                key={lang.code}
+                aria-label={`Switch to ${lang.name}`}
+                onClick={() => setLanguage(lang.code)}
                 className={`shrink-0 flex items-center justify-center w-12 h-12 rounded-full text-2xl transition-all snap-center ${currentLang.code === lang.code ? "bg-primary/20 border border-primary/50 shadow-sm" : "bg-white/5 hover:bg-white/10"}`}
               >
                 {lang.flag}

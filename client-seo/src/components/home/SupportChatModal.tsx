@@ -265,13 +265,13 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
                 {attachments.map((url, idx) => (
                   <div key={idx} className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-full px-3 py-1 text-xs">
                     <span>📎 File</span>
-                    <button onClick={() => setAttachments(prev => prev.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-700">×</button>
+                    <button aria-label="Remove file" onClick={() => setAttachments(prev => prev.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-700">×</button>
                   </div>
                 ))}
               </div>
             )}
             <div className="flex gap-2">
-              <label className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+              <label aria-label="Attach file" className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
                 <input type="file" onChange={handleFileUpload} className="hidden" />
                 <Paperclip className="w-5 h-5 text-slate-500" />
               </label>

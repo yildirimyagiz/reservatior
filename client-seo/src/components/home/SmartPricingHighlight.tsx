@@ -106,7 +106,7 @@ export function SmartPricingHighlight() {
                        <p className="text-2xl font-black text-white italic">{prop.price}</p>
                     </div>
                     <Link to="/property" className="contents">
-                      <Button variant="ghost" className="h-14 w-14 rounded-2xl bg-white/5 hover:bg-emerald-600 group/btn transition-all">
+                      <Button variant="ghost" aria-label="View property" className="h-14 w-14 rounded-2xl bg-white/5 hover:bg-emerald-600 group/btn transition-all">
                         <ArrowRight className="w-6 h-6 text-white group-hover/btn:translate-x-1 transition-all" />
                       </Button>
                     </Link>

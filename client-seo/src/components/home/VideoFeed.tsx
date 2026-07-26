@@ -116,7 +116,7 @@ export function VideoFeed({
                       </div>}
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm line-clamp-1">{listing.title}</h4>
+                    <h3 className="font-bold text-sm line-clamp-1">{listing.title}</h3>
                     <p className="text-xs text-slate-400 capitalize">{listing.property.city}, {listing.property.region}</p>
                   </div>
                 </div>
@@ -220,9 +220,9 @@ function VideoSlide({
 
       {/* Vertical Actions */}
       <div className="absolute right-4 bottom-32 flex flex-col gap-6 items-center pointer-events-auto">
-        <ActionButton icon={<Heart className={`w-7 h-7 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />} label={localLikes.toString()} onClick={handleLike} />
-        <ActionButton icon={<MessageCircle className="w-7 h-7" />} label="24" />
-        <ActionButton icon={<Bookmark className="w-7 h-7" />} label={t("client.src.save")} />
+        <ActionButton icon={<Heart className={`w-7 h-7 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />} label={localLikes.toString()} onClick={handleLike} ariaLabel={`Like, ${localLikes} likes`} />
+        <ActionButton icon={<MessageCircle className="w-7 h-7" />} label="24" ariaLabel="Comments, 24 comments" />
+        <ActionButton icon={<Bookmark className="w-7 h-7" />} label={t("client.src.save")} ariaLabel={t("client.src.save")} />
         <button onClick={toggleMute} aria-label={muted ? "Unmute video" : "Mute video"} className="p-3 bg-black/40 rounded-full backdrop-blur-md">
           {muted ? <VolumeX className="w-5 h-5 text-gold" /> : <Volume2 className="w-5 h-5 text-white" />}
         </button>
@@ -235,7 +235,7 @@ function VideoSlide({
             <User className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="font-bold text-lg">{listing.org.name}</h4>
+            <h3 className="font-bold text-lg">{listing.org.name}</h3>
             <div className="flex items-center text-xs text-gold/80">
               <Star className="w-3 h-3 fill-current mr-1" />{t("client.src.partner_agency")}</div>
           </div>
@@ -276,13 +276,15 @@ function VideoSlide({
 function ActionButton({
   icon,
   label,
-  onClick
+  onClick,
+  ariaLabel
 }: {
   icon: React.ReactNode;
   label: string;
   onClick?: () => void;
+  ariaLabel?: string;
 }) {
-  return <button onClick={onClick} className="flex flex-col items-center gap-1 group/btn">
+  return <button onClick={onClick} aria-label={ariaLabel || label} className="flex flex-col items-center gap-1 group/btn">
       <div className="p-3 bg-black/40 rounded-full backdrop-blur-md group-hover/btn:bg-gold/20 transition-colors">
         {icon}
       </div>

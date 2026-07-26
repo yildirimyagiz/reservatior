@@ -21,7 +21,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.platform")}</h4>
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.platform")}</h2>
             <ul className="space-y-1">
               <li><Link to="/property" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.inventory")}</Link></li>
               <li><Link to="/bookings" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.bookings")}</Link></li>
@@ -32,7 +32,7 @@ export function Footer() {
 
           {/* Support */}
           <div>
-            <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.support")}</h4>
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.support")}</h2>
             <ul className="space-y-1">
               <li><Link to="/support" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.help_center")}</Link></li>
               <li><Link to="/legal/compliance" className="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors min-h-12 flex items-center" suppressHydrationWarning>{t("client.src.compliance")}</Link></li>
@@ -43,7 +43,7 @@ export function Footer() {
 
           {/* Social & Contact */}
           <div>
-            <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.connect")}</h4>
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5" suppressHydrationWarning>{t("client.src.connect")}</h2>
             <div className="flex gap-4 mb-6">
               <a href="https://twitter.com/reservatior" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="min-h-12 min-w-12 w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-white hover:bg-blue-600 dark:hover:bg-blue-600 hover:border-blue-600 dark:hover:border-blue-600 transition-all duration-300">
                 <Twitter className="w-5 h-5" />

@@ -104,7 +104,7 @@ export default function Hero() {
 
                 <div className="bg-background/50 dark:bg-[#14151a] rounded-2xl p-6 border border-border dark:border-slate-800/50">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-semibold text-foreground">{features[activeFeature].title}</h3>
+                    <h2 className="text-xl font-semibold text-foreground">{features[activeFeature].title}</h2>
                     <Badge className="bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20">
                       {features[activeFeature].stats}
                     </Badge>

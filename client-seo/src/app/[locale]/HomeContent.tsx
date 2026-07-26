@@ -18,7 +18,7 @@ import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, 
   ArrowRight, ShieldCheck, ChevronDown, Monitor, Gem, CheckCircle2, Mouse
 } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { m, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { InvestmentWidget } from "@/components/investment/InvestmentWidget";
 import dynamic from 'next/dynamic';
@@ -122,11 +122,11 @@ function EcosystemPreview() {
             { label: "Credit Score Analysis", status: "Excellent", color: "text-emerald-500 dark:text-emerald-400", bg: "bg-emerald-500/5 border-emerald-500/20" },
             { label: "Payment Escrow Account", status: "Secured", color: "text-indigo-500 dark:text-indigo-400", bg: "bg-indigo-500/5 border-indigo-500/20" },
           ].map((item, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}
+            <m.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}
               className={`flex justify-between items-center p-5 rounded-2xl border ${item.bg}`}>
               <span className="text-foreground/80 font-medium">{item.label}</span>
               <span className={`font-bold ${item.color}`}>{item.status}</span>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       )
@@ -157,7 +157,7 @@ function EcosystemPreview() {
       {/* Content area with AnimatePresence */}
       <div className="flex-1 relative overflow-hidden min-h-[250px]">
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={activeTab}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -166,7 +166,7 @@ function EcosystemPreview() {
             className="absolute inset-0 flex flex-col justify-center"
           >
             {tabs[activeTab].content}
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
       
@@ -209,6 +209,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const { provider, apiKey } = useMapProvider();
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
+  const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -225,8 +226,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     return () => clearTimeout(timer);
   }, []);
 
-  // Load countries (lazy-loaded to avoid 1.7 MB bundle in main chunk)
+  // Load countries only when country dropdown is opened (lazy-loaded to avoid 1.7 MB bundle in main chunk)
   useEffect(() => {
+    if (!showCountryDropdown || countries.length > 0) return;
     const loadCountries = async () => {
       try {
         const folderUrl = typeof window !== 'undefined' ? `${window.location.origin}/country-data` : "/country-data";
@@ -239,9 +241,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       }
     };
     loadCountries();
-  }, []);
+  }, [showCountryDropdown, countries.length]);
 
-  // Load cities for autocomplete based on selected country (lazy-loaded)
+  // Load cities for autocomplete based on selected country (lazy-loaded, only when location input is focused)
   useEffect(() => {
     const loadCities = async () => {
       try {
@@ -256,36 +258,35 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     loadCities();
   }, [selectedCountry]);
 
-  useEffect(() => {
-    if (provider === "google") {
-      const initGoogleAutocomplete = () => {
-        const googleWindow = window as unknown as { google?: { maps?: { places?: { Autocomplete: new (element: HTMLElement, options: Record<string, unknown>) => { addListener: (event: string, callback: () => void) => void } } } } };
-        if (!locationInputRef.current || !googleWindow.google?.maps?.places) return;
-        const autocomplete = new googleWindow.google.maps.places.Autocomplete(locationInputRef.current, { 
-          types: ['(cities)'],
-          componentRestrictions: { country: selectedCountry.toLowerCase() }
-        });
-        (autocomplete as { addListener: (event: string, callback: () => void) => void }).addListener("place_changed", () => {
-          const place = (autocomplete as unknown as { getPlace: () => { formatted_address?: string; name?: string } }).getPlace();
-          if (place && place.formatted_address) setSearchLocation(place.formatted_address);
-          else if (place && place.name) setSearchLocation(place.name);
-        });
-      };
-      const googleWindow = window as unknown as { google?: { maps?: { places?: unknown } } };
-      if (googleWindow.google?.maps?.places) { initGoogleAutocomplete(); return; }
-      const scriptId = "google-maps-places-script";
-      let script = document.getElementById(scriptId) as HTMLScriptElement;
-      if (!script) {
-        script = document.createElement("script");
-        script.id = scriptId;
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey.google || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}&libraries=places&loading=async`;
-        script.async = true; script.defer = true;
-        script.onload = initGoogleAutocomplete;
-        document.head.appendChild(script);
-      } else script.addEventListener("load", initGoogleAutocomplete);
-      return () => { if (script) script.removeEventListener("load", initGoogleAutocomplete); };
-    }
-  }, [provider, apiKey, selectedCountry]);
+  const loadGoogleMapsAutocomplete = () => {
+    if (googleMapsLoaded || provider !== "google") return;
+    setGoogleMapsLoaded(true);
+    const initGoogleAutocomplete = () => {
+      const googleWindow = window as unknown as { google?: { maps?: { places?: { Autocomplete: new (element: HTMLElement, options: Record<string, unknown>) => { addListener: (event: string, callback: () => void) => void } } } } };
+      if (!locationInputRef.current || !googleWindow.google?.maps?.places) return;
+      const autocomplete = new googleWindow.google.maps.places.Autocomplete(locationInputRef.current, { 
+        types: ['(cities)'],
+        componentRestrictions: { country: selectedCountry.toLowerCase() }
+      });
+      (autocomplete as { addListener: (event: string, callback: () => void) => void }).addListener("place_changed", () => {
+        const place = (autocomplete as unknown as { getPlace: () => { formatted_address?: string; name?: string } }).getPlace();
+        if (place && place.formatted_address) setSearchLocation(place.formatted_address);
+        else if (place && place.name) setSearchLocation(place.name);
+      });
+    };
+    const googleWindow = window as unknown as { google?: { maps?: { places?: unknown } } };
+    if (googleWindow.google?.maps?.places) { initGoogleAutocomplete(); return; }
+    const scriptId = "google-maps-places-script";
+    let script = document.getElementById(scriptId) as HTMLScriptElement;
+    if (!script) {
+      script = document.createElement("script");
+      script.id = scriptId;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey.google || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}&libraries=places&loading=async`;
+      script.async = true; script.defer = true;
+      script.onload = initGoogleAutocomplete;
+      document.head.appendChild(script);
+    } else script.addEventListener("load", initGoogleAutocomplete);
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -330,15 +331,15 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       {/* ══════ CINEMATIC HERO ══════ */}
       <section className="relative h-[100svh] w-full flex flex-col overflow-hidden bg-black always-dark">
         {/* Video Background */}
-        <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
+        <m.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
-            <motion.video
+            <m.video
               key={bgVideo}
               autoPlay
               loop
               muted
               playsInline
-              preload="metadata"
+              preload="none"
               poster="/poster.webp"
               onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
               initial={{ opacity: 0, scale: 1.1 }}
@@ -348,15 +349,15 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               className="w-full h-full object-cover"
             >
               <source src={`${bgVideo}#t=2`} type="video/mp4" />
-            </motion.video>
+            </m.video>
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />
-        </motion.div>
+        </m.div>
 
         {/* ─── FAZ 1: LOGO + SCROLL ICON (Başlangıç) ─── */}
         <AnimatePresence>
           {!heroRevealed && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, y: -30 }}
@@ -364,7 +365,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               className="absolute inset-0 z-20 flex flex-col items-center justify-center"
             >
               {/* Logo */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
@@ -376,27 +377,30 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 <p className="text-white/50 text-sm md:text-base font-medium tracking-[0.3em] uppercase mt-4">
                   {t("home.hero.tagline", { defaultValue: "Global Luxury Real Estate OS" })}
                 </p>
-              </motion.div>
+              </m.div>
 
               {/* Scroll Down Indicator */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5, duration: 1 }}
                 className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer"
+                role="button"
+                tabIndex={0}
+                aria-label={t("home.hero.scroll", { defaultValue: "Scroll to explore" })}
                 onClick={() => setHeroRevealed(true)}
               >
-                <motion.div
+                <m.div
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 >
                   <Mouse className="w-6 h-6 text-white/60" />
-                </motion.div>
+                </m.div>
                 <span className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
                   {t("home.hero.scroll", { defaultValue: "Scroll to explore" })}
                 </span>
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           )}
         </AnimatePresence>
 
@@ -406,7 +410,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
           {/* FLOATING SEARCH PILL (Faz 2) */}
           <AnimatePresence>
             {heroRevealed && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 60 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
@@ -419,7 +423,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       aria-label={t(`home.search.mode_${mode.toLowerCase()}`, { defaultValue: mode })}
                       className={`relative text-sm font-bold tracking-widest uppercase transition-all duration-300 ${searchMode === mode ? "text-white" : "text-white/50 hover:text-white/80"}`}>
                       {t(`home.search.mode_${mode.toLowerCase()}`, { defaultValue: mode })}
-                      {searchMode === mode && <motion.div layoutId="searchTabIndicator" className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white rounded-full" />}
+                      {searchMode === mode && <m.div layoutId="searchTabIndicator" className="absolute -bottom-2 left-0 right-0 h-0.5 bg-white rounded-full" />}
                     </button>
                   ))}
                 </div>
@@ -433,7 +437,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       type="button"
                       onClick={() => setShowCountryDropdown(!showCountryDropdown)}
                       aria-labelledby="country-select-label"
-                      className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white"
+                      aria-expanded={showCountryDropdown}
+                      className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white min-h-[48px] min-w-[48px]"
                     >
                       <span>{countries.find(c => c.iso2 === selectedCountry)?.name || 'Turkey'}</span>
                       <ChevronDown className="w-4 h-4" />
@@ -466,7 +471,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                                   setShowCountryDropdown(false);
                                   setCountrySearch("");
                                 }}
-                                className="w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-sm font-medium text-slate-900 dark:text-white flex items-center justify-between"
+                                className="w-full px-4 py-2 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-sm font-medium text-slate-900 dark:text-white flex items-center justify-between min-h-[48px]"
                               >
                                 <span>{country.name}</span>
                                 {selectedCountry === country.iso2 && <CheckCircle2 className="w-4 h-4 text-black dark:text-white" />}
@@ -495,7 +500,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                         setSearchLocation(e.target.value);
                         setShowLocationSuggestions(e.target.value.length > 0);
                       }}
-                      onFocus={() => setShowLocationSuggestions(searchLocation.length > 0)}
+                      onFocus={() => { setShowLocationSuggestions(searchLocation.length > 0); loadGoogleMapsAutocomplete(); }}
                       onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
                       placeholder={t('home.search.where_hint', { defaultValue: 'Search destinations' }) as string}
                       className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 placeholder:font-medium placeholder:text-slate-400" 
@@ -513,7 +518,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                                 setSearchLocation(city.name);
                                 setShowLocationSuggestions(false);
                               }}
-                              className="w-full px-6 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors flex items-center gap-3"
+                              className="w-full px-6 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-colors flex items-center gap-3 min-h-[48px]"
                             >
                               <MapPin className="w-4 h-4 text-slate-400" />
                               <span className="text-sm font-medium text-slate-900 dark:text-white">{city.name}</span>
@@ -551,27 +556,27 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   )}
 
                   <div className="flex gap-2 w-full md:w-auto">
-                    <Button type="submit" className="w-full md:w-16 h-14 rounded-full bg-gradient-to-br from-slate-900 to-black hover:from-slate-800 hover:to-slate-900 dark:from-slate-100 dark:to-white dark:hover:from-slate-200 dark:hover:to-slate-100 dark:text-black text-white shadow-[0_0_20px_rgba(0,0,0,0.4)] border border-slate-700/50 dark:border-white/10 transition-all flex items-center justify-center shrink-0">
+                    <Button type="submit" aria-label={t('home.search.submit', { defaultValue: 'Search' })} className="w-full md:w-16 h-14 rounded-full bg-gradient-to-br from-slate-900 to-black hover:from-slate-800 hover:to-slate-900 dark:from-slate-100 dark:to-white dark:hover:from-slate-200 dark:hover:to-slate-100 dark:text-black text-white shadow-[0_0_20px_rgba(0,0,0,0.4)] border border-slate-700/50 dark:border-white/10 transition-all flex items-center justify-center shrink-0">
                       <Search className="w-6 h-6" />
                     </Button>
                     <Button 
                       type="button" 
                       onClick={() => setAiModalOpen(true)} 
+                      aria-label={t('home.search.ai_search', { defaultValue: 'AI Search' })}
                       className="w-full md:w-16 h-14 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 hover:from-blue-400 hover:via-indigo-400 hover:to-purple-500 text-white shadow-[0_0_30px_rgba(99,102,241,0.6)] border border-white/20 transition-all flex items-center justify-center shrink-0 group"
-                      title="AI Search"
                     >
                       <Sparkles className="w-6 h-6 animate-pulse group-hover:scale-110 transition-transform" />
                     </Button>
                   </div>
                 </form>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
           {/* PROJECT INFO + SLIDE CONTROLS (Faz 3) */}
           <AnimatePresence>
             {heroRevealed && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -581,18 +586,18 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {/* Left: Project Info */}
                   <div className="flex-1 min-w-0">
                     {/* Tag */}
-                    <motion.span
+                    <m.span
                       key={`tag-${currentSlide}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="inline-block px-4 py-1.5 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border border-white/30 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
                     >
                       {slide.tag}
-                    </motion.span>
+                    </m.span>
 
                     {/* Project Name */}
                     <AnimatePresence mode="wait">
-                      <motion.h2
+                      <m.h2
                         key={`title-${currentSlide}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -601,11 +606,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                         className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300 tracking-tight leading-none mb-2 drop-shadow-lg"
                       >
                         {slide.title}
-                      </motion.h2>
+                      </m.h2>
                     </AnimatePresence>
 
                     {/* Location */}
-                    <motion.div
+                    <m.div
                       key={`loc-${currentSlide}`}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -614,7 +619,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                     >
                       <MapPin className="w-4 h-4" />
                       <span>{slide.location}</span>
-                    </motion.div>
+                    </m.div>
 
                     {/* Specs */}
                     <div className="flex items-center gap-3 flex-wrap">
@@ -638,14 +643,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       <button
                         onClick={() => setCurrentSlide(c => (c - 1 + slides.length) % slides.length)}
                         aria-label={t('home.carousel.prev', { defaultValue: 'Previous slide' })}
-                        className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all"
+                        className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all"
                       >
                         <ChevronLeft className="w-5 h-5 text-white" />
                       </button>
                       <button
                         onClick={() => setCurrentSlide(c => (c + 1) % slides.length)}
                         aria-label={t('home.carousel.next', { defaultValue: 'Next slide' })}
-                        className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all"
+                        className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all"
                       >
                         <ChevronRight className="w-5 h-5 text-white" />
                       </button>
@@ -660,13 +665,13 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       key={i}
                       onClick={() => setCurrentSlide(i)}
                       aria-label={t('home.carousel.go_to_slide', { defaultValue: `Go to slide ${i + 1}` })}
-                      className={`h-1.5 rounded-full transition-all duration-500 ${
+                      className={`h-1.5 min-h-[48px] min-w-[48px] flex items-center justify-center transition-all duration-500 rounded-full ${
                         i === currentSlide ? "w-8 bg-white" : "w-3 bg-white/30 hover:bg-white/50"
                       }`}
                     />
                   ))}
                 </div>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>
@@ -676,7 +681,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       <section className="py-12 border-b border-border bg-background">
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex gap-8 overflow-x-auto no-scrollbar snap-x pb-4">
           {VIBES.map((vibe, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+            <m.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
               className="flex flex-col items-center gap-3 min-w-[80px] cursor-pointer group snap-start">
               <div className="text-3xl grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 group-hover:-translate-y-1">
                 {vibe.icon}
@@ -684,7 +689,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               <span className="text-xs font-bold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors uppercase">
                 {vibe.name}
               </span>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </section>
@@ -692,7 +697,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       {/* ══════ BENTO GRID (FEATURED) ══════ */}
       <section className="py-24 bg-background">
         <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-between items-end mb-16">
+          <m.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-between items-end mb-16">
             <div>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">{t("home.curated.title", { defaultValue: "Curated Collections" })}</h2>
               <p className="text-lg text-muted-foreground max-w-xl font-medium">{t("home.curated.subtitle", { defaultValue: "Handpicked properties that redefine luxury living and smart hospitality." })}</p>
@@ -703,7 +708,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:h-[600px]">
             {/* Bento Block 1 (Large) */}
@@ -722,7 +727,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <m.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <span className="text-indigo-400 font-black tracking-widest uppercase text-sm mb-4 block">
                 {t("home.ecosystem.badge", { defaultValue: "Hospitality OS" })}
               </span>
@@ -744,7 +749,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       <feature.icon className="w-6 h-6 text-foreground" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-bold text-foreground">{feature.title}</h4>
+                      <h3 className="text-lg font-bold text-foreground">{feature.title}</h3>
                       <p className="text-muted-foreground text-sm">{feature.desc}</p>
                     </div>
                   </div>
@@ -756,12 +761,12 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {t("home.ecosystem.cta", { defaultValue: "Explore The Platform" })}
                 </Link>
               </Button>
-            </motion.div>
+            </m.div>
 
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+            <m.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
               className="relative aspect-square md:aspect-auto md:h-[700px] w-full rounded-[3rem] border border-border bg-gradient-to-br from-muted/30 to-transparent overflow-hidden shadow-2xl flex items-center justify-center p-4 md:p-8">
               <EcosystemPreview />
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -782,7 +787,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               </p>
             </div>
             <div>
-              <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.company", { defaultValue: "Company" })}</h4>
+              <h2 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.company", { defaultValue: "Company" })}</h2>
               <ul className="space-y-4">
                 <li><Link href="/about" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_3")}</Link></li>
                 <li><Link href="/careers" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_4")}</Link></li>
@@ -790,7 +795,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.platform", { defaultValue: "Platform" })}</h4>
+              <h2 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.platform", { defaultValue: "Platform" })}</h2>
               <ul className="space-y-4">
                 <li><Link href="/properties" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_6")}</Link></li>
                 <li><Link href="/client/experiences" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_7")}</Link></li>
@@ -798,7 +803,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.legal", { defaultValue: "Legal" })}</h4>
+              <h2 className="font-bold mb-6 uppercase tracking-widest text-xs text-foreground/50">{t("footer.legal", { defaultValue: "Legal" })}</h2>
               <ul className="space-y-4">
                 <li><Link href="/client/terms" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_9")}</Link></li>
                 <li><Link href="/client/privacy" className="font-semibold text-muted-foreground hover:text-foreground">{t("_locale_.homecontent.auto_ext_10")}</Link></li>
@@ -824,7 +829,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       <button
         onClick={() => setSupportModalOpen(true)}
         aria-label={t('home.support.open_chat', { defaultValue: 'Open support chat' })}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 min-w-[48px] min-h-[48px] bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform"
       >
         <Sparkles className="w-6 h-6 text-white" />
       </button>
