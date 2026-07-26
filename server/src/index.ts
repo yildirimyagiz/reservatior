@@ -15,6 +15,7 @@ import { prismaManager, prisma } from "./lib/prisma";
 import { adsWebhookPlugin } from "./routes/webhooks/ads-webhook";
 
 import { router } from "./router";
+import { mcpRoutes } from "./routes/mcp";
 import { SignJWT, jwtVerify } from "jose";
 import { ENCODED_SECRET } from "./lib/jwt";
 import { cronScheduler } from "./cron/cron-scheduler";
@@ -598,6 +599,7 @@ const appCore = appBase
   })
 
   .use(router)
+  .use(mcpRoutes)
   .use(fintechRoutes)
   .use(aiPricingIntelligenceRoutes)
   .use(commissionRuleEngineRoutes)

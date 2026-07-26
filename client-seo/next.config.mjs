@@ -137,6 +137,10 @@ const nextConfig = {
         source: '/uploads/:path*',
         destination: `${backendUrl}/uploads/:path*`,
       },
+      {
+        source: '/api/mcp',
+        destination: `${backendUrl}/api/mcp`,
+      },
     ];
   },
   async redirects() {

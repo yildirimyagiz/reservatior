@@ -16,7 +16,7 @@ const MCP_TOOLS = [
     name: "search_properties",
     description: "Search properties by location, price range, type, bedrooms, and other filters. Returns property listings with photos and key details.",
     inputSchema: {
-      type: "object" as const,
+      type: "object",
       properties: {
         query: { type: "string", description: "Free text search (city, neighborhood, address)" },
         city: { type: "string", description: "Filter by city name" },
@@ -38,7 +38,7 @@ const MCP_TOOLS = [
     name: "get_property",
     description: "Get detailed information about a specific property by ID. Includes photos, AI analysis, neighborhood score, and financial details.",
     inputSchema: {
-      type: "object" as const,
+      type: "object",
       properties: {
         id: { type: "string", description: "Property ID (cuid)" },
       },
@@ -49,7 +49,7 @@ const MCP_TOOLS = [
     name: "search_listings",
     description: "Search active listings with advanced filters. Returns listings with property details, agent info, and pricing.",
     inputSchema: {
-      type: "object" as const,
+      type: "object",
       properties: {
         query: { type: "string", description: "Free text search" },
         type: { type: "string", enum: ["SALE", "RENTAL"], description: "Listing type" },
@@ -70,7 +70,7 @@ const MCP_TOOLS = [
     name: "get_listing",
     description: "Get detailed listing information including property details, agent contact, pricing history, and AI recommendations.",
     inputSchema: {
-      type: "object" as const,
+      type: "object",
       properties: {
         id: { type: "string", description: "Listing ID (cuid)" },
       },
@@ -81,7 +81,7 @@ const MCP_TOOLS = [
     name: "get_feed",
     description: "Get the public video feed of featured properties. Returns promoted and popular listings with video content.",
     inputSchema: {
-      type: "object" as const,
+      type: "object",
       properties: {
         region: { type: "string", description: "Filter by region" },
         category: { type: "string", description: "Filter by property category" },
@@ -96,7 +96,7 @@ const MCP_TOOLS = [
     name: "get_areas",
     description: "Get available areas, neighborhoods, and regions in the database. Useful for understanding coverage and suggesting locations.",
     inputSchema: {
-      type: "object" as const,
+      type: "object",
       properties: {
         country: { type: "string", description: "Filter by country" },
         city: { type: "string", description: "Filter by city" },
@@ -108,7 +108,7 @@ const MCP_TOOLS = [
     name: "get_market_stats",
     description: "Get market statistics: average prices, listing counts, popular areas. Useful for investment analysis.",
     inputSchema: {
-      type: "object" as const,
+      type: "object",
       properties: {
         city: { type: "string", description: "City to analyze" },
         country: { type: "string", description: "Country to analyze" },
@@ -193,7 +193,8 @@ async function handleSearchProperties(args: any) {
           aiScore: p.aiNeighborhoodScore,
           aiSummary: p.aiSummary?.substring(0, 200),
         })),
-      }, null, 2)],
+      }, null, 2),
+    }],
   };
 }
 
@@ -244,7 +245,8 @@ async function handleGetProperty(args: any) {
           price: property.listings[0].price?.toString(),
           status: property.listings[0].status,
         } : null,
-      }, null, 2)],
+      }, null, 2),
+    }],
   };
 }
 
@@ -336,7 +338,8 @@ async function handleSearchListings(args: any) {
           likes: l.likesCount,
           createdAt: l.createdAt,
         })),
-      }, null, 2)],
+      }, null, 2),
+    }],
   };
 }
 
@@ -396,7 +399,8 @@ async function handleGetListing(args: any) {
         } : null,
         agent: listing.user ? { name: listing.user.name, email: listing.user.email } : null,
         tags: listing.tags?.map((t: any) => t.tag?.name).filter(Boolean),
-      }, null, 2)],
+      }, null, 2),
+    }],
   };
 }
 
@@ -454,7 +458,8 @@ async function handleGetFeed(args: any) {
             photos: l.property.propertyPhotos?.length || 0,
           } : null,
         })),
-      }, null, 2)],
+      }, null, 2),
+    }],
   };
 }
 
@@ -489,7 +494,8 @@ async function handleGetAreas(args: any) {
           avgPrice: p._avg.listingPrice?.toString(),
           avgAreaSqm: p._avg.areaSqm ? Math.round(p._avg.areaSqm) : null,
         })),
-      }, null, 2)],
+      }, null, 2),
+    }],
   };
 }
 
@@ -535,7 +541,8 @@ async function handleGetMarketStats(args: any) {
           type: t.type,
           count: t._count.id,
         })),
-      }, null, 2)],
+      }, null, 2),
+    }],
   };
 }
 
@@ -549,7 +556,7 @@ const TOOL_HANDLERS: Record<string, (args: any) => Promise<any>> = {
   get_market_stats: handleGetMarketStats,
 };
 
-export const mcpRoutes = new Elysia({ prefix: "/mcp" })
+export const mcpRoutes = new Elysia({ prefix: "/api/mcp" })
   .post("/", async ({ body }) => {
     const { jsonrpc = "2.0", method, params = {}, id } = body as any;
 
