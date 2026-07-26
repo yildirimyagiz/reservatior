@@ -508,3 +508,15 @@ export type { CampaignsState } from "./campaigns-store";
 export type { CertificatesState } from "./certificates-store";
 export type { AssetMarketplaceState } from "./asset-marketplace-store";
 export type { AgentMobileState } from "./agent-mobile-store";
+
+// ============================================================================
+// GROWTH AI ENGINE STORES
+// ============================================================================
+export { useSpatialAnalysisStore } from "./spatial-analysis-store";
+export { useAdRouterStore } from "./ad-router-store";
+export { useCreatorCommerceStore } from "./creator-commerce-store";
+export { useGrowthEngineStore } from "./growth-engine-store";
+export type { SpatialAnalysisState } from "./spatial-analysis-store";
+export type { AdRouterState } from "./ad-router-store";
+export type { CreatorCommerceState } from "./creator-commerce-store";
+export type { GrowthEngineState } from "./growth-engine-store";

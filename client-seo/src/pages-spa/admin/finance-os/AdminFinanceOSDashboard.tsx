@@ -34,22 +34,22 @@ export default function AdminFinanceOSDashboard() {
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
   const kpis = [
-    { title: "Total Revenue", value: formatCurrency(328000), icon: DollarSign, color: "text-emerald-500", trend: "+12.5% vs last quarter" },
-    { title: "Total Expenses", value: formatCurrency(213000), icon: CreditCard, color: "text-red-400", trend: "+8.3% vs last quarter" },
-    { title: "Net Profit", value: formatCurrency(115000), icon: TrendingUp, color: "text-blue-400", trend: "+18.7% vs last quarter" },
-    { title: "Pending Commissions", value: formatCurrency(41000), icon: Wallet, color: "text-purple-400", trend: "4 pending payouts" },
+    { title: t("finance_os.admin.total_revenue", "Total Revenue"), value: formatCurrency(328000), icon: DollarSign, color: "text-emerald-500", trend: "+12.5% vs last quarter" },
+    { title: t("finance_os.admin.total_expenses", "Total Expenses"), value: formatCurrency(213000), icon: CreditCard, color: "text-red-400", trend: "+8.3% vs last quarter" },
+    { title: t("finance_os.admin.net_profit", "Net Profit"), value: formatCurrency(115000), icon: TrendingUp, color: "text-blue-400", trend: "+18.7% vs last quarter" },
+    { title: t("finance_os.admin.pending_commissions", "Pending Commissions"), value: formatCurrency(41000), icon: Wallet, color: "text-purple-400", trend: "4 pending payouts" },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Finance OS Management</h1>
-          <p className="text-slate-400 mt-1">Financial operations, commissions, and revenue management</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-100">{t("finance_os.admin.title", "Finance OS Management")}</h1>
+          <p className="text-slate-400 mt-1">{t("finance_os.admin.description", "Financial operations, commissions, and revenue management")}</p>
         </div>
         <Button className="bg-indigo-600 hover:bg-indigo-700">
           <DollarSign className="h-4 w-4 mr-2" />
-          Process Payouts
+          {t("finance_os.admin.process_payouts", "Process Payouts")}
         </Button>
       </div>
 
@@ -73,10 +73,10 @@ export default function AdminFinanceOSDashboard() {
 
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList className="bg-slate-900/60 border-slate-800">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="commissions">Commissions</TabsTrigger>
-          <TabsTrigger value="revenue">Revenue</TabsTrigger>
-          <TabsTrigger value="expenses">Expenses</TabsTrigger>
+          <TabsTrigger value="overview">{t("finance_os.admin.overview", "Overview")}</TabsTrigger>
+          <TabsTrigger value="commissions">{t("finance_os.admin.commissions", "Commissions")}</TabsTrigger>
+          <TabsTrigger value="revenue">{t("finance_os.admin.revenue", "Revenue")}</TabsTrigger>
+          <TabsTrigger value="expenses">{t("finance_os.admin.expenses", "Expenses")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -85,10 +85,10 @@ export default function AdminFinanceOSDashboard() {
               <CardHeader>
                 <CardTitle className="text-slate-100 flex items-center gap-2">
                   <TrendingUp className="h-4 w-4 text-emerald-400" />
-                  Revenue vs Expenses (6 months)
+                  {t("finance_os.admin.revenue_vs_expenses", "Revenue vs Expenses (6 months)")}
                 </CardTitle>
                 <CardDescription className="text-slate-400">
-                  Monthly financial performance overview
+                  {t("finance_os.admin.monthly_performance", "Monthly financial performance overview")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -113,9 +113,9 @@ export default function AdminFinanceOSDashboard() {
 
             <Card className="bg-slate-900/60 border-slate-800">
               <CardHeader>
-                <CardTitle className="text-slate-100">Pending Commissions</CardTitle>
+                <CardTitle className="text-slate-100">{t("finance_os.admin.pending_commissions", "Pending Commissions")}</CardTitle>
                 <CardDescription className="text-slate-400">
-                  Commission payouts awaiting processing
+                  {t("finance_os.admin.commission_payouts_awaiting", "Commission payouts awaiting processing")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -130,7 +130,7 @@ export default function AdminFinanceOSDashboard() {
                         }`} />
                         <div>
                           <p className="text-sm font-medium text-slate-200">{commission.agent}</p>
-                          <p className="text-xs text-slate-500">Due: {commission.dueDate}</p>
+                          <p className="text-xs text-slate-500">{t("finance_os.admin.due", "Due:")} {commission.dueDate}</p>
                         </div>
                       </div>
                       <div className="text-right">
@@ -154,15 +154,15 @@ export default function AdminFinanceOSDashboard() {
         <TabsContent value="commissions">
           <Card className="bg-slate-900/60 border-slate-800">
             <CardHeader>
-              <CardTitle className="text-slate-100">Commission Management</CardTitle>
+              <CardTitle className="text-slate-100">{t("finance_os.admin.commission_management", "Commission Management")}</CardTitle>
               <CardDescription className="text-slate-400">
-                Manage agent commissions and payout schedules
+                {t("finance_os.admin.manage_commissions_payouts", "Manage agent commissions and payout schedules")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-slate-400">
                 <Wallet className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Commission management interface</p>
+                <p>{t("finance_os.admin.commission_management_placeholder", "Commission management interface")}</p>
               </div>
             </CardContent>
           </Card>
@@ -171,15 +171,15 @@ export default function AdminFinanceOSDashboard() {
         <TabsContent value="revenue">
           <Card className="bg-slate-900/60 border-slate-800">
             <CardHeader>
-              <CardTitle className="text-slate-100">Revenue Analytics</CardTitle>
+              <CardTitle className="text-slate-100">{t("finance_os.admin.revenue_analytics", "Revenue Analytics")}</CardTitle>
               <CardDescription className="text-slate-400">
-                Detailed revenue breakdown and forecasting
+                {t("finance_os.admin.detailed_revenue_breakdown", "Detailed revenue breakdown and forecasting")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-slate-400">
                 <DollarSign className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Revenue analytics interface</p>
+                <p>{t("finance_os.admin.revenue_analytics_placeholder", "Revenue analytics interface")}</p>
               </div>
             </CardContent>
           </Card>
@@ -188,15 +188,15 @@ export default function AdminFinanceOSDashboard() {
         <TabsContent value="expenses">
           <Card className="bg-slate-900/60 border-slate-800">
             <CardHeader>
-              <CardTitle className="text-slate-100">Expense Management</CardTitle>
+              <CardTitle className="text-slate-100">{t("finance_os.admin.expense_management", "Expense Management")}</CardTitle>
               <CardDescription className="text-slate-400">
-                Track and categorize operational expenses
+                {t("finance_os.admin.track_categorize_expenses", "Track and categorize operational expenses")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-slate-400">
                 <CreditCard className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Expense management interface</p>
+                <p>{t("finance_os.admin.expense_management_placeholder", "Expense management interface")}</p>
               </div>
             </CardContent>
           </Card>

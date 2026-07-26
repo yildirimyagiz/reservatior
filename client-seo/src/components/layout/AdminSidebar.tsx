@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Building2, CalendarCheck, FileText, DollarSign,
   UsersRound, Settings, Brain, Shield, ChevronDown, ChevronRight,
   Receipt, Star, Globe, ShieldCheck, Gavel, Share2, FileDown, Megaphone,
-  Search, Activity, Download, Wrench,
+  Search, Activity, Download, Wrench, Zap,
   Contact, Store, Briefcase, CheckSquare, Cloud, MapPin,
   CreditCard, Ticket, Bot, PieChart, TrendingUp, BarChart3,
   ClipboardList, Server, ArrowRightLeft, UserCog, Wallet, BookOpen, LayoutList
@@ -110,6 +110,17 @@ const adminNavigation: NavItem[] = [
       { title: "Analytics", href: "/admin/analytics", icon: PieChart },
       { title: "Marketing", href: "/admin/marketing", icon: Megaphone },
       { title: "Scraping", href: "/admin/scraping", icon: Search }
+    ]
+  },
+  {
+    title: "Growth AI Engine",
+    icon: Zap,
+    children: [
+      { title: "Spatial Analysis", href: "/admin/spatial", icon: Globe },
+      { title: "Ad Router & Arbitrage", href: "/admin/ad-router", icon: PieChart },
+      { title: "Creator Commerce", href: "/admin/creators", icon: UsersRound },
+      { title: "Telemetry & Gamification", href: "/admin/telemetry", icon: Activity },
+      { title: "Escrow & Settlements", href: "/admin/escrow", icon: ShieldCheck }
     ]
   },
   {

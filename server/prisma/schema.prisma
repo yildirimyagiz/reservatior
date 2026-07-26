@@ -388,6 +388,10 @@ model Organization {
   transferBookings     TransferBooking[]
   conciergeRequests    ConciergeRequest[]
   listingDistributions ListingDistribution[]
+
+  commissionPolicies   CommissionPolicy[]
+  settlementPolicies   SettlementPolicy[]
+  pricingPolicies      PricingPolicy[]
 }
 
 model ConciergeRequest {
@@ -15103,4 +15107,552 @@ model GlobalAuditLog {
   @@index([entityType, entityId])
   @@index([severity])
   @@index([createdAt])
+}
+
+// ══════════════════════════════════════════════════════════════
+// GROWTH AI ENGINE — Spatial Analysis & InsurTech
+// ══════════════════════════════════════════════════════════════
+
+model SpatialAnalysis {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  status          String    @default("PENDING")
+  healthScore     Float?
+  structuralScore Float?
+  cosmeticScore   Float?
+  systemsScore    Float?
+  overallGrade    String?
+  defects         Json?
+  recommendations Json?
+  estimatedRepairCost   Decimal? @db.Decimal(12, 2)
+  estimatedRepairCurrency String?
+  geminiResponse  Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([status])
+}
+
+model PropertyHealthReport {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  spatialAnalysisId String?
+  baselineId      String?
+  healthScore     Float
+  structuralScore Float
+  cosmeticScore   Float
+  systemsScore    Float
+  overallGrade    String
+  defects         Json?
+  repairEstimate  Decimal? @db.Decimal(12, 2)
+  repairCurrency  String?
+  comparisonDelta Float?
+  geminiSummary   String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+}
+
+model SpatialAsset {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  spatialAnalysisId String?
+  assetType       String
+  url             String
+  thumbnailUrl    String?
+  roomType        String?
+  dimensions      Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+}
+
+model RoomAnalysis {
+  id              String    @id @default(cuid())
+  orgId           String
+  spatialAnalysisId String
+  roomName        String
+  roomType        String?
+  area            Float?
+  condition       String?
+  defects         Json?
+  recommendations Json?
+  photos          Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([spatialAnalysisId])
+}
+
+model InsuranceRiskProfile {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  spatialAnalysisId String?
+  riskScore       Float
+  riskLevel       String
+  factors         Json?
+  recommendations Json?
+  premiumEstimate Decimal? @db.Decimal(12, 2)
+  premiumCurrency String?
+  geminiAnalysis  Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+}
+
+model InsuranceProduct {
+  id              String    @id @default(cuid())
+  orgId           String
+  name            String
+  provider        String
+  productType     String
+  coverageTypes   Json?
+  minPremium      Decimal? @db.Decimal(12, 2)
+  maxPremium      Decimal? @db.Decimal(12, 2)
+  currency        String?
+  description     String?
+  features        Json?
+  isActive        Boolean   @default(true)
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([productType])
+  @@index([isActive])
+}
+
+model InsuranceAttachment {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  productId       String
+  holderType      String
+  status          String    @default("PENDING")
+  policyNumber    String?
+  startDate       DateTime?
+  endDate         DateTime?
+  premium         Decimal? @db.Decimal(12, 2)
+  currency        String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([productId])
+}
+
+model MediaLocalization {
+  id              String    @id @default(cuid())
+  orgId           String
+  spatialAssetId  String
+  targetLanguage  String
+  translatedTitle String?
+  translatedDesc  String?
+  altText         String?
+  status          String    @default("PENDING")
+  geminiResponse  Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([spatialAssetId])
+  @@index([targetLanguage])
+}
+
+model BrochureAsset {
+  id              String    @id @default(cuid())
+  orgId           String
+  propertyId      String
+  language        String
+  demographicTarget String?
+  title           String?
+  content         Json?
+  pdfUrl          String?
+  status          String    @default("PENDING")
+  geminiResponse  Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([language])
+}
+
+// ══════════════════════════════════════════════════════════════
+// GROWTH AI ENGINE — Ad Router & Arbitrage
+// ══════════════════════════════════════════════════════════════
+
+model AdCampaign {
+  id              String    @id @default(cuid())
+  orgId           String
+  name            String
+  propertyId      String?
+  campaignType    String
+  status          String    @default("DRAFT")
+  network         String?
+  accountId       String?
+  budget          Decimal   @db.Decimal(12, 2)
+  dailyBudget     Decimal?  @db.Decimal(12, 2)
+  spent           Decimal   @default(0) @db.Decimal(12, 2)
+  currency        String    @default("USD")
+  impressions     Int       @default(0)
+  clicks          Int       @default(0)
+  conversions     Int       @default(0)
+  cpet            Float?
+  roas            Float?
+  targetDemographics Json?
+  targetingConfig Json?
+  creatives       Json?
+  startDate       DateTime?
+  endDate         DateTime?
+  pausedAt        DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  @@index([orgId])
+  @@index([propertyId])
+  @@index([status])
+  @@index([network])
+  @@index([campaignType])
+}
+
+model AdNetworkConfig {
+  id              String    @id @default(cuid())
+  orgId           String
+  network         String
+  accountId       String
+  apiKey          String?
+  isConnected     Boolean   @default(true)
+  lastSyncAt      DateTime?
+  config          Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([network])
+  @@unique([orgId, network, accountId])
+}
+
+model AdBudgetShiftEvent {
+  id              String    @id @default(cuid())
+  orgId           String
+  campaignId      String
+  fromNetwork     String
+  toNetwork       String
+  amount          Decimal   @db.Decimal(12, 2)
+  reason          String?
+  cpetBefore      Float?
+  cpetAfter       Float?
+  status          String    @default("EXECUTED")
+  executedAt      DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+
+  @@index([orgId])
+  @@index([campaignId])
+  @@index([fromNetwork, toNetwork])
+  @@index([createdAt])
+}
+
+model OfflineConversionEvent {
+  id              String    @id @default(cuid())
+  orgId           String
+  campaignId      String
+  eventType       String
+  conversionValue Decimal? @db.Decimal(12, 2)
+  currency        String?
+  gclid           String?
+  externalId      String?
+  sentToNetwork   Boolean   @default(false)
+  sentAt          DateTime?
+  networkResponse Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+
+  @@index([orgId])
+  @@index([campaignId])
+  @@index([sentToNetwork])
+  @@index([createdAt])
+}
+
+// ══════════════════════════════════════════════════════════════
+// GROWTH AI ENGINE — Creator Commerce
+// ══════════════════════════════════════════════════════════════
+
+model CreatorProfile {
+  id              String    @id @default(cuid())
+  orgId           String
+  userId          String?
+  name            String
+  email           String?
+  avatarUrl       String?
+  platform        String?
+  handle          String?
+  followers       Int       @default(0)
+  engagementRate  Float?
+  niche           String?
+  tier            String    @default("STANDARD")
+  commissionRate  Decimal?  @db.Decimal(5, 2)
+  totalEarnings   Decimal   @default(0) @db.Decimal(12, 2)
+  totalLeads      Int       @default(0)
+  totalConversions Int      @default(0)
+  status          String    @default("ACTIVE")
+  socialLinks     Json?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  @@index([orgId])
+  @@index([status])
+  @@index([tier])
+}
+
+model CreatorContent {
+  id              String    @id @default(cuid())
+  orgId           String
+  creatorId       String
+  contentType     String
+  title           String?
+  contentUrl      String?
+  thumbnailUrl    String?
+  propertyId      String?
+  campaignId      String?
+  impressions     Int       @default(0)
+  clicks          Int       @default(0)
+  conversions     Int       @default(0)
+  commission      Decimal?  @db.Decimal(12, 2)
+  status          String    @default("ACTIVE")
+  publishedAt     DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([creatorId])
+  @@index([contentType])
+  @@index([propertyId])
+}
+
+model LeadRecord {
+  id              String    @id @default(cuid())
+  orgId           String
+  creatorId       String
+  propertyId      String?
+  source          String
+  contactName     String?
+  contactEmail    String?
+  contactPhone    String?
+  status          String    @default("NEW")
+  score           Float?
+  convertedAt     DateTime?
+  commission      Decimal?  @db.Decimal(12, 2)
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([creatorId])
+  @@index([status])
+}
+
+model CreatorPayout {
+  id              String    @id @default(cuid())
+  orgId           String
+  creatorId       String
+  amount          Decimal   @db.Decimal(12, 2)
+  currency        String    @default("USD")
+  period          String
+  status          String    @default("PENDING")
+  processedAt     DateTime?
+  method          String?
+  reference       String?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([creatorId])
+  @@index([status])
+}
+
+model AdLiquidityPool {
+  id              String    @id @default(cuid())
+  orgId           String    @unique
+  balance         Decimal   @default(0) @db.Decimal(12, 2)
+  currency        String    @default("USD")
+  totalFunded     Decimal   @default(0) @db.Decimal(12, 2)
+  totalSpent      Decimal   @default(0) @db.Decimal(12, 2)
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+}
+
+model ZeroUpfrontCampaign {
+  id              String    @id @default(cuid())
+  orgId           String
+  creatorId       String
+  propertyId      String
+  campaignType    String
+  networks        Json?
+  targetDemographics Json?
+  budget          Decimal?  @db.Decimal(12, 2)
+  status          String    @default("PENDING")
+  impressions     Int       @default(0)
+  clicks          Int       @default(0)
+  conversions     Int       @default(0)
+  roi             Float?
+  settledAt       DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([creatorId])
+  @@index([propertyId])
+  @@index([status])
+}
+
+model ClosedLoopSettlement {
+  id              String    @id @default(cuid())
+  orgId           String
+  reservationId   String
+  creatorId       String?
+  campaignId      String?
+  bookingAmount   Decimal   @db.Decimal(12, 2)
+  commissionAmount Decimal  @db.Decimal(12, 2)
+  platformFee     Decimal   @default(0) @db.Decimal(12, 2)
+  netPayout       Decimal   @db.Decimal(12, 2)
+  currency        String    @default("USD")
+  status          String    @default("PENDING")
+  processedAt     DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([reservationId])
+  @@index([creatorId])
+  @@index([status])
+}
+
+// ══════════════════════════════════════════════════════════════
+// GROWTH AI ENGINE — Growth Engine & Telemetry
+// ══════════════════════════════════════════════════════════════
+
+model TelemetryEvent {
+  id              String    @id @default(cuid())
+  orgId           String
+  eventType       String
+  entityType      String?
+  entityId        String?
+  severity        String    @default("INFO")
+  title           String
+  description     String?
+  source          String?
+  metadata        Json?
+  acknowledgedBy  String?
+  acknowledgedAt  DateTime?
+  createdAt       DateTime  @default(now())
+
+  @@index([orgId])
+  @@index([eventType])
+  @@index([entityType, entityId])
+  @@index([severity])
+  @@index([createdAt])
+}
+
+model GamificationState {
+  id              String    @id @default(cuid())
+  orgId           String    @unique
+  userId          String?
+  points          Int       @default(0)
+  level           Int       @default(1)
+  streak          Int       @default(0)
+  lastActiveAt    DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([userId])
+}
+
+model GrowthAchievement {
+  id              String    @id @default(cuid())
+  orgId           String
+  userId          String?
+  achievementType String
+  name            String
+  description     String?
+  icon            String?
+  points          Int       @default(0)
+  unlockedAt      DateTime?
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+
+  @@index([orgId])
+  @@index([userId])
+  @@index([achievementType])
+}
+
+model ConversionFunnel {
+  id              String    @id @default(cuid())
+  orgId           String
+  funnelStage     String
+  count           Int       @default(0)
+  conversionRate  Float?
+  period          String
+  startDate       DateTime
+  endDate         DateTime
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+
+  @@index([orgId])
+  @@index([funnelStage])
+  @@index([period])
+  @@index([startDate, endDate])
+}
+
+model GrowthWidget {
+  id              String    @id @default(cuid())
+  orgId           String
+  widgetType      String
+  title           String?
+  config          Json?
+  position        Int       @default(0)
+  isVisible       Boolean   @default(true)
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([orgId])
+  @@index([widgetType])
 }

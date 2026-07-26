@@ -363,6 +363,10 @@ import { commerceOSRoutes } from "./routes/commerce-os";
 import { crmOSRoutes } from "./routes/crm-os";
 import { portfolioOSRoutes } from "./routes/portfolio-os";
 import { platformOSRoutes } from "./routes/platform-os";
+import { spatialAnalysisRoutes, propertyHealthReportRoutes, insuranceRiskRoutes, insuranceProductRoutes, insuranceAttachmentRoutes, spatialAssetRoutes, mediaLocalizationRoutes, brochureRoutes } from "./routes/spatial-analysis";
+import { adRouterRoutes } from "./routes/ad-router";
+import { creatorCommerceRoutes } from "./routes/creator-commerce";
+import { growthEngineRoutes } from "./routes/growth-engine";
 
 // Route Clusters to optimize TypeScript instantiation depth
 const cluster1 = new Elysia()
@@ -772,4 +776,15 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(crmOSRoutes)
   .use(portfolioOSRoutes)
   .use(platformOSRoutes)
+  .use(spatialAnalysisRoutes)
+  .use(propertyHealthReportRoutes)
+  .use(insuranceRiskRoutes)
+  .use(insuranceProductRoutes)
+  .use(insuranceAttachmentRoutes)
+  .use(spatialAssetRoutes)
+  .use(mediaLocalizationRoutes)
+  .use(brochureRoutes)
+  .use(adRouterRoutes)
+  .use(creatorCommerceRoutes)
+  .use(growthEngineRoutes)
 ;

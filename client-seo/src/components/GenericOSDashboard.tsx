@@ -12,6 +12,7 @@ import {
   Globe, Languages, CheckSquare, Star,
 } from "lucide-react";
 import { ComponentType } from "react";
+import { useTranslation } from "react-i18next";
 
 const ICON_MAP: Record<string, ComponentType<any>> = {
   DollarSign, TrendingUp,
@@ -40,6 +41,7 @@ export default function GenericOSDashboard({
   actions,
   children,
 }: GenericOSDashboardProps) {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { currency, language } = useLocalization();
   const orgId = user?.organizationId || "";
@@ -132,27 +134,27 @@ export default function GenericOSDashboard({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Trends</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t("generic_os.trends", "Trends")}</h2>
             <BarChart3 className="w-5 h-5 text-gray-500" />
           </div>
           <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <p className="text-gray-500">Chart will be rendered here</p>
+            <p className="text-gray-500">{t("generic_os.chart_will_render", "Chart will be rendered here")}</p>
           </div>
         </div>
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Distribution</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t("generic_os.distribution", "Distribution")}</h2>
             <PieChart className="w-5 h-5 text-gray-500" />
           </div>
           <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <p className="text-gray-500">Distribution chart will be rendered here</p>
+            <p className="text-gray-500">{t("generic_os.distribution_chart_will_render", "Distribution chart will be rendered here")}</p>
           </div>
         </div>
       </div>
 
       {dashboardStats?.recentActivity && dashboardStats.recentActivity.length > 0 && (
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("generic_os.recent_activity", "Recent Activity")}</h2>
           <div className="space-y-4">
             {dashboardStats.recentActivity.map((item, i) => (
               <div key={item.id || i} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -180,7 +182,7 @@ export default function GenericOSDashboard({
       {dashboardStats?.alerts && dashboardStats.alerts.length > 0 && (
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Alerts & Notifications</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t("generic_os.alerts_notifications", "Alerts & Notifications")}</h2>
             <AlertCircle className="w-5 h-5 text-yellow-500" />
           </div>
           <div className="space-y-3">

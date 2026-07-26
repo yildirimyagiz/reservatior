@@ -22,6 +22,71 @@ interface SidebarItem {
   children?: SidebarItem[];
 }
 
+const sidebarKeyMap: Record<string, string> = {
+  'Dashboard': 'sidebar.dashboard',
+  'Properties': 'sidebar.properties',
+  'Portfolio Hub': 'sidebar.portfolio_hub',
+  'All Properties': 'sidebar.all_properties',
+  'Listings': 'sidebar.listings',
+  'Financial': 'sidebar.financial',
+  'Transactions': 'sidebar.transactions',
+  'Reports': 'sidebar.reports',
+  'Invoices': 'sidebar.invoices',
+  'Expenses': 'sidebar.expenses',
+  'Offers': 'sidebar.offers',
+  'Extra Charges': 'sidebar.extra_charges',
+  'Tenants': 'sidebar.tenants',
+  'Applications': 'sidebar.applications',
+  'Leases': 'sidebar.leases',
+  'Media Studio': 'sidebar.media_studio',
+  'Videos': 'sidebar.videos',
+  'Video Studio': 'sidebar.video_studio',
+  'Agent Workspace': 'sidebar.agent_workspace',
+  'AI Analytics': 'sidebar.ai_analytics',
+  'AI Dashboard': 'sidebar.ai_dashboard',
+  'Analytics': 'sidebar.analytics',
+  'Models': 'sidebar.models',
+  'Legal & Compliance': 'sidebar.legal_compliance',
+  'Project Dashboard': 'sidebar.project_dashboard',
+  'Compliance Dashboard': 'sidebar.compliance_dashboard',
+  'Property Inventory': 'sidebar.property_inventory',
+  'Documents': 'sidebar.documents',
+  'Signatures': 'sidebar.signatures',
+  'Admin': 'sidebar.admin',
+  'Users': 'sidebar.users',
+  'Organizations': 'sidebar.organizations',
+  'Roles': 'sidebar.roles',
+  'Plans': 'sidebar.plans',
+  'System': 'sidebar.system',
+  'Integrations': 'sidebar.integrations',
+  'B2B Hotel Integrations': 'sidebar.b2b_hotel_integrations',
+  'CRM & Agency': 'sidebar.crm_agency',
+  'Contacts & Leads': 'sidebar.contacts_leads',
+  'Agencies': 'sidebar.agencies',
+  'Agents': 'sidebar.agents',
+  'Vendors & Maintenance': 'sidebar.vendors_maintenance',
+  'Operations': 'sidebar.operations',
+  'Tasks': 'sidebar.tasks',
+  'Facilities': 'sidebar.facilities',
+  'Maintenance': 'sidebar.maintenance',
+  'Advanced Operations': 'sidebar.advanced_operations',
+  'Reservations': 'sidebar.reservations',
+  'Payments': 'sidebar.payments',
+  'Marketing': 'sidebar.marketing',
+  'Sales & Commission': 'sidebar.sales_commission',
+  'Company Management': 'sidebar.company_management',
+  'Memberships': 'sidebar.memberships',
+  'Security': 'sidebar.security',
+  'Cloud Infrastructure': 'sidebar.cloud_infrastructure',
+  'Communication': 'sidebar.communication',
+  'Messages': 'sidebar.messages',
+  'Notifications': 'sidebar.notifications',
+  'My Properties': 'sidebar.my_properties',
+  'My Leases': 'sidebar.my_leases',
+  'My Commission': 'sidebar.my_commission',
+  'My Profile': 'sidebar.my_profile',
+};
+
 export default function Sidebar() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
@@ -31,6 +96,11 @@ export default function Sidebar() {
   
   const userRole = getUserRole();
   const sidebarItems: SidebarItem[] = (userRole && roleBasedMenus[userRole as MemberRoleKey]) || defaultMenu || [];
+
+  const tSidebar = (title: string) => {
+    const key = sidebarKeyMap[title];
+    return key ? t(key, title) : title;
+  };
 
   const toggleExpanded = (title: string) => {
     setExpandedItems(prev => prev.includes(title) ? prev.filter(item => item !== title) : [...prev, title]);
@@ -85,7 +155,7 @@ export default function Sidebar() {
             }} className={cn('flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors', isItemActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'text-slate-300 hover:bg-slate-800/50 hover:text-slate-100')}>
                   <Icon className="w-5 h-5 shrink-0" />
                   {open && <>
-                      <span className="flex-1">{item.title}</span>
+                      <span className="flex-1">{tSidebar(item.title)}</span>
                       <div className="flex items-center gap-2">
                         {item.badge && <Badge variant="secondary" className="text-xs bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
                             {item.badge}
@@ -101,7 +171,7 @@ export default function Sidebar() {
                 const ChildIcon = child.icon;
                 return <Link key={child.title} href={child.href || '#'} className={cn('flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors', isActive(child.href) ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200')}>
                           <ChildIcon className="w-4 h-4" />
-                          <span>{child.title}</span>
+                          <span>{tSidebar(child.title)}</span>
                         </Link>;
               })}
                   </div>}

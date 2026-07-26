@@ -51,6 +51,11 @@ const nextConfig = {
     ],
     externalDir: true,
   },
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{ kebabCase member }}',
+    },
+  },
   // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],

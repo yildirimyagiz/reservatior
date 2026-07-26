@@ -446,3 +446,156 @@ export const ALL_MARKET_DATA: Record<string, MarketData> = {
 
 // Merge additional SEO configs
 export const ALL_SEO_LANDING_CONFIGS = [...SEO_LANDING_CONFIGS, ...ADDITIONAL_SEO_CONFIGS];
+
+// ─── Category Enrichment Integration ─────────────────────────────────────────
+
+import {
+  enrichCategory,
+  enrichAll,
+  getEnrichmentStats,
+  getCategoryKeywords,
+  getRotatingTitle,
+  type PropertyCategory,
+  type SupportedLocale,
+} from "./category-enricher";
+
+export {
+  enrichCategory,
+  enrichAll,
+  getEnrichmentStats,
+  getCategoryKeywords,
+  getRotatingTitle,
+  type PropertyCategory,
+  type SupportedLocale,
+};
+
+/**
+ * Mevcut SEO landing config'ini category enricher ile zenginleştir.
+ * Mevcut keywords[] listesine category-enricher'dan gelen
+ * long-tail keyword'leri ekler (deduplicated).
+ *
+ * @example
+ * const enriched = getEnrichedLandingConfig("dubai-rental-yield-calculator");
+ * // enriched.keywords artık 4 değil, 40+ keyword içeriyor
+ */
+export function getEnrichedLandingConfig(
+  slug: string,
+  locale: SupportedLocale = "tr"
+): (typeof ALL_SEO_LANDING_CONFIGS)[0] & { enrichedKeywords: string[] } | undefined {
+  const config = ALL_SEO_LANDING_CONFIGS.find((c) => c.slug === slug);
+  if (!config) return undefined;
+
+  // Şehre göre en uygun category'yi belirle
+  const categoryMap: Record<string, PropertyCategory> = {
+    "rental-yield": "INVESTMENT",
+    "roi": "INVESTMENT",
+    "sale": "SALE_APARTMENT",
+    "rent": "RENT_APARTMENT",
+    "luxury": "LUXURY",
+    "citizenship": "CITIZENSHIP",
+    "comparison": "INVESTMENT",
+    "short-term": "SHORT_TERM",
+  };
+
+  let matchedCategory: PropertyCategory = "INVESTMENT";
+  for (const [key, cat] of Object.entries(categoryMap)) {
+    if (slug.includes(key)) {
+      matchedCategory = cat;
+      break;
+    }
+  }
+
+  let enrichedKeywords: string[] = [...config.keywords];
+  try {
+    const extraKeywords = getCategoryKeywords(matchedCategory, config.city, locale);
+    enrichedKeywords = [...new Set([...config.keywords, ...extraKeywords])];
+  } catch {
+    // city not in enricher catalogue — use original
+  }
+
+  return { ...config, enrichedKeywords };
+}
+
+/**
+ * Tüm şehir × kategori kombinasyonları için otomatik SEO landing page
+ * konfigürasyonu üret. Sitemap.ts ve otomatik route oluşturma için.
+ *
+ * Bu fonksiyon çağrıldığında:
+ * - 6 şehir × 12 kategori = 72 sayfa
+ * - Her sayfa 30+ keyword varyasyonu
+ * - Her sayfa 3-7 FAQ sorusu
+ */
+export function generateAutoSEOConfigs(
+  cities = ["istanbul", "dubai", "london", "barcelona", "lisbon", "miami"],
+  locale: SupportedLocale = "tr"
+) {
+  const CATEGORY_TO_SLUG: Record<PropertyCategory, string> = {
+    SALE_APARTMENT: "satilik-daire",
+    RENT_APARTMENT: "kiralik-daire",
+    SALE_VILLA: "satilik-villa",
+    RENT_VILLA: "kiralik-villa",
+    INVESTMENT: "yatirim-analizi",
+    STUDENT_HOUSING: "ogrenci-evi",
+    LUXURY: "lux-konut",
+    SHORT_TERM: "kisa-donem-kiralama",
+    CITIZENSHIP: "vatandaslik-yatirimi",
+    COMMERCIAL: "ticari-gayrimenkul",
+    NEW_DEVELOPMENT: "yeni-proje",
+    DEPOSIT_FREE: "sifir-depozito",
+  };
+
+  const configs: Array<{
+    slug: string;
+    city: string;
+    title: string;
+    description: string;
+    keywords: string[];
+    h1: string;
+    faq: Array<{ question: string; answer: string }>;
+    anchorTexts: string[];
+    estimatedMonthlySearches: number;
+    competition: string;
+    calculatorType: "roi" | "yield" | "comparison";
+  }> = [];
+
+  for (const city of cities) {
+    const enrichedAll = enrichAll(
+      Object.keys(CATEGORY_TO_SLUG) as PropertyCategory[],
+      [city],
+      locale
+    );
+
+    for (const enriched of enrichedAll) {
+      const slug = `${city}-${CATEGORY_TO_SLUG[enriched.category]}`;
+      const calcType = ["INVESTMENT", "CITIZENSHIP"].includes(enriched.category)
+        ? "roi"
+        : enriched.category.includes("RENT")
+        ? "yield"
+        : "roi";
+
+      configs.push({
+        slug,
+        city,
+        title: enriched.titles[0],
+        description: enriched.descriptions[0],
+        keywords: enriched.keywords,
+        h1: enriched.titles[Math.min(1, enriched.titles.length - 1)],
+        faq: enriched.faqs,
+        anchorTexts: enriched.anchorTexts,
+        estimatedMonthlySearches: enriched.estimatedMonthlySearches,
+        competition: enriched.competition,
+        calculatorType: calcType as "roi" | "yield" | "comparison",
+      });
+    }
+  }
+
+  return configs;
+}
+
+/**
+ * Keyword zenginleştirme potansiyelini ve tahmini gelir etkisini hesapla.
+ * Dashboard veya admin paneli için.
+ */
+export function getKeywordEnrichmentStats() {
+  return getEnrichmentStats();
+}

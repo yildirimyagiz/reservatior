@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 interface CategoryTranslation {
   name: string;
 }
@@ -29,8 +28,9 @@ const CategoryPicker: React.FC<CategoryPickerProps> = ({
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`/api/v1/categories?lang=${lang}`);
-        setCategories(response.data.data);
+        const response = await fetch(`/api/v1/categories?lang=${lang}`);
+        const json = await response.json();
+        setCategories(json.data);
       } catch (error) {
         console.error('Failed to fetch categories', error);
       } finally {

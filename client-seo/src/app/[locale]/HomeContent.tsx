@@ -10,15 +10,16 @@ import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
-import { GetCountries, GetAllCities } from "react-country-state-city";
-import type { Country, City } from "react-country-state-city/dist/umd/types";
+// Lazy-loaded to avoid bundling 1.7 MB react-country-state-city in the main chunk
+const loadCountryCityData = () => import("react-country-state-city");
+interface Country { iso2: string; name: string; id?: number; }
+interface City { name: string; id?: number; latitude?: string; longitude?: string; countryCode?: string; }
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft, 
   ArrowRight, ShieldCheck, ChevronDown, Monitor, Gem, CheckCircle2, Mouse
 } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
-import { useIsMobile } from "@/components/hooks/use-mobile";
 import { InvestmentWidget } from "@/components/investment/InvestmentWidget";
 import dynamic from 'next/dynamic';
 
@@ -224,13 +225,13 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     return () => clearTimeout(timer);
   }, []);
 
-  // Load countries (use local data to avoid external GitHub Pages fetch)
+  // Load countries (lazy-loaded to avoid 1.7 MB bundle in main chunk)
   useEffect(() => {
     const loadCountries = async () => {
       try {
         const folderUrl = typeof window !== 'undefined' ? `${window.location.origin}/country-data` : "/country-data";
+        const { GetCountries } = await loadCountryCityData();
         const allCountries = await GetCountries(folderUrl);
-        // Filter out only the countries we have Prisma configurations for
         const supported = allCountries.filter((c: Country) => SUPPORTED_COUNTRIES.includes(c.iso2));
         setCountries(supported);
       } catch (error) {
@@ -240,15 +241,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     loadCountries();
   }, []);
 
-  // Load cities for autocomplete based on selected country (use local data)
+  // Load cities for autocomplete based on selected country (lazy-loaded)
   useEffect(() => {
     const loadCities = async () => {
       try {
         const folderUrl = typeof window !== 'undefined' ? `${window.location.origin}/country-data` : "/country-data";
+        const { GetAllCities } = await loadCountryCityData();
         const cities = await GetAllCities(folderUrl);
-        // Note: City type doesn't include countryCode, so we load all cities
-        // Google Places API will handle country-specific filtering
-        setLocationSuggestions(cities.slice(0, 50)); // Load first 50 cities
+        setLocationSuggestions(cities.slice(0, 50));
       } catch (error) {
         console.error('Error loading cities:', error);
       }
@@ -314,17 +314,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     });
   }, [response]);
 
-  const isMobile = useIsMobile();
   const [currentSlide, setCurrentSlide] = useState(0);
   useEffect(() => { const iv = setInterval(() => setCurrentSlide(c => (c + 1) % Math.max(slides.length, 4)), 6000); return () => clearInterval(iv); }, [slides.length]);
   const slide = slides[currentSlide] || slides[0];
 
   const bgVideo = useMemo(() => {
-    const desktopVideos = ["/videos/ozak-bg-opt.mp4", "/videos/ozak-dragos-opt.mp4", "/videos/ozak-buyukyali-opt.mp4", "/videos/ozak-duyu-opt.mp4"];
-    const mobileVideos = ["/videos/ozak-bg-mobile.mp4", "/videos/ozak-dragos-mobile.mp4", "/videos/ozak-buyukyali-mobile.mp4", "/videos/ozak-duyu-mobile.mp4"];
-    const videos = isMobile ? mobileVideos : desktopVideos;
+    const videos = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4", "/videos/ozak-duyu-bg.mp4"];
     return videos[currentSlide % videos.length];
-  }, [currentSlide, isMobile]);
+  }, [currentSlide]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
