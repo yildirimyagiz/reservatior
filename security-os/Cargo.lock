@@ -2492,6 +2492,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "security-os-datalake"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "bytes",
+ "chrono",
+ "dashmap",
+ "security-os-core",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.19",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
 name = "security-os-detection-cache"
 version = "0.1.0"
 dependencies = [
@@ -2512,6 +2529,22 @@ dependencies = [
  "chrono",
  "dashmap",
  "regex",
+ "security-os-core",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.19",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "security-os-ebpf"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chrono",
+ "dashmap",
  "security-os-core",
  "serde",
  "serde_json",
@@ -2842,6 +2875,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "security-os-fleet"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chrono",
+ "dashmap",
+ "security-os-core",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.19",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "security-os-identity"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chrono",
+ "dashmap",
+ "hex",
+ "jsonwebtoken",
+ "security-os-core",
+ "serde",
+ "serde_json",
+ "sha2",
+ "thiserror 2.0.19",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
 name = "security-os-ioc"
 version = "0.1.0"
 dependencies = [
@@ -2888,6 +2956,24 @@ dependencies = [
  "serde_json",
  "sha1",
  "sha2",
+ "thiserror 2.0.19",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "security-os-multi-region"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chrono",
+ "dashmap",
+ "security-os-core",
+ "security-os-eventbus",
+ "security-os-fleet",
+ "serde",
+ "serde_json",
  "thiserror 2.0.19",
  "tokio",
  "tracing",
@@ -2975,6 +3061,23 @@ dependencies = [
  "thiserror 2.0.19",
  "tokio",
  "tracing",
+]
+
+[[package]]
+name = "security-os-soar"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chrono",
+ "dashmap",
+ "security-os-core",
+ "security-os-fleet",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.19",
+ "tokio",
+ "tracing",
+ "uuid",
 ]
 
 [[package]]

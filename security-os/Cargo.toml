@@ -77,6 +77,16 @@ members = [
     "ai-memory",
     "ai-multiagent",
 
+    # v3.0 Operations
+    "fleet",
+    "soar",
+    "identity",
+
+    # v3.0 Enterprise
+    "multi-region",
+    "datalake",
+    "ebpf",
+
     # Infrastructure
     "api",
     "dashboard/response",
@@ -85,27 +95,6 @@ members = [
     "proto",
     "plugins",
     "storage/clickhouse",
-
-    # Knowledge Graph
-    "knowledge-graph",
-
-    # Detection DSL
-    "detection-dsl",
-
-    # Malware Analysis
-    "malware",
-
-    # Detection Cache
-    "detection-cache",
-
-    # Threat Intelligence
-    "threat-intel",
-
-    # AI Memory
-    "ai-memory",
-
-    # AI Multi-Agent
-    "ai-multiagent",
 ]
 
 [workspace.dependencies]
