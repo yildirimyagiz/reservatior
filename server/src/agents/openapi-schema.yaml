@@ -1,0 +1,290 @@
+openapi: 3.0.3
+info:
+  title: Reservatior Emlak Sorgulama API
+  description: API for searching and filtering real estate properties in Reservatior platform
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local development server
+  - url: https://api.reservatior.com/api/v1
+    description: Production server
+
+paths:
+  /properties/search:
+    get:
+      operationId: searchProperties
+      summary: Search properties by criteria
+      description: Search for properties based on location, budget, rooms, and other filters
+      parameters:
+        - name: location
+          in: query
+          description: City, district, or neighborhood name
+          required: true
+          schema:
+            type: string
+          example: "Kadıköy"
+        - name: price_max
+          in: query
+          description: Maximum budget in local currency
+          required: false
+          schema:
+            type: number
+            format: float
+          example: 50000
+        - name: price_min
+          in: query
+          description: Minimum budget in local currency
+          required: false
+          schema:
+            type: number
+            format: float
+          example: 10000
+        - name: rooms
+          in: query
+          description: Number of rooms (e.g., 1+1, 2+1, 3+1)
+          required: false
+          schema:
+            type: string
+          example: "3+1"
+        - name: property_type
+          in: query
+          description: Type of property (apartment, house, villa, studio)
+          required: false
+          schema:
+            type: string
+            enum: [apartment, house, villa, studio]
+          example: "apartment"
+        - name: furnished
+          in: query
+          description: Whether the property is furnished
+          required: false
+          schema:
+            type: boolean
+          example: false
+        - name: radius
+          in: query
+          description: Search radius in kilometers from the location center
+          required: false
+          schema:
+            type: number
+            format: float
+            default: 5
+          example: 5
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 50
+          example: 10
+      responses:
+        '200':
+          description: Successful property search
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  count:
+                    type: integer
+                    example: 5
+                  properties:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Property'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /properties/{id}/nearby:
+    get:
+      operationId: getNearbyAmenities
+      summary: Get nearby amenities for a property
+      description: Retrieve information about nearby parks, schools, metro stations, hospitals, and shopping centers
+      parameters:
+        - name: id
+          in: path
+          description: Property ID
+          required: true
+          schema:
+            type: string
+        - name: radius
+          in: query
+          description: Search radius in kilometers
+          required: false
+          schema:
+            type: number
+            format: float
+            default: 2
+          example: 2
+        - name: amenity_type
+          in: query
+          description: Filter by amenity type
+          required: false
+          schema:
+            type: string
+            enum: [park, school, metro, hospital, shopping, all]
+            default: all
+          example: all
+      responses:
+        '200':
+          description: Successful retrieval of nearby amenities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  property_id:
+                    type: string
+                  amenities:
+                    type: object
+                    properties:
+                      parks:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Amenity'
+                      schools:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Amenity'
+                      metro_stations:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Amenity'
+                      hospitals:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Amenity'
+                      shopping_centers:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Amenity'
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Property:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique property identifier
+        title:
+          type: string
+          description: Property title
+        location:
+          type: object
+          properties:
+            city:
+              type: string
+            district:
+              type: string
+            neighborhood:
+              type: string
+            address:
+              type: string
+            latitude:
+              type: number
+              format: float
+            longitude:
+              type: number
+              format: float
+        price:
+          type: object
+          properties:
+            amount:
+              type: number
+              format: float
+            currency:
+              type: string
+            period:
+              type: string
+              enum: [monthly, yearly]
+        rooms:
+          type: string
+          description: Room configuration (e.g., 3+1)
+        area:
+          type: object
+          properties:
+            total:
+              type: number
+              format: float
+            unit:
+              type: string
+              enum: [sqm, sqft]
+        property_type:
+          type: string
+          enum: [apartment, house, villa, studio]
+        furnished:
+          type: boolean
+        amenities:
+          type: array
+          items:
+            type: string
+        images:
+          type: array
+          items:
+            type: string
+        availability:
+          type: string
+          enum: [available, rented, unavailable]
+        created_at:
+          type: string
+          format: date-time
+
+    Amenity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [park, school, metro, hospital, shopping]
+        distance:
+          type: number
+          format: float
+          description: Distance in kilometers
+        rating:
+          type: number
+          format: float
+          description: Rating out of 5
+        address:
+          type: string
+        opening_hours:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+        message:
+          type: string

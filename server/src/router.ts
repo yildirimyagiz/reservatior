@@ -28,6 +28,7 @@ import { contactRoutes } from "./routes/contact";
 import { vendorProfileRoutes } from "./routes/vendor-profile";
 import { agentAssignmentRoutes } from "./routes/agent-assignment";
 import { propertyRoutes } from "./routes/property";
+import { propertySearchRoutes } from "./routes/property-search";
 import { listingRoutes } from "./routes/listing";
 import { listingStatusHistoryRoutes } from "./routes/listing-status-history";
 import { tagRoutes } from "./routes/tag";
@@ -386,6 +387,7 @@ const cluster1 = new Elysia()
   .use(aiSearchStreamRoutes)
   .use(aiCreditRoutes)
   .use(propertyRoutes)
+  .use(propertySearchRoutes)
   .use(listingRoutes)
   .use(listingStatusHistoryRoutes)
   .use(tagRoutes)
