@@ -105,9 +105,9 @@ export function PropertyAmenitiesManager({
                     <span className={`text-sm ${linked ? 'font-medium text-slate-900' : 'text-slate-500'}`}>{amenity.name}</span>
                   </div>
                   
-                  {linked ? <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 text-red-500 hover:bg-red-50 hover:text-red-600 transition-all rounded-full" disabled={!!actionLoading} onClick={() => handleUnlink(amenity.id)}>
+                  {linked ? <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 text-red-500 hover:bg-red-50 hover:text-red-600 transition-all rounded-full" disabled={!!actionLoading} onClick={() => handleUnlink(amenity.id)} aria-label="Remove amenity">
                       {isBusy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
-                    </Button> : <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 text-blue-500 hover:bg-blue-50 hover:text-blue-600 transition-all rounded-full" disabled={!!actionLoading} onClick={() => handleLink(amenity.id)}>
+                    </Button> : <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 text-blue-500 hover:bg-blue-50 hover:text-blue-600 transition-all rounded-full" disabled={!!actionLoading} onClick={() => handleLink(amenity.id)} aria-label="Add amenity">
                       {isBusy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
                     </Button>}
                 </div>;

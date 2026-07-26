@@ -102,7 +102,7 @@ export default function NeuralReview() {
                     </div>
                     <div className="absolute bottom-8 left-8 right-8 p-6 bg-black/60 backdrop-blur-xl border border-white/5 rounded-2xl flex justify-between items-center">
                        <div>
-                          <h4 className="text-lg font-black italic">{t("client.src.neural_restaging_active")}</h4>
+                          <h2 className="text-lg font-black italic">{t("client.src.neural_restaging_active")}</h2>
                           <p className="text-xs text-slate-400">{t("client.src.virtual_furniture_lighting_optimization")}</p>
                        </div>
                        <Button variant="ghost" className="text-xs font-black tracking-widest text-emerald-400">{t("client.src.view_gallery")}<ChevronRight className="w-4 h-4 ml-2" />
@@ -124,7 +124,7 @@ export default function NeuralReview() {
                        <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.5)] cursor-pointer hover:scale-110 transition-transform">
                           <Play className="w-8 h-8 text-white ml-1 fill-current" />
                        </div>
-                       <h3 className="text-2xl font-black italic tracking-tighter">{t("client.src.preview_neural_reel")}</h3>
+                        <h2 className="text-2xl font-black italic tracking-tighter">{t("client.src.preview_neural_reel")}</h2>
                        <p className="text-sm text-slate-300">{t("client.src.generated_for_instagram_tiktok")}</p>
                     </div>
                  </m.div>}
@@ -162,7 +162,7 @@ export default function NeuralReview() {
              <Card className="bg-[#0f1014] border-white/10 rounded-[32px] overflow-hidden shadow-2xl sticky top-24">
                 <CardContent className="p-8 space-y-8">
                    <div className="space-y-2">
-                      <h3 className="text-2xl font-black italic tracking-tighter">{t("client.src.go_global_with_reservatior")}</h3>
+                      <h2 className="text-2xl font-black italic tracking-tighter">{t("client.src.go_global_with_reservatior")}</h2>
                       <p className="text-sm text-slate-400 font-medium leading-relaxed">{t("client.src.by_approving_this_modernization")}</p>
                    </div>
 
@@ -213,7 +213,7 @@ export default function NeuralReview() {
                       <Zap className="w-5 h-5 text-white" />
                    </div>
                    <div>
-                      <h4 className="text-[10px] font-black tracking-widest text-slate-400 leading-none">{t("client.src.ai_agent_assigned")}</h4>
+                       <h3 className="text-[10px] font-black tracking-widest text-slate-400 leading-none">{t("client.src.ai_agent_assigned")}</h3>
                       <p className="text-sm font-black italic text-white">{t("client.src.neural_skipper_v40")}</p>
                    </div>
                 </div>

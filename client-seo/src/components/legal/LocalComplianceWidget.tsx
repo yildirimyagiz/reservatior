@@ -64,10 +64,10 @@ export const LocalComplianceWidget: React.FC = () => {
                  {t("client.src.global_strategy")} {(data.baseCommission * 100).toFixed(1)}% {t("client.src.comm")}
                </Badge>
                <div className="flex gap-1">
-                  <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full hover:bg-white/10" onClick={handlePrev}>
+                  <Button variant="ghost" size="icon" className="min-h-12 min-w-12 rounded-full hover:bg-white/10" onClick={handlePrev}>
                     <ChevronLeft className="w-4 h-4 text-white/50" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full hover:bg-white/10" onClick={handleNext}>
+                  <Button variant="ghost" size="icon" className="min-h-12 min-w-12 rounded-full hover:bg-white/10" onClick={handleNext}>
                     <ChevronRight className="w-4 h-4 text-white/50" />
                   </Button>
                </div>

@@ -175,6 +175,7 @@ export default function ContractFinancials() {
                 <label className="text-xs text-zinc-400 mb-1 block">Aylık Kira (₺)</label>
                 <input
                   type="number"
+                  aria-label="Monthly rent amount"
                   value={rentAmount}
                   onChange={(e) => setRentAmount(Number(e.target.value))}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
@@ -185,6 +186,7 @@ export default function ContractFinancials() {
                 <label className="text-xs text-zinc-400 mb-1 block">Toplam Depozito (₺)</label>
                 <input
                   type="number"
+                  aria-label="Total deposit amount"
                   value={depositTotal}
                   onChange={(e) => setDepositTotal(Number(e.target.value))}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
@@ -194,6 +196,7 @@ export default function ContractFinancials() {
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Depozito Stratejisi</label>
                 <select
+                  aria-label="Deposit strategy"
                   value={depositStrategy}
                   onChange={(e) => setDepositStrategy(e.target.value as DepositStrategy)}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
@@ -208,6 +211,7 @@ export default function ContractFinancials() {
                 <label className="text-xs text-zinc-400 mb-1 block">Taksit Sayısı</label>
                 <input
                   type="number"
+                  aria-label="Number of deposit installments"
                   min={1} max={24}
                   value={depositInstallments}
                   onChange={(e) => setDepositInstallments(Number(e.target.value))}
@@ -218,6 +222,7 @@ export default function ContractFinancials() {
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Kira Ödeme Kanalı</label>
                 <select
+                  aria-label="Rent payment method"
                   value={rentRail}
                   onChange={(e) => setRentRail(e.target.value as PaymentRail)}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
@@ -232,6 +237,7 @@ export default function ContractFinancials() {
                 <label className="text-xs text-zinc-400 mb-1 block">Komisyon Oranı (bps)</label>
                 <input
                   type="number"
+                  aria-label="Commission rate in basis points"
                   value={commissionRateBps}
                   onChange={(e) => setCommissionRateBps(Number(e.target.value))}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
@@ -252,6 +258,7 @@ export default function ContractFinancials() {
                 <label className="text-xs text-zinc-400 mb-1 block">Taşınma Tarihi</label>
                 <input
                   type="date"
+                  aria-label="Move-in date"
                   value={moveInDate}
                   onChange={(e) => setMoveInDate(e.target.value)}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
@@ -261,6 +268,7 @@ export default function ContractFinancials() {
                 <label className="text-xs text-zinc-400 mb-1 block">Capture Günü (Ayın)</label>
                 <input
                   type="number"
+                  aria-label="Capture day of month"
                   min={1} max={28}
                   value={captureDay}
                   onChange={(e) => setCaptureDay(Number(e.target.value))}

@@ -128,17 +128,20 @@ export function VideoGallery({
                 <Button size="icon" variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20 border-none text-white" onClick={() => setCurrentLanguage(currentLanguage === "en" ? "tr" : "en")} title={t("client.src.change_language")}>
                   <Languages className="w-5 h-5" />
                 </Button>
-                <Button size="icon" variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20 border-none text-white" onClick={() => setIsMuted(!isMuted)}>
+                <Button size="icon" variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20 border-none text-white" onClick={() => setIsMuted(!isMuted)} aria-label="Toggle mute">
                   {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
                 </Button>
-                <Button size="icon" variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20 border-none text-white" onClick={() => setSelectedVideo(null)}>
+                <Button size="icon" variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20 border-none text-white" onClick={() => setSelectedVideo(null)} aria-label="Close video">
                   <X className="w-5 h-5" />
                 </Button>
               </div>
 
               {/* Video Player Section */}
               <div className="relative flex-1 w-full bg-black flex items-center justify-center group">
-                <video ref={videoRef} autoPlay loop muted={isMuted} className="w-full h-full object-contain" src={selectedVideo.url}>{t("client.src.your_browser_does_not")}</video>
+                <video ref={videoRef} autoPlay loop muted={isMuted} className="w-full h-full object-contain" src={selectedVideo.url}>
+                  <track kind="captions" src="" srcLang="en" label="English" default />
+                  {t("client.src.your_browser_does_not")}
+                </video>
                 
                 {/* Subtitle Overlay */}
                 {showSubtitles && currentSubtitle && <div className="absolute bottom-24 left-1/2 -translate-x-1/2 max-w-[80%] text-center">

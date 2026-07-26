@@ -222,7 +222,7 @@ export default function SystemMonitoring() {
  <div className="flex items-center justify-between mb-3">
  <div className="flex items-center gap-2">
  {getMetricIcon(metric.type)}
- <h3 className="font-medium text-foreground">{metric.name}</h3>
+  <h2 className="font-medium text-foreground">{metric.name}</h2>
  </div>
  <div className="flex items-center gap-1">
  {getTrendIcon(metric.history)}
@@ -277,7 +277,7 @@ export default function SystemMonitoring() {
  <div className="flex items-center justify-between mb-3">
  <div className="flex items-center gap-2">
  {getServiceIcon(service.type)}
- <h3 className="font-medium text-foreground">{service.name}</h3>
+  <h2 className="font-medium text-foreground">{service.name}</h2>
  </div>
  <Badge className={getStatusColor(service.status)}>
  {service.status === 'running' ? t("admin_system_status_running","Çalışıyor") : service.status === 'stopped' ? t("admin_system_status_stopped","Durduruldu") : service.status === 'error' ? t("admin_system_status_error","Hata") : t("admin_system_status_maintenance","Bakım")}
@@ -347,7 +347,7 @@ export default function SystemMonitoring() {
  <div className="mt-1 text-muted-foreground">{getAlertIcon(alert.type)}</div>
  <div className="flex-1 min-w-0">
  <div className="flex items-center gap-2 mb-1">
- <h4 className="font-medium text-foreground">{alert.title}</h4>
+  <h2 className="font-medium text-foreground">{alert.title}</h2>
  <Badge className={getSeverityColor(alert.severity)}>{alert.severity === 'low' ? t("admin_system_severity_low","Düşük") : alert.severity === 'medium' ? t("admin_system_severity_medium","Orta") : alert.severity === 'high' ? t("admin_system_severity_high","Yüksek") : t("admin_system_severity_critical","Kritik")}</Badge>
  <Badge className={getStatusColor(alert.status)}>{alert.status === 'active' ? t("admin_system_alert_active","Aktif") : alert.status === 'acknowledged' ? t("admin_system_alert_acknowledged","Onaylandı") : t("admin_system_alert_resolved","Çözüldü")}</Badge>
  </div>

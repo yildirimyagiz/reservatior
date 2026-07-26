@@ -109,10 +109,10 @@ export function CustomerSupport() {
                   </div>
                 </div>
                 <div className="flex gap-1">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/10" onClick={() => setIsMinimized(!isMinimized)}>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/10" onClick={() => setIsMinimized(!isMinimized)} aria-label="Toggle chat size">
                     {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
                   </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/10" onClick={() => setIsOpen(false)}>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/10" onClick={() => setIsOpen(false)} aria-label="Close support chat">
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
@@ -141,14 +141,14 @@ export function CustomerSupport() {
                   </ScrollArea>
                   <CardFooter className="p-4 pt-2 border-t border-border flex flex-col gap-2">
                     <div className="flex w-full items-center gap-2">
-                      <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0 opacity-50 hover:opacity-100">
+                      <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0 opacity-50 hover:opacity-100" aria-label="Attach file">
                         <Paperclip className="h-4 w-4" />
                       </Button>
                       <Input placeholder={t("client.src.type_a_message")} value={message} onChange={e => setMessage(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSend()} className="h-10 bg-secondary/30 border-none shadow-none focus-visible:ring-1 focus-visible:ring-primary" />
-                      <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0 opacity-50 hover:opacity-100">
+                      <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0 opacity-50 hover:opacity-100" aria-label="Emoji">
                         <Smile className="h-4 w-4" />
                       </Button>
-                      <Button size="icon" className="h-9 w-9 shrink-0 bg-primary hover:bg-primary/90" onClick={handleSend} disabled={!message.trim()}>
+                      <Button size="icon" className="h-9 w-9 shrink-0 bg-primary hover:bg-primary/90" onClick={handleSend} disabled={!message.trim()} aria-label="Send message">
                         <Send className="h-4 w-4" />
                       </Button>
                     </div>

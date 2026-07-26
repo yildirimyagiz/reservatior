@@ -172,6 +172,7 @@ export default function MediaGallery({
                       <Card className="overflow-hidden">
                         <div className="relative aspect-video">
                           {featuredMedia.type === "video" ? <video className="w-full h-full object-cover" controls poster={featuredMedia.thumbnail}>
+                              <track kind="captions" src="" srcLang="en" label="English" default />
                               <source src={featuredMedia.url as string} type="video/mp4" />
                             </video> : <Image src={featuredMedia.url as string} alt={featuredMedia.caption || ""} fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />}
                         </div>
@@ -218,6 +219,7 @@ export default function MediaGallery({
               </DialogHeader>
               <div className="relative aspect-video">
                 {selectedMedia.type === "video" ? <video className="w-full h-full object-contain bg-black" controls autoPlay={isPlaying} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}>
+                    <track kind="captions" src="" srcLang="en" label="English" default />
                     <source src={selectedMedia.url as string} type="video/mp4" />
                   </video> : <Image src={selectedMedia.url as string} alt={selectedMedia.caption || ""} fill className="object-contain" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />}
               </div>

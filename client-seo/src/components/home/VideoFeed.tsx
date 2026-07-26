@@ -179,7 +179,9 @@ function VideoSlide({
   };
   return <div className="h-full w-full snap-start relative bg-slate-900 group">
       {/* Video layer */}
-      <video ref={videoRef} src={listing.videoContents[0]?.videoUrl} poster={listing.videoContents[0]?.thumbnailUrl} loop muted={muted} playsInline className="h-full w-full object-cover" onClick={togglePlay} />
+      <video ref={videoRef} src={listing.videoContents[0]?.videoUrl} poster={listing.videoContents[0]?.thumbnailUrl} loop muted={muted} playsInline className="h-full w-full object-cover" onClick={togglePlay}>
+        <track kind="captions" src="" srcLang="en" label="English" default />
+      </video>
 
       {/* Overlay UI */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/90 pointer-events-none" />

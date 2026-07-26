@@ -303,7 +303,9 @@ export default function VideosPage() {
                       muted 
                       playsInline 
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                    />
+                    >
+                      <track kind="captions" src="" srcLang="en" label="English" default />
+                    </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     
                     {/* Play Button */}
@@ -311,6 +313,7 @@ export default function VideosPage() {
                       <Button
                         size="icon"
                         className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 border-2 border-white/50"
+                        aria-label="Play video"
                       >
                         <Play className="w-6 h-6 fill-white text-white ml-1" />
                       </Button>

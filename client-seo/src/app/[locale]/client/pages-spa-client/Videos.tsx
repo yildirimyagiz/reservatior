@@ -239,6 +239,7 @@ export default function Videos() {
                       onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
                       className="w-full h-full object-cover opacity-90"
                     >
+                      <track kind="captions" src="" srcLang="en" label="English" default />
                       <source src={`${video.videoUrl}#t=2`} type="video/mp4" />
                     </video>
                     <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent h-32" />
@@ -418,7 +419,9 @@ export default function Videos() {
                       muted
                       playsInline
                       className={`w-full h-full object-cover transition-transform duration-700 ${isActive ? 'scale-105' : 'group-hover:scale-105'}`}
-                    />
+                    >
+                      <track kind="captions" src="" srcLang="en" label="English" default />
+                    </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute top-1.5 left-1.5 bg-black/70 backdrop-blur-sm rounded px-1.5 py-0.5">
                       <span className="text-[10px] font-bold text-white">{p.price}</span>

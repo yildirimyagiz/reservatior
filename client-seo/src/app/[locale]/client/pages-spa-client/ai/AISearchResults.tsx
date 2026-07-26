@@ -91,6 +91,7 @@ export default function AISearchResults() {
           <div className="relative flex items-center bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden focus-within:border-indigo-500/30 transition-all">
             <Search className="w-5 h-5 text-white/30 ml-5" />
             <input
+              aria-label="AI search"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleNewSearch()}

@@ -286,6 +286,7 @@ export default function AddPropertyWizard() {
                         <Label className="text-muted-foreground">{t('add_property.country', 'Country')}</Label>
                         <div className="relative">
                           <select
+                            aria-label="Country"
                             className="h-14 w-full bg-muted/20 border border-border rounded-xl px-4 text-lg text-foreground appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                             value={formData.country}
                             onChange={(e) => setFormData({...formData, country: e.target.value})}

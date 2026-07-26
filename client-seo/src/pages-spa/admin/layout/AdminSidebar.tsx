@@ -47,7 +47,7 @@ export function AdminSidebar({
             Reservatior</span>
         </div>
         {sidebarOpen && (
-          <button className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground ml-auto" onClick={(e) => { e.stopPropagation(); onToggleSidebar(); }}>
+          <button className="min-h-12 min-w-12 shrink-0 text-muted-foreground hover:text-foreground ml-auto" onClick={(e) => { e.stopPropagation(); onToggleSidebar(); }}>
             <ChevronLeft className="w-3.5 h-3.5 transition-transform duration-300" />
           </button>
         )}

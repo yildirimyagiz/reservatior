@@ -198,7 +198,7 @@ export default function AdminSidebar({ sidebarOpen, onToggle }: AdminSidebarProp
       <div className="flex items-center justify-end px-4 py-5 border-b border-white/10 min-h-[69px]">
         <button
           aria-label="Toggle sidebar"
-          className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
+          className="min-h-12 min-w-12 shrink-0 text-muted-foreground hover:text-foreground"
           onClick={onToggle}
         >
           <ChevronRight className={`w-3.5 h-3.5 transition-transform ${sidebarOpen ? 'rotate-180' : ''}`} />

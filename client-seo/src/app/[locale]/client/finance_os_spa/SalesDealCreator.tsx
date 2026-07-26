@@ -287,24 +287,28 @@ export default function SalesDealCreator() {
                 <label className="text-xs font-medium text-muted-foreground">Satış Fiyatı</label>
                 <div className="flex items-center gap-2 border border-border rounded-xl px-3 py-2 bg-background">
                   <span className="text-xs text-muted-foreground">{country.currency}</span>
-                  <input
-                    type="number"
-                    value={salePrice}
-                    onChange={e => setSalePrice(Number(e.target.value))}
-                    className="flex-1 bg-transparent text-sm font-medium outline-none"
-                  />
+            <input
+              type="number"
+              aria-label="Sale price"
+              value={salePrice}
+              onChange={(e) => setSalePrice(Number(e.target.value))}
+              className="bg-black/40 border-white/10 text-white rounded-xl p-3 w-full"
+              placeholder="0.00"
+            />
                 </div>
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-medium text-muted-foreground">Aylık Kira (Hibrit Eşiği)</label>
                 <div className="flex items-center gap-2 border border-border rounded-xl px-3 py-2 bg-background">
                   <span className="text-xs text-muted-foreground">{country.currency}</span>
-                  <input
-                    type="number"
-                    value={monthlyRent}
-                    onChange={e => setMonthlyRent(Number(e.target.value))}
-                    className="flex-1 bg-transparent text-sm font-medium outline-none"
-                  />
+            <input
+              type="number"
+              aria-label="Monthly rent for hybrid threshold"
+              value={monthlyRent}
+              onChange={(e) => setMonthlyRent(Number(e.target.value))}
+              className="bg-black/40 border-white/10 text-white rounded-xl p-3 w-full"
+              placeholder="0.00"
+            />
                 </div>
               </div>
             </div>

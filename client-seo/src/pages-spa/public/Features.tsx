@@ -135,7 +135,7 @@ export default function Features() {
                         <item.icon className="w-6 h-6" />
                       </div>
                       <div className="space-y-2">
-                        <h4 className="text-xl font-bold italic tracking-tight text-white group-hover:translate-x-2 transition-transform">{item.title}</h4>
+                        <h3 className="text-xl font-bold italic tracking-tight text-white group-hover:translate-x-2 transition-transform">{item.title}</h3>
                         <p className="text-sm text-slate-500 leading-relaxed italic">{item.description}</p>
                       </div>
                     </CardContent>
@@ -233,17 +233,17 @@ export default function Features() {
         <div className="mt-40 border-t border-white/5 pt-24 grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
             <span className="text-[10px] font-black text-primary tracking-[0.3em] mb-4 block">{t("client.src.getting_started")}</span>
-            <h5 className="text-sm font-black italic mb-4">{t("client.src.are_you_a_property")}</h5>
+            <h3 className="text-sm font-black italic mb-4">{t("client.src.are_you_a_property")}</h3>
             <p className="text-xs text-slate-500 leading-loose italic">{t("client.src.using_our_neural_staging")}</p>
           </div>
           <div>
             <span className="text-[10px] font-black text-blue-400 tracking-[0.3em] mb-4 block">{t("client.src.operation_guide")}</span>
-            <h5 className="text-sm font-black italic mb-4">{t("client.src.agency_management")}</h5>
+            <h3 className="text-sm font-black italic mb-4">{t("client.src.agency_management")}</h3>
             <p className="text-xs text-slate-500 leading-loose italic">{t("client.src.with_the_commission_distribution")}</p>
           </div>
           <div>
             <span className="text-[10px] font-black text-emerald-400 tracking-[0.3em] mb-4 block">{t("client.src.tax_compliance")}</span>
-            <h5 className="text-sm font-black italic mb-4">{t("client.src.global_tax_management")}</h5>
+            <h3 className="text-sm font-black italic mb-4">{t("client.src.global_tax_management")}</h3>
             <p className="text-xs text-slate-500 leading-loose italic">{t("client.src.automatically_track_your_tax")}</p>
           </div>
         </div>

@@ -493,7 +493,9 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   }} exit={{
                     opacity: 0
                   }} className="w-full h-full relative">
-                          <video src={activeVideoUrl || ""} className="w-full h-full object-cover" controls autoPlay />
+                          <video src={activeVideoUrl || ""} className="w-full h-full object-cover" controls autoPlay>
+                            <track kind="captions" src="" srcLang="en" label="English" default />
+                          </video>
                           {!activeVideoUrl && <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
                                 <Activity className="w-12 h-12 text-blue-600 animate-spin" />
                              </div>}
@@ -1220,6 +1222,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                 <label className="flex items-center gap-2.5 text-sm text-slate-300 cursor-pointer">
                   <input 
                     type="checkbox" 
+                    aria-label="Inspection contingency"
                     checked={inspectionContingency} 
                     onChange={(e) => setInspectionContingency(e.target.checked)}
                     className="rounded bg-black/40 border-white/10 text-emerald-500 focus:ring-emerald-500/30"
@@ -1229,6 +1232,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                 <label className="flex items-center gap-2.5 text-sm text-slate-300 cursor-pointer">
                   <input 
                     type="checkbox" 
+                    aria-label="Appraisal contingency"
                     checked={appraisalContingency} 
                     onChange={(e) => setAppraisalContingency(e.target.checked)}
                     className="rounded bg-black/40 border-white/10 text-emerald-500 focus:ring-emerald-500/30"
@@ -1278,6 +1282,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                 <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.viewing.preferred_date", "Preferred Date")}</Label>
                 <Input 
                   type="date" 
+                  aria-label="Preferred viewing date"
                   value={viewingDate} 
                   onChange={(e) => setViewingDate(e.target.value)} 
                   className="bg-black/40 border-white/10 text-white rounded-xl"
@@ -1288,6 +1293,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                 <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.viewing.preferred_time", "Preferred Time")}</Label>
                 <Input 
                   type="time" 
+                  aria-label="Preferred viewing time"
                   value={viewingTime} 
                   onChange={(e) => setViewingTime(e.target.value)} 
                   className="bg-black/40 border-white/10 text-white rounded-xl"
