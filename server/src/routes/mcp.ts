@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { prisma } from "../lib/prisma";
+import { regionMiddleware } from "../middleware/region";
 
 /**
  * MCP (Model Context Protocol) Server Endpoint
@@ -118,7 +118,7 @@ const MCP_TOOLS = [
   },
 ];
 
-async function handleSearchProperties(args: any) {
+async function handleSearchProperties(args: any, db: any) {
   const { query, city, country, type, listingType, minPrice, maxPrice, bedrooms, bathrooms, minAreaSqm, limit = 10, page = 1 } = args;
   
   const where: any = { deletedAt: null };
@@ -156,7 +156,7 @@ async function handleSearchProperties(args: any) {
   const skip = ((parseInt(page) || 1) - 1) * take;
 
   const [properties, total] = await Promise.all([
-    prisma.property.findMany({
+    db.property.findMany({
       where,
       skip,
       take,
@@ -166,7 +166,7 @@ async function handleSearchProperties(args: any) {
         listings: { take: 1, where: { status: "AVAILABLE", deletedAt: null } },
       },
     }),
-    prisma.property.count({ where }),
+    db.property.count({ where }),
   ]);
 
   return {
@@ -198,8 +198,8 @@ async function handleSearchProperties(args: any) {
   };
 }
 
-async function handleGetProperty(args: any) {
-  const property = await prisma.property.findUnique({
+async function handleGetProperty(args: any, db: any) {
+  const property = await db.property.findUnique({
     where: { id: args.id },
     include: {
       propertyPhotos: { orderBy: { isPrimary: "desc" } },
@@ -250,7 +250,7 @@ async function handleGetProperty(args: any) {
   };
 }
 
-async function handleSearchListings(args: any) {
+async function handleSearchListings(args: any, db: any) {
   const { query, type, status, city, country, minPrice, maxPrice, bedrooms, sortBy, limit = 10, page = 1 } = args;
   
   const where: any = { deletedAt: null };
@@ -292,7 +292,7 @@ async function handleSearchListings(args: any) {
   const skip = ((parseInt(page) || 1) - 1) * take;
 
   const [listings, total] = await Promise.all([
-    prisma.listing.findMany({
+    db.listing.findMany({
       where,
       skip,
       take,
@@ -307,7 +307,7 @@ async function handleSearchListings(args: any) {
         tags: { include: { tag: true } },
       },
     }),
-    prisma.listing.count({ where }),
+    db.listing.count({ where }),
   ]);
 
   return {
@@ -343,8 +343,8 @@ async function handleSearchListings(args: any) {
   };
 }
 
-async function handleGetListing(args: any) {
-  const listing = await prisma.listing.findUnique({
+async function handleGetListing(args: any, db: any) {
+  const listing = await db.listing.findUnique({
     where: { id: args.id },
     include: {
       property: {
@@ -404,7 +404,7 @@ async function handleGetListing(args: any) {
   };
 }
 
-async function handleGetFeed(args: any) {
+async function handleGetFeed(args: any, db: any) {
   const { region, category, type, limit = 10, page = 1 } = args;
   
   const where: any = {
@@ -419,7 +419,7 @@ async function handleGetFeed(args: any) {
   const take = Math.min(parseInt(limit) || 10, 50);
   const skip = ((parseInt(page) || 1) - 1) * take;
 
-  const listings = await prisma.listing.findMany({
+  const listings = await db.listing.findMany({
     where,
     skip,
     take,
@@ -463,7 +463,7 @@ async function handleGetFeed(args: any) {
   };
 }
 
-async function handleGetAreas(args: any) {
+async function handleGetAreas(args: any, db: any) {
   const { country, city } = args;
   
   const where: any = { deletedAt: null };
@@ -473,7 +473,7 @@ async function handleGetAreas(args: any) {
   ];
   if (city) where.city = { contains: city, mode: "insensitive" };
 
-  const properties = await prisma.property.groupBy({
+  const properties = await db.property.groupBy({
     by: ["city", "country", "region"],
     where,
     _count: { id: true },
@@ -499,7 +499,7 @@ async function handleGetAreas(args: any) {
   };
 }
 
-async function handleGetMarketStats(args: any) {
+async function handleGetMarketStats(args: any, db: any) {
   const { city, country } = args;
   
   const where: any = { deletedAt: null };
@@ -510,15 +510,15 @@ async function handleGetMarketStats(args: any) {
   ];
 
   const [totalProperties, totalListings, priceStats, typeStats] = await Promise.all([
-    prisma.property.count({ where }),
-    prisma.listing.count({ where: { ...where, property: undefined } }),
-    prisma.property.aggregate({
+    db.property.count({ where }),
+    db.listing.count({ where: { ...where, property: undefined } }),
+    db.property.aggregate({
       where,
       _avg: { listingPrice: true, areaSqm: true, aiNeighborhoodScore: true },
       _min: { listingPrice: true },
       _max: { listingPrice: true },
     }),
-    prisma.property.groupBy({
+    db.property.groupBy({
       by: ["type"],
       where,
       _count: { id: true },
@@ -546,7 +546,7 @@ async function handleGetMarketStats(args: any) {
   };
 }
 
-const TOOL_HANDLERS: Record<string, (args: any) => Promise<any>> = {
+const TOOL_HANDLERS: Record<string, (args: any, db: any) => Promise<any>> = {
   search_properties: handleSearchProperties,
   get_property: handleGetProperty,
   search_listings: handleSearchListings,
@@ -557,8 +557,10 @@ const TOOL_HANDLERS: Record<string, (args: any) => Promise<any>> = {
 };
 
 export const mcpRoutes = new Elysia({ prefix: "/api/mcp" })
-  .post("/", async ({ body }) => {
+  .use(regionMiddleware)
+  .post("/", async ({ body, db, headers }) => {
     const { jsonrpc = "2.0", method, params = {}, id } = body as any;
+    const regionHeader = headers["x-region"] || "DEFAULT";
 
     // MCP Protocol: initialize
     if (method === "initialize") {
@@ -599,7 +601,7 @@ export const mcpRoutes = new Elysia({ prefix: "/api/mcp" })
       }
 
       try {
-        const result = await handler(args);
+        const result = await handler(args, db);
         return { jsonrpc: "2.0", id, result };
       } catch (error: any) {
         return {
