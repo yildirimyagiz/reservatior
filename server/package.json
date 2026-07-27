@@ -123,7 +123,7 @@
     "@types/qrcode-terminal": "^0.12.2",
     "@zenstackhq/cli": "^3.5.2",
     "@zenstackhq/runtime": "^2.22.1",
-    "@zenstackhq/server": "2.22.1",
+    "@zenstackhq/server": "3.8.3",
     "amqplib": "^2.0.1",
     "axios": "^1.14.0",
     "cheerio": "^1.2.0",
