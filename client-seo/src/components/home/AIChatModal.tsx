@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import GeminiClient from "@/lib/ai/gemini-client";
 import {
   Sparkles,
   X,
@@ -63,22 +64,20 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
     setAiIsLoading(true);
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-      const response = await fetch(`${API_URL}/ai-search`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: userMessage.text })
-      });
-
-      const data = await response.json();
-
-      if (data.error) throw new Error(data.error);
-
+      const aiResponse = await GeminiClient.processSearchQuery(userMessage.text);
+      
       setAiMessages((prev) => [...prev, {
         id: (Date.now() + 1).toString(),
         role: "ai",
-        text: data.text,
-        properties: data.properties?.length > 0 ? data.properties : undefined
+        text: aiResponse.text,
+        properties: aiResponse.suggestions && aiResponse.suggestions.length > 0 ? aiResponse.suggestions.map(s => ({
+          image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+          title: s.text,
+          price: "Contact for price",
+          location: "Various locations",
+          beds: "Varies",
+          baths: "Varies"
+        })) : undefined
       }]);
     } catch {
       setAiMessages((prev) => [...prev, { id: Date.now().toString(), role: "ai", text: t("client.src.connection_error_please_try_again", "Connection error, please try again") }]);
