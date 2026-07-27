@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
+import GeminiClient from "@/lib/ai/gemini-client";
 // Lazy-loaded to avoid bundling 1.7 MB react-country-state-city in the main chunk
 const loadCountryCityData = () => import("react-country-state-city");
 interface Country { iso2: string; name: string; id?: number; }
@@ -204,6 +205,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
+  const [aiSuggestions, setAiSuggestions] = useState<{ text: string; type: string; confidence: number }[]>([]);
+  const [showAiSuggestions, setShowAiSuggestions] = useState(false);
+  const [isAiLoading, setIsAiLoading] = useState(false);
 
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { provider, apiKey } = useMapProvider();
@@ -286,6 +290,27 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       script.onload = initGoogleAutocomplete;
       document.head.appendChild(script);
     } else script.addEventListener("load", initGoogleAutocomplete);
+  };
+
+  // AI-powered search suggestions
+  const handleAiSuggestions = async (input: string) => {
+    if (input.length < 3) {
+      setAiSuggestions([]);
+      setShowAiSuggestions(false);
+      return;
+    }
+
+    setIsAiLoading(true);
+    try {
+      const suggestions = await GeminiClient.getSearchSuggestions(input);
+      setAiSuggestions(suggestions);
+      setShowAiSuggestions(suggestions.length > 0);
+    } catch (error) {
+      console.error('AI suggestions error:', error);
+      setAiSuggestions([]);
+    } finally {
+      setIsAiLoading(false);
+    }
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -499,13 +524,52 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       onChange={(e) => {
                         setSearchLocation(e.target.value);
                         setShowLocationSuggestions(e.target.value.length > 0);
+                        handleAiSuggestions(e.target.value);
                       }}
                       onFocus={() => { setShowLocationSuggestions(searchLocation.length > 0); loadGoogleMapsAutocomplete(); }}
                       onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
                       placeholder={t('home.search.where_hint', { defaultValue: 'Search destinations' }) as string}
                       className="bg-transparent border-none focus:outline-none focus:ring-0 text-base font-bold text-slate-900 dark:text-white w-full p-0 placeholder:font-medium placeholder:text-slate-400" 
                     />
-                    {showLocationSuggestions && locationSuggestions.length > 0 && (
+                    
+                    {/* AI Suggestions */}
+                    {showAiSuggestions && aiSuggestions.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-indigo-200 dark:border-indigo-500/30 z-50 max-h-60 overflow-y-auto">
+                        <div className="px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-b border-indigo-100 dark:border-indigo-500/20">
+                          <div className="flex items-center gap-2">
+                            <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                            <span className="text-xs font-bold text-indigo-700 dark:text-indigo-300 uppercase tracking-wider">AI Suggestions</span>
+                            {isAiLoading && (
+                              <div className="flex gap-1 ml-2">
+                                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" />
+                                <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce delay-150" />
+                                <div className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce delay-300" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        {aiSuggestions.map((suggestion, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() => {
+                              setSearchLocation(suggestion.text);
+                              setShowAiSuggestions(false);
+                            }}
+                            className="w-full px-6 py-3 text-left hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors flex items-center gap-3 min-h-[48px]"
+                          >
+                            <Sparkles className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                            <span className="text-sm font-medium text-slate-900 dark:text-white">{suggestion.text}</span>
+                            <span className="ml-auto text-xs px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full font-semibold">
+                              {suggestion.type}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Location Suggestions */}
+                    {showLocationSuggestions && locationSuggestions.length > 0 && !showAiSuggestions && (
                       <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 z-50 max-h-60 overflow-y-auto">
                         {locationSuggestions
                           .filter(city => city.name.toLowerCase().includes(searchLocation.toLowerCase()))
