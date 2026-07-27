@@ -117,12 +117,16 @@ model User {
   memberships                    OrganizationMember[]
   socialPosts                    SocialPost[]
   socialAIContents               SocialAIContent[]
+  ownerProfiles                  OwnerProfile[]                  @relation("OwnerProfiles")
+  communicationUnsubscribes      CommunicationUnsubscribe[]      @relation("UserUnsubscribes")
   socialCommentReplies           SocialCommentReply[]
   socialAutomationRules          SocialAutomationRule[]
   ownedListings                  Listing[]                       @relation("UserOwnedListings")
   aiintentAuditLogs              AIIntentAuditLog[]
   userAIHabits                   UserAIHabit[]
   userRevenueProfile             UserRevenueProfile?
+  userIntelligenceProfile        UserIntelligenceProfile?
+  userInvestmentProfile          UserInvestmentProfile?
 }
 
 model Session {
@@ -389,9 +393,9 @@ model Organization {
   conciergeRequests    ConciergeRequest[]
   listingDistributions ListingDistribution[]
 
-  commissionPolicies   CommissionPolicy[]
-  settlementPolicies   SettlementPolicy[]
-  pricingPolicies      PricingPolicy[]
+  commissionPolicies CommissionPolicy[]
+  settlementPolicies SettlementPolicy[]
+  pricingPolicies    PricingPolicy[]
 }
 
 model ConciergeRequest {
@@ -718,10 +722,45 @@ model Property {
   listingType      ListingType           @default(SALE)
 
   // AI Precomputed Fields
-  aiSummary                String?                         @db.Text
-  aiProsCons               String?                         @db.Text
-  aiNeighborhoodScore      Float?
-  aiROIHint                String?                         @db.Text
+  aiSummary           String? @db.Text
+  aiProsCons          String? @db.Text
+  aiNeighborhoodScore Float?
+  aiROIHint           String? @db.Text
+
+  // AI Enhanced Fields - Phase 1 Expansion
+  // Opportunity Engine Results
+  aiOpportunityScore   Float?
+  aiOpportunityTier    OpportunityTier?
+  aiAcquisitionUrgency AcquisitionUrgency?
+  aiScoreBreakdown     Json? // { yieldScore, priceGapScore, demandScore, vacancyScore, riskScore, liquidityScore }
+
+  // Strategic Brain Results
+  aiRecommendedStrategy   String?
+  aiWhyScore              String?  @db.Text
+  aiRegionalStrengths     String[]
+  aiTargetSegments        String[]
+  aiRiskFactors           String[]
+  aiTimingRecommendations String?
+  aiStrategicConfidence   Float?
+
+  // Simulation Agent Results
+  aiSimulationScenarios  Json? // { scenarioName, scenarioType, estimatedTimeframe, estimatedRevenue, estimatedCost, netProfit, profitMargin, confidence, riskFactors, requirements }
+  aiRecommendedScenario  String?
+  aiSimulationConfidence Float?
+
+  // Ranking Engine Results
+  aiOverallRankingScore Float?
+  aiRank                Int?
+  aiComponentScores     Json? // { opportunityScore, strategicScore, simulationScore, marketScore, userPreferenceScore }
+  aiKeyFactors          String[]
+  aiRecommendedAction   String?
+  aiRankingConfidence   Float?
+
+  // AI Metadata
+  aiLastAnalyzedAt         DateTime?
+  aiModelVersion           String?
+  aiProviderUsed           String?
+  aiAnalysisFlags          String[]
   listingStatus            ListingStatus                   @default(AVAILABLE)
   listingPrice             Decimal?                        @db.Decimal(14, 2)
   originalPrice            Decimal?                        @db.Decimal(14, 2)
@@ -895,6 +934,14 @@ model Property {
   includedServices         IncludedService[]               @relation("IncludedServiceProperties")
   securityIncidents        SecurityIncident[]
   propertySecurityConfig   PropertySecurityConfig?
+  predictionOutcomes       PredictionOutcome[]
+  agentTasks               AgentTask[]
+
+  // Phase 1: Property Intelligence Engine Relations
+  propertyIntelligenceProfile PropertyIntelligenceProfile?
+  propertyCurrentScore      PropertyCurrentScore?
+  propertyScoreHistories    PropertyScoreHistory[]
+  propertyDigitalTwin       PropertyDigitalTwin?
 
   nzCode                  NZRegion? // Managed field
   legalDescription        String? // Managed field
@@ -1205,78 +1252,78 @@ model Property {
 }
 
 model Listing {
-  id                    String                 @id @default(cuid())
-  orgId                 String
-  propertyId            String
-  type                  ListingType
-  status                ListingStatus
-  willBeAvailableAt     DateTime?
-  strategy              EarningStrategy        @default(LONG_TERM_STABLE)
-  title                 String?
-  description           String?
-  price                 Decimal?               @db.Decimal(14, 2)
-  priceCurrency         String?
-  expiresAt             DateTime?
-  isPromoted            Boolean                @default(false)
-  promotionTier         Int?                   @default(0)
-  promotedUntil         DateTime?
-  isOptimizedForSpeed   Boolean                @default(false)
-  optimizationRate      Decimal?               @db.Decimal(5, 4)
-  optimizationReason    String?
-  vacancyDays           Int                    @default(0)
-  vacancyScore          Float?
-  boostScore            Float                  @default(0)
-  rankingScore          Float                  @default(0)
+  id                      String                 @id @default(cuid())
+  orgId                   String
+  propertyId              String
+  type                    ListingType
+  status                  ListingStatus
+  willBeAvailableAt       DateTime?
+  strategy                EarningStrategy        @default(LONG_TERM_STABLE)
+  title                   String?
+  description             String?
+  price                   Decimal?               @db.Decimal(14, 2)
+  priceCurrency           String?
+  expiresAt               DateTime?
+  isPromoted              Boolean                @default(false)
+  promotionTier           Int?                   @default(0)
+  promotedUntil           DateTime?
+  isOptimizedForSpeed     Boolean                @default(false)
+  optimizationRate        Decimal?               @db.Decimal(5, 4)
+  optimizationReason      String?
+  vacancyDays             Int                    @default(0)
+  vacancyScore            Float?
+  boostScore              Float                  @default(0)
+  rankingScore            Float                  @default(0)
   lastPriceOptimizationAt DateTime?
   priceOptimizationSource OptimizationSource?
-  optimizationStatus    OptimizationStatus     @default(NONE)
-  likesCount            Int                    @default(0)
-  createdBy             String?
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
-  deletedAt             DateTime?
-  locationId            String?                @unique
-  categoryId            String?
-  userId                String?
-  agentId               String?
-  agencyId              String?
-  aiChatMessages        AIChatMessage[]
-  aiPriceOptimizations  AIPriceOptimization[]
-  agentAssignments      AgentAssignment[]
-  appointments          Appointment[]
-  bookings              Booking[]
-  contracts             Contract[]
-  deals                 Deal[]
-  documents             Document[]
-  financialRecords      FinancialRecord[]
-  leads                 Lead[]
-  leases                Lease[]
-  leaseRenewals         LeaseRenewal[]
-  category              Category?              @relation(fields: [categoryId], references: [id])
-  location              Location?              @relation(fields: [locationId], references: [id])
-  org                   Organization           @relation(fields: [orgId], references: [id])
-  property              Property               @relation(fields: [propertyId], references: [id])
-  user                  User?                  @relation("UserOwnedListings", fields: [userId], references: [id])
-  agent                 Agent?                 @relation("AgentToListing", fields: [agentId], references: [id])
-  agency                Agency?                @relation("AgencyToListing", fields: [agencyId], references: [id])
-  channels              ListingChannel[]
-  regionalPricing       RegionalPricing?       @relation(fields: [regionalPricingId], references: [id])
-  statusHistory         ListingStatusHistory[]
-  tags                  ListingTag[]
-  maintenanceBlocks     MaintenanceBlock[]
-  marketRateComparisons MarketRateComparison[]
-  mlsListingEnhancement MlsListingEnhancement?
-  pricingRules          PricingRule[]          @relation("PropertyPricingRules")
-  propertyOffers        PropertyOffer[]
-  viewings              PropertyViewing[]
-  quotes                Quote[]
-  reservations          Reservation[]
-  tasks                 Task[]
-  tenantApplications    TenantApplication[]
-  vacationRental        VacationRental?
-  videoContents         VideoContent[]
-  socialPosts           SocialPost[]
-  socialAIContents      SocialAIContent[]
+  optimizationStatus      OptimizationStatus     @default(NONE)
+  likesCount              Int                    @default(0)
+  createdBy               String?
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
+  deletedAt               DateTime?
+  locationId              String?                @unique
+  categoryId              String?
+  userId                  String?
+  agentId                 String?
+  agencyId                String?
+  aiChatMessages          AIChatMessage[]
+  aiPriceOptimizations    AIPriceOptimization[]
+  agentAssignments        AgentAssignment[]
+  appointments            Appointment[]
+  bookings                Booking[]
+  contracts               Contract[]
+  deals                   Deal[]
+  documents               Document[]
+  financialRecords        FinancialRecord[]
+  leads                   Lead[]
+  leases                  Lease[]
+  leaseRenewals           LeaseRenewal[]
+  category                Category?              @relation(fields: [categoryId], references: [id])
+  location                Location?              @relation(fields: [locationId], references: [id])
+  org                     Organization           @relation(fields: [orgId], references: [id])
+  property                Property               @relation(fields: [propertyId], references: [id])
+  user                    User?                  @relation("UserOwnedListings", fields: [userId], references: [id])
+  agent                   Agent?                 @relation("AgentToListing", fields: [agentId], references: [id])
+  agency                  Agency?                @relation("AgencyToListing", fields: [agencyId], references: [id])
+  channels                ListingChannel[]
+  regionalPricing         RegionalPricing?       @relation(fields: [regionalPricingId], references: [id])
+  statusHistory           ListingStatusHistory[]
+  tags                    ListingTag[]
+  maintenanceBlocks       MaintenanceBlock[]
+  marketRateComparisons   MarketRateComparison[]
+  mlsListingEnhancement   MlsListingEnhancement?
+  pricingRules            PricingRule[]          @relation("PropertyPricingRules")
+  propertyOffers          PropertyOffer[]
+  viewings                PropertyViewing[]
+  quotes                  Quote[]
+  reservations            Reservation[]
+  tasks                   Task[]
+  tenantApplications      TenantApplication[]
+  vacationRental          VacationRental?
+  videoContents           VideoContent[]
+  socialPosts             SocialPost[]
+  socialAIContents        SocialAIContent[]
 
   ledgerEntries         LedgerEntry[]
   commissions           Commission[]
@@ -1775,6 +1822,7 @@ model Lead {
   socialInboundMessages SocialInboundMessage[]
   postSources           SocialPost[]           @relation("PostLeads")
   notifications         Notification[]
+  leadIntelligenceProfile LeadIntelligenceProfile?
 
   @@index([orgId])
   @@index([campaignId])
@@ -4939,39 +4987,39 @@ model AIImageAnalysis {
 }
 
 model AIPriceOptimization {
-  id                        String        @id @default(cuid())
-  orgId                     String?
-  listingId                 String        @unique
-  propertyId                String?
-  currentPrice              Decimal       @db.Decimal(14, 2)
-  recommendedPrice          Decimal       @db.Decimal(14, 2)
-  recommendedDiscount       Decimal?      @db.Decimal(5, 4)
-  priceRange                Json
-  factors                   Json
-  comparableData            Json
-  marketTrends              Json
-  confidence                Float
-  estimatedVacancyReduction Float?
-  estimatedRevenueImpact    Decimal?      @db.Decimal(14, 2)
+  id                         String        @id @default(cuid())
+  orgId                      String?
+  listingId                  String        @unique
+  propertyId                 String?
+  currentPrice               Decimal       @db.Decimal(14, 2)
+  recommendedPrice           Decimal       @db.Decimal(14, 2)
+  recommendedDiscount        Decimal?      @db.Decimal(5, 4)
+  priceRange                 Json
+  factors                    Json
+  comparableData             Json
+  marketTrends               Json
+  confidence                 Float
+  estimatedVacancyReduction  Float?
+  estimatedRevenueImpact     Decimal?      @db.Decimal(14, 2)
   estimatedRentalProbability Float?
-  vacancyDaysAtAnalysis     Int?
-  marketDemandScore         Float?
-  generatedAt               DateTime
-  isApplied                 Boolean       @default(false)
-  appliedAt                 DateTime?
-  acceptedAt                DateTime?
-  declinedAt                DateTime?
-  rejectionReason           String?
-  actualOutcomePrice        Decimal?      @db.Decimal(14, 2)
-  actualVacancyReduction    Float?
-  actualRevenueImpact       Decimal?      @db.Decimal(14, 2)
-  predictionError           Float?
-  learnedAt                 DateTime?
-  marketData                Json?
-  lastAnalyzedAt            DateTime?
-  createdAt                 DateTime      @default(now())
-  listing                   Listing       @relation(fields: [listingId], references: [id])
-  org                       Organization? @relation(fields: [orgId], references: [id])
+  vacancyDaysAtAnalysis      Int?
+  marketDemandScore          Float?
+  generatedAt                DateTime
+  isApplied                  Boolean       @default(false)
+  appliedAt                  DateTime?
+  acceptedAt                 DateTime?
+  declinedAt                 DateTime?
+  rejectionReason            String?
+  actualOutcomePrice         Decimal?      @db.Decimal(14, 2)
+  actualVacancyReduction     Float?
+  actualRevenueImpact        Decimal?      @db.Decimal(14, 2)
+  predictionError            Float?
+  learnedAt                  DateTime?
+  marketData                 Json?
+  lastAnalyzedAt             DateTime?
+  createdAt                  DateTime      @default(now())
+  listing                    Listing       @relation(fields: [listingId], references: [id])
+  org                        Organization? @relation(fields: [orgId], references: [id])
 
   @@index([orgId])
   @@index([propertyId])
@@ -6131,6 +6179,7 @@ model Agent {
   escrowWallet            AgentEscrowWallet?
   escrowSplitConfigs      EscrowSplitConfig[]
   listingDistributions    ListingDistribution[]
+  agentIntelligenceProfile AgentIntelligenceProfile?
 
   @@unique([name, agencyId])
   @@index([deletedAt])
@@ -6274,20 +6323,20 @@ model CommissionRule {
 }
 
 model CountryCommissionRule {
-  id                String    @id @default(cuid())
-  countryCode       String
-  agentType         AgentType
-  baseCommissionRate Decimal  @db.Decimal(5, 4)
-  regulatoryCeiling Decimal?  @db.Decimal(5, 4)
-  marketAdjustment  Decimal?  @db.Decimal(5, 4)
-  volumeIncentives  Json?
-  campaignTags      Json?
-  effectiveFrom     DateTime  @default(now())
-  effectiveUntil    DateTime?
-  isActive          Boolean   @default(true)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  deletedAt         DateTime?
+  id                 String    @id @default(cuid())
+  countryCode        String
+  agentType          AgentType
+  baseCommissionRate Decimal   @db.Decimal(5, 4)
+  regulatoryCeiling  Decimal?  @db.Decimal(5, 4)
+  marketAdjustment   Decimal?  @db.Decimal(5, 4)
+  volumeIncentives   Json?
+  campaignTags       Json?
+  effectiveFrom      DateTime  @default(now())
+  effectiveUntil     DateTime?
+  isActive           Boolean   @default(true)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  deletedAt          DateTime?
 
   @@unique([countryCode, agentType, effectiveFrom])
   @@index([countryCode])
@@ -6297,33 +6346,33 @@ model CountryCommissionRule {
 }
 
 model CommissionPolicy {
-  id                  String             @id @default(cuid())
-  orgId               String
-  countryCode         String             @db.VarChar(2)
-  agentType           AgentType?
+  id          String     @id @default(cuid())
+  orgId       String
+  countryCode String     @db.VarChar(2)
+  agentType   AgentType?
 
-  platformRate        Decimal            @default(0.05) @db.Decimal(5, 4)
-  partnerRate         Decimal            @default(0.05) @db.Decimal(5, 4)
+  platformRate Decimal @default(0.05) @db.Decimal(5, 4)
+  partnerRate  Decimal @default(0.05) @db.Decimal(5, 4)
 
-  settlementTiming      String           @default("INSTALLMENT")
-  maxInstallments       Int              @default(12)
-  defaultInstallments   Int              @default(6)
-  installmentInterest   Decimal          @default(0.10) @db.Decimal(5, 4)
+  settlementTiming    String  @default("INSTALLMENT")
+  maxInstallments     Int     @default(12)
+  defaultInstallments Int     @default(6)
+  installmentInterest Decimal @default(0.10) @db.Decimal(5, 4)
 
-  minCommission       Decimal?           @db.Decimal(14, 2)
-  maxCommission       Decimal?           @db.Decimal(14, 2)
+  minCommission Decimal? @db.Decimal(14, 2)
+  maxCommission Decimal? @db.Decimal(14, 2)
 
-  requiresApproval    Boolean            @default(false)
-  approvalThreshold   Decimal?           @db.Decimal(14, 2)
+  requiresApproval  Boolean  @default(false)
+  approvalThreshold Decimal? @db.Decimal(14, 2)
 
-  isActive            Boolean            @default(true)
-  effectiveFrom       DateTime           @default(now())
-  effectiveUntil      DateTime?
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
-  deletedAt           DateTime?
+  isActive       Boolean   @default(true)
+  effectiveFrom  DateTime  @default(now())
+  effectiveUntil DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
 
-  org                 Organization       @relation(fields: [orgId], references: [id])
+  org Organization @relation(fields: [orgId], references: [id])
 
   @@unique([orgId, countryCode, effectiveFrom])
   @@index([orgId])
@@ -6332,34 +6381,34 @@ model CommissionPolicy {
 }
 
 model SettlementPolicy {
-  id                    String           @id @default(cuid())
-  orgId                 String
-  name                  String
-  countryCode           String           @db.VarChar(2)
+  id          String @id @default(cuid())
+  orgId       String
+  name        String
+  countryCode String @db.VarChar(2)
 
-  settlementType        String           @default("INSTALLMENT")
-  upfrontPercent        Decimal          @default(50.00) @db.Decimal(5, 2)
-  installmentCount      Int              @default(6)
-  installmentFrequency  String           @default("MONTHLY")
-  interestRate          Decimal          @default(0.10) @db.Decimal(5, 4)
+  settlementType       String  @default("INSTALLMENT")
+  upfrontPercent       Decimal @default(50.00) @db.Decimal(5, 2)
+  installmentCount     Int     @default(6)
+  installmentFrequency String  @default("MONTHLY")
+  interestRate         Decimal @default(0.10) @db.Decimal(5, 4)
 
-  earlySettlementDiscount Decimal         @default(0.05) @db.Decimal(5, 4)
-  earlySettlementDays     Int             @default(30)
+  earlySettlementDiscount Decimal @default(0.05) @db.Decimal(5, 4)
+  earlySettlementDays     Int     @default(30)
 
-  latePenaltyRate       Decimal          @default(0.02) @db.Decimal(5, 4)
-  lateGraceDays         Int              @default(15)
+  latePenaltyRate Decimal @default(0.02) @db.Decimal(5, 4)
+  lateGraceDays   Int     @default(15)
 
-  minCommissionAmount   Decimal?         @db.Decimal(14, 2)
-  minInstallmentAmount  Decimal?         @db.Decimal(14, 2)
+  minCommissionAmount  Decimal? @db.Decimal(14, 2)
+  minInstallmentAmount Decimal? @db.Decimal(14, 2)
 
-  isActive              Boolean          @default(true)
-  effectiveFrom         DateTime         @default(now())
-  effectiveUntil        DateTime?
-  createdAt             DateTime         @default(now())
-  updatedAt             DateTime         @updatedAt
-  deletedAt             DateTime?
+  isActive       Boolean   @default(true)
+  effectiveFrom  DateTime  @default(now())
+  effectiveUntil DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
 
-  org                   Organization     @relation(fields: [orgId], references: [id])
+  org Organization @relation(fields: [orgId], references: [id])
 
   @@unique([orgId, countryCode, settlementType, effectiveFrom])
   @@index([orgId])
@@ -6368,33 +6417,33 @@ model SettlementPolicy {
 }
 
 model PricingPolicy {
-  id                    String           @id @default(cuid())
-  orgId                 String
-  name                  String
-  countryCode           String           @db.VarChar(2)
+  id          String @id @default(cuid())
+  orgId       String
+  name        String
+  countryCode String @db.VarChar(2)
 
-  maxDiscountPct        Decimal          @default(0.30) @db.Decimal(5, 4)
-  minPriceFloor         Decimal?         @db.Decimal(5, 4)
+  maxDiscountPct Decimal  @default(0.30) @db.Decimal(5, 4)
+  minPriceFloor  Decimal? @db.Decimal(5, 4)
 
-  strategy              String           @default("DYNAMIC")
-  minAdjustmentPct      Decimal          @default(-0.20) @db.Decimal(5, 4)
-  maxAdjustmentPct      Decimal          @default(0.20) @db.Decimal(5, 4)
-  adjustmentFrequency   String           @default("DAILY")
+  strategy            String  @default("DYNAMIC")
+  minAdjustmentPct    Decimal @default(-0.20) @db.Decimal(5, 4)
+  maxAdjustmentPct    Decimal @default(0.20) @db.Decimal(5, 4)
+  adjustmentFrequency String  @default("DAILY")
 
-  highSeasonMultiplier  Decimal          @default(1.20) @db.Decimal(5, 4)
-  lowSeasonMultiplier   Decimal          @default(0.85) @db.Decimal(5, 4)
+  highSeasonMultiplier Decimal @default(1.20) @db.Decimal(5, 4)
+  lowSeasonMultiplier  Decimal @default(0.85) @db.Decimal(5, 4)
 
-  aiOptimizationEnabled Boolean          @default(false)
-  minConfidenceThreshold Float?          @default(0.7)
+  aiOptimizationEnabled  Boolean @default(false)
+  minConfidenceThreshold Float?  @default(0.7)
 
-  isActive              Boolean          @default(true)
-  effectiveFrom         DateTime         @default(now())
-  effectiveUntil        DateTime?
-  createdAt             DateTime         @default(now())
-  updatedAt             DateTime         @updatedAt
-  deletedAt             DateTime?
+  isActive       Boolean   @default(true)
+  effectiveFrom  DateTime  @default(now())
+  effectiveUntil DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
 
-  org                   Organization     @relation(fields: [orgId], references: [id])
+  org Organization @relation(fields: [orgId], references: [id])
 
   @@unique([orgId, countryCode, effectiveFrom])
   @@index([orgId])
@@ -13098,13 +13147,52 @@ model SagaState {
   correlationId String   @unique
   currentStep   String
   status        String // STARTED, COMPENSATING, COMPLETED, FAILED
+  sagaVersion   Int      @default(1)
   context       Json
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   @@index([sagaType])
   @@index([status])
+  @@index([sagaVersion])
 }
+
+model SagaTimeline {
+  id            String    @id @default(cuid())
+  correlationId String
+  sagaType      String
+  step          String
+  startedAt     DateTime  @default(now())
+  completedAt   DateTime?
+  durationMs    Int?
+  retryCount    Int       @default(0)
+  outcome       String    // SUCCESS, RETRY, COMPENSATED, FAILED
+  error         String?
+  metadata      Json?
+
+  @@index([correlationId])
+  @@index([sagaType, step])
+  @@index([outcome])
+}
+
+model SagaDeadLetter {
+  id            String    @id @default(cuid())
+  correlationId String
+  sagaType      String
+  step          String
+  eventType     String
+  payload       Json
+  error         String
+  retryCount    Int       @default(0)
+  status        String    @default("PENDING") // PENDING, REPLAYED, DISCARDED
+  createdAt     DateTime  @default(now())
+  replayedAt    DateTime?
+
+  @@index([status])
+  @@index([sagaType])
+  @@index([correlationId])
+}
+
 
 // ─── ANALYTICS OS ───────────────────────────────────────────────────────────────
 
@@ -13541,11 +13629,11 @@ enum KumbaraRuleType {
 }
 
 model KumbaraDeposit {
-  id          String              @id @default(uuid())
-  orgId       String
-  leaseId     String
-  propertyId  String
-  tenantId    String
+  id         String @id @default(uuid())
+  orgId      String
+  leaseId    String
+  propertyId String
+  tenantId   String
 
   // Deposit configuration
   status           KumbaraDepositStatus @default(ACTIVE)
@@ -13555,19 +13643,19 @@ model KumbaraDeposit {
   currency         String               @default("USD")
 
   // Contribution rules
-  ruleType         KumbaraRuleType      @default(PERCENTAGE_OF_RENT)
-  contributionRate Float                @default(0.035) // 3.5% of rent
-  fixedAmount      Decimal?             @db.Decimal(12, 2)
-  contributionDay  Int                  @default(1) // Day of month
+  ruleType         KumbaraRuleType @default(PERCENTAGE_OF_RENT)
+  contributionRate Float           @default(0.035) // 3.5% of rent
+  fixedAmount      Decimal?        @db.Decimal(12, 2)
+  contributionDay  Int             @default(1) // Day of month
 
   // Escrow integration
-  escrowAccountId  String?
+  escrowAccountId String?
 
   // Protection
-  ownerProtectionEnabled Boolean  @default(true)
-  maxMissedPayments       Int      @default(3)
-  currentMissedPayments   Int      @default(0)
-  autoDefaultOnMiss       Boolean  @default(false)
+  ownerProtectionEnabled Boolean @default(true)
+  maxMissedPayments      Int     @default(3)
+  currentMissedPayments  Int     @default(0)
+  autoDefaultOnMiss      Boolean @default(false)
 
   // Metadata
   startedAt   DateTime  @default(now())
@@ -13579,7 +13667,7 @@ model KumbaraDeposit {
   updatedAt DateTime @updatedAt
 
   contributions KumbaraContribution[]
-  rules        KumbaraRule[]
+  rules         KumbaraRule[]
 
   @@index([orgId])
   @@index([leaseId])
@@ -13590,29 +13678,29 @@ model KumbaraDeposit {
 }
 
 model KumbaraContribution {
-  id         String                    @id @default(uuid())
-  depositId  String
-  deposit    KumbaraDeposit            @relation(fields: [depositId], references: [id], onDelete: Cascade)
-  orgId      String
+  id        String         @id @default(uuid())
+  depositId String
+  deposit   KumbaraDeposit @relation(fields: [depositId], references: [id], onDelete: Cascade)
+  orgId     String
 
-  amount          Decimal                  @db.Decimal(12, 2)
-  currency        String                   @default("USD")
-  status          KumbaraContributionStatus @default(PENDING)
-  dueDate         DateTime
-  paidAt          DateTime?
+  amount   Decimal                   @db.Decimal(12, 2)
+  currency String                    @default("USD")
+  status   KumbaraContributionStatus @default(PENDING)
+  dueDate  DateTime
+  paidAt   DateTime?
 
   // Payment tracking
-  paymentMethod   String?                  // A2A_FAST, CARD_INSTALLMENT, etc.
-  paymentRail     PaymentRail?
-  gatewayRef      String?                  // Gateway transaction reference
-  installmentNo   Int?                     // Which installment number
+  paymentMethod String? // A2A_FAST, CARD_INSTALLMENT, etc.
+  paymentRail   PaymentRail?
+  gatewayRef    String? // Gateway transaction reference
+  installmentNo Int? // Which installment number
 
   // Escrow
   escrowAccountId String?
 
-  failureReason   String?
-  retryCount      Int                      @default(0)
-  metadata        Json?
+  failureReason String?
+  retryCount    Int     @default(0)
+  metadata      Json?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -13625,21 +13713,21 @@ model KumbaraContribution {
 }
 
 model KumbaraRule {
-  id        String          @id @default(uuid())
+  id        String         @id @default(uuid())
   depositId String
-  deposit   KumbaraDeposit  @relation(fields: [depositId], references: [id], onDelete: Cascade)
+  deposit   KumbaraDeposit @relation(fields: [depositId], references: [id], onDelete: Cascade)
   orgId     String
 
-  ruleType    KumbaraRuleType @default(PERCENTAGE_OF_RENT)
-  rate        Float?          // For percentage rules
-  amount      Decimal?        @db.Decimal(12, 2) // For fixed amount rules
-  minAmount   Decimal?        @db.Decimal(12, 2)
-  maxAmount   Decimal?        @db.Decimal(12, 2)
-  conditions  Json?           // Tiered/income-based conditions
-  priority    Int             @default(0)
-  isActive    Boolean         @default(true)
-  validFrom   DateTime        @default(now())
-  validUntil  DateTime?
+  ruleType   KumbaraRuleType @default(PERCENTAGE_OF_RENT)
+  rate       Float? // For percentage rules
+  amount     Decimal?        @db.Decimal(12, 2) // For fixed amount rules
+  minAmount  Decimal?        @db.Decimal(12, 2)
+  maxAmount  Decimal?        @db.Decimal(12, 2)
+  conditions Json? // Tiered/income-based conditions
+  priority   Int             @default(0)
+  isActive   Boolean         @default(true)
+  validFrom  DateTime        @default(now())
+  validUntil DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -13682,46 +13770,46 @@ enum TrustSignalCategory {
 }
 
 model UniversalTrustScore {
-  id          String              @id @default(uuid())
-  orgId       String?
+  id    String  @id @default(uuid())
+  orgId String?
 
-  entityType  TrustEntityType
-  entityId    String              // polymorphic: userId, propertyId, orgId
-  version     Int                 @default(1)
+  entityType TrustEntityType
+  entityId   String // polymorphic: userId, propertyId, orgId
+  version    Int             @default(1)
 
   // Composite score
-  overallScore    Float           @default(0) // 0-100
-  confidenceLevel Float           @default(0) // 0-1, how confident we are
-  scoreBreakdown  Json            // { payment: 85, behavior: 72, verification: 90, ... }
+  overallScore    Float @default(0) // 0-100
+  confidenceLevel Float @default(0) // 0-1, how confident we are
+  scoreBreakdown  Json // { payment: 85, behavior: 72, verification: 90, ... }
 
   // Tier
-  tier        String              @default("BRONZE") // BRONZE, SILVER, GOLD, PLATINUM, DIAMOND
+  tier String @default("BRONZE") // BRONZE, SILVER, GOLD, PLATINUM, DIAMOND
 
   // Status
-  status      TrustScoreStatus    @default(ACTIVE)
+  status TrustScoreStatus @default(ACTIVE)
 
   // Decay tracking
-  lastCalculatedAt DateTime       @default(now())
+  lastCalculatedAt DateTime  @default(now())
   lastDecayAt      DateTime?
-  decayRate        Float          @default(0.05) // 5% per inactive period
-  inactivityDays   Int            @default(30)
+  decayRate        Float     @default(0.05) // 5% per inactive period
+  inactivityDays   Int       @default(30)
 
   // Audit
-  signalCount     Int             @default(0)
+  signalCount     Int       @default(0)
   lastSignalAt    DateTime?
-  isExplainable   Boolean         @default(true)
-  explanationData Json?           // Human-readable explanation of score components
+  isExplainable   Boolean   @default(true)
+  explanationData Json? // Human-readable explanation of score components
 
   // API access
-  apiAccessEnabled Boolean        @default(true)
+  apiAccessEnabled Boolean   @default(true)
   lastAccessedAt   DateTime?
-  accessCount      Int            @default(0)
+  accessCount      Int       @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  events     TrustScoreEvent[]
-  versions   TrustScoreVersion[]
+  events   TrustScoreEvent[]
+  versions TrustScoreVersion[]
 
   @@unique([entityType, entityId, orgId])
   @@index([orgId])
@@ -13733,33 +13821,33 @@ model UniversalTrustScore {
 }
 
 model TrustScoreEvent {
-  id        String              @id @default(uuid())
-  scoreId   String
-  score     UniversalTrustScore @relation(fields: [scoreId], references: [id], onDelete: Cascade)
-  orgId     String?
+  id      String              @id @default(uuid())
+  scoreId String
+  score   UniversalTrustScore @relation(fields: [scoreId], references: [id], onDelete: Cascade)
+  orgId   String?
 
   // Signal
-  signalKey     String          // e.g. "payment.on_time", "maintenance.responsive"
-  category      TrustSignalCategory
-  weight        Float           @default(1.0)
-  rawValue      Json            // Original signal data
-  normalizedScore Float         @default(0) // 0-100 normalized
+  signalKey       String // e.g. "payment.on_time", "maintenance.responsive"
+  category        TrustSignalCategory
+  weight          Float               @default(1.0)
+  rawValue        Json // Original signal data
+  normalizedScore Float               @default(0) // 0-100 normalized
 
   // Impact
-  scoreDelta    Float           @default(0) // How much this event changed the score
+  scoreDelta    Float  @default(0) // How much this event changed the score
   previousScore Float?
   newScore      Float?
 
   // Context
-  sourceEntityId   String?      // What triggered this (leaseId, bookingId, etc.)
+  sourceEntityId   String? // What triggered this (leaseId, bookingId, etc.)
   sourceEntityType String?
   description      String?
 
   // Audit
-  calculatedAt DateTime       @default(now())
-  isValid      Boolean        @default(true)
-  invalidatedBy String?       // Event ID that invalidated this
-  metadata     Json?
+  calculatedAt  DateTime @default(now())
+  isValid       Boolean  @default(true)
+  invalidatedBy String? // Event ID that invalidated this
+  metadata      Json?
 
   createdAt DateTime @default(now())
 
@@ -13772,25 +13860,25 @@ model TrustScoreEvent {
 }
 
 model TrustScoreVersion {
-  id        String              @id @default(uuid())
-  scoreId   String
-  score     UniversalTrustScore @relation(fields: [scoreId], references: [id], onDelete: Cascade)
-  orgId     String?
+  id      String              @id @default(uuid())
+  scoreId String
+  score   UniversalTrustScore @relation(fields: [scoreId], references: [id], onDelete: Cascade)
+  orgId   String?
 
-  version       Int
-  overallScore  Float
-  tier          String
+  version        Int
+  overallScore   Float
+  tier           String
   scoreBreakdown Json
-  triggerEvent  String          // What caused this version
-  eventId       String?         // TrustScoreEvent that triggered version change
-  explanation   Json?           // Human-readable explanation
+  triggerEvent   String // What caused this version
+  eventId        String? // TrustScoreEvent that triggered version change
+  explanation    Json? // Human-readable explanation
 
   createdAt DateTime @default(now())
 
+  @@unique([scoreId, version])
   @@index([scoreId])
   @@index([orgId])
   @@index([version])
-  @@unique([scoreId, version])
 }
 
 // ==========================================
@@ -13817,45 +13905,44 @@ enum BuyerReadinessTier {
   ACTIVE_BUYER
   MORTGAGE_APPROVED
   CLOSING
-
 }
 
 model PurchaseIntent {
-  id        String                @id @default(uuid())
-  orgId     String
-  leaseId   String
+  id         String @id @default(uuid())
+  orgId      String
+  leaseId    String
   propertyId String
-  tenantId  String
+  tenantId   String
 
-  status            PurchaseIntentStatus @default(INTENT_DECLARED)
-  readinessTier     BuyerReadinessTier   @default(EXPLORING)
+  status        PurchaseIntentStatus @default(INTENT_DECLARED)
+  readinessTier BuyerReadinessTier   @default(EXPLORING)
 
   // Financial profile
-  targetPrice       Decimal?             @db.Decimal(12, 2)
-  estimatedDownPmt  Decimal?             @db.Decimal(12, 2)
-  monthlySavings    Decimal?             @db.Decimal(12, 2)
-  savingsGoal       Decimal?             @db.Decimal(12, 2)
-  currentSavings    Decimal              @default(0) @db.Decimal(12, 2)
+  targetPrice      Decimal? @db.Decimal(12, 2)
+  estimatedDownPmt Decimal? @db.Decimal(12, 2)
+  monthlySavings   Decimal? @db.Decimal(12, 2)
+  savingsGoal      Decimal? @db.Decimal(12, 2)
+  currentSavings   Decimal  @default(0) @db.Decimal(12, 2)
 
   // Mortgage
-  mortgagePreApproved Boolean           @default(false)
+  mortgagePreApproved   Boolean  @default(false)
   mortgagePreApprovalId String?
-  maxMortgageAmount   Decimal?          @db.Decimal(12, 2)
-  preferredLender     String?
+  maxMortgageAmount     Decimal? @db.Decimal(12, 2)
+  preferredLender       String?
 
   // Trust Score integration
   trustScoreAtIntent  Float?
-  buyerReadinessScore Float             @default(0) // 0-100
+  buyerReadinessScore Float  @default(0) // 0-100
 
   // Timeline
-  targetPurchaseDate  DateTime?
-  leaseEndSynchronizes Boolean         @default(true) // Align purchase with lease end
+  targetPurchaseDate   DateTime?
+  leaseEndSynchronizes Boolean   @default(true) // Align purchase with lease end
 
   // Metadata
-  declaredAt    DateTime @default(now())
+  declaredAt     DateTime  @default(now())
   lastActivityAt DateTime?
-  expiresAt     DateTime?
-  metadata      Json?
+  expiresAt      DateTime?
+  metadata       Json?
 
   conversionWorkflow OwnershipConversion?
 
@@ -13874,29 +13961,29 @@ model PurchaseIntent {
 }
 
 model EquityAccumulation {
-  id       String          @id @default(uuid())
+  id       String         @id @default(uuid())
   intentId String
-  intent   PurchaseIntent  @relation(fields: [intentId], references: [id], onDelete: Cascade)
+  intent   PurchaseIntent @relation(fields: [intentId], references: [id], onDelete: Cascade)
   orgId    String
 
   // Accumulation
-  periodStart    DateTime
-  periodEnd      DateTime
-  rentPaid       Decimal     @db.Decimal(12, 2)
-  equityPortion  Decimal     @db.Decimal(12, 2) // Portion of rent credited as equity
-  cumulativeEquity Decimal   @db.Decimal(12, 2)
-  savingsAdded   Decimal     @default(0) @db.Decimal(12, 2)
+  periodStart      DateTime
+  periodEnd        DateTime
+  rentPaid         Decimal  @db.Decimal(12, 2)
+  equityPortion    Decimal  @db.Decimal(12, 2) // Portion of rent credited as equity
+  cumulativeEquity Decimal  @db.Decimal(12, 2)
+  savingsAdded     Decimal  @default(0) @db.Decimal(12, 2)
 
   // Payment
-  paymentId      String?
-  paymentStatus  String      @default("COMPLETED")
+  paymentId     String?
+  paymentStatus String  @default("COMPLETED")
 
   // Verification
-  verifiedAt     DateTime?
-  verifiedBy     String?
+  verifiedAt DateTime?
+  verifiedBy String?
 
-  metadata       Json?
-  createdAt      DateTime    @default(now())
+  metadata  Json?
+  createdAt DateTime @default(now())
 
   @@index([intentId])
   @@index([orgId])
@@ -13904,17 +13991,17 @@ model EquityAccumulation {
 }
 
 model OwnershipConversion {
-  id       String          @id @default(uuid())
-  intentId String          @unique
-  intent   PurchaseIntent  @relation(fields: [intentId], references: [id], onDelete: Cascade)
+  id       String         @id @default(uuid())
+  intentId String         @unique
+  intent   PurchaseIntent @relation(fields: [intentId], references: [id], onDelete: Cascade)
   orgId    String
 
   // Conversion details
-  purchasePrice      Decimal           @db.Decimal(12, 2)
-  equityApplied      Decimal           @db.Decimal(12, 2)
-  remainingBalance   Decimal           @db.Decimal(12, 2)
-  downPayment        Decimal           @db.Decimal(12, 2)
-  mortgageAmount     Decimal           @db.Decimal(12, 2)
+  purchasePrice    Decimal @db.Decimal(12, 2)
+  equityApplied    Decimal @db.Decimal(12, 2)
+  remainingBalance Decimal @db.Decimal(12, 2)
+  downPayment      Decimal @db.Decimal(12, 2)
+  mortgageAmount   Decimal @db.Decimal(12, 2)
 
   // Parties
   buyerContactId     String
@@ -13923,18 +14010,18 @@ model OwnershipConversion {
   solicitorContactId String?
 
   // Status tracking
-  purchaseAgreed     Boolean           @default(false)
-  surveyOrdered      Boolean           @default(false)
-  surveyComplete     Boolean           @default(false)
-  mortgageOffered    Boolean           @default(false)
-  mortgageAccepted   Boolean           @default(false)
-  contractsExchanged Boolean           @default(false)
+  purchaseAgreed     Boolean   @default(false)
+  surveyOrdered      Boolean   @default(false)
+  surveyComplete     Boolean   @default(false)
+  mortgageOffered    Boolean   @default(false)
+  mortgageAccepted   Boolean   @default(false)
+  contractsExchanged Boolean   @default(false)
   completionDate     DateTime?
-  keysHandedOver     Boolean           @default(false)
+  keysHandedOver     Boolean   @default(false)
 
   // Documents
-  contractId         String?
-  mortgageOfferId    String?
+  contractId      String?
+  mortgageOfferId String?
 
   metadata  Json?
   createdAt DateTime @default(now())
@@ -13942,6 +14029,804 @@ model OwnershipConversion {
 
   @@index([orgId])
   @@index([buyerContactId])
+}
+
+model OwnerProfile {
+  id                 String  @id @default(cuid())
+  propertyProspectId String?
+  userId             String? @unique
+  user               User?   @relation("OwnerProfiles", fields: [userId], references: [id], onDelete: SetNull)
+
+  name  String
+  email String  @unique
+  phone String?
+
+  verified             Boolean   @default(false)
+  verifiedAt           DateTime?
+  verificationMethod   String?
+  verificationScore    Float?
+  verificationMetadata Json?
+
+  communicationConsent Boolean   @default(false)
+  consentDate          DateTime?
+  consentMethod        String?
+
+  marketingOptIn   Boolean   @default(false)
+  marketingOptInAt DateTime?
+
+  propertyCount           Int    @default(0)
+  estimatedPortfolioValue Float?
+
+  primaryLocation String?
+  locationRadius  Float?
+
+  source         String?
+  sourceMetadata Json?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([email])
+  @@index([userId])
+  @@index([verified])
+  @@index([communicationConsent])
+  @@index([marketingOptIn])
+  @@index([createdAt])
+}
+
+model AgentProfile {
+  id                 String  @id @default(cuid())
+  propertyProspectId String?
+  agentId            String? @unique
+
+  name          String
+  email         String  @unique
+  phone         String?
+  licenseNumber String?
+  brokerage     String?
+
+  verified           Boolean   @default(false)
+  verifiedAt         DateTime?
+  verificationMethod String?
+  verificationScore  Float?
+
+  communicationConsent Boolean   @default(false)
+  consentDate          DateTime?
+  consentMethod        String?
+
+  activeListings Int    @default(0)
+  soldProperties Int    @default(0)
+  avgDaysToSell  Float?
+
+  responseRate       Float?
+  clientSatisfaction Float?
+
+  source         String?
+  sourceMetadata Json?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([email])
+  @@index([agentId])
+  @@index([licenseNumber])
+  @@index([verified])
+  @@index([communicationConsent])
+  @@index([createdAt])
+}
+
+// ==========================================
+// Consent Management Module
+// GDPR, CCPA, KVKK compliance tracking
+
+enum ConsentType {
+  MARKETING
+  DATA_PROCESSING
+  COMMUNICATION
+  VALUATION_ACCESS
+  PROPERTY_CLAIM
+  AI_ANALYSIS
+}
+
+enum ConsentStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+  PENDING
+  DECLINED
+}
+
+enum ConsentMethod {
+  EMAIL
+  PHONE
+  MAGIC_LINK
+  WEB_FORM
+  API
+  SMS
+}
+
+model Consent {
+  id String @id @default(cuid())
+
+  // Entity-based consent (Consent OS)
+  entityId      String
+  entityType    ConsentEntityType
+  entityContext Json?
+
+  userId             String?
+  propertyProspectId String?
+  ownerProfileId     String?
+  agentProfileId     String?
+
+  consentType    ConsentType
+  consentPurpose String // AI_VALUATION, EMAIL_COMMUNICATION, MARKETING_ADS, RENTAL_PROPOSAL
+  consentChannel String // EMAIL, SMS, WHATSAPP, ADS, AI_COMMUNICATION
+
+  status ConsentStatus @default(PENDING)
+
+  grantedAt DateTime  @default(now())
+  revokedAt DateTime?
+  expiresAt DateTime?
+
+  consentMethod ConsentMethod
+  ipAddress     String?
+  userAgent     String?
+  locationData  Json?
+
+  // Legal Compliance
+  gdprConsent Boolean @default(false)
+  gdprArticle String?
+  ccpaOptOut  Boolean @default(false)
+  ccpaRight   String?
+  kvkkConsent Boolean @default(false)
+  kvkkArticle String?
+
+  // Consent Scope
+  scope        Json?
+  restrictions Json?
+
+  // Channel-specific consent
+  emailConsent           Boolean @default(false)
+  phoneConsent           Boolean @default(false)
+  smsConsent             Boolean @default(false)
+  pushConsent            Boolean @default(false)
+  whatsappConsent        Boolean @default(false)
+  adsConsent             Boolean @default(false)
+  aiCommunicationConsent Boolean @default(false)
+
+  // Revocation tracking
+  revocationReason String?
+  revocationMethod ConsentMethod?
+
+  consentVersion    Int     @default(1)
+  previousConsentId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([entityId])
+  @@index([entityType])
+  @@index([userId])
+  @@index([propertyProspectId])
+  @@index([ownerProfileId])
+  @@index([agentProfileId])
+  @@index([consentType])
+  @@index([consentPurpose])
+  @@index([consentChannel])
+  @@index([status])
+  @@index([gdprConsent])
+  @@index([ccpaOptOut])
+  @@index([kvkkConsent])
+  @@index([grantedAt])
+  @@index([expiresAt])
+  @@index([revokedAt])
+}
+
+enum ConsentEntityType {
+  USER
+  PROPERTY_PROSPECT
+  OWNER_PROFILE
+  AGENT_PROFILE
+  PROPERTY
+  ORGANIZATION
+}
+
+model CommunicationUnsubscribe {
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation("UserUnsubscribes", fields: [userId], references: [id], onDelete: SetNull)
+  email  String  @unique
+
+  unsubscribeReason String?
+  unsubscribeMethod ConsentMethod
+  unsubscribeAt     DateTime      @default(now())
+
+  emailUnsubscribed Boolean @default(true)
+  phoneUnsubscribed Boolean @default(false)
+  smsUnsubscribed   Boolean @default(false)
+  pushUnsubscribed  Boolean @default(false)
+
+  campaignId String?
+  messageId  String?
+
+  dataDeletionRequested   Boolean   @default(false)
+  dataDeletionRequestedAt DateTime?
+  dataDeletionCompleted   Boolean   @default(false)
+  dataDeletionCompletedAt DateTime?
+
+  reEngagementAllowed Boolean   @default(false)
+  reEngagementAfter   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([email])
+  @@index([dataDeletionRequested])
+  @@index([unsubscribeAt])
+}
+
+model DataProcessingRecord {
+  id                 String  @id @default(cuid())
+  userId             String?
+  propertyProspectId String?
+  consentId          String?
+
+  processingType    String
+  processingPurpose String
+  legalBasis        String
+
+  dataCategories      Json
+  recipients          Json?
+  thirdPartyTransfers Boolean @default(false)
+  thirdPartyDetails   Json?
+
+  crossBorderTransfer Boolean  @default(false)
+  transferCountries   String[]
+
+  retentionPeriod String?
+  retentionUntil  DateTime?
+
+  processedAt DateTime @default(now())
+  processedBy String?
+
+  encryptionUsed String?
+  accessLog      Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([propertyProspectId])
+  @@index([consentId])
+  @@index([processingType])
+  @@index([legalBasis])
+  @@index([processedAt])
+}
+
+model ConsentAuditLog {
+  id        String @id @default(cuid())
+  consentId String
+  action    String
+
+  performedBy String?
+  performedAt DateTime @default(now())
+
+  previousStatus ConsentStatus?
+  newStatus      ConsentStatus
+
+  changes Json?
+  reason  String?
+
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+
+  @@index([consentId])
+  @@index([action])
+  @@index([performedAt])
+}
+
+// ==========================================
+// B2B Bulk Onboarding Module
+// Corporate housing provider bulk acquisition
+
+enum CorporateAccountType {
+  CORPORATE_HOUSING
+  MULTI_FAMILY
+  BANK_REO
+  PROPERTY_MANAGEMENT
+  REAL_ESTATE_INVESTMENT
+}
+
+enum BulkUploadStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  PARTIALLY_COMPLETED
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REVOKED
+}
+
+enum PropertyNormalizationStatus {
+  PENDING
+  NORMALIZING
+  COMPLETED
+  FAILED
+  MANUAL_REVIEW
+}
+
+model CorporateAccount {
+  id             String @id @default(cuid())
+  organizationId String @unique
+
+  accountType   CorporateAccountType
+  tier          String               @default("standard")
+  whitelisted   Boolean              @default(false)
+  priorityLevel Int                  @default(0)
+
+  primaryContactName  String
+  primaryContactEmail String
+  primaryContactPhone String?
+  billingContactName  String?
+  billingContactEmail String?
+
+  totalProperties  Int   @default(0)
+  activeProperties Int   @default(0)
+  totalUnits       Int   @default(0)
+  avgOccupancyRate Float @default(0)
+  annualRevenue    Float @default(0)
+
+  apiEnabled    Boolean @default(false)
+  apiKey        String? @unique
+  webhookUrl    String?
+  webhookSecret String?
+
+  seattleMarketFocus  Boolean  @default(false)
+  targetNeighborhoods String[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  portfolioBatches    PortfolioBatch[]
+  bulkInvitations     BulkInvitation[]
+  corporateProperties CorporateProperty[]
+  aiPitchDecks        AIPitchDeck[]
+
+  @@index([organizationId])
+  @@index([whitelisted])
+  @@index([seattleMarketFocus])
+}
+
+model PortfolioBatch {
+  id                 String           @id @default(cuid())
+  corporateAccountId String
+  corporateAccount   CorporateAccount @relation(fields: [corporateAccountId], references: [id], onDelete: Cascade)
+
+  batchName String
+  batchType String
+  status    BulkUploadStatus @default(PENDING)
+
+  fileName String
+  fileSize Int
+  fileType String
+  fileUrl  String?
+  s3Key    String?
+
+  totalRows      Int
+  processedRows  Int @default(0)
+  successfulRows Int @default(0)
+  failedRows     Int @default(0)
+  skippedRows    Int @default(0)
+
+  processingStartedAt   DateTime?
+  processingCompletedAt DateTime?
+  errorLog              String?
+  validationErrors      Json?
+
+  normalizationStatus  PropertyNormalizationStatus @default(PENDING)
+  normalizedProperties Int                         @default(0)
+  manualReviewRequired Int                         @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  corporateProperties CorporateProperty[]
+
+  @@index([corporateAccountId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model BulkInvitation {
+  id                 String           @id @default(cuid())
+  corporateAccountId String
+  corporateAccount   CorporateAccount @relation(fields: [corporateAccountId], references: [id], onDelete: Cascade)
+
+  invitedEmail String
+  invitedName  String
+  role         String @default("property_manager")
+
+  magicLinkToken     String    @unique
+  magicLinkExpiresAt DateTime
+  magicLinkUsedAt    DateTime?
+  magicLinkUsedIp    String?
+
+  status InvitationStatus @default(PENDING)
+
+  invitationMessage   String?
+  customWelcomeText   String?
+  portfolioPreviewUrl String?
+
+  seattlePilotCampaign Boolean @default(false)
+  priorityAccess       Boolean @default(false)
+
+  sentAt     DateTime  @default(now())
+  acceptedAt DateTime?
+  expiresAt  DateTime
+
+  @@index([corporateAccountId])
+  @@index([magicLinkToken])
+  @@index([status])
+  @@index([seattlePilotCampaign])
+}
+
+model CorporateProperty {
+  id                 String           @id @default(cuid())
+  corporateAccountId String
+  corporateAccount   CorporateAccount @relation(fields: [corporateAccountId], references: [id], onDelete: Cascade)
+  portfolioBatchId   String?
+  portfolioBatch     PortfolioBatch?  @relation(fields: [portfolioBatchId], references: [id], onDelete: SetNull)
+
+  propertyId String? @unique
+
+  rawImportData Json
+
+  normalizationStatus PropertyNormalizationStatus @default(PENDING)
+  normalizedAt        DateTime?
+  normalizedBy        String?
+
+  propertyType     String?
+  furnishingStatus String?
+  amenities        String[]
+
+  seattleNeighborhood String?
+  buildingName        String?
+  buildingType        String?
+  floorNumber         Int?
+  unitNumber          String?
+
+  corporateRate   Float?
+  longTermRate    Float?
+  midTermRate     Float?
+  minStayDuration Int?
+  maxStayDuration Int?
+
+  aiEstimatedValue  Float?
+  aiEstimatedYield  Float?
+  aiConfidenceScore Float?
+  aiValuationAt     DateTime?
+
+  longTermYield    Float?
+  midTermYield     Float?
+  corporateYield   Float?
+  yieldOpportunity String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([corporateAccountId])
+  @@index([portfolioBatchId])
+  @@index([propertyId])
+  @@index([normalizationStatus])
+  @@index([seattleNeighborhood])
+}
+
+model AIPitchDeck {
+  id                 String           @id @default(cuid())
+  corporateAccountId String
+  corporateAccount   CorporateAccount @relation(fields: [corporateAccountId], references: [id], onDelete: Cascade)
+
+  deckName String
+  deckType String
+
+  executiveSummary     String
+  portfolioOverview    Json
+  financialProjections Json
+  yieldAnalysis        Json
+  marketComparison     Json
+
+  seattleMarketInsights Json?
+  techTenantDemand      Json?
+  neighborhoodAnalysis  Json?
+
+  status      String    @default("draft")
+  generatedAt DateTime  @default(now())
+  sentAt      DateTime?
+  viewedAt    DateTime?
+
+  deliveryMethod String
+  deliveryEmail  String?
+
+  @@index([corporateAccountId])
+  @@index([status])
+  @@index([generatedAt])
+}
+
+model CorporateTenantMatch {
+  id                  String @id @default(cuid())
+  corporateAccountId  String
+  corporatePropertyId String
+
+  companyName   String
+  industry      String
+  employeeCount Int?
+
+  matchScore             Float
+  matchReason            String[]
+  estimatedContractValue Float?
+  contractDuration       Int?
+
+  status String @default("pending")
+
+  techCompany       Boolean @default(false)
+  amazonEmployee    Boolean @default(false)
+  microsoftEmployee Boolean @default(false)
+  googleEmployee    Boolean @default(false)
+  metaEmployee      Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([corporateAccountId])
+  @@index([corporatePropertyId])
+  @@index([status])
+  @@index([matchScore])
+}
+
+// ==========================================
+// Marketing OS - Campaign Automation
+// Automated campaign generation and execution rules
+
+model CampaignAutomationRule {
+  id    String @id @default(cuid())
+  orgId String
+
+  name        String
+  description String?
+  status      CampaignRuleStatus @default(ACTIVE)
+
+  // Trigger Conditions
+  triggerType       CampaignTriggerType
+  triggerConditions Json // Property vacancy risk > 30%, valuation increase > 15%
+
+  // Target Entity
+  targetEntityType String // PROPERTY, PROPERTY_PROSPECT, OWNER_PROFILE
+  targetFilters    Json?
+
+  // Campaign Configuration
+  campaignType      CampaignObjectiveType
+  campaignObjective CampaignObjective
+  budget            Float?
+  duration          Int?
+
+  // Platform Configuration
+  googleAdsEnabled Boolean @default(false)
+  metaAdsEnabled   Boolean @default(false)
+  tiktokAdsEnabled Boolean @default(false)
+
+  // Creative Generation
+  autoGenerateCreative Boolean @default(false)
+  creativeTemplate     Json?
+
+  // Audience Building
+  autoBuildAudience Boolean @default(false)
+  audienceCriteria  Json?
+
+  // Execution Timing
+  executionDelay     Int? // minutes
+  executionFrequency String? // once, daily, weekly
+
+  // Consent Requirements
+  requireConsent Boolean @default(true)
+  consentType    String?
+
+  // Performance Thresholds
+  minConversionRate     Float?
+  maxCostPerAcquisition Float?
+
+  // Analytics
+  totalCampaignsGenerated Int   @default(0)
+  totalSpend              Float @default(0)
+  totalConversions        Int   @default(0)
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  lastExecutedAt DateTime?
+
+  @@index([orgId])
+  @@index([status])
+  @@index([triggerType])
+  @@index([targetEntityType])
+  @@index([lastExecutedAt])
+}
+
+enum CampaignTriggerType {
+  PROPERTY_VACANCY_RISK
+  VALUATION_INCREASE
+  MARKET_OPPORTUNITY
+  OWNER_CONSENT_GRANTED
+  LISTING_EXPIRED
+  PRICE_DROP
+  NEW_LISTING_INGESTED
+  CUSTOM
+}
+
+enum CampaignRuleStatus {
+  ACTIVE
+  PAUSED
+  DISABLED
+  ARCHIVED
+}
+
+enum CampaignObjectiveType {
+  ACQUISITION
+  RETENTION
+  VACANCY_FILL
+  BRAND_AWARENESS
+  LEAD_GENERATION
+  CONVERSION
+  RE_ENGAGEMENT
+}
+
+enum CampaignObjective {
+  BRAND_AWARENESS
+  TRAFFIC
+  ENGAGEMENT
+  LEADS
+  CONVERSIONS
+  APP_INSTALLS
+  CATALOG_SALES
+  STORE_VISITS
+}
+
+// ==========================================
+// Trust OS - Entity Trust Scoring
+// Trust score calculation and tracking for all entities
+
+model TrustScore {
+  id String @id @default(cuid())
+
+  // Entity Reference
+  entityId      String
+  entityType    TrustEntityType
+  entityContext Json?
+
+  // Overall Trust Score
+  overallScore    Float                @default(0)
+  confidenceLevel TrustConfidenceLevel @default(LOW)
+
+  // Component Scores
+  ownershipConfidence  Float?
+  dataAccuracy         Float?
+  marketConfidence     Float?
+  identityVerified     Boolean @default(false)
+  communicationConsent Boolean @default(false)
+
+  // Scoring Factors
+  factors Json // { ownership: 0.96, data: 0.91, market: 0.87 }
+  weights Json // { ownership: 0.4, data: 0.3, market: 0.3 }
+
+  // Historical Tracking
+  previousScore Float?
+  scoreChange   Float?
+  scoreTrend    String? // IMPROVING, STABLE, DECLINING
+
+  // Verification Status
+  verifiedBy         String?
+  verifiedAt         DateTime?
+  verificationMethod String?
+
+  // Risk Assessment
+  riskLevel   TrustRiskLevel @default(UNKNOWN)
+  riskFactors Json?
+
+  // Audit Trail
+  lastCalculatedAt   DateTime @default(now())
+  calculationMethod  String?
+  calculationVersion Int      @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([entityId])
+  @@index([entityType])
+  @@index([overallScore])
+  @@index([confidenceLevel])
+  @@index([riskLevel])
+  @@index([lastCalculatedAt])
+}
+
+enum TrustConfidenceLevel {
+  VERY_LOW
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+enum TrustRiskLevel {
+  UNKNOWN
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+// ==========================================
+// MLS Fraud Detection Rules
+// MLS-specific fraud detection patterns
+
+model MLSFraudPattern {
+  id String @id @default(cuid())
+
+  patternType MLSFraudPatternType
+  severity    FraudSeverity       @default(MEDIUM)
+
+  // Detection Rules
+  detectionRules Json // { duplicateListing: true, fakeOwner: true }
+  thresholds     Json?
+
+  // Matching Criteria
+  matchCriteria Json?
+
+  // Action Configuration
+  autoFlag            Boolean @default(true)
+  autoBlock           Boolean @default(false)
+  requireManualReview Boolean @default(true)
+
+  // Statistics
+  totalDetections Int @default(0)
+  truePositives   Int @default(0)
+  falsePositives  Int @default(0)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  lastTriggeredAt DateTime?
+
+  @@index([patternType])
+  @@index([severity])
+  @@index([totalDetections])
+  @@index([lastTriggeredAt])
+}
+
+enum MLSFraudPatternType {
+  DUPLICATE_LISTING
+  FAKE_OWNER_DETECTION
+  PRICE_MANIPULATION
+  IMAGE_REUSE_DETECTION
+  OWNERSHIP_CONFLICT
+  PHANTOM_PROPERTY
+  ADDRESS_MISMATCH
+  SQUARE_FOOTAGE_ANOMALY
+  PRICE_ANOMALY
+  CONTACT_FRAUD
+}
+
+enum FraudSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
 }
 
 // ==========================================
@@ -13987,46 +14872,46 @@ enum InstitutionalOwnerType {
 }
 
 model REOProperty {
-  id          String          @id @default(uuid())
+  id          String                  @id @default(uuid())
   orgId       String
   propertyId  String?
   portfolioId String?
   portfolio   InstitutionalPortfolio? @relation(fields: [portfolioId], references: [id], onDelete: SetNull)
 
   // REO classification
-  status          REOPropertyStatus  @default(BANK_OWNED)
-  propertyType    REOPropertyType
-  loanId          String?            // Original loan reference
-  borrowerName    String?
-  originalLoanAmount Decimal?        @db.Decimal(14, 2)
-  outstandingBalance Decimal?        @db.Decimal(14, 2)
+  status             REOPropertyStatus @default(BANK_OWNED)
+  propertyType       REOPropertyType
+  loanId             String? // Original loan reference
+  borrowerName       String?
+  originalLoanAmount Decimal?          @db.Decimal(14, 2)
+  outstandingBalance Decimal?          @db.Decimal(14, 2)
 
   // Valuation
-  asIsValue           Decimal?       @db.Decimal(14, 2)
-  afterRepairValue    Decimal?       @db.Decimal(14, 2)
-  estimatedRepairCost Decimal?       @db.Decimal(12, 2)
+  asIsValue           Decimal?  @db.Decimal(14, 2)
+  afterRepairValue    Decimal?  @db.Decimal(14, 2)
+  estimatedRepairCost Decimal?  @db.Decimal(12, 2)
   lastAppraisalDate   DateTime?
   appraisalCompany    String?
 
   // Management
-  assetManagerId  String?            // User managing this asset
-  propertyManagerId String?
+  assetManagerId      String? // User managing this asset
+  propertyManagerId   String?
   maintenanceVendorId String?
 
   // Financial
-  carryingCost    Decimal            @default(0) @db.Decimal(12, 2) // Monthly holding cost
-  insuranceCost   Decimal            @default(0) @db.Decimal(12, 2)
-  taxLiability    Decimal            @default(0) @db.Decimal(12, 2)
+  carryingCost  Decimal @default(0) @db.Decimal(12, 2) // Monthly holding cost
+  insuranceCost Decimal @default(0) @db.Decimal(12, 2)
+  taxLiability  Decimal @default(0) @db.Decimal(12, 2)
 
   // Timeline
-  acquiredAt      DateTime           @default(now())
-  listedAt        DateTime?
-  soldAt          DateTime?
+  acquiredAt         DateTime  @default(now())
+  listedAt           DateTime?
+  soldAt             DateTime?
   targetDisposalDate DateTime?
 
   // Disposition strategy
-  dispositionStrategy String?        // "QUICK_SALE", "RENOVATE_SELL", "RENT_SELL", "HOLD"
-  expectedRecoveryRate Float?        // 0-1, expected recovery vs loan
+  dispositionStrategy  String? // "QUICK_SALE", "RENOVATE_SELL", "RENT_SELL", "HOLD"
+  expectedRecoveryRate Float? // 0-1, expected recovery vs loan
 
   metadata  Json?
   createdAt DateTime @default(now())
@@ -14042,44 +14927,44 @@ model REOProperty {
 }
 
 model InstitutionalPortfolio {
-  id     String       @id @default(uuid())
-  orgId  String
+  id    String @id @default(uuid())
+  orgId String
 
-  name              String
-  description       String?
-  ownerType         InstitutionalOwnerType
+  name        String
+  description String?
+  ownerType   InstitutionalOwnerType
 
   // Portfolio metrics
-  totalProperties   Int              @default(0)
-  totalValue        Decimal          @default(0) @db.Decimal(16, 2)
-  totalDebt         Decimal          @default(0) @db.Decimal(16, 2)
-  equity            Decimal          @default(0) @db.Decimal(16, 2)
-  occupancyRate     Float            @default(0) // 0-1
-  averageNOI        Decimal?         @db.Decimal(12, 2)
-  weightedCapRate   Float?
+  totalProperties Int      @default(0)
+  totalValue      Decimal  @default(0) @db.Decimal(16, 2)
+  totalDebt       Decimal  @default(0) @db.Decimal(16, 2)
+  equity          Decimal  @default(0) @db.Decimal(16, 2)
+  occupancyRate   Float    @default(0) // 0-1
+  averageNOI      Decimal? @db.Decimal(12, 2)
+  weightedCapRate Float?
 
   // Income tracking
-  monthlyRentalIncome  Decimal       @default(0) @db.Decimal(12, 2)
-  monthlyOperatingExpenses Decimal  @default(0) @db.Decimal(12, 2)
-  netOperatingIncome   Decimal       @default(0) @db.Decimal(12, 2)
+  monthlyRentalIncome      Decimal @default(0) @db.Decimal(12, 2)
+  monthlyOperatingExpenses Decimal @default(0) @db.Decimal(12, 2)
+  netOperatingIncome       Decimal @default(0) @db.Decimal(12, 2)
 
   // Performance
-  ytdReturn        Float?            // Year-to-date return
-  irr              Float?            // Internal rate of return
-  totalAppreciation Decimal?         @db.Decimal(16, 2)
+  ytdReturn         Float? // Year-to-date return
+  irr               Float? // Internal rate of return
+  totalAppreciation Decimal? @db.Decimal(16, 2)
 
   // Geographic
-  primaryCountry   String?
-  primaryRegion    String?
-  assetMix         Json?             // Breakdown by property type
+  primaryCountry String?
+  primaryRegion  String?
+  assetMix       Json? // Breakdown by property type
 
-  status           String            @default("ACTIVE")
-  metadata         Json?
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  status    String   @default("ACTIVE")
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  holdings         PortfolioHolding[]
-  reoProperties    REOProperty[]
+  holdings      PortfolioHolding[]
+  reoProperties REOProperty[]
 
   @@index([orgId])
   @@index([ownerType])
@@ -14087,41 +14972,41 @@ model InstitutionalPortfolio {
 }
 
 model PortfolioHolding {
-  id           String               @id @default(uuid())
-  portfolioId  String
-  portfolio    InstitutionalPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
-  propertyId   String
-  orgId        String
+  id          String                 @id @default(uuid())
+  portfolioId String
+  portfolio   InstitutionalPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  propertyId  String
+  orgId       String
 
   // Position
-  purchasePrice    Decimal           @db.Decimal(14, 2)
-  currentValue     Decimal           @db.Decimal(14, 2)
-  equityStake      Float             @default(1.0) // 0-1 ownership share
-  acquisitionDate  DateTime          @default(now())
+  purchasePrice   Decimal  @db.Decimal(14, 2)
+  currentValue    Decimal  @db.Decimal(14, 2)
+  equityStake     Float    @default(1.0) // 0-1 ownership share
+  acquisitionDate DateTime @default(now())
 
   // Income
-  monthlyIncome    Decimal           @default(0) @db.Decimal(12, 2)
-  annualIncome     Decimal           @default(0) @db.Decimal(12, 2)
-  capRate          Float?
-  noi              Decimal?          @db.Decimal(12, 2)
+  monthlyIncome Decimal  @default(0) @db.Decimal(12, 2)
+  annualIncome  Decimal  @default(0) @db.Decimal(12, 2)
+  capRate       Float?
+  noi           Decimal? @db.Decimal(12, 2)
 
   // Status
-  isActive         Boolean           @default(true)
-  occupancyStatus  String            @default("VACANT") // OCCUPIED, VACANT, TRANSITIONING
-  leaseEndDate     DateTime?
+  isActive        Boolean   @default(true)
+  occupancyStatus String    @default("VACANT") // OCCUPIED, VACANT, TRANSITIONING
+  leaseEndDate    DateTime?
 
   // Performance
-  unrealizedGain   Decimal?          @db.Decimal(14, 2) // current - purchase
-  totalReturnPct   Float?            // total return %
+  unrealizedGain Decimal? @db.Decimal(14, 2) // current - purchase
+  totalReturnPct Float? // total return %
 
   metadata  Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([portfolioId, propertyId])
   @@index([portfolioId])
   @@index([propertyId])
   @@index([orgId])
-  @@unique([portfolioId, propertyId])
 }
 
 // ==========================================
@@ -14163,47 +15048,47 @@ enum FinancialAuditAction {
 }
 
 model FinancialAuditLog {
-  id        String   @id @default(uuid())
-  orgId     String?
+  id    String  @id @default(uuid())
+  orgId String?
 
   // What happened
-  action      FinancialAuditAction
-  entityType  String     // e.g. "Payment", "EscrowAccount", "KumbaraDeposit"
-  entityId    String
+  action     FinancialAuditAction
+  entityType String // e.g. "Payment", "EscrowAccount", "KumbaraDeposit"
+  entityId   String
 
   // Who did it
-  userId      String?
-  actorType   String     @default("USER") // USER, SYSTEM, WEBHOOK, CRON
+  userId    String?
+  actorType String  @default("USER") // USER, SYSTEM, WEBHOOK, CRON
 
   // Financial details
-  amount      Decimal?   @db.Decimal(14, 2)
-  currency    String?
-  oldAmount   Decimal?   @db.Decimal(14, 2)
-  newAmount   Decimal?   @db.Decimal(14, 2)
-  oldStatus   String?
-  newStatus   String?
+  amount    Decimal? @db.Decimal(14, 2)
+  currency  String?
+  oldAmount Decimal? @db.Decimal(14, 2)
+  newAmount Decimal? @db.Decimal(14, 2)
+  oldStatus String?
+  newStatus String?
 
   // Change tracking
   oldValues   Json?
   newValues   Json?
-  changeDelta  Json?     // Computed diff
+  changeDelta Json? // Computed diff
 
   // Context
-  reservationId  String?
-  leaseId        String?
-  escrowId       String?
-  paymentId      String?
+  reservationId String?
+  leaseId       String?
+  escrowId      String?
+  paymentId     String?
 
   // Compliance
-  ipAddress    String?
-  userAgent    String?
-  sessionId    String?
-  requestId    String?   // For tracing
+  ipAddress      String?
+  userAgent      String?
+  sessionId      String?
+  requestId      String? // For tracing
   idempotencyKey String?
 
   // Integrity
-  checksum     String?   // HMAC of the log entry for tamper detection
-  previousHash String?   // Chain hash for audit integrity
+  checksum     String? // HMAC of the log entry for tamper detection
+  previousHash String? // Chain hash for audit integrity
 
   createdAt DateTime @default(now())
 
@@ -14240,35 +15125,35 @@ enum BankAccountStatus {
 }
 
 model BankAccount {
-  id        String   @id @default(uuid())
-  orgId     String
+  id    String @id @default(uuid())
+  orgId String
 
   // Account details
-  accountType   BankAccountType    @default(CHECKING)
+  accountType   BankAccountType @default(CHECKING)
   bankName      String
-  bankCode      String?            // SWIFT/BIC
+  bankCode      String? // SWIFT/BIC
   accountName   String
-  accountNumber String             // Encrypted at rest
-  iban          String?            // For EU/TR accounts
-  routingNumber String?            // For US accounts
-  sortCode      String?            // For UK accounts
-  currency      String             @default("USD")
+  accountNumber String // Encrypted at rest
+  iban          String? // For EU/TR accounts
+  routingNumber String? // For US accounts
+  sortCode      String? // For UK accounts
+  currency      String          @default("USD")
   country       String
 
   // Status
-  status        BankAccountStatus  @default(PENDING_VERIFICATION)
-  verifiedAt    DateTime?
-  verifiedBy    String?
+  status     BankAccountStatus @default(PENDING_VERIFICATION)
+  verifiedAt DateTime?
+  verifiedBy String?
 
   // Default flags
-  isDefaultForPayouts   Boolean    @default(false)
-  isDefaultForReceipts  Boolean    @default(false)
+  isDefaultForPayouts  Boolean @default(false)
+  isDefaultForReceipts Boolean @default(false)
 
   // Metadata
-  lastUsedAt    DateTime?
-  metadata      Json?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  lastUsedAt DateTime?
+  metadata   Json?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   @@index([orgId])
   @@index([status])
@@ -14389,8 +15274,8 @@ enum RevenueShareType {
 // --- Models ---
 
 model Product {
-  id          String          @id @default(uuid())
-  orgId       String
+  id    String @id @default(uuid())
+  orgId String
 
   name        String
   description String?
@@ -14398,27 +15283,27 @@ model Product {
   sku         String?         @unique
   price       Decimal         @db.Decimal(10, 2)
   currency    String          @default("USD")
-  images      Json?           // Array of image URLs
-  attributes  Json?           // Size, color, material, etc.
+  images      Json? // Array of image URLs
+  attributes  Json? // Size, color, material, etc.
 
-  supplierId  String?
-  supplier    Supplier?       @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  supplierId String?
+  supplier   Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
 
-  status      ProductStatus   @default(ACTIVE)
-  isActive    Boolean         @default(true)
+  status   ProductStatus @default(ACTIVE)
+  isActive Boolean       @default(true)
 
   // Dimensions & weight
-  weight      Float?
-  dimensions  Json?           // { length, width, height, unit }
+  weight     Float?
+  dimensions Json? // { length, width, height, unit }
 
   // Commerce
-  commissionRate Float?       @default(0) // % commission on sales
-  wholesalePrice Decimal?    @db.Decimal(10, 2)
-  retailPrice   Decimal?     @db.Decimal(10, 2)
+  commissionRate Float?   @default(0) // % commission on sales
+  wholesalePrice Decimal? @db.Decimal(10, 2)
+  retailPrice    Decimal? @db.Decimal(10, 2)
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   bundleItems BundleItem[]
   orderItems  CommerceOrderItem[]
@@ -14430,8 +15315,8 @@ model Product {
 }
 
 model Supplier {
-  id          String          @id @default(uuid())
-  orgId       String
+  id    String @id @default(uuid())
+  orgId String
 
   name        String
   description String?
@@ -14442,29 +15327,29 @@ model Supplier {
   logo        String?
 
   // Business info
-  taxId       String?
-  businessType String?        // MANUFACTURER, DISTRIBUTOR, RETAILER
-  country     String?
-  city        String?
+  taxId        String?
+  businessType String? // MANUFACTURER, DISTRIBUTOR, RETAILER
+  country      String?
+  city         String?
 
   // Terms
-  paymentTerms    String?     // NET_30, NET_60, PREPAID
-  minimumOrder    Decimal?    @db.Decimal(10, 2)
-  currency        String      @default("USD")
-  leadTimeDays    Int?        // Average delivery time
+  paymentTerms String? // NET_30, NET_60, PREPAID
+  minimumOrder Decimal? @db.Decimal(10, 2)
+  currency     String   @default("USD")
+  leadTimeDays Int? // Average delivery time
 
   // Commission
-  commissionRate  Float       @default(0) // % platform commission
+  commissionRate Float @default(0) // % platform commission
 
-  status      SupplierStatus  @default(ACTIVE)
-  rating      Float?          // 1-5 star rating
-  verifiedAt  DateTime?
+  status     SupplierStatus @default(ACTIVE)
+  rating     Float? // 1-5 star rating
+  verifiedAt DateTime?
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  products    Product[]
+  products Product[]
 
   @@index([orgId])
   @@index([status])
@@ -14472,33 +15357,33 @@ model Supplier {
 }
 
 model ProductBundle {
-  id          String          @id @default(uuid())
-  orgId       String
+  id    String @id @default(uuid())
+  orgId String
 
   name        String
   description String?
   bundleType  BundleType
-  totalPrice  Decimal         @db.Decimal(12, 2)
-  currency    String          @default("USD")
+  totalPrice  Decimal    @db.Decimal(12, 2)
+  currency    String     @default("USD")
 
   // Target property
-  propertyId  String?         // Link to property if bundle is for specific unit
-  propertyType String?        // APARTMENT, VILLA, STUDIO, etc.
-  bedrooms    Int?
+  propertyId   String? // Link to property if bundle is for specific unit
+  propertyType String? // APARTMENT, VILLA, STUDIO, etc.
+  bedrooms     Int?
 
   // Savings
-  originalPrice Decimal?      @db.Decimal(12, 2) // Sum of individual items
-  discountPct   Float?        // Discount percentage vs individual
+  originalPrice Decimal? @db.Decimal(12, 2) // Sum of individual items
+  discountPct   Float? // Discount percentage vs individual
 
-  isActive    Boolean         @default(true)
-  images      Json?
+  isActive Boolean @default(true)
+  images   Json?
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  items       BundleItem[]
-  orders      CommerceOrder[]
+  items  BundleItem[]
+  orders CommerceOrder[]
 
   @@index([orgId])
   @@index([bundleType])
@@ -14506,17 +15391,17 @@ model ProductBundle {
 }
 
 model BundleItem {
-  id          String          @id @default(uuid())
-  bundleId    String
-  bundle      ProductBundle   @relation(fields: [bundleId], references: [id], onDelete: Cascade)
-  productId   String
-  product     Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id        String        @id @default(uuid())
+  bundleId  String
+  bundle    ProductBundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  quantity    Int             @default(1)
-  unitPrice   Decimal         @db.Decimal(10, 2)
-  totalAmount Decimal         @db.Decimal(10, 2)
+  quantity    Int     @default(1)
+  unitPrice   Decimal @db.Decimal(10, 2)
+  totalAmount Decimal @db.Decimal(10, 2)
 
-  metadata    Json?
+  metadata Json?
 
   @@unique([bundleId, productId])
   @@index([bundleId])
@@ -14524,38 +15409,38 @@ model BundleItem {
 }
 
 model CommerceAgent {
-  id          String          @id @default(uuid())
-  orgId       String
-  userId      String?         // Link to User model
+  id     String  @id @default(uuid())
+  orgId  String
+  userId String? // Link to User model
 
-  name        String
-  email       String
-  phone       String?
-  imageUrl    String?
+  name     String
+  email    String
+  phone    String?
+  imageUrl String?
 
   // Agent details
-  licenseNumber String?
-  agencyName    String?
-  specializations Json?       // ["residential", "commercial", "investment"]
+  licenseNumber   String?
+  agencyName      String?
+  specializations Json? // ["residential", "commercial", "investment"]
 
   // Commission
-  baseCommissionRate Float   @default(3.0) // Default %
+  baseCommissionRate Float    @default(3.0) // Default %
   bonusThreshold     Decimal? @db.Decimal(12, 2) // Sales volume for bonus
   bonusRate          Float?   @default(0.5) // Extra % above threshold
 
   // Performance
-  totalSales        Int       @default(0)
-  totalRevenue      Decimal   @default(0) @db.Decimal(14, 2)
-  averageRating     Float?    // 1-5
-  responseTimeHours Float?    // Avg response time
+  totalSales        Int     @default(0)
+  totalRevenue      Decimal @default(0) @db.Decimal(14, 2)
+  averageRating     Float? // 1-5
+  responseTimeHours Float? // Avg response time
 
-  status      AgentStatus     @default(ACTIVE)
-  joinedAt    DateTime        @default(now())
+  status       AgentStatus @default(ACTIVE)
+  joinedAt     DateTime    @default(now())
   lastActiveAt DateTime?
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   commissions CommerceCommission[]
   orders      CommerceOrder[]
@@ -14567,45 +15452,45 @@ model CommerceAgent {
 }
 
 model CommerceCommission {
-  id          String          @id @default(uuid())
-  orgId       String
+  id    String @id @default(uuid())
+  orgId String
 
-  sourceType  String          // "ORDER", "SALE", "REFERRAL", "LEASE"
-  sourceId    String          // ID of the source entity
+  sourceType String // "ORDER", "SALE", "REFERRAL", "LEASE"
+  sourceId   String // ID of the source entity
 
-  agentId     String?
-  agent       CommerceAgent?  @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  agentId String?
+  agent   CommerceAgent? @relation(fields: [agentId], references: [id], onDelete: SetNull)
 
   // Commission details
   type        CommissionType
-  basis       String?         // "percentage", "fixed"
-  basisAmount Decimal         @db.Decimal(12, 2) // Amount the commission is based on
-  rate        Float           // Commission rate (%)
-  amount      Decimal         @db.Decimal(12, 2) // Calculated commission amount
-  currency    String          @default("USD")
+  basis       String? // "percentage", "fixed"
+  basisAmount Decimal        @db.Decimal(12, 2) // Amount the commission is based on
+  rate        Float // Commission rate (%)
+  amount      Decimal        @db.Decimal(12, 2) // Calculated commission amount
+  currency    String         @default("USD")
 
   // Split
-  platformShare Decimal       @default(0) @db.Decimal(12, 2)
-  agentShare    Decimal       @default(0) @db.Decimal(12, 2)
-  supplierShare Decimal       @default(0) @db.Decimal(12, 2)
-  partnerShare  Decimal       @default(0) @db.Decimal(12, 2)
+  platformShare Decimal @default(0) @db.Decimal(12, 2)
+  agentShare    Decimal @default(0) @db.Decimal(12, 2)
+  supplierShare Decimal @default(0) @db.Decimal(12, 2)
+  partnerShare  Decimal @default(0) @db.Decimal(12, 2)
 
   // Status
-  status      CommerceCommissionStatus @default(PENDING)
+  status       CommerceCommissionStatus @default(PENDING)
   calculatedAt DateTime?
-  approvedAt  DateTime?
-  paidAt      DateTime?
-  paymentRef  String?         // External payment reference
+  approvedAt   DateTime?
+  paidAt       DateTime?
+  paymentRef   String? // External payment reference
 
   // Related entities
-  orderId     String?
-  order       CommerceOrder?  @relation(fields: [orderId], references: [id], onDelete: SetNull)
-  productId   String?
-  campaignId  String?
+  orderId    String?
+  order      CommerceOrder? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  productId  String?
+  campaignId String?
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   revenueShares RevenueShare[]
 
@@ -14618,55 +15503,55 @@ model CommerceCommission {
 }
 
 model CommerceOrder {
-  id          String          @id @default(uuid())
-  orgId       String
+  id    String @id @default(uuid())
+  orgId String
 
-  orderNumber String          @unique // Human-readable order number
-  status      OrderStatus     @default(PENDING)
+  orderNumber String      @unique // Human-readable order number
+  status      OrderStatus @default(PENDING)
 
   // Buyer
-  buyerType   String          // "USER", "AGENT", "ORGANIZATION"
-  buyerId     String
-  buyerName   String?
-  buyerEmail  String?
+  buyerType  String // "USER", "AGENT", "ORGANIZATION"
+  buyerId    String
+  buyerName  String?
+  buyerEmail String?
 
   // Agent
-  agentId     String?
-  agent       CommerceAgent?  @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  agentId String?
+  agent   CommerceAgent? @relation(fields: [agentId], references: [id], onDelete: SetNull)
 
   // Bundle
-  bundleId    String?
-  bundle      ProductBundle?  @relation(fields: [bundleId], references: [id], onDelete: SetNull)
+  bundleId String?
+  bundle   ProductBundle? @relation(fields: [bundleId], references: [id], onDelete: SetNull)
 
   // Property
-  propertyId  String?         // Property this order is for
+  propertyId String? // Property this order is for
 
   // Pricing
-  subtotal    Decimal         @db.Decimal(12, 2)
-  discount    Decimal         @default(0) @db.Decimal(12, 2)
-  tax         Decimal         @default(0) @db.Decimal(12, 2)
-  total       Decimal         @db.Decimal(12, 2)
-  currency    String          @default("USD")
+  subtotal Decimal @db.Decimal(12, 2)
+  discount Decimal @default(0) @db.Decimal(12, 2)
+  tax      Decimal @default(0) @db.Decimal(12, 2)
+  total    Decimal @db.Decimal(12, 2)
+  currency String  @default("USD")
 
   // Payment
   paymentMethod String?
-  paymentStatus String        @default("PENDING") // PENDING, PAID, REFUNDED, PARTIAL
-  paidAt      DateTime?
-  paymentRef  String?
+  paymentStatus String    @default("PENDING") // PENDING, PAID, REFUNDED, PARTIAL
+  paidAt        DateTime?
+  paymentRef    String?
 
   // Delivery
-  deliveryAddress Json?
-  deliveryDate    DateTime?
+  deliveryAddress  Json?
+  deliveryDate     DateTime?
   installationDate DateTime?
 
   // Financing
-  financingOption  String?    // "FULL_PAYMENT", "INSTALLMENT_3", "INSTALLMENT_6", "INSTALLMENT_12"
-  financingTerm    Int?       // Months
-  monthlyPayment   Decimal?   @db.Decimal(10, 2)
+  financingOption String? // "FULL_PAYMENT", "INSTALLMENT_3", "INSTALLMENT_6", "INSTALLMENT_12"
+  financingTerm   Int? // Months
+  monthlyPayment  Decimal? @db.Decimal(10, 2)
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   items       CommerceOrderItem[]
   commissions CommerceCommission[]
@@ -14681,58 +15566,58 @@ model CommerceOrder {
 }
 
 model CommerceOrderItem {
-  id          String          @id @default(uuid())
-  orderId     String
-  order       CommerceOrder   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId   String
-  product     Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id        String        @id @default(uuid())
+  orderId   String
+  order     CommerceOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  quantity    Int             @default(1)
-  unitPrice   Decimal         @db.Decimal(10, 2)
-  totalAmount Decimal         @db.Decimal(10, 2)
+  quantity    Int     @default(1)
+  unitPrice   Decimal @db.Decimal(10, 2)
+  totalAmount Decimal @db.Decimal(10, 2)
 
-  metadata    Json?
+  metadata Json?
 
   @@index([orderId])
   @@index([productId])
 }
 
 model CommerceCampaign {
-  id          String          @id @default(uuid())
-  orgId       String
+  id    String @id @default(uuid())
+  orgId String
 
   name        String
   description String?
-  type        String          // "PROMOTION", "SEASONAL", "LAUNCH", "REFERRAL"
-  status      CommerceCampaignStatus  @default(DRAFT)
+  type        String // "PROMOTION", "SEASONAL", "LAUNCH", "REFERRAL"
+  status      CommerceCampaignStatus @default(DRAFT)
 
   // Timing
-  startDate   DateTime?
-  endDate     DateTime?
+  startDate DateTime?
+  endDate   DateTime?
 
   // Discount
-  discountType String?        // "PERCENTAGE", "FIXED", "BOGO"
+  discountType  String? // "PERCENTAGE", "FIXED", "BOGO"
   discountValue Float?
-  maxDiscount  Decimal?       @db.Decimal(10, 2)
-  minPurchase  Decimal?       @db.Decimal(10, 2)
+  maxDiscount   Decimal? @db.Decimal(10, 2)
+  minPurchase   Decimal? @db.Decimal(10, 2)
 
   // Targeting
-  targetProducts  Json?       // Array of product IDs
-  targetBundles   Json?       // Array of bundle IDs
-  targetRegions   Json?       // Array of region codes
-  targetSegments  Json?       // ["investor", "first_time", "corporate"]
+  targetProducts Json? // Array of product IDs
+  targetBundles  Json? // Array of bundle IDs
+  targetRegions  Json? // Array of region codes
+  targetSegments Json? // ["investor", "first_time", "corporate"]
 
   // Limits
-  maxUses       Int?
-  currentUses   Int           @default(0)
-  perUserLimit  Int?
+  maxUses      Int?
+  currentUses  Int  @default(0)
+  perUserLimit Int?
 
   // Commission bonus
-  agentBonusRate Float?       // Extra commission for agents during campaign
+  agentBonusRate Float? // Extra commission for agents during campaign
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([orgId])
   @@index([status])
@@ -14740,26 +15625,26 @@ model CommerceCampaign {
 }
 
 model RevenueShare {
-  id          String          @id @default(uuid())
-  orgId       String
+  id    String @id @default(uuid())
+  orgId String
 
   commissionId String
-  commission   CommerceCommission     @relation(fields: [commissionId], references: [id], onDelete: Cascade)
+  commission   CommerceCommission @relation(fields: [commissionId], references: [id], onDelete: Cascade)
 
-  type        RevenueShareType
-  entityId    String?         // agentId, supplierId, partnerId, etc.
-  entityType  String?         // "AGENT", "SUPPLIER", "PARTNER", "BANK", "PLATFORM"
+  type       RevenueShareType
+  entityId   String? // agentId, supplierId, partnerId, etc.
+  entityType String? // "AGENT", "SUPPLIER", "PARTNER", "BANK", "PLATFORM"
 
-  amount      Decimal         @db.Decimal(12, 2)
-  percentage  Float?
-  currency    String          @default("USD")
+  amount     Decimal @db.Decimal(12, 2)
+  percentage Float?
+  currency   String  @default("USD")
 
-  status      String          @default("PENDING") // PENDING, PAID, DISPUTED
-  paidAt      DateTime?
-  paymentRef  String?
+  status     String    @default("PENDING") // PENDING, PAID, DISPUTED
+  paidAt     DateTime?
+  paymentRef String?
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
+  metadata  Json?
+  createdAt DateTime @default(now())
 
   @@index([orgId])
   @@index([commissionId])
@@ -14769,59 +15654,59 @@ model RevenueShare {
 }
 
 model IncomeReadyCertificate {
-  id          String          @id @default(uuid())
-  orgId       String
+  id    String @id @default(uuid())
+  orgId String
 
   // Property
-  propertyId  String
+  propertyId   String
   propertyName String?
 
   // Certificate
-  tier        CertificateTier
-  status      CertificateStatus @default(PENDING)
-  certificateNumber String    @unique // e.g. "IRC-2024-001234"
+  tier              CertificateTier
+  status            CertificateStatus @default(PENDING)
+  certificateNumber String            @unique // e.g. "IRC-2024-001234"
 
   // Tiers achieved
-  moveInReady Boolean         @default(false)
-  moveInReadyAt DateTime?
-  incomeReady Boolean         @default(false)
-  incomeReadyAt DateTime?
-  investmentReady Boolean    @default(false)
+  moveInReady       Boolean   @default(false)
+  moveInReadyAt     DateTime?
+  incomeReady       Boolean   @default(false)
+  incomeReadyAt     DateTime?
+  investmentReady   Boolean   @default(false)
   investmentReadyAt DateTime?
 
   // Data supporting certification
-  trustScore  Float?          // 0-100
-  annualIncome Decimal?       @db.Decimal(12, 2) // Projected/actual annual rental income
-  occupancyRate Float?        // 0-1
-  maintenanceScore Float?     // 0-100
-  complianceStatus String?    // "COMPLIANT", "PENDING", "NON_COMPLIANT"
+  trustScore       Float? // 0-100
+  annualIncome     Decimal? @db.Decimal(12, 2) // Projected/actual annual rental income
+  occupancyRate    Float? // 0-1
+  maintenanceScore Float? // 0-100
+  complianceStatus String? // "COMPLIANT", "PENDING", "NON_COMPLIANT"
 
   // Income history
-  monthsRented Int           @default(0)
-  totalIncome  Decimal       @default(0) @db.Decimal(14, 2)
+  monthsRented       Int      @default(0)
+  totalIncome        Decimal  @default(0) @db.Decimal(14, 2)
   averageMonthlyRent Decimal? @db.Decimal(10, 2)
-  yieldRate    Float?         // Annual yield %
+  yieldRate          Float? // Annual yield %
 
   // Furnishing
-  furnishedBy  String?        // "RESERVATIOR", "SUPPLIER", "OWNER"
-  furnitureValue Decimal?     @db.Decimal(10, 2)
+  furnishedBy         String? // "RESERVATIOR", "SUPPLIER", "OWNER"
+  furnitureValue      Decimal? @db.Decimal(10, 2)
   furnitureSupplierId String?
 
   // Documents
-  documents    Json?          // Array of document references
+  documents Json? // Array of document references
 
   // Validity
-  issuedAt     DateTime?
-  expiresAt    DateTime?
-  renewedAt    DateTime?
+  issuedAt  DateTime?
+  expiresAt DateTime?
+  renewedAt DateTime?
 
   // Digital signature
-  digitalSignature String?    // Cryptographic proof
-  verificationUrl  String?    // Public verification URL
+  digitalSignature String? // Cryptographic proof
+  verificationUrl  String? // Public verification URL
 
-  metadata    Json?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
@@ -14834,19 +15719,19 @@ model IncomeReadyCertificate {
 // ── Investment OS ──────────────────────────────────────────────
 
 model InvestmentDeal {
-  id                String    @id @default(cuid())
-  orgId             String
-  userId            String
-  propertyId        String?
-  name              String
-  dealType          String?   @default("ACQUISITION")
-  status            String?   @default("DRAFT")
-  investmentAmount  Float?
-  expectedReturn    Float?
-  riskLevel         String?   @default("MEDIUM")
-  metadata          Json?
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  id               String   @id @default(cuid())
+  orgId            String
+  userId           String
+  propertyId       String?
+  name             String
+  dealType         String?  @default("ACQUISITION")
+  status           String?  @default("DRAFT")
+  investmentAmount Float?
+  expectedReturn   Float?
+  riskLevel        String?  @default("MEDIUM")
+  metadata         Json?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@index([orgId])
   @@index([userId])
@@ -14855,54 +15740,54 @@ model InvestmentDeal {
 }
 
 model InvestmentProjection {
-  id                String    @id @default(cuid())
-  dealId            String
-  year              Int
-  projectedValue    Float?
+  id                    String   @id @default(cuid())
+  dealId                String
+  year                  Int
+  projectedValue        Float?
   projectedRentalIncome Float?
-  projectedROI      Float?
-  growthRate        Float?
-  rentalYield       Float?
-  metadata          Json?
-  createdAt         DateTime  @default(now())
+  projectedROI          Float?
+  growthRate            Float?
+  rentalYield           Float?
+  metadata              Json?
+  createdAt             DateTime @default(now())
 
   @@index([dealId])
   @@index([year])
 }
 
 model MarketComparables {
-  id                      String    @id @default(cuid())
-  propertyId              String
-  comparablePropertyId    String?
-  address                 String?
-  price                   Float?
-  squareFootage           Float?
-  bedrooms                Int?
-  bathrooms               Float?
-  distance                Float?
-  metadata                Json?
-  createdAt               DateTime  @default(now())
+  id                   String   @id @default(cuid())
+  propertyId           String
+  comparablePropertyId String?
+  address              String?
+  price                Float?
+  squareFootage        Float?
+  bedrooms             Int?
+  bathrooms            Float?
+  distance             Float?
+  metadata             Json?
+  createdAt            DateTime @default(now())
 
   @@index([propertyId])
   @@index([comparablePropertyId])
 }
 
 model InvestmentInsight {
-  id              String            @id @default(cuid())
-  orgId           String
-  region          String
-  country         String
-  insightType     String            @default("PRICE_TREND")
-  title           String
-  description     String?
-  data            Json
-  confidence      Decimal?          @db.Decimal(3, 2)
-  validFrom       DateTime          @default(now())
-  validUntil      DateTime?
-  source          String?
-  aiGenerated     Boolean           @default(false)
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id          String    @id @default(cuid())
+  orgId       String
+  region      String
+  country     String
+  insightType String    @default("PRICE_TREND")
+  title       String
+  description String?
+  data        Json
+  confidence  Decimal?  @db.Decimal(3, 2)
+  validFrom   DateTime  @default(now())
+  validUntil  DateTime?
+  source      String?
+  aiGenerated Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([orgId])
   @@index([region, country])
@@ -14912,21 +15797,21 @@ model InvestmentInsight {
 // ── Operations OS ──────────────────────────────────────────────
 
 model MaintenanceSchedule {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
-  vendorId        String?
-  title           String
-  description     String?
-  scheduledDate   DateTime?
-  completedDate   DateTime?
-  priority        String?   @default("MEDIUM")
-  status          String?   @default("PENDING")
-  cost            Float?
-  notes           String?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id            String    @id @default(cuid())
+  orgId         String
+  propertyId    String
+  vendorId      String?
+  title         String
+  description   String?
+  scheduledDate DateTime?
+  completedDate DateTime?
+  priority      String?   @default("MEDIUM")
+  status        String?   @default("PENDING")
+  cost          Float?
+  notes         String?
+  metadata      Json?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
@@ -14936,14 +15821,14 @@ model MaintenanceSchedule {
 }
 
 model VendorRating {
-  id              String    @id @default(cuid())
-  orgId           String
-  vendorId        String
-  userId          String?
-  rating          Float
-  review          String?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
+  id        String   @id @default(cuid())
+  orgId     String
+  vendorId  String
+  userId    String?
+  rating    Float
+  review    String?
+  metadata  Json?
+  createdAt DateTime @default(now())
 
   @@index([orgId])
   @@index([vendorId])
@@ -14951,19 +15836,19 @@ model VendorRating {
 }
 
 model PropertyInspection {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
-  inspectorId     String?
-  inspectionType  String
-  scheduledDate   DateTime?
-  completedDate   DateTime?
-  result          String?
-  status          String?   @default("SCHEDULED")
-  notes           String?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id             String    @id @default(cuid())
+  orgId          String
+  propertyId     String
+  inspectorId    String?
+  inspectionType String
+  scheduledDate  DateTime?
+  completedDate  DateTime?
+  result         String?
+  status         String?   @default("SCHEDULED")
+  notes          String?
+  metadata       Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
@@ -14971,17 +15856,17 @@ model PropertyInspection {
 }
 
 model CleaningSchedule {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
-  cleanerId       String?
-  scheduledDate   DateTime?
-  completedDate   DateTime?
-  status          String?   @default("SCHEDULED")
-  notes           String?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id            String    @id @default(cuid())
+  orgId         String
+  propertyId    String
+  cleanerId     String?
+  scheduledDate DateTime?
+  completedDate DateTime?
+  status        String?   @default("SCHEDULED")
+  notes         String?
+  metadata      Json?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
@@ -14989,16 +15874,16 @@ model CleaningSchedule {
 }
 
 model ServiceProvider {
-  id              String    @id @default(cuid())
-  orgId           String
-  name            String
-  category        String
-  phone           String?
-  email           String?
-  rating          Float?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id        String   @id @default(cuid())
+  orgId     String
+  name      String
+  category  String
+  phone     String?
+  email     String?
+  rating    Float?
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([orgId])
   @@index([category])
@@ -15028,20 +15913,20 @@ model KYCVerification {
 }
 
 model FraudDetection {
-  id              String    @id @default(cuid())
-  orgId           String
-  entityType      String
-  entityId        String
-  riskLevel       String
-  description     String
-  evidence        Json?
-  status          String?   @default("OPEN")
-  reviewerId      String?
-  resolution      String?
-  resolvedAt      DateTime?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  orgId       String
+  entityType  String
+  entityId    String
+  riskLevel   String
+  description String
+  evidence    Json?
+  status      String?   @default("OPEN")
+  reviewerId  String?
+  resolution  String?
+  resolvedAt  DateTime?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([orgId])
   @@index([entityType, entityId])
@@ -15050,16 +15935,16 @@ model FraudDetection {
 }
 
 model AccessAuditLog {
-  id              String    @id @default(cuid())
-  orgId           String
-  userId          String
-  action          String
-  resource        String
-  resourceId      String?
-  ipAddress       String?
-  userAgent       String?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
+  id         String   @id @default(cuid())
+  orgId      String
+  userId     String
+  action     String
+  resource   String
+  resourceId String?
+  ipAddress  String?
+  userAgent  String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
 
   @@index([orgId])
   @@index([userId])
@@ -15069,16 +15954,16 @@ model AccessAuditLog {
 }
 
 model SecurityPolicy {
-  id              String    @id @default(cuid())
-  orgId           String
-  name            String
-  description     String?
-  policyType      String
-  rules           Json?
-  isActive        Boolean   @default(true)
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id          String   @id @default(cuid())
+  orgId       String
+  name        String
+  description String?
+  policyType  String
+  rules       Json?
+  isActive    Boolean  @default(true)
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([orgId])
   @@index([policyType])
@@ -15088,18 +15973,18 @@ model SecurityPolicy {
 // ── Global Audit ──────────────────────────────────────────────
 
 model GlobalAuditLog {
-  id              String    @id @default(cuid())
-  orgId           String?
-  userId          String?
-  module          String
-  action          String
-  entityType      String?
-  entityId        String?
-  severity        String?   @default("INFO")
-  description     String?
-  metadata        Json?
-  ipAddress       String?
-  createdAt       DateTime  @default(now())
+  id          String   @id @default(cuid())
+  orgId       String?
+  userId      String?
+  module      String
+  action      String
+  entityType  String?
+  entityId    String?
+  severity    String?  @default("INFO")
+  description String?
+  metadata    Json?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
 
   @@index([orgId])
   @@index([userId])
@@ -15114,23 +15999,23 @@ model GlobalAuditLog {
 // ══════════════════════════════════════════════════════════════
 
 model SpatialAnalysis {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
-  status          String    @default("PENDING")
-  healthScore     Float?
-  structuralScore Float?
-  cosmeticScore   Float?
-  systemsScore    Float?
-  overallGrade    String?
-  defects         Json?
-  recommendations Json?
-  estimatedRepairCost   Decimal? @db.Decimal(12, 2)
+  id                      String   @id @default(cuid())
+  orgId                   String
+  propertyId              String
+  status                  String   @default("PENDING")
+  healthScore             Float?
+  structuralScore         Float?
+  cosmeticScore           Float?
+  systemsScore            Float?
+  overallGrade            String?
+  defects                 Json?
+  recommendations         Json?
+  estimatedRepairCost     Decimal? @db.Decimal(12, 2)
   estimatedRepairCurrency String?
-  geminiResponse  Json?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  geminiResponse          Json?
+  metadata                Json?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
@@ -15138,102 +16023,102 @@ model SpatialAnalysis {
 }
 
 model PropertyHealthReport {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
+  id                String   @id @default(cuid())
+  orgId             String
+  propertyId        String
   spatialAnalysisId String?
-  baselineId      String?
-  healthScore     Float
-  structuralScore Float
-  cosmeticScore   Float
-  systemsScore    Float
-  overallGrade    String
-  defects         Json?
-  repairEstimate  Decimal? @db.Decimal(12, 2)
-  repairCurrency  String?
-  comparisonDelta Float?
-  geminiSummary   String?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  baselineId        String?
+  healthScore       Float
+  structuralScore   Float
+  cosmeticScore     Float
+  systemsScore      Float
+  overallGrade      String
+  defects           Json?
+  repairEstimate    Decimal? @db.Decimal(12, 2)
+  repairCurrency    String?
+  comparisonDelta   Float?
+  geminiSummary     String?
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
 }
 
 model SpatialAsset {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
+  id                String   @id @default(cuid())
+  orgId             String
+  propertyId        String
   spatialAnalysisId String?
-  assetType       String
-  url             String
-  thumbnailUrl    String?
-  roomType        String?
-  dimensions      Json?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  assetType         String
+  url               String
+  thumbnailUrl      String?
+  roomType          String?
+  dimensions        Json?
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
 }
 
 model RoomAnalysis {
-  id              String    @id @default(cuid())
-  orgId           String
+  id                String   @id @default(cuid())
+  orgId             String
   spatialAnalysisId String
-  roomName        String
-  roomType        String?
-  area            Float?
-  condition       String?
-  defects         Json?
-  recommendations Json?
-  photos          Json?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  roomName          String
+  roomType          String?
+  area              Float?
+  condition         String?
+  defects           Json?
+  recommendations   Json?
+  photos            Json?
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([orgId])
   @@index([spatialAnalysisId])
 }
 
 model InsuranceRiskProfile {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
+  id                String   @id @default(cuid())
+  orgId             String
+  propertyId        String
   spatialAnalysisId String?
-  riskScore       Float
-  riskLevel       String
-  factors         Json?
-  recommendations Json?
-  premiumEstimate Decimal? @db.Decimal(12, 2)
-  premiumCurrency String?
-  geminiAnalysis  Json?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  riskScore         Float
+  riskLevel         String
+  factors           Json?
+  recommendations   Json?
+  premiumEstimate   Decimal? @db.Decimal(12, 2)
+  premiumCurrency   String?
+  geminiAnalysis    Json?
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
 }
 
 model InsuranceProduct {
-  id              String    @id @default(cuid())
-  orgId           String
-  name            String
-  provider        String
-  productType     String
-  coverageTypes   Json?
-  minPremium      Decimal? @db.Decimal(12, 2)
-  maxPremium      Decimal? @db.Decimal(12, 2)
-  currency        String?
-  description     String?
-  features        Json?
-  isActive        Boolean   @default(true)
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id            String   @id @default(cuid())
+  orgId         String
+  name          String
+  provider      String
+  productType   String
+  coverageTypes Json?
+  minPremium    Decimal? @db.Decimal(12, 2)
+  maxPremium    Decimal? @db.Decimal(12, 2)
+  currency      String?
+  description   String?
+  features      Json?
+  isActive      Boolean  @default(true)
+  metadata      Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@index([orgId])
   @@index([productType])
@@ -15241,20 +16126,20 @@ model InsuranceProduct {
 }
 
 model InsuranceAttachment {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
-  productId       String
-  holderType      String
-  status          String    @default("PENDING")
-  policyNumber    String?
-  startDate       DateTime?
-  endDate         DateTime?
-  premium         Decimal? @db.Decimal(12, 2)
-  currency        String?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  orgId        String
+  propertyId   String
+  productId    String
+  holderType   String
+  status       String    @default("PENDING")
+  policyNumber String?
+  startDate    DateTime?
+  endDate      DateTime?
+  premium      Decimal?  @db.Decimal(12, 2)
+  currency     String?
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
@@ -15262,18 +16147,18 @@ model InsuranceAttachment {
 }
 
 model MediaLocalization {
-  id              String    @id @default(cuid())
+  id              String   @id @default(cuid())
   orgId           String
   spatialAssetId  String
   targetLanguage  String
   translatedTitle String?
   translatedDesc  String?
   altText         String?
-  status          String    @default("PENDING")
+  status          String   @default("PENDING")
   geminiResponse  Json?
   metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@index([orgId])
   @@index([spatialAssetId])
@@ -15281,19 +16166,19 @@ model MediaLocalization {
 }
 
 model BrochureAsset {
-  id              String    @id @default(cuid())
-  orgId           String
-  propertyId      String
-  language        String
+  id                String   @id @default(cuid())
+  orgId             String
+  propertyId        String
+  language          String
   demographicTarget String?
-  title           String?
-  content         Json?
-  pdfUrl          String?
-  status          String    @default("PENDING")
-  geminiResponse  Json?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  title             String?
+  content           Json?
+  pdfUrl            String?
+  status            String   @default("PENDING")
+  geminiResponse    Json?
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([orgId])
   @@index([propertyId])
@@ -15305,33 +16190,33 @@ model BrochureAsset {
 // ══════════════════════════════════════════════════════════════
 
 model AdCampaign {
-  id              String    @id @default(cuid())
-  orgId           String
-  name            String
-  propertyId      String?
-  campaignType    String
-  status          String    @default("DRAFT")
-  network         String?
-  accountId       String?
-  budget          Decimal   @db.Decimal(12, 2)
-  dailyBudget     Decimal?  @db.Decimal(12, 2)
-  spent           Decimal   @default(0) @db.Decimal(12, 2)
-  currency        String    @default("USD")
-  impressions     Int       @default(0)
-  clicks          Int       @default(0)
-  conversions     Int       @default(0)
-  cpet            Float?
-  roas            Float?
+  id                 String    @id @default(cuid())
+  orgId              String
+  name               String
+  propertyId         String?
+  campaignType       String
+  status             String    @default("DRAFT")
+  network            String?
+  accountId          String?
+  budget             Decimal   @db.Decimal(12, 2)
+  dailyBudget        Decimal?  @db.Decimal(12, 2)
+  spent              Decimal   @default(0) @db.Decimal(12, 2)
+  currency           String    @default("USD")
+  impressions        Int       @default(0)
+  clicks             Int       @default(0)
+  conversions        Int       @default(0)
+  cpet               Float?
+  roas               Float?
   targetDemographics Json?
-  targetingConfig Json?
-  creatives       Json?
-  startDate       DateTime?
-  endDate         DateTime?
-  pausedAt        DateTime?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  deletedAt       DateTime?
+  targetingConfig    Json?
+  creatives          Json?
+  startDate          DateTime?
+  endDate            DateTime?
+  pausedAt           DateTime?
+  metadata           Json?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  deletedAt          DateTime?
 
   @@index([orgId])
   @@index([propertyId])
@@ -15341,37 +16226,37 @@ model AdCampaign {
 }
 
 model AdNetworkConfig {
-  id              String    @id @default(cuid())
-  orgId           String
-  network         String
-  accountId       String
-  apiKey          String?
-  isConnected     Boolean   @default(true)
-  lastSyncAt      DateTime?
-  config          Json?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  orgId       String
+  network     String
+  accountId   String
+  apiKey      String?
+  isConnected Boolean   @default(true)
+  lastSyncAt  DateTime?
+  config      Json?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
+  @@unique([orgId, network, accountId])
   @@index([orgId])
   @@index([network])
-  @@unique([orgId, network, accountId])
 }
 
 model AdBudgetShiftEvent {
-  id              String    @id @default(cuid())
-  orgId           String
-  campaignId      String
-  fromNetwork     String
-  toNetwork       String
-  amount          Decimal   @db.Decimal(12, 2)
-  reason          String?
-  cpetBefore      Float?
-  cpetAfter       Float?
-  status          String    @default("EXECUTED")
-  executedAt      DateTime?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
+  id          String    @id @default(cuid())
+  orgId       String
+  campaignId  String
+  fromNetwork String
+  toNetwork   String
+  amount      Decimal   @db.Decimal(12, 2)
+  reason      String?
+  cpetBefore  Float?
+  cpetAfter   Float?
+  status      String    @default("EXECUTED")
+  executedAt  DateTime?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
 
   @@index([orgId])
   @@index([campaignId])
@@ -15384,7 +16269,7 @@ model OfflineConversionEvent {
   orgId           String
   campaignId      String
   eventType       String
-  conversionValue Decimal? @db.Decimal(12, 2)
+  conversionValue Decimal?  @db.Decimal(12, 2)
   currency        String?
   gclid           String?
   externalId      String?
@@ -15405,28 +16290,28 @@ model OfflineConversionEvent {
 // ══════════════════════════════════════════════════════════════
 
 model CreatorProfile {
-  id              String    @id @default(cuid())
-  orgId           String
-  userId          String?
-  name            String
-  email           String?
-  avatarUrl       String?
-  platform        String?
-  handle          String?
-  followers       Int       @default(0)
-  engagementRate  Float?
-  niche           String?
-  tier            String    @default("STANDARD")
-  commissionRate  Decimal?  @db.Decimal(5, 2)
-  totalEarnings   Decimal   @default(0) @db.Decimal(12, 2)
-  totalLeads      Int       @default(0)
-  totalConversions Int      @default(0)
-  status          String    @default("ACTIVE")
-  socialLinks     Json?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  deletedAt       DateTime?
+  id               String    @id @default(cuid())
+  orgId            String
+  userId           String?
+  name             String
+  email            String?
+  avatarUrl        String?
+  platform         String?
+  handle           String?
+  followers        Int       @default(0)
+  engagementRate   Float?
+  niche            String?
+  tier             String    @default("STANDARD")
+  commissionRate   Decimal?  @db.Decimal(5, 2)
+  totalEarnings    Decimal   @default(0) @db.Decimal(12, 2)
+  totalLeads       Int       @default(0)
+  totalConversions Int       @default(0)
+  status           String    @default("ACTIVE")
+  socialLinks      Json?
+  metadata         Json?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
 
   @@index([orgId])
   @@index([status])
@@ -15434,24 +16319,24 @@ model CreatorProfile {
 }
 
 model CreatorContent {
-  id              String    @id @default(cuid())
-  orgId           String
-  creatorId       String
-  contentType     String
-  title           String?
-  contentUrl      String?
-  thumbnailUrl    String?
-  propertyId      String?
-  campaignId      String?
-  impressions     Int       @default(0)
-  clicks          Int       @default(0)
-  conversions     Int       @default(0)
-  commission      Decimal?  @db.Decimal(12, 2)
-  status          String    @default("ACTIVE")
-  publishedAt     DateTime?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  orgId        String
+  creatorId    String
+  contentType  String
+  title        String?
+  contentUrl   String?
+  thumbnailUrl String?
+  propertyId   String?
+  campaignId   String?
+  impressions  Int       @default(0)
+  clicks       Int       @default(0)
+  conversions  Int       @default(0)
+  commission   Decimal?  @db.Decimal(12, 2)
+  status       String    @default("ACTIVE")
+  publishedAt  DateTime?
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@index([orgId])
   @@index([creatorId])
@@ -15460,21 +16345,21 @@ model CreatorContent {
 }
 
 model LeadRecord {
-  id              String    @id @default(cuid())
-  orgId           String
-  creatorId       String
-  propertyId      String?
-  source          String
-  contactName     String?
-  contactEmail    String?
-  contactPhone    String?
-  status          String    @default("NEW")
-  score           Float?
-  convertedAt     DateTime?
-  commission      Decimal?  @db.Decimal(12, 2)
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  orgId        String
+  creatorId    String
+  propertyId   String?
+  source       String
+  contactName  String?
+  contactEmail String?
+  contactPhone String?
+  status       String    @default("NEW")
+  score        Float?
+  convertedAt  DateTime?
+  commission   Decimal?  @db.Decimal(12, 2)
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@index([orgId])
   @@index([creatorId])
@@ -15482,19 +16367,19 @@ model LeadRecord {
 }
 
 model CreatorPayout {
-  id              String    @id @default(cuid())
-  orgId           String
-  creatorId       String
-  amount          Decimal   @db.Decimal(12, 2)
-  currency        String    @default("USD")
-  period          String
-  status          String    @default("PENDING")
-  processedAt     DateTime?
-  method          String?
-  reference       String?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  orgId       String
+  creatorId   String
+  amount      Decimal   @db.Decimal(12, 2)
+  currency    String    @default("USD")
+  period      String
+  status      String    @default("PENDING")
+  processedAt DateTime?
+  method      String?
+  reference   String?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([orgId])
   @@index([creatorId])
@@ -15502,37 +16387,37 @@ model CreatorPayout {
 }
 
 model AdLiquidityPool {
-  id              String    @id @default(cuid())
-  orgId           String    @unique
-  balance         Decimal   @default(0) @db.Decimal(12, 2)
-  currency        String    @default("USD")
-  totalFunded     Decimal   @default(0) @db.Decimal(12, 2)
-  totalSpent      Decimal   @default(0) @db.Decimal(12, 2)
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id          String   @id @default(cuid())
+  orgId       String   @unique
+  balance     Decimal  @default(0) @db.Decimal(12, 2)
+  currency    String   @default("USD")
+  totalFunded Decimal  @default(0) @db.Decimal(12, 2)
+  totalSpent  Decimal  @default(0) @db.Decimal(12, 2)
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([orgId])
 }
 
 model ZeroUpfrontCampaign {
-  id              String    @id @default(cuid())
-  orgId           String
-  creatorId       String
-  propertyId      String
-  campaignType    String
-  networks        Json?
+  id                 String    @id @default(cuid())
+  orgId              String
+  creatorId          String
+  propertyId         String
+  campaignType       String
+  networks           Json?
   targetDemographics Json?
-  budget          Decimal?  @db.Decimal(12, 2)
-  status          String    @default("PENDING")
-  impressions     Int       @default(0)
-  clicks          Int       @default(0)
-  conversions     Int       @default(0)
-  roi             Float?
-  settledAt       DateTime?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  budget             Decimal?  @db.Decimal(12, 2)
+  status             String    @default("PENDING")
+  impressions        Int       @default(0)
+  clicks             Int       @default(0)
+  conversions        Int       @default(0)
+  roi                Float?
+  settledAt          DateTime?
+  metadata           Json?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
   @@index([orgId])
   @@index([creatorId])
@@ -15541,21 +16426,21 @@ model ZeroUpfrontCampaign {
 }
 
 model ClosedLoopSettlement {
-  id              String    @id @default(cuid())
-  orgId           String
-  reservationId   String
-  creatorId       String?
-  campaignId      String?
-  bookingAmount   Decimal   @db.Decimal(12, 2)
-  commissionAmount Decimal  @db.Decimal(12, 2)
-  platformFee     Decimal   @default(0) @db.Decimal(12, 2)
-  netPayout       Decimal   @db.Decimal(12, 2)
-  currency        String    @default("USD")
-  status          String    @default("PENDING")
-  processedAt     DateTime?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id               String    @id @default(cuid())
+  orgId            String
+  reservationId    String
+  creatorId        String?
+  campaignId       String?
+  bookingAmount    Decimal   @db.Decimal(12, 2)
+  commissionAmount Decimal   @db.Decimal(12, 2)
+  platformFee      Decimal   @default(0) @db.Decimal(12, 2)
+  netPayout        Decimal   @db.Decimal(12, 2)
+  currency         String    @default("USD")
+  status           String    @default("PENDING")
+  processedAt      DateTime?
+  metadata         Json?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   @@index([orgId])
   @@index([reservationId])
@@ -15568,19 +16453,19 @@ model ClosedLoopSettlement {
 // ══════════════════════════════════════════════════════════════
 
 model TelemetryEvent {
-  id              String    @id @default(cuid())
-  orgId           String
-  eventType       String
-  entityType      String?
-  entityId        String?
-  severity        String    @default("INFO")
-  title           String
-  description     String?
-  source          String?
-  metadata        Json?
-  acknowledgedBy  String?
-  acknowledgedAt  DateTime?
-  createdAt       DateTime  @default(now())
+  id             String    @id @default(cuid())
+  orgId          String
+  eventType      String
+  entityType     String?
+  entityId       String?
+  severity       String    @default("INFO")
+  title          String
+  description    String?
+  source         String?
+  metadata       Json?
+  acknowledgedBy String?
+  acknowledgedAt DateTime?
+  createdAt      DateTime  @default(now())
 
   @@index([orgId])
   @@index([eventType])
@@ -15590,16 +16475,16 @@ model TelemetryEvent {
 }
 
 model GamificationState {
-  id              String    @id @default(cuid())
-  orgId           String    @unique
-  userId          String?
-  points          Int       @default(0)
-  level           Int       @default(1)
-  streak          Int       @default(0)
-  lastActiveAt    DateTime?
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  orgId        String    @unique
+  userId       String?
+  points       Int       @default(0)
+  level        Int       @default(1)
+  streak       Int       @default(0)
+  lastActiveAt DateTime?
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@index([orgId])
   @@index([userId])
@@ -15624,16 +16509,16 @@ model GrowthAchievement {
 }
 
 model ConversionFunnel {
-  id              String    @id @default(cuid())
-  orgId           String
-  funnelStage     String
-  count           Int       @default(0)
-  conversionRate  Float?
-  period          String
-  startDate       DateTime
-  endDate         DateTime
-  metadata        Json?
-  createdAt       DateTime  @default(now())
+  id             String   @id @default(cuid())
+  orgId          String
+  funnelStage    String
+  count          Int      @default(0)
+  conversionRate Float?
+  period         String
+  startDate      DateTime
+  endDate        DateTime
+  metadata       Json?
+  createdAt      DateTime @default(now())
 
   @@index([orgId])
   @@index([funnelStage])
@@ -15642,17 +16527,1369 @@ model ConversionFunnel {
 }
 
 model GrowthWidget {
-  id              String    @id @default(cuid())
-  orgId           String
-  widgetType      String
-  title           String?
-  config          Json?
-  position        Int       @default(0)
-  isVisible       Boolean   @default(true)
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id         String   @id @default(cuid())
+  orgId      String
+  widgetType String
+  title      String?
+  config     Json?
+  position   Int      @default(0)
+  isVisible  Boolean  @default(true)
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([orgId])
   @@index([widgetType])
 }
+
+// ─── SPRINT 1: ACQUISITION FOUNDATION ───
+
+enum OpportunityTier {
+  LOW_POTENTIAL
+  MONITOR
+  HIGH_POTENTIAL
+  PREMIUM
+}
+
+enum AcquisitionUrgency {
+  LOW
+  MEDIUM
+  HIGH
+  IMMEDIATE
+}
+
+enum ListingLifecycleStatus {
+  UNVERIFIED_PROSPECT
+  OWNER_IDENTIFIED
+  CONSENT_GRANTED
+  VALUATION_READY
+  INVITATION_SENT
+  PROPERTY_CLAIMED
+  ACTIVE_LISTING
+  CONVERTED
+}
+
+model PropertyProspect {
+  id                  String   @id @default(cuid())
+  externalListingId   String?
+  propertyFingerprint String   @unique
+  source              String
+  sourceListingId     String
+  ingestionDate       DateTime @default(now())
+
+  // Strategic Acquisition Scoring
+  acquisitionScore       Float @default(0)
+  valuationScore         Float @default(0)
+  ownerConfidence        Float @default(0)
+  marketOpportunityScore Float @default(0)
+  overallPriority        Float @default(0)
+
+  // Opportunity Classification
+  opportunityTier    OpportunityTier    @default(LOW_POTENTIAL)
+  acquisitionUrgency AcquisitionUrgency @default(LOW)
+
+  ownershipStatus  ListingLifecycleStatus @default(UNVERIFIED_PROSPECT)
+  complianceStatus ComplianceStatus       @default(PENDING)
+
+  propertyId String? @unique
+
+  aiAnalyzed         Boolean   @default(false)
+  aiAnalysisDate     DateTime?
+  aiConfidenceScore  Float?
+  aiAnalysisMetadata Json?
+
+  identifiedOwner Boolean @default(false)
+  identifiedAgent Boolean @default(false)
+  ownerProfileId  String?
+  agentProfileId  String?
+
+  valuationReady Boolean @default(false)
+  valuationId    String?
+
+  invitationGenerated Boolean   @default(false)
+  invitationId        String?
+  invitationSent      Boolean   @default(false)
+  invitationSentAt    DateTime?
+  invitationType      String?
+
+  optedIn   Boolean   @default(false)
+  optedInAt DateTime?
+  consentId String?
+
+  propertyClaimed Boolean   @default(false)
+  claimedAt       DateTime?
+  claimedBy       String?
+  claimMethod     String?
+
+  fraudFlagged     Boolean @default(false)
+  fraudScore       Float?
+  fraudDetectionId String?
+
+  duplicateOf    String?
+  duplicateScore Float?
+
+  sourceAttribution Json?
+  sourceMetadata    Json?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([propertyFingerprint])
+  @@index([sourceListingId])
+  @@index([ownershipStatus])
+  @@index([complianceStatus])
+  @@index([opportunityTier])
+  @@index([acquisitionUrgency])
+  @@index([acquisitionScore])
+  @@index([aiAnalyzed])
+  @@index([valuationReady])
+  @@index([optedIn])
+  @@index([propertyClaimed])
+  @@index([fraudFlagged])
+  @@index([duplicateOf])
+  @@index([createdAt])
+}
+
+enum MLSEventType {
+  LISTING_ADDED
+  LISTING_UPDATED
+  LISTING_REMOVED
+  PRICE_CHANGED
+  STATUS_CHANGED
+  PHOTO_ADDED
+  OPENHOUSE_SCHEDULED
+  CONTRACT_PENDING
+  CONTRACT_SOLD
+}
+
+model MLSEvent {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Event Details
+  eventType          MLSEventType
+  externalListingId  String
+  propertyProspectId String?
+
+  // Event Data
+  eventData    Json
+  previousData Json?
+
+  // Processing
+  processed       Boolean   @default(false)
+  processedAt     DateTime?
+  processingError String?
+
+  // Metadata
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([orgId])
+  @@index([externalListingId])
+  @@index([eventType])
+  @@index([processed])
+  @@index([createdAt])
+}
+
+enum OwnershipClaimStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  DISPUTED
+}
+
+model OwnershipClaim {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Entities
+  propertyProspectId String
+  ownerProfileId     String?
+
+  // Claim Details
+  claimType       String // OWNER, AGENT, MANAGER, etc.
+  claimStatus     OwnershipClaimStatus @default(PENDING)
+  confidenceScore Float?
+
+  // Evidence
+  documents        Json?
+  verificationData Json?
+
+  // Verification
+  verifiedBy        String?
+  verifiedAt        DateTime?
+  verificationNotes String?
+
+  // Metadata
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([propertyProspectId])
+  @@index([ownerProfileId])
+  @@index([claimStatus])
+  @@index([confidenceScore])
+}
+
+// ─── SPRINT 2: AI INTELLIGENCE ───
+
+model ProspectAIAnalysis {
+  id                 String @id @default(cuid())
+  propertyProspectId String
+
+  // AI Analysis Results
+  acquisitionScore       Float
+  valuationScore         Float
+  ownerConfidence        Float
+  marketOpportunityScore Float
+  overallPriority        Float
+
+  // Classification
+  opportunityTier    OpportunityTier
+  acquisitionUrgency AcquisitionUrgency
+
+  // AI Model Info
+  modelVersion     String
+  modelConfidence  Float
+  processingTimeMs Int
+
+  // Insights
+  keyInsights     Json?
+  riskFactors     Json?
+  recommendations Json?
+
+  // Metadata
+  analyzedAt DateTime @default(now())
+  metadata   Json?
+
+  @@index([propertyProspectId])
+  @@index([opportunityTier])
+  @@index([acquisitionUrgency])
+  @@index([overallPriority])
+  @@index([analyzedAt])
+}
+
+model ValuationAI {
+  id                 String  @id @default(cuid())
+  propertyProspectId String?
+  propertyId         String?
+
+  // Valuation Results
+  estimatedValue  Decimal @db.Decimal(14, 2)
+  valueRangeLow   Decimal @db.Decimal(14, 2)
+  valueRangeHigh  Decimal @db.Decimal(14, 2)
+  confidenceScore Float
+
+  // Valuation Factors
+  marketTrend     String
+  comparableSales Json?
+  locationScore   Float
+  conditionScore  Float
+  amenitiesScore  Float
+
+  // AI Model Info
+  modelVersion     String
+  modelType        String // AVM, COMPARABLE, HYBRID
+  processingTimeMs Int
+
+  // Metadata
+  valuedAt  DateTime  @default(now())
+  expiresAt DateTime?
+  metadata  Json?
+
+  @@index([propertyProspectId])
+  @@index([propertyId])
+  @@index([valuedAt])
+  @@index([confidenceScore])
+}
+
+model YieldModel {
+  id                 String  @id @default(cuid())
+  propertyProspectId String?
+  propertyId         String?
+
+  // Yield Metrics
+  capRate          Float
+  cashOnCashReturn Float
+  grossYield       Float
+  netYield         Float
+  irr              Float?
+
+  // Income Projections
+  projectedAnnualIncome Decimal @db.Decimal(14, 2)
+  projectedExpenses     Decimal @db.Decimal(14, 2)
+  projectedNetIncome    Decimal @db.Decimal(14, 2)
+
+  // Risk Assessment
+  riskScore   Float
+  riskFactors Json?
+
+  // AI Model Info
+  modelVersion     String
+  confidenceScore  Float
+  processingTimeMs Int
+
+  // Metadata
+  calculatedAt DateTime  @default(now())
+  expiresAt    DateTime?
+  metadata     Json?
+
+  @@index([propertyProspectId])
+  @@index([propertyId])
+  @@index([capRate])
+  @@index([calculatedAt])
+}
+
+model OpportunityScore {
+  id                 String @id @default(cuid())
+  propertyProspectId String
+
+  // Score Components
+  overallScore     Float
+  marketScore      Float
+  competitionScore Float
+  timingScore      Float
+  financialScore   Float
+
+  // Opportunity Details
+  opportunityType   String // ACQUISITION, FLIP, RENTAL, DEVELOPMENT
+  estimatedROI      Float?
+  timeToRealization Int? // months
+
+  // AI Insights
+  keyDrivers         Json?
+  successProbability Float
+  recommendedActions Json?
+
+  // AI Model Info
+  modelVersion     String
+  confidenceScore  Float
+  processingTimeMs Int
+
+  // Metadata
+  scoredAt  DateTime  @default(now())
+  expiresAt DateTime?
+  metadata  Json?
+
+  @@index([propertyProspectId])
+  @@index([overallScore])
+  @@index([opportunityType])
+  @@index([scoredAt])
+}
+
+// ─── SPRINT 3: GROWTH ENGINE ───
+
+model AcquisitionCampaign {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Campaign Details
+  name   String
+  type   CampaignType
+  status CampaignStatus @default(DRAFT)
+
+  // Targeting
+  targetPropertyProspects String[]
+  targetOwnerProfiles     String[]
+  targetSegments          Json?
+
+  // Budget & Schedule
+  budget      Decimal   @db.Decimal(14, 2)
+  spentBudget Decimal   @default(0) @db.Decimal(14, 2)
+  startDate   DateTime
+  endDate     DateTime?
+
+  // Performance
+  impressions       Int      @default(0)
+  clicks            Int      @default(0)
+  conversions       Int      @default(0)
+  conversionRate    Float?
+  costPerConversion Decimal? @db.Decimal(14, 2)
+
+  // AI Optimization
+  aiOptimized         Boolean @default(false)
+  aiOptimizationScore Float?
+  aiRecommendations   Json?
+
+  // Metadata
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([type])
+  @@index([status])
+  @@index([startDate])
+  @@index([aiOptimized])
+}
+
+enum AdPlatform {
+  FACEBOOK
+  GOOGLE
+  LINKEDIN
+  TWITTER
+  TIKTOK
+  INSTAGRAM
+}
+
+model AdAccount {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Account Details
+  platform    AdPlatform
+  accountId   String
+  accountName String
+
+  // Credentials (encrypted)
+  credentials Json?
+
+  // Status
+  isActive Boolean @default(true)
+  status   String?
+
+  // Limits
+  dailyBudgetLimit   Decimal? @db.Decimal(14, 2)
+  monthlyBudgetLimit Decimal? @db.Decimal(14, 2)
+
+  // Metadata
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([platform])
+  @@index([isActive])
+}
+
+model AdRoutingRule {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Rule Details
+  name     String
+  priority Int     @default(0)
+  isActive Boolean @default(true)
+
+  // Conditions
+  conditions Json // property type, location, score ranges, etc.
+
+  // Actions
+  targetCampaignId  String?
+  targetAdAccountId String?
+  routingStrategy   String // ROUND_ROBIN, WEIGHTED, AI_OPTIMIZED
+
+  // Performance
+  totalRouted    Int    @default(0)
+  conversionRate Float?
+
+  // Metadata
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([priority])
+  @@index([isActive])
+}
+
+model ConversionEvent {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Event Details
+  eventType          String // PROPERTY_VIEWED, FORM_SUBMITTED, PHONE_CALL, etc.
+  propertyProspectId String?
+  ownerProfileId     String?
+  campaignId         String?
+
+  // Event Data
+  eventData       Json
+  conversionValue Decimal? @db.Decimal(14, 2)
+
+  // Attribution
+  attributedTo     String? // campaign, ad account, etc.
+  attributionModel String? // FIRST_TOUCH, LAST_TOUCH, LINEAR
+
+  // Timing
+  occurredAt DateTime @default(now())
+
+  // Metadata
+  metadata Json?
+
+  @@index([orgId])
+  @@index([eventType])
+  @@index([propertyProspectId])
+  @@index([campaignId])
+  @@index([occurredAt])
+}
+
+model AttributionData {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Attribution Details
+  conversionEventId String
+  touchpointType    String // AD, EMAIL, WEBSITE, REFERRAL
+  touchpointSource  String?
+
+  // Attribution Metrics
+  touchpointValue    Float
+  touchpointPosition Int // 1, 2, 3... in journey
+  timeToConversion   Int? // seconds
+
+  // Journey Context
+  journeyId     String?
+  journeyLength Int?
+
+  // Metadata
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([orgId])
+  @@index([conversionEventId])
+  @@index([touchpointType])
+  @@index([journeyId])
+}
+
+// ─── SPRINT 4: TRUST & SCALE ───
+
+enum FraudRuleType {
+  DUPLICATE_LISTING
+  FAKE_OWNER
+  PRICE_MANIPULATION
+  IMAGE_REUSE
+  OWNERSHIP_CONFLICT
+  CONTACT_FRAUD
+  SQUARE_FOOTAGE_ANOMALY
+  PRICE_ANOMALY
+}
+
+model FraudDetectionRule {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Rule Details
+  name     String
+  ruleType FraudRuleType
+  severity FraudSeverity
+  isActive Boolean       @default(true)
+
+  // Rule Configuration
+  conditions Json // threshold, patterns, etc.
+  actions    Json // flag, block, notify, etc.
+
+  // Performance
+  totalDetections Int    @default(0)
+  truePositives   Int    @default(0)
+  falsePositives  Int    @default(0)
+  accuracyRate    Float?
+
+  // Metadata
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([ruleType])
+  @@index([severity])
+  @@index([isActive])
+}
+
+model PortfolioIntelligence {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Portfolio Details
+  portfolioName String
+  propertyCount Int
+  totalValue    Decimal @db.Decimal(14, 2)
+
+  // Performance Metrics
+  totalRevenue  Decimal @db.Decimal(14, 2)
+  totalExpenses Decimal @db.Decimal(14, 2)
+  netIncome     Decimal @db.Decimal(14, 2)
+  averageYield  Float
+  portfolioIRR  Float?
+
+  // Risk Assessment
+  riskScore            Float
+  diversificationScore Float
+  concentrationRisk    Json?
+
+  // AI Insights
+  aiRecommendations         Json?
+  optimizationOpportunities Json?
+
+  // Metadata
+  calculatedAt DateTime  @default(now())
+  expiresAt    DateTime?
+  metadata     Json?
+
+  @@index([orgId])
+  @@index([calculatedAt])
+}
+
+model AnalyticsDashboard {
+  id    String @id @default(cuid())
+  orgId String
+
+  // Dashboard Details
+  name          String
+  dashboardType String // ACQUISITION, PERFORMANCE, FINANCIAL, etc.
+  layout        Json // widget positions, sizes
+
+  // Widgets
+  widgets Json // charts, metrics, tables
+
+  // Filters
+  defaultFilters Json?
+
+  // Access
+  sharedWith String[]
+  isPublic   Boolean  @default(false)
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([dashboardType])
+  @@index([isPublic])
+}
+
+// ─── SCHEMA EXPANSION PHASE 1: AI INTEGRATION ───
+
+// Learning Loop Model - Prediction vs Actual Comparison
+model PredictionOutcome {
+  id                 String           @id @default(cuid())
+  country_code       String
+  propertyId         String?
+  predictionType     PredictionType
+  predictedValue     Float
+  predictedUnit      String
+  modelVersion       String
+  modelType          String
+  confidenceScore    Float
+  propertyContext    Json?
+  marketContext      Json?
+  status             PredictionStatus @default(PENDING)
+  actualValue        Float?
+  actualUnit         String?
+  actualAt           DateTime?
+  errorDelta         Float?
+  accuracyPercentage Float?
+  strategyMatch      Boolean?
+  verifiedAt         DateTime?
+  verifiedBy         String?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  property Property? @relation(fields: [propertyId], references: [id])
+
+  @@index([country_code])
+  @@index([propertyId])
+  @@index([predictionType])
+  @@index([status])
+  @@index([modelVersion])
+  @@index([createdAt])
+}
+
+// Agent Task Tracking Model
+model AgentTask {
+  id             String          @id @default(cuid())
+  agentType      AgentType
+  propertyId     String?
+  taskType       AgentTaskType
+  taskStatus     AgentTaskStatus
+  priority       TaskPriority
+  assignedTo     String?
+  createdAt      DateTime        @default(now())
+  scheduledAt    DateTime?
+  startedAt      DateTime?
+  completedAt    DateTime?
+  dueDate        DateTime?
+  estimatedHours Float?
+  actualHours    Float?
+  taskData       Json?
+  resultData     Json?
+  errorMessage   String?
+  retryCount     Int             @default(0)
+  maxRetries     Int             @default(3)
+  parentTaskId   String?
+  correlationId  String?
+  country_code   String?
+
+  property   Property?   @relation(fields: [propertyId], references: [id])
+  subTasks   AgentTask[] @relation("SubTasks")
+  parentTask AgentTask?  @relation("SubTasks", fields: [parentTaskId], references: [id])
+
+  @@index([agentType])
+  @@index([taskStatus])
+  @@index([propertyId])
+  @@index([dueDate])
+  @@index([country_code])
+  @@index([correlationId])
+}
+
+// Enums for Prediction Outcome
+enum PredictionType {
+  OPPORTUNITY_SCORE
+  VALUATION
+  RENTAL_YIELD
+  TIME_TO_RENT
+  SALE_PRICE
+  APPRECIATION_RATE
+  LIQUIDITY_SCORE
+  RISK_SCORE
+  MARKET_TREND
+  PRICE_PREDICTION
+}
+
+enum PredictionStatus {
+  PENDING
+  VERIFIED
+  FAILED
+  EXPIRED
+  CANCELLED
+}
+
+// Enums for Agent Task
+enum AgentTaskType {
+  VALUATION
+  OPPORTUNITY_ANALYSIS
+  STRATEGIC_REVIEW
+  SIMULATION
+  RANKING
+  MARKET_RESEARCH
+  OWNER_IDENTIFICATION
+  CONSENT_ACQUISITION
+  DOCUMENT_VERIFICATION
+  LISTING_PREPARATION
+  MARKETING_SETUP
+  BUYER_MATCHING
+  NEGOTIATION_SUPPORT
+  CLOSING_COORDINATION
+  POST_ACQUISITION_ANALYSIS
+  KNOWLEDGE_GRAPH_UPDATE
+  VECTOR_INDEX_UPDATE
+  OUTCOME_TRACKING
+  MODEL_RETRAINING
+  COUNTRY_CONTEXT_UPDATE
+}
+
+enum AgentTaskStatus {
+  PENDING
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  CANCELLED
+  BLOCKED
+  RETRYING
+}
+
+// ─── SEO INTELLIGENCE OS ───
+
+// SEO Opportunity Score Model - Mathematical scoring for page generation
+model SEOOpportunityScore {
+  id                    String   @id @default(cuid())
+  countryIsoCode        String
+  stateCode             String?
+  citySlug              String?
+  districtSlug          String?
+  neighborhoodSlug      String?
+  propertyType          PropertyType?
+  listingType           ListingType?
+  intent                SEOIntent?
+
+  searchDemand          Float
+  propertySupply        Float
+  competitionLevel      Float
+  investmentValue       Float
+  conversionProbability Float
+  freshnessScore        Float
+
+  finalScore            Float
+  shouldCreate          Boolean
+  priority              SEOPagePriority
+  updateFrequency       String
+
+  calculatedAt          DateTime @default(now())
+  expiresAt             DateTime?
+
+  seoPageEntities       SEOPageEntity[]
+
+  @@index([countryIsoCode, citySlug])
+  @@index([finalScore])
+  @@index([shouldCreate])
+  @@index([priority])
+  @@index([intent])
+}
+
+// SEO Page Entity Model - Dynamic page management
+model SEOPageEntity {
+  id                    String   @id @default(cuid())
+  entityType            SEOPageEntityType
+  countryIsoCode        String
+  stateCode             String?
+  citySlug              String?
+  districtSlug          String?
+  neighborhoodSlug      String?
+  propertyType          PropertyType?
+  listingType           ListingType?
+  intent                SEOIntent?
+
+  slug                  String
+  canonicalUrl          String
+  title                 String
+  metaDescription       String
+  h1                    String
+  content               Json?
+  schemaMarkup          Json?
+
+  seoOpportunityScoreId String?
+  seoOpportunityScore  SEOOpportunityScore? @relation(fields: [seoOpportunityScoreId], references: [id])
+
+  lastGenerated         DateTime @default(now())
+  lastUpdated           DateTime @default(now())
+  status                SEOPageStatus
+  priority              Int?
+  changeFrequency       String?
+
+  @@index([countryIsoCode, citySlug])
+  @@index([slug])
+  @@index([status])
+  @@index([priority])
+  @@index([intent])
+  @@unique([slug])
+}
+
+// SEO Knowledge Graph Model - Relationship structure
+model SEOKnowledgeGraph {
+  id                    String   @id @default(cuid())
+  entityType            String
+  entityId              String
+  entityType2           String?
+  entityId2             String?
+  relationshipType      String
+  relationshipWeight    Float?
+  confidence            Float?
+  metadata              Json?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([entityType, entityId])
+  @@index([relationshipType])
+  @@index([relationshipWeight])
+}
+
+// Enums for SEO Intelligence OS
+enum SEOIntent {
+  INVESTMENT
+  RENTAL
+  BUYING
+  SELLING
+  MARKET_REPORT
+  RENTAL_YIELD
+  GOLDEN_VISA
+  FOREIGN_INVESTOR
+  INFRASTRUCTURE
+  SCHOOL_DISTRICT
+  TRANSPORTATION
+  LIFESTYLE
+  NEIGHBORHOOD_GUIDE
+}
+
+enum SEOPageEntityType {
+  COUNTRY_LEVEL
+  STATE_LEVEL
+  CITY_LEVEL
+  DISTRICT_LEVEL
+  NEIGHBORHOOD_LEVEL
+  PROPERTY_TYPE_LEVEL
+  TRANSACTION_TYPE_LEVEL
+  INTENT_LEVEL
+  COMPOSITE_LEVEL
+}
+
+enum SEOPagePriority {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+  ROUTINE
+}
+
+enum SEOPageStatus {
+  PENDING
+  GENERATING
+  GENERATED
+  PUBLISHED
+  NEEDS_UPDATE
+  UPDATING
+  ARCHIVED
+  FAILED
+}
+
+// ─── EVENT RELIABILITY LAYER ───
+
+// Event Idempotency Model - Prevents duplicate event processing
+model EventIdempotency {
+  id                String   @id @default(cuid())
+  idempotencyKey    String   @unique
+  eventType         String
+  eventId           String
+  aggregateId       String
+  processedAt       DateTime @default(now())
+  processingStatus  ProcessingStatus
+  retryCount        Int      @default(0)
+  lastRetryAt       DateTime?
+  metadata          Json?
+
+  @@index([idempotencyKey])
+  @@index([eventType])
+  @@index([aggregateId])
+  @@index([processedAt])
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  SKIPPED
+}
+
+// ─── PHASE 1: PROPERTY INTELLIGENCE ENGINE ───
+
+// Property Intelligence Profile - Complete Property Digital Identity
+model PropertyIntelligenceProfile {
+  id                    String   @id @default(cuid())
+  propertyId            String   @unique
+  countryIsoCode        String
+  citySlug              String
+  districtSlug          String?
+  neighborhoodSlug      String?
+
+  // Intelligence Metadata
+  intelligenceVersion   String   @default("v1")
+  confidenceScore       Float    @default(0)
+  lastAnalyzedAt        DateTime?
+  dataSources           Json?
+  analysisStatus        String   @default("PENDING") // 'PENDING' | 'ANALYZING' | 'COMPLETED' | 'FAILED'
+
+  // 1. Basic Identity
+  buildingType          String?
+  yearBuilt             Int?
+  totalArea             Decimal  @db.Decimal(10, 2)
+  bedroomCount          Int?
+  bathroomCount         Int?
+
+  // 2. Financial Identity
+  currentValue          Decimal  @db.Decimal(15, 2)
+  historicalValue       Json?
+  rentalIncome          Decimal? @db.Decimal(12, 2)
+  rentalYield           Decimal? @db.Decimal(5, 2)
+  estimatedROI          Decimal? @db.Decimal(5, 2)
+
+  // 3. Market Identity
+  marketPosition        String?  // 'ABOVE_MARKET' | 'AT_MARKET' | 'BELOW_MARKET'
+  comparableCount       Int      @default(0)
+  daysOnMarket          Int      @default(0)
+
+  // 4. Investment Identity
+  investmentScore       Float    @default(0)
+  growthPotential       Float    @default(0)
+  riskScore             Float    @default(0)
+  liquidityScore        Float    @default(0)
+
+  // 5. Lifestyle Identity
+  schoolScore           Float?
+  transportScore        Float?
+  healthcareScore       Float?
+  lifestyleScore        Float?
+
+  // 6. AI Identity & Strategy
+  aiRecommendation      String?  // 'STRONG_BUY' | 'HOLD' | 'REPRICE' | 'RENT'
+  targetBuyerPersona    String?  // 'FOREIGN_INVESTOR' | 'FIRST_TIME_BUYER' | 'FAMILY'
+  bestMarketingAngle    String?  // 'HIGH_YIELD' | 'CAPITAL_APPRECIATION' | 'LUXURY_LIVING'
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([countryIsoCode, citySlug])
+  @@index([investmentScore])
+  @@index([currentValue])
+  @@index([analysisStatus])
+}
+
+// Property Current Score - Real-time Property Scoring
+model PropertyCurrentScore {
+  id               String   @id @default(cuid())
+  propertyId       String   @unique
+  investmentScore  Float
+  rentalScore      Float
+  demandScore      Float
+  locationScore    Float
+  liquidityScore   Float
+  riskScore        Float
+  overallScore     Float
+
+  calculatedAt     DateTime @default(now())
+  modelVersion     String   @default("v1.0")
+  confidenceScore  Float    @default(0)
+
+  property         Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
+  @@index([overallScore])
+  @@index([investmentScore])
+}
+
+// Property Score History - Historical Score Tracking
+model PropertyScoreHistory {
+  id               String   @id @default(cuid())
+  propertyId       String
+  investmentScore  Float
+  rentalScore      Float
+  demandScore      Float
+  locationScore    Float
+  liquidityScore   Float
+  riskScore        Float
+  overallScore     Float
+
+  calculatedAt     DateTime @default(now())
+  modelVersion     String
+  confidenceScore  Float
+
+  property         Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, calculatedAt])
+  @@index([calculatedAt])
+  @@index([overallScore])
+}
+
+// Property Digital Twin - Enhanced Simulation & Prediction Engine
+model PropertyDigitalTwin {
+  id                   String   @id @default(cuid())
+  propertyId           String   @unique
+  
+  // Digital Twin Components
+  currentState          Json     // Current property state
+  scenarios             Json     // Scenario definitions (A, B, C, D)
+  predictions           Json     // Price projections, yield predictions
+  assumptions           Json     // Market assumptions, economic factors
+  
+  // Model Metadata
+  modelVersion          String   @default("v1.0")
+  confidenceScore       Float    @default(0)
+  
+  // Simulation Results
+  projectedYield        Decimal  @db.Decimal(5, 2)
+  renovationRoiImpact   Decimal? @db.Decimal(5, 2)
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  lastSimulatedAt       DateTime @default(now())
+
+  property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
+  @@index([modelVersion])
+}
+
+// ─── PHASE 2: MARKET INTELLIGENCE ENGINE ───
+
+// Market Intelligence Profile - Location Market Digital Identity
+model MarketIntelligenceProfile {
+  id                    String   @id @default(cuid())
+  
+  // Location Identity
+  countryIsoCode        String
+  citySlug              String
+  districtSlug          String?
+  neighborhoodSlug      String?
+  
+  // Market Identity
+  averagePricePerSqm    Decimal? @db.Decimal(15, 2)
+  medianPrice           Decimal? @db.Decimal(15, 2)
+  supplyScore           Float    @default(0)
+  demandScore           Float    @default(0)
+  transactionVelocity   Float    @default(0)
+  liquidityScore        Float    @default(0)
+  
+  // Rental Identity
+  averageRentalYield    Float    @default(0)
+  occupancyRate         Float    @default(0)
+  
+  // Foreign Investment
+  foreignBuyerRatio     Float    @default(0)
+  internationalDemandScore Float @default(0)
+  
+  // Growth Identity
+  priceGrowth1Y         Float    @default(0)
+  priceGrowth3Y         Float    @default(0)
+  priceGrowth5Y         Float    @default(0)
+  
+  // AI Identity
+  marketPhase           String?  // 'EARLY_GROWTH' | 'EXPANSION' | 'PEAK' | 'CORRECTION'
+  aiRecommendation      String?  // 'STRONG_BUY' | 'BUY' | 'HOLD' | 'SELL' | 'STRONG_SELL'
+  confidenceScore      Float    @default(0)
+  intelligenceVersion   String   @default("v1")
+  analysisStatus        String   @default("PENDING") // 'PENDING' | 'ANALYZING' | 'COMPLETED' | 'FAILED'
+  
+  // Metadata
+  lastAnalyzedAt        DateTime?
+  dataSources           Json?
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@unique([countryIsoCode, citySlug, districtSlug, neighborhoodSlug])
+  @@index([countryIsoCode, citySlug])
+  @@index([demandScore])
+  @@index([priceGrowth1Y])
+  @@index([analysisStatus])
+}
+
+// Market Trend - Market Movement Tracking
+model MarketTrend {
+  id                    String   @id @default(cuid())
+  
+  // Location Reference
+  locationId            String   // References MarketIntelligenceProfile
+  
+  // Metric Identity
+  metric                String   // 'price_per_sqm', 'rental_yield', 'demand_score', etc.
+  previousValue         Float
+  currentValue          Float
+  changePercentage      Float
+  trendDirection       String   // 'UP' | 'DOWN' | 'STABLE' | 'ACCELERATING' | 'DECELERATING'
+  
+  // AI Analysis
+  confidence            Float    @default(0)
+  aiInsight             String?
+  
+  detectedAt            DateTime @default(now())
+  
+  @@index([locationId])
+  @@index([metric])
+  @@index([detectedAt])
+}
+
+// Market Opportunity Score - Location Investment Potential
+model MarketOpportunityScore {
+  id                    String   @id @default(cuid())
+  
+  // Location Reference
+  locationId            String   // References MarketIntelligenceProfile
+  
+  // Component Scores
+  growthScore           Float    @default(0)
+  rentalScore           Float    @default(0)
+  demandScore           Float    @default(0)
+  liquidityScore        Float    @default(0)
+  riskScore             Float    @default(0)
+  overallScore          Float    @default(0)
+  
+  // AI Recommendation
+  recommendation        String?  // 'HIGH_POTENTIAL' | 'MODERATE_POTENTIAL' | 'LOW_POTENTIAL' | 'HIGH_RISK'
+  confidence            Float    @default(0)
+  modelVersion          String   @default("v1.0")
+  
+  calculatedAt          DateTime @default(now())
+  
+  @@unique([locationId])
+  @@index([overallScore])
+  @@index([growthScore])
+  @@index([calculatedAt])
+}
+
+// Market Digital Twin - Market Simulation & Forecast
+model MarketDigitalTwin {
+  id                    String   @id @default(cuid())
+  
+  // Location Reference
+  locationId            String   @unique // References MarketIntelligenceProfile
+  
+  // Digital Twin Components
+  currentState          Json     // Current market state
+  scenarios             Json     // Market scenario definitions
+  predictions           Json     // Price, demand, supply predictions
+  assumptions           Json     // Economic assumptions
+  
+  // Model Metadata
+  modelVersion          String   @default("v1.0")
+  confidenceScore       Float    @default(0)
+  
+  // Forecast Results
+  priceForecast1Y       Decimal? @db.Decimal(15, 2)
+  priceForecast3Y       Decimal? @db.Decimal(15, 2)
+  priceForecast5Y       Decimal? @db.Decimal(15, 2)
+  demandForecast1Y      Float?
+  demandForecast3Y      Float?
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  lastSimulatedAt       DateTime @default(now())
+  
+  @@index([locationId])
+  @@index([modelVersion])
+}
+
+// ─── PHASE 2: MARKET INTELLIGENCE ENGINE ───
+
+model MarketSnapshot {
+  id                    String   @id @default(cuid())
+  countryIsoCode        String
+  citySlug              String
+  districtSlug          String?
+  neighborhoodSlug      String?
+
+  avgPrice              Float
+  priceChange           Float
+  priceChangePercent    Float
+  supply                Int
+  demand                Int
+  demandScore           Float
+  inventory             Int
+  daysOnMarket          Float
+  rentalYield           Float?
+  foreignBuyerRatio     Float?
+
+  snapshotDate          DateTime @default(now())
+  period                String   // 'DAILY' | 'WEEKLY' | 'MONTHLY'
+
+  @@unique([countryIsoCode, citySlug, districtSlug, neighborhoodSlug, snapshotDate, period])
+  @@index([countryIsoCode])
+  @@index([citySlug])
+  @@index([snapshotDate])
+}
+
+
+// ─── PHASE 3: USER INTELLIGENCE ENGINE ───
+
+model UserIntelligenceProfile {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+
+  persona               String   // 'INVESTOR' | 'LANDLORD' | 'BUYER' | 'RENTER' | 'AGENT'
+  personaConfidence     Float
+
+  budgetMin             Float?
+  budgetMax             Float?
+  preferredLocations    Json?
+  propertyTypes         Json?
+  investmentGoals       Json?
+
+  viewingFrequency      Float
+  inquiryFrequency      Float
+  conversionRate        Float
+  engagementScore       Float
+
+  investmentHorizon     String?  // 'SHORT' | 'MEDIUM' | 'LONG'
+  riskTolerance         String?  // 'LOW' | 'MEDIUM' | 'HIGH'
+  investmentFocus       Json?
+
+  propertyInterestScore Float
+  marketInterestScore   Float
+  conversionProbability Float
+
+  updatedAt             DateTime @default(now())
+  dataQuality           Float
+
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([persona])
+  @@index([propertyInterestScore])
+  @@index([conversionProbability])
+}
+
+model UserInvestmentProfile {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+
+  investmentBudget      Float
+  investmentGoals       Json
+  riskTolerance         String
+  investmentHorizon     String
+  preferredROI          Float
+  preferredYield        Float
+  preferredLocations    Json
+  propertyPreferences   Json
+
+  portfolioValue        Float?
+  portfolioROI          Float?
+  portfolioYield        Float?
+
+  updatedAt             DateTime @default(now())
+
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([investmentBudget])
+  @@index([riskTolerance])
+}
+
+// ─── PHASE 4: AGENT & LEAD INTELLIGENCE ENGINE ───
+
+model AgentIntelligenceProfile {
+  id                       String   @id @default(cuid())
+  agentId                  String   @unique
+
+  performanceScore         Float
+  conversionRate           Float
+  marketExpertise          Float
+  propertyMatchingAccuracy Float
+
+  marketKnowledge          Json
+  specialization           Json
+  expertiseAreas           Json
+
+  revenueContribution      Float
+  leadConversionRate       Float
+  clientSatisfaction       Float
+
+  updatedAt                DateTime @default(now())
+
+  agent                    Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([performanceScore])
+  @@index([marketExpertise])
+}
+
+model LeadIntelligenceProfile {
+  id                    String   @id @default(cuid())
+  leadId                String   @unique
+
+  leadScore             Float
+  qualificationScore    Float
+  conversionProbability Float
+  nurturingStrategy     String
+
+  leadBehavior          Json
+  leadIntent            String
+  leadStage             String
+
+  updatedAt             DateTime @default(now())
+
+  lead                  Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadScore])
+  @@index([qualificationScore])
+  @@index([conversionProbability])
+}
+
+// ─── PHASE 3: USER INTELLIGENCE ENGINE ───
+
+// User Intelligence Profile - User Behavior & Preference Digital Identity
+
+// User Investment Profile - User Investment Preferences & History
+
+// Lead Intelligence Profile - Lead Qualification & Conversion Intelligence
+
+// Agent Intelligence Profile - Agent Performance & Capability Intelligence

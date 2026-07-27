@@ -63,3 +63,4 @@ server/prisma-generated/
 client-seo/public/videos/istanbul/
 security-os/target/
 security-os/node_modules/
+server/datalar/

@@ -173,9 +173,16 @@ export const propertySearchRoutes = new Elysia({ prefix: "/properties" })
     };
 
     // Filter by amenity type if specified
-    let filteredAmenities = mockAmenities;
+    let filteredAmenities: {
+      parks: typeof mockAmenities.parks;
+      schools: typeof mockAmenities.schools;
+      metro_stations: typeof mockAmenities.metro_stations;
+      hospitals: typeof mockAmenities.hospitals;
+      shopping_centers: typeof mockAmenities.shopping_centers;
+    } = mockAmenities;
+    
     if (amenity_type !== 'all') {
-      const typeMap: Record<string, string> = {
+      const typeMap: Record<string, keyof typeof mockAmenities> = {
         park: 'parks',
         school: 'schools',
         metro: 'metro_stations',
@@ -184,7 +191,13 @@ export const propertySearchRoutes = new Elysia({ prefix: "/properties" })
       };
       const key = typeMap[amenity_type];
       if (key) {
-        filteredAmenities = { [key]: mockAmenities[key as keyof typeof mockAmenities] };
+        filteredAmenities = {
+          parks: key === 'parks' ? mockAmenities.parks : [],
+          schools: key === 'schools' ? mockAmenities.schools : [],
+          metro_stations: key === 'metro_stations' ? mockAmenities.metro_stations : [],
+          hospitals: key === 'hospitals' ? mockAmenities.hospitals : [],
+          shopping_centers: key === 'shopping_centers' ? mockAmenities.shopping_centers : [],
+        };
       }
     }
 

@@ -79,4 +79,20 @@ export const analyticsOSApi = {
     if (!res.ok) throw new Error('Failed to fetch widgets');
     return res.json();
   },
+
+  getDataTrends: async (orgId: string) => {
+    const res = await fetch(`/api/v1/analytics-os/data-trends?orgId=${orgId}`, {
+      headers: getLocalizationContext(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch data trends');
+    return res.json();
+  },
+
+  getReportDistribution: async (orgId: string) => {
+    const res = await fetch(`/api/v1/analytics-os/report-distribution?orgId=${orgId}`, {
+      headers: getLocalizationContext(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch report distribution');
+    return res.json();
+  },
 };

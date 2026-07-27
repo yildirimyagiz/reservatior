@@ -73,4 +73,20 @@ export const bookingOSApi = {
     if (!res.ok) throw new Error('Failed to generate booking document');
     return res.json();
   },
+
+  getBookingTrends: async (orgId: string) => {
+    const res = await fetch(`/api/v1/booking-os/booking-trends?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch booking trends');
+    return res.json();
+  },
+
+  getRevenueOverview: async (orgId: string) => {
+    const res = await fetch(`/api/v1/booking-os/revenue-overview?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch revenue overview');
+    return res.json();
+  },
 };

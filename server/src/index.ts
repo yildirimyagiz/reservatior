@@ -15,6 +15,7 @@ import { prismaManager, prisma } from "./lib/prisma";
 import { adsWebhookPlugin } from "./routes/webhooks/ads-webhook";
 
 import { router } from "./router";
+import { mcpRoutes } from "./routes/mcp";
 import { SignJWT, jwtVerify } from "jose";
 import { ENCODED_SECRET } from "./lib/jwt";
 import { cronScheduler } from "./cron/cron-scheduler";
@@ -598,6 +599,7 @@ const appCore = appBase
   })
 
   .use(router)
+  .use(mcpRoutes)
   .use(fintechRoutes)
   .use(aiPricingIntelligenceRoutes)
   .use(commissionRuleEngineRoutes)
@@ -716,48 +718,16 @@ initMlsConsumer().catch(console.error);
 import { startWorkerPool } from "./workers/worker-pool";
 startWorkerPool().catch(console.error);
 
-// ─── Initialize Event Bus Outbox & Sagas ────────────────────────────────────
-import { OutboxWorker } from "./core/events/outbox-worker";
-import { initWebSocketGateway } from "./core/events/websocket-gateway";
+// ─── Saga Registry — registers ALL 44 sagas + startup recovery ───────────────
+import { initAllSagas } from "./core/workflows/saga-registry";
+initAllSagas().catch((err) =>
+  console.error("[SagaRegistry] Init failed (non-fatal):", err)
+);
 
-initWebSocketGateway(); // Default port 3002
-
-import { registerAgentOnboardingListeners } from "./core/workflows/agent-onboarding.saga";
-import { registerListingPipelineListeners } from "./core/workflows/listing-pipeline.saga";
-import { registerCommissionPaymentListeners } from "./core/workflows/commission-payment.saga";
-import { registerAiMarketingListeners } from "./core/workflows/listeners/ai-marketing.listener";
-import { registerInvestmentAnalysisListeners } from "./core/workflows/investment-analysis.saga";
-import { registerMaintenanceOrchestrationListeners } from "./core/workflows/maintenance-orchestration.saga";
-import { registerSecurityScreeningListeners } from "./core/workflows/security-screening.saga";
-
-registerAgentOnboardingListeners();
-registerListingPipelineListeners();
-registerCommissionPaymentListeners();
-registerAiMarketingListeners();
-registerInvestmentAnalysisListeners();
-registerMaintenanceOrchestrationListeners();
-registerSecurityScreeningListeners();
-
-import { registerGovernanceComplianceListeners } from "./core/workflows/governance-compliance.saga";
-import { registerPartnerOnboardingListeners } from "./core/workflows/partner-onboarding.saga";
-import { registerDeveloperApiLifecycleListeners } from "./core/workflows/developer-api-lifecycle.saga";
-import { registerAnalyticsInsightListeners } from "./core/workflows/analytics-insight.saga";
-import { registerDocumentComplianceListeners } from "./core/workflows/document-compliance.saga";
-import { registerNotificationOrchestrationListeners } from "./core/workflows/notification-orchestration.saga";
-import { registerIdentitySecurityListeners } from "./core/workflows/identity-security.saga";
-import { registerLocalizationSyncListeners } from "./core/workflows/localization-sync.saga";
-
-registerGovernanceComplianceListeners();
-registerPartnerOnboardingListeners();
-registerDeveloperApiLifecycleListeners();
-registerAnalyticsInsightListeners();
-registerDocumentComplianceListeners();
-registerNotificationOrchestrationListeners();
-registerIdentitySecurityListeners();
-registerLocalizationSyncListeners();
 
 // Initialize AI Intelligence Graph (subscribes to all domain events)
 import { intelligenceGraph } from "./core/ai/intelligence-graph";
+import { OutboxWorker } from "./core/events/outbox-worker";
 
 const outboxWorker = new OutboxWorker(5000); // Poll every 5s
 outboxWorker.start();

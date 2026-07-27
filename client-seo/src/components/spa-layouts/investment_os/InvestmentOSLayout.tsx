@@ -56,7 +56,7 @@ export function InvestmentOSLayout({ children }: { children: React.ReactNode }) 
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-end px-4 py-5 border-b border-border min-h-[69px]">
         <button
-          className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
+          className="min-h-12 min-w-12 shrink-0 text-muted-foreground hover:text-foreground"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           <ChevronRight

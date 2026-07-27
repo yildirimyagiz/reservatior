@@ -14,7 +14,7 @@ const UNIT_TYPES = [
   { name: "3+1 Panoramic Sea", area: 165, beds: 3, baths: 2,   level: 14, priceUSD: 520000, rentTRY: 70000 },
 ];
 
-const FACILITIES = [
+const AMENITIES = [
   "Yüzme Havuzu",
   "Fitness Center",
   "Sauna & Buhar Odası",
@@ -114,7 +114,7 @@ async function main() {
           metroStation: "5 minutes",
           beach: "10 minutes",
         },
-        socialFacilities: FACILITIES,
+        socialFacilities: AMENITIES,
         sharePointDrive: "https://ozakglobalholding-my.sharepoint.com/:f:/g/personal/mahmut_demir_ozakgyo_com/EhIuFOgIENNBg5pqHgJ4Q_UBuB6JtYHddXMZe-iLkV277g",
         locationMap: "https://maps.app.goo.gl/2tV5dzJHMec4Ws4f6",
       }),
@@ -255,16 +255,51 @@ async function main() {
     },
   });
 
-  // 7. Seeding facilities
-  for (let i = 0; i < FACILITIES.length; i++) {
-    await prisma.facility.upsert({
-      where: { id: `tr_fac_${PROJECT_ID}_${i}` },
+  // 7. Create Facility for the project itself
+  await prisma.facility.upsert({
+    where: { id: `tr_fac_${PROJECT_ID}` },
+    update: {},
+    create: {
+      id: `tr_fac_${PROJECT_ID}`,
+      orgId: org.id,
+      propertyId: property.id,
+      name: property.name,
+      notes: JSON.stringify({
+        developer: "Özak GYO (Özak Global Holding)",
+        projectName: "ÖZAK DRAGOS | View of Islands and Sea",
+        deliveryDate: "2026-12",
+        totalUnits: 458,
+        socialFacilities: AMENITIES,
+      }),
+    },
+  });
+
+  // 8. Seeding amenities via PropertyAmenity
+  for (let i = 0; i < AMENITIES.length; i++) {
+    const amenity = await prisma.amenity.upsert({
+      where: { id: `tr_amen_${PROJECT_ID}_${i}` },
       update: {},
       create: {
-        id: `tr_fac_${PROJECT_ID}_${i}`,
+        id: `tr_amen_${PROJECT_ID}_${i}`,
         orgId: org.id,
+        name: AMENITIES[i],
+        category: "OTHER",
+      },
+    });
+
+    await prisma.propertyAmenity.upsert({
+      where: {
+        propertyId_amenityId: {
+          propertyId: property.id,
+          amenityId: amenity.id,
+        },
+      },
+      update: {},
+      create: {
+        id: `tr_prop_amen_${PROJECT_ID}_${i}`,
         propertyId: property.id,
-        name: FACILITIES[i],
+        amenityId: amenity.id,
+        orgId: org.id,
       },
     });
   }

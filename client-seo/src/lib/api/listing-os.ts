@@ -62,4 +62,20 @@ export const listingOSApi = {
     if (!res.ok) throw new Error('Failed to get localized price');
     return res.json();
   },
+
+  getListingTrends: async (orgId: string) => {
+    const res = await fetch(`/api/v1/listing-os/listing-trends?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch listing trends');
+    return res.json();
+  },
+
+  getViewAnalytics: async (orgId: string) => {
+    const res = await fetch(`/api/v1/listing-os/view-analytics?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch view analytics');
+    return res.json();
+  },
 };

@@ -1,0 +1,291 @@
+// B2B Bulk Onboarding Schema Extension
+// This schema extends the existing Organization model for corporate housing providers
+
+enum CorporateAccountType {
+  CORPORATE_HOUSING
+  MULTI_FAMILY
+  BANK_REO
+  PROPERTY_MANAGEMENT
+  REAL_ESTATE_INVESTMENT
+}
+
+enum BulkUploadStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  PARTIALLY_COMPLETED
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REVOKED
+}
+
+enum PropertyNormalizationStatus {
+  PENDING
+  NORMALIZING
+  COMPLETED
+  FAILED
+  MANUAL_REVIEW
+}
+
+model CorporateAccount {
+  id                    String                @id @default(cuid())
+  organizationId        String                @unique
+  organization          Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  accountType           CorporateAccountType
+  tier                  String                @default("standard") // standard, premium, enterprise
+  whitelisted           Boolean               @default(false)
+  priorityLevel         Int                   @default(0) // Higher priority for whitelisted accounts
+  
+  // Contact Information
+  primaryContactName    String
+  primaryContactEmail   String
+  primaryContactPhone   String?
+  billingContactName    String?
+  billingContactEmail   String?
+  
+  // Portfolio Statistics
+  totalProperties       Int                   @default(0)
+  activeProperties      Int                   @default(0)
+  totalUnits            Int                   @default(0)
+  avgOccupancyRate      Float                 @default(0)
+  annualRevenue         Float                 @default(0)
+  
+  // Integration Settings
+  apiEnabled            Boolean               @default(false)
+  apiKey                String?               @unique
+  webhookUrl            String?
+  webhookSecret         String?
+  
+  // Seattle/Bellevue Specific
+  seattleMarketFocus    Boolean               @default(false)
+  targetNeighborhoods   String[]              // ["SLU", "Downtown", "Bellevue", "Queen Anne"]
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  deletedAt             DateTime?
+  
+  portfolioBatches      PortfolioBatch[]
+  bulkInvitations       BulkInvitation[]
+  corporateProperties   CorporateProperty[]
+  aiPitchDecks          AIPitchDeck[]
+  
+  @@index([organizationId])
+  @@index([whitelisted])
+  @@index([seattleMarketFocus])
+}
+
+model PortfolioBatch {
+  id                    String                @id @default(cuid())
+  corporateAccountId     String
+  corporateAccount       CorporateAccount      @relation(fields: [corporateAccountId], references: [id], onDelete: Cascade)
+  
+  batchName             String
+  batchType             String                // "initial_upload", "monthly_update", "bulk_acquisition"
+  status                BulkUploadStatus      @default(PENDING)
+  
+  // File Information
+  fileName              String
+  fileSize              Int
+  fileType              String                // "csv", "xlsx", "json"
+  fileUrl               String?
+  s3Key                 String?
+  
+  // Processing Statistics
+  totalRows             Int
+  processedRows         Int                   @default(0)
+  successfulRows        Int                   @default(0)
+  failedRows            Int                   @default(0)
+  skippedRows           Int                   @default(0)
+  
+  // Processing Details
+  processingStartedAt   DateTime?
+  processingCompletedAt DateTime?
+  errorLog              String?
+  validationErrors      Json?
+  
+  // Normalization Results
+  normalizationStatus    PropertyNormalizationStatus @default(PENDING)
+  normalizedProperties  Int                   @default(0)
+  manualReviewRequired  Int                   @default(0)
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  
+  corporateProperties   CorporateProperty[]
+  
+  @@index([corporateAccountId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model BulkInvitation {
+  id                    String                @id @default(cuid())
+  corporateAccountId     String
+  corporateAccount       CorporateAccount      @relation(fields: [corporateAccountId], references: [id], onDelete: Cascade)
+  
+  invitedEmail          String
+  invitedName           String
+  role                  String                @default("property_manager") // property_manager, admin, viewer
+  
+  // Magic Link
+  magicLinkToken        String                @unique
+  magicLinkExpiresAt    DateTime
+  magicLinkUsedAt       DateTime?
+  magicLinkUsedIp       String?
+  
+  status                InvitationStatus       @default(PENDING)
+  
+  // Invitation Context
+  invitationMessage     String?
+  customWelcomeText     String?
+  portfolioPreviewUrl   String?
+  
+  // Seattle Pilot Specific
+  seattlePilotCampaign  Boolean               @default(false)
+  priorityAccess        Boolean               @default(false)
+  
+  sentAt                DateTime              @default(now())
+  acceptedAt            DateTime?
+  expiresAt             DateTime
+  
+  @@index([corporateAccountId])
+  @@index([magicLinkToken])
+  @@index([status])
+  @@index([seattlePilotCampaign])
+}
+
+model CorporateProperty {
+  id                    String                @id @default(cuid())
+  corporateAccountId     String
+  corporateAccount       CorporateAccount      @relation(fields: [corporateAccountId], references: [id], onDelete: Cascade)
+  portfolioBatchId      String?
+  portfolioBatch        PortfolioBatch?       @relation(fields: [portfolioBatchId], references: [id], onDelete: SetNull)
+  
+  // Link to main Property model
+  propertyId            String?               @unique
+  property              Property?             @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  
+  // Raw Import Data
+  rawImportData         Json
+  
+  // Normalization Status
+  normalizationStatus    PropertyNormalizationStatus @default(PENDING)
+  normalizedAt          DateTime?
+  normalizedBy          String?               // AI or manual review
+  
+  // Normalization Results
+  propertyType           String?               // "Studio", "1BR", "2BR", "3BR", "Penthouse"
+  furnishingStatus      String?               // "Furnished", "Unfurnished", "Partially Furnished"
+  amenities             String[]
+  
+  // Seattle Market Specific
+  seattleNeighborhood   String?
+  buildingName          String?
+  buildingType          String?               // "High-Rise", "Mid-Rise", "Low-Rise", "Townhouse"
+  floorNumber           Int?
+  unitNumber            String?
+  
+  // Corporate Housing Specific
+  corporateRate          Float?
+  longTermRate          Float?
+  midTermRate           Float?
+  minStayDuration       Int?                  // Minimum nights
+  maxStayDuration       Int?                  // Maximum nights
+  
+  // AI Valuation Results
+  aiEstimatedValue      Float?
+  aiEstimatedYield      Float?
+  aiConfidenceScore     Float?
+  aiValuationAt         DateTime?
+  
+  // Yield Analysis
+  longTermYield         Float?
+  midTermYield          Float?
+  corporateYield        Float?
+  yieldOpportunity      String?               // "high", "medium", "low"
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  
+  @@index([corporateAccountId])
+  @@index([portfolioBatchId])
+  @@index([propertyId])
+  @@index([normalizationStatus])
+  @@index([seattleNeighborhood])
+}
+
+model AIPitchDeck {
+  id                    String                @id @default(cuid())
+  corporateAccountId     String
+  corporateAccount       CorporateAccount      @relation(fields: [corporateAccountId], references: [id], onDelete: Cascade)
+  
+  deckName              String
+  deckType              String                // "initial_onboarding", "quarterly_review", "yield_optimization"
+  
+  // AI Generated Content
+  executiveSummary      String
+  portfolioOverview      Json
+  financialProjections  Json
+  yieldAnalysis         Json
+  marketComparison      Json
+  
+  // Seattle Specific Analysis
+  seattleMarketInsights Json?
+  techTenantDemand      Json?
+  neighborhoodAnalysis  Json?
+  
+  // Deck Status
+  status                String                @default("draft") // draft, generated, sent, viewed
+  generatedAt           DateTime              @default(now())
+  sentAt                DateTime?
+  viewedAt              DateTime?
+  
+  // Delivery
+  deliveryMethod        String                // "email", "dashboard", "magic_link"
+  deliveryEmail         String?
+  
+  @@index([corporateAccountId])
+  @@index([status])
+  @@index([generatedAt])
+}
+
+model CorporateTenantMatch {
+  id                    String                @id @default(cuid())
+  corporateAccountId     String
+  corporatePropertyId    String
+  
+  // Corporate Tenant Information
+  companyName           String
+  industry              String                // "Tech", "Finance", "Healthcare", etc.
+  employeeCount         Int?
+  
+  // Match Details
+  matchScore            Float
+  matchReason           String[]
+  estimatedContractValue Float?
+  contractDuration      Int?                  // months
+  
+  // Match Status
+  status                String                @default("pending") // pending, contacted, negotiating, signed, expired
+  
+  // Seattle Tech Specific
+  techCompany           Boolean               @default(false)
+  amazonEmployee        Boolean               @default(false)
+  microsoftEmployee     Boolean               @default(false)
+  googleEmployee        Boolean               @default(false)
+  metaEmployee          Boolean               @default(false)
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  
+  @@index([corporateAccountId])
+  @@index([corporatePropertyId])
+  @@index([status])
+  @@index([matchScore])
+}

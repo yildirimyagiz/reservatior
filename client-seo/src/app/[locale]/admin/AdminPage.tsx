@@ -19,8 +19,6 @@ import {
   Globe,
   Lock,
   Bell,
-  Network,
-  Copy,
   Calendar,
   FileText,
   BarChart3,
@@ -36,10 +34,13 @@ import {
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/AuthContext";
+import { hasPermission, canAccessOSModule } from "@/lib/auth/role-based-routing";
 
 export default function AdminPage() {
     const { t } = useTranslation();
   const router = useRouter();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
 
   const stats = [
@@ -54,6 +55,36 @@ export default function AdminPage() {
     { id: "2", type: "error", message: "Payment gateway timeout", time: "15 min ago" },
     { id: "3", type: "success", message: "Database backup completed", time: "1 hour ago" },
   ];
+
+  const osModules = [
+    { name: "Booking OS", path: "/admin/booking-os", icon: Calendar, color: "text-blue-400", desc: "Manage bookings and reservations", module: "booking-os" },
+    { name: "Finance OS", path: "/admin/finance-os", icon: DollarSign, color: "text-green-400", desc: "Financial operations and commissions", module: "finance-os" },
+    { name: "Listing OS", path: "/admin/listing-os", icon: Building2, color: "text-purple-400", desc: "Property listings management", module: "listing-os" },
+    { name: "Identity OS", path: "/admin/identity-os", icon: Users, color: "text-indigo-400", desc: "User and organization management", module: "identity-os" },
+    { name: "Agent OS", path: "/admin/agent-os", icon: Activity, color: "text-orange-400", desc: "Agent performance and management", module: "agent-os" },
+    { name: "Document OS", path: "/admin/document-os", icon: FileText, color: "text-pink-400", desc: "Document and signature management", module: "document-os" },
+    { name: "Analytics OS", path: "/admin/analytics-os", icon: BarChart3, color: "text-cyan-400", desc: "Data analytics and insights", module: "analytics-os" },
+    { name: "Notification OS", path: "/admin/notification-os", icon: Bell, color: "text-yellow-400", desc: "Notification and communication", module: "notification-os" },
+    { name: "Localization OS", path: "/admin/localization-os", icon: Globe, color: "text-emerald-400", desc: "Multi-country and language support", module: "localization-os" },
+    { name: "AI OS", path: "/admin/ai-os", icon: Brain, color: "text-violet-400", desc: "AI models and predictions", module: "ai-os" },
+    { name: "User OS", path: "/admin/user-os", icon: Users, color: "text-blue-400", desc: "User lifecycle management", module: "user-os" },
+    { name: "Trust OS", path: "/admin/trust-os", icon: Shield, color: "text-emerald-400", desc: "Trust scores and verification", module: "trust-os" },
+    { name: "Ads OS", path: "/admin/ads-os", icon: Megaphone, color: "text-orange-400", desc: "Advertising campaigns", module: "ads-os" },
+    { name: "Commerce OS", path: "/admin/commerce-os", icon: ShoppingCart, color: "text-pink-400", desc: "Products and orders", module: "commerce-os" },
+    { name: "Operations OS", path: "/admin/operations-os", icon: CheckSquare, color: "text-cyan-400", desc: "Tasks and workflows", module: "operations-os" },
+    { name: "CRM OS", path: "/admin/crm-os", icon: Target, color: "text-indigo-400", desc: "Leads and opportunities", module: "crm-os" },
+    { name: "Investment OS", path: "/admin/investment-os", icon: TrendingUp, color: "text-green-400", desc: "Investments and returns", module: "investment-os" },
+    { name: "Governance OS", path: "/admin/governance-os", icon: FileText, color: "text-amber-400", desc: "Policies and compliance", module: "governance-os" },
+    { name: "Partner OS", path: "/admin/partner-os", icon: HeartHandshake, color: "text-teal-400", desc: "Partner relationships", module: "partner-os" },
+    { name: "Developer API OS", path: "/admin/devapi-os", icon: Key, color: "text-slate-400", desc: "API keys and usage", module: "devapi-os" },
+    { name: "Security OS", path: "/admin/security-os", icon: AlertTriangle, color: "text-red-400", desc: "Security and incidents", module: "security-os" },
+  ];
+
+  const accessibleOSModules = osModules.filter(os => canAccessOSModule(user, os.module));
+
+  const canViewUsers = hasPermission(user, "view:users") || user?.roles?.includes("OWNER") || user?.roles?.includes("ORG_ADMIN") || user?.roles?.includes("AGENCY_ADMIN");
+  const canViewTriggers = hasPermission(user, "view:triggers") || user?.roles?.includes("OWNER") || user?.roles?.includes("ORG_ADMIN");
+  const canViewSystem = hasPermission(user, "view:system") || user?.roles?.includes("OWNER") || user?.roles?.includes("ORG_ADMIN") || user?.roles?.includes("MAINTENANCE");
 
   return (
     <div className="min-h-screen bg-background">
@@ -111,9 +142,9 @@ export default function AdminPage() {
           <TabsList className="bg-muted/30 border-border">
             <TabsTrigger value="overview" className="data-[state=active]:bg-primary">{t("admin_main_tab_overview")}</TabsTrigger>
             <TabsTrigger value="os-modules" className="data-[state=active]:bg-primary">OS Modules</TabsTrigger>
-            <TabsTrigger value="users" className="data-[state=active]:bg-primary">{t("admin_main_tab_users")}</TabsTrigger>
-            <TabsTrigger value="triggers" className="data-[state=active]:bg-primary">{t("admin_main_tab_triggers")}</TabsTrigger>
-            <TabsTrigger value="system" className="data-[state=active]:bg-primary">{t("admin_main_tab_system")}</TabsTrigger>
+            {canViewUsers && <TabsTrigger value="users" className="data-[state=active]:bg-primary">{t("admin_main_tab_users")}</TabsTrigger>}
+            {canViewTriggers && <TabsTrigger value="triggers" className="data-[state=active]:bg-primary">{t("admin_main_tab_triggers")}</TabsTrigger>}
+            {canViewSystem && <TabsTrigger value="system" className="data-[state=active]:bg-primary">{t("admin_main_tab_system")}</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="overview">
@@ -209,259 +240,20 @@ export default function AdminPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/booking-os')}
-                    >
-                      <Calendar className="w-6 h-6 mb-2 text-blue-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Booking OS</div>
-                        <div className="text-xs text-muted-foreground">Manage bookings and reservations</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/finance-os')}
-                    >
-                      <DollarSign className="w-6 h-6 mb-2 text-green-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Finance OS</div>
-                        <div className="text-xs text-muted-foreground">Financial operations and commissions</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/listing-os')}
-                    >
-                      <Building2 className="w-6 h-6 mb-2 text-purple-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Listing OS</div>
-                        <div className="text-xs text-muted-foreground">Property listings management</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/identity-os')}
-                    >
-                      <Users className="w-6 h-6 mb-2 text-indigo-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Identity OS</div>
-                        <div className="text-xs text-muted-foreground">User and organization management</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/agent-os')}
-                    >
-                      <Activity className="w-6 h-6 mb-2 text-orange-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Agent OS</div>
-                        <div className="text-xs text-muted-foreground">Agent performance and management</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/document-os')}
-                    >
-                      <FileText className="w-6 h-6 mb-2 text-pink-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Document OS</div>
-                        <div className="text-xs text-muted-foreground">Document and signature management</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/analytics-os')}
-                    >
-                      <BarChart3 className="w-6 h-6 mb-2 text-cyan-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Analytics OS</div>
-                        <div className="text-xs text-muted-foreground">Data analytics and insights</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/notification-os')}
-                    >
-                      <Bell className="w-6 h-6 mb-2 text-yellow-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Notification OS</div>
-                        <div className="text-xs text-muted-foreground">Notification and communication</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/localization-os')}
-                    >
-                      <Globe className="w-6 h-6 mb-2 text-emerald-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Localization OS</div>
-                        <div className="text-xs text-muted-foreground">Multi-country and language support</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/intelligence-graph')}
-                    >
-                      <Network className="w-6 h-6 mb-2 text-violet-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Intelligence Graph</div>
-                        <div className="text-xs text-muted-foreground">Graph analytics and ML predictions</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/digital-twin')}
-                    >
-                      <Copy className="w-6 h-6 mb-2 text-rose-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Digital Twin</div>
-                        <div className="text-xs text-muted-foreground">Simulation and optimization</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/ai-os')}
-                    >
-                      <Brain className="w-6 h-6 mb-2 text-violet-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">AI OS</div>
-                        <div className="text-xs text-muted-foreground">AI models and predictions</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/user-os')}
-                    >
-                      <Users className="w-6 h-6 mb-2 text-blue-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">User OS</div>
-                        <div className="text-xs text-muted-foreground">User lifecycle management</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/trust-os')}
-                    >
-                      <Shield className="w-6 h-6 mb-2 text-emerald-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Trust OS</div>
-                        <div className="text-xs text-muted-foreground">Trust scores and verification</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/ads-os')}
-                    >
-                      <Megaphone className="w-6 h-6 mb-2 text-orange-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Ads OS</div>
-                        <div className="text-xs text-muted-foreground">Advertising campaigns</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/commerce-os')}
-                    >
-                      <ShoppingCart className="w-6 h-6 mb-2 text-pink-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Commerce OS</div>
-                        <div className="text-xs text-muted-foreground">Products and orders</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/operations-os')}
-                    >
-                      <CheckSquare className="w-6 h-6 mb-2 text-cyan-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Operations OS</div>
-                        <div className="text-xs text-muted-foreground">Tasks and workflows</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/crm-os')}
-                    >
-                      <Target className="w-6 h-6 mb-2 text-indigo-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">CRM OS</div>
-                        <div className="text-xs text-muted-foreground">Leads and opportunities</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/investment-os')}
-                    >
-                      <TrendingUp className="w-6 h-6 mb-2 text-green-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Investment OS</div>
-                        <div className="text-xs text-muted-foreground">Investments and returns</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/governance-os')}
-                    >
-                      <FileText className="w-6 h-6 mb-2 text-amber-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Governance OS</div>
-                        <div className="text-xs text-muted-foreground">Policies and compliance</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/partner-os')}
-                    >
-                      <HeartHandshake className="w-6 h-6 mb-2 text-teal-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Partner OS</div>
-                        <div className="text-xs text-muted-foreground">Partner relationships</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/devapi-os')}
-                    >
-                      <Key className="w-6 h-6 mb-2 text-slate-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Developer API OS</div>
-                        <div className="text-xs text-muted-foreground">API keys and usage</div>
-                      </div>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
-                      onClick={() => router.push('/admin/security-os')}
-                    >
-                      <AlertTriangle className="w-6 h-6 mb-2 text-red-400" />
-                      <div className="text-left">
-                        <div className="font-semibold">Security OS</div>
-                        <div className="text-xs text-muted-foreground">Security and incidents</div>
-                      </div>
-                    </Button>
+                    {accessibleOSModules.map((os) => (
+                      <Button
+                        key={os.name}
+                        variant="outline"
+                        className="bg-muted/30 border-border text-foreground hover:bg-muted/50 h-auto p-4 flex flex-col items-start"
+                        onClick={() => router.push(os.path)}
+                      >
+                        <os.icon className={`w-6 h-6 mb-2 ${os.color}`} />
+                        <div className="text-left">
+                          <div className="font-semibold">{os.name}</div>
+                          <div className="text-xs text-muted-foreground">{os.desc}</div>
+                        </div>
+                      </Button>
+                    ))}
                   </div>
                 </CardContent>
               </Card>

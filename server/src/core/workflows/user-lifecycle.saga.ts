@@ -13,7 +13,7 @@ export class UserLifecycleSaga extends BaseSaga {
     this.organizationId = organizationId;
   }
 
-  protected async compensate(): Promise<void) {
+  protected async compensate(): Promise<void> {
     console.log(`[UserLifecycleSaga] Compensating user ${this.userId}. Rolling back...`);
   }
 

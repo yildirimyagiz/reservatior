@@ -316,9 +316,49 @@ export function getAdminNavigation(t: (key: string, fallback?: string) => string
       requiredPermission: "COMMERCE_MANAGE"
     }]
   }, {
-    title: "SEO & Analytics",
-    icon: Search,
+    title: "Intelligence & AI",
+    icon: Brain,
+    badge: "NEW",
     children: [{
+      title: "Property Passport",
+      href: "/admin/property-passport",
+      icon: Building2,
+      badge: "AI"
+    }, {
+      title: "Market Passport",
+      href: "/admin/market-passport",
+      icon: Globe,
+      badge: "AI"
+    }, {
+      title: "User Passport",
+      href: "/admin/user-passport",
+      icon: UsersRound
+    }, {
+      title: "Agent Passport",
+      href: "/admin/agent-passport",
+      icon: Star
+    }, {
+      title: "Decision Engine",
+      href: "/admin/decision-engine",
+      icon: Zap,
+      badge: "AI"
+    }, {
+      title: "Feedback Loop",
+      href: "/admin/feedback-loop",
+      icon: Activity
+    }, {
+      title: "Content Publisher",
+      href: "/admin/content-publisher",
+      icon: Megaphone
+    }, {
+      title: "Revenue Intelligence",
+      href: "/admin/revenue-intelligence",
+      icon: DollarSign
+    }, {
+      title: "Intelligence Graph",
+      href: "/admin/intelligence-graph",
+      icon: Brain
+    }, {
       title: "SEO Generator",
       href: "/admin/seo-generator",
       icon: Search

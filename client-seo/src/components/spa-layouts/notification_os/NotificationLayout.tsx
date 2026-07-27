@@ -59,7 +59,7 @@ export function NotificationLayout({ children }: { children: React.ReactNode }) 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-end px-4 py-5 border-b border-border min-h-[69px]">
-        <button aria-label="Toggle sidebar" className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        <button aria-label="Toggle sidebar" className="min-h-12 min-w-12 shrink-0 text-muted-foreground hover:text-foreground" onClick={() => setSidebarOpen(!sidebarOpen)}>
           <ChevronRight className={`w-3.5 h-3.5 transition-transform ${sidebarOpen ? 'rotate-180' : ''}`} />
         </button>
       </div>

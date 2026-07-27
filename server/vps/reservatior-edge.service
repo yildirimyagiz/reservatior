@@ -1,0 +1,38 @@
+[Unit]
+Description=Reservatior Edge Worker - Event Consumer
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=reservatior
+Group=reservatior
+WorkingDirectory=/home/reservatior/reservatior-server
+Environment="NODE_ENV=production"
+Environment="DATABASE_URL=postgresql://reservatior:your_password@localhost:5432/realestate_us"
+Environment="GOOGLE_CLOUD_PROJECT=reservatior-prod"
+Environment="PUBSUB_EMULATOR_HOST=localhost:8085"
+Environment="COUNTRY_DEFAULT=US"
+ExecStart=/usr/bin/bun run /home/reservatior/reservatior-server/src/edge/event-consumer.ts
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=reservatior-edge
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/home/reservatior/reservatior-server/logs
+ReadWritePaths=/home/reservatior/reservatior-server/tmp
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+MemoryMax=2G
+CPUQuota=200%
+
+[Install]
+WantedBy=multi-user.target

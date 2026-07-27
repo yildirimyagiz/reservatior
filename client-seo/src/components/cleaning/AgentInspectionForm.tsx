@@ -142,6 +142,7 @@ export function AgentInspectionForm({ propertyName, className, onComplete }: Age
                 </p>
                 <input
                   type="text"
+                  aria-label={`Notes for ${item.label}`}
                   placeholder="Notes (optional)"
                   value={item.notes}
                   onChange={e => setNotes(item.id, e.target.value)}

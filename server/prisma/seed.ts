@@ -774,16 +774,76 @@ async function main() {
   console.log("🌱 Seeding 10 Video Properties for Reels...");
   
   const videoPropertiesData = [
-    { name: "The Glass Pavilion, Beverly Hills", city: "Los Angeles", state: "CA", price: 18500000, beds: 6, baths: 8, sqm: 1100, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
-    { name: "Ultra-Luxury Penthouse, Tribeca", city: "New York", state: "NY", price: 22000000, beds: 4, baths: 5, sqm: 450, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
-    { name: "Oceanfront Mansion, Miami Beach", city: "Miami", state: "FL", price: 35000000, beds: 8, baths: 10, sqm: 1400, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
-    { name: "Bel Air Mega Mansion", city: "Los Angeles", state: "CA", price: 45000000, beds: 9, baths: 12, sqm: 2200, videoUrl: "https://videos.pexels.com/video-files/4625518/4625518-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" },
-    { name: "Mountain Estate, Aspen", city: "Aspen", state: "CO", price: 28500000, beds: 7, baths: 8, sqm: 1300, videoUrl: "https://videos.pexels.com/video-files/4328713/4328713-uhd_1440_2560_25fps.mp4", photo: "https://images.unsplash.com/photo-1518204646700-112674e2d216?w=800" },
-    { name: "Billionaire's Row Estate, Malibu", city: "Malibu", state: "CA", price: 65000000, beds: 8, baths: 11, sqm: 1800, videoUrl: "https://videos.pexels.com/video-files/1093662/1093662-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800" },
-    { name: "Central Park Tower Penthouse", city: "New York", state: "NY", price: 55000000, beds: 5, baths: 6, sqm: 650, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
-    { name: "Desert Modern, Scottsdale", city: "Scottsdale", state: "AZ", price: 12500000, beds: 5, baths: 6, sqm: 900, videoUrl: "https://videos.pexels.com/video-files/5752729/5752729-uhd_1440_2560_25fps.mp4", photo: "https://images.unsplash.com/photo-1600585153490-76fb20a32601?w=800" },
-    { name: "Historic Brownstone, Brooklyn", city: "New York", state: "NY", price: 8500000, beds: 4, baths: 5, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/4169702/4169702-uhd_1440_2560_25fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
-    { name: "Silicon Valley Tech Estate", city: "Palo Alto", state: "CA", price: 32000000, beds: 6, baths: 7, sqm: 1200, videoUrl: "https://videos.pexels.com/video-files/4625518/4625518-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1600607687644-b717bdf75810?w=800" }
+    // USA
+    { name: "The Glass Pavilion, Beverly Hills", city: "Los Angeles", state: "CA", country: "USA", price: 18500000, beds: 6, baths: 8, sqm: 1100, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Ultra-Luxury Penthouse, Tribeca", city: "New York", state: "NY", country: "USA", price: 22000000, beds: 4, baths: 5, sqm: 450, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    { name: "Oceanfront Mansion, Miami Beach", city: "Miami", state: "FL", country: "USA", price: 35000000, beds: 8, baths: 10, sqm: 1400, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Central Park Tower Penthouse", city: "New York", state: "NY", country: "USA", price: 55000000, beds: 5, baths: 6, sqm: 650, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // Turkey
+    { name: "Bosphorus Waterfront Villa", city: "Istanbul", state: "Istanbul", country: "Turkey", price: 15000000, beds: 7, baths: 6, sqm: 800, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Beşiktaş Luxury Apartment", city: "Istanbul", state: "Istanbul", country: "Turkey", price: 8500000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // UK
+    { name: "Mayfair Townhouse", city: "London", state: "England", country: "UK", price: 28000000, beds: 6, baths: 7, sqm: 650, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Kensington Palace Gardens", city: "London", state: "England", country: "UK", price: 45000000, beds: 8, baths: 10, sqm: 1200, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // Germany
+    { name: "Munich Luxury Penthouse", city: "Munich", state: "Bavaria", country: "Germany", price: 12000000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Berlin Modern Villa", city: "Berlin", state: "Berlin", country: "Germany", price: 9500000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // France
+    { name: "Paris Haussmann Apartment", city: "Paris", state: "Île-de-France", country: "France", price: 18000000, beds: 5, baths: 4, sqm: 450, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "French Riviera Villa", city: "Marseille", state: "Provence-Alpes-Côte d'Azur", country: "France", price: 22000000, beds: 7, baths: 6, sqm: 600, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // Spain
+    { name: "Madrid Penthouse", city: "Madrid", state: "Madrid", country: "Spain", price: 8500000, beds: 4, baths: 3, sqm: 300, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Barcelona Beachfront Villa", city: "Barcelona", state: "Catalonia", country: "Spain", price: 12000000, beds: 5, baths: 4, sqm: 450, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // Italy
+    { name: "Rome Historic Penthouse", city: "Rome", state: "Lazio", country: "Italy", price: 9500000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Milan Modern Apartment", city: "Milan", state: "Lombardy", country: "Italy", price: 11000000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // UAE
+    { name: "Dubai Marina Penthouse", city: "Dubai", state: "Dubai", country: "UAE", price: 25000000, beds: 6, baths: 7, sqm: 550, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Palm Jumeirah Villa", city: "Dubai", state: "Dubai", country: "UAE", price: 35000000, beds: 8, baths: 9, sqm: 800, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // Canada
+    { name: "Toronto Yorkville Condo", city: "Toronto", state: "Ontario", country: "Canada", price: 6500000, beds: 3, baths: 2, sqm: 250, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Vancouver Waterfront Estate", city: "Vancouver", state: "British Columbia", country: "Canada", price: 12000000, beds: 5, baths: 4, sqm: 450, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // Australia
+    { name: "Sydney Harbour Penthouse", city: "Sydney", state: "New South Wales", country: "Australia", price: 15000000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Melbourne Southbank Villa", city: "Melbourne", state: "Victoria", country: "Australia", price: 9500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // Netherlands
+    { name: "Amsterdam Canal House", city: "Amsterdam", state: "North Holland", country: "Netherlands", price: 7500000, beds: 4, baths: 3, sqm: 300, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Rotterdam Modern Penthouse", city: "Rotterdam", state: "South Holland", country: "Netherlands", price: 5500000, beds: 3, baths: 2, sqm: 250, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // Brazil
+    { name: "São Paulo Luxury Penthouse", city: "São Paulo", state: "São Paulo", country: "Brazil", price: 4500000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Rio de Janeiro Beachfront Villa", city: "Rio de Janeiro", state: "Rio de Janeiro", country: "Brazil", price: 6500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // China
+    { name: "Beijing Luxury Apartment", city: "Beijing", state: "Beijing", country: "China", price: 8500000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Shanghai Bund Penthouse", city: "Shanghai", state: "Shanghai", country: "China", price: 12000000, beds: 5, baths: 4, sqm: 450, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // India
+    { name: "Mumbai Sea View Penthouse", city: "Mumbai", state: "Maharashtra", country: "India", price: 3500000, beds: 4, baths: 3, sqm: 300, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Delhi Luxury Villa", city: "Delhi", state: "Delhi", country: "India", price: 4500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // Japan
+    { name: "Tokyo Minato Penthouse", city: "Tokyo", state: "Tokyo", country: "Japan", price: 15000000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Osaka Modern Apartment", city: "Osaka", state: "Osaka", country: "Japan", price: 8500000, beds: 3, baths: 2, sqm: 250, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // South Korea
+    { name: "Seoul Gangnam Penthouse", city: "Seoul", state: "Seoul", country: "South Korea", price: 9500000, beds: 4, baths: 3, sqm: 300, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Busan Beachfront Villa", city: "Busan", state: "Busan", country: "South Korea", price: 6500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // Mexico
+    { name: "Mexico City Polanco Penthouse", city: "Mexico City", state: "Mexico City", country: "Mexico", price: 4500000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Guadalajara Luxury Villa", city: "Guadalajara", state: "Jalisco", country: "Mexico", price: 3500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // Malaysia
+    { name: "Kuala Lumpur KLCC Penthouse", city: "Kuala Lumpur", state: "Kuala Lumpur", country: "Malaysia", price: 3500000, beds: 4, baths: 3, sqm: 300, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Penang Island Villa", city: "Penang", state: "Penang", country: "Malaysia", price: 2500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // New Zealand
+    { name: "Auckland Viaduct Penthouse", city: "Auckland", state: "Auckland", country: "New Zealand", price: 4500000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    { name: "Wellington Harbour Villa", city: "Wellington", state: "Wellington", country: "New Zealand", price: 3500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    // Saudi Arabia
+    { name: "Riyadh Olaya Penthouse", city: "Riyadh", state: "Riyadh", country: "Saudi Arabia", price: 8500000, beds: 5, baths: 4, sqm: 450, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    { name: "Jeddah Corniche Villa", city: "Jeddah", state: "Jeddah", country: "Saudi Arabia", price: 12000000, beds: 6, baths: 7, sqm: 550, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    // Singapore
+    { name: "Singapore Marina Bay Penthouse", city: "Singapore", state: "Central", country: "Singapore", price: 18000000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" },
+    // Thailand
+    { name: "Bangkok Sukhumvit Penthouse", city: "Bangkok", state: "Bangkok", country: "Thailand", price: 2500000, beds: 4, baths: 3, sqm: 300, videoUrl: "https://videos.pexels.com/video-files/6532053/6532053-hd_1080_1920_25fps.mp4", photo: "https://images.unsplash.com/photo-1600607688126-17b2b07e5b6c?w=800" },
+    { name: "Phuket Beachfront Villa", city: "Phuket", state: "Phuket", country: "Thailand", price: 3500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/3773486/3773486-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+    // Argentina
+    { name: "Buenos Aires Palermo Penthouse", city: "Buenos Aires", state: "Buenos Aires", country: "Argentina", price: 2500000, beds: 4, baths: 3, sqm: 350, videoUrl: "https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4", photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" },
+    { name: "Córdoba Modern Villa", city: "Córdoba", state: "Córdoba", country: "Argentina", price: 1500000, beds: 5, baths: 4, sqm: 400, videoUrl: "https://videos.pexels.com/video-files/4063585/4063585-uhd_1440_2560_24fps.mp4", photo: "https://images.unsplash.com/photo-1516450137517-162bdfffcc47?w=800" }
   ];
 
   for (let i = 0; i < videoPropertiesData.length; i++) {
@@ -802,7 +862,7 @@ async function main() {
         addressLine1: `123 Luxury Ave ${i}`,
         city: pData.city,
         state: pData.state,
-        country: "XX",
+        country: pData.country,
         bedrooms: pData.beds,
         bathrooms: pData.baths,
         areaSqm: pData.sqm,
@@ -4588,6 +4648,63 @@ async function main() {
   }).catch((e) => { console.error(e); });
 
   console.log("✅ Localization OS: CountryConfig, LanguageConfig, CurrencyConfig, LocalizedContent, RegionalPricing");
+  console.log("═".repeat(60));
+
+  // ═══════════════════════════════════════════════════════════════
+  // BÜYÜKYALI PORTFÖYÜ - SATILAN DAİRELER
+  // ═══════════════════════════════════════════════════════════════
+  const buyukyaliData = require("../datalar/buyukyali-properties.json");
+  console.log(`📊 Büyükyalı'dan ${buyukyaliData.length} satılan daire import ediliyor...`);
+
+  let buyukyaliCount = 0;
+  let errorCount = 0;
+  for (const propertyData of buyukyaliData) {
+    try {
+      const buyukyaliProperty = await prisma.property.create({
+        data: {
+          id: id(`buyukyali-${buyukyaliCount}`),
+          orgId: org.id,
+          type: propertyData.type === 'COMMERCIAL' ? PropertyType.COMMERCIAL : 
+                propertyData.type === 'DETACHED_HOUSE' ? PropertyType.DETACHED_HOUSE : 
+                PropertyType.APARTMENT,
+          name: propertyData.name,
+          region: Region.TR,
+          currency: "TRY",
+          addressLine1: propertyData.addressLine1,
+          addressLine2: propertyData.addressLine2,
+          city: propertyData.city,
+          state: propertyData.state,
+          zip: propertyData.zip,
+          country: propertyData.country,
+          // countryIsoCode: propertyData.countryIsoCode, // Skip to avoid CountryConfig foreign key constraint
+          bedrooms: propertyData.bedrooms,
+          bathrooms: propertyData.bathrooms,
+          areaSqm: propertyData.areaSqm,
+          yearBuilt: propertyData.yearBuilt,
+          propertyCategory: propertyData.propertyCategory === 'COMMERCIAL' ? 
+                          PropertyCategory.COMMERCIAL : PropertyCategory.RESIDENTIAL,
+          listingType: ListingType.SALE,
+          listingStatus: ListingStatus.SOLD,
+          listingPrice: propertyData.listingPrice,
+          originalPrice: propertyData.originalPrice,
+          notes: propertyData.notes,
+          // Store metadata as JSON in notes or create custom fields
+          aiSummary: JSON.stringify(propertyData.metadata),
+        },
+      });
+      
+      if (buyukyaliProperty) {
+        buyukyaliCount++;
+      }
+    } catch (error: any) {
+      errorCount++;
+      if (errorCount <= 5) {
+        console.error(`❌ Error creating property ${propertyData.name}:`, error.message);
+      }
+    }
+  }
+  
+  console.log(`✅ Büyükyalı Portföyü: ${buyukyaliCount} satılan daire eklendi`);
   console.log("═".repeat(60));
 }
 

@@ -1,6 +1,14 @@
 import { getLocalizationHeaders } from './localization-helper';
 
 export const notificationOSApi = {
+  getDashboardStats: async (orgId: string) => {
+    const res = await fetch(`/api/v1/notification-os/dashboard?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch notification OS dashboard stats');
+    return res.json();
+  },
+
   send: async (data: {
     userId: string;
     type: string;
@@ -118,6 +126,22 @@ export const notificationOSApi = {
       headers: getLocalizationHeaders(),
     });
     if (!res.ok) throw new Error('Failed to fetch delivery analytics');
+    return res.json();
+  },
+
+  getNotificationTrends: async (orgId: string) => {
+    const res = await fetch(`/api/v1/notification-os/notification-trends?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch notification trends');
+    return res.json();
+  },
+
+  getChannelDistribution: async (orgId: string) => {
+    const res = await fetch(`/api/v1/notification-os/channel-distribution?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch channel distribution');
     return res.json();
   },
 };

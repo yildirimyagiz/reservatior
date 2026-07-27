@@ -83,7 +83,7 @@ export default function Profile() {
                       {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <Button size="icon" className="absolute bottom-0 right-0 h-12 w-12 rounded-2xl bg-white text-black hover:bg-slate-200 shadow-xl z-20 border-4 border-[#1a1b1e]">
+                  <Button size="icon" className="absolute bottom-0 right-0 h-12 w-12 rounded-2xl bg-white text-black hover:bg-slate-200 shadow-xl z-20 border-4 border-[#1a1b1e]" aria-label="Change profile photo">
                      <Camera className="w-5 h-5" />
                   </Button>
                 </div>

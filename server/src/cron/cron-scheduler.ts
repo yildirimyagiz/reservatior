@@ -8,6 +8,7 @@ import { distributionEngine } from "../services/distribution/distribution-engine
 import { demandGenerator } from "../services/demand/demand-generator";
 import prismaManager from "@/lib/prisma";
 import { runEarlyCaptureScheduler } from "../services/fintech/early-capture-scheduler";
+import { triggerRateUpdate } from "./exchange-rate-cron";
 
 export const cronScheduler = new Elysia({ name: "cron-scheduler" })
   // 1. LEASE_EXPIRY_APPROACHING (Runs daily at 02:00 AM)
@@ -174,6 +175,22 @@ export const cronScheduler = new Elysia({ name: "cron-scheduler" })
         }
       }
     })
+  )
+
+  // 12. EXCHANGE RATE UPDATE (Runs hourly)
+  .use(
+    cron({
+      name: "exchange-rate-update",
+      pattern: process.env.NODE_ENV === "production" ? "0 * * * *" : "*/4 * * * *",
+      async run() {
+        console.log("[Cron] Running EXCHANGE_RATE_UPDATE...");
+        try {
+          await triggerRateUpdate();
+        } catch (e) {
+          console.error("[Cron] EXCHANGE_RATE_UPDATE error:", e);
+        }
+      }
+    })
   );
 
-console.log("[CronScheduler] Registered 11 background cron jobs.");
+console.log("[CronScheduler] Registered 12 background cron jobs.");

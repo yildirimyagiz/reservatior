@@ -1,6 +1,14 @@
 import { getLocalizationHeaders } from './localization-helper';
 
 export const localizationOSApi = {
+  getDashboardStats: async (orgId: string) => {
+    const res = await fetch(`/api/v1/localization-os/dashboard?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch localization OS dashboard stats');
+    return res.json();
+  },
+
   getCountryConfig: async (countryCode: string) => {
     const res = await fetch(`/api/v1/localization-os/countries/${countryCode}`, {
       headers: getLocalizationHeaders(),
@@ -189,6 +197,22 @@ export const localizationOSApi = {
       headers: getLocalizationHeaders(),
     });
     if (!res.ok) throw new Error('Failed to fetch statistics');
+    return res.json();
+  },
+
+  getTranslationProgress: async (orgId: string) => {
+    const res = await fetch(`/api/v1/localization-os/translation-progress?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch translation progress');
+    return res.json();
+  },
+
+  getRegionalCoverage: async (orgId: string) => {
+    const res = await fetch(`/api/v1/localization-os/regional-coverage?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch regional coverage');
     return res.json();
   },
 };

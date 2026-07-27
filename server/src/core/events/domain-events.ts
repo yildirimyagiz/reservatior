@@ -25,6 +25,32 @@ export const DomainEvents = {
   LISTING_FAVORITED: 'listing.favorited',
   LISTING_SHARED: 'listing.shared',
   
+  // Property OS (Phase 1: Property Intelligence Engine)
+  PROPERTY_CREATED: 'property.created.v1',
+  PROPERTY_INTELLIGENCE_ANALYSIS_STARTED: 'property.intelligence.analysis.started.v1',
+  PROPERTY_INTELLIGENCE_CREATED: 'property.intelligence.created.v1',
+  PROPERTY_SCORE_CALCULATED: 'property.score.calculated.v1',
+  PROPERTY_MARKET_POSITION_UPDATED: 'property.market.position.updated.v1',
+  PROPERTY_DIGITAL_TWIN_GENERATED: 'property.digital.twin.generated.v1',
+  PROPERTY_MARKETING_STRATEGY_GENERATED: 'property.marketing.strategy.generated.v1',
+  
+  // Market OS (Phase 2: Market Intelligence Engine)
+  MARKET_INTELLIGENCE_CREATED: 'market.intelligence.created.v1',
+  MARKET_SCORE_CALCULATED: 'market.score.calculated.v1',
+  MARKET_TREND_DETECTED: 'market.trend.detected.v1',
+  MARKET_OPPORTUNITY_DETECTED: 'market.opportunity.detected.v1',
+  MARKET_FORECAST_GENERATED: 'market.forecast.generated.v1',
+  
+  // User OS (Phase 3: User Intelligence Engine)
+  USER_INTELLIGENCE_CREATED: 'user.intelligence.created.v1',
+  USER_INVESTMENT_PROFILE_CREATED: 'user.investment.profile.created.v1',
+  USER_BEHAVIOR_ANALYZED: 'user.behavior.analyzed.v1',
+  USER_PREFERENCE_UPDATED: 'user.preference.updated.v1',
+  LEAD_INTELLIGENCE_CREATED: 'lead.intelligence.created.v1',
+  LEAD_QUALIFICATION_UPDATED: 'lead.qualification.updated.v1',
+  AGENT_INTELLIGENCE_CREATED: 'agent.intelligence.created.v1',
+  AGENT_PERFORMANCE_UPDATED: 'agent.performance.updated.v1',
+  
   // Finance OS
   ESCROW_CREATED: 'escrow.created',
   ESCROW_RELEASED: 'escrow.released',
@@ -248,9 +274,9 @@ export const DomainEvents = {
   USER_REGISTERED: 'identity.user.registered',
   USER_AUTHENTICATED: 'identity.user.authenticated',
   USER_SSO_CONNECTED: 'identity.user.sso.connected',
-  SESSION_CREATED: 'identity.session.created',
-  SESSION_REVOKED: 'identity.session.revoked',
-  ROLE_ASSIGNED: 'identity.role.assigned',
+  SESSION_CREATED_IDENTITY: 'identity.session.created',
+  SESSION_REVOKED_IDENTITY: 'identity.session.revoked',
+  ROLE_ASSIGNED_IDENTITY: 'identity.role.assigned',
   PERMISSION_CHANGED: 'identity.permission.changed',
   API_KEY_CREATED_IDENTITY: 'identity.apikey.created',
   API_KEY_REVOKED_IDENTITY: 'identity.apikey.revoked',
@@ -265,13 +291,13 @@ export const DomainEvents = {
   REGION_ACTIVATED: 'localization.region.activated',
 
   // Commerce OS
-  PRODUCT_CREATED: 'commerce.product.created',
-  PRODUCT_UPDATED: 'commerce.product.updated',
+  PRODUCT_CREATED_COMMERCE: 'commerce.product.created',
+  PRODUCT_UPDATED_COMMERCE: 'commerce.product.updated',
   PRODUCT_PUBLISHED: 'commerce.product.published',
   PRODUCT_ARCHIVED: 'commerce.product.archived',
-  ORDER_CREATED: 'commerce.order.created',
+  ORDER_CREATED_COMMERCE: 'commerce.order.created',
   ORDER_PAID: 'commerce.order.paid',
-  ORDER_FULFILLED: 'commerce.order.fulfilled',
+  ORDER_FULFILLED_COMMERCE: 'commerce.order.fulfilled',
   ORDER_CANCELLED: 'commerce.order.cancelled',
   ORDER_REFUNDED: 'commerce.order.refunded',
   BUNDLE_CREATED: 'commerce.bundle.created',
@@ -369,4 +395,92 @@ export interface EventMessage<T = any> {
   source: string; // e.g. "ListingOS", "AgentOS"
   correlationId?: string; // Important for Saga tracking
   localization?: LocalizationContext; // Localization context for multi-country support
+  idempotencyKey?: string; // For event reliability and duplicate prevention
+  version?: string; // Event version for schema evolution
+  aggregateId?: string; // Aggregate root ID for event sourcing
+}
+
+// ─── EVENT RELIABILITY LAYER ───
+
+/**
+ * Enhanced EventMessage with idempotency support
+ */
+export interface ReliableEventMessage<T = any> extends EventMessage<T> {
+  idempotencyKey: string;
+  version: string;
+  aggregateId: string;
+  retryCount?: number;
+  metadata?: {
+    source?: string;
+    correlationId?: string;
+    causationId?: string;
+    userId?: string;
+    orgId?: string;
+  };
+}
+
+/**
+ * Event Processing Status
+ */
+export enum EventProcessingStatus {
+  PENDING = 'PENDING',
+  PROCESSING = 'PROCESSING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+  SKIPPED = 'SKIPPED'
+}
+
+/**
+ * Idempotency Check Result
+ */
+export interface IdempotencyCheckResult {
+  alreadyProcessed: boolean;
+  shouldProcess: boolean;
+  existingRecord?: {
+    processingStatus: EventProcessingStatus;
+    retryCount: number;
+    processedAt: Date;
+  };
+}
+
+/**
+ * Generate idempotency key for event
+ */
+export function generateIdempotencyKey(
+  eventType: DomainEvent,
+  aggregateId: string,
+  timestamp: Date
+): string {
+  return `${eventType}_${aggregateId}_${timestamp.getTime()}`;
+}
+
+/**
+ * Create reliable event message
+ */
+export function createReliableEvent<T>(
+  eventType: DomainEvent,
+  aggregateId: string,
+  payload: T,
+  metadata?: {
+    source?: string;
+    correlationId?: string;
+    causationId?: string;
+    userId?: string;
+    orgId?: string;
+  }
+): ReliableEventMessage<T> {
+  const timestamp = new Date();
+  return {
+    id: `evt_${timestamp.getTime()}_${Math.random().toString(36).substr(2, 9)}`,
+    type: eventType,
+    timestamp,
+    payload,
+    source: metadata?.source || 'unknown',
+    correlationId: metadata?.correlationId,
+    localization: undefined,
+    idempotencyKey: generateIdempotencyKey(eventType, aggregateId, timestamp),
+    version: 'v1',
+    aggregateId,
+    metadata
+  };
 }

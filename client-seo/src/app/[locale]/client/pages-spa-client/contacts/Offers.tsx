@@ -98,9 +98,9 @@ export default function Offers() {
                       <TableCell className="text-sm text-muted-foreground">{new Date(offer.createdAt).toLocaleDateString()}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-1">
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600"><CheckCircle2 className="w-4 h-4" /></Button>
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600"><XCircle className="w-4 h-4" /></Button>
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600"><Send className="w-4 h-4" /></Button>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600" aria-label="Accept"><CheckCircle2 className="w-4 h-4" /></Button>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600" aria-label="Reject"><XCircle className="w-4 h-4" /></Button>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600" aria-label="Send"><Send className="w-4 h-4" /></Button>
                         </div>
                       </TableCell>
                     </TableRow>)}
@@ -138,8 +138,8 @@ export default function Offers() {
                       <TableCell>{getStatusBadge(offer.status)}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-1">
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600"><CheckCircle2 className="w-4 h-4" /></Button>
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600"><XCircle className="w-4 h-4" /></Button>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600" aria-label="Accept"><CheckCircle2 className="w-4 h-4" /></Button>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600" aria-label="Reject"><XCircle className="w-4 h-4" /></Button>
                         </div>
                       </TableCell>
                     </TableRow>)}

@@ -1,115 +1,203 @@
+/**
+ * Exchange Rate Routes
+ *
+ * Real exchange rate API endpoints with Frankfurter/ECB data.
+ * Supports conversion between 25+ currencies.
+ * Special TRY↔USD handling for Turkish real estate compliance.
+ */
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";
-import { exchangeRateService } from "../services/exchangerate";
-import { 
-  ExchangeRatePlainInputCreate, 
-  ExchangeRatePlainInputUpdate 
-} from "../../generated/prismabox/ExchangeRate";
+import {
+  convert,
+  getRate,
+  getAllRates,
+  getCurrencyInfo,
+  refreshRates,
+  getMultiCurrencyPrice,
+  getTRYPrice,
+  formatCurrency,
+  SUPPORTED_CURRENCIES,
+  COUNTRY_CURRENCY,
+} from "../services/currency-converter";
 
 export const exchangeRateRoutes = new Elysia({ prefix: "/exchange-rates" })
   .use(authMiddleware)
 
   /**
    * GET /exchange-rates/latest
-   * Gets latest exchange rates
+   * Get latest rates for a base currency
    */
   .get("/latest", async ({ query }) => {
     const { base = "USD", target } = query as any;
-    // Mock data for now - in real app this would fetch from API
-    const mockRates = {
-      "USD": { "EUR": 0.92, "GBP": 0.79, "JPY": 149.50 },
-      "EUR": { "USD": 1.09, "GBP": 0.86, "JPY": 162.89 },
-      "GBP": { "USD": 1.27, "EUR": 1.16, "JPY": 189.73 }
-    };
-    
-    if (target && mockRates[base] && mockRates[base][target]) {
-      return { base, target, rate: mockRates[base][target] };
+
+    if (target) {
+      const rate = await getRate(base, target);
+      return {
+        success: true,
+        data: {
+          base: base.toUpperCase(),
+          target: target.toUpperCase(),
+          rate: Math.round(rate * 1000000) / 1000000,
+          timestamp: new Date().toISOString(),
+        },
+      };
     }
-    
-    return { base, rates: mockRates[base] || {} };
+
+    const rates = await getAllRates(base);
+    return {
+      success: true,
+      data: {
+        base: base.toUpperCase(),
+        rates: Object.fromEntries(rates.map(r => [r.code, r.rate])),
+        timestamp: new Date().toISOString(),
+      },
+    };
   }, {
-    query: t.Partial(t.Object({
+    query: t.Object({
       base: t.Optional(t.String()),
       target: t.Optional(t.String()),
-    }))
+    }),
   })
 
   /**
-   * GET /exchange-rate
-   * Retrieves all ExchangeRate with pagination and basic filtering.
+   * GET /exchange-rates/convert
+   * Convert amount between currencies
+   */
+  .get("/convert", async ({ query }) => {
+    const { from, to, amount } = query as any;
+
+    if (!from || !to || !amount) {
+      return { success: false, msg: 'from, to, and amount are required' };
+    }
+
+    const result = await convert(parseFloat(amount), from, to);
+
+    return {
+      success: true,
+      data: result,
+    };
+  }, {
+    query: t.Object({
+      from: t.String(),
+      to: t.String(),
+      amount: t.String(),
+    }),
+  })
+
+  /**
+   * GET /exchange-rates/try-price
+   * Special endpoint for Turkish listings: auto-convert USD to TRY
+   * Turkish law prohibits publishing property prices in USD
+   */
+  .get("/try-price", async ({ query }) => {
+    const { usdAmount } = query as any;
+
+    if (!usdAmount) {
+      return { success: false, msg: 'usdAmount is required' };
+    }
+
+    const result = await getTRYPrice(parseFloat(usdAmount));
+
+    return {
+      success: true,
+      data: {
+        ...result,
+        legalNote: 'Türkiye\'de gayrimenkul fiyatlarının TL olarak yayınlanması zorunludur.',
+      },
+    };
+  }, {
+    query: t.Object({
+      usdAmount: t.String(),
+    }),
+  })
+
+  /**
+   * GET /exchange-rates/multi
+   * Get price in all currencies
+   */
+  .get("/multi", async ({ query }) => {
+    const { amount, currency } = query as any;
+
+    if (!amount || !currency) {
+      return { success: false, msg: 'amount and currency are required' };
+    }
+
+    const result = await getMultiCurrencyPrice(parseFloat(amount), currency);
+
+    return {
+      success: true,
+      data: result,
+    };
+  }, {
+    query: t.Object({
+      amount: t.String(),
+      currency: t.String(),
+    }),
+  })
+
+  /**
+   * GET /exchange-rates/supported
+   * List all supported currencies
+   */
+  .get("/supported", async () => {
+    return {
+      success: true,
+      data: {
+        currencies: Object.entries(SUPPORTED_CURRENCIES).map(([code, info]) => ({
+          code,
+          name: info.name,
+          symbol: info.symbol,
+          country: info.country,
+        })),
+        countryMap: COUNTRY_CURRENCY,
+      },
+    };
+  })
+
+  /**
+   * GET /exchange-rates/:code
+   * Get info for a specific currency
+   */
+  .get("/:code", async ({ params }) => {
+    const info = await getCurrencyInfo(params.code);
+    if (!info) {
+      return { success: false, msg: `Currency ${params.code} not found` };
+    }
+    return { success: true, data: info };
+  }, {
+    params: t.Object({ code: t.String() }),
+  })
+
+  /**
+   * POST /exchange-rates/refresh
+   * Force refresh rates from API
+   */
+  .post("/refresh", async () => {
+    const result = await refreshRates();
+    return {
+      success: true,
+      data: result,
+    };
+  })
+
+  /**
+   * GET /exchange-rates
+   * Get all rates (paginated for compatibility)
    */
   .get("/", async ({ query }) => {
-    const { page = "1", limit = "20", ...where } = query as any;
-    return exchangeRateService.getAll({
-      where,
-      skip: (parseInt(page) - 1) * parseInt(limit),
-      take: parseInt(limit),
-      orderBy: { createdAt: "desc" }
-    });
+    const { base = "USD" } = query as any;
+    const rates = await getAllRates(base);
+    return {
+      success: true,
+      data: {
+        base: base.toUpperCase(),
+        rates,
+        total: rates.length,
+        timestamp: new Date().toISOString(),
+      },
+    };
   }, {
-    query: t.Partial(t.Object({
-      page: t.Optional(t.String()),
-      limit: t.Optional(t.String()),
-      orgId: t.Optional(t.String()),
-    }))
-  })
-
-  /**
-   * POST /exchange-rate
-   * Creates a new ExchangeRate.
-   */
-  .post("/", async ({ body, set }) => {
-    const data = await exchangeRateService.create(body);
-    set.status = 201;
-    return { data };
-  }, {
-    body: ExchangeRatePlainInputCreate
-  })
-
-  /**
-   * GET /exchange-rate/:id
-   * Retrieves a single ExchangeRate by ID.
-   */
-  .get("/:id", async ({ params, set }) => {
-    const data = await exchangeRateService.getById(params.id);
-    if (!data) {
-      set.status = 404;
-      return { error: "ExchangeRate not found" };
-    }
-    return { data };
-  }, {
-    params: t.Object({ id: t.String() })
-  })
-
-  /**
-   * PATCH /exchange-rate/:id
-   * Updates an existing ExchangeRate.
-   */
-  .patch("/:id", async ({ params, body, set }) => {
-    try {
-      const data = await exchangeRateService.update(params.id, body);
-      return { data };
-    } catch (e) {
-      set.status = 404;
-      return { error: "ExchangeRate not found or update failed" };
-    }
-  }, {
-    params: t.Object({ id: t.String() }),
-    body: ExchangeRatePlainInputUpdate
-  })
-
-  /**
-   * DELETE /exchange-rate/:id
-   * Deletes a ExchangeRate.
-   */
-  .delete("/:id", async ({ params, set }) => {
-    try {
-      await exchangeRateService.delete(params.id);
-      return { success: true, message: "ExchangeRate deleted successfully" };
-    } catch (e) {
-      set.status = 404;
-      return { error: "ExchangeRate not found or already deleted" };
-    }
-  }, {
-    params: t.Object({ id: t.String() })
+    query: t.Object({
+      base: t.Optional(t.String()),
+    }),
   });

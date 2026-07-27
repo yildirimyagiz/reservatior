@@ -117,4 +117,20 @@ export const financeOSApi = {
     if (!res.ok) throw new Error('Failed to get localized pricing');
     return res.json();
   },
+
+  getRevenueTrends: async (orgId: string) => {
+    const res = await fetch(`/api/v1/finance-os/revenue-trends?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch revenue trends');
+    return res.json();
+  },
+
+  getExpenseBreakdown: async (orgId: string) => {
+    const res = await fetch(`/api/v1/finance-os/expense-breakdown?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch expense breakdown');
+    return res.json();
+  },
 };

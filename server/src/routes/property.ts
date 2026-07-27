@@ -7,6 +7,7 @@ import {
   PropertyPlainInputUpdate 
 } from "../../generated/prismabox/Property";
 import { OwnershipDocumentType } from "@prisma/client";
+import { edgeEventPublisher } from "../edge/event-publisher";
 
 export const propertyRoutes = new Elysia({ prefix: "/property" })
   .use(regionMiddleware)
@@ -245,6 +246,38 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
   .post("/", async ({ body, set, db }) => {
     const data = await propertyService.withDB(db as any).create(body);
     set.status = 201;
+    
+    // Publish event to Google Cloud Pub/Sub for AI processing
+    try {
+      // Extract country code from region or property data
+      const regionDb = db as any;
+      const country_code = regionDb.region === 'tr' ? 'TR' : 
+                          regionDb.region === 'usa' ? 'US' : 
+                          regionDb.region === 'ae' ? 'AE' : 'GB';
+      
+      // Publish listing ingested event
+      await edgeEventPublisher.publishListingIngested({
+        country_code,
+        property_id: data.id,
+        source: 'manual',
+        source_listing_id: data.id,
+        property_data: {
+          name: data.name,
+          price: data.price,
+          areaSqm: data.areaSqm,
+          city: data.city,
+          country: data.country,
+          propertyType: data.propertyType,
+          listingStatus: data.listingStatus
+        }
+      });
+      
+      console.log(`[Property Routes] Published listing.ingested.v1 event for property ${data.id} (${country_code})`);
+    } catch (error) {
+      // Event publishing failure shouldn't block property creation
+      console.error(`[Property Routes] Failed to publish event for property ${data.id}:`, error);
+    }
+    
     return { data };
   }, {
     body: PropertyPlainInputCreate
@@ -257,6 +290,25 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
   .patch("/:id", async ({ params, body, set, db }) => {
     try {
       const data = await propertyService.withDB(db as any).update(params.id, body);
+      
+      // Publish property updated event
+      try {
+        const regionDb = db as any;
+        const country_code = regionDb.region === 'tr' ? 'TR' : 
+                            regionDb.region === 'usa' ? 'US' : 
+                            regionDb.region === 'ae' ? 'AE' : 'GB';
+        
+        await edgeEventPublisher.publishPropertyUpdated({
+          country_code,
+          property_id: params.id,
+          update_data: body
+        });
+        
+        console.log(`[Property Routes] Published property.updated.v1 event for property ${params.id} (${country_code})`);
+      } catch (error) {
+        console.error(`[Property Routes] Failed to publish update event for property ${params.id}:`, error);
+      }
+      
       return { data };
     } catch (e) {
       set.status = 404;

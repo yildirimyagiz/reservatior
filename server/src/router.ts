@@ -273,6 +273,7 @@ import { categoryTranslationRoutes } from "./routes/category-translation";
 import { stripeWebhookRoutes } from "./routes/stripe-webhook";
 import { mediaUploadRoutes } from "./routes/media-upload";
 import { externalImportRoutes } from "./routes/external-import";
+import { portfolioImportRoutes } from "./routes/portfolio-import";
 import { aiMigrationRoutes } from "./routes/ai-migration";
 import { mlsRoutes } from "./routes/mls";
 import { googleHotelsFeed } from "./routes/google-hotels-feed";
@@ -297,6 +298,11 @@ import { mlsSyncRoutes } from "./routes/mls-sync";
 import { channelManagerRoutes } from "./routes/channel-manager";
 import { listingTagsRoutes } from "./routes/listing-tags";
 import { telemetryRoutes } from "./routes/telemetry";
+import { b2bOnboardingRoutes } from "./routes/b2b-onboarding";
+import { prospectIntelligenceRoutes } from "./routes/prospect-intelligence";
+import { decisionRoutes } from "./routes/decision-engine";
+import { consentOSRoutes } from "./routes/consent-os";
+import { marketingOSRoutes } from "./routes/marketing-os";
 
 import { experiencesRoutes } from "./routes/experiences";
 import { transfersRoutes } from "./routes/transfers";
@@ -716,6 +722,7 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(mediaUploadRoutes)
   .use(dataBrowserRoutes)
   .use(externalImportRoutes)
+  .use(portfolioImportRoutes)
   .use(aiMigrationRoutes)
   .use(mlsRoutes)
   .use(googleHotelsFeed)
@@ -728,6 +735,10 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(channelManagerRoutes)
   .use(listingTagsRoutes)
   .use(telemetryRoutes)
+  .use(b2bOnboardingRoutes)
+  .use(prospectIntelligenceRoutes)
+  .use(consentOSRoutes)
+  .use(marketingOSRoutes)
   .use(adminLegacyRoutes)
   .use(aichatHandoffRoutes)
   .use(turkeyRoutes)
@@ -789,4 +800,5 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(adRouterRoutes)
   .use(creatorCommerceRoutes)
   .use(growthEngineRoutes)
+  .use(decisionRoutes)
 ;

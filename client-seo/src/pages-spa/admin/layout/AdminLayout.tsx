@@ -139,7 +139,7 @@ export function AdminLayout({
                 <span className="hidden sm:inline">{t('admin_back', 'Back')}</span>
               </button>
             )}
-            <button className="md:hidden text-muted-foreground hover:text-foreground transition-colors" onClick={() => setMobileSidebarOpen(true)}>
+            <button className="md:hidden text-muted-foreground hover:text-foreground transition-colors" onClick={() => setMobileSidebarOpen(true)} aria-label="Search">
               <Search className="w-5 h-5" />
             </button>
             <div className="hidden md:block relative" ref={searchRef}>
@@ -147,7 +147,7 @@ export function AdminLayout({
                 <Search className="w-4 h-4 text-muted-foreground mr-2 shrink-0" />
                 <input ref={inputRef} type="text" aria-label="Search" placeholder={t("admin_search_placeholder", "Search properties, users, bookings...")} value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setSearchOpen(true); }} onFocus={() => setSearchOpen(true)} onKeyDown={handleKeyDown} className="bg-transparent border-none outline-none text-sm text-foreground w-full placeholder:text-muted-foreground" />
                 {searchQuery && (
-                  <button onClick={() => { setSearchQuery(''); }} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <button onClick={() => { setSearchQuery(''); }} className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Clear search">
                     <X className="w-4 h-4" />
                   </button>
                 )}

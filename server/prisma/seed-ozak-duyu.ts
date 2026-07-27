@@ -16,7 +16,7 @@ const UNIT_TYPES = [
   { name: "4.5+1 Penthouse",   area: 240, beds: 4, baths: 3,   level: 15, priceUSD: 720000, rentTRY: 85000, floorPlanUrl: "/images/duyu/floorplans/ozak-duyu-4-1-b-d-YNC2K.webp" },
 ];
 
-const FACILITIES = [
+const AMENITIES = [
   "Açık Yüzme Havuzu",
   "Fitness / Spor Salonu",
   "Sauna",
@@ -115,7 +115,7 @@ async function main() {
           metroStation: "5 minutes",
           airport: "10 minutes",
         },
-        socialFacilities: FACILITIES,
+        socialFacilities: AMENITIES,
       }),
     },
   });
@@ -249,16 +249,51 @@ async function main() {
     },
   });
 
-  // 7. Seeding facilities
-  for (let i = 0; i < FACILITIES.length; i++) {
-    await prisma.facility.upsert({
-      where: { id: `tr_fac_${PROJECT_ID}_${i}` },
+  // 7. Create Facility for the project itself
+  await prisma.facility.upsert({
+    where: { id: `tr_fac_${PROJECT_ID}` },
+    update: {},
+    create: {
+      id: `tr_fac_${PROJECT_ID}`,
+      orgId: org.id,
+      propertyId: property.id,
+      name: property.name,
+      notes: JSON.stringify({
+        developer: "Özak GYO (Özak Global Holding)",
+        projectName: "Özak Duyu Göktürk",
+        deliveryDate: "2026-08",
+        totalUnits: 141,
+        socialFacilities: AMENITIES,
+      }),
+    },
+  });
+
+  // 8. Seeding amenities via PropertyAmenity
+  for (let i = 0; i < AMENITIES.length; i++) {
+    const amenity = await prisma.amenity.upsert({
+      where: { id: `tr_amen_${PROJECT_ID}_${i}` },
       update: {},
       create: {
-        id: `tr_fac_${PROJECT_ID}_${i}`,
+        id: `tr_amen_${PROJECT_ID}_${i}`,
         orgId: org.id,
+        name: AMENITIES[i],
+        category: "OTHER",
+      },
+    });
+
+    await prisma.propertyAmenity.upsert({
+      where: {
+        propertyId_amenityId: {
+          propertyId: property.id,
+          amenityId: amenity.id,
+        },
+      },
+      update: {},
+      create: {
+        id: `tr_prop_amen_${PROJECT_ID}_${i}`,
         propertyId: property.id,
-        name: FACILITIES[i],
+        amenityId: amenity.id,
+        orgId: org.id,
       },
     });
   }

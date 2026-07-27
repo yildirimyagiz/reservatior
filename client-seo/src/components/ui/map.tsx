@@ -148,13 +148,13 @@ export default function MapComponent({
 
           {/* Controls Overlay */}
           <div className="absolute top-4 right-4 z-1000 flex flex-col gap-2">
-            <Button size="icon" variant="secondary" className="rounded-xl shadow-lg bg-white/95 backdrop-blur hover:bg-white" onClick={() => {}}>
+            <Button size="icon" variant="secondary" className="rounded-xl shadow-lg bg-white/95 backdrop-blur hover:bg-white" onClick={() => {}} aria-label="Zoom in">
               <ZoomIn className="w-4 h-4" />
             </Button>
-            <Button size="icon" variant="secondary" className="rounded-xl shadow-lg bg-white/95 backdrop-blur hover:bg-white" onClick={() => {}}>
+            <Button size="icon" variant="secondary" className="rounded-xl shadow-lg bg-white/95 backdrop-blur hover:bg-white" onClick={() => {}} aria-label="Zoom out">
               <ZoomOut className="w-4 h-4" />
             </Button>
-            <Button size="icon" variant="secondary" className="rounded-xl shadow-lg bg-white/95 backdrop-blur hover:bg-white" onClick={() => {}}>
+            <Button size="icon" variant="secondary" className="rounded-xl shadow-lg bg-white/95 backdrop-blur hover:bg-white" onClick={() => {}} aria-label="Reset view">
               <RotateCw className="w-4 h-4" />
             </Button>
           </div>
@@ -196,7 +196,7 @@ export default function MapComponent({
               }} />
                    <h4 className="font-black text-xs uppercase tracking-widest">{selectedRoute.name}</h4>
                 </div>
-                <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full hover:bg-white/10 text-slate-400" onClick={() => setSelectedRoute(null)}>
+                <Button variant="ghost" size="icon" className="min-h-12 min-w-12 rounded-full hover:bg-white/10 text-slate-400" onClick={() => setSelectedRoute(null)} aria-label="Close route">
                   <XCircle className="w-4 h-4" />
                 </Button>
               </div>

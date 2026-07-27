@@ -11,7 +11,7 @@ const UNIT_TYPES = [
   { name: "3+1 Luxury",   area: 145, beds: 3, baths: 2, level: 8, priceUSD: 380000, rentTRY: 45000 },
 ];
 
-const FACILITIES = [
+const AMENITIES = [
   "Gym / Spor Salonu",
   "Sauna",
   "Basketbol Sahası",
@@ -104,7 +104,7 @@ async function main() {
           airport: "20 minutes",
         },
         citizenshipEligible: true,
-        socialFacilities: FACILITIES,
+        socialFacilities: AMENITIES,
       }),
     },
   });
@@ -238,16 +238,51 @@ async function main() {
     },
   });
 
-  // 7. Seeding facilities
-  for (let i = 0; i < FACILITIES.length; i++) {
-    await prisma.facility.upsert({
-      where: { id: `tr_fac_${PROJECT_ID}_${i}` },
+  // 7. Create Facility for the project itself
+  await prisma.facility.upsert({
+    where: { id: `tr_fac_${PROJECT_ID}` },
+    update: {},
+    create: {
+      id: `tr_fac_${PROJECT_ID}`,
+      orgId: org.id,
+      propertyId: property.id,
+      name: property.name,
+      notes: JSON.stringify({
+        developer: "Özak GYO (Özak Global Holding)",
+        projectName: "Özak Hayat City",
+        deliveryDate: "2026-06",
+        totalUnits: 142,
+        socialFacilities: AMENITIES,
+      }),
+    },
+  });
+
+  // 8. Seeding amenities via PropertyAmenity
+  for (let i = 0; i < AMENITIES.length; i++) {
+    const amenity = await prisma.amenity.upsert({
+      where: { id: `tr_amen_${PROJECT_ID}_${i}` },
       update: {},
       create: {
-        id: `tr_fac_${PROJECT_ID}_${i}`,
+        id: `tr_amen_${PROJECT_ID}_${i}`,
         orgId: org.id,
+        name: AMENITIES[i],
+        category: "OTHER",
+      },
+    });
+
+    await prisma.propertyAmenity.upsert({
+      where: {
+        propertyId_amenityId: {
+          propertyId: property.id,
+          amenityId: amenity.id,
+        },
+      },
+      update: {},
+      create: {
+        id: `tr_prop_amen_${PROJECT_ID}_${i}`,
         propertyId: property.id,
-        name: FACILITIES[i],
+        amenityId: amenity.id,
+        orgId: org.id,
       },
     });
   }

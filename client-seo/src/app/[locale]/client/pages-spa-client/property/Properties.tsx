@@ -571,6 +571,7 @@ export default function Properties() {
               {/* Chat Input */}
               <div className="flex gap-2">
                 <input
+                  aria-label="AI property search chat"
                   placeholder="Ask me: 'villa with garden and 3 bedrooms' or 'rented commercial flats'..."
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}

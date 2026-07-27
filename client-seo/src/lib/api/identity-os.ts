@@ -1,6 +1,14 @@
 import { getLocalizationHeaders } from './localization-helper';
 
 export const identityOSApi = {
+  getDashboardStats: async (orgId: string) => {
+    const res = await fetch(`/api/v1/identity-os/dashboard?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch identity OS dashboard stats');
+    return res.json();
+  },
+
   createOrganization: async (data: {
     name: string;
     type: 'agency' | 'property_management' | 'investment_firm' | 'individual';
@@ -200,6 +208,22 @@ export const identityOSApi = {
       headers: getLocalizationHeaders(),
     });
     if (!res.ok) throw new Error('Failed to fetch identity graph');
+    return res.json();
+  },
+
+  getVerificationTrends: async (orgId: string) => {
+    const res = await fetch(`/api/v1/identity-os/verification-trends?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch verification trends');
+    return res.json();
+  },
+
+  getIdentityTypes: async (orgId: string) => {
+    const res = await fetch(`/api/v1/identity-os/identity-types?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch identity types');
     return res.json();
   },
 };

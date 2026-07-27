@@ -1,6 +1,14 @@
 import { getLocalizationHeaders } from './localization-helper';
 
 export const documentOSApi = {
+  getDashboardStats: async (orgId: string) => {
+    const res = await fetch(`/api/v1/document-os/dashboard?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch document OS dashboard stats');
+    return res.json();
+  },
+
   uploadDocument: async (data: FormData) => {
     const res = await fetch('/api/v1/document-os/upload', {
       method: 'POST',
@@ -103,6 +111,22 @@ export const documentOSApi = {
       headers: getLocalizationHeaders(),
     });
     if (!res.ok) throw new Error('Failed to delete document');
+    return res.json();
+  },
+
+  getDocumentTrends: async (orgId: string) => {
+    const res = await fetch(`/api/v1/document-os/document-trends?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch document trends');
+    return res.json();
+  },
+
+  getDocumentTypes: async (orgId: string) => {
+    const res = await fetch(`/api/v1/document-os/document-types?orgId=${orgId}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch document types');
     return res.json();
   },
 };

@@ -847,7 +847,7 @@ const getRoleLevelColor = (level: number) => {
  </div>
  
  <div className="space-y-2">
- <h4 className="font-medium">{t('admin_users_security_alertTypes')}</h4>
+  <h2 className="font-medium">{t('admin_users_security_alertTypes')}</h2>
  {['FAILED_LOGIN', 'SUSPICIOUS_ACTIVITY', 'PERMISSION_ESCALATION', 'DATA_ACCESS'].map(type => {
  const count = securityAlerts.filter(a => a.type === type).length;
  return <div key={type} className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex justify-between items-center">

@@ -222,7 +222,7 @@ export default function GoogleMapView({
             <Card className="bg-[#14151a]/95 backdrop-blur-xl border-white/10 rounded-2xl p-4 shadow-3xl">
               <div className="flex justify-between items-start mb-3">
                 <h4 className="font-black text-white text-sm">{selectedProperty.name}</h4>
-                <Button size="icon" variant="ghost" className="h-6 w-6 text-slate-500" onClick={() => setSelectedProperty(null)}>✕</Button>
+                <Button size="icon" variant="ghost" className="min-h-12 min-w-12 text-slate-500" onClick={() => setSelectedProperty(null)}>✕</Button>
               </div>
               <div className="flex items-center gap-2 mb-4">
                 <div className={cn("px-2 py-0.5 rounded text-[8px] font-black uppercase", selectedProperty.isDoped ? "bg-amber-500 text-black" : "bg-violet-600/20 text-violet-400")}>

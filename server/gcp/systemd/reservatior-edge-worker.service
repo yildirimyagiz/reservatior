@@ -1,0 +1,26 @@
+[Unit]
+Description=Reservatior Edge Event Worker
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/reservatior-vps/server
+Environment="GOOGLE_APPLICATION_CREDENTIALS=/etc/reservatior/gcp-prod-key.json"
+Environment="GCP_PROJECT_ID=reservatior-prod"
+Environment="PUBSUB_TOPIC_PREFIX=reservatior-prod"
+Environment="PUBSUB_SUBSCRIPTION_PREFIX=reservatior-prod"
+Environment="NODE_ENV=production"
+Environment="DATABASE_URL_TR=postgresql://user:pass@localhost:5432/reservatior_tr"
+Environment="DATABASE_URL_USA=postgresql://user:pass@localhost:5432/reservatior_usa"
+Environment="DATABASE_URL_AE=postgresql://user:pass@localhost:5432/reservatior_ae"
+Environment="DATABASE_URL_UK=postgresql://user:pass@localhost:5432/reservatior_uk"
+ExecStart=/usr/bin/bun run src/edge/edge-worker.ts
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=reservatior-edge-worker
+
+[Install]
+WantedBy=multi-user.target

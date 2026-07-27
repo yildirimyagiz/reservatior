@@ -36,7 +36,7 @@ const UNIT_TYPES = [
   { name: "Ticari Ünite (Dükkan)", area: 80, beds: 0, baths: 1,   level: 0,  priceUSD: 180000 },
 ];
 
-const FACILITIES = [
+const AMENITIES = [
   "Açık Yüzme Havuzu",
   "Fitness / Spor Salonu",
   "Sauna",
@@ -243,20 +243,56 @@ async function main() {
     console.log(`  📐 ${u.name} (${u.area} m²)`);
   }
 
-  // 6. Facilities
-  for (let i = 0; i < FACILITIES.length; i++) {
-    await prisma.facility.upsert({
-      where: { id: `tr_fac_${PROJECT_ID}_${i}` },
+  // 6. Create Facility for the project itself
+  await prisma.facility.upsert({
+    where: { id: `tr_fac_${PROJECT_ID}` },
+    update: {},
+    create: {
+      id: `tr_fac_${PROJECT_ID}`,
+      orgId: org.id,
+      propertyId: property.id,
+      name: property.name,
+      notes: JSON.stringify({
+        developer: "Hayat Flora",
+        projectName: "Hayat Flora | Sea & Lake View",
+        deliveryDate: "2027-04",
+        totalUnits: 1429,
+        socialFacilities: AMENITIES,
+      }),
+    },
+  }).catch(() => {});
+  console.log(`  🏢 Facility oluşturuldu`);
+
+  // 7. Seeding amenities via PropertyAmenity
+  for (let i = 0; i < AMENITIES.length; i++) {
+    const amenity = await prisma.amenity.upsert({
+      where: { id: `tr_amen_${PROJECT_ID}_${i}` },
       update: {},
       create: {
-        id: `tr_fac_${PROJECT_ID}_${i}`,
+        id: `tr_amen_${PROJECT_ID}_${i}`,
         orgId: org.id,
+        name: AMENITIES[i],
+        category: "OTHER",
+      },
+    }).catch(() => {});
+
+    await prisma.propertyAmenity.upsert({
+      where: {
+        propertyId_amenityId: {
+          propertyId: property.id,
+          amenityId: amenity.id,
+        },
+      },
+      update: {},
+      create: {
+        id: `tr_prop_amen_${PROJECT_ID}_${i}`,
         propertyId: property.id,
-        name: FACILITIES[i],
+        amenityId: amenity.id,
+        orgId: org.id,
       },
     }).catch(() => {});
   }
-  console.log(`  🏊 ${FACILITIES.length} sosyal tesis eklendi`);
+  console.log(`  🏊 ${AMENITIES.length} amenity eklendi`);
 
   // 7. Photos
   for (let i = 0; i < PHOTOS.length; i++) {

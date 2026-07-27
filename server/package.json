@@ -102,7 +102,10 @@
     "video:dry": "python3 ml-services/video-neural-engine/video_pipeline.py --dry-run",
     "video:hls": "python3 ml-services/video-neural-engine/video_pipeline.py --hls-only",
     "video:overlay": "python3 ml-services/video-neural-engine/video_pipeline.py --overlay-only --langs tr,en,ar,ru",
-    "video:4k": "python3 ml-services/video-neural-engine/video_pipeline.py --resolution 4K"
+    "video:4k": "python3 ml-services/video-neural-engine/video_pipeline.py --resolution 4K",
+    "gcp:worker": "bun run src/edge/workers/gcp-event-worker.ts",
+    "gcp:worker:dev": "bun run --watch src/edge/workers/gcp-event-worker.ts",
+    "edge:status": "bun run src/edge/status.ts"
   },
   "dependencies": {
     "@elysiajs/bearer": "^1.1.2",
@@ -114,7 +117,7 @@
     "@faker-js/faker": "^10.3.0",
     "@google/genai": "^2.10.0",
     "@google/generative-ai": "^0.24.1",
-    "@prisma/client": "^7.8.0",
+    "@prisma/client": "^6.19.2",
     "@types/multer": "^2.1.0",
     "@types/pg": "^8.20.0",
     "@types/qrcode-terminal": "^0.12.2",
