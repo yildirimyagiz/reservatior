@@ -5,7 +5,12 @@ const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || '';
 let genAI: GoogleGenerativeAI | null = null;
 
 if (typeof window !== 'undefined' && API_KEY) {
-  genAI = new GoogleGenerativeAI(API_KEY);
+  try {
+    genAI = new GoogleGenerativeAI(API_KEY);
+    console.log('Gemini client initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize Gemini client:', error);
+  }
 }
 
 export interface SearchSuggestion {
