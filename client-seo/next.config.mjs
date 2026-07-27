@@ -130,8 +130,8 @@ const nextConfig = {
         destination: `${backendUrl}/api/v1/:path*`,
       },
       {
-        source: '/api/auth/:path*',
-        destination: `${backendUrl}/api/auth/:path*`,
+        source: '/api/v1/auth/:path*',
+        destination: `${backendUrl}/api/v1/auth/:path*`,
       },
       {
         source: '/uploads/:path*',
