@@ -113,6 +113,7 @@ export default function RootLayout({
         <link rel="preload" href="/llms.txt" as="fetch" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" href={`/locales/${locale === "el" ? "gr" : locale === "sv" ? "se" : locale || "en"}.json`} as="fetch" crossOrigin="anonymous" />
       </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" tabIndex={0}>

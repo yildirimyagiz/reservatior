@@ -18,19 +18,27 @@ const loadCountryCityData = () => import("react-country-state-city");
 interface Country { iso2: string; name: string; id?: number; }
 interface City { name: string; id?: number; latitude?: string; longitude?: string; countryCode?: string; }
 import {
-  Sparkles, Search, MapPin, ChevronRight, ChevronLeft, 
-  ArrowRight, ShieldCheck, ChevronDown, Monitor, Gem, CheckCircle2, Mouse,
-  Globe, SlidersHorizontal
+  Sparkles, Search, MapPin, ChevronRight, ChevronLeft,
+  ArrowRight, ChevronDown, SlidersHorizontal, Mouse
 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { m, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
-import { InvestmentWidget } from "@/components/investment/InvestmentWidget";
 import dynamic from 'next/dynamic';
 
 const AIChatModal = dynamic(() => import('@/components/home/AIChatModal').then(mod => mod.AIChatModal), { ssr: false });
 const SupportChatModal = dynamic(() => import('@/components/home/SupportChatModal').then(mod => mod.SupportChatModal), { ssr: false });
 const AdvancedFilterModal = dynamic(() => import('@/components/home/AdvancedFilterModal').then(mod => mod.AdvancedFilterModal), { ssr: false });
+
+const EcosystemSection = dynamic(() => import('@/components/home/EcosystemSection'), {
+  loading: () => <div className="w-full py-32" />,
+});
+const InvestmentSection = dynamic(() => import('@/components/home/InvestmentSection'), {
+  loading: () => <div className="w-full py-24" />,
+});
+const GlobalOSSection = dynamic(() => import('@/components/home/GlobalOSSection'), {
+  loading: () => <div className="w-full py-20" />,
+});
 
 // Supported countries based on Prisma configurations in server/config
 const SUPPORTED_COUNTRIES = [
@@ -60,10 +68,10 @@ export function formatAreaByCountry(areaVal: number | string | undefined, countr
 
 /* ───── Fallback Slides for Hero & Properties ───── */
 const FALLBACK_SLIDES = [
-  { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: "%50 Peşinat Fırsatı", beds: "1+1 - 3+1", baths: "2 - 3 Banyo", sqm: "6,500 m²", areaVal: 6500, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: "YENİ PROJE" },
-  { title: "Özak Dragos", location: "Maltepe, İstanbul", price: "Adalar & Deniz Manzaralı", beds: "1+1 - 3+1", baths: "2 - 4 Banyo", sqm: "16,000 m²", areaVal: 16000, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: "DENİZ MANZARALI" },
-  { title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: "Hemen Teslim", beds: "2+1 - 5.5+1", baths: "2 - 5 Banyo", sqm: "111,000 m²", areaVal: 111000, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: "OTURUMA HAZIR" },
-  { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: "Orman Manzaralı", beds: "1+1 - 4.5+1", baths: "2 - 4 Banyo", sqm: "12,000 m²", areaVal: 12000, image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: "DOĞA İÇİNDE" },
+  { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: "%50 Peşinat Fırsatı", beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: "YENİ PROJE" },
+  { title: "Özak Dragos", location: "Maltepe, İstanbul", price: "Adalar & Deniz Manzaralı", beds: "1+1 - 3+1", baths: "2 - 4", sqm: "16,000 m²", areaVal: 16000, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: "DENİZ MANZARALI" },
+  { title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: "Hemen Teslim", beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: "OTURUMA HAZIR" },
+  { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: "Orman Manzaralı", beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: "DOĞA İÇİNDE" },
 ];
 
 
@@ -114,138 +122,6 @@ function getVibesForLocale(currentLocale: string): Vibe[] {
   return region === 'TR' ? TURKEY_VIBES : USA_VIBES;
 }
 
-function EcosystemPreview() {
-  const { t } = useTranslation();
-  const { currency, locale } = useLocalization();
-  const [activeTab, setActiveTab] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveTab((prev) => (prev + 1) % 3);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const tabs = [
-    {
-      id: "agent-os",
-      icon: <Monitor className="w-5 h-5 text-brand dark:text-brand" />,
-      title: "Danışman & Ofis OS",
-      content: (
-        <div className="flex flex-col gap-4 h-full justify-center">
-          <div className="flex justify-between items-center bg-muted/50 rounded-2xl p-5 border border-border hover:bg-muted transition-colors">
-            <div>
-              <div className="text-muted-foreground text-sm font-medium mb-1">Komisyon Paylaşım Oranı (Danışman / Ofis)</div>
-              <div className="text-3xl font-black text-foreground">%70 / %30</div>
-            </div>
-            <div className="w-14 h-14 rounded-full bg-brand/10 flex items-center justify-center">
-              <Sparkles className="w-7 h-7 text-brand dark:text-brand" />
-            </div>
-          </div>
-          <div className="flex justify-between items-center bg-muted/50 rounded-2xl p-5 border border-border hover:bg-muted transition-colors">
-            <div>
-              <div className="text-muted-foreground text-sm font-medium mb-1">Ortaklık Ağı Aylık Pasif Gelir</div>
-              <div className="text-2xl font-bold text-success dark:text-success">{formatCurrency(12450, currency, locale)} / ay</div>
-            </div>
-            <div className="w-14 h-14 rounded-full bg-success/10 flex items-center justify-center">
-              <CheckCircle2 className="w-7 h-7 text-success dark:text-success" />
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: "fintech",
-      icon: <Gem className="w-5 h-5 text-brand dark:text-brand" />,
-      title: "FinTech (%0 Kesinti)",
-      content: (
-        <div className="flex flex-col gap-4 h-full justify-center">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-brand/10 to-pink-500/10 mb-6 border border-brand/20 shadow-[0_0_30px_hsl(var(--brand)/0.2)]">
-              <ShieldCheck className="w-10 h-10 text-brand dark:text-brand" />
-            </div>
-            <span className="text-4xl font-black text-foreground mb-2 block">%0 Komisyon Kesintisi</span>
-            <p className="text-muted-foreground font-medium">Açık Bankacılık & A2A Doğrudan Ödeme Entegrasyonu ile</p>
-          </div>
-          <div className="bg-gradient-to-r from-brand/10 to-pink-500/10 rounded-2xl p-4 border border-brand/20 mt-6 text-center shadow-inner">
-            <span className="text-sm font-black tracking-widest text-brand dark:text-brand">21 GÜNLÜK ESCROW (GÜVENCE HESABI) GÜVENCESİ</span>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: "ai-studio",
-      icon: <Mouse className="w-5 h-5 text-success dark:text-success" />,
-      title: "Yapay Zeka Stüdyosu",
-      content: (
-        <div className="flex flex-col gap-4 h-full justify-center">
-          {[
-            { label: "Yapay Zeka Destekli Mülk Eşleştirme", status: "Aktif Motor", color: "text-success dark:text-success", bg: "bg-success/5 border-success/20" },
-            { label: "Otomatik İlan Tanıtım Metni Oluşturma", status: "Oluşturuldu", color: "text-success dark:text-success", bg: "bg-success/5 border-success/20" },
-            { label: "Akıllı Evrak ve Tapu Sorgulama (RAG)", status: "Nöral Ağ Devrede", color: "text-brand dark:text-brand", bg: "bg-brand/5 border-brand/20" },
-          ].map((item, i) => (
-            <m.div key={i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}
-              className={`flex justify-between items-center p-5 rounded-2xl border ${item.bg}`}>
-              <span className="text-foreground/80 font-medium">{item.label}</span>
-              <span className={`font-bold ${item.color}`}>{item.status}</span>
-            </m.div>
-          ))}
-        </div>
-      )
-    }
-  ];
-
-  return (
-    <div className="w-full h-full rounded-[2rem] border border-border bg-card/80 backdrop-blur-2xl shadow-2xl p-8 flex flex-col gap-8">
-      {/* Header */}
-      <div className="flex justify-between items-center pb-6 border-b border-border">
-        <div className="flex gap-3 bg-muted/50 p-1.5 rounded-full border border-border">
-          {tabs.map((tab, i) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(i)}
-              aria-label={t(`home.tab_${tab.id}`, { defaultValue: tab.title })}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all flex items-center gap-2 ${
-                activeTab === i ? 'bg-background text-foreground shadow-sm' : 'bg-transparent text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              {tab.icon}
-              <span className="hidden sm:inline">{tab.title}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-      
-      {/* Content area with AnimatePresence */}
-      <div className="flex-1 relative overflow-hidden min-h-[250px]">
-        <AnimatePresence mode="wait">
-          <m.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="absolute inset-0 flex flex-col justify-center"
-          >
-            {tabs[activeTab].content}
-          </m.div>
-        </AnimatePresence>
-      </div>
-      
-      {/* Footer metric */}
-      <div className="h-24 bg-gradient-to-r from-brand/15 via-brand/15 to-transparent rounded-2xl border border-border flex items-center justify-between p-6">
-        <div>
-          <div className="text-muted-foreground font-medium mb-1.5">Global Operasyonel Sistem Durumu</div>
-          <div className="text-foreground font-bold flex items-center gap-3 text-lg">
-            <div className="w-3 h-3 rounded-full bg-success animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-            Tüm FinTech, Güvenlik ve AI Modülleri 7/24 Devrede
-          </div>
-        </div>
-        <Sparkles className="w-8 h-8 text-muted-foreground/30" />
-      </div>
-    </div>
-  );
-}
 
 export function HomeContent({ initialProperties = [] }: { initialProperties?: Record<string, unknown>[] }) {
   const { t } = useTranslation();
@@ -305,7 +181,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
   // Cinematic reveal timer
   useEffect(() => {
-    const timer = setTimeout(() => setHeroRevealed(true), 2500);
+    const timer = setTimeout(() => setHeroRevealed(true), 250);
     return () => clearTimeout(timer);
   }, []);
 
@@ -445,6 +321,13 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
       <section className="relative h-[100svh] w-full flex flex-col overflow-hidden bg-black always-dark">
         {/* Video Background */}
         <m.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-0">
+          <img
+            src="/videos/poster.webp"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
           <AnimatePresence mode="wait">
             <m.video
               key={bgVideo}
@@ -458,7 +341,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1.05 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full h-full object-cover"
             >
               <source src={`/videos/webm/${bgVideo}-low.webm`} type="video/webm" />
@@ -481,9 +364,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
             >
               {/* Logo */}
               <m.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 1, scale: 1 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 className="text-center"
               >
                 <h1 className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-slate-400 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
@@ -498,7 +381,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
                 className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer"
                 role="button"
                 tabIndex={0}
@@ -528,7 +411,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               <m.div
                 initial={{ opacity: 0, y: 60 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="w-full max-w-6xl mx-auto mb-10 relative z-[100]"
               >
                 {/* Search Tabs */}
@@ -556,7 +439,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   
                   {/* 1. Country Selector */}
                   <div className="relative px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors shrink-0">
-                    <label id="country-select-label" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-0.5">ÜLKE</label>
+                    <label id="country-select-label" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-0.5">{t("home.search.country")}</label>
                     <button
                       type="button"
                       onClick={() => setShowCountryDropdown(!showCountryDropdown)}
@@ -610,7 +493,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
                   {/* 2. Location Input */}
                   <div className="flex-1 min-w-[160px] px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors relative">
-                    <label htmlFor="search-location" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-0.5">LOKASYON</label>
+                    <label htmlFor="search-location" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-0.5">{t("home.search.location")}</label>
                     <input 
                       ref={locationInputRef} 
                       type="text" 
@@ -623,7 +506,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       }}
                       onFocus={() => { setShowLocationSuggestions(searchLocation.length > 0); loadGoogleMapsAutocomplete(); }}
                       onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
-                      placeholder="Şehir, ilçe veya mülk adı..."
+                      placeholder={t("home.search.location_hint")}
                       className="bg-transparent border-none focus:outline-none focus:ring-0 text-sm md:text-base font-extrabold text-neutral-900 dark:text-white w-full p-0 placeholder:font-semibold placeholder:text-muted-foreground truncate" 
                     />
                     
@@ -631,14 +514,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                     {isAiLoading && (
                       <div className="absolute top-full left-0 right-0 mt-3 p-3 bg-card dark:bg-[#14151a] rounded-2xl shadow-2xl border border-brand/40 z-[110] flex items-center gap-2 text-xs font-bold text-brand">
                         <Sparkles className="w-4 h-4 animate-spin text-brand" />
-                        <span>Akıllı AI Asistanı Konum & Mülk Önerilerini Hazırlıyor...</span>
+                        <span>{t("home.search.ai_loading")}</span>
                       </div>
                     )}
                     {showAiSuggestions && !isAiLoading && aiSuggestions.length > 0 && (
                       <div className="absolute top-full left-0 right-0 mt-3 bg-card dark:bg-[#14151a] rounded-2xl shadow-2xl border border-brand/40 z-[110] max-h-60 overflow-y-auto">
                         <div className="px-4 py-2.5 bg-brand/10 border-b border-brand/20 flex items-center gap-2">
                           <Sparkles className="w-4 h-4 text-brand" />
-                          <span className="text-xs font-bold text-brand uppercase tracking-wider">AI Akıllı Öneriler</span>
+                          <span className="text-xs font-bold text-brand uppercase tracking-wider">{t("home.search.ai_suggestions")}</span>
                         </div>
                         {aiSuggestions.map((suggestion, index) => (
                           <button
@@ -685,19 +568,19 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
                   {/* 3. Universal Property Type */}
                   <div className="flex-1 min-w-[150px] px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors relative">
-                    <label htmlFor="search-rooms" className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block mb-0.5">ODA SAYISI & TİP</label>
+                    <label htmlFor="search-rooms" className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block mb-0.5">{t("home.search.rooms_type")}</label>
                     <select id="search-rooms" value={searchRooms} onChange={(e) => setSearchRooms(e.target.value)}
                       className="bg-transparent border-none focus:outline-none focus:ring-0 text-xs md:text-sm font-extrabold text-neutral-900 dark:text-white w-full p-0 cursor-pointer appearance-none truncate pr-6">
-                      <option value="all" className="bg-white dark:bg-[#14151a]">Tüm Oda Sayıları</option>
+                      <option value="all" className="bg-white dark:bg-[#14151a]">{t("home.search.rooms_all")}</option>
                       <option value="1+0" className="bg-white dark:bg-[#14151a]">1+0</option>
                       <option value="1+1" className="bg-white dark:bg-[#14151a]">1+1</option>
                       <option value="2+1" className="bg-white dark:bg-[#14151a]">2+1</option>
                       <option value="3+1" className="bg-white dark:bg-[#14151a]">3+1</option>
                       <option value="4+1" className="bg-white dark:bg-[#14151a]">4+1</option>
-                      <option value="5+1" className="bg-white dark:bg-[#14151a]">5+1 ve üzeri</option>
-                      <option value="villa" className="bg-white dark:bg-[#14151a]">Villa / Müstakil</option>
-                      <option value="penthouse" className="bg-white dark:bg-[#14151a]">Penthouse</option>
-                      <option value="land" className="bg-white dark:bg-[#14151a]">Arsa / Arazi</option>
+                      <option value="5+1" className="bg-white dark:bg-[#14151a]">{t("home.search.rooms_5plus")}</option>
+                      <option value="villa" className="bg-white dark:bg-[#14151a]">{t("home.search.rooms_villa")}</option>
+                      <option value="penthouse" className="bg-white dark:bg-[#14151a]">{t("home.search.rooms_penthouse")}</option>
+                      <option value="land" className="bg-white dark:bg-[#14151a]">{t("home.search.rooms_land")}</option>
                     </select>
                     <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
                   </div>
@@ -708,19 +591,19 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {(searchMode === "STAY" || searchMode === "RENT") && (
                     <>
                       <div className="flex-1 min-w-[140px] px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors">
-                        <label htmlFor="search-date" className="text-[10px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-0.5">TARİH & GÜVENCE</label>
+                        <label htmlFor="search-date" className="text-[10px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-0.5">{t("home.search.date_assurance")}</label>
                         <input type="date" id="search-date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)}
                           className="bg-transparent border-none focus:outline-none focus:ring-0 text-xs md:text-sm font-extrabold text-neutral-900 dark:text-white w-full p-0" />
                       </div>
                       <div className="hidden md:block w-[1px] h-8 bg-black/10 dark:bg-white/10 shrink-0" />
                       <div className="flex-1 min-w-[130px] px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors relative">
-                        <label htmlFor="search-guests" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-0.5">KONUK SAYISI</label>
+                        <label htmlFor="search-guests" className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-0.5">{t("home.search.guests")}</label>
                         <select id="search-guests" value={searchGuests} onChange={(e) => setSearchGuests(Number(e.target.value))}
                           className="bg-transparent border-none focus:outline-none focus:ring-0 text-xs md:text-sm font-extrabold text-neutral-900 dark:text-white w-full p-0 cursor-pointer appearance-none pr-5 truncate">
-                          <option value={1} className="bg-white dark:bg-[#14151a]">1 Konuk</option>
-                          <option value={2} className="bg-white dark:bg-[#14151a]">2 Konuk (Aile)</option>
-                          <option value={3} className="bg-white dark:bg-[#14151a]">3 Konuk</option>
-                          <option value={4} className="bg-white dark:bg-[#14151a]">4+ Konuk (VİP Villa)</option>
+                          <option value={1} className="bg-white dark:bg-[#14151a]">{t("home.search.guest_1")}</option>
+                          <option value={2} className="bg-white dark:bg-[#14151a]">{t("home.search.guest_2")}</option>
+                          <option value={3} className="bg-white dark:bg-[#14151a]">{t("home.search.guest_3")}</option>
+                          <option value={4} className="bg-white dark:bg-[#14151a]">{t("home.search.guest_4")}</option>
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
                       </div>
@@ -731,23 +614,23 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {searchMode === "BUY" && (
                     <>
                       <div className="flex-1 min-w-[150px] px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors relative">
-                        <label htmlFor="buy-budget" className="text-[10px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 block mb-0.5">BÜTÇE ARALIĞI</label>
+                        <label htmlFor="buy-budget" className="text-[10px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 block mb-0.5">{t("home.search.budget")}</label>
                         <select id="buy-budget" value={buyBudget} onChange={(e) => setBuyBudget(e.target.value)}
                           className="bg-transparent border-none focus:outline-none focus:ring-0 text-xs md:text-sm font-extrabold text-neutral-900 dark:text-white w-full p-0 cursor-pointer appearance-none truncate pr-6">
-                          <option value="all" className="bg-white dark:bg-[#14151a]">Tüm Bütçeler</option>
-                          <option value="250k-500k" className="bg-white dark:bg-[#14151a]">$250k - $500k (Mortgage Uygun)</option>
-                          <option value="500k-1m" className="bg-white dark:bg-[#14151a]">$500k - $1M+ (Vatandaşlık Uygun)</option>
+                          <option value="all" className="bg-white dark:bg-[#14151a]">{t("home.search.budget_all")}</option>
+                          <option value="250k-500k" className="bg-white dark:bg-[#14151a]">{t("home.search.budget_mortgage")}</option>
+                          <option value="500k-1m" className="bg-white dark:bg-[#14151a]">{t("home.search.budget_citizenship")}</option>
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
                       </div>
                       <div className="hidden md:block w-[1px] h-8 bg-black/10 dark:bg-white/10 shrink-0" />
                       <div className="flex-1 min-w-[150px] px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors relative">
-                        <label htmlFor="buy-compliance" className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block mb-0.5">YASAL UYGUNLUK</label>
+                        <label htmlFor="buy-compliance" className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block mb-0.5">{t("home.search.compliance")}</label>
                         <select id="buy-compliance" value={buyCompliance} onChange={(e) => setBuyCompliance(e.target.value)}
                           className="bg-transparent border-none focus:outline-none focus:ring-0 text-xs md:text-sm font-extrabold text-neutral-900 dark:text-white w-full p-0 cursor-pointer appearance-none truncate pr-6">
-                          <option value="citizenship" className="bg-white dark:bg-[#14151a]">🇹🇷 $400k+ Türk Vatandaşlığı</option>
-                          <option value="golden-visa" className="bg-white dark:bg-[#14151a]">🇦🇪 10 Yılık Dubai Golden Visa</option>
-                          <option value="mortgage" className="bg-white dark:bg-[#14151a]">🏛️ Banka Kredisine Uygun (SPK)</option>
+                          <option value="citizenship" className="bg-white dark:bg-[#14151a]">{t("home.search.compliance_turkish")}</option>
+                          <option value="golden-visa" className="bg-white dark:bg-[#14151a]">{t("home.search.compliance_dubai")}</option>
+                          <option value="mortgage" className="bg-white dark:bg-[#14151a]">{t("home.search.compliance_mortgage")}</option>
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
                       </div>
@@ -758,21 +641,21 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {searchMode === "INVEST" && (
                     <>
                       <div className="flex-1 min-w-[150px] px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors relative">
-                        <label htmlFor="invest-roi" className="text-[10px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-0.5">HEDEF GETİRİ (ROI)</label>
+                        <label htmlFor="invest-roi" className="text-[10px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-0.5">{t("home.search.roi_target")}</label>
                         <select id="invest-roi" value={investRoi} onChange={(e) => setInvestRoi(e.target.value)}
                           className="bg-transparent border-none focus:outline-none focus:ring-0 text-xs md:text-sm font-extrabold text-neutral-900 dark:text-white w-full p-0 cursor-pointer appearance-none truncate pr-6">
-                          <option value="8-10" className="bg-white dark:bg-[#14151a]">%8 - %10 Döviz Endeksli Kira</option>
-                          <option value="12-plus" className="bg-white dark:bg-[#14151a]">%12+ Sermaye Değerleme (Off-plan)</option>
+                          <option value="8-10" className="bg-white dark:bg-[#14151a]">{t("home.search.roi_yield")}</option>
+                          <option value="12-plus" className="bg-white dark:bg-[#14151a]">{t("home.search.roi_capital")}</option>
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
                       </div>
                       <div className="hidden md:block w-[1px] h-8 bg-black/10 dark:bg-white/10 shrink-0" />
                       <div className="flex-1 min-w-[140px] px-4 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl md:rounded-full transition-colors relative">
-                        <label htmlFor="invest-model" className="text-[10px] font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 block mb-0.5">YÖNETİM MODELİ</label>
+                        <label htmlFor="invest-model" className="text-[10px] font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 block mb-0.5">{t("home.search.management")}</label>
                         <select id="invest-model" value={investModel} onChange={(e) => setInvestModel(e.target.value)}
                           className="bg-transparent border-none focus:outline-none focus:ring-0 text-xs md:text-sm font-extrabold text-neutral-900 dark:text-white w-full p-0 cursor-pointer appearance-none truncate pr-6">
-                          <option value="partner-os" className="bg-white dark:bg-[#14151a]">Partner OS Anahtar Teslim</option>
-                          <option value="safestay" className="bg-white dark:bg-[#14151a]">SafeStay™ Escrow Havuzu</option>
+                          <option value="partner-os" className="bg-white dark:bg-[#14151a]">{t("home.search.mgmt_partner")}</option>
+                          <option value="safestay" className="bg-white dark:bg-[#14151a]">{t("home.search.mgmt_escrow")}</option>
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
                       </div>
@@ -782,11 +665,11 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   {/* Primary Submit Button */}
                   <Button 
                     type="submit" 
-                    aria-label="Ara" 
+                    aria-label={t("home.search.button")} 
                     className="w-full md:w-auto px-7 h-14 md:h-12 rounded-[2rem] bg-gradient-to-r from-slate-900 via-black to-slate-900 dark:from-white dark:to-neutral-200 dark:text-black text-white hover:opacity-90 font-black text-sm tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95 shrink-0 ml-auto"
                   >
                     <Search className="w-5 h-5 stroke-[2.5]" />
-                    <span>ARA</span>
+                    <span>{t("home.search.button")}</span>
                   </Button>
                 </form>
 
@@ -800,8 +683,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                     <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white shadow-sm group-hover:rotate-180 transition-transform duration-500">
                       <SlidersHorizontal className="w-3 h-3" />
                     </div>
-                    <span>Ülkeye ve Moda Özel Gelişmiş Filtreler</span>
-                    <span className="text-[10px] font-extrabold text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">Tapu, Kredi, ROI</span>
+                    <span>{t("home.search.advanced_filters")}</span>
+                    <span className="text-[10px] font-extrabold text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">{t("home.search.filters_tags")}</span>
                   </button>
 
                   <button
@@ -812,8 +695,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                     <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-blue-500 via-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-[0_0_12px_rgba(6,182,212,0.8)] animate-pulse group-hover:scale-110 transition-transform">
                       <Sparkles className="w-3 h-3" />
                     </div>
-                    <span>Yapay Zeka (AI) Asistanı ile Keşfet</span>
-                    <span className="text-[10px] font-extrabold text-cyan-300 bg-cyan-500/20 px-2 py-0.5 rounded-full border border-cyan-500/30">Nöral Eşleştirme</span>
+                    <span>{t("home.search.explore_ai")}</span>
+                    <span className="text-[10px] font-extrabold text-cyan-300 bg-cyan-500/20 px-2 py-0.5 rounded-full border border-cyan-500/30">{t("home.search.neural_match")}</span>
                   </button>
                 </div>
               </m.div>
@@ -826,7 +709,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               <m.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className="w-full relative z-10"
               >
                 <div className="flex items-end justify-between gap-6">
@@ -839,7 +722,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                       animate={{ opacity: 1, x: 0 }}
                       className="inline-block px-4 py-1.5 bg-gradient-to-r from-blue-500/20 to-brand/20 backdrop-blur-md border border-white/30 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
                     >
-                      {slide.tag}
+                      {slide.tag && t(`home.search.slide.${slide.tag}`, { defaultValue: slide.tag })}
                     </m.span>
 
                     {/* Project Name */}
@@ -870,7 +753,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
                     {/* Specs */}
                     <div className="flex items-center gap-3 flex-wrap">
-                      {[slide.beds, slide.baths, formatAreaByCountry(slide.areaVal || slide.sqm, selectedCountry)].map((spec, i) => (
+                      {[slide.beds, `${slide.baths} ${t("home.search.bath_unit")}`, formatAreaByCountry(slide.areaVal || slide.sqm, selectedCountry)].map((spec, i) => (
                         <span key={i} className="px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/10 text-white text-xs font-bold rounded-full">
                           {spec}
                         </span>
@@ -882,7 +765,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   <div className="hidden md:flex flex-col items-end gap-4">
                     {/* Price */}
                     <span className="text-2xl font-black text-white bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl px-6 py-3 rounded-3xl border border-white/30 shadow-[0_8px_30px_rgb(0,0,0,0.3)]">
-                      {slide.price}
+                      {slide.price && t(`home.search.slide.${slide.price}`, { defaultValue: slide.price })}
                     </span>
 
                     {/* Navigation Arrows */}
@@ -971,9 +854,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 </div>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <h3 className="font-extrabold text-base text-foreground tracking-tight">{t(vibe.name)} Koleksiyonu</h3>
+                    <h3 className="font-extrabold text-base text-foreground tracking-tight">{t("home.curated.collection", { vibe: t(vibe.name) })}</h3>
                     <span className="text-xs px-2 py-0.5 bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 font-bold rounded-full">{t(vibe.badge)}</span>
-                    <span className="text-xs font-semibold text-muted-foreground">• {vibe.count} Aktif İlan</span>
+                    <span className="text-xs font-semibold text-muted-foreground">• {vibe.count} {t("home.curated.active_listings")}</span>
                   </div>
                   <p className="text-xs sm:text-sm font-medium text-muted-foreground">{t(vibe.desc)}</p>
                 </div>
@@ -982,7 +865,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 onClick={() => router.push(`/property?vibe=${vibe.englishName.toLowerCase()}`)}
                 className="w-full sm:w-auto rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-5 shadow-lg shadow-indigo-500/25 shrink-0 transition-all hover:scale-105"
               >
-                <span>Tüm {t(vibe.name)} İlanlarını Gör</span>
+                <span>{t("home.curated.view_all_vibe", { vibe: t(vibe.name) })}</span>
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </m.div>
@@ -1018,122 +901,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
         </div>
       </section>
 
-      {/* ══════ ECOSYSTEM (HOSPITALITY OS) ══════ */}
-      <section className="py-32 bg-background text-foreground overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <m.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <span className="text-brand font-black tracking-widest uppercase text-sm mb-4 block">
-                {t("home.ecosystem.badge", { defaultValue: "Emlak Teknolojisi & OS" })}
-              </span>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight mb-6">
-                {t("home.ecosystem.title", { defaultValue: "Danışmanlar ve Mülk Yöneticileri İçin İşletim Sistemi." })}
-              </h2>
-              <p className="text-xl text-muted-foreground mb-10 font-medium max-w-lg leading-relaxed">
-                {t("home.ecosystem.desc", { defaultValue: "FinTech ve yapay zeka entegre gayrimenkul ekosistemi. Komisyonsuz Açık Bankacılık transferlerinden pasif gelir ortaklık ağlarına kadar, emlak işinizi ve portföyünüzü tek bir kontrol merkezinden yönetin." })}
-              </p>
-              
-              <div className="space-y-6">
-                {[
-                  { icon: Monitor, title: "Danışman İşletim Sistemi (OS)", desc: "Komisyon paylaşım planlarını, sözleşme süreçlerini ve ofis içi operasyonları tam otomatikleştirin." },
-                  { icon: Gem, title: "%0 Kesintili Finans Altyapısı", desc: "Açık bankacılık (A2A) transferleri ve 21 günlük Escrow depozito güvence mekanizması ile doğrudan tahsilat yapın." },
-                  { icon: ShieldCheck, title: "Akıllı Yapay Zeka Stüdyosu", desc: "Anlam odaklı nöral arama motoru ile doğru alıcıyı bulun ve portföyünüze özel ilan pazarlama materyalleri hazırlayın." },
-                ].map((feature, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-muted/50 flex items-center justify-center shrink-0 border border-border">
-                      <feature.icon className="w-6 h-6 text-foreground" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-foreground">{feature.title}</h3>
-                      <p className="text-muted-foreground text-sm">{feature.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* ══════ ECOSYSTEM (HOSPITALITY OS) — lazy chunk ══════ */}
+      <EcosystemSection />
 
-              <Button className="mt-12 rounded-full h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base transition-all hover:scale-105" asChild>
-                <Link href="/admin/dashboard">
-                  {t("home.ecosystem.cta", { defaultValue: "Platform Özelliklerini Keşfet" })}
-                </Link>
-              </Button>
-            </m.div>
+      {/* ══════ INVESTMENT INTELLIGENCE — lazy chunk ══════ */}
+      <InvestmentSection />
 
-            <m.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-              className="relative aspect-square md:aspect-auto md:h-[700px] w-full rounded-[3rem] border border-border bg-gradient-to-br from-muted/30 to-transparent overflow-hidden shadow-2xl flex items-center justify-center p-4 md:p-8">
-              <EcosystemPreview />
-            </m.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════ INVESTMENT INTELLIGENCE ══════ */}
-      <section className="py-24">
-        <InvestmentWidget />
-      </section>
-
-      {/* ══════ GLOBAL HYBRID RENTAL OS PROMOTION ══════ */}
-      <section className="py-20 px-6 md:px-12">
-        <m.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="max-w-[1400px] mx-auto relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-950/80 via-slate-900/90 to-blue-950/80 border border-emerald-500/20 p-10 md:p-16"
-        >
-          {/* Background decoration */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left — Text */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6">
-                <Globe className="w-4 h-4 text-emerald-400" />
-                <span className="text-xs font-bold text-emerald-400 tracking-widest uppercase">
-                  {t("home.global_os_badge", "Global Operasyon Ağı")}
-                </span>
-                <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-bold">YENİ</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white leading-[1.1] mb-4">
-                {t("home.global_os_title_1", "Tek Platform.")}{" "}
-                <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  {t("home.global_os_title_2", "23 Ülkedeki Operasyonlar.")}
-                </span>
-              </h2>
-              <p className="text-sm md:text-base text-slate-400 leading-relaxed mb-8 max-w-lg">
-                {t("home.global_os_desc", "Kısa dönem tatil konaklaması, kurumsal konaklama ve rezidans operasyonlarınızı dünya genelinde tek ekrandan yönetin. Yapay zeka destekli ülkeye özel vergi optimizasyonu, yasal uygunluk kontrolü ve akıllı gelir analiz motoru.")}
-              </p>
-              <Link href="/global-os">
-                <Button className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-5 text-sm rounded-2xl gap-2">
-                  {t("home.global_os_cta", "Global Platformu İncele")}
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Right — Stats Grid */}
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { value: "0%", label: t("home.global_os_s1", "Komisyon Kesintisi"), color: "border-emerald-500/30 bg-emerald-500/5", icon: "💸" },
-                { value: "10", label: t("home.global_os_s2", "Gelir Kademesi"), color: "border-amber-500/30 bg-amber-500/5", icon: "🔗" },
-                { value: "15+", label: t("home.global_os_s3", "Akıllı AI Asistanı"), color: "border-purple-500/30 bg-purple-500/5", icon: "🧠" },
-                { value: "21", label: t("home.global_os_s4", "Günlük Escrow"), color: "border-blue-500/30 bg-blue-500/5", icon: "🏦" },
-                { value: "100%", label: t("home.global_os_s5", "Doğrudan Ödeme (A2A)"), color: "border-cyan-500/30 bg-cyan-500/5", icon: "⚡" },
-                { value: "24/7", label: t("home.global_os_s6", "Kesintisiz Arama"), color: "border-rose-500/30 bg-rose-500/5", icon: "🔍" },
-              ].map((s) => (
-                <div key={s.label} className={`rounded-2xl border ${s.color} p-4 flex items-center gap-3`}>
-                  <div className="text-2xl">{s.icon}</div>
-                  <div>
-                    <div className="text-2xl font-black text-white">{s.value}</div>
-                    <div className="text-[10px] text-slate-500 font-medium">{s.label}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </m.div>
-      </section>
+      {/* ══════ GLOBAL HYBRID RENTAL OS PROMOTION — lazy chunk ══════ */}
+      <GlobalOSSection />
 
       {/* ══════ FOOTER (Minimal Premium) ══════ */}
       <Footer />
