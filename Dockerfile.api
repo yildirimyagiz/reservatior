@@ -8,6 +8,15 @@ RUN mkdir -p /temp/dev
 COPY server/package.json server/bun.lock /temp/dev/
 RUN cd /temp/dev && bun install --frozen-lockfile
 
+# Prisma client + prismabox generation stage (node for speed/reliability)
+FROM node:20-alpine AS prisma
+WORKDIR /app
+COPY --from=install /temp/dev/node_modules node_modules
+COPY server/ ./server/
+COPY shared/ ./shared/
+COPY server/prisma/ ./server/prisma/
+RUN npx --no-install prisma generate --schema=server/prisma/schema.prisma
+
 # Runtime stage
 FROM base AS runtime
 ENV NODE_ENV=production
@@ -22,9 +31,10 @@ COPY shared/ ./shared/
 # Copy Prisma schema for migrations
 COPY server/prisma/ ./server/prisma/
 
-# Copy the pre-generated Prisma client (locally generated on Mac with Linux binaries)
-COPY server/prisma-generated/.prisma node_modules/.prisma
-COPY server/prisma-generated/@prisma node_modules/@prisma
+# Copy freshly generated Prisma client + prismabox types
+COPY --from=prisma /app/node_modules/.prisma node_modules/.prisma
+COPY --from=prisma /app/node_modules/@prisma/client node_modules/@prisma/client
+COPY --from=prisma /app/server/generated ./server/generated
 
 # Expose port
 EXPOSE 3000
