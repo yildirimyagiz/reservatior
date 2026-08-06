@@ -11128,6 +11128,74 @@
   "cleaning.smart_lock.syncing": "Syncing...",
   "cleaning.smart_lock.title": "SmartLock Quality Gate",
   "clear": "مسح المرشحات",
+  "client": {
+    "property": {
+      "portfolio": {
+        "filters": {
+          "type": {
+            "commercial": "Commercial",
+            "residential": "Residential"
+          }
+        }
+      },
+      "types": {
+        "ADU_GUEST_HOUSE": "Adu Guest House",
+        "APARTMENT": "Apartment",
+        "BUNGALOW": "Bungalow",
+        "CABIN_TINY_HOUSE": "Cabin Tiny House",
+        "COMMERCIAL": "Commercial",
+        "COMMERCIAL_SPACE": "Commercial Space",
+        "COMPOUND": "Compound",
+        "CONDO_APARTMENT": "Condo Apartment",
+        "COTTAGE": "Cottage",
+        "DETACHED_HOUSE": "Detached House",
+        "FLAT_MAISONETTE": "Flat Maisonette",
+        "MULTI_FAMILY": "Multi Family",
+        "OFFICE": "Office",
+        "PENTHOUSE": "Penthouse",
+        "RETAIL": "Retail",
+        "SEMI_DETACHED_HOUSE": "Semi Detached House",
+        "SINGLE_FAMILY": "Single Family",
+        "STUDIO": "Studio",
+        "TERRACED_HOUSE": "Terraced House",
+        "TOWNHOUSE": "Townhouse",
+        "VILLA": "Villa"
+      }
+    },
+    "src": {
+      "ai_studio": "Ai Studio",
+      "plans": {
+        "ai_analysis": "AI-Powered Analysis",
+        "badge_enterprise": "Enterprise",
+        "badge_optimized": "Optimized Choice",
+        "commission_notice": "Our 3.5% - 3.5% Commission Model is Fixed Even for 1-Month Free Trial Accounts.",
+        "contact_sales": "CONTACT SALES",
+        "custom_erp": "Custom Integrations and ERP",
+        "discount_notice": "25% Net Advantage Compared to Industry Average!",
+        "get_started": "Get Started",
+        "listing_limit_100": "100 Active Listings Limit",
+        "listing_limit_25": "25 Active Listings Limit",
+        "listing_limit_250": "250 Active Listings Limit",
+        "listing_limit_500": "500 Active Listings Limit",
+        "listing_limit_unlimited": "Unlimited Listings",
+        "plan_desc": "Advanced management panel tailored to your needs.",
+        "prop_limit_10": "Portfolio Management up to 10 Properties",
+        "prop_limit_100": "Portfolio Management up to 100 Properties",
+        "prop_limit_25": "Portfolio Management up to 25 Properties",
+        "prop_limit_50": "Portfolio Management up to 50 Properties",
+        "prop_limit_unlimited": "Unlimited Property & Portfolio Management",
+        "support_24_7": "24/7 Priority Live Support",
+        "support_email": "Standard Email Support",
+        "tab_apartment": "APARTMENT PORTFOLIO",
+        "tab_commission": "COMMISSION MODEL",
+        "tab_hotel": "HOTEL MANAGEMENT",
+        "user_access_1": "1 User Access",
+        "user_access_10": "10 Users Access",
+        "user_access_3": "3 Users Access",
+        "user_access_5": "5 Users Access"
+      }
+    }
+  },
   "client.dashboard.integrity.alert.desc": "تنبيه الوصف",
   "client.dashboard.integrity.alert.title": "تنبيه العنوان",
   "client.dashboard.integrity.encryption": "تشفير",
@@ -15986,6 +16054,22 @@
   "custom.customreportscontent.auto_ext_2": "هذه الميزة قادمة قريبا. نعيد توجيهك إلى القسم الرئيسي...",
   "cycle": "MO لكل وحدة",
   "daily": "يومي",
+  "dashboard": {
+    "fieldOperativesMatrix": "Fieldoperativesmatrix",
+    "lastSyncJustNow": "Lastsyncjustnow",
+    "periods": {
+      "1y": "1y",
+      "24h": "24h",
+      "3m": "3m",
+      "7d": "7d"
+    },
+    "portfolioGrowth": "Portfoliogrowth",
+    "realTimeIndex": "Realtimeindex",
+    "statsHub": "Statshub",
+    "tasksDynamic": "Tasksdynamic",
+    "topAgents": "Topagents",
+    "transactions": "Transactions"
+  },
   "dashboard.admindashboardpage.auto_ext_1": "Admin Dashboard",
   "dashboard.admindashboardpage.auto_ext_2": "Overview of your platform performance",
   "dashboard.admindashboardpage.auto_ext_3": "View Site",
@@ -17214,6 +17298,23 @@
   "heroPropverificationTitle": "الأصل التحقق",
   "heroSubtitle": "موثوق المنصة لـ ال عالمي حقيقي العقارات نظام بيئي",
   "high": "مرتفع",
+  "home": {
+    "curated": {
+      "subtitle": "Handpicked properties that redefine luxury living and smart hospitality.",
+      "title": "Curated Collections",
+      "view_all": "View All Collection"
+    },
+    "ecosystem": {
+      "badge": "Hospitality OS",
+      "cta": "Explore The Platform",
+      "desc": "A complete ecosystem powered by AI. From smart locks to loyalty programs, manage everything from one beautiful dashboard.",
+      "title": "More Than Just Bookings."
+    },
+    "hero": {
+      "scroll": "Scroll to explore",
+      "tagline": "Global Luxury Real Estate OS"
+    }
+  },
   "home.cta.button1": "بدء مجاني تجريبي",
   "home.cta.button2": "استكشاف الميزات",
   "home.cta.guarantee": "لا ائتمان بطاقة مطلوب • فوري إعداد • إلغاء في أي وقت",
