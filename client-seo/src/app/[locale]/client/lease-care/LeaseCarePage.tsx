@@ -163,7 +163,7 @@ export default function LeaseCarePage() {
       <section className="relative pt-32 pb-20 overflow-hidden min-h-[80vh] flex items-center">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[-10%] left-[10%] w-[600px] h-[600px] rounded-full bg-success/10 dark:bg-success/15 blur-[160px]" />
-          <div className="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] rounded-full bg-brand/100/10 dark:bg-blue-600/15 blur-[160px]" />
+          <div className="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] rounded-full bg-brand/10 dark:bg-blue-600/15 blur-[160px]" />
           <div className="absolute top-[20%] right-[30%] w-[300px] h-[300px] rounded-full bg-violet-500/5 dark:bg-violet-500/10 blur-[120px]" />
         </div>
 
@@ -428,7 +428,7 @@ export default function LeaseCarePage() {
 
       {/* ══════ CALCULATOR ══════ */}
       <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-brand/10/50 dark:bg-card/30" />
+        <div className="absolute inset-0 bg-brand/50 dark:bg-card/30" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-success/5 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="container mx-auto px-6 relative z-10">

@@ -407,7 +407,7 @@ export default function Videos() {
                     }
                   }} 
                   className={`w-full group text-left relative overflow-hidden rounded-2xl transition-all duration-300 border flex gap-3 p-2.5 
-                    ${isActive ? "border-blue-500 bg-brand/100/5 dark:bg-[#1A1B1E] shadow-lg shadow-blue-500/10" : "border-border bg-background hover:bg-accent hover:border-border"}`}>
+                    ${isActive ? "border-blue-500 bg-brand/5 dark:bg-[#1A1B1E] shadow-lg shadow-blue-500/10" : "border-border bg-background hover:bg-accent hover:border-border"}`}>
                   
                   {/* Thumbnail */}
                   <div className="relative w-[140px] h-[90px] rounded-lg overflow-hidden shrink-0 bg-black">

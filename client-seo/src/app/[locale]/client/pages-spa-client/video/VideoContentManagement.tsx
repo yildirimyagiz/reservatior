@@ -428,7 +428,7 @@ export default function VideoContentManagement() {
     },
     processing: {
       label: t("client.src.ai_processing"),
-      color: "bg-brand/100/10 text-brand border-blue-500/20",
+      color: "bg-brand/10 text-brand border-blue-500/20",
       dot: "bg-brand/100 animate-pulse"
     },
     rendering: {
@@ -457,7 +457,7 @@ export default function VideoContentManagement() {
     setShowEditorPanel(true);
   };
   const toolsByCategory = AI_TOOLS.filter(t => t.category === activeToolCategory);
-  return <div className="p-8 space-y-8 bg-[#0a0b0d] min-h-full text-foreground selection:bg-brand/100/30">
+  return <div className="p-8 space-y-8 bg-[#0a0b0d] min-h-full text-foreground selection:bg-brand/30">
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">

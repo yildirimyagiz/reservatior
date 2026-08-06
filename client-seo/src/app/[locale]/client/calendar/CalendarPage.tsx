@@ -21,7 +21,7 @@ const events = [
 ];
 
 const EVENT_COLORS: Record<string, string> = {
-  VIEWING: "bg-brand/100/20 text-brand",
+  VIEWING: "bg-brand/20 text-brand",
   CONTRACT: "bg-blue-500/20 text-blue-400",
   MAINTENANCE: "bg-amber-500/20 text-amber-400",
   MEETING: "bg-brand/20 text-brand"

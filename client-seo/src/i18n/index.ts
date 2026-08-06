@@ -12,6 +12,17 @@ import HttpBackend from 'i18next-http-backend';
 
 const isBrowser = typeof window !== 'undefined';
 
+// Eski/alternatif dil kodlarını güncel locale dosyalarına eşle (kaldırılan diller)
+const FILE_MAP: Record<string, string> = {
+  gr: 'el',
+  no: 'nb',
+  se: 'sv',
+  fa: 'en',
+  id: 'en',
+  vi: 'en',
+  th: 'en',
+};
+
 // Server (SSR) her zaman 'en' ile render eder; istemci tarafında hydration'dan
 // sonra LocalizationContext, URL'deki locale'e (ör. /tr) geçiş yapar.
 // Böylece sunucu HTML'i ile istemcinin ilk render'ı eşleşir ve hydration

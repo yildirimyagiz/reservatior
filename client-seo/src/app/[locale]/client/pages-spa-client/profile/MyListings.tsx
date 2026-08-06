@@ -112,7 +112,7 @@ export default function MyListings() {
 
           <div className="flex gap-4 w-full md:w-auto">
             <div className="relative flex-1 md:w-80 group">
-              <div className="absolute inset-0 bg-brand/100/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity rounded-2xl" />
+              <div className="absolute inset-0 bg-brand/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity rounded-2xl" />
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 group-focus-within:text-brand transition-colors" />
               <Input 
                 placeholder={t('searchPlaceholder')} 
@@ -133,7 +133,7 @@ export default function MyListings() {
         {/* Stats Matrix */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { label: t('totalViews'), value: "1,284", icon: Eye, color: "text-brand", bg: "bg-brand/100/5" },
+            { label: t('totalViews'), value: "1,284", icon: Eye, color: "text-brand", bg: "bg-brand/5" },
             { label: t('activeLeads'), value: "24", icon: TrendingUp, color: "text-success", bg: "bg-success/5" },
             { label: t('avgResponse'), value: "2.4H", icon: Clock, color: "text-brand", bg: "bg-brand/5" },
             { label: t('approveRate'), value: "98%", icon: CheckCircle2, color: "text-amber-500", bg: "bg-amber-500/5" },

@@ -197,7 +197,7 @@ export default function Documents() {
       case "deleted":
         return "bg-red-500/10 text-red-500 border-red-200";
       case "processing":
-        return "bg-brand/100/10 text-brand border-border";
+        return "bg-brand/10 text-brand border-border";
       default:
         return "bg-gray-500/10 text-gray-500 border-gray-200";
     }

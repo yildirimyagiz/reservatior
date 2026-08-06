@@ -97,7 +97,7 @@ export default function BookingsPage() {
       case "CANCELLED":
         return "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20";
       case "COMPLETED":
-        return "bg-brand/10 dark:bg-brand/100/10 text-brand dark:text-brand border-border dark:border-blue-500/20";
+        return "bg-brand/10 dark:bg-brand/10 text-brand dark:text-brand border-border dark:border-blue-500/20";
       default:
         return "bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground border-border dark:border-slate-500/20";
     }
@@ -168,7 +168,7 @@ export default function BookingsPage() {
                 </TableRow> : bookings?.data?.map((booking, idx) => <TableRow key={booking.id} className="border-border dark:border-white/10 group hover:bg-muted dark:hover:bg-white/5 transition-all">
                     <TableCell className="py-4 pl-6">
                       <div className="flex items-center gap-4">
-                         <div className="w-10 h-10 rounded-full bg-brand/10 dark:bg-brand/100/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center font-bold text-brand dark:text-brand shadow-sm group-hover:scale-105 transition-transform">
+                         <div className="w-10 h-10 rounded-full bg-brand/10 dark:bg-brand/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center font-bold text-brand dark:text-brand shadow-sm group-hover:scale-105 transition-transform">
                             {booking.contact?.name?.[0] || "U"}
                          </div>
                          <div>

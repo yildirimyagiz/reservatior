@@ -180,7 +180,7 @@ export default function VideoVendorMarketplace() {
       case "premium":
         return "bg-brand/10 text-brand border-brand/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]";
       case "professional":
-        return "bg-brand/100/10 text-brand border-blue-500/20";
+        return "bg-brand/10 text-brand border-blue-500/20";
       case "basic":
         return "bg-muted text-muted-foreground border-white/5";
       default:

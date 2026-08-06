@@ -40,7 +40,7 @@ const STATUS_COLORS: Record<string, string> = {
   COMPLETED: "bg-blue-500/20 text-blue-400",
   PENDING: "bg-yellow-500/20 text-yellow-400",
   FAILED: "bg-red-500/20 text-red-400",
-  REFUNDED: "bg-brand/100/20 text-brand"
+  REFUNDED: "bg-brand/20 text-brand"
 };
 
 const STATUS_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {

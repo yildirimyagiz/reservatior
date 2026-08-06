@@ -36,7 +36,7 @@ const mockCommissions: Commission[] = [
 const STATUS_COLORS: Record<string, string> = {
   PAID: "bg-blue-500/20 text-blue-400",
   PENDING: "bg-yellow-500/20 text-yellow-400",
-  PROCESSING: "bg-brand/100/20 text-brand"
+  PROCESSING: "bg-brand/20 text-brand"
 };
 
 export default function AgentCommissionsPage() {

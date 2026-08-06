@@ -37,7 +37,7 @@ const mockContacts: Contact[] = [
 ];
 
 const TYPE_COLORS: Record<string, string> = {
-  CLIENT: "bg-brand/100/20 text-brand",
+  CLIENT: "bg-brand/20 text-brand",
   AGENT: "bg-brand/20 text-brand",
   VENDOR: "bg-success/20 text-success",
   TENANT: "bg-amber-500/20 text-amber-400"

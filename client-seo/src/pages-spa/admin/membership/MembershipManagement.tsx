@@ -74,7 +74,7 @@ const MOCK_TIERS: MembershipTier[] = [{
  id:"tier_basic", name:"Basic", price: 29.99, currency:"USD", billingCycle:"MONTHLY",
  features: ["Up to 10 properties","Basic analytics","Email support","Mobile app access"],
  isActive: true, maxProperties: 10, maxUsers: 3, supportLevel:"BASIC",
- color:"bg-card/10/10 text-muted-foreground border-gray-500/20", icon:"Users"
+ color:"bg-card/10 text-muted-foreground border-gray-500/20", icon:"Users"
 }, {
  id:"tier_standard", name:"Standard", price: 79.99, currency:"USD", billingCycle:"MONTHLY",
  features: ["Up to 50 properties","Advanced analytics","Priority support","API access","Custom branding"],

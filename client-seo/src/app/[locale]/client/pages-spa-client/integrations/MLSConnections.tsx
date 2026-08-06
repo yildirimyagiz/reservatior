@@ -39,7 +39,7 @@ const STATUS_CONFIG: Record<string, {
   },
   SYNCING: {
     label: t("client.src.uplinking"),
-    cls: "bg-brand/100/10 text-brand border-blue-500/20 animate-pulse",
+    cls: "bg-brand/10 text-brand border-blue-500/20 animate-pulse",
     icon: RefreshCw
   }
 };

@@ -191,7 +191,7 @@ export default function ExplorePage() {
                       <feature.icon className="w-6 h-6 text-brand" />
                     </div>
                     {feature.popular && (
-                      <Badge className="bg-brand/100/20 text-brand border-blue-500/30">
+                      <Badge className="bg-brand/20 text-brand border-blue-500/30">
                         <Sparkles className="w-3 h-3 mr-1" />
                         {t("explore.explorepage.auto_ext_4")}
                                                           </Badge>

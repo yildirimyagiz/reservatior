@@ -104,7 +104,7 @@ export default function Discounts({ propertyId }: { propertyId?: string }) {
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/100/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
                 <Ticket className="w-3.5 h-3.5" />{t("client.src.promoenginev4")}</div>
               <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">{t('client.property.discounts.title')}</h1>
               <p className="text-muted-foreground text-sm font-black tracking-widest italic">{t('client.property.discounts.subtitle')}</p>

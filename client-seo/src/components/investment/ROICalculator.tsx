@@ -113,8 +113,8 @@ export function ROICalculator({
   const gradeColors: Record<string, string> = {
     "A+": "bg-success/20 text-success border-blue-500/30",
     A: "bg-success/15 text-blue-300 border-blue-500/25",
-    "B+": "bg-brand/100/15 text-brand border-blue-500/25",
-    B: "bg-brand/100/10 text-blue-300 border-blue-500/20",
+    "B+": "bg-brand/15 text-brand border-blue-500/25",
+    B: "bg-brand/10 text-blue-300 border-blue-500/20",
     "C+": "bg-yellow-500/15 text-yellow-400 border-yellow-500/25",
     C: "bg-orange-500/15 text-orange-400 border-orange-500/25",
     D: "bg-red-500/15 text-red-400 border-red-500/25",

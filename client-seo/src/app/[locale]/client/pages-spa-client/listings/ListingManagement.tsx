@@ -189,7 +189,7 @@ export default function ListingManagement() {
       INACTIVE: "bg-amber-500/10 text-amber-400 border-amber-500/20",
       SOLD: "bg-brand/10 text-brand border-brand/20",
       EXPIRED: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-      RENTED: "bg-brand/100/10 text-brand border-blue-500/20",
+      RENTED: "bg-brand/10 text-brand border-blue-500/20",
     };
     return colors[status] || "bg-muted text-muted-foreground";
   };
@@ -224,7 +224,7 @@ export default function ListingManagement() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 lg:p-12 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-brand/100/10 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-brand/10 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-brand/10 rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-blue-500/5 via-brand/5 to-pink-500/5 rounded-full blur-3xl" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')] opacity-30" />
@@ -382,7 +382,7 @@ export default function ListingManagement() {
                           setSelectedTags(getListingTags(listing.id).map((lt: ListingTag) => lt.tagId));
                           setTagDialogOpen(true);
                         }}
-                        className="h-8 px-3 text-[10px] font-black italic tracking-wider text-brand hover:text-blue-300 hover:bg-brand/100/10 rounded-xl"
+                        className="h-8 px-3 text-[10px] font-black italic tracking-wider text-brand hover:text-blue-300 hover:bg-brand/10 rounded-xl"
                       >
                         <Plus className="w-3 h-3 mr-1" /> Add
                       </Button>

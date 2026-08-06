@@ -19,7 +19,7 @@ const kpis = [{
   trend: "up",
   icon: Building2,
   color: "text-brand",
-  bg: "bg-brand/100/10"
+  bg: "bg-brand/10"
 }, {
   label: t("client.src.active_users"),
   value: "4,821",

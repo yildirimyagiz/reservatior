@@ -93,7 +93,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
     },
     COMPLETED: {
       label: t('client.property.reservations.status.completed'),
-      cls: "bg-brand/100/10 text-brand border-blue-500/20",
+      cls: "bg-brand/10 text-brand border-blue-500/20",
       icon: Activity
     },
     CANCELLED: {
@@ -273,7 +273,7 @@ export default function Reservations({ propertyId }: { propertyId?: string }) {
           value: MOCK.length,
           icon: LayoutGrid,
           color: "text-brand",
-          bg: "bg-brand/100/10"
+          bg: "bg-brand/10"
         }, {
           label: t('confirmed'),
           value: MOCK.filter(r => r.status === 'CONFIRMED').length,

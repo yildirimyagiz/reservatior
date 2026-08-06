@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const quickActions = [
-  { icon: Plus, label: "New Property", href: "/property/new", color: "bg-brand/100/10 text-brand" },
+  { icon: Plus, label: "New Property", href: "/property/new", color: "bg-brand/10 text-brand" },
   { icon: Calendar, label: "New Booking", href: "/client/bookings", color: "bg-brand/10 text-brand" },
   { icon: MessageSquare, label: "Messages", href: "/client/messages", color: "bg-success/10 text-success" },
   { icon: Home, label: "My Properties", href: "/client/properties", color: "bg-amber-500/10 text-amber-400" },
@@ -41,7 +41,7 @@ const stats = (t: (key: string) => string) => [
     trending: "up",
     icon: Building,
     color: "text-brand",
-    bg: "bg-brand/100/10"
+    bg: "bg-brand/10"
   },
   {
     label: t("Active Bookings"),
@@ -216,7 +216,7 @@ export default function Dashboard() {
                     <div className={cn(
                       "p-2 rounded-lg",
                       activity.status === "pending" ? "bg-amber-500/10 text-amber-400" :
-                      activity.status === "unread" ? "bg-brand/100/10 text-brand" :
+                      activity.status === "unread" ? "bg-brand/10 text-brand" :
                       activity.status === "confirmed" ? "bg-success/10 text-success" :
                       "bg-brand/10 text-brand"
                     )}>

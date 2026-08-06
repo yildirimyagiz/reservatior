@@ -28,7 +28,7 @@ const REPORT_TYPES = {
   },
   PROPERTY: {
     label: t("client.src.node_performance"),
-    color: "text-brand bg-brand/100/10 border-blue-500/20",
+    color: "text-brand bg-brand/10 border-blue-500/20",
     icon: Building
   },
   TENANT: {
@@ -285,7 +285,7 @@ export default function ReportsEnhanced() {
                   const status = EXECUTION_STATUS[exec.status as keyof typeof EXECUTION_STATUS] || EXECUTION_STATUS.FAILED;
                   return <div key={exec.id} className="flex items-center justify-between p-6 rounded-2xl bg-black/20 border border-white/5 group hover:bg-white/5 transition-all">
                              <div className="flex items-center gap-6">
-                                <div className="h-12 w-12 rounded-xl bg-brand/100/10 border border-blue-500/20 flex items-center justify-center text-brand">
+                                <div className="h-12 w-12 rounded-xl bg-brand/10 border border-blue-500/20 flex items-center justify-center text-brand">
                                    <FileText className="w-5 h-5" />
                                 </div>
                                 <div className="space-y-1">

@@ -752,7 +752,7 @@ export default function Explore() {
                         >
                           <div className="flex justify-between items-center">
                             <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase italic">RESERVATIOR NEURAL ENGINE v4</span>
-                            <Badge className="bg-brand/100/10 text-brand dark:text-brand border-blue-500/20 font-black italic text-[9px]">SİMÜLATÖR</Badge>
+                            <Badge className="bg-brand/10 text-brand dark:text-brand border-blue-500/20 font-black italic text-[9px]">SİMÜLATÖR</Badge>
                           </div>
                           
                           <div className="space-y-4">
@@ -765,7 +765,7 @@ export default function Explore() {
                                     onClick={() => { setValPropertyType(t); setValuationResult(null); }}
                                     className={`px-3 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider italic border transition-all cursor-pointer ${
                                       valPropertyType === t 
-                                        ? "bg-brand/100/10 border-blue-500/50 text-brand dark:text-brand"
+                                        ? "bg-brand/10 border-blue-500/50 text-brand dark:text-brand"
                                         : "bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-muted-foreground hover:bg-muted/80 dark:hover:bg-white/10"
                                     }`}
                                   >
@@ -784,7 +784,7 @@ export default function Explore() {
                                     onClick={() => { setValLocation(loc); setValuationResult(null); }}
                                     className={`px-3 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider italic border transition-all cursor-pointer ${
                                       valLocation === loc 
-                                        ? "bg-brand/100/10 border-blue-500/50 text-brand dark:text-brand"
+                                        ? "bg-brand/10 border-blue-500/50 text-brand dark:text-brand"
                                         : "bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-muted-foreground hover:bg-muted/80 dark:hover:bg-white/10"
                                     }`}
                                   >
@@ -1243,7 +1243,7 @@ export default function Explore() {
                                       {guestBookingResult.bookingStatus}
                                     </span>
                                   </div>
-                                  <Badge className="bg-brand/100/10 border-blue-500/20 text-brand dark:text-brand font-black italic text-[9px] flex items-center gap-1">
+                                  <Badge className="bg-brand/10 border-blue-500/20 text-brand dark:text-brand font-black italic text-[9px] flex items-center gap-1">
                                     <KeyRound className="w-3.5 h-3.5 animate-bounce" /> ANAHTAR AKTİF
                                   </Badge>
                                 </div>

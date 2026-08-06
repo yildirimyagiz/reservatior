@@ -31,7 +31,7 @@ export function IoTContent() {
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
           <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/100/20 border border-blue-500/30 text-blue-300 mb-6 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/20 border border-blue-500/30 text-blue-300 mb-6 backdrop-blur-md">
               <Monitor className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.iot.badge", { defaultValue: "Smart Devices" })}</span>
             </div>
@@ -102,14 +102,14 @@ export function IoTContent() {
               </div>
               <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
                 <span className="text-sm text-muted-foreground uppercase font-black">{t("client.iot.noise", { defaultValue: "Noise Level" })}</span>
-                <span className="px-3 py-1 rounded-full bg-brand/100/20 text-brand border border-blue-500/30 text-xs font-bold">{t("client.iot.normal", { defaultValue: "Normal (34dB)" })}</span>
+                <span className="px-3 py-1 rounded-full bg-brand/20 text-brand border border-blue-500/30 text-xs font-bold">{t("client.iot.normal", { defaultValue: "Normal (34dB)" })}</span>
               </div>
             </m.div>
 
             {/* Hardware list Bento */}
             <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
               className="md:col-span-3 bg-gradient-to-br from-blue-950/30 to-slate-950/40 border border-blue-500/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-brand/100/10 rounded-full blur-[120px]" />
+              <div className="absolute top-0 right-0 w-96 h-96 bg-brand/10 rounded-full blur-[120px]" />
               <div className="relative z-10">
                 <Power className="w-12 h-12 text-brand mb-6" />
                 <h3 className="text-3xl font-black mb-4">{t("client.iot.panel4_title", { defaultValue: "Integration with Major Hubs" })}</h3>

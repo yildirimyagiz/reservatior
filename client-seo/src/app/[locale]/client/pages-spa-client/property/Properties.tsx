@@ -268,7 +268,7 @@ export default function Properties() {
       case 'PENDING':
         return 'bg-warning/10 text-orange-400 border-warning/20';
       case 'RENTED':
-        return 'bg-brand/100/10 text-brand border-blue-500/20';
+        return 'bg-brand/10 text-brand border-blue-500/20';
       default:
         return 'bg-muted text-muted-foreground border-slate-500/20';
     }
@@ -856,7 +856,7 @@ export default function Properties() {
                                     {property.listingStatus}
                                   </Badge>
                                   {property.agentVideos && property.agentVideos.length > 0 && (
-                                    <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 text-[8px] font-black tracking-widest px-2 py-0.5 rounded-md gap-1">
+                                    <Badge className="bg-brand/10 text-brand border border-blue-500/20 text-[8px] font-black tracking-widest px-2 py-0.5 rounded-md gap-1">
                                       <PlayCircle className="w-3 h-3" /> Video Tour
                                     </Badge>
                                   )}

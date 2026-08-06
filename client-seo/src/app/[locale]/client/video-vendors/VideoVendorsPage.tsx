@@ -86,7 +86,7 @@ const mockVendors: VideoVendor[] = [
 
 const TIER_COLORS: Record<string, string> = {
   basic: "bg-gray-500/20 text-gray-400",
-  standard: "bg-brand/100/20 text-brand",
+  standard: "bg-brand/20 text-brand",
   premium: "bg-brand/20 text-brand"
 };
 

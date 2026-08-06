@@ -394,7 +394,7 @@ export default function Events() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "scheduled":
-        return "bg-brand/100/10 text-brand border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]";
+        return "bg-brand/10 text-brand border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]";
       case "in_progress":
         return "bg-warning/10 text-orange-400 border-warning/20 animate-pulse";
       case "completed":
@@ -562,7 +562,7 @@ export default function Events() {
               
               <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
                  <div className="flex items-center gap-6">
-                    <div className={cn("h-16 w-16 rounded-2xl flex items-center justify-center border shadow-inner", event.status === 'scheduled' ? 'bg-brand/100/10 border-blue-500/20 text-brand' : event.status === 'completed' ? 'bg-success/10 border-success/20 text-success' : 'bg-muted border-white/5 text-muted-foreground')}>
+                    <div className={cn("h-16 w-16 rounded-2xl flex items-center justify-center border shadow-inner", event.status === 'scheduled' ? 'bg-brand/10 border-blue-500/20 text-brand' : event.status === 'completed' ? 'bg-success/10 border-success/20 text-success' : 'bg-muted border-white/5 text-muted-foreground')}>
                        {getEventIcon(event.type)}
                     </div>
                     
@@ -640,7 +640,7 @@ export default function Events() {
                  <div className="space-y-2">
                     <div className="flex items-center gap-3">
                        <h1 className="text-5xl font-black text-white italic tracking-tighter leading-none">{t("eventsTitle")}</h1>
-                       <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 font-black italic tracking-widest text-[10px] px-3 py-1 rounded-full">
+                       <Badge className="bg-brand/10 text-brand border border-blue-500/20 font-black italic tracking-widest text-[10px] px-3 py-1 rounded-full">
                         {t("eventsSynchronized")}
                        </Badge>
                     </div>
@@ -667,7 +667,7 @@ export default function Events() {
             value: getTodayEvents().length,
             icon: CalendarDays,
             color: "text-brand",
-            bg: "bg-brand/100/10"
+            bg: "bg-brand/10"
           }, {
             label: t("eventsWeekly"),
             value: getWeekEvents().length,
@@ -856,7 +856,7 @@ export default function Events() {
                      <div className="space-y-4">
                         {getUpcomingEvents(7).map(event => <div key={event.id} className="p-6 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-between group hover:bg-white/5 transition-all">
                              <div className="flex items-center gap-6">
-                                <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center border", event.status === 'scheduled' ? 'bg-brand/100/10 border-blue-500/20 text-brand' : 'bg-muted border-white/5 text-muted-foreground')}>
+                                <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center border", event.status === 'scheduled' ? 'bg-brand/10 border-blue-500/20 text-brand' : 'bg-muted border-white/5 text-muted-foreground')}>
                                    <Zap className="w-4 h-4" />
                                 </div>
                                 <div>
@@ -886,7 +886,7 @@ export default function Events() {
                  <header className="flex items-center justify-between">
                     <div className="space-y-4">
                        <div className="flex gap-2">
-                          <Badge className="bg-brand/100/10 text-brand border border-blue-500/10 px-4 py-1.5 text-[9px] font-black italic">{t("client.src.temporal_analysis")}</Badge>
+                          <Badge className="bg-brand/10 text-brand border border-blue-500/10 px-4 py-1.5 text-[9px] font-black italic">{t("client.src.temporal_analysis")}</Badge>
                           <Badge className={cn("border px-4 py-1.5 text-[9px] font-black  italic", selectedEvent.priority === 'urgent' ? 'bg-red-500/10 border-red-500/20 text-red-500' : selectedEvent.priority === 'high' ? 'bg-warning/10 border-warning/20 text-orange-500' : 'bg-muted border-white/5 text-muted-foreground')}>
                              {selectedEvent.priority}{t("common.priority")}</Badge>
                        </div>

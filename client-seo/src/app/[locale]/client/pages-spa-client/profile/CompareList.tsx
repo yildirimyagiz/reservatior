@@ -94,7 +94,7 @@ export default function CompareList() {
                   <BarChart3 className="w-5 h-5" />
                   <span className="text-[10px] font-black italic tracking-[0.4em]">{t('specifications')}</span>
                </div>
-               <div className="h-px w-10 bg-brand/100/40" />
+               <div className="h-px w-10 bg-brand/40" />
             </div>
             
             <div className="p-6 h-20 flex items-center border-y border-white/5 font-black text-[10px] text-muted-foreground italic tracking-widest">{t('price')}</div>
@@ -139,7 +139,7 @@ export default function CompareList() {
                   </div>
 
                   {/* Matrix Rows */}
-                  <div className="p-8 h-20 flex items-center border-y border-white/5 font-black text-2xl text-white italic tracking-tighter bg-brand/100/2">
+                  <div className="p-8 h-20 flex items-center border-y border-white/5 font-black text-2xl text-white italic tracking-tighter bg-brand/2">
                     ${property.price.toLocaleString()}
                   </div>
                   
@@ -205,7 +205,7 @@ export default function CompareList() {
                 </m.div>)}
 
               {properties.length < 3 && <div className="min-w-[340px] flex-1 flex flex-col items-center justify-center bg-white/2 border-dashed border-r border-white/5 relative overflow-hidden group/add">
-                  <div className="absolute inset-0 bg-brand/100/2 opacity-0 group-hover/add:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-brand/2 opacity-0 group-hover/add:opacity-100 transition-opacity" />
                   <Button variant="ghost" className="h-24 w-24 rounded-[32px] bg-white/5 border border-white/5 mb-6 text-muted-foreground hover:text-brand hover:bg-white/10 hover:border-blue-500/20 hover:scale-110 transition-all group-hover/add:shadow-3xl" aria-label={t("common.add")}>
                     <Plus className="w-10 h-10" />
                   </Button>

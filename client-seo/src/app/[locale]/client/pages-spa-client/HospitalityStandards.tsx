@@ -45,7 +45,7 @@ const PILLARS = [
       "24/7 on-call guest support & incident response"
     ],
     gradient: "from-blue-500/10 to-cyan-500/5",
-    glowColor: "bg-brand/100/10"
+    glowColor: "bg-brand/10"
   },
   {
     icon: <Building2 className="w-7 h-7 text-success" />,

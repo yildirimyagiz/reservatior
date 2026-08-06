@@ -191,7 +191,7 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
                 {/* Deed Upload */}
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-muted-foreground tracking-widest uppercase">Tapu Belgesi / Yetki Belgesi</label>
-                  <label className={cn("flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer transition-all", documents.deed?.file ? "border-blue-500 bg-brand/100/10" : "border-white/10 hover:border-white/30 hover:bg-white/5")}>
+                  <label className={cn("flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer transition-all", documents.deed?.file ? "border-blue-500 bg-brand/10" : "border-white/10 hover:border-white/30 hover:bg-white/5")}>
                     <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
                       {documents.deed?.file ? (
                         <>

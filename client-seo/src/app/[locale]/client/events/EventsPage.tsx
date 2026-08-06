@@ -79,7 +79,7 @@ const mockEvents: Event[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  scheduled: "bg-brand/100/20 text-brand border-blue-500/30",
+  scheduled: "bg-brand/20 text-brand border-blue-500/30",
   in_progress: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
   completed: "bg-blue-500/20 text-blue-400 border-blue-500/30",
   cancelled: "bg-red-500/20 text-red-400 border-red-500/30"
@@ -87,7 +87,7 @@ const STATUS_COLORS: Record<string, string> = {
 
 const PRIORITY_COLORS: Record<string, string> = {
   low: "bg-gray-500/20 text-gray-400",
-  medium: "bg-brand/100/20 text-brand",
+  medium: "bg-brand/20 text-brand",
   high: "bg-orange-500/20 text-orange-400",
   urgent: "bg-red-500/20 text-red-400"
 };

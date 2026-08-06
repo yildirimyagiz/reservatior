@@ -61,7 +61,7 @@ export function MessageDropdown() {
           variant="ghost"
           size="icon"
           aria-label={t("client.src.open_messages")}
-          className="relative h-10 w-10 rounded-full border border-blue-500/20 bg-brand/100/10 hover:bg-brand/100/20 transition-all group"
+          className="relative h-10 w-10 rounded-full border border-blue-500/20 bg-brand/10 hover:bg-brand/20 transition-all group"
         >
           <MessageCircle className="h-5 w-5 text-brand dark:text-brand group-hover:text-brand transition-colors" />
           {unreadCount > 0 && (

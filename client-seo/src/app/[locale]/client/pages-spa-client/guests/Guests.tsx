@@ -325,7 +325,7 @@ export default function Guests() {
                               </div>
                            </div>
                            
-                           <div className="bg-brand/100/5 p-8 rounded-[32px] border border-blue-500/10 relative group overflow-hidden">
+                           <div className="bg-brand/5 p-8 rounded-[32px] border border-blue-500/10 relative group overflow-hidden">
                              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-brand">
                                  <Users className="w-12 h-12" />
                               </div>

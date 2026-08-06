@@ -29,7 +29,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
       case "AVAILABLE": return "bg-blue-500/90 text-white border-blue-400";
       case "UNDER_CONTRACT": return "bg-amber-500/90 text-white border-amber-400";
       case "SOLD": return "bg-red-500/90 text-white border-red-400";
-      case "RENTED": return "bg-brand/100/90 text-white border-blue-400";
+      case "RENTED": return "bg-brand/90 text-white border-blue-400";
       case "PENDING_APPROVAL": return "bg-brand/90 text-white border-purple-400";
       case "VACANT": return "bg-success/90 text-white border-blue-400";
       case "RESERVED": return "bg-brand/90 text-white border-brand/30";
@@ -42,7 +42,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
     switch (promo) {
       case "FEATURED": return <Badge className="bg-yellow-500/90 backdrop-blur text-black border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]"><ShieldCheck className="w-3 h-3 mr-1"/> {t("client.src.featured", "FEATURED")}</Badge>;
       case "URGENT": return <Badge className="bg-red-500/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]"><Zap className="w-3 h-3 mr-1"/> {t("common.urgent", "URGENT")}</Badge>;
-      case "PRICE_REDUCED": return <Badge className="bg-brand/100/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]">{t("client.src.price_reduced", "PRICE DROP")}</Badge>;
+      case "PRICE_REDUCED": return <Badge className="bg-brand/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]">{t("client.src.price_reduced", "PRICE DROP")}</Badge>;
       case "BEST_DEAL": return <Badge className="bg-success/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]">{t("client.src.best_deal", "BEST DEAL")}</Badge>;
       default: return null;
     }

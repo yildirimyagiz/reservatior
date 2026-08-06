@@ -32,7 +32,7 @@ export function B2BContent() {
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
           <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/100/20 border border-blue-500/30 text-blue-300 mb-6 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/20 border border-blue-500/30 text-blue-300 mb-6 backdrop-blur-md">
               <Building2 className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.b2b.badge", { defaultValue: "Enterprise Solutions" })}</span>
             </div>
@@ -62,7 +62,7 @@ export function B2BContent() {
             {/* Feature 1 */}
             <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               className="md:col-span-2 bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-brand/100/10 rounded-full blur-[80px] group-hover:bg-brand/100/20 transition-all duration-700" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-brand/10 rounded-full blur-[80px] group-hover:bg-brand/20 transition-all duration-700" />
               <Globe2 className="w-12 h-12 text-brand mb-6" />
               <h3 className="text-3xl font-black mb-4">{t("client.b2b.f1_title", { defaultValue: "Global Distribution (GDS)" })}</h3>
               <p className="text-muted-foreground text-lg max-w-md">

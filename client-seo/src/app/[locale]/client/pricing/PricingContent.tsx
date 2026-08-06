@@ -151,7 +151,7 @@ export function PricingContent() {
                   <p className="text-xs font-bold text-gray-600 tracking-widest border-b border-white/5 pb-2">{t("pricing.pricingcontent.auto_ext_7")}</p>
                   {generateFeatures(plan.limits).map((feature, fIdx) => (
                     <div key={fIdx} className="flex items-center gap-3">
-                      <div className="h-5 w-5 rounded-full bg-brand/100/10 border border-blue-500/20 flex items-center justify-center shrink-0">
+                      <div className="h-5 w-5 rounded-full bg-brand/10 border border-blue-500/20 flex items-center justify-center shrink-0">
                         <Check className="w-3 h-3 text-brand" />
                       </div>
                       <span className="text-xs font-bold text-white tracking-widest group-hover:text-brand transition-colors">{feature}</span>

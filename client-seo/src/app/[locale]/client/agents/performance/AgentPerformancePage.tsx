@@ -55,7 +55,7 @@ const recentActivity = [
 
 const ACTIVITY_COLORS: Record<string, string> = {
   SALE: "bg-blue-500/20 text-blue-400",
-  VIEWING: "bg-brand/100/20 text-brand",
+  VIEWING: "bg-brand/20 text-brand",
   CONTRACT: "bg-brand/20 text-brand",
   MEETING: "bg-amber-500/20 text-amber-400"
 };

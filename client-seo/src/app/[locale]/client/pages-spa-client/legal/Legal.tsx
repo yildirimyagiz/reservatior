@@ -240,7 +240,7 @@ export default function Legal() {
       case "draft":
         return "bg-gray-500/10 text-gray-500 border-gray-200";
       case "review":
-        return "bg-brand/100/10 text-brand border-border";
+        return "bg-brand/10 text-brand border-border";
       case "approved":
         return "bg-blue-500/10 text-blue-500 border-blue-200";
       case "signed":
@@ -512,7 +512,7 @@ export default function Legal() {
                             <h3 className="font-medium">{document?.title}</h3>
                             <p className="text-sm text-gray-500">{check.type}{t("client.src.check")}</p>
                           </div>
-                          <Badge className={check.status === "passed" ? "bg-blue-500/10 text-blue-500" : check.status === "failed" ? "bg-red-500/10 text-red-500" : check.status === "requires_action" ? "bg-warning/10 text-orange-500" : "bg-brand/100/10 text-brand"}>
+                          <Badge className={check.status === "passed" ? "bg-blue-500/10 text-blue-500" : check.status === "failed" ? "bg-red-500/10 text-red-500" : check.status === "requires_action" ? "bg-warning/10 text-orange-500" : "bg-brand/10 text-brand"}>
                             {check.status.replace("_", " ")}
                           </Badge>
                         </div>
@@ -591,7 +591,7 @@ export default function Legal() {
                 scale: 1
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
                     <div className="flex items-start justify-between mb-3">
-                      <div className="p-2 rounded-lg bg-brand/100/10">
+                      <div className="p-2 rounded-lg bg-brand/10">
                         <FileText className="w-6 h-6 text-brand" />
                       </div>
                       <div className="flex items-center gap-1">

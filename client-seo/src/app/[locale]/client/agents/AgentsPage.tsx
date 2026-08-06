@@ -141,7 +141,7 @@ export default function AgentsPage() {
                     <div className="text-sm text-gray-400 mb-1">{t("agents.agentspage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{totalAgents}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-brand/100/10">
+                  <div className="p-3 rounded-lg bg-brand/10">
                     <Users className="w-6 h-6 text-brand" />
                   </div>
                 </div>

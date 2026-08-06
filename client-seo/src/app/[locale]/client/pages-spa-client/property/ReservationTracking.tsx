@@ -132,7 +132,7 @@ export default function ReservationTracking({ propertyId }: { propertyId?: strin
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/100/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
                 <Activity className="w-3.5 h-3.5 shadow-[0_0_10px_currentColor]" /> {isLive ? t('live') : t('client.property.reservationTracking.controls.paused')}
               </div>
               <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">{t('client.property.reservationTracking.title')}</h1>

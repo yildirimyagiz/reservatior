@@ -112,7 +112,7 @@ export default function Listings() {
     INACTIVE: { label: t('inactive'), cls: "bg-amber-500/10 text-amber-400 border-amber-500/20" },
     SOLD: { label: t('client.property.listings.status.sold'), cls: "bg-brand/10 text-brand border-brand/20" },
     EXPIRED: { label: t('expired'), cls: "bg-rose-500/10 text-rose-400 border-rose-500/20" },
-    RENTED: { label: t('rented'), cls: "bg-brand/100/10 text-brand border-blue-500/20" },
+    RENTED: { label: t('rented'), cls: "bg-brand/10 text-brand border-blue-500/20" },
   };
 
   const { data: activeSub } = useQuery({
@@ -197,7 +197,7 @@ export default function Listings() {
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/100/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
                 <Rocket className="w-3.5 h-3.5" /> {t('campaignPanel')}
               </div>
               <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">
@@ -241,7 +241,7 @@ export default function Listings() {
            {[
              { label: t('liveListings'), value: `${listings.filter(l => l.status === "ACTIVE").length} / ${activeSub?.maxListings || 1}`, icon: Eye, color: "text-success", bg: "bg-success/10" },
              { label: t('doped'), value: `${listings.filter(l => l.isDoped).length} / ${activeSub?.featuredListings || 0}`, icon: Zap, color: "text-amber-400", bg: "bg-amber-500/10" },
-             { label: t('leads'), value: listings.reduce((s, l) => s + (l.leads || 0), 0), icon: MessageSquare, color: "text-brand", bg: "bg-brand/100/10" },
+             { label: t('leads'), value: listings.reduce((s, l) => s + (l.leads || 0), 0), icon: MessageSquare, color: "text-brand", bg: "bg-brand/10" },
              { label: t('credits'), value: activeSub?.type || "BASIC", icon: Rocket, color: "text-brand", bg: "bg-brand/10" }
            ].map((s, i) => (
              <m.div
@@ -543,7 +543,7 @@ export default function Listings() {
               </Button>
               <Button 
                 onClick={() => applyDopingMutation("PRICE_DROP")}
-                className="h-28 flex flex-col items-center justify-center gap-2 bg-brand/100/10 border border-blue-500/20 hover:bg-brand/100 hover:text-white text-brand rounded-2xl transition-all"
+                className="h-28 flex flex-col items-center justify-center gap-2 bg-brand/10 border border-blue-500/20 hover:bg-brand/100 hover:text-white text-brand rounded-2xl transition-all"
               >
                 <TrendingDown className="w-6 h-6" />
                 <span className="text-[10px] font-black tracking-widest uppercase">Price Drop</span>

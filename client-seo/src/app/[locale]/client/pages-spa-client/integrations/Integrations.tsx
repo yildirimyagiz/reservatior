@@ -87,7 +87,7 @@ const STATUS_CONFIG = {
   },
   SYNCING: {
     label: t("client.src.syncing"),
-    cls: "bg-brand/100/10 text-brand border-blue-500/20",
+    cls: "bg-brand/10 text-brand border-blue-500/20",
     icon: RefreshCw
   },
   PAUSED: {

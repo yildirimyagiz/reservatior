@@ -227,7 +227,7 @@ export default function Availability() {
                                  <div className={cn(
                                    "w-12 h-12 rounded-2xl flex items-center justify-center border",
                                    log.status === 'available' ? "bg-success/10 border-success/20 text-success" :
-                                   log.status === 'occupied' ? "bg-brand/100/10 border-blue-500/20 text-brand" :
+                                   log.status === 'occupied' ? "bg-brand/10 border-blue-500/20 text-brand" :
                                    "bg-red-500/10 border-red-500/20 text-red-400"
                                  )}>
                                     {log.status === 'available' ? <CheckCircle className="w-6 h-6" /> : <Clock className="w-6 h-6" />}

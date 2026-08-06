@@ -427,7 +427,7 @@ export default function Home() {
               {/* Glassmorphic Search Pill */}
               <form onSubmit={handleSearch} className="w-full max-w-5xl bg-background/95 dark:bg-black/60 backdrop-blur-3xl border border-border/50 p-2 rounded-3xl md:rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] relative z-20">
                 {/* Where Segment */}
-                <div className="flex-[1.5] px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                <div className="flex-[1.5] px-6 py-2 w-full md:w-auto hover:bg-brand/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
                   <label htmlFor="search-location" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.where', 'Where')}</label>
                   <input 
                     id="search-location"
@@ -444,7 +444,7 @@ export default function Home() {
                 {/* When Segment - Hidden for BUY */}
                 {searchMode !== "BUY" && (
                   <>
-                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
                       <label htmlFor="search-date" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.dates', 'Dates')}</label>
                       <input 
                         id="search-date"
@@ -462,7 +462,7 @@ export default function Home() {
                 {/* Who Segment - Only for STAYS & EXPERIENCES */}
                 {(searchMode === "STAYS" || searchMode === "EXPERIENCES") && (
                   <>
-                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
                       <label htmlFor="search-guests" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.who', 'Who')}</label>
                       <div className="relative">
                         <select 
@@ -486,7 +486,7 @@ export default function Home() {
                 {/* Condition Segment - Only for BUY */}
                 {searchMode === "BUY" && (
                   <>
-                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
                       <label htmlFor="search-condition" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.condition', 'Condition')}</label>
                       <div className="relative">
                         <select 
@@ -508,7 +508,7 @@ export default function Home() {
 
                 {/* Property Type Segment */}
                 {searchMode !== "EXPERIENCES" && (
-                <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
                   <label htmlFor="search-property-type" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.property_type', 'Property Type')}</label>
                   <div className="relative">
                     <select 

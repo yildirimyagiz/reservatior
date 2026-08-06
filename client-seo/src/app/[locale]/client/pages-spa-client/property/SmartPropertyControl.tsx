@@ -37,7 +37,7 @@ export default function SmartPropertyControl() {
           className="col-span-1 md:col-span-5 relative overflow-hidden rounded-3xl p-8 bg-card dark:bg-card/50 border border-border dark:border-border shadow-xl flex flex-col justify-between"
           style={{ minHeight: '320px' }}
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-brand/100/10 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-brand/10 rounded-full blur-[80px] pointer-events-none" />
           
           <div className="flex justify-between items-start mb-12">
             <div>

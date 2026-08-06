@@ -421,7 +421,7 @@ export default function FileManagement() {
                  <div className="space-y-2">
                     <div className="flex items-center gap-3">
                        <h1 className="text-5xl font-black text-white italic tracking-tighter leading-none">{t("filesTitle")}</h1>
-                       <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 font-black italic tracking-widest text-[10px] px-3 py-1 rounded-full">
+                       <Badge className="bg-brand/10 text-brand border border-blue-500/20 font-black italic tracking-widest text-[10px] px-3 py-1 rounded-full">
                         {t("filesActivenodes")}
                        </Badge>
                     </div>
@@ -448,7 +448,7 @@ export default function FileManagement() {
           value: files.length,
           icon: FileText,
           color: "text-brand",
-          bg: "bg-brand/100/10"
+          bg: "bg-brand/10"
         }, {
           label: t("filesCapacity"),
           value: formatFileSize(files.reduce((total, file) => total + (file.size || 0), 0)),

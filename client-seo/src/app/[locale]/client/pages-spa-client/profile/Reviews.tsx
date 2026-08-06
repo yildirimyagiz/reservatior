@@ -154,7 +154,7 @@ export default function Reviews() {
                         <div className="flex flex-col md:flex-row gap-12">
                           <div className="flex md:flex-col items-center md:items-start gap-6">
                             <div className="relative group/avatar">
-                               <div className="absolute inset-0 bg-brand/100/20 blur-xl opacity-0 group-hover/avatar:opacity-100 transition-opacity" />
+                               <div className="absolute inset-0 bg-brand/20 blur-xl opacity-0 group-hover/avatar:opacity-100 transition-opacity" />
                                <Avatar className="w-20 h-20 border border-white/10 shadow-2xl ring-4 ring-blue-500/5 hov">
                                 <AvatarFallback className="bg-background text-brand font-black italic text-xl">{review.user.avatar}</AvatarFallback>
                               </Avatar>

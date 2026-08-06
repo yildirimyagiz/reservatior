@@ -261,7 +261,7 @@ export default function Facilities({ propertyId }: { propertyId?: string }) {
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/100/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
                 <Terminal className="w-3.5 h-3.5" />{t("client.src.facilitysystemv5")}</div>
               <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">{t('client.property.facilities.title')}</h2>
               <p className="text-muted-foreground text-sm font-black tracking-widest italic">{t('client.property.facilities.subtitle')}</p>
@@ -287,7 +287,7 @@ export default function Facilities({ propertyId }: { propertyId?: string }) {
           value: facilities.length,
           icon: Building2,
           color: "text-brand",
-          bg: "bg-brand/100/10"
+          bg: "bg-brand/10"
         }, {
           label: t('services'),
           value: services.length,

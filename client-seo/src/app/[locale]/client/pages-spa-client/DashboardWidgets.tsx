@@ -219,7 +219,7 @@ export default function DashboardWidgets() {
                       </div>
                       <div>
                         <CardTitle className="text-lg font-black text-white italic tracking-tighter">{widget.title}</CardTitle>
-                        <Badge className="bg-brand/100/10 text-brand border-none text-[8px] font-black italic tracking-widest mt-1">
+                        <Badge className="bg-brand/10 text-brand border-none text-[8px] font-black italic tracking-widest mt-1">
                           {widgetType?.label || widget.widgetType}
                         </Badge>
                       </div>

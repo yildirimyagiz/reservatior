@@ -87,7 +87,7 @@ export default function CertificatesPage() {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={t("admin_certificates_search_placeholder", "Admin Yasal Uyumluluk Sertifikaları Akıllı Arama... Placeholder")}
+              placeholder={t("admin_certificates_search_placeholder", "Sertifika adı, kurum veya seri no ile ara...")}
               className="pl-9"
             />
           </div>
@@ -138,7 +138,7 @@ export default function CertificatesPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Award className="w-5 h-5 text-primary" />
-              {t("admin_certificates_list_title", "Admin Yasal Uyumluluk Sertifikaları List Title")}
+              {t("admin_certificates_list_title", "Sertifika Listesi")}
             </CardTitle>
           </CardHeader>
           <CardContent>

@@ -157,7 +157,7 @@ export default function LeaseCare() {
         <section className="relative pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-[-10%] left-[20%] w-[500px] h-[400px] rounded-full bg-success/8 dark:bg-success/15 blur-[140px]" />
-            <div className="absolute bottom-0 right-[10%] w-[500px] h-[400px] rounded-full bg-brand/100/6 dark:bg-brand/100/12 blur-[140px]" />
+            <div className="absolute bottom-0 right-[10%] w-[500px] h-[400px] rounded-full bg-brand/6 dark:bg-brand/12 blur-[140px]" />
           </div>
 
           <div className="relative z-10 container mx-auto px-6 text-center space-y-8">
@@ -267,7 +267,7 @@ export default function LeaseCare() {
               <h4 className="text-sm font-bold text-muted-foreground tracking-wider text-center mb-6">{t("leasecare.payment_flow", "Monthly Payment Flow")}</h4>
               <div className="flex items-center justify-between gap-2">
                 <div className="text-center space-y-2 flex-1">
-                  <div className="w-12 h-12 rounded-full bg-brand/100/10 flex items-center justify-center mx-auto"><Users className="w-5 h-5 text-brand" /></div>
+                  <div className="w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center mx-auto"><Users className="w-5 h-5 text-brand" /></div>
                   <div className="text-xs font-bold text-foreground">{t("common.tenant", "Tenant")}</div>
                   <div className="text-[10px] text-muted-foreground">{t("leasecare.tenant_calc_dynamic", "Rent + Micro Payments")}</div>
                 </div>
@@ -476,7 +476,7 @@ export default function LeaseCare() {
                 <div className="grid gap-4">
                   {activeRole === "AGENT" && (
                     <>
-                      <div className="p-6 rounded-2xl bg-brand/100/10 border border-blue-500/20 flex justify-between items-center">
+                      <div className="p-6 rounded-2xl bg-brand/10 border border-blue-500/20 flex justify-between items-center">
                         <span className="font-bold text-foreground">{t("reoscare.total_commission", "Total Commission Base")}</span>
                         <span className="text-2xl font-black text-brand dark:text-brand">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentTotalCommission} isCurrency={true} /></span>
                       </div>
@@ -552,7 +552,7 @@ export default function LeaseCare() {
               {/* Tenant Benefits */}
               <div className="p-7 rounded-2xl bg-card border border-border/50 space-y-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-brand/100/10 flex items-center justify-center"><Users className="w-5 h-5 text-brand" /></div>
+                  <div className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center"><Users className="w-5 h-5 text-brand" /></div>
                   <h3 className="font-bold text-foreground text-lg">{t("leasecare.tenant_adv_title", "Tenant Advantages")}</h3>
                 </div>
                 <div className="space-y-3">

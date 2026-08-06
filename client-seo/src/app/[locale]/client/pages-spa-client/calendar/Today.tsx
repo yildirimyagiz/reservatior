@@ -158,7 +158,7 @@ export default function Today() {
   const getSectorColor = (sector: SectorType) => {
     switch (sector) {
       case "rentals":
-        return "text-brand bg-brand/100/10 border-blue-500/20";
+        return "text-brand bg-brand/10 border-blue-500/20";
       case "sales":
         return "text-success bg-success/10 border-success/20";
       case "bookings":
@@ -185,12 +185,12 @@ export default function Today() {
     if (isAgent && !["rentals", "sales", "tasks", "helpdesk"].includes(item.sector)) return false;
     return true;
   });
-  return <div className="min-h-full bg-[#0a0b0d] text-muted-foreground p-6 lg:p-10 space-y-10 selection:bg-brand/100/30 font-sans">
+  return <div className="min-h-full bg-[#0a0b0d] text-muted-foreground p-6 lg:p-10 space-y-10 selection:bg-brand/30 font-sans">
       
       {/* --- ADMINISTRATIVE HUD --- */}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/100/5 border border-blue-500/10 text-[10px] font-black text-brand tracking-widest">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/5 border border-blue-500/10 text-[10px] font-black text-brand tracking-widest">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-brand/100"></span>
@@ -209,7 +209,7 @@ export default function Today() {
                 <div className="text-xl font-bold text-white tracking-tight">{format(new Date(), "HH:mm")}</div>
              </div>
              <div className="h-10 w-px bg-white/5" />
-             <Button variant="ghost" size="icon" aria-label={t("common.notifications")} className="bg-white/5 hover:bg-brand/100/20 hover:text-brand rounded-2xl h-12 w-12 transition-all">
+             <Button variant="ghost" size="icon" aria-label={t("common.notifications")} className="bg-white/5 hover:bg-brand/20 hover:text-brand rounded-2xl h-12 w-12 transition-all">
                 <Bell className="w-6 h-6" />
              </Button>
           </div>
@@ -264,7 +264,7 @@ export default function Today() {
         roles: ["SUPER_ADMIN", "ORG_ADMIN", "AGENCY_ADMIN", "AGENT"]
       }].filter(s => s.roles.includes(user?.role || "USER")).map((s, i) => <Card key={i} className="bg-background/50 border-white/5 hover:border-blue-500/20 transition-all cursor-pointer group rounded-4xl overflow-hidden">
              <CardContent className="p-6">
-                <div className={cn("p-3 rounded-2xl w-fit mb-4 group-hover:scale-110 transition-transform", s.color === 'emerald' ? 'bg-success/10 text-success' : s.color === 'blue' ? 'bg-brand/100/10 text-brand' : s.color === 'purple' ? 'bg-brand/10 text-brand' : s.color === 'indigo' ? 'bg-brand/10 text-brand' : s.color === 'rose' ? 'bg-rose-500/10 text-rose-400' : 'bg-amber-500/10 text-amber-400')}>
+                <div className={cn("p-3 rounded-2xl w-fit mb-4 group-hover:scale-110 transition-transform", s.color === 'emerald' ? 'bg-success/10 text-success' : s.color === 'blue' ? 'bg-brand/10 text-brand' : s.color === 'purple' ? 'bg-brand/10 text-brand' : s.color === 'indigo' ? 'bg-brand/10 text-brand' : s.color === 'rose' ? 'bg-rose-500/10 text-rose-400' : 'bg-amber-500/10 text-amber-400')}>
                   {s.icon}
                 </div>
                 <div className="text-2xl font-black text-white tracking-tighter mb-0.5">{s.val}</div>

@@ -192,7 +192,7 @@ export default function ActivityTracking() {
           value: stats.total,
           icon: Activity,
           color: "text-brand",
-          bg: "bg-brand/100/10"
+          bg: "bg-brand/10"
         }, {
           label: t("success"),
           value: "99.8%",
@@ -257,7 +257,7 @@ export default function ActivityTracking() {
                 height: 0
               }} className="p-6 rounded-[32px] bg-card/40 border border-white/5 border-l border-t hover:bg-white/5 transition-all cursor-pointer group shadow-xl relative overflow-hidden" onClick={() => setSelectedLog(log)}>
                        <div className="flex items-center gap-8 relative z-10">
-                          <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center border transition-transform group-hover:scale-110", log.severity === 'critical' ? "bg-red-500/10 border-red-500/20 text-red-500" : log.severity === 'high' ? "bg-warning/10 border-warning/20 text-orange-500" : "bg-brand/100/10 border-blue-500/20 text-brand")}>
+                          <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center border transition-transform group-hover:scale-110", log.severity === 'critical' ? "bg-red-500/10 border-red-500/20 text-red-500" : log.severity === 'high' ? "bg-warning/10 border-warning/20 text-orange-500" : "bg-brand/10 border-blue-500/20 text-brand")}>
                              <Zap className="w-6 h-6" />
                           </div>
                           <div className="flex-1 space-y-1">
@@ -354,7 +354,7 @@ export default function ActivityTracking() {
               <div className="p-10 space-y-10">
                  <header className="flex items-center justify-between">
                     <div className="space-y-2">
-                       <Badge className="bg-brand/100/10 text-brand border border-blue-500/10 px-4 py-1 text-[9px] font-black italic">{t("analysis")}</Badge>
+                       <Badge className="bg-brand/10 text-brand border border-blue-500/10 px-4 py-1 text-[9px] font-black italic">{t("analysis")}</Badge>
                        <h2 className="text-4xl font-black text-white italic tracking-tighter">{selectedLog.action}</h2>
                     </div>
                     <Button variant="ghost" onClick={() => setSelectedLog(null)} className="h-12 w-12 rounded-2xl bg-white/5 hover:bg-white/10" aria-label={t("common.close")}>

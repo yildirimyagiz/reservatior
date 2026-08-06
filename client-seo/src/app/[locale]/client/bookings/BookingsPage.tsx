@@ -68,7 +68,7 @@ const statusConfig: Record<BookingStatus, { label: string; color: string }> = {
   PENDING: { label: "Pending", color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" },
   CONFIRMED: { label: "Confirmed", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
   CANCELLED: { label: "Cancelled", color: "bg-red-500/20 text-red-400 border-red-500/30" },
-  COMPLETED: { label: "Completed", color: "bg-brand/100/20 text-brand border-blue-500/30" }
+  COMPLETED: { label: "Completed", color: "bg-brand/20 text-brand border-blue-500/30" }
 };
 
 const riskConfig: Record<SecurityRiskLevel, { label: string; icon: React.ComponentType<{ className?: string }>; color: string }> = {
@@ -173,7 +173,7 @@ export default function BookingsPage() {
                     <div className="text-sm text-gray-400 mb-1">{t("bookings.bookingspage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-white">{verifiedCount}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-brand/100/10">
+                  <div className="p-3 rounded-lg bg-brand/10">
                     <Shield className="w-6 h-6 text-brand" />
                   </div>
                 </div>

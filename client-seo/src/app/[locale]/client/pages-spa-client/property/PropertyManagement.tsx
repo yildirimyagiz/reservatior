@@ -175,7 +175,7 @@ export default function PropertyManagement() {
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/100/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
                 <LayoutDashboard className="w-3.5 h-3.5" /> {t('headerPanel')}
               </div>
               <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-none bg-gradient-to-br from-white via-blue-100 to-slate-500 bg-clip-text text-transparent drop-shadow-lg">{t('client.property.management.title')}</h1>
@@ -199,7 +199,7 @@ export default function PropertyManagement() {
           value: properties.length,
           icon: Home,
           color: "text-brand",
-          bg: "bg-brand/100/10"
+          bg: "bg-brand/10"
         }, {
           label: t('active'),
           value: properties.filter(p => p.listingStatus === "AVAILABLE").length,
@@ -301,7 +301,7 @@ export default function PropertyManagement() {
           }}>
                      <Card className="group relative bg-card/40 border border-white/5 rounded-[40px] overflow-hidden backdrop-blur-xl transition-all duration-700 hover:shadow-[0_0_50px_rgba(59,130,246,0.15)] hover:border-blue-500/40 h-full flex flex-col hover:-translate-y-3">
                         <div className="aspect-[4/3] relative overflow-hidden">
-                           <div className="absolute inset-0 bg-brand/100/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay z-10 pointer-events-none" />
+                           <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay z-10 pointer-events-none" />
                           {p.photos?.[0] ? <Image src={p.photos[0].url} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-1000 brightness-90 group-hover:brightness-110" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" /> : <div className="w-full h-full flex items-center justify-center bg-black/40">
                               <Home className="w-20 h-20 text-white/5" />
                             </div>}

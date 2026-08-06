@@ -55,7 +55,7 @@ export default function Commissions() {
           </CardContent>
         </Card>
         
-        <Card className="bg-brand/10/50 border-blue-100 shadow-sm overflow-hidden relative">
+        <Card className="bg-brand/50 border-blue-100 shadow-sm overflow-hidden relative">
           <div className="absolute top-0 right-0 p-3 opacity-10 text-brand">
             <DollarSign className="w-16 h-16" />
           </div>

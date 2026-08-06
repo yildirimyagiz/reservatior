@@ -175,7 +175,7 @@ export default function AnalyticsDashboard() {
     trending: "up",
     icon: Building,
     color: "text-brand",
-    bg: "bg-brand/100/10"
+    bg: "bg-brand/10"
   }, {
     label: t("client.src.sync_cycles"),
     value: overview ? overview.totalBookings.toString() : "0",
@@ -531,7 +531,7 @@ export default function AnalyticsDashboard() {
          <div className="flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">
             <div className="flex items-center gap-8">
                <div className="h-20 w-20 rounded-[28px] bg-white/5 border border-white/5 flex items-center justify-center shadow-2xl relative overflow-hidden">
-                  <div className="absolute inset-0 bg-brand/100/10 animate-pulse" />
+                  <div className="absolute inset-0 bg-brand/10 animate-pulse" />
                   <Target className="w-8 h-8 text-brand relative z-10" />
                </div>
                <div className="space-y-2">

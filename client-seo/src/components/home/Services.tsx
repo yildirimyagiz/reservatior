@@ -15,7 +15,7 @@ const services = [{
   title: t("client.src.video_vendor_network"),
   description: t("client.src.connect_with_professional_videographers"),
   color: "text-brand",
-  bgColor: "bg-brand/100/10",
+  bgColor: "bg-brand/10",
   featured: true
 }, {
   icon: TrendingUp,
@@ -42,7 +42,7 @@ const services = [{
   title: t("client.src.property_management"),
   description: t("client.src.complete_tools_for_managing"),
   color: "text-brand",
-  bgColor: "bg-brand/100/10"
+  bgColor: "bg-brand/10"
 }, {
   icon: Users,
   title: t("client.src.lead_generation"),
@@ -60,7 +60,7 @@ const services = [{
   title: t("client.src.vacation_rentals"),
   description: t("client.src.manage_shortterm_rentals_with"),
   color: "text-brand",
-  bgColor: "bg-brand/100/10"
+  bgColor: "bg-brand/10"
 }, {
   icon: Search,
   title: t("client.src.advanced_search"),

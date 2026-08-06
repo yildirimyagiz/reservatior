@@ -60,7 +60,7 @@ export function Coupons() {
       </div>
 
       {user?.originRegion !== (localStorage.getItem("regions-store") ? JSON.parse(localStorage.getItem("regions-store")!).state?.selectedRegion?.code : "US") && (
-        <div className="bg-brand/100/10 border border-blue-500/20 text-brand dark:text-brand p-4 rounded-2xl flex items-start gap-3 backdrop-blur-md">
+        <div className="bg-brand/10 border border-blue-500/20 text-brand dark:text-brand p-4 rounded-2xl flex items-start gap-3 backdrop-blur-md">
           <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
           <div>
             <h4 className="font-semibold">{t("client.financial.cross_region_active", "Cross-Region Browsing Active")}</h4>

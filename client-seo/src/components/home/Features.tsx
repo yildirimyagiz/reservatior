@@ -18,7 +18,7 @@ const features = [{
   description: t("client.src.connect_with_professional_videographers"),
   highlights: ["Professional Videos", "Virtual Tours", "Quick Turnaround"],
   color: "text-brand",
-  bgColor: "bg-brand/100/10",
+  bgColor: "bg-brand/10",
   featured: true
 }, {
   icon: TrendingUp,
@@ -49,7 +49,7 @@ const features = [{
   description: t("client.src.team_management_tools_for"),
   highlights: ["Team Management", "Commission Tracking", "Performance Analytics"],
   color: "text-brand",
-  bgColor: "bg-brand/100/10"
+  bgColor: "bg-brand/10"
 }, {
   icon: DollarSign,
   title: t("client.src.financial_management"),

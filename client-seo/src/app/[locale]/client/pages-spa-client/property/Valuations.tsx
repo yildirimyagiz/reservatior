@@ -85,7 +85,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
       case "PROCESSING":
         return {
           label: t('client.property.valuations.statuses.processing'),
-          cls: "bg-brand/100/10 text-brand border-blue-500/20"
+          cls: "bg-brand/10 text-brand border-blue-500/20"
         };
       case "FAILED":
         return {
@@ -265,7 +265,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
           desc: t('client.property.valuations.stats.totalDesc'),
           icon: Activity,
           color: "text-brand",
-          bg: "bg-brand/100/10"
+          bg: "bg-brand/10"
         }, {
           label: t('client.property.valuations.stats.totalValue'),
           value: `$${stats?.totalValue?.toLocaleString() || 0}`,

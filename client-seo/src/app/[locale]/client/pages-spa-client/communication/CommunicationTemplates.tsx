@@ -583,7 +583,7 @@ export default function Templates() {
       case "Legal":
         return "bg-brand/10 text-brand";
       case "Communication":
-        return "bg-brand/100/10 text-brand";
+        return "bg-brand/10 text-brand";
       case "Inspection":
         return "bg-blue-500/10 text-blue-500";
       case "Financial":
@@ -730,7 +730,7 @@ export default function Templates() {
                   opacity: 1,
                   y: 0
                 }} className="flex items-center gap-3 p-3 border rounded-lg hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedTemplate(template)}>
-                          <div className="p-2 rounded-lg bg-brand/100/10">
+                          <div className="p-2 rounded-lg bg-brand/10">
                             {getTemplateIcon(template.type)}
                           </div>
                           <div className="flex-1">
@@ -861,7 +861,7 @@ export default function Templates() {
                 scale: 1
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedTemplate(template)}>
                       <div className="flex items-start justify-between mb-3">
-                        <div className="p-2 rounded-lg bg-brand/100/10">
+                        <div className="p-2 rounded-lg bg-brand/10">
                           {getTemplateIcon(template.type)}
                         </div>
                         <div className="flex items-center gap-1">
@@ -903,7 +903,7 @@ export default function Templates() {
                 x: 0
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedTemplate(template)}>
                       <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-lg bg-brand/100/10">
+                        <div className="p-3 rounded-lg bg-brand/10">
                           {getTemplateIcon(template.type)}
                         </div>
                         <div className="flex-1">
@@ -1098,7 +1098,7 @@ export default function Templates() {
                 scale: 1
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setShowCreateDialog(true)}>
                     <div className="flex flex-col items-center text-center">
-                      <div className="p-3 rounded-lg bg-brand/100/10 mb-3">
+                      <div className="p-3 rounded-lg bg-brand/10 mb-3">
                         <templateType.icon className="w-8 h-8 text-brand" />
                       </div>
                       <h3 className="font-medium mb-1">{templateType.name}</h3>

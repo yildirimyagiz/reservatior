@@ -95,7 +95,7 @@ const mockLogs: ActivityLog[] = [
 ];
 
 const TYPE_COLORS: Record<string, string> = {
-  user_action: "bg-brand/100/20 text-brand",
+  user_action: "bg-brand/20 text-brand",
   system_event: "bg-brand/20 text-brand",
   error: "bg-red-500/20 text-red-400",
   security: "bg-orange-500/20 text-orange-400",
@@ -176,7 +176,7 @@ export default function ActivityTrackingPage() {
                     <div className="text-sm text-gray-400 mb-1">{t("activity_tracking.activitytrackingpage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{stats.total}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-brand/100/10">
+                  <div className="p-3 rounded-lg bg-brand/10">
                     <Activity className="w-6 h-6 text-brand" />
                   </div>
                 </div>

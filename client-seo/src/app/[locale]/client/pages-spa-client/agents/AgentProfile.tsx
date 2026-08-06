@@ -114,7 +114,7 @@ export default function AgentProfile() {
                       reputation.publicScore >= 90 
                         ? "bg-success/10 border-blue-500/30 text-success dark:text-success shadow-blue-500/10" 
                         : reputation.publicScore >= 70
-                        ? "bg-brand/100/10 border-blue-500/30 text-brand dark:text-brand shadow-blue-500/10"
+                        ? "bg-brand/10 border-blue-500/30 text-brand dark:text-brand shadow-blue-500/10"
                         : "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400 shadow-amber-500/10"
                     )}
                   >

@@ -105,7 +105,7 @@ export default function TrustCenterPage() {
         <div className="grid lg:grid-cols-2 gap-16 bg-white/5 rounded-[60px] p-16 text-white items-center border border-brand/20">
           <div className="space-y-10">
             <div className="space-y-4">
-              <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 px-4 py-1 text-xs font-bold tracking-widest italic">{t("trust_center.trustcenterpage.auto_ext_6")}</Badge>
+              <Badge className="bg-brand/10 text-brand border border-blue-500/20 px-4 py-1 text-xs font-bold tracking-widest italic">{t("trust_center.trustcenterpage.auto_ext_6")}</Badge>
               <h2 className="text-5xl font-bold italic tracking-tighter leading-[0.9]">{t("trust_center.trustcenterpage.auto_ext_7")}</h2>
             </div>
             <p className="text-gray-400 text-lg font-bold tracking-widest italic leading-relaxed max-w-xl">

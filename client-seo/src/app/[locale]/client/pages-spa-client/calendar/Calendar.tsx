@@ -149,7 +149,7 @@ export default function Calendar() {
   const getEventTypeColor = (type: string) => {
     switch (type) {
       case "appointment":
-        return "bg-brand/100/10 text-brand border-blue-500/20";
+        return "bg-brand/10 text-brand border-blue-500/20";
       case "viewing":
         return "bg-success/10 text-success border-success/20";
       case "meeting":
@@ -213,7 +213,7 @@ export default function Calendar() {
   };
   const todayEvents = events.filter(e => isSameDay(parseISO(e.date), new Date()));
   const nextEvents = events.filter(e => new Date(e.date) > new Date()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  return <div className="p-8 space-y-8 bg-[#0a0b0d] min-h-full text-foreground selection:bg-brand/100/30">
+  return <div className="p-8 space-y-8 bg-[#0a0b0d] min-h-full text-foreground selection:bg-brand/30">
       {/* Header with Glassmorphism */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
         <div className="space-y-1">
@@ -367,7 +367,7 @@ export default function Calendar() {
                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
                  </div>
                  <div className="flex items-center gap-3 p-3 bg-card/40 rounded-2xl border border-white/5 hover:bg-muted/50 transition-colors cursor-pointer group">
-                   <div className="w-10 h-10 rounded-xl bg-brand/100/10 flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
+                   <div className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
                       <FileBarChart className="w-5 h-5 text-brand" />
                    </div>
                    <div className="flex-1">

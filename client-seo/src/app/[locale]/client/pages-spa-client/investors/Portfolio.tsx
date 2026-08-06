@@ -183,7 +183,7 @@ export default function InvestorPortfolio() {
                                   <p className="text-[10px] text-muted-foreground font-black italic tracking-widest mb-3">{t("investors.portfolio.properties", "ACTIVE PROPERTY COUNT")}</p>
                                   <div className="flex items-center gap-4">
                                      <p className="text-2xl font-black text-white italic tracking-tighter leading-none">{p.propertyCount} {t("investors.portfolio.units", "Properties")}</p>
-                                     <div className="p-2 rounded-lg bg-brand/100/10 border border-blue-500/20 shadow-inner">
+                                     <div className="p-2 rounded-lg bg-brand/10 border border-blue-500/20 shadow-inner">
                                         <Building2 className="w-4 h-4 text-brand" />
                                      </div>
                                   </div>

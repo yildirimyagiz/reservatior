@@ -36,7 +36,7 @@ const stats = (t: any) => [{
   trending: "up",
   icon: Building,
   color: "text-brand",
-  bg: "bg-brand/100/10"
+  bg: "bg-brand/10"
 }, {
   label: t("engagement"),
   value: "342",
@@ -152,7 +152,7 @@ export default function Dashboard() {
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-3 flex-wrap">
-              <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 px-3 py-0.5 text-[9px] font-bold tracking-wider">
+              <Badge className="bg-brand/10 text-brand border border-blue-500/20 px-3 py-0.5 text-[9px] font-bold tracking-wider">
                 {t("nodeStatus", { node: "Alpha-7" })}
               </Badge>
               {planConfig && (
@@ -321,7 +321,7 @@ export default function Dashboard() {
             {globalActivity.map((activity, i) => (
               <div key={activity.id || i} className="flex items-center gap-6 py-6 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors -mx-4 px-4 rounded-2xl">
                 <div className="relative">
-                   <div className="absolute inset-0 bg-brand/100/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                   <div className="absolute inset-0 bg-brand/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                    <Avatar className="h-14 w-14 border-2 border-white/5 shadow-2xl relative">
                      <AvatarImage src={`https://flagcdn.com/w160/${activity.region?.toLowerCase() || 'us'}.png`} className="object-cover" />
                      <AvatarFallback className="bg-black/40 font-bold text-xs">{activity.region}</AvatarFallback>
@@ -333,7 +333,7 @@ export default function Dashboard() {
                 </div>
                 <div className="text-right space-y-2">
                   <p className="text-xs text-muted-foreground">{new Date(activity.date).toLocaleDateString()}</p>
-                  <Badge className="bg-brand/100/10 text-brand border-none text-[9px] font-bold tracking-wider">{activity.type}</Badge>
+                  <Badge className="bg-brand/10 text-brand border-none text-[9px] font-bold tracking-wider">{activity.type}</Badge>
                 </div>
               </div>
             ))}

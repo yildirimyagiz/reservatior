@@ -31,7 +31,7 @@ export function PrivacyContent() {
                                       </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="flex items-center gap-6">
-              <div className="h-14 w-14 rounded-2xl bg-brand/100/10 border border-blue-500/20 flex items-center justify-center text-brand">
+              <div className="h-14 w-14 rounded-2xl bg-brand/10 border border-blue-500/20 flex items-center justify-center text-brand">
                 <Shield className="w-6 h-6" />
               </div>
               <div className="space-y-1">
@@ -56,7 +56,7 @@ export function PrivacyContent() {
           <div className="p-16 rounded-[64px] bg-white/5 backdrop-blur-xl border border-brand/20 space-y-20">
             <section className="space-y-10">
               <h2 className="text-sm font-bold text-brand tracking-widest flex items-center gap-4">
-                <div className="h-px w-8 bg-brand/100/30" />
+                <div className="h-px w-8 bg-brand/30" />
                 <Disc className="w-5 h-5" /> {t("privacy.privacycontent.auto_ext_6")}
                                             </h2>
               <div className="grid md:grid-cols-2 gap-6">
@@ -76,7 +76,7 @@ export function PrivacyContent() {
 
             <section className="space-y-10">
               <h2 className="text-sm font-bold text-brand tracking-widest flex items-center gap-4">
-                <div className="h-px w-8 bg-brand/100/30" />
+                <div className="h-px w-8 bg-brand/30" />
                 <Activity className="w-5 h-5" /> {t("privacy.privacycontent.auto_ext_7")}
                                             </h2>
               <ul className="grid md:grid-cols-2 gap-x-16 gap-y-6">
@@ -89,7 +89,7 @@ export function PrivacyContent() {
                   "Comply with legal obligations"
                 ].map((text, i) => (
                   <li key={i} className="flex items-center gap-5 text-xs font-bold text-gray-400 tracking-widest group">
-                    <div className="h-2 w-2 rounded-full bg-brand/100/30 group-hover:bg-brand/100 transition-all border border-blue-500/20" />
+                    <div className="h-2 w-2 rounded-full bg-brand/30 group-hover:bg-brand/100 transition-all border border-blue-500/20" />
                     <span className="group-hover:text-white transition-colors">{text}</span>
                   </li>
                 ))}
@@ -98,10 +98,10 @@ export function PrivacyContent() {
 
             <section className="space-y-10">
               <h2 className="text-sm font-bold text-brand tracking-widest flex items-center gap-4">
-                <div className="h-px w-8 bg-brand/100/30" />
+                <div className="h-px w-8 bg-brand/30" />
                 <Shield className="w-5 h-5" /> {t("privacy.privacycontent.auto_ext_8")}
                                             </h2>
-              <div className="p-10 rounded-[40px] bg-brand/100/5 border border-blue-500/10 space-y-8">
+              <div className="p-10 rounded-[40px] bg-brand/5 border border-blue-500/10 space-y-8">
                 <p className="text-sm font-bold text-gray-300 leading-loose">
                   {t("privacy.privacycontent.auto_ext_9")}
                                                   </p>

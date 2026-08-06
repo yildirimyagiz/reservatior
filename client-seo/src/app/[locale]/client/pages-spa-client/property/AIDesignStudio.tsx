@@ -64,7 +64,7 @@ export default function AIDesignStudio() {
                   onClick={() => setSelectedPackage(pkg)}
                   className={`relative p-4 rounded-2xl border-2 transition-all cursor-pointer overflow-hidden group ${
                     selectedPackage.id === pkg.id 
-                      ? 'border-blue-600 bg-brand/10/50 dark:bg-blue-900/10' 
+                      ? 'border-blue-600 bg-brand/50 dark:bg-blue-900/10' 
                       : 'border-transparent hover:border-border dark:hover:border-border bg-muted dark:bg-muted/50'
                   }`}
                 >

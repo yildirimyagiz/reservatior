@@ -42,7 +42,7 @@ interface Lead {
 }
 
 const STATUS_COLUMNS = [
-  { key: "NEW" as LeadStatus,       label: "New Leads",  colorBg: "bg-brand/100/10",    colorBorder: "border-l-blue-500",    colorBadge: "bg-brand/100/15 text-brand",    Icon: Flame },
+  { key: "NEW" as LeadStatus,       label: "New Leads",  colorBg: "bg-brand/10",    colorBorder: "border-l-blue-500",    colorBadge: "bg-brand/15 text-brand",    Icon: Flame },
   { key: "CONTACTED" as LeadStatus, label: "Contacted",  colorBg: "bg-amber-500/10",   colorBorder: "border-l-amber-400",   colorBadge: "bg-amber-500/15 text-amber-400",  Icon: Zap },
   { key: "QUALIFIED" as LeadStatus, label: "Closed/Won", colorBg: "bg-success/10", colorBorder: "border-l-blue-500", colorBadge: "bg-success/15 text-success", Icon: CheckCircle2 },
   { key: "LOST" as LeadStatus,      label: "Lost",       colorBg: "bg-rose-500/10",    colorBorder: "border-l-rose-500",    colorBadge: "bg-rose-500/15 text-rose-400",    Icon: AlertCircle },

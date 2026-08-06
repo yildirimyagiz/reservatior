@@ -23,7 +23,7 @@ const STATUS_CONFIG: Record<string, {
 }> = {
   UPCOMING: {
     label: t("client.src.upcoming_event"),
-    cls: "bg-brand/100/10 text-brand border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]",
+    cls: "bg-brand/10 text-brand border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]",
     icon: Calendar
   },
   PLANNED: {

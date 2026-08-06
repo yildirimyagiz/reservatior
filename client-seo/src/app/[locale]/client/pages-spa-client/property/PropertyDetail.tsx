@@ -343,7 +343,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
       case 'PENDING':
         return 'bg-warning/10 text-orange-400 border-warning/20';
       case 'RENTED':
-        return 'bg-brand/100/10 text-brand border-blue-500/20';
+        return 'bg-brand/10 text-brand border-blue-500/20';
       default:
         return 'bg-muted text-muted-foreground border-slate-500/20';
     }
@@ -906,9 +906,9 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
                                       <div 
                                         onClick={() => setUseDepositAlternative(true)}
-                                        className={cn("p-3 rounded-xl border-2 cursor-pointer transition-all flex flex-col gap-1 relative overflow-hidden", useDepositAlternative ? "border-blue-500 bg-brand/100/10 shadow-[0_0_15px_rgba(59,130,246,0.2)]" : "border-white/5 hover:border-white/20")}
+                                        className={cn("p-3 rounded-xl border-2 cursor-pointer transition-all flex flex-col gap-1 relative overflow-hidden", useDepositAlternative ? "border-blue-500 bg-brand/10 shadow-[0_0_15px_rgba(59,130,246,0.2)]" : "border-white/5 hover:border-white/20")}
                                       >
-                                         {useDepositAlternative && <div className="absolute top-0 right-0 w-16 h-16 bg-brand/100/20 blur-xl rounded-full" />}
+                                         {useDepositAlternative && <div className="absolute top-0 right-0 w-16 h-16 bg-brand/20 blur-xl rounded-full" />}
                                          <div className="flex justify-between items-center text-brand relative z-10">
                                            <span className="text-muted-foreground">{t("client.src.zero_deposit_premium", "Zero-Deposit Premium")}</span>
                                            <span>{currencySymbol}{depositPremium.toLocaleString()}</span>

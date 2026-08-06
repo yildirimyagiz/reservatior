@@ -147,7 +147,7 @@ export default function Checkout() {
                     <div className="space-y-3">
                       {planFeatures.map((feat, i) => (
                         <div key={i} className="flex items-center gap-3">
-                          <div className="w-5 h-5 rounded-full bg-brand/100/10 border border-blue-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-5 h-5 rounded-full bg-brand/10 border border-blue-500/20 flex items-center justify-center shrink-0">
                             <Check className="w-3 h-3 text-brand" />
                           </div>
                           <span className="text-sm text-muted-foreground">{feat}</span>

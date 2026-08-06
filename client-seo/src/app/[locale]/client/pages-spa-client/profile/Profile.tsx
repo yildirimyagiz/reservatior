@@ -94,7 +94,7 @@ export default function Profile() {
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-3">
-                  <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 px-4 py-1.5 rounded-full text-[8px] font-black tracking-widest italic">
+                  <Badge className="bg-brand/10 text-brand border border-blue-500/20 px-4 py-1.5 rounded-full text-[8px] font-black tracking-widest italic">
                     {user.role.toLowerCase().replace("_", " ")}
                   </Badge>
                   <Badge variant="outline" className="border-success/20 text-success bg-success/5 px-4 py-1.5 rounded-full text-[8px] font-black tracking-widest italic flex items-center gap-2">

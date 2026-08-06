@@ -90,7 +90,7 @@ export default function TenantVerificationPage() {
                     <Badge 
                       className={
                         step.status === 'completed' ? 'bg-blue-500/20 text-blue-400' :
-                        step.status === 'in_progress' ? 'bg-brand/100/20 text-brand' :
+                        step.status === 'in_progress' ? 'bg-brand/20 text-brand' :
                         'bg-gray-500/20 text-gray-400'
                       }
                     >

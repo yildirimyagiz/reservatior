@@ -36,7 +36,7 @@ export function UserMenu() {
   }
   const roleColorMap: Record<string, string> = {
     'ADMIN': 'text-brand bg-brand/10 border-brand/20',
-    'AGENT': 'text-brand bg-brand/100/10 border-blue-500/20',
+    'AGENT': 'text-brand bg-brand/10 border-blue-500/20',
     'CLIENT': 'text-success bg-success/10 border-success/20'
   };
   const displayName = user.name || user.firstName ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : user.email.split('@')[0];

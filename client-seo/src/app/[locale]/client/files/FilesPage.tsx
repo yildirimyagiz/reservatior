@@ -55,7 +55,7 @@ const FILE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = 
 const ACCESS_COLORS: Record<string, string> = {
   public: "bg-blue-500/20 text-blue-400",
   private: "bg-red-500/20 text-red-400",
-  shared: "bg-brand/100/20 text-brand"
+  shared: "bg-brand/20 text-brand"
 };
 
 export default function FilesPage() {

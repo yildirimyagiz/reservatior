@@ -71,7 +71,7 @@ const mockSolicitors: Solicitor[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  ENGAGED: "bg-brand/100/20 text-brand",
+  ENGAGED: "bg-brand/20 text-brand",
   VERIFIED: "bg-blue-500/20 text-blue-400",
   DISPUTE_OPEN: "bg-red-500/20 text-red-400",
   COMPLETED: "bg-success/20 text-success",

@@ -346,7 +346,7 @@ export default function PropertySearch() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <h1 className="text-2xl font-black text-white italic tracking-tighter">{t("client.src.property_search")}</h1>
-              <Badge className="bg-brand/100/20 text-brand border-blue-500/20">
+              <Badge className="bg-brand/20 text-brand border-blue-500/20">
                 {filteredProperties.length}{t("client.src.properties_found")}</Badge>
             </div>
             <div className="flex items-center gap-2">

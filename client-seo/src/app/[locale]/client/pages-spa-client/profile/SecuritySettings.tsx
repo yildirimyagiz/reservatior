@@ -12,7 +12,7 @@ export default function SecuritySettings() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-background text-white selection:bg-brand/100/30 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-white selection:bg-brand/30 relative overflow-hidden">
       {/* Background Cybernetic Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full"></div>
@@ -39,7 +39,7 @@ export default function SecuritySettings() {
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="flex items-center gap-6">
-              <div className="h-14 w-14 rounded-2xl bg-brand/100/10 border border-blue-500/20 flex items-center justify-center text-brand shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+              <div className="h-14 w-14 rounded-2xl bg-brand/10 border border-blue-500/20 flex items-center justify-center text-brand shadow-[0_0_20px_rgba(59,130,246,0.1)]">
                 <Shield className="w-6 h-6" />
               </div>
               <div className="space-y-1">

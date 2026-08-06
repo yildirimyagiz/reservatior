@@ -108,7 +108,7 @@ export default function Favorites() {
           </div>
 
           <div className="relative w-full md:w-96 group">
-            <div className="absolute inset-0 bg-brand/100/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity rounded-2xl" />
+            <div className="absolute inset-0 bg-brand/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity rounded-2xl" />
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 group-focus-within:text-brand transition-colors" />
             <Input placeholder={t('searchPlaceholder')} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="h-14 pl-12 pr-6 rounded-2xl bg-card/60 border-white/5 focus:border-blue-500/50 text-[10px] font-black italic tracking-widest text-white transition-all shadow-inner placeholder:text-muted-foreground" />
           </div>
@@ -191,7 +191,7 @@ export default function Favorites() {
                       <Link to={`/property/${property.id}`}>
                         <Button variant="ghost" className="h-10 px-0 hover:bg-transparent text-brand hover:text-brand text-[10px] font-black italic tracking-widest flex items-center gap-2 group/btn">
                           {t('viewDetails')}
-                          <div className="w-6 h-px bg-brand/100/40 group-hover/btn:w-10 transition-all" />
+                          <div className="w-6 h-px bg-brand/40 group-hover/btn:w-10 transition-all" />
                         </Button>
                       </Link>
                     </CardFooter>

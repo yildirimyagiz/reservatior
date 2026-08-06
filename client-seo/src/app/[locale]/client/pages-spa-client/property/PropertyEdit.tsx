@@ -291,7 +291,7 @@ export default function PropertyEdit() {
             <div className="flex flex-wrap gap-3">
               <button 
                 onClick={() => loadTemplate("buyukyali")}
-                className="px-4 py-2.5 rounded-2xl bg-brand/100/10 border border-blue-500/30 text-brand text-xs font-black uppercase tracking-wider italic hover:bg-brand/100/20 transition-all flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-2xl bg-brand/10 border border-blue-500/30 text-brand text-xs font-black uppercase tracking-wider italic hover:bg-brand/20 transition-all flex items-center gap-2 cursor-pointer"
               >
                 <Building className="w-3.5 h-3.5" /> Büyükyalı Sahil Villası
               </button>
@@ -448,7 +448,7 @@ export default function PropertyEdit() {
                 <Card className="bg-background/60 backdrop-blur-3xl border-white/5 rounded-[32px] p-10 shadow-2xl border-l border-t">
                   <CardHeader className="px-0 pt-0 pb-8">
                     <CardTitle className="text-2xl font-black text-white italic tracking-tighter flex items-center gap-3">
-                      <div className="p-3 bg-brand/100/10 rounded-xl border border-blue-500/20"><MapPin className="w-6 h-6 text-brand" /></div>
+                      <div className="p-3 bg-brand/10 rounded-xl border border-blue-500/20"><MapPin className="w-6 h-6 text-brand" /></div>
                       {t("common.location")}
                     </CardTitle>
                   </CardHeader>

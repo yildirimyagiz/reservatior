@@ -188,7 +188,7 @@ export default function DealsManagement() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "LEAD":
-        return <Badge className="bg-brand/100/10 text-brand border-blue-500/20 text-[10px] font-black italic tracking-widest">{t("client.src.lead")}</Badge>;
+        return <Badge className="bg-brand/10 text-brand border-blue-500/20 text-[10px] font-black italic tracking-widest">{t("client.src.lead")}</Badge>;
       case "ACTIVE":
         return <Badge className="bg-success/10 text-success border-success/20 text-[10px] font-black italic tracking-widest">{t("common.active")}</Badge>;
       case "PENDING":
@@ -343,7 +343,7 @@ export default function DealsManagement() {
                                 <h4 className="text-lg font-black text-white italic tracking-tighter leading-tight">{deal.title}</h4>
                                 <div className="flex items-center gap-2">
                                   <span className="text-[9px] font-black text-orange-500 tracking-tighter">{t("client.src.id")}{deal.id.slice(0, 8).toUpperCase()}</span>
-                                  <Badge variant="outline" className="text-[8px] font-black text-brand border-blue-400/20 bg-brand/100/5">{deal.dealType}</Badge>
+                                  <Badge variant="outline" className="text-[8px] font-black text-brand border-blue-400/20 bg-brand/5">{deal.dealType}</Badge>
                                 </div>
                               </div>
                             </div>
