@@ -19,7 +19,7 @@ interface Country { iso2: string; name: string; id?: number; }
 interface City { name: string; id?: number; latitude?: string; longitude?: string; countryCode?: string; }
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft,
-  ArrowRight, ChevronDown, SlidersHorizontal, Mouse
+  ArrowRight, ChevronDown, SlidersHorizontal, Mouse, CheckCircle2
 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { m, useScroll, useTransform, AnimatePresence } from "framer-motion";

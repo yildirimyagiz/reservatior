@@ -16,12 +16,12 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function Home() {
-  let initialProperties = [];
+  let initialProperties: Record<string, unknown>[] = [];
   try {
     const apiPromise = propertiesApi.getAll({ limit: 4 }).catch(() => null);
     const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 2500));
     const result = await Promise.race([apiPromise, timeoutPromise]);
-    const { data, error } = (result as { data?: unknown[]; error?: unknown }) || {};
+    const { data, error } = (result as { data?: Record<string, unknown>[]; error?: unknown }) || {};
     if (!error && data) {
       initialProperties = data;
     }
