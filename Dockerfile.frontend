@@ -8,7 +8,7 @@ WORKDIR /app/client-seo
 RUN bun install
 
 # Stage 2: Build Next.js app
-FROM oven/bun:1-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/shared/types ./shared/types
 COPY --from=deps /app/client-seo/node_modules ./client-seo/node_modules
@@ -18,7 +18,9 @@ ARG BACKEND_INTERNAL_URL=http://localhost:3000
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 ENV BACKEND_INTERNAL_URL=$BACKEND_INTERNAL_URL
-RUN NODE_OPTIONS="--max-old-space-size=3072" bun run build
+ENV NODE_OPTIONS="--max-old-space-size=3072"
+ENV SWC_NUM_WORKERS=2
+RUN ./node_modules/.bin/next build
 
 # Stage 3: Production runner
 FROM node:20-alpine AS runner
