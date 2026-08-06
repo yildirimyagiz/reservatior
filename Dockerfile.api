@@ -9,7 +9,7 @@ COPY server/package.json server/bun.lock /temp/dev/
 RUN cd /temp/dev && bun install --frozen-lockfile
 
 # Prisma client + prismabox generation stage (node for speed/reliability)
-FROM node:20-alpine AS prisma
+FROM node:25-alpine AS prisma
 WORKDIR /app
 COPY --from=install /temp/dev/node_modules node_modules
 COPY server/ ./server/
